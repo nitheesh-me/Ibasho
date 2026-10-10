@@ -9,7 +9,8 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:engine-graph": "node scripts/gen-engine-graph.ts"
   },
   "dependencies": {
     "@ibasho/core": "workspace:*",

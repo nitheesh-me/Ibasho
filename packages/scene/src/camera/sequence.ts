@@ -36,10 +36,54 @@ export const ROOF_LIFT: CameraSequence = {
   id: 'roof-lift',
   ease: 'smooth',
   keys: [
-    { t: 0, azimuthDeg: 20, elevationDeg: 6, distance: 17, fovDeg: 38, ortho: 0, roofLiftM: 0, ceiling: 1, zoomK: 1, cut: 0 },
-    { t: 1.2, azimuthDeg: 30, elevationDeg: 12, distance: 18, fovDeg: 36, ortho: 0, roofLiftM: 0, ceiling: 1, zoomK: 1, cut: 0 },
-    { t: 2.4, azimuthDeg: 40, elevationDeg: 24, distance: 22, fovDeg: 30, ortho: 0, roofLiftM: 2, ceiling: 0.6, zoomK: 1, cut: 1 },
-    { t: 3.8, azimuthDeg: 45, elevationDeg: 30, distance: 30, fovDeg: 24, ortho: 1, roofLiftM: 2, ceiling: 0, zoomK: 1, cut: 1 },
+    {
+      t: 0,
+      azimuthDeg: 20,
+      elevationDeg: 6,
+      distance: 17,
+      fovDeg: 38,
+      ortho: 0,
+      roofLiftM: 0,
+      ceiling: 1,
+      zoomK: 1,
+      cut: 0,
+    },
+    {
+      t: 1.2,
+      azimuthDeg: 30,
+      elevationDeg: 12,
+      distance: 18,
+      fovDeg: 36,
+      ortho: 0,
+      roofLiftM: 0,
+      ceiling: 1,
+      zoomK: 1,
+      cut: 0,
+    },
+    {
+      t: 2.4,
+      azimuthDeg: 40,
+      elevationDeg: 24,
+      distance: 22,
+      fovDeg: 30,
+      ortho: 0,
+      roofLiftM: 2,
+      ceiling: 0.6,
+      zoomK: 1,
+      cut: 1,
+    },
+    {
+      t: 3.8,
+      azimuthDeg: 45,
+      elevationDeg: 30,
+      distance: 30,
+      fovDeg: 24,
+      ortho: 1,
+      roofLiftM: 2,
+      ceiling: 0,
+      zoomK: 1,
+      cut: 1,
+    },
   ],
 };
 
@@ -89,6 +133,7 @@ export function reducedSequence(s: CameraSequence): CameraSequence {
  */
 export function blendMatrices(persp: ArrayLike<number>, ortho: ArrayLike<number>, k: number): number[] {
   const out: number[] = [];
-  for (let i = 0; i < 16; i++) out.push(persp[i]! + (ortho[i]! - persp[i]!) * k);
+  // (1 - k) * a + k * b, not a + (b - a) * k: only this form is exact in floats at k = 1.
+  for (let i = 0; i < 16; i++) out.push((1 - k) * persp[i]! + k * ortho[i]!);
   return out;
 }

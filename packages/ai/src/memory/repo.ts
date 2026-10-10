@@ -16,7 +16,15 @@ import type {
 import { canonicalJson } from '@ibasho/core';
 import { MemoryEventSchema } from '@ibasho/core/schemas';
 import { z } from 'zod';
-import { checkWritePolicy, digestOf, preferencesOf, purgeCompost, resolve, seedsOf, sortLog } from './views.ts';
+import {
+  checkWritePolicy,
+  digestOf,
+  preferencesOf,
+  purgeCompost,
+  resolve,
+  seedsOf,
+  sortLog,
+} from './views.ts';
 
 export const MEMORY_EXPORT_SCHEMA = 'ibasho.memory/1';
 
@@ -78,9 +86,14 @@ export class InMemoryMemoryRepo implements MemoryRepo {
     return digestOf(this.log(homeId), this.clock(), focus ? { focus } : {});
   }
 
-  async history(homeId: string, filter: { type?: MemoryEventType; actor?: MemoryEvent['actor'] } = {}): Promise<MemoryEvent[]> {
+  async history(
+    homeId: string,
+    filter: { type?: MemoryEventType; actor?: MemoryEvent['actor'] } = {},
+  ): Promise<MemoryEvent[]> {
     return sortLog(this.log(homeId)).filter(
-      (e) => (filter.type === undefined || e.type === filter.type) && (filter.actor === undefined || e.actor === filter.actor),
+      (e) =>
+        (filter.type === undefined || e.type === filter.type) &&
+        (filter.actor === undefined || e.actor === filter.actor),
     );
   }
 
@@ -92,7 +105,12 @@ export class InMemoryMemoryRepo implements MemoryRepo {
   async undo(eventId: string): Promise<void> {
     for (const [homeId, l] of this.logs) {
       if (l.some((e) => e.id === eventId)) {
-        await this.append({ homeId, actor: 'owner', type: 'memoryEdited', payload: { eventId, payload: null } });
+        await this.append({
+          homeId,
+          actor: 'owner',
+          type: 'memoryEdited',
+          payload: { eventId, payload: null },
+        });
         return;
       }
     }

@@ -2,7 +2,7 @@
  * Dev harness for `@ibasho/scene` (WP-07): the GH1 terrace on the stage with every T1 control.
  * Not shipped. URL parameters drive Playwright captures:
  *   ?style=washi|yoru|svg&layers=heat-flow,thermal-lens,zone-tint&view=cutaway|exterior
- *   &az=45&reduced=1&outline=1&pencil=1&tier=0..3&lift=1&assets=0&chrome=0
+ *   &az=45&reduced=1&outline=1&pencil=1&tier=0..3&lift=1&assets=0&chrome=0&capture=1
  */
 import type { HomeTwin, QualityTier } from '@ibasho/core';
 import '@ibasho/ui/andon.css';
@@ -29,7 +29,9 @@ function App() {
   const [layers, setLayers] = useState<string[]>(q.get('layers')?.split(',').filter(Boolean) ?? []);
   const [view, setView] = useState<ViewKind>((q.get('view') as ViewKind) ?? 'cutaway');
   const [az, setAz] = useState(Number(q.get('az') ?? 45));
-  const [reduced, setReduced] = useState(q.get('reduced') === '1');
+  // Capture mode (dev/capture.mjs): reduced motion, so no overlay ticker keeps SwiftShader busy.
+  const capture = q.get('capture') === '1';
+  const [reduced, setReduced] = useState(q.get('reduced') === '1' || (capture && q.get('lift') !== '1'));
   const [outline, setOutline] = useState(q.get('outline') === '1');
   const [pencil, setPencil] = useState(q.get('pencil') === '1');
   const [tier, setTier] = useState<QualityTier>(Number(q.get('tier') ?? 3) as QualityTier);
@@ -61,10 +63,18 @@ function App() {
     return () => clearInterval(id);
   }, []);
 
-  const toggle = (id: string): void => setLayers((l) => (l.includes(id) ? l.filter((x) => x !== id) : [...l, id]));
+  const toggle = (id: string): void =>
+    setLayers((l) => (l.includes(id) ? l.filter((x) => x !== id) : [...l, id]));
 
   return (
-    <div style={{ display: 'grid', gridTemplateRows: chrome ? 'auto 1fr auto' : '1fr', height: '100vh', background: 'var(--bg)' }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateRows: chrome ? 'auto 1fr auto' : '1fr',
+        height: '100vh',
+        background: 'var(--bg)',
+      }}
+    >
       {chrome ? (
         <header
           style={{
@@ -116,7 +126,11 @@ function App() {
           <label>
             <input type="checkbox" checked={llm} onChange={() => setLlm((r) => !r)} /> LLM busy
           </label>
-          <select value={tier} onChange={(e) => setTier(Number(e.target.value) as QualityTier)} aria-label="Tier cap">
+          <select
+            value={tier}
+            onChange={(e) => setTier(Number(e.target.value) as QualityTier)}
+            aria-label="Tier cap"
+          >
             {[3, 2, 1, 0].map((t) => (
               <option key={t} value={t}>
                 tier {t}

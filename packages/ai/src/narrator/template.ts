@@ -76,7 +76,10 @@ export class TemplateError extends Error {
 }
 
 const PLACEHOLDER = /\{(e|m|ms|t):([^}|]+)(?:\|(abs|approx))?\}/g;
-const NUMERIC_TEXT = new RegExp(`\\d|%|\\b(?:${NUMBER_WORDS.join('|')})\\b`, 'i');
+const NUMERIC_TEXT = new RegExp(
+  `\\p{N}|[%\u2030\uFF05]|(?<![\\p{L}\\p{N}_])(?:${NUMBER_WORDS.join('|')})(?![\\p{L}\\p{N}_])`,
+  'iu',
+);
 
 interface Writer {
   story: Story;
@@ -98,11 +101,12 @@ function joinList(parts: string[]): string {
 /** Fill one template string. Returns null when a role or variable is missing or unsafe. */
 function fill(w: Writer, tmpl: string, vars: Record<string, string | string[] | undefined>): string | null {
   let ok = true;
-  const sub = (s: string) => s.replace(/\$([a-zA-Z]+)/g, (_m, v: string) => {
-    const x = vars[v];
-    if (typeof x !== 'string') ok = false;
-    return typeof x === 'string' ? x : '';
-  });
+  const sub = (s: string) =>
+    s.replace(/\$([a-zA-Z]+)/g, (_m, v: string) => {
+      const x = vars[v];
+      if (typeof x !== 'string') ok = false;
+      return typeof x === 'string' ? x : '';
+    });
   const text = tmpl.replace(PLACEHOLDER, (_m, kind: string, name: string, mod?: string) => {
     if (kind === 'e') {
       const id = w.story.roles[sub(name)];
@@ -129,7 +133,8 @@ function fill(w: Writer, tmpl: string, vars: Record<string, string | string[] | 
 /** Pick a seeded variant of `key` and append it. Returns false when it could not be filled. */
 function say(w: Writer, key: string, vars: Record<string, string | string[] | undefined> = {}): boolean {
   const variants = w.pack.templates[key];
-  if (!variants || variants.length === 0) throw new TemplateError(`template pack ${w.pack.locale} has no key ${key}`);
+  if (!variants || variants.length === 0)
+    throw new TemplateError(`template pack ${w.pack.locale} has no key ${key}`);
   const rng = xoshiro128ss(`${w.seed}|${key}|${JSON.stringify(vars)}`);
   const start = rng.int(variants.length);
   for (let k = 0; k < variants.length; k++) {
@@ -242,13 +247,42 @@ function tradeoff(w: Writer, a: PickKey, b: PickKey) {
   }
   const ashpIn = [a, b].some((p) => s.context.picks?.[p]?.measures.some((m) => measureOf(m)?.id === 'ashp'));
   const fuelShift = [a, b].some(
-    (p) => signOf(s, `pkg.${s.context.picks?.[p]?.packageId}.gas`) === 'saving' &&
+    (p) =>
+      signOf(s, `pkg.${s.context.picks?.[p]?.packageId}.gas`) === 'saving' &&
       signOf(s, `pkg.${s.context.picks?.[p]?.packageId}.electricity`) === 'increase',
   );
   if (ashpIn && fuelShift && notRejected(s, ['ashp'])) say(w, 'tradeoff.fuel');
 }
 
-const STOP = new Set(['the', 'a', 'an', 'of', 'my', 'our', 'is', 'it', 'what', 'how', 'much', 'will', 'would', 'do', 'does', 'i', 'we', 'to', 'for', 'and', 'in', 'on', 'with', 'be', 'me', 'your', 'you']);
+const STOP = new Set([
+  'the',
+  'a',
+  'an',
+  'of',
+  'my',
+  'our',
+  'is',
+  'it',
+  'what',
+  'how',
+  'much',
+  'will',
+  'would',
+  'do',
+  'does',
+  'i',
+  'we',
+  'to',
+  'for',
+  'and',
+  'in',
+  'on',
+  'with',
+  'be',
+  'me',
+  'your',
+  'you',
+]);
 const words = (s: string) =>
   s
     .toLowerCase()
@@ -284,7 +318,8 @@ function heatingSeason(createdAt: string): boolean {
 function welcome(w: Writer) {
   const s = w.story;
   const days = item(s, 'visit.daysSince');
-  if (days && typeof days.value === 'number') say(w, days.value === 1 ? 'welcome.greet.one' : 'welcome.greet.many');
+  if (days && typeof days.value === 'number')
+    say(w, days.value === 1 ? 'welcome.greet.one' : 'welcome.greet.many');
   else say(w, 'welcome.greet.none');
   say(w, heatingSeason(s.bundle.createdAt) ? 'welcome.season.heating' : 'welcome.season.summer');
   if (s.context.diffReason) say(w, 'welcome.diff', { diffReason: s.context.diffReason });
@@ -333,7 +368,11 @@ function sectionKey(r: SectionRequest): SectionKey {
 }
 
 /** Narrate one section. */
-export function narrateSection(story: Story, req: SectionRequest, pack: TemplatePack = EN_GB): { key: SectionKey; text: string } {
+export function narrateSection(
+  story: Story,
+  req: SectionRequest,
+  pack: TemplatePack = EN_GB,
+): { key: SectionKey; text: string } {
   const sub =
     req.section === 'chapter'
       ? `chapter:${req.chapter}`
@@ -370,6 +409,10 @@ export function narrateSection(story: Story, req: SectionRequest, pack: Template
 }
 
 /** Narrate several sections as a draft (keys must be distinct; chapters go one at a time). */
-export function narrateTemplate(story: Story, reqs: readonly SectionRequest[], pack: TemplatePack = EN_GB): NarrationDraft {
+export function narrateTemplate(
+  story: Story,
+  reqs: readonly SectionRequest[],
+  pack: TemplatePack = EN_GB,
+): NarrationDraft {
   return { sections: reqs.map((r) => narrateSection(story, r, pack)) };
 }

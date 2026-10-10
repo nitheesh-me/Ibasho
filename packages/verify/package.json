@@ -8,8 +8,9 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests"
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "gen:certs": "tsx scripts/gen-certs.ts && biome format --write ../fixtures/src/certs"
   },
   "dependencies": {
     "@ibasho/core": "workspace:*",

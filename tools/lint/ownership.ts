@@ -104,7 +104,11 @@ export const OWNERSHIP: readonly OwnershipRule[] = [
       ...FIX_WP12,
     ],
   },
-  { owner: 'shared-append', include: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml'] },
+  {
+    owner: 'shared-append',
+    include: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml', 'ACKNOWLEDGEMENTS.md'],
+    note: 'ACKNOWLEDGEMENTS.md: every agent appends credits under the right heading (orchestrator decision).',
+  },
   {
     owner: 'orchestrator',
     include: ['docs/**', 'report/**', 'deliverables/**'],

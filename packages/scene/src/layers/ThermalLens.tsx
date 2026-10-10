@@ -6,7 +6,16 @@
  */
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
-import { BoxGeometry, type BufferGeometry, Color, DoubleSide, LessEqualDepth, Matrix4, ShaderMaterial, Vector3 } from 'three';
+import {
+  BoxGeometry,
+  type BufferGeometry,
+  Color,
+  DoubleSide,
+  LessEqualDepth,
+  Matrix4,
+  ShaderMaterial,
+  Vector3,
+} from 'three';
 import type { ComposedSurface } from '../camera/compose.ts';
 import { NETSU_RANGE, netsuLinear, tempToT } from '../colour/palette.ts';
 import type { SceneQuantities } from '../quantities/types.ts';
@@ -92,10 +101,20 @@ export function ThermalLens({ house, composed, quantities, lens }: ThermalLensPr
       const f = flows.get(s.elementId);
       if (!f) continue;
       const inside = netsuLinear(tempToT(f.surfaceC));
-      out.push({ key: `${s.key}:in`, geometry: capOf(house, s, 'inner'), material: lensMaterial(inside, 0.92), elementId: s.elementId });
+      out.push({
+        key: `${s.key}:in`,
+        geometry: capOf(house, s, 'inner'),
+        material: lensMaterial(inside, 0.92),
+        elementId: s.elementId,
+      });
       if (s.role === 'wall' || s.role === 'loft-floor') {
         const outside = netsuLinear(tempToT(c.thetaOutC + f.u * R_SE * dT));
-        out.push({ key: `${s.key}:out`, geometry: capOf(house, s, 'outer'), material: lensMaterial(outside, 0.92), elementId: s.elementId });
+        out.push({
+          key: `${s.key}:out`,
+          geometry: capOf(house, s, 'outer'),
+          material: lensMaterial(outside, 0.92),
+          elementId: s.elementId,
+        });
       }
     }
     for (const o of house.openings) {
@@ -103,11 +122,20 @@ export function ThermalLens({ house, composed, quantities, lens }: ThermalLensPr
       if (!f) continue;
       const t = tempToT(f.surfaceC);
       const g = new BoxGeometry(o.width, o.height, 0.02);
-      const m = new Matrix4().makeBasis(new Vector3(...o.frame.u), new Vector3(...o.frame.v), new Vector3(...o.frame.n));
+      const m = new Matrix4().makeBasis(
+        new Vector3(...o.frame.u),
+        new Vector3(...o.frame.v),
+        new Vector3(...o.frame.n),
+      );
       m.setPosition(...o.corner);
       g.translate(o.width / 2, o.height / 2, -0.09);
       g.applyMatrix4(m);
-      out.push({ key: `op:${o.elementId}`, geometry: g, material: lensMaterial(netsuLinear(t), 0.95), elementId: o.elementId });
+      out.push({
+        key: `op:${o.elementId}`,
+        geometry: g,
+        material: lensMaterial(netsuLinear(t), 0.95),
+        elementId: o.elementId,
+      });
     }
     const jf = new Map(quantities.junctions.map((j) => [j.junctionId, j]));
     for (const j of house.junctions) {
@@ -122,10 +150,19 @@ export function ThermalLens({ house, composed, quantities, lens }: ThermalLensPr
         const w = 0.035 + Math.min(0.06, q.wPerM * 0.01);
         const g = new BoxGeometry(w, w, len);
         const mid = a.clone().add(b).multiplyScalar(0.5);
-        const m = new Matrix4().lookAt(a, b, Math.abs(b.y - a.y) > 0.9 * len ? new Vector3(1, 0, 0) : new Vector3(0, 1, 0));
+        const m = new Matrix4().lookAt(
+          a,
+          b,
+          Math.abs(b.y - a.y) > 0.9 * len ? new Vector3(1, 0, 0) : new Vector3(0, 1, 0),
+        );
         m.setPosition(mid);
         g.applyMatrix4(m);
-        out.push({ key: `jn:${j.junctionId}:${i}`, geometry: g, material: lensMaterial(netsuLinear(t), 1), junctionId: j.junctionId });
+        out.push({
+          key: `jn:${j.junctionId}:${i}`,
+          geometry: g,
+          material: lensMaterial(netsuLinear(t), 1),
+          junctionId: j.junctionId,
+        });
       }
     }
     return out;

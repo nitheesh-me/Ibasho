@@ -12,11 +12,17 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@ibasho/agent-bridge": "workspace:*",
     "@ibasho/ai": "workspace:*",
     "@ibasho/content": "workspace:*",
     "@ibasho/core": "workspace:*",
     "@ibasho/engine": "workspace:*",
+    "@ibasho/pack-climate": "workspace:*",
+    "@ibasho/pack-home-uk": "workspace:*",
+    "@ibasho/pack-money-uk": "workspace:*",
+    "@ibasho/pack-rules-uk": "workspace:*",
     "@ibasho/scene": "workspace:*",
+    "@ibasho/spec-gen": "workspace:*",
     "@ibasho/store": "workspace:*",
     "@ibasho/ui": "workspace:*",
     "@ibasho/verify": "workspace:*",

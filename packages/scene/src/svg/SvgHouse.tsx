@@ -3,8 +3,8 @@
  * Owner: WP-07.
  */
 import type { ReactNode } from 'react';
-import type { CameraModel } from '../camera/model.ts';
 import type { ComposedSurface } from '../camera/compose.ts';
+import type { CameraModel } from '../camera/model.ts';
 import type { ScenePalette } from '../colour/palette.ts';
 import type { SceneTarget } from '../select/store.ts';
 import type { HouseModel } from '../twin/house.ts';
@@ -53,8 +53,10 @@ export function SvgHouse(p: SvgHouseProps) {
       {items.map((it) => {
         const isHl =
           !!hl &&
-          ((hl.kind === 'element' && it.elementId === hl.id) || (hl.kind === 'junction' && it.junctionId === hl.id));
+          ((hl.kind === 'element' && it.elementId === hl.id) ||
+            (hl.kind === 'junction' && it.junctionId === hl.id));
         return (
+          // biome-ignore lint/a11y/noStaticElementInteractions: pointer shortcut only; keyboard users pick from SceneOutline
           <path
             key={it.key}
             className="ib-s"
@@ -68,12 +70,15 @@ export function SvgHouse(p: SvgHouseProps) {
             opacity={it.opacity}
             data-element-id={it.elementId}
             data-hl={isHl ? '1' : undefined}
-            onClick={it.elementId && p.onPick ? () => p.onPick?.({ kind: 'element', id: it.elementId! }) : undefined}
+            onClick={
+              it.elementId && p.onPick ? () => p.onPick?.({ kind: 'element', id: it.elementId! }) : undefined
+            }
           />
         );
       })}
       {p.showJunctions
         ? svgJunctions(p.house, p.camera).map((j) => (
+            // biome-ignore lint/a11y/noStaticElementInteractions: pointer shortcut only; keyboard users pick from SceneOutline
             <path
               key={j.junctionId}
               d={j.d}

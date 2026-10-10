@@ -148,6 +148,7 @@ export function StillLife({ recipe, allowBake, version, stats }: StillLifeProps)
     [targets, composite],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a DPR change resizes the drawing buffer
   useEffect(() => {
     const v = gl.getDrawingBufferSize(new Vector2());
     composer.setSize(size.width, size.height, false);
@@ -157,6 +158,7 @@ export function StillLife({ recipe, allowBake, version, stats }: StillLifeProps)
     invalidate();
   }, [gl, composer, targets, size.width, size.height, dpr, invalidate]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: these inputs are the triggers to rebake
   useEffect(() => {
     dirty.current = true;
     invalidate();

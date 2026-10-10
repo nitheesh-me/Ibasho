@@ -42,7 +42,9 @@ export interface CameraBasis {
   up: Vec3;
 }
 
-export function cameraBasis(m: Pick<CameraModel, 'azimuthDeg' | 'elevationDeg' | 'target' | 'distance'>): CameraBasis {
+export function cameraBasis(
+  m: Pick<CameraModel, 'azimuthDeg' | 'elevationDeg' | 'target' | 'distance'>,
+): CameraBasis {
   const d = eyeDirection(m.azimuthDeg, m.elevationDeg);
   const eye = add(m.target, scale(d, m.distance));
   const forward = normalize(sub(m.target, eye));
@@ -102,8 +104,7 @@ export function fitCamera(
   }
   const w = Math.max(1e-6, x1 - x0);
   const h = Math.max(1e-6, y1 - y0);
-  const zoom =
-    Math.min(m.viewport.width / w, m.viewport.height / h) * (1 - 2 * margin);
+  const zoom = Math.min(m.viewport.width / w, m.viewport.height / h) * (1 - 2 * margin);
   // Shift the target so the box centre lands in the middle of the viewport.
   const cx = (x0 + x1) / 2;
   const cy = (y0 + y1) / 2;

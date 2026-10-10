@@ -2,7 +2,13 @@
  * `@ibasho/scene` public API. Owner: WP-07. Layer L3 (ARCH 3).
  */
 
-export { buildOutline, elementLabel, type OutlineGroup, type OutlineItem, outlineTargets } from './a11y/model.ts';
+export {
+  buildOutline,
+  elementLabel,
+  type OutlineGroup,
+  type OutlineItem,
+  outlineTargets,
+} from './a11y/model.ts';
 export { SceneOutline, type SceneOutlineProps } from './a11y/SceneOutline.tsx';
 export { type ComposedSurface, composeView, type ViewKind, type ViewSpec } from './camera/compose.ts';
 export {
@@ -25,10 +31,26 @@ export {
   sampleSequence,
   sequenceDuration,
 } from './camera/sequence.ts';
-export { NETSU_RANGE, netsuGradientCss, netsuHex, netsuLinear, palette, type ScenePalette, type Theme } from './colour/palette.ts';
+export {
+  NETSU_RANGE,
+  netsuGradientCss,
+  netsuHex,
+  netsuLinear,
+  palette,
+  type ScenePalette,
+  type Theme,
+} from './colour/palette.ts';
 export { K1_FIXTURE_PSI, withFixtureJunctions } from './fixtures/junctions.ts';
+export {
+  DEFAULT_ASSETS_BASE,
+  HOUSE_STAGE_LAYERS,
+  HouseStage,
+  type HouseStageProps,
+  houseStageProps,
+  sharedAssets,
+} from './HouseStage.tsx';
 export { evidenceForHit, evidenceForTarget } from './layers/evidence.ts';
-export { buildMotes, moteCount, type MoteField } from './layers/motes.ts';
+export { buildMotes, type MoteField, moteCount } from './layers/motes.ts';
 export { heatFlowLayer, T1_LAYERS, thermalLensLayer, zoneTintLayer } from './layers/plugins.tsx';
 export {
   effectiveTier,
@@ -50,18 +72,25 @@ export type {
   ZoneTemp,
 } from './quantities/types.ts';
 export { WATTS_PER_MOTE } from './quantities/types.ts';
+export { Stage, type StageProps, type StageStyle, stageCamera } from './Stage.tsx';
 export {
   createSelectionStore,
   type SceneTarget,
   type SelectionStore,
   targetOfHit,
 } from './select/store.ts';
-export { Stage, type StageProps, type StageStyle, stageCamera } from './Stage.tsx';
 export { initialStill, REST_MS, type StillState, tick } from './still-life/machine.ts';
 export { bakeRecipe, T1_STYLES, washiStyle, yoruStyle } from './styles/styles.tsx';
 export { plinthOf, svgItems } from './svg/project.ts';
 export { SvgHouse, type SvgHouseProps } from './svg/SvgHouse.tsx';
 export { loadAssets, type SceneAssets } from './three/assets.ts';
 export type { StillStats } from './three/StillLife.tsx';
-export { buildHouse, drawnIds, type HouseModel, type Opening, type Room, type Surface } from './twin/house.ts';
+export {
+  buildHouse,
+  drawnIds,
+  type HouseModel,
+  type Opening,
+  type Room,
+  type Surface,
+} from './twin/house.ts';
 export { layoutProps, type PropItem } from './twin/layout.ts';

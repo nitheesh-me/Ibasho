@@ -12,10 +12,34 @@ import type { OpPlan, ScenarioOp } from '@ibasho/core';
 import { MEASURE_CATALOGUE, SYNONYMS } from '../measures.ts';
 
 const UNITS: Record<string, number> = {
-  zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
-  eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17,
-  eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70,
-  eighty: 80, ninety: 90,
+  zero: 0,
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+  eleven: 11,
+  twelve: 12,
+  thirteen: 13,
+  fourteen: 14,
+  fifteen: 15,
+  sixteen: 16,
+  seventeen: 17,
+  eighteen: 18,
+  nineteen: 19,
+  twenty: 20,
+  thirty: 30,
+  forty: 40,
+  fifty: 50,
+  sixty: 60,
+  seventy: 70,
+  eighty: 80,
+  ninety: 90,
 };
 
 /** Replace spelled-out numbers ("fifteen thousand", "twenty one") with digits. */
@@ -55,11 +79,18 @@ const OPTION_PATTERNS: readonly { re: RegExp; measureId: string; option: string 
   { re: /\b4\s?kw(?:p)?\b/i, measureId: 'pv', option: 'pv-4kwp' },
   { re: /\b5\s?kwh\b/i, measureId: 'battery', option: 'battery-5kwh' },
   { re: /\b10\s?kwh\b/i, measureId: 'battery', option: 'battery-10kwh' },
-  { re: /\b(?:bigger|larger|new|upsized?) radiators\b|\bradiators? plus\b/i, measureId: 'ashp', option: 'heat-ashp-radiators-plus' },
+  {
+    re: /\b(?:bigger|larger|new|upsized?) radiators\b|\bradiators? plus\b/i,
+    measureId: 'ashp',
+    option: 'heat-ashp-radiators-plus',
+  },
 ];
 
 const wordRe = (phrase: string) =>
-  new RegExp(`(?<![\\w-])${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')}s?(?![\\w-])`, 'i');
+  new RegExp(
+    `(?<![\\w-])${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')}s?(?![\\w-])`,
+    'i',
+  );
 
 /** Measures named in a clause, in order of appearance (longest synonym wins). */
 function findMeasures(clause: string): Hit[] {
@@ -76,7 +107,10 @@ function findMeasures(clause: string): Hit[] {
     let m = re.exec(masked);
     while (m) {
       const idx = m.index;
-      const near = (h: Hit) => h.measureId === measureId && h.option !== undefined && (idx >= h.end ? idx - h.end <= 12 : h.index - (idx + m![0].length) <= 12);
+      const near = (h: Hit) =>
+        h.measureId === measureId &&
+        h.option !== undefined &&
+        (idx >= h.end ? idx - h.end <= 12 : h.index - (idx + m![0].length) <= 12);
       const sameMeasureNear = hits.some(near);
       if (!sameMeasureNear && !hits.some((h) => h.measureId === measureId && !h.option)) {
         hits.push({ measureId, index: idx, end: idx + m[0].length });
@@ -94,13 +128,20 @@ function findMeasures(clause: string): Hit[] {
 
 type Verb = 'add' | 'remove' | 'reject' | 'snooze';
 
-const REJECT = /\b(?:never|rule out|ruled out|not interested in|don't want|do not want|won't (?:do|have|get|consider)|will not|no way|hate|not for me|isn't for (?:me|us)|is not for (?:me|us)|forget about|refuse|no to|we'?re not doing|definitely not)\b/i;
-const SNOOZE = /\b(?:not (?:now|yet|this year)|for now|maybe later|later on|next year|in a few years|park|hold off|snooze|not right now)\b/i;
-const REMOVE = /\b(?:without|drop|remove|skip|take out|leave out|minus|no|instead of|rather than|keep (?:the|my|our) (?:gas )?boiler|keep the gas|exclude|lose|don't|do not|not)\b/i;
-const ADD = /\b(?:add|adding|with|what if|try|do|get|install|fit|put in|plus|include|also|go for|consider|how about|throw in|swap|switch to|replace|upgrade|just)\b/i;
+const REJECT =
+  /\b(?:never|rule out|ruled out|not interested in|don't want|do not want|won't (?:do|have|get|consider)|will not|no way|hate|not for me|isn't for (?:me|us)|is not for (?:me|us)|forget about|refuse|no to|we'?re not doing|definitely not)\b/i;
+const SNOOZE =
+  /\b(?:not (?:now|yet|this year)|for now|maybe later|later on|next year|in a few years|park|hold off|snooze|not right now)\b/i;
+const REMOVE =
+  /\b(?:without|drop|remove|skip|take out|leave out|minus|no|instead of|rather than|keep (?:the|my|our) (?:gas )?boiler|keep the gas|exclude|lose|don't|do not|not)\b/i;
+const ADD =
+  /\b(?:add|adding|with|what if|try|do|get|install|fit|put in|plus|include|also|go for|consider|how about|throw in|swap|switch to|replace|upgrade|just)\b/i;
 
 function verbBefore(raw: string): Verb | null {
-  const text = raw.replace(/\b(?:don't|do not|dont) (?:do|get|add|install|fit|bother with|go for)\b/gi, 'skip');
+  const text = raw.replace(
+    /\b(?:don't|do not|dont) (?:do|get|add|install|fit|bother with|go for)\b/gi,
+    'skip',
+  );
   const spans = (re: RegExp) => {
     const out: [number, number][] = [];
     const g = new RegExp(re.source, 'gi');
@@ -148,11 +189,19 @@ function measureOps(clause: string, carry: Verb): { ops: Placed[]; verb: Verb } 
     if (strongNo && v === 'remove') v = 'reject';
     const at = h.index;
     if (v === 'add') {
-      ops.push({ at, op: h.option ? { op: 'addMeasure', measureId: h.measureId, params: { option: h.option } } : { op: 'addMeasure', measureId: h.measureId } });
+      ops.push({
+        at,
+        op: h.option
+          ? { op: 'addMeasure', measureId: h.measureId, params: { option: h.option } }
+          : { op: 'addMeasure', measureId: h.measureId },
+      });
     } else if (v === 'remove') {
       ops.push({ at, op: { op: 'removeMeasure', measureId: h.measureId } });
     } else {
-      ops.push({ at, op: { op: 'rejectMeasure', measureId: h.measureId, scope: v === 'snooze' ? 'snooze' : 'never' } });
+      ops.push({
+        at,
+        op: { op: 'rejectMeasure', measureId: h.measureId, scope: v === 'snooze' ? 'snooze' : 'never' },
+      });
     }
     verb = v === 'reject' || v === 'snooze' ? 'add' : v;
   }
@@ -175,13 +224,24 @@ function paramOps(clause: string): Placed[] {
   };
   const flow = grab(/\bflow (?:temp(?:erature)?)?[^.?!\d]{0,20}?(\d{2})/, 'heating.flowTempC');
   if (!flow && /\b(?:thermostat|set ?point|degrees?|°|warmer|cooler|temperature)\b/.test(c)) {
-    grab(/\b(?:thermostat|set ?point|heating|house|home|rooms?|temperature)\b[^.?!\d]{0,30}?(\d{2}(?:\.\d)?)/, 'occupancy.setpointC');
+    grab(
+      /\b(?:thermostat|set ?point|heating|house|home|rooms?|temperature)\b[^.?!\d]{0,30}?(\d{2}(?:\.\d)?)/,
+      'occupancy.setpointC',
+    );
   }
   grab(/\bdiscount(?: rate)?[^.?!\d]{0,20}?(\d+(?:\.\d+)?)/, 'finance.discountRatePct');
-  grab(/\bgas (?:price|costs?|is|at|goes to|rises to|unit rate)[^.?!\d]{0,20}?(\d+(?:\.\d+)?)\s*p\b/, 'price.gasPence') ||
-    grab(/\b(\d+(?:\.\d+)?)\s*p(?:ence)?(?: a| per)? (?:kwh|unit) (?:for|of) gas\b/, 'price.gasPence');
-  grab(/\b(?:electricity|power)(?: price| costs?| is| at| goes to| rises to| unit rate)?[^.?!\d]{0,20}?(\d+(?:\.\d+)?)\s*p\b/, 'price.electricityPence') ||
-    grab(/\b(\d+(?:\.\d+)?)\s*p(?:ence)?(?: a| per)? (?:kwh|unit) (?:for|of) (?:electricity|power)\b/, 'price.electricityPence');
+  grab(
+    /\bgas (?:price|costs?|is|at|goes to|rises to|unit rate)[^.?!\d]{0,20}?(\d+(?:\.\d+)?)\s*p\b/,
+    'price.gasPence',
+  ) || grab(/\b(\d+(?:\.\d+)?)\s*p(?:ence)?(?: a| per)? (?:kwh|unit) (?:for|of) gas\b/, 'price.gasPence');
+  grab(
+    /\b(?:electricity|power)(?: price| costs?| is| at| goes to| rises to| unit rate)?[^.?!\d]{0,20}?(\d+(?:\.\d+)?)\s*p\b/,
+    'price.electricityPence',
+  ) ||
+    grab(
+      /\b(\d+(?:\.\d+)?)\s*p(?:ence)?(?: a| per)? (?:kwh|unit) (?:for|of) (?:electricity|power)\b/,
+      'price.electricityPence',
+    );
   grab(/\bradiators?[^.?!\d]{0,30}?(\d(?:\.\d+)?)\s*(?:x|times)\b/, 'heating.radiatorOversize');
   return out;
 }
@@ -189,12 +249,19 @@ function paramOps(clause: string): Placed[] {
 const MONEY = String.raw`£?\s*\d[\d,]*(?:\.\d+)?\s*(?:k|grand|thousand)?`;
 
 function budgetOps(clause: string): Placed[] {
-  const lead = new RegExp(String.raw`\b(?:budget|spend|afford|up to|max(?:imum)?|cap|no more than|at most|limit)\b[^£\d]{0,25}(${MONEY})`, 'i').exec(clause);
-  const trail = new RegExp(String.raw`(£\s*\d[\d,]*(?:\.\d+)?\s*(?:k|grand|thousand)?)\s*budget\b`, 'i').exec(clause);
+  const lead = new RegExp(
+    String.raw`\b(?:budget|spend|afford|up to|max(?:imum)?|cap|no more than|at most|limit)\b[^£\d]{0,25}(${MONEY})`,
+    'i',
+  ).exec(clause);
+  const trail = /(£\s*\d[\d,]*(?:\.\d+)?\s*(?:k|grand|thousand)?)\s*budget\b/i.exec(clause);
   const m = lead ?? trail;
   if (!m) return [];
   const amount = m[1] ?? '';
-  if (!/£|k\b|grand|thousand|pounds/i.test(amount + clause.slice(m.index + m[0].length, m.index + m[0].length + 8))) {
+  if (
+    !/£|k\b|grand|thousand|pounds/i.test(
+      amount + clause.slice(m.index + m[0].length, m.index + m[0].length + 8),
+    )
+  ) {
     if (/\b(?:kw|kwh|mm|years?|°|degrees?|percent|%)/i.test(clause)) return [];
   }
   const v = money(amount);
@@ -204,8 +271,9 @@ function budgetOps(clause: string): Placed[] {
 function horizonOps(clause: string): Placed[] {
   if (/\bpay(?:s)? ?back\b/i.test(clause)) return [];
   const m =
-    /\b(?:over|for|horizon(?: of)?|stay(?:ing)?(?: here)?(?: for)?|in the house for|live here for|next|within)\s+(?:about\s+|another\s+)?(\d{1,2})\s+years?\b/i.exec(clause) ??
-    /\b(\d{1,2})[- ]year (?:horizon|view|plan)\b/i.exec(clause);
+    /\b(?:over|for|horizon(?: of)?|stay(?:ing)?(?: here)?(?: for)?|in the house for|live here for|next|within)\s+(?:about\s+|another\s+)?(\d{1,2})\s+years?\b/i.exec(
+      clause,
+    ) ?? /\b(\d{1,2})[- ]year (?:horizon|view|plan)\b/i.exec(clause);
   return m ? [{ at: m.index, op: { op: 'setHorizon', years: Number(m[1]) } }] : [];
 }
 
@@ -273,7 +341,8 @@ export function parseIntent(utterance: string): IntentResult {
   const seen = new Map<string, number>();
   const out: ScenarioOp[] = [];
   for (const op of ops) {
-    const key = 'measureId' in op ? `m:${op.measureId}` : op.op === 'setParam' ? `p:${op.path}` : `o:${op.op}`;
+    const key =
+      'measureId' in op ? `m:${op.measureId}` : op.op === 'setParam' ? `p:${op.path}` : `o:${op.op}`;
     const at = seen.get(key);
     if (at === undefined) {
       seen.set(key, out.length);

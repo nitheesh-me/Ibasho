@@ -78,7 +78,12 @@ export function RampBar({ lo, hi }: { lo: number; hi: number }) {
     <div>
       <div
         aria-hidden="true"
-        style={{ height: 10, borderRadius: 3, background: netsuGradientCss(), border: '1px solid var(--rule, #c6c2b6)' }}
+        style={{
+          height: 10,
+          borderRadius: 3,
+          background: netsuGradientCss(),
+          border: '1px solid var(--rule, #c6c2b6)',
+        }}
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
         <span>{lo} °C</span>
@@ -94,8 +99,8 @@ export function LensLegendView({ q }: { q: SceneQuantities }) {
     <LegendBox title="Thermal lens" label="Thermal lens legend">
       <RampBar lo={NETSU_RANGE.lo} hi={NETSU_RANGE.hi} />
       <div style={NOTE}>
-        Surface temperatures on {q.condition.label}, inside at {q.condition.thetaInC} °C. Bright lines are thermal
-        bridges: brighter means more watts per metre. Drag the lens, or move it with the arrow keys.
+        Surface temperatures on {q.condition.label}, inside at {q.condition.thetaInC} °C. Bright lines are
+        thermal bridges: brighter means more watts per metre. Drag the lens, or move it with the arrow keys.
       </div>
       <SourceNote q={q} />
     </LegendBox>

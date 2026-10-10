@@ -80,7 +80,13 @@ module.exports = {
       from: { path: `(^packages/(engine|verify|store)/src/|${L1_ENGINE_HALVES})`, pathNot: TEST },
       to: {
         path: '^(packages|packs|apps)/',
-        pathNot: [L0, '^packages/(engine|verify|store)/src/', L1_ENGINE_HALVES],
+        pathNot: [
+          L0,
+          '^packages/(engine|verify|store)/src/',
+          L1_ENGINE_HALVES,
+          // BUILD_PLAN 2: a pack's ids.ts is shared by its engine and UI halves.
+          '^packs/[^/]+/src/ids\\.ts$',
+        ],
       },
     },
     {

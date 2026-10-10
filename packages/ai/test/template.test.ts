@@ -4,11 +4,11 @@
  */
 import { describe, expect, it } from 'vitest';
 import golden from '../../fixtures/src/narration/gh1.golden.json' with { type: 'json' };
-import { validateSection } from '../src/grounding/validate.ts';
-import { DATAMARK } from '../src/providers/payload.ts';
-import { narrateSection } from '../src/narrator/template.ts';
-import { EN_GB } from '../src/narrator/en-gb.ts';
 import { buildStory } from '../src/evidence/spec.ts';
+import { validateSection } from '../src/grounding/validate.ts';
+import { EN_GB } from '../src/narrator/en-gb.ts';
+import { narrateSection } from '../src/narrator/template.ts';
+import { DATAMARK } from '../src/providers/payload.ts';
 import { GH1_REQUESTS, gh1Spec, gh1Story, renderGh1 } from './helpers.ts';
 
 describe('template narrator', () => {
@@ -39,8 +39,11 @@ describe('template narrator', () => {
 
   it('opens chapters as SPEC 5.4 says', () => {
     const r = renderGh1().sections;
-    const ch = (c: string) => r.find((s) => s.request.section === 'chapter' && s.request.chapter === c)!.rendered;
-    expect(ch('ie')).toMatch(/^This is your home\. On a typical January night at 1\.6 °C outside, it loses heat at 5\.83 kW\./);
+    const ch = (c: string) =>
+      r.find((s) => s.request.section === 'chapter' && s.request.chapter === c)!.rendered;
+    expect(ch('ie')).toMatch(
+      /^This is your home\. On a typical January night at 1\.6 °C outside, it loses heat at 5\.83 kW\./,
+    );
     expect(ch('kan')).toMatch(/^Let's check us against your bills\./);
     expect(ch('kokoromi')).toMatch(/^Bigger radiators, or the loft first\?/);
     expect(ch('michi')).toMatch(/^Many changes are possible\. Three stand out\./);
@@ -49,7 +52,9 @@ describe('template narrator', () => {
 
   it('variants follow the seed: the same bundle always reads the same, other bundles vary', () => {
     const story = gh1Story();
-    expect(narrateSection(story, { section: 'overview' })).toEqual(narrateSection(gh1Story(), { section: 'overview' }));
+    expect(narrateSection(story, { section: 'overview' })).toEqual(
+      narrateSection(gh1Story(), { section: 'overview' }),
+    );
     const seen = new Set<string>();
     for (let v = 0; v < 24; v++) {
       const other = buildStory({ ...gh1Spec, modelVersion: `0.${v}.0` });
@@ -68,11 +73,16 @@ describe('template narrator', () => {
     };
     for (const r of GH1_REQUESTS) {
       const s = narrateSection(story, r);
-      expect(validateSection(s.key, s.text, story.bundle).filter((i) => i.rule === 'G6'), JSON.stringify(r)).toEqual([]);
+      expect(
+        validateSection(s.key, s.text, story.bundle).filter((i) => i.rule === 'G6'),
+        JSON.stringify(r),
+      ).toEqual([]);
     }
     const michi = narrateSection(story, { section: 'chapter', chapter: 'michi' }).text;
     expect(michi).not.toContain('[[m:loft-300]]');
-    expect(narrateSection(story, { section: 'chapter', chapter: 'kokoromi' }).text).not.toContain('[[m:loft]]');
+    expect(narrateSection(story, { section: 'chapter', chapter: 'kokoromi' }).text).not.toContain(
+      '[[m:loft]]',
+    );
   });
 
   it('falls back to safe phrasing when context is missing or numeric', () => {
@@ -88,7 +98,7 @@ describe('template narrator', () => {
   it('the en-GB pack has at least one variant per key and no dashes', () => {
     for (const [k, v] of Object.entries(EN_GB.templates)) {
       expect(v.length, k).toBeGreaterThan(0);
-      for (const t of v) expect(t).not.toMatch(/[–—]/);
+      for (const t of v) expect(t).not.toMatch(/[\u2013\u2014]/);
     }
   });
 });

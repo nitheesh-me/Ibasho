@@ -157,7 +157,11 @@ export class OllamaProvider implements NarratorProvider, RepairCapable {
     return sanitiseFacts(note, raw);
   }
 
-  private async chatDraft(req: NarrationRequest, repair: RepairRequest | undefined, signal?: AbortSignalLike): Promise<NarrationDraft> {
+  private async chatDraft(
+    req: NarrationRequest,
+    repair: RepairRequest | undefined,
+    signal?: AbortSignalLike,
+  ): Promise<NarrationDraft> {
     const payload = narrationPayload(req, repair);
     const content = await this.chat(
       repair ? 'repair' : 'narrate',
@@ -218,7 +222,10 @@ export class OllamaProvider implements NarratorProvider, RepairCapable {
         fn();
       };
       const onAbort = () => finish(() => reject(new OllamaError('aborted')));
-      const timer = setTimeout(() => finish(() => reject(new OllamaError(`timed out after ${this.timeoutMs} ms`))), this.timeoutMs);
+      const timer = setTimeout(
+        () => finish(() => reject(new OllamaError(`timed out after ${this.timeoutMs} ms`))),
+        this.timeoutMs,
+      );
       if (signal?.aborted) onAbort();
       signal?.addEventListener('abort', onAbort);
       p.then(

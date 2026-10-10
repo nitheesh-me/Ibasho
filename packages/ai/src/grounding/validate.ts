@@ -3,7 +3,13 @@
  * an issue. Sentence scoped. G6 and G8 are hard (the section falls back to the template); the rest
  * ask for one structured repair.
  */
-import type { EvidenceBundle, EvidenceItem, PolarityLexicon, SectionKey, ValidationIssue } from '@ibasho/core';
+import type {
+  EvidenceBundle,
+  EvidenceItem,
+  PolarityLexicon,
+  SectionKey,
+  ValidationIssue,
+} from '@ibasho/core';
 import { measureOf, SYNONYMS } from '../measures.ts';
 import {
   ACKNOWLEDGE_CUES,
@@ -58,9 +64,14 @@ const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const wordRe = (phrase: string, flags = 'gi') =>
   new RegExp(`(?<![\\w-])${phrase.split(' ').map(escapeRe).join('\\s+')}(?![\\w-])`, flags);
 
+/**
+ * G2 pattern. Any Unicode number (`\\p{N}`: Devanagari and fullwidth digits, vulgar fractions, Roman
+ * numeral letters, superscripts), a percent or per mille sign, or a number word. A hyphen is a word
+ * boundary here, so "twenty-five" and "one-third" are caught.
+ */
 const NUMBER_RE = new RegExp(
-  `\\d(?:[\\d,.]*\\d)?|%|${NUMBER_WORDS.map((w) => `(?<![\\w-])${w.split(' ').map(escapeRe).join('\\s+')}(?![\\w-])`).join('|')}`,
-  'gi',
+  `\\p{N}(?:[\\p{N},.]*\\p{N})?|[%\u2030\uFF05]|${NUMBER_WORDS.map((w) => `(?<![\\p{L}\\p{N}_])${w.split(' ').map(escapeRe).join('\\s+')}(?![\\p{L}\\p{N}_])`).join('|')}`,
+  'giu',
 );
 
 /** Measure ids that the owner has ruled out and that are active at `now`. */
@@ -98,7 +109,8 @@ function issue(ctx: Ctx, rule: ValidationIssue['rule'], span: [number, number], 
 const normalise = (s: string) =>
   s
     .toLowerCase()
-    .replace(/[^a-z0-9£%]+/g, ' ')
+    // Unicode letters and digits, so a copied note in any script still matches (G8 fails closed).
+    .replace(/[^\p{L}\p{N}£%]+/gu, ' ')
     .trim();
 
 function checkSentence(ctx: Ctx, text: string, base: number) {
@@ -112,7 +124,11 @@ function checkSentence(ctx: Ctx, text: string, base: number) {
     if (t.t === 'bad') issue(ctx, 'G1', at(t.span[0], t.span[1]), `malformed slot ${t.raw}`);
     else if (t.t === 'slot') {
       const ok =
-        t.kind === 'e' ? ctx.items.has(t.ref) : t.kind === 'f' ? ctx.facts.has(t.ref) : ctx.knownMeasure(t.ref);
+        t.kind === 'e'
+          ? ctx.items.has(t.ref)
+          : t.kind === 'f'
+            ? ctx.facts.has(t.ref)
+            : ctx.knownMeasure(t.ref);
       if (!ok) issue(ctx, 'G1', at(t.span[0], t.span[1]), `unknown reference ${t.raw}`);
     }
   }
@@ -120,7 +136,8 @@ function checkSentence(ctx: Ctx, text: string, base: number) {
   // G2: no numerals or number words outside slots.
   const allowed: [number, number][] = [];
   for (const re of NUMBER_ALLOW) {
-    for (const m of masked.matchAll(new RegExp(re.source, re.flags))) allowed.push([m.index, m.index + m[0].length]);
+    for (const m of masked.matchAll(new RegExp(re.source, re.flags)))
+      allowed.push([m.index, m.index + m[0].length]);
   }
   for (const m of masked.matchAll(NUMBER_RE)) {
     const a = m.index;
@@ -230,7 +247,8 @@ function checkSentence(ctx: Ctx, text: string, base: number) {
     for (const n of named) {
       if (!ctx.rejected.has(n.id)) continue;
       const bad = n.viaSlot ? !acknowledged || recommends : recommends && !acknowledged;
-      if (bad) issue(ctx, 'G6', at(n.span[0], n.span[1]), `ruled-out measure ${n.id} is not only acknowledged`);
+      if (bad)
+        issue(ctx, 'G6', at(n.span[0], n.span[1]), `ruled-out measure ${n.id} is not only acknowledged`);
     }
   }
 

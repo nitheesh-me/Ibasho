@@ -43,7 +43,9 @@ export function checkWritePolicy(e: NewMemoryEvent): void {
 }
 
 export function sortLog(events: readonly MemoryEvent[]): MemoryEvent[] {
-  return [...events].sort((a, b) => (a.at < b.at ? -1 : a.at > b.at ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  return [...events].sort((a, b) =>
+    a.at < b.at ? -1 : a.at > b.at ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0,
+  );
 }
 
 const measureOfEvent = (e: MemoryEvent): string | undefined => {
@@ -107,7 +109,8 @@ export function resolve(events: readonly MemoryEvent[]): Resolved {
   }
   const edits = new Map<string, unknown>();
   for (const e of log) {
-    if (e.type === 'memoryEdited' && !voided.has(e.id) && e.payload.payload !== null) edits.set(e.payload.eventId, e.payload.payload);
+    if (e.type === 'memoryEdited' && !voided.has(e.id) && e.payload.payload !== null)
+      edits.set(e.payload.eventId, e.payload.payload);
   }
   const compost = new Map<string, string>();
   for (const f of log) {
@@ -174,11 +177,33 @@ function apply(p: Preferences, type: MemoryEventType, payload: unknown, at: stri
       p.priorities = [...new Set((payload as { priorities: Preferences['priorities'] }).priorities)];
       return;
     case 'opApplied': {
-      const op = (payload as { op: { op: string; years?: number; capGBP?: number; measureId?: string; scope?: 'never' | 'snooze'; until?: string; reason?: string } }).op;
+      const op = (
+        payload as {
+          op: {
+            op: string;
+            years?: number;
+            capGBP?: number;
+            measureId?: string;
+            scope?: 'never' | 'snooze';
+            until?: string;
+            reason?: string;
+          };
+        }
+      ).op;
       if (op.op === 'setHorizon' && op.years !== undefined) p.horizonYears = op.years;
       if (op.op === 'setBudget' && op.capGBP !== undefined) p.budgetCapGBP = op.capGBP;
       if (op.op === 'rejectMeasure' && op.measureId && op.scope) {
-        apply(p, 'measureRejected', { measureId: op.measureId, scope: op.scope, ...(op.until ? { until: op.until } : {}), ...(op.reason ? { reason: op.reason } : {}) }, at);
+        apply(
+          p,
+          'measureRejected',
+          {
+            measureId: op.measureId,
+            scope: op.scope,
+            ...(op.until ? { until: op.until } : {}),
+            ...(op.reason ? { reason: op.reason } : {}),
+          },
+          at,
+        );
       }
       return;
     }
@@ -193,7 +218,11 @@ export function rejectionActive(r: Rejection, now: string): boolean {
 }
 
 /** Materialised preferences at `now`. Expired snoozes are dropped. */
-export function preferencesOf(events: readonly MemoryEvent[], now: string, resolved = resolve(events)): Preferences {
+export function preferencesOf(
+  events: readonly MemoryEvent[],
+  now: string,
+  resolved = resolve(events),
+): Preferences {
   const p = emptyPreferences();
   const seeds = new Map<string, { type: MemoryEventType; payload: unknown } | null>();
   for (const e of resolved.live) {
@@ -203,7 +232,8 @@ export function preferencesOf(events: readonly MemoryEvent[], now: string, resol
     }
     if (e.type === 'seedAccepted') {
       const prop = seeds.get(e.payload.seedId);
-      if (prop && prop.type !== 'seedProposed' && prop.type !== 'seedAccepted') apply(p, prop.type, prop.payload, e.at);
+      if (prop && prop.type !== 'seedProposed' && prop.type !== 'seedAccepted')
+        apply(p, prop.type, prop.payload, e.at);
       continue;
     }
     if (e.actor === 'llm-proposal') continue;
@@ -218,7 +248,13 @@ export function seedsOf(events: readonly MemoryEvent[], resolved = resolve(event
   const out = new Map<string, Seed>();
   for (const e of resolved.live) {
     if (e.type === 'seedProposed') {
-      out.set(e.payload.seedId, { id: e.payload.seedId, homeId: e.homeId, text: e.payload.text, status: 'proposed', proposedAt: e.at });
+      out.set(e.payload.seedId, {
+        id: e.payload.seedId,
+        homeId: e.homeId,
+        text: e.payload.text,
+        status: 'proposed',
+        proposedAt: e.at,
+      });
     } else if (e.type === 'seedAccepted' || e.type === 'seedDismissed') {
       const s = out.get(e.payload.seedId);
       if (s && s.status === 'proposed') s.status = e.type === 'seedAccepted' ? 'accepted' : 'dismissed';
@@ -265,8 +301,12 @@ export function searchMemory(prefs: Preferences, now: string): { rejected: strin
  * engine's memory built-in (`packages/engine/src/search/run.ts`), an entry may name an option id or
  * the measure that owns it, so ruling out `loft` blocks `loft-300`.
  */
-export function offerable(measures: readonly string[], mem: { rejected: readonly string[]; completed: readonly string[] }): boolean {
-  const hit = (list: readonly string[], o: string) => list.includes(o) || list.includes(measureOf(o)?.id ?? o);
+export function offerable(
+  measures: readonly string[],
+  mem: { rejected: readonly string[]; completed: readonly string[] },
+): boolean {
+  const hit = (list: readonly string[], o: string) =>
+    list.includes(o) || list.includes(measureOf(o)?.id ?? o);
   return measures.every((m) => !hit(mem.rejected, m) && !hit(mem.completed, m));
 }
 
@@ -280,7 +320,9 @@ export function purgeCompost(events: readonly MemoryEvent[], now: string, emptyN
   const log = sortLog(events);
   for (const f of log) {
     if (f.type !== 'memoryForgotten' || voided.has(f.id)) continue;
-    const targets = log.filter((e) => compost.get(e.id) !== undefined && selects(f.payload.selector, e) && e.at <= f.at);
+    const targets = log.filter(
+      (e) => compost.get(e.id) !== undefined && selects(f.payload.selector, e) && e.at <= f.at,
+    );
     if (targets.every((t) => gone.has(t.id)) && (emptyNow || f.at <= cutoff)) gone.add(f.id);
   }
   // Edits that point at deleted events go too.
@@ -289,7 +331,10 @@ export function purgeCompost(events: readonly MemoryEvent[], now: string, emptyN
 }
 
 /** A visit is a run of events with gaps under six hours (welcome back, AM 7.1 chapters). */
-export function visitsOf(events: readonly MemoryEvent[], gapHours = 6): { start: string; end: string; events: MemoryEvent[] }[] {
+export function visitsOf(
+  events: readonly MemoryEvent[],
+  gapHours = 6,
+): { start: string; end: string; events: MemoryEvent[] }[] {
   const out: { start: string; end: string; events: MemoryEvent[] }[] = [];
   for (const e of sortLog(events)) {
     const last = out[out.length - 1];

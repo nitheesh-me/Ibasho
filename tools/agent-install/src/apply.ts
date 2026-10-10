@@ -9,7 +9,17 @@
  *   backup and the record are removed. A failure during install rolls back what was done.
  */
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmdirSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname } from 'node:path';
 import { type Action, type InstallOptions, MARKER, planInstall } from './plan.ts';
 
@@ -73,8 +83,24 @@ function readSettings(path: string): Settings {
   }
 }
 
+/**
+ * Write whole or not at all (temp file, then rename), keeping an existing file's mode. The
+ * person's `settings.json` must never be left truncated if the machine dies mid write.
+ */
+function writeAtomic(path: string, data: string | Buffer, mode?: number): void {
+  const keep = mode ?? (existsSync(path) ? statSync(path).mode & 0o777 : 0o644);
+  const tmp = `${path}.ibasho-${process.pid}.tmp`;
+  rmSync(tmp, { force: true });
+  try {
+    writeFileSync(tmp, data, { mode: keep, flag: 'wx' });
+    renameSync(tmp, path);
+  } finally {
+    rmSync(tmp, { force: true });
+  }
+}
+
 function writeJson(path: string, v: unknown): void {
-  writeFileSync(path, `${JSON.stringify(v, null, 2)}\n`);
+  writeAtomic(path, `${JSON.stringify(v, null, 2)}\n`);
 }
 
 /** Remove every SubagentStart entry whose command carries the marker; prune empty containers. */
@@ -154,7 +180,7 @@ export function install(
           if (existsSync(a.to) && !readFileSync(a.to, 'utf8').includes(MARKER)) {
             throw new Error(`${a.to} exists and was not installed by ibasho; move it away first`);
           }
-          writeFileSync(a.to, content, { mode: a.to.endsWith('.mjs') ? 0o755 : 0o644 });
+          writeAtomic(a.to, content, a.to.endsWith('.mjs') ? 0o755 : 0o644);
           rec.createdFiles.push(a.to);
           break;
         }
@@ -172,7 +198,7 @@ export function install(
           if (existed) {
             const stamp = (run.now?.() ?? new Date()).toISOString().replace(/[:.]/g, '');
             backup = `${a.settings}.ibasho-backup-${stamp}`;
-            writeFileSync(backup, readFileSync(a.settings));
+            writeAtomic(backup, readFileSync(a.settings), statSync(a.settings).mode & 0o777);
           }
           rec.settings = { path: a.settings, createdFile: !existed, backup, command: a.command };
           const merged = stripHook(s);
@@ -207,7 +233,7 @@ function undo(rec: InstallRecord, claude: ClaudeRunner, log: Log): void {
     if (createdFile && Object.keys(stripped).length === 0) {
       rmSync(path);
     } else if (backup && existsSync(backup) && sameJson(stripped, JSON.parse(readFileSync(backup, 'utf8')))) {
-      writeFileSync(path, readFileSync(backup));
+      writeAtomic(path, readFileSync(backup));
     } else {
       writeJson(path, stripped);
     }

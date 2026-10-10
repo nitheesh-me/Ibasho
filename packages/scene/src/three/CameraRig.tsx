@@ -7,7 +7,13 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import { OrthographicCamera, PerspectiveCamera } from 'three';
 import { type CameraModel, eyeDirection, snapAzimuth } from '../camera/model.ts';
-import { blendMatrices, type CameraKey, type CameraSequence, sampleSequence, sequenceDuration } from '../camera/sequence.ts';
+import {
+  blendMatrices,
+  type CameraKey,
+  type CameraSequence,
+  sampleSequence,
+  sequenceDuration,
+} from '../camera/sequence.ts';
 
 export interface PlayingSequence {
   seq: CameraSequence;
@@ -35,7 +41,11 @@ export function applyOrtho(cam: OrthographicCamera, m: CameraModel, zoomK = 1): 
   cam.zoom = m.zoom * zoomK;
   cam.near = 0.1;
   cam.far = m.distance * 2 + 60;
-  cam.position.set(m.target[0] + d[0] * m.distance, m.target[1] + d[1] * m.distance, m.target[2] + d[2] * m.distance);
+  cam.position.set(
+    m.target[0] + d[0] * m.distance,
+    m.target[1] + d[1] * m.distance,
+    m.target[2] + d[2] * m.distance,
+  );
   cam.up.set(0, 1, 0);
   cam.lookAt(m.target[0], m.target[1], m.target[2]);
   cam.updateProjectionMatrix();
@@ -43,12 +53,19 @@ export function applyOrtho(cam: OrthographicCamera, m: CameraModel, zoomK = 1): 
 }
 
 const shortest = (from: number, to: number): number => {
-  let d = (((to - from) % 360) + 540) % 360 - 180;
+  let d = ((((to - from) % 360) + 540) % 360) - 180;
   if (d < -180) d += 360;
   return d;
 };
 
-export function CameraRig({ model, reducedMotion, sequence, onSequenceFrame, onSequenceEnd, onAzimuth }: CameraRigProps) {
+export function CameraRig({
+  model,
+  reducedMotion,
+  sequence,
+  onSequenceFrame,
+  onSequenceEnd,
+  onAzimuth,
+}: CameraRigProps) {
   const set = useThree((s) => s.set);
   const gl = useThree((s) => s.gl);
   const invalidate = useThree((s) => s.invalidate);
@@ -70,6 +87,7 @@ export function CameraRig({ model, reducedMotion, sequence, onSequenceFrame, onS
     invalidate();
   }, [sequence, cams, set, invalidate]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a new camera model is the trigger to render
   useEffect(() => {
     invalidate();
   }, [model, invalidate]);
@@ -123,7 +141,11 @@ export function CameraRig({ model, reducedMotion, sequence, onSequenceFrame, onS
       p.updateProjectionMatrix();
       p.updateMatrixWorld(true);
       if (k.ortho > 0) {
-        applyOrtho(cams.ortho, { ...model, azimuthDeg: k.azimuthDeg, elevationDeg: k.elevationDeg, distance: k.distance }, k.zoomK);
+        applyOrtho(
+          cams.ortho,
+          { ...model, azimuthDeg: k.azimuthDeg, elevationDeg: k.elevationDeg, distance: k.distance },
+          k.zoomK,
+        );
         const m = blendMatrices(p.projectionMatrix.elements, cams.ortho.projectionMatrix.elements, k.ortho);
         p.projectionMatrix.fromArray(m);
         p.projectionMatrixInverse.copy(p.projectionMatrix).invert();

@@ -14,10 +14,10 @@
  * Layer L2: reads only `@ibasho/core` types. Pure and deterministic.
  */
 import {
-  evidenceId,
   type EvidenceGraph,
   type EvidenceNode,
   type EvidenceSubject,
+  evidenceId,
   type MemoryDigest,
   type OwnerFact,
   type QuantityId,
@@ -79,7 +79,9 @@ class GraphIndex {
     return this.byKey.get(GraphIndex.key(quantity, packageId));
   }
   hasPackage(packageId: string): boolean {
-    return this.get('money.bill_saving', packageId) !== undefined || this.get('fin.n0', packageId) !== undefined;
+    return (
+      this.get('money.bill_saving', packageId) !== undefined || this.get('fin.n0', packageId) !== undefined
+    );
   }
   /** Twelve monthly nodes `<prefix>.0` (January) to `<prefix>.11`, as the engine numbers them; undefined when any is missing. */
   months(prefix: string, packageId: string): EvidenceNode[] | undefined {
@@ -92,7 +94,12 @@ class GraphIndex {
     return out;
   }
   /** An exact sum node over `parts` (fixed point added as bigint; floats added in a fixed order). */
-  sum(quantity: QuantityId, packageId: string, parts: readonly EvidenceNode[], doc: string): EvidenceNode | undefined {
+  sum(
+    quantity: QuantityId,
+    packageId: string,
+    parts: readonly EvidenceNode[],
+    doc: string,
+  ): EvidenceNode | undefined {
     if (parts.length === 0) return undefined;
     const unit = parts[0]!.unit;
     if (parts.some((p) => p.unit !== unit)) throw new BundleError(`${quantity}: parts have mixed units`);
@@ -152,11 +159,21 @@ export function storyFromEngine(input: EngineStoryInput): Story {
   const bills = [billGas, billElec].filter((n): n is EvidenceNode => n !== undefined);
   const billTotal = g.sum('money.bill.year', BASELINE, bills, 'annual bill = gas bill + electricity bill');
   if (billTotal) add({ role: 'home.bill', node: billTotal, kind: 'cost', label: 'energy bill per year' });
-  if (billGas) add({ role: 'home.bill.gas', node: billGas, kind: 'cost', label: 'gas bill per year', fuel: 'gas' });
-  if (billElec) add({ role: 'home.bill.electricity', node: billElec, kind: 'cost', label: 'electricity bill per year', fuel: 'electricity' });
+  if (billGas)
+    add({ role: 'home.bill.gas', node: billGas, kind: 'cost', label: 'gas bill per year', fuel: 'gas' });
+  if (billElec)
+    add({
+      role: 'home.bill.electricity',
+      node: billElec,
+      kind: 'cost',
+      label: 'electricity bill per year',
+      fuel: 'electricity',
+    });
   for (const fuel of ['gas', 'electricity'] as const) {
     const months = g.months(`energy.delivered.${fuel}`, BASELINE);
-    const year = months && g.sum(`energy.delivered.${fuel}.year`, BASELINE, months, `annual ${fuel} = sum of the twelve months`);
+    const year =
+      months &&
+      g.sum(`energy.delivered.${fuel}.year`, BASELINE, months, `annual ${fuel} = sum of the twelve months`);
     if (year) add({ role: `home.${fuel}`, node: year, kind: 'energy', label: `${fuel} use per year`, fuel });
   }
   const qh = g.months('heat.qh', BASELINE);
@@ -171,17 +188,43 @@ export function storyFromEngine(input: EngineStoryInput): Story {
   const packages: Record<string, { measures: string[] }> = {};
   const addPackage = (id: string, prefix: string) => {
     const upfront = at('fin.n0', id);
-    if (upfront) add({ role: `${prefix}.upfront`, node: upfront, kind: 'cost', label: 'upfront cost after grants' });
+    if (upfront)
+      add({ role: `${prefix}.upfront`, node: upfront, kind: 'cost', label: 'upfront cost after grants' });
     const saving = at('money.bill_saving', id);
-    if (saving) add({ role: `${prefix}.saving`, node: saving, kind: 'costDelta', label: 'yearly bill saving', sign: signOfSaving(saving) });
+    if (saving)
+      add({
+        role: `${prefix}.saving`,
+        node: saving,
+        kind: 'costDelta',
+        label: 'yearly bill saving',
+        sign: signOfSaving(saving),
+      });
     const carbon = at('acct.carbon_saving', id);
-    if (carbon) add({ role: `${prefix}.carbon`, node: carbon, kind: 'carbonDelta', label: 'yearly running carbon saved', sign: signOfSaving(carbon) });
+    if (carbon)
+      add({
+        role: `${prefix}.carbon`,
+        node: carbon,
+        kind: 'carbonDelta',
+        label: 'yearly running carbon saved',
+        sign: signOfSaving(carbon),
+      });
     const npv = at('fin.npv', id);
-    if (npv) add({ role: `${prefix}.npv`, node: npv, kind: 'cost', label: 'net present value over the horizon' });
+    if (npv)
+      add({ role: `${prefix}.npv`, node: npv, kind: 'cost', label: 'net present value over the horizon' });
     for (const fuel of ['gas', 'electricity'] as const) {
       const months = g.months(`acct.saving.${fuel}`, id);
-      const year = months && g.sum(`acct.saving.${fuel}.year`, id, months, `annual ${fuel} saving = sum of the twelve months`);
-      if (year) add({ role: `${prefix}.${fuel}`, node: year, kind: 'energyDelta', label: `yearly ${fuel} saving`, fuel, sign: signOfSaving(year) });
+      const year =
+        months &&
+        g.sum(`acct.saving.${fuel}.year`, id, months, `annual ${fuel} saving = sum of the twelve months`);
+      if (year)
+        add({
+          role: `${prefix}.${fuel}`,
+          node: year,
+          kind: 'energyDelta',
+          label: `yearly ${fuel} saving`,
+          fuel,
+          sign: signOfSaving(year),
+        });
     }
   };
   const graphPackages = [...rows.keys()].filter((id) => id !== BASELINE && g.hasPackage(id));
@@ -206,7 +249,14 @@ export function storyFromEngine(input: EngineStoryInput): Story {
     const [label, basis] = RANK_LABEL[p];
     const of = `pick.${p}.${basis}`;
     if (nodes.some((n) => n.role === of)) {
-      derived.push({ role: `pick.${p}.rank`, kind: 'rank', label, value: 1, of: [of], subject: { packageId: id } });
+      derived.push({
+        role: `pick.${p}.rank`,
+        kind: 'rank',
+        label,
+        value: 1,
+        of: [of],
+        subject: { packageId: id },
+      });
     }
   }
 
@@ -223,16 +273,41 @@ export function storyFromEngine(input: EngineStoryInput): Story {
   const top = singles[0];
   if (top && signOfSaving(top.node) === 'saving') {
     leverMeasure = measuresOfPackage(top.id)[0];
-    add({ role: 'lever.top.bill', node: top.node, kind: 'costDelta', label: 'yearly bill saving from the top lever alone', sign: 'saving' });
-    derived.push({ role: 'lever.top.rank', kind: 'rank', label: 'rank of levers by bill saving', value: 1, of: ['lever.top.bill'], subject: { measureId: top.id } });
+    add({
+      role: 'lever.top.bill',
+      node: top.node,
+      kind: 'costDelta',
+      label: 'yearly bill saving from the top lever alone',
+      sign: 'saving',
+    });
+    derived.push({
+      role: 'lever.top.rank',
+      kind: 'rank',
+      label: 'rank of levers by bill saving',
+      value: 1,
+      of: ['lever.top.bill'],
+      subject: { measureId: top.id },
+    });
   }
 
   // Counts.
   if (input.memory.hiddenByRejection > 0) {
-    derived.push({ role: 'hidden.count', kind: 'count', label: 'futures hidden by things you ruled out', value: input.memory.hiddenByRejection, of: [] });
+    derived.push({
+      role: 'hidden.count',
+      kind: 'count',
+      label: 'futures hidden by things you ruled out',
+      value: input.memory.hiddenByRejection,
+      of: [],
+    });
   }
   if (input.needsCheck !== undefined) {
-    derived.push({ role: 'needsCheck.count', kind: 'count', label: 'futures possible after a check', value: input.needsCheck.length, of: [] });
+    derived.push({
+      role: 'needsCheck.count',
+      kind: 'count',
+      label: 'futures possible after a check',
+      value: input.needsCheck.length,
+      of: [],
+    });
   }
 
   const { bundle, roles } = buildBundle({

@@ -7,7 +7,14 @@
  */
 import type { Element, HomeTwin } from '@ibasho/core';
 import { numCentral } from '@ibasho/core';
-import type { ElementFlow, JunctionFlow, LeakPath, SceneCondition, SceneQuantities, ZoneTemp } from './types.ts';
+import type {
+  ElementFlow,
+  JunctionFlow,
+  LeakPath,
+  SceneCondition,
+  SceneQuantities,
+  ZoneTemp,
+} from './types.ts';
 
 export const JANUARY_NIGHT: SceneCondition = {
   thetaInC: 20,
@@ -50,10 +57,13 @@ export function fromTwin(twin: HomeTwin, condition: SceneCondition = JANUARY_NIG
   // Ventilation placeholder: SAP 10.2 section 2 style infiltration sum, sheltered.
   const storeys = numCentral(twin.form.storeys);
   const volume = numCentral(twin.form.footprintM2) * storeys * numCentral(twin.form.storeyHeightM);
-  const chimneyM3h = numCentral(twin.ventilation.chimneysOpen) * 80 + numCentral(twin.ventilation.chimneysBlocked) * 20;
+  const chimneyM3h =
+    numCentral(twin.ventilation.chimneysOpen) * 80 + numCentral(twin.ventilation.chimneysBlocked) * 20;
   const fanM3h = numCentral(twin.ventilation.extractFans) * 10;
-  const floorType = twin.ventilation.floorType.state === 'unknown' ? undefined : twin.ventilation.floorType.value;
-  const structural = 0.35 + (floorType === 'suspended-unsealed' ? 0.2 : floorType === 'suspended-sealed' ? 0.1 : 0);
+  const floorType =
+    twin.ventilation.floorType.state === 'unknown' ? undefined : twin.ventilation.floorType.value;
+  const structural =
+    0.35 + (floorType === 'suspended-unsealed' ? 0.2 : floorType === 'suspended-sealed' ? 0.1 : 0);
   const draught = 0.25 - 0.2 * numCentral(twin.ventilation.draughtProofedFrac);
   const flueAch = volume > 0 ? (chimneyM3h + fanM3h) / volume : 0;
   const shelter = 1 - 0.075 * numCentral(twin.ventilation.shelteredSides);

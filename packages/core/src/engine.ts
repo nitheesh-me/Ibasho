@@ -125,10 +125,21 @@ export interface VentOut {
   nEffAch: Monthly<number>;
   hveWK: Monthly<number>;
 }
+/**
+ * Occupancy and lights, appliances and cooking (LAC) energy for one run. Internal gains (SAP
+ * Table 5) and delivered electricity both read it, so the runner computes it once.
+ */
+export interface Household {
+  occupancyN: number;
+  lightingKWh: Monthly<number>;
+  appliancesKWh: Monthly<number>;
+  cookingKWh: Monthly<number>;
+}
 export interface GainsIn {
   geometry: GeometryOut;
   fabric: FabricOut;
   occupancyN: number;
+  household: Household;
 }
 export interface GainsOut {
   solarW: Monthly<number>;
@@ -163,6 +174,7 @@ export interface SystemsIn {
   cooling: CoolingMonthly;
   dhw: DhwMonthly;
   systems: HomeTwin['systems'];
+  household: Household;
 }
 export interface RenewIn {
   geometry: GeometryOut;

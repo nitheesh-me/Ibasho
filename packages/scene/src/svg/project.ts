@@ -5,12 +5,11 @@
  * Owner: WP-07.
  */
 import type { Vec3 } from '@ibasho/core';
-import { type CameraModel, cameraBasis, projectOrtho } from '../camera/model.ts';
 import type { ComposedSurface } from '../camera/compose.ts';
+import { type CameraModel, cameraBasis, eyeDirection, projectOrtho } from '../camera/model.ts';
 import type { ScenePalette } from '../colour/palette.ts';
 import { add, centroid, dot } from '../twin/frame.ts';
 import type { HouseModel } from '../twin/house.ts';
-import { eyeDirection } from '../camera/model.ts';
 
 export interface SvgItem {
   key: string;
@@ -54,7 +53,12 @@ export function plinthOf(house: HouseModel): Plinth {
 
 const fmt = (n: number): string => (Math.round(n * 100) / 100).toString();
 
-function ring(m: CameraModel, pts: readonly Vec3[], offset: Vec3, basis: ReturnType<typeof cameraBasis>): string {
+function ring(
+  m: CameraModel,
+  pts: readonly Vec3[],
+  offset: Vec3,
+  basis: ReturnType<typeof cameraBasis>,
+): string {
   return `${pts
     .map((p, i) => {
       const q = projectOrtho(m, add(p, offset), basis);
@@ -91,10 +95,46 @@ export function svgItems(
     depth: Number.POSITIVE_INFINITY,
   });
   const sides: [string, Vec3[], Vec3][] = [
-    ['n', [[p.x1, 0, p.z0], [p.x0, 0, p.z0], [p.x0, -p.depth, p.z0], [p.x1, -p.depth, p.z0]], [0, 0, -1]],
-    ['s', [[p.x0, 0, p.z1], [p.x1, 0, p.z1], [p.x1, -p.depth, p.z1], [p.x0, -p.depth, p.z1]], [0, 0, 1]],
-    ['w', [[p.x0, 0, p.z0], [p.x0, 0, p.z1], [p.x0, -p.depth, p.z1], [p.x0, -p.depth, p.z0]], [-1, 0, 0]],
-    ['e', [[p.x1, 0, p.z1], [p.x1, 0, p.z0], [p.x1, -p.depth, p.z0], [p.x1, -p.depth, p.z1]], [1, 0, 0]],
+    [
+      'n',
+      [
+        [p.x1, 0, p.z0],
+        [p.x0, 0, p.z0],
+        [p.x0, -p.depth, p.z0],
+        [p.x1, -p.depth, p.z0],
+      ],
+      [0, 0, -1],
+    ],
+    [
+      's',
+      [
+        [p.x0, 0, p.z1],
+        [p.x1, 0, p.z1],
+        [p.x1, -p.depth, p.z1],
+        [p.x0, -p.depth, p.z1],
+      ],
+      [0, 0, 1],
+    ],
+    [
+      'w',
+      [
+        [p.x0, 0, p.z0],
+        [p.x0, 0, p.z1],
+        [p.x0, -p.depth, p.z1],
+        [p.x0, -p.depth, p.z0],
+      ],
+      [-1, 0, 0],
+    ],
+    [
+      'e',
+      [
+        [p.x1, 0, p.z1],
+        [p.x1, 0, p.z0],
+        [p.x1, -p.depth, p.z0],
+        [p.x1, -p.depth, p.z1],
+      ],
+      [1, 0, 0],
+    ],
   ];
   for (const [k, pts, n] of sides) {
     if (dot(n, eye) <= 0) continue;

@@ -5,9 +5,9 @@
  * Owner: WP-07.
  */
 import type { HomeTwin, QualityTier, SearchResult, Vec3, VisualLayerPlugin } from '@ibasho/core';
+import { washiTileSvg } from '@ibasho/ui/tokens';
 import { PerformanceMonitor } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { washiTileSvg } from '@ibasho/ui/tokens';
 import {
   type CSSProperties,
   type KeyboardEvent,
@@ -24,12 +24,19 @@ import {
 } from 'react';
 import { ACESFilmicToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three';
 import { buildOutline } from './a11y/model.ts';
-import { fc } from './fc.ts';
 import { SceneOutline } from './a11y/SceneOutline.tsx';
 import { composeView, type ViewKind } from './camera/compose.ts';
-import { type CameraModel, cameraBasis, DEFAULT_ELEVATION, fitCamera, projectOrtho, snapAzimuth } from './camera/model.ts';
+import {
+  type CameraModel,
+  cameraBasis,
+  DEFAULT_ELEVATION,
+  fitCamera,
+  projectOrtho,
+  snapAzimuth,
+} from './camera/model.ts';
 import type { CameraKey, CameraSequence } from './camera/sequence.ts';
 import { palette as paletteOf } from './colour/palette.ts';
+import { fc } from './fc.ts';
 import { T1_LAYERS } from './layers/plugins.tsx';
 import { effectiveTier, initialLadder, type LadderEvent, stepLadder, TIERS } from './quality/ladder.ts';
 import { fromGraph } from './quantities/from-graph.ts';
@@ -139,11 +146,13 @@ export function stageCamera(
   );
 }
 
+/** Fewer fibres than the page grain (40): behind the house the paper should whisper. */
+const STAGE_FIBRES = 16;
 const grainCache = new Map<string, string>();
 function grainUri(theme: 'hiru' | 'yoru'): string {
   let u = grainCache.get(theme);
   if (!u) {
-    const svg = washiTileSvg(theme);
+    const svg = washiTileSvg(theme, 280, STAGE_FIBRES);
     u = `url("data:image/svg+xml,${svg.replace(/[<>#%"{}\n]/g, (c) => encodeURIComponent(c))}")`;
     grainCache.set(theme, u);
   }
@@ -203,9 +212,14 @@ export function Stage(props: StageProps) {
   }, []);
 
   useEffect(() => {
-    setLens((l) => (l.x === 0 && l.y === 0 ? { x: size.width * 0.42, y: size.height * 0.52, r: Math.min(150, size.height * 0.24) } : l));
+    setLens((l) =>
+      l.x === 0 && l.y === 0
+        ? { x: size.width * 0.42, y: size.height * 0.52, r: Math.min(150, size.height * 0.24) }
+        : l,
+    );
   }, [size]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: replay only when the key changes
   useEffect(() => {
     if (props.sequenceKey === undefined || !sequence) return;
     if (reducedMotion) {
@@ -216,7 +230,6 @@ export function Stage(props: StageProps) {
       return;
     }
     setPlaying({ seq: sequence, start: performance.now() });
-    // biome-ignore lint/correctness/useExhaustiveDependencies: replay only when the key changes
   }, [props.sequenceKey]);
 
   useEffect(() => {
@@ -316,6 +329,7 @@ export function Stage(props: StageProps) {
 
   return (
     <SceneDataContext.Provider value={data}>
+      {/* biome-ignore lint/a11y/useSemanticElements: a fieldset is for form controls; this is a canvas region */}
       <div
         ref={container}
         className={`ib-stage ${props.className ?? ''}`}
@@ -328,14 +342,26 @@ export function Stage(props: StageProps) {
         aria-roledescription="3D stage"
         aria-label="Your home. Use the left and right arrow keys to turn it. The outline lists every part."
         onKeyDown={onKey}
-        style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', background: paper, ...props.style_ }}
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          background: paper,
+          ...props.style_,
+        }}
       >
         {!useSvg || lost ? (
           <Canvas
             frameloop="demand"
             dpr={[1, settings.dpr]}
             shadows={{ type: PCFSoftShadowMap, enabled: settings.shadows }}
-            gl={{ alpha: true, antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: false }}
+            gl={{
+              alpha: true,
+              antialias: true,
+              powerPreference: 'high-performance',
+              preserveDrawingBuffer: false,
+            }}
             style={{ position: 'absolute', inset: 0, visibility: lost ? 'hidden' : 'visible' }}
             onCreated={({ gl, scene }) => {
               gl.setClearColor(0x000000, 0);
@@ -378,7 +404,12 @@ export function Stage(props: StageProps) {
               const L = fc(reducedMotion ? p.ReducedMotion : p.Overlay);
               return <L key={p.id} {...layerProps} />;
             })}
-            <StillLife recipe={recipe} allowBake={!playing} version={version} {...(props.stats ? { stats: props.stats } : {})} />
+            <StillLife
+              recipe={recipe}
+              allowBake={!playing}
+              version={version}
+              {...(props.stats ? { stats: props.stats } : {})}
+            />
             <PerformanceMonitor
               onDecline={() => dispatch('decline')}
               onIncline={() => dispatch('incline')}
@@ -417,7 +448,7 @@ export function Stage(props: StageProps) {
             backgroundImage: grain,
             backgroundSize: '280px 280px',
             mixBlendMode: theme === 'hiru' ? 'multiply' : 'screen',
-            opacity: theme === 'hiru' ? 0.55 : 0.18,
+            opacity: theme === 'hiru' ? 0.32 : 0.12,
           }}
         />
         {!useSvg ? (
@@ -434,15 +465,32 @@ export function Stage(props: StageProps) {
             }}
           >
             {pencil ? (
-              <SvgHouse house={house} composed={composed} camera={camera} palette={pal} variant="pencil" reducedMotion={reducedMotion} />
+              <SvgHouse
+                house={house}
+                composed={composed}
+                camera={camera}
+                palette={pal}
+                variant="pencil"
+                reducedMotion={reducedMotion}
+              />
             ) : null}
           </div>
         ) : null}
         {layers.includes('zone-tint') && !playing ? <ZoneLabels camera={camera} /> : null}
-        {layers.includes('thermal-lens') && !useSvg ? <LensRing lens={lens} setLens={setLens} size={size} /> : null}
+        {layers.includes('thermal-lens') && !useSvg ? (
+          <LensRing lens={lens} setLens={setLens} size={size} />
+        ) : null}
         <div
           className="ib-stage-legends"
-          style={{ position: 'absolute', left: 16, bottom: 16, display: 'flex', flexDirection: 'column', gap: 8, pointerEvents: 'none' }}
+          style={{
+            position: 'absolute',
+            left: 16,
+            bottom: 16,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            pointerEvents: 'none',
+          }}
         >
           {active.map((p) => {
             if (!p.Legend) return null;
@@ -464,10 +512,20 @@ function ZoneLabels({ camera }: { camera: CameraModel }) {
   const shown = new Set<string>();
   const labels = d.house.rooms
     .slice()
-    .sort((a, b) => (b.max[0] - b.min[0]) * (b.max[2] - b.min[2]) - (a.max[0] - a.min[0]) * (a.max[2] - a.min[2]))
-    .filter((r) => (shown.has(r.zone) ? false : (shown.add(r.zone), true)))
+    .sort(
+      (a, b) => (b.max[0] - b.min[0]) * (b.max[2] - b.min[2]) - (a.max[0] - a.min[0]) * (a.max[2] - a.min[2]),
+    )
+    .filter((r) => {
+      if (shown.has(r.zone)) return false;
+      shown.add(r.zone);
+      return true;
+    })
     .map((r) => {
-      const q = projectOrtho(camera, [(r.min[0] + r.max[0]) / 2, r.min[1] + 1.2, (r.min[2] + r.max[2]) / 2], basis);
+      const q = projectOrtho(
+        camera,
+        [(r.min[0] + r.max[0]) / 2, r.min[1] + 1.2, (r.min[2] + r.max[2]) / 2],
+        basis,
+      );
       return { r, q };
     });
   return (
@@ -489,7 +547,8 @@ function ZoneLabels({ camera }: { camera: CameraModel }) {
             whiteSpace: 'nowrap',
           }}
         >
-          {r.zone === 'living' ? 'Living area' : 'Rest of home'} · {Math.round((temps.get(r.zone) ?? 0) * 10) / 10} °C
+          {r.zone === 'living' ? 'Living area' : 'Rest of home'} ·{' '}
+          {Math.round((temps.get(r.zone) ?? 0) * 10) / 10} °C
         </div>
       ))}
     </div>
@@ -560,7 +619,8 @@ function LensRing({
         width: lens.r * 2,
         height: lens.r * 2,
         borderRadius: '50%',
-        boxShadow: '0 0 0 2px var(--ink, #26221f), 0 0 0 5px var(--surface-raised, #faf6ef), 0 0 0 6px var(--rule, #c6c2b6)',
+        boxShadow:
+          '0 0 0 2px var(--ink, #26221f), 0 0 0 5px var(--surface-raised, #faf6ef), 0 0 0 6px var(--rule, #c6c2b6)',
         cursor: 'grab',
         touchAction: 'none',
       }}

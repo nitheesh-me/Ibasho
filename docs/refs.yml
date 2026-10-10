@@ -176,3 +176,24 @@ proof-carrying-numbers:
   author: "Solatorio, Aivin V."
   date: 2025
   url: https://arxiv.org/abs/2509.06902
+hines-spotlighting:
+  type: Article
+  title: "Defending Against Indirect Prompt Injection Attacks With Spotlighting"
+  author: ["Hines, Keegan", "Lopez, Gary", "Hall, Matthew", "Zarfati, Federico", "Zunger, Yonatan", "Kiciman, Emre"]
+  date: 2024
+  url: https://arxiv.org/abs/2403.14720
+ollama-api:
+  type: Web
+  title: "Ollama API"
+  author: "Ollama"
+  url: https://github.com/ollama/ollama/blob/main/docs/api.md
+hono:
+  type: Web
+  title: "Hono web framework"
+  author: "Wada, Yusuke"
+  url: https://hono.dev
+private-network-access:
+  type: Web
+  title: "Private Network Access"
+  author: "W3C WICG"
+  url: https://wicg.github.io/private-network-access/

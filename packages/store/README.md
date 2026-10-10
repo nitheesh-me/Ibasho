@@ -1,16 +1,17 @@
 # @ibasho/store
 
-Dexie database `ibasho` v1, repositories including the `MemoryRepo`, migrations, `.ibasho` export and import codec.
+Dexie database `ibasho`, repositories, migrations.
 
-- **Owner:** WP-08 (App shell and store). Skeleton created by WP-00 at G0.
+- **Owner:** WP-08 (App shell and store).
 - **Layer:** L1 (imports L0 only). See ARCHITECTURE 3 and `.dependency-cruiser.cjs`.
 
 ## Public API
 
-Repositories per ARCH 9; implements `MemoryRepo` from `@ibasho/core`.
+- `createDb()`, `createStore(db, clock?)`: repositories per ARCH 9 (homes, results, keeping the last `RESULTS_PER_HOME` per home).
+- `DB_VERSION`, `V1`, `MIGRATIONS`, `applyMigrations`: the schema and the migration scaffold.
 
-## Status
+## Stubs
 
-Everything.
+- PLACEHOLDER: the `MemoryRepo` and the `.ibasho` export and import codec are PLACEHOLDER (M-P, M-D, T2); storage persistence status too.
 
 Commands: `pnpm --filter @ibasho/store typecheck`, `pnpm --filter @ibasho/store test`.

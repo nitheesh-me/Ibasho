@@ -3,7 +3,13 @@
  * skeleton it is given, which is the template narrator's own output, so it can sit in a registry
  * beside LLM providers and pass through the same grounding.
  */
-import type { NarrationChunk, NarrationRequest, NarratorProvider, ProviderCapabilities, ProviderStatus } from '@ibasho/core';
+import type {
+  NarrationChunk,
+  NarrationRequest,
+  NarratorProvider,
+  ProviderCapabilities,
+  ProviderStatus,
+} from '@ibasho/core';
 
 export class TemplateProvider implements NarratorProvider {
   readonly id = 'template';
@@ -14,7 +20,13 @@ export class TemplateProvider implements NarratorProvider {
   }
 
   capabilities(): ProviderCapabilities {
-    return { locality: 'device', structuredOutput: 'json', toolUse: 'none', streaming: true, contextTokens: 0 };
+    return {
+      locality: 'device',
+      structuredOutput: 'json',
+      toolUse: 'none',
+      streaming: true,
+      contextTokens: 0,
+    };
   }
 
   async *narrate(req: NarrationRequest): AsyncIterable<NarrationChunk> {

@@ -81,7 +81,9 @@ export function withFixtureJunctions(twin: HomeTwin): HomeTwin {
     const u1 = alongX ? b.max[0] : b.max[2];
     const tag = w.id.replace(/^wall-/, '');
     if (floor) {
-      out.push(junction(`jn-ground-${tag}`, 'ground-floor', [w.id, floor.id], [pt(u0, b.min[1]), pt(u1, b.min[1])]));
+      out.push(
+        junction(`jn-ground-${tag}`, 'ground-floor', [w.id, floor.id], [pt(u0, b.min[1]), pt(u1, b.min[1])]),
+      );
     }
     for (let s = 1; s < storeys; s++) {
       out.push(junction(`jn-floor${s}-${tag}`, 'intermediate-floor', [w.id], [pt(u0, s * h), pt(u1, s * h)]));
@@ -98,10 +100,12 @@ export function withFixtureJunctions(twin: HomeTwin): HomeTwin {
       const pc = centroid(p.geometry.polygon);
       const u = alongX ? pc[0] : pc[2];
       out.push(
-        junction(`jn-party-${tag}-${p.id.replace(/^party-/, '')}`, 'party-wall', [w.id, p.id], [
-          pt(u, b.min[1]),
-          pt(u, b.max[1]),
-        ]),
+        junction(
+          `jn-party-${tag}-${p.id.replace(/^party-/, '')}`,
+          'party-wall',
+          [w.id, p.id],
+          [pt(u, b.min[1]), pt(u, b.max[1])],
+        ),
       );
     }
   }

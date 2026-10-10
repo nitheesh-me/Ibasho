@@ -2,7 +2,16 @@
  * Router, outbound ledger and the grounding loop (AM 3.3, AM 4.2, SPEC 5.14).
  * AC-N3: a provider failure falls back to the template within 100 ms.
  */
-import type { AppEvent, EventBus, NarrationChunk, NarrationDraft, NarrationRequest, NarratorProvider, ProviderCapabilities, ProviderStatus } from '@ibasho/core';
+import type {
+  AppEvent,
+  EventBus,
+  NarrationChunk,
+  NarrationDraft,
+  NarrationRequest,
+  NarratorProvider,
+  ProviderCapabilities,
+  ProviderStatus,
+} from '@ibasho/core';
 import { describe, expect, it } from 'vitest';
 import { groundDraft } from '../src/grounding/ground.ts';
 import { nodesToString } from '../src/grounding/render.ts';
@@ -41,7 +50,13 @@ class Scripted implements NarratorProvider {
     return { state: 'ready' };
   }
   capabilities(): ProviderCapabilities {
-    return { locality: this.locality, structuredOutput: 'json-schema', toolUse: 'none', streaming: true, contextTokens: 8192 };
+    return {
+      locality: this.locality,
+      structuredOutput: 'json-schema',
+      toolUse: 'none',
+      streaming: true,
+      contextTokens: 8192,
+    };
   }
   async *narrate(req: NarrationRequest): AsyncIterable<NarrationChunk> {
     const key = req.sections[0]!;
@@ -53,7 +68,13 @@ class Scripted implements NarratorProvider {
         await new Promise(() => {});
         return;
       case 'cloud-send':
-        this.ledger?.record({ providerId: this.id, locality: 'cloud', purpose: 'narrate', endpoint: 'https://example.invalid', payload: { skel } });
+        this.ledger?.record({
+          providerId: this.id,
+          locality: 'cloud',
+          purpose: 'narrate',
+          endpoint: 'https://example.invalid',
+          payload: { skel },
+        });
         yield { section: key, delta: skel };
         break;
       case 'digits':
@@ -79,7 +100,9 @@ const monotonic = () => performance.now();
 
 describe('NarratorRouter', () => {
   it('lists providers with locality badges, template first', () => {
-    const r = new NarratorRouter({ providers: [new Scripted('ollama', 'echo'), new Scripted('claude', 'echo', 'cloud')] });
+    const r = new NarratorRouter({
+      providers: [new Scripted('ollama', 'echo'), new Scripted('claude', 'echo', 'cloud')],
+    });
     expect(r.list()).toEqual([
       { id: 'template', displayName: 'Ibasho (built in)', locality: 'device', badge: 'On this device' },
       { id: 'ollama', displayName: 'ollama', locality: 'localhost', badge: 'On your computer' },
@@ -89,7 +112,9 @@ describe('NarratorRouter', () => {
   });
 
   it('auto picks a ready device or localhost provider, never cloud; the owner choice wins', async () => {
-    const r = new NarratorRouter({ providers: [new Scripted('claude', 'echo', 'cloud'), new Scripted('ollama', 'echo')] });
+    const r = new NarratorRouter({
+      providers: [new Scripted('claude', 'echo', 'cloud'), new Scripted('ollama', 'echo')],
+    });
     expect(r.selected()).toBe('template');
     await r.probeAll();
     expect(r.selected()).toBe('ollama');
@@ -116,13 +141,19 @@ describe('NarratorRouter', () => {
     expect(polished.provider).toBe('ollama');
     expect(polished.sections[0]!.origin).toBe('llm');
     expect(nodesToString(polished.sections[0]!.nodes)).toMatch(/^Put simply: /);
-    expect(events.filter((e) => e.t === 'narration.state').map((e) => (e as { generating: boolean }).generating)).toEqual([true, false]);
+    expect(
+      events.filter((e) => e.t === 'narration.state').map((e) => (e as { generating: boolean }).generating),
+    ).toEqual([true, false]);
   });
 
   for (const behaviour of ['throw', 'hang'] as const) {
     it(`AC-N3: a provider that ${behaviour}s falls back to the template within 100 ms`, async () => {
       const story = gh1Story();
-      const r = new NarratorRouter({ providers: [new Scripted('ollama', behaviour)], clock: monotonic, timeoutMs: behaviour === 'hang' ? 60 : 30_000 });
+      const r = new NarratorRouter({
+        providers: [new Scripted('ollama', behaviour)],
+        clock: monotonic,
+        timeoutMs: behaviour === 'hang' ? 60 : 30_000,
+      });
       await r.probeAll();
       const t0 = performance.now();
       const out = r.narrate(story, [{ section: 'overview' }]);
@@ -150,7 +181,11 @@ describe('NarratorRouter', () => {
   it('a cloud send without consent sends nothing and falls back; with consent it is ledgered', async () => {
     const story = gh1Story();
     const ledger = new OutboundLedger();
-    const r = new NarratorRouter({ providers: [new Scripted('claude', 'cloud-send', 'cloud', undefined, ledger)], ledger, choice: 'claude' });
+    const r = new NarratorRouter({
+      providers: [new Scripted('claude', 'cloud-send', 'cloud', undefined, ledger)],
+      ledger,
+      choice: 'claude',
+    });
     await r.probeAll();
     const first = await r.narrate(story, [{ section: 'overview' }]).polished;
     expect(first.provider).toBe('template');
@@ -168,11 +203,23 @@ describe('OutboundLedger', () => {
     const l = new OutboundLedger({ clock: () => 'T', limit: 2 });
     const seen: number[] = [];
     const off = l.subscribe((e) => seen.push(e.seq));
-    l.record({ providerId: 'ollama', locality: 'localhost', purpose: 'narrate', endpoint: 'x', payload: { b: 1, a: 'é' } });
+    l.record({
+      providerId: 'ollama',
+      locality: 'localhost',
+      purpose: 'narrate',
+      endpoint: 'x',
+      payload: { b: 1, a: 'é' },
+    });
     expect(l.list()[0]).toMatchObject({ seq: 1, at: 'T', payload: '{"a":"é","b":1}', bytes: 16 });
     let err: unknown;
     try {
-      l.record({ providerId: 'claude', locality: 'cloud', purpose: 'narrate', endpoint: 'x', payload: { q: 1 } });
+      l.record({
+        providerId: 'claude',
+        locality: 'cloud',
+        purpose: 'narrate',
+        endpoint: 'x',
+        payload: { q: 1 },
+      });
     } catch (e) {
       err = e;
     }
@@ -195,29 +242,49 @@ describe('groundDraft: one structured repair, then per-section template fallback
   const bill = story.roles['home.bill']!;
 
   it('accepts a clean draft as llm', async () => {
-    const out = await groundDraft({ sections: [{ key: 'overview', text: `You spend about [[e:${bill}|approx]] on energy.` }] }, skeleton, story.bundle, { provider: 'x' });
+    const out = await groundDraft(
+      { sections: [{ key: 'overview', text: `You spend about [[e:${bill}|approx]] on energy.` }] },
+      skeleton,
+      story.bundle,
+      { provider: 'x' },
+    );
     expect(out.sections[0]!.origin).toBe('llm');
     expect(out.issues).toEqual([]);
   });
 
   it('asks for exactly one repair with the issues, and uses the repaired text when it validates', async () => {
     const calls: unknown[] = [];
-    const out = await groundDraft({ sections: [{ key: 'overview', text: 'You spend 1840 pounds.' }] }, skeleton, story.bundle, {
-      provider: 'x',
-      repair: async (r) => {
-        calls.push(r);
-        return { sections: [{ key: 'overview', text: `You spend about [[e:${bill}|approx]].` }] };
+    const out = await groundDraft(
+      { sections: [{ key: 'overview', text: 'You spend 1840 pounds.' }] },
+      skeleton,
+      story.bundle,
+      {
+        provider: 'x',
+        repair: async (r) => {
+          calls.push(r);
+          return { sections: [{ key: 'overview', text: `You spend about [[e:${bill}|approx]].` }] };
+        },
       },
-    });
+    );
     expect(calls).toHaveLength(1);
-    expect((calls[0] as { sections: { issues: { rule: string }[] }[] }).sections[0]!.issues.map((i) => i.rule)).toContain('G2');
+    expect(
+      (calls[0] as { sections: { issues: { rule: string }[] }[] }).sections[0]!.issues.map((i) => i.rule),
+    ).toContain('G2');
     expect(out.sections[0]!.origin).toBe('llm');
     expect(nodesToString(out.sections[0]!.nodes)).toBe('You spend about £1,840 a year.');
   });
 
   it('falls back to the template when the repair still fails or throws', async () => {
-    for (const repair of [async () => ({ sections: [{ key: 'overview' as const, text: 'Still 1840.' }] }), async () => Promise.reject(new Error('down'))]) {
-      const out = await groundDraft({ sections: [{ key: 'overview', text: 'You spend 1840 pounds.' }] }, skeleton, story.bundle, { provider: 'x', repair });
+    for (const repair of [
+      async () => ({ sections: [{ key: 'overview' as const, text: 'Still 1840.' }] }),
+      async () => Promise.reject(new Error('down')),
+    ]) {
+      const out = await groundDraft(
+        { sections: [{ key: 'overview', text: 'You spend 1840 pounds.' }] },
+        skeleton,
+        story.bundle,
+        { provider: 'x', repair },
+      );
       expect(out.sections[0]!.origin).toBe('template');
       expect(nodesToString(out.sections[0]!.nodes)).not.toMatch(/1840\b/);
     }
@@ -227,13 +294,18 @@ describe('groundDraft: one structured repair, then per-section template fallback
     const b = structuredClone(story.bundle);
     b.memory.preferences.rejected = { loft: { scope: 'never', at: '2026-01-01T00:00:00Z' } };
     let repairs = 0;
-    const out = await groundDraft({ sections: [{ key: 'overview', text: 'Add [[m:loft-300]] first.' }] }, narrateTemplate({ ...story, bundle: b }, [{ section: 'overview' }]), b, {
-      provider: 'x',
-      repair: async () => {
-        repairs++;
-        return { sections: [] };
+    const out = await groundDraft(
+      { sections: [{ key: 'overview', text: 'Add [[m:loft-300]] first.' }] },
+      narrateTemplate({ ...story, bundle: b }, [{ section: 'overview' }]),
+      b,
+      {
+        provider: 'x',
+        repair: async () => {
+          repairs++;
+          return { sections: [] };
+        },
       },
-    });
+    );
     expect(repairs).toBe(0);
     expect(out.sections[0]!.origin).toBe('template');
     expect(out.issues.map((i) => i.rule)).toContain('G6');
@@ -251,7 +323,12 @@ describe('groundDraft: one structured repair, then per-section template fallback
     const polished = await r.narrate(story, [{ section: 'overview' }]).polished;
     expect(p.repairs).toBe(1);
     expect(polished.sections[0]!.origin).toBe('template');
-    const fixed = new Scripted('ollama', 'digits', 'localhost', () => `About [[e:${bill}|approx]] goes on energy.`);
+    const fixed = new Scripted(
+      'ollama',
+      'digits',
+      'localhost',
+      () => `About [[e:${bill}|approx]] goes on energy.`,
+    );
     const r2 = new NarratorRouter({ providers: [fixed] });
     await r2.probeAll();
     const p2 = await r2.narrate(story, [{ section: 'overview' }]).polished;
@@ -260,7 +337,14 @@ describe('groundDraft: one structured repair, then per-section template fallback
 
   it('TemplateProvider streams the skeleton back unchanged', async () => {
     const chunks = [];
-    for await (const c of new TemplateProvider().narrate({ bundle: story.bundle, sections: ['overview'], skeleton: { overview: 'Hi.' }, voice: 'warm', maxTokens: 1 })) chunks.push(c);
+    for await (const c of new TemplateProvider().narrate({
+      bundle: story.bundle,
+      sections: ['overview'],
+      skeleton: { overview: 'Hi.' },
+      voice: 'warm',
+      maxTokens: 1,
+    }))
+      chunks.push(c);
     expect(chunks).toEqual([{ section: 'overview', delta: 'Hi.' }, { done: true }]);
   });
 });

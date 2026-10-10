@@ -27,16 +27,34 @@ export function Highlight() {
     [palette.windowGlow],
   );
   useEffect(() => () => mat.dispose(), [mat]);
-  if (!t || t.kind !== 'element') return null;
+  if (t?.kind !== 'element') return null;
   const surfaces = composed.filter((c) => c.surface.elementId === t.id && c.mode === 'solid');
   const opening = house.openings.find((o) => o.elementId === t.id);
   return (
     <OverlayGroup name="highlight">
       {surfaces.flatMap((c) => [
-        <mesh key={`${c.surface.key}:o`} geometry={capOf(house, c.surface, 'outer')} material={mat} position={c.offset} renderOrder={3} />,
-        <mesh key={`${c.surface.key}:i`} geometry={capOf(house, c.surface, 'inner')} material={mat} position={c.offset} renderOrder={3} />,
+        <mesh
+          key={`${c.surface.key}:o`}
+          geometry={capOf(house, c.surface, 'outer')}
+          material={mat}
+          position={c.offset}
+          renderOrder={3}
+        />,
+        <mesh
+          key={`${c.surface.key}:i`}
+          geometry={capOf(house, c.surface, 'inner')}
+          material={mat}
+          position={c.offset}
+          renderOrder={3}
+        />,
       ])}
-      {opening ? <mesh geometry={partsOf(house, opening).glass ?? partsOf(house, opening).frame} material={mat} renderOrder={3} /> : null}
+      {opening ? (
+        <mesh
+          geometry={partsOf(house, opening).glass ?? partsOf(house, opening).frame}
+          material={mat}
+          renderOrder={3}
+        />
+      ) : null}
     </OverlayGroup>
   );
 }

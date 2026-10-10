@@ -15,7 +15,6 @@ import {
   type Bounds3,
   bounds3,
   centroid,
-  cross,
   dot,
   newellNormal,
   normalize,
@@ -455,8 +454,7 @@ export function buildHouse(twin: HomeTwin): HouseModel {
   }
 
   const chimneys: Chimney[] = [];
-  const nChim =
-    numCentral(twin.ventilation.chimneysOpen) + numCentral(twin.ventilation.chimneysBlocked);
+  const nChim = numCentral(twin.ventilation.chimneysOpen) + numCentral(twin.ventilation.chimneysBlocked);
   if (nChim > 0 && ridgeY > eavesY) {
     const open = numCentral(twin.ventilation.chimneysOpen) > 0;
     const party = twin.elements.filter((e) => e.kind === 'party-wall');
@@ -607,7 +605,12 @@ export function layoutRooms(
   return out;
 }
 
-function stairsFor(inner: HouseModel['inner'], storeyHeight: number, frontNormal: Vec3, rooms: Room[]): Stairs {
+function stairsFor(
+  inner: HouseModel['inner'],
+  storeyHeight: number,
+  frontNormal: Vec3,
+  rooms: Room[],
+): Stairs {
   const risers = Math.max(10, Math.round(storeyHeight / 0.205));
   const rise = storeyHeight / risers;
   const going = 0.24;
@@ -660,6 +663,9 @@ export function drawnIds(model: HouseModel): { elements: Set<string>; junctions:
 /** Planar 2D ring of a surface in its own frame (for shapes and point sampling). */
 export function surfaceRing2(s: Surface): { outer: Vec2[]; holes: Vec2[][] } {
   const f = s.frame;
-  const to = (p: Vec3): Vec2 => [dot([p[0] - f.origin[0], p[1] - f.origin[1], p[2] - f.origin[2]], f.u), dot([p[0] - f.origin[0], p[1] - f.origin[1], p[2] - f.origin[2]], f.v)];
+  const to = (p: Vec3): Vec2 => [
+    dot([p[0] - f.origin[0], p[1] - f.origin[1], p[2] - f.origin[2]], f.u),
+    dot([p[0] - f.origin[0], p[1] - f.origin[1], p[2] - f.origin[2]], f.v),
+  ];
   return { outer: s.polygon.map(to), holes: s.holes.map((h) => h.map(to)) };
 }

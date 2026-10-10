@@ -1,16 +1,16 @@
 # @ibasho/tools-verify
 
-`pnpm verify [cert]`: runs the Lean checker on a certificate or the golden set.
+`pnpm verify [cert ...]`: runs the Lean checker (`proofs/.lake/build/bin/ibasho-check`) and the TS mirror (`@ibasho/verify`) on each certificate and requires them to agree on every verdict and on the exit code. With no argument it runs the committed set in `packages/fixtures/src/certs/`: the golden must pass and each mutant must fail its named check.
 
-- **Owner:** WP-04 (Lean and verify). Skeleton created by WP-00 at G0.
-- **Layer:** Tool. See ARCHITECTURE 3 and `.dependency-cruiser.cjs`.
+- **Owner:** WP-04 (Lean and verify).
+- **Layer:** Tool. Imports `packages/verify/src` by relative path.
 
 ## Public API
 
-CLI only.
+CLI (`src/cli.ts`); `main`, `runOne`, `runCommitted` from `src/run.ts` for tests.
 
 ## Status
 
-`verify` exits 1 with a message until WP-04 implements it.
+Done for M-0. Build the Lean checker first: `cd proofs && lake build ibasho-check` (without it the tool runs the mirror only and says so).
 
-Commands: `pnpm --filter @ibasho/tools-verify typecheck`, `pnpm --filter @ibasho/tools-verify test`.
+Commands: `pnpm verify`, `pnpm --filter @ibasho/tools-verify typecheck`, `pnpm --filter @ibasho/tools-verify test`.

@@ -36,7 +36,11 @@ describe('intent parser (E3)', () => {
 
   it('every gold op is valid against the default catalogue', () => {
     for (const { ops } of gold.items) {
-      const v = validateOps(ops, { catalogue: defaultCatalogue(), preferences: prefs, now: '2026-10-11T00:00:00Z' });
+      const v = validateOps(ops, {
+        catalogue: defaultCatalogue(),
+        preferences: prefs,
+        now: '2026-10-11T00:00:00Z',
+      });
       expect(v.rejected).toEqual([]);
     }
   });

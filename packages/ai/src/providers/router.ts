@@ -99,7 +99,9 @@ export class NarratorRouter {
 
   /** Providers with their locality badges, template first. */
   list(): ProviderInfo[] {
-    const out: ProviderInfo[] = [{ id: 'template', displayName: 'Ibasho (built in)', locality: 'device', badge: LOCALITY_BADGE.device }];
+    const out: ProviderInfo[] = [
+      { id: 'template', displayName: 'Ibasho (built in)', locality: 'device', badge: LOCALITY_BADGE.device },
+    ];
     for (const p of this.providers.values()) {
       const locality = p.capabilities().locality;
       out.push({ id: p.id, displayName: p.displayName, locality, badge: LOCALITY_BADGE[locality] });
@@ -108,7 +110,8 @@ export class NarratorRouter {
   }
 
   setChoice(id: string): void {
-    if (id !== 'auto' && id !== 'template' && !this.providers.has(id)) throw new Error(`unknown provider ${id}`);
+    if (id !== 'auto' && id !== 'template' && !this.providers.has(id))
+      throw new Error(`unknown provider ${id}`);
     this.choice = id;
   }
 
@@ -146,10 +149,17 @@ export class NarratorRouter {
   }
 
   /** Template now, polish later. `reqs` must have distinct section keys (chapters one at a time). */
-  narrate(story: Story, reqs: readonly SectionRequest[], opts: { voice?: Voice; question?: string; maxTokens?: number; signal?: AbortSignalLike } = {}): NarrateResult {
+  narrate(
+    story: Story,
+    reqs: readonly SectionRequest[],
+    opts: { voice?: Voice; question?: string; maxTokens?: number; signal?: AbortSignalLike } = {},
+  ): NarrateResult {
     const t0 = this.clock();
     const skeleton = narrateTemplate(story, reqs);
-    const template = { ...renderTemplate(skeleton, story.bundle, this.opts.validate), latencyMs: this.clock() - t0 };
+    const template = {
+      ...renderTemplate(skeleton, story.bundle, this.opts.validate),
+      latencyMs: this.clock() - t0,
+    };
     const providerId = this.selected();
     const provider = this.providers.get(providerId);
     if (!provider) return { template, polished: Promise.resolve(template), providerId: 'template' };
@@ -167,7 +177,9 @@ export class NarratorRouter {
     const req: NarrationRequest = {
       bundle: story.bundle,
       sections: skeleton.sections.map((s) => s.key),
-      skeleton: Object.fromEntries(skeleton.sections.map((s) => [s.key, s.text])) as Partial<Record<SectionKey, string>>,
+      skeleton: Object.fromEntries(skeleton.sections.map((s) => [s.key, s.text])) as Partial<
+        Record<SectionKey, string>
+      >,
       voice: opts.voice ?? 'warm',
       maxTokens: opts.maxTokens ?? 800,
     };
@@ -177,7 +189,11 @@ export class NarratorRouter {
     opts.signal?.addEventListener('abort', onOuter);
     if (opts.signal?.aborted) abort.abort();
     let timer: unknown;
-    const fallback = (): RenderedNarration => ({ ...template, provider: 'template', latencyMs: this.clock() - t0 });
+    const fallback = (): RenderedNarration => ({
+      ...template,
+      provider: 'template',
+      latencyMs: this.clock() - t0,
+    });
     this.opts.bus?.emit({ t: 'narration.state', generating: true, origin: 'llm' });
     try {
       const timeout = new Promise<never>((_, reject) => {
@@ -193,7 +209,10 @@ export class NarratorRouter {
         provider: provider.id,
         clock: this.clock,
         ...(isRepairCapable(provider)
-          ? { repair: (r: Parameters<RepairCapable['repair']>[1]) => Promise.race([provider.repair(req, r, abort), timeout]) }
+          ? {
+              repair: (r: Parameters<RepairCapable['repair']>[1]) =>
+                Promise.race([provider.repair(req, r, abort), timeout]),
+            }
           : {}),
       };
       const out = await groundDraft(draft, skeleton, story.bundle, groundOpts);
@@ -209,7 +228,11 @@ export class NarratorRouter {
 }
 
 /** Gather a provider's streamed chunks into a draft. */
-async function collect(provider: NarratorProvider, req: NarrationRequest, signal: AbortSignalLike): Promise<NarrationDraft> {
+async function collect(
+  provider: NarratorProvider,
+  req: NarrationRequest,
+  signal: AbortSignalLike,
+): Promise<NarrationDraft> {
   const text = new Map<SectionKey, string>();
   for await (const chunk of provider.narrate(req, signal)) {
     if (signal.aborted) throw new Error('aborted');

@@ -606,10 +606,10 @@
       "lowestRunningCarbon": 5
     },
     "schema": "ibasho.cert/2",
-    "specHash": "placeholder-spec-hash"
+    "specHash": "ab8d651f8635c66f6e8151f53924e43b01f7de605bc861aa67d21bdf7a4cc80b"
   },
   "front": [1, 4, 5],
-  "hash": "4a702ec8c4cc0ac5df2a54e58eb624f1a64270da81b17612e6299acd5e48b2a0",
+  "hash": "70396ff299cea8a4fef14199a9d03df527378c3a70404a98cddc9fc2b1bdfdd1",
   "needsCheck": [3, 6, 7],
   "note": "GH1, M-0 slice (loft-300, draught, heat-ashp), no budget, default target. Generated; do not edit.",
   "owner": {
@@ -713,5 +713,5 @@
     "lowestRunningCarbon": 5
   },
   "schema": "ibasho.results-fixture/1",
-  "specHash": "placeholder-spec-hash"
+  "specHash": "ab8d651f8635c66f6e8151f53924e43b01f7de605bc861aa67d21bdf7a4cc80b"
 }

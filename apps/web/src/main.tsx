@@ -1,20 +1,17 @@
 /**
- * Entry. Owner: WP-08 (everything except `public/assets/**`, which is WP-11). SKELETON (G0): renders a blank Andon page. The module manifest is in `manifest.ts`.
+ * Entry. Owner: WP-08. Andon styles, then the router under `/app/`.
  */
+import '@ibasho/ui/andon.css';
+import './app.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './andon-blank.css';
-import { manifest } from './manifest.ts';
-
-function Blank() {
-  const modules = manifest.engine.length + manifest.ui.length;
-  return <main data-andon="blank" data-modules={modules} aria-label="Ibasho" />;
-}
+import { RouterProvider } from 'react-router';
+import { createRouter } from './routes.tsx';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('missing #root');
 createRoot(root).render(
   <StrictMode>
-    <Blank />
+    <RouterProvider router={createRouter()} />
   </StrictMode>,
 );

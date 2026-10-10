@@ -22,7 +22,8 @@
     "smoke": "playwright test -c tests/smoke/playwright.config.ts",
     "proofs": "cd proofs && lake build && lake exe ibasho-gen",
     "verify": "pnpm --filter @ibasho/tools-verify run verify",
-    "assets": "pnpm --filter @ibasho/tools-assets run assets"
+    "assets": "pnpm --filter @ibasho/tools-assets run assets",
+    "agent:install": "node tools/agent-install/src/cli.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

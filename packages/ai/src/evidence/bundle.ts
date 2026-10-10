@@ -156,7 +156,11 @@ function signOf(kind: EvidenceKind, value: EvidenceItem['value']): EvidenceItem[
 }
 
 /** Content-addressed bundle id; ignores the clock and memory so variants stay stable on revisit. */
-export function bundleSeed(items: readonly EvidenceItem[], facts: readonly OwnerFact[], locale: string): string {
+export function bundleSeed(
+  items: readonly EvidenceItem[],
+  facts: readonly OwnerFact[],
+  locale: string,
+): string {
   return `b_${canonicalHash({ items, facts, locale }).slice(0, 24)}`;
 }
 
@@ -205,19 +209,25 @@ export function buildBundle(input: BundleInput): BuiltBundle {
 
   for (const d of input.derived ?? []) {
     const missing = d.of.filter((r) => !Object.hasOwn(roles, r));
-    if (missing.length > 0) throw new BundleError(`${d.role}: derived from unknown roles ${missing.join(', ')}`);
+    if (missing.length > 0)
+      throw new BundleError(`${d.role}: derived from unknown roles ${missing.join(', ')}`);
     const unit: DisplayUnit = d.unit ?? (d.kind === 'rank' ? 'rank' : d.kind === 'percent' ? '%' : '');
     const of = d.of.map((r) => roles[r]);
     const id = claim(d.role);
     items.push({
       id,
-      hash: d.hash ?? `dv_${canonicalHash({ kind: d.kind, label: d.label, value: d.value, of }).slice(0, 20)}`,
+      hash:
+        d.hash ?? `dv_${canonicalHash({ kind: d.kind, label: d.label, value: d.value, of }).slice(0, 20)}`,
       kind: d.kind,
       label: d.label,
       value: d.value,
       unit,
       subject: d.subject ?? {},
-      provenance: { source: d.source ?? 'engine', modelVersion: input.modelVersion, inputsHash: canonicalHash(of).slice(0, 20) },
+      provenance: {
+        source: d.source ?? 'engine',
+        modelVersion: input.modelVersion,
+        inputsHash: canonicalHash(of).slice(0, 20),
+      },
       rounding: d.rounding ?? DEFAULT_ROUNDING[unit],
     });
   }

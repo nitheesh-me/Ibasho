@@ -29,7 +29,15 @@ function HeatFlowOverlay(p: LayerProps) {
 }
 function HeatFlowStill(_p: LayerProps) {
   const d = useSceneData();
-  return <HeatFlowMotes house={d.house} quantities={d.quantities} reducedMotion night={d.theme === 'yoru'} store={d.store} />;
+  return (
+    <HeatFlowMotes
+      house={d.house}
+      quantities={d.quantities}
+      reducedMotion
+      night={d.theme === 'yoru'}
+      store={d.store}
+    />
+  );
 }
 function HeatFlowSvg(_p: LayerProps) {
   const d = useSceneData();
@@ -53,6 +61,7 @@ function HeatFlowSvg(_p: LayerProps) {
     return out;
   }, [d.house, d.quantities, d.camera]);
   return (
+    // biome-ignore lint/a11y/noAriaHiddenOnFocusable: a decorative, non-focusable group; the outline carries the data
     <g className="ib-svg-motes" aria-hidden="true">
       {dots.map((m, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: motes are positional and never reorder
@@ -84,6 +93,7 @@ function ZoneSvg(_p: LayerProps) {
   const basis = cameraBasis(d.camera);
   const temps = new Map(d.quantities.zones.map((z) => [z.zone, z.tempC]));
   return (
+    // biome-ignore lint/a11y/noAriaHiddenOnFocusable: a decorative, non-focusable group; the outline carries the data
     <g className="ib-svg-zones" aria-hidden="true">
       {d.house.rooms.map((r) => {
         const pts: [number, number, number][] = [

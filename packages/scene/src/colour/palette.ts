@@ -2,7 +2,15 @@
  * Scene colours from the Andon tokens (DESIGN_SYSTEM 2). Owner: WP-07.
  * The scene never invents hues: everything is a token, the Netsu ramp, or a material texture.
  */
-import { CORE, type CoreName, NETSU, type Oklch, oklabToLinear, oklchToHex, oklchToOklab } from '@ibasho/ui/tokens';
+import {
+  CORE,
+  type CoreName,
+  NETSU,
+  type Oklch,
+  oklabToLinear,
+  oklchToHex,
+  oklchToOklab,
+} from '@ibasho/ui/tokens';
 
 export type Theme = 'hiru' | 'yoru';
 

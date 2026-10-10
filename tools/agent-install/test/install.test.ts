@@ -5,6 +5,7 @@
  */
 import { spawnSync } from 'node:child_process';
 import {
+  chmodSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -130,6 +131,20 @@ describe('L7 installer', () => {
     expect(uninstall(opts('direct'), { claude: u.run }).removed).toBe(true);
     expect(u.calls).toEqual([['mcp', 'remove', 'ibasho', '--scope', 'user']]);
     expect(snapshot(root)).toEqual(before);
+  });
+
+  it('writes settings atomically: mode kept, no temp files left behind', () => {
+    const path = join(layout.home, '.claude', 'settings.json');
+    chmodSync(path, 0o600);
+    install(opts('direct'), { claude: fakeClaude().run });
+    const dir = join(layout.home, '.claude');
+    expect(statSync(path).mode & 0o777).toBe(0o600);
+    const backup = readdirSync(dir).find((f) => f.startsWith('settings.json.ibasho-backup-'));
+    expect(statSync(join(dir, backup ?? '')).mode & 0o777).toBe(0o600);
+    expect(readdirSync(dir).filter((f) => f.endsWith('.tmp'))).toEqual([]);
+    uninstall(opts('direct'), { claude: fakeClaude().run });
+    expect(statSync(path).mode & 0o777).toBe(0o600);
+    expect(readdirSync(dir).filter((f) => f.endsWith('.tmp'))).toEqual([]);
   });
 
   it('plugin mode registers the local marketplace and uninstalls byte-identically', () => {

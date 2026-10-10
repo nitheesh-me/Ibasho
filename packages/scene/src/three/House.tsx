@@ -3,11 +3,12 @@
  * roof, floors, openings), plus derived structure. Meshes carry `userData.elementId` for
  * picking (ARCH 10). Owner: WP-07.
  */
+
+import type { Vec3 } from '@ibasho/core';
 import { Line } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
 import { useMemo } from 'react';
 import type { Material } from 'three';
-import type { Vec3 } from '@ibasho/core';
 import type { ComposedSurface } from '../camera/compose.ts';
 import { targetOfHit } from '../select/store.ts';
 import type { SurfaceRole } from '../twin/house.ts';
@@ -22,7 +23,8 @@ function materialsFor(role: SurfaceRole, m: HouseMaterials): Material[] {
     case 'party-wall':
       return [m.partyPlaster, m.partyPlaster, m.partyPlaster];
     case 'gable':
-      return [m.brick, m.brick, m.brick];
+      // Brick outside, plaster inside: from the cutaway the far gable reads as the room's wall.
+      return [m.brick, m.plaster, m.brick];
     case 'roof-slope':
       return [m.slate, m.rafter, m.rafter];
     case 'loft-floor':
@@ -77,7 +79,9 @@ function SurfaceMesh({ c }: { c: ComposedSurface }) {
   }, [materials, s.role, c.opacity]);
   if (c.mode === 'hidden' || !materials) return null;
   if (c.mode === 'cut') {
-    const pts = [...s.polygon, s.polygon[0]!].map((p) => [p[0] + c.offset[0], p[1] + c.offset[1], p[2] + c.offset[2]] as Vec3);
+    const pts = [...s.polygon, s.polygon[0]!].map(
+      (p) => [p[0] + c.offset[0], p[1] + c.offset[1], p[2] + c.offset[2]] as Vec3,
+    );
     return (
       <group>
         <Line points={pts} color={palette.sectionCut} lineWidth={2.2} dashed dashSize={0.25} gapSize={0.12} />
@@ -116,11 +120,34 @@ function Openings() {
         const ud = { elementId: o.elementId };
         return (
           <group key={o.elementId}>
-            <mesh geometry={p.frame} material={materials.frame} userData={ud} castShadow={settings.shadows} {...h} />
+            <mesh
+              geometry={p.frame}
+              material={materials.frame}
+              userData={ud}
+              castShadow={settings.shadows}
+              {...h}
+            />
             {p.glass ? <mesh geometry={p.glass} material={materials.glass} userData={ud} {...h} /> : null}
-            {p.sill ? <mesh geometry={p.sill} material={materials.stone} userData={ud} castShadow={settings.shadows} receiveShadow {...h} /> : null}
+            {p.sill ? (
+              <mesh
+                geometry={p.sill}
+                material={materials.stone}
+                userData={ud}
+                castShadow={settings.shadows}
+                receiveShadow
+                {...h}
+              />
+            ) : null}
             <mesh geometry={p.lintel} material={materials.brickDressing} userData={ud} {...h} />
-            {p.leaf ? <mesh geometry={p.leaf} material={materials.leaf} userData={ud} castShadow={settings.shadows} {...h} /> : null}
+            {p.leaf ? (
+              <mesh
+                geometry={p.leaf}
+                material={materials.leaf}
+                userData={ud}
+                castShadow={settings.shadows}
+                {...h}
+              />
+            ) : null}
           </group>
         );
       })}
@@ -134,11 +161,11 @@ function Chimneys({ lift }: { lift: number }) {
   if (!materials) return null;
   return (
     <group position={[0, lift, 0]}>
-      {house.chimneys.map((c, i) => {
+      {house.chimneys.map((c) => {
         const ud = c.elementId ? { elementId: c.elementId } : {};
         const top = c.base[1] + c.size[1];
         return (
-          <group key={`ch${i}`}>
+          <group key={c.elementId ?? `ch:${c.base.join(',')}`}>
             <mesh
               position={[c.base[0], c.base[1] + c.size[1] / 2, c.base[2]]}
               material={materials.brick}
@@ -149,14 +176,19 @@ function Chimneys({ lift }: { lift: number }) {
             >
               <boxGeometry args={c.size} />
             </mesh>
-            <mesh position={[c.base[0], top + 0.04, c.base[2]]} material={materials.stone} userData={ud} {...h}>
+            <mesh
+              position={[c.base[0], top + 0.04, c.base[2]]}
+              material={materials.stone}
+              userData={ud}
+              {...h}
+            >
               <boxGeometry args={[c.size[0] + 0.1, 0.08, c.size[2] + 0.1]} />
             </mesh>
-            {[-0.22, 0.22].map((dz, k) => {
+            {[-0.22, 0.22].map((dz) => {
               const along = c.size[2] >= c.size[0];
               return (
                 <mesh
-                  key={k}
+                  key={dz}
                   position={[c.base[0] + (along ? 0 : dz), top + 0.24, c.base[2] + (along ? dz : 0)]}
                   material={materials.pot}
                   userData={ud}
@@ -179,8 +211,14 @@ function StairFlights() {
   if (!materials) return null;
   return (
     <group>
-      {stairsOf(house).map((g, i) => (
-        <mesh key={`st${i}`} geometry={g} material={materials.stair} castShadow={settings.shadows} receiveShadow />
+      {stairsOf(house).map((g) => (
+        <mesh
+          key={g.uuid}
+          geometry={g}
+          material={materials.stair}
+          castShadow={settings.shadows}
+          receiveShadow
+        />
       ))}
     </group>
   );

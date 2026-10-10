@@ -7,8 +7,16 @@
  * Run: `pnpm --filter @ibasho/ai gen:engine-graph` (or `-- --check` to fail on drift).
  * Owner: WP-05.
  */
+import { spawnSync } from 'node:child_process';
 import { readFileSync, renameSync, writeFileSync } from 'node:fs';
-import { type AnyPlugin, canonicalJson, createRegistry, type EngineApi, type IbashoModule } from '@ibasho/core';
+import { fileURLToPath } from 'node:url';
+import {
+  type AnyPlugin,
+  canonicalJson,
+  createRegistry,
+  type EngineApi,
+  type IbashoModule,
+} from '@ibasho/core';
 import { parseTwin } from '@ibasho/core/schemas';
 import { ENGINE_STORY_QUANTITIES } from '../src/evidence/engine-story.ts';
 
@@ -30,7 +38,8 @@ interface EngineModule {
 }
 
 const mods: IbashoModule[] = [];
-for (const rel of MODULES) mods.push(((await import(new URL(rel, root).href)) as { default: IbashoModule }).default);
+for (const rel of MODULES)
+  mods.push(((await import(new URL(rel, root).href)) as { default: IbashoModule }).default);
 const eng = (await import(new URL('packages/engine/src/index.ts', root).href)) as EngineModule;
 const plugins: AnyPlugin[] = [];
 for (const m of mods) plugins.push(...(await m.load()));
@@ -44,7 +53,9 @@ await engine.init(
   mods.map((m) => m.id),
   shared.fingerprint({ side: 'both' }),
 );
-const twin = parseTwin(JSON.parse(readFileSync(new URL('packages/fixtures/src/homes/gh1.twin.json', root), 'utf8')));
+const twin = parseTwin(
+  JSON.parse(readFileSync(new URL('packages/fixtures/src/homes/gh1.twin.json', root), 'utf8')),
+);
 const job = await engine.search({
   twin,
   owner: { tenure: 'owner', discountRatePpb: 35_000_000n, horizonYears: 25 },
@@ -67,8 +78,9 @@ const out = {
 };
 const text = `${JSON.stringify(JSON.parse(canonicalJson(out)), null, 1)}\n`;
 if (process.argv.includes('--check')) {
-  const have = readFileSync(OUT, 'utf8');
-  if (have !== text) {
+  // Compare content, not bytes: the repo formatter owns the layout.
+  const have = canonicalJson(JSON.parse(readFileSync(OUT, 'utf8')));
+  if (have !== canonicalJson(out)) {
     console.error('gh1.engine.graph.json is stale: run pnpm --filter @ibasho/ai gen:engine-graph');
     process.exit(1);
   }
@@ -77,5 +89,10 @@ if (process.argv.includes('--check')) {
   const tmp = new URL('gh1.engine.graph.json.tmp', OUT);
   writeFileSync(tmp, text);
   renameSync(tmp, OUT);
+  // Lay it out the way `pnpm lint` (Biome) expects.
+  spawnSync('pnpm', ['exec', 'biome', 'format', '--write', fileURLToPath(OUT)], {
+    cwd: fileURLToPath(root),
+    stdio: 'ignore',
+  });
   console.log(`wrote gh1.engine.graph.json (${nodes.length} nodes, result ${r.hash.slice(0, 12)})`);
 }

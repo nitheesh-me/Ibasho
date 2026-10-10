@@ -3,6 +3,8 @@
  * paper; muted paper interiors; insulation as soft quilted paper in `--good-soft`).
  * Procedural canvas textures stand in when the hero assets are absent. Owner: WP-07.
  */
+
+import { xoshiro128ss } from '@ibasho/core';
 import {
   CanvasTexture,
   type Color,
@@ -15,7 +17,6 @@ import {
   type Texture,
   TextureLoader,
 } from 'three';
-import { xoshiro128ss } from '@ibasho/core';
 import { palette, type Theme } from '../colour/palette.ts';
 import { type SceneAssets, textureSet } from './assets.ts';
 
@@ -208,7 +209,11 @@ export function createMaterials(theme: Theme, tex: TextureBundle): HouseMaterial
   const night = theme === 'yoru';
   const brickTex = tex.brick ? undefined : brickCanvas();
   const brick = withSet(
-    std({ color: tex.brick ? '#e8ddd2' : '#ffffff', ...(brickTex ? { map: brickTex } : {}), roughness: 0.92 }),
+    std({
+      color: tex.brick ? '#e8ddd2' : '#ffffff',
+      ...(brickTex ? { map: brickTex } : {}),
+      roughness: 0.92,
+    }),
     tex.brick,
   );
   const brickDressing = std({ color: night ? '#6a5a4c' : '#e9dfcf', roughness: 0.85 });
@@ -220,7 +225,11 @@ export function createMaterials(theme: Theme, tex: TextureBundle): HouseMaterial
   const quilt = std({ color: p.quilt, roughness: 1, ...(quiltTex ? { map: quiltTex } : {}) });
   const ceiling = std({ color: p.ceiling, roughness: 0.95 });
   const boardsTex = boardsCanvas(p.floorBoards);
-  const boards = std({ color: boardsTex ? '#ffffff' : p.floorBoards, roughness: 0.75, ...(boardsTex ? { map: boardsTex } : {}) });
+  const boards = std({
+    color: boardsTex ? '#ffffff' : p.floorBoards,
+    roughness: 0.75,
+    ...(boardsTex ? { map: boardsTex } : {}),
+  });
   const joist = std({ color: p.timber, roughness: 0.9 });
   const frame = std({ color: p.frame, roughness: 0.6 });
   const glass = std({
@@ -238,7 +247,10 @@ export function createMaterials(theme: Theme, tex: TextureBundle): HouseMaterial
   const stair = std({ color: p.timber, roughness: 0.7 });
   const plinth = std({ color: p.plinth, roughness: 1 });
   const plinthSide = std({ color: p.ground, roughness: 1 });
-  const pavement = withSet(std({ color: tex.pavement ? '#e6e1d8' : p.ground, roughness: 0.95 }), tex.pavement);
+  const pavement = withSet(
+    std({ color: tex.pavement ? '#e6e1d8' : p.ground, roughness: 0.95 }),
+    tex.pavement,
+  );
   const pot = std({ color: night ? '#5a3324' : '#b9694a', roughness: 0.8 });
   const section = new MeshBasicMaterial({ color: p.sectionCut, side: DoubleSide });
   const all = [

@@ -67,7 +67,13 @@ export class OutboundLedger {
    * Record a send. Throws `ConsentRequiredError` for a cloud provider without consent, so the caller
    * shows the preview and sends nothing.
    */
-  record(e: { providerId: string; locality: Locality; purpose: string; endpoint: string; payload: unknown }): LedgerEntry {
+  record(e: {
+    providerId: string;
+    locality: Locality;
+    purpose: string;
+    endpoint: string;
+    payload: unknown;
+  }): LedgerEntry {
     const payload = canonicalJson(e.payload);
     if (e.locality === 'cloud' && !this.consented.has(e.providerId)) {
       throw new ConsentRequiredError(e.providerId, payload);

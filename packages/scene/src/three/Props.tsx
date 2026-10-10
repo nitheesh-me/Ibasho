@@ -23,7 +23,12 @@ class Boundary extends Component<{ fallback: ReactNode; children: ReactNode }, {
 function Block({ p }: { p: PropItem }) {
   const { palette, settings } = useSceneData();
   return (
-    <mesh position={[p.position[0], p.position[1] + p.size[1] / 2, p.position[2]]} rotation={[0, p.rotY, 0]} castShadow={settings.shadows} receiveShadow>
+    <mesh
+      position={[p.position[0], p.position[1] + p.size[1] / 2, p.position[2]]}
+      rotation={[0, p.rotY, 0]}
+      castShadow={settings.shadows}
+      receiveShadow
+    >
       <boxGeometry args={p.size} />
       <meshStandardMaterial color={palette.ceiling} roughness={1} />
     </mesh>
@@ -55,6 +60,7 @@ function Model({ p, url }: { p: PropItem; url: string }) {
     });
     return root;
   }, [gltf, palette.ceiling, settings.shadows, theme]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a new prop object is the trigger to rebake
   useEffect(() => {
     invalidateBake();
   }, [obj, invalidateBake]);

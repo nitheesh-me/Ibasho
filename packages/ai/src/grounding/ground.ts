@@ -48,10 +48,17 @@ export async function groundDraft(
   if (new Set(draft.sections.map((s) => s.key)).size !== draft.sections.length) {
     throw new Error('draft has duplicate section keys; ground one chapter at a time');
   }
-  for (const s of draft.sections) current.set(s.key, { text: s.text, issues: validateSection(s.key, s.text, bundle, opts) });
+  for (const s of draft.sections)
+    current.set(s.key, { text: s.text, issues: validateSection(s.key, s.text, bundle, opts) });
   for (const key of templateText.keys()) {
     if (!current.has(key)) {
-      const issue: ValidationIssue = { rule: 'G1', section: key, span: [0, 0], detail: 'section missing from draft', severity: 'repair' };
+      const issue: ValidationIssue = {
+        rule: 'G1',
+        section: key,
+        span: [0, 0],
+        detail: 'section missing from draft',
+        severity: 'repair',
+      };
       current.set(key, { text: '', issues: [issue] });
     }
   }
@@ -87,11 +94,17 @@ export async function groundDraft(
       sections.push({ key, nodes: renderText(v.text, bundle, opts), origin: 'llm' });
     } else if (tmpl !== undefined) {
       const check = validateSection(key, tmpl, bundle, opts);
-      if (check.length > 0) throw new Error(`template section ${key} fails ${check.map((c) => c.rule).join(', ')}`);
+      if (check.length > 0)
+        throw new Error(`template section ${key} fails ${check.map((c) => c.rule).join(', ')}`);
       sections.push({ key, nodes: renderText(tmpl, bundle, opts), origin: 'template' });
     }
   }
-  const out: RenderedNarration = { sections, issues: allIssues, provider: opts.provider, latencyMs: clock() - t0 };
+  const out: RenderedNarration = {
+    sections,
+    issues: allIssues,
+    provider: opts.provider,
+    latencyMs: clock() - t0,
+  };
   if (opts.model !== undefined) out.model = opts.model;
   return out;
 }
@@ -106,7 +119,10 @@ export function renderTemplate(
   const sections: RenderedNarration['sections'] = template.sections.map((s) => {
     const found = validateSection(s.key, s.text, bundle, opts);
     issues.push(...found);
-    if (found.length > 0) throw new Error(`template section ${s.key} fails ${found.map((f) => `${f.rule} ${f.detail}`).join('; ')}`);
+    if (found.length > 0)
+      throw new Error(
+        `template section ${s.key} fails ${found.map((f) => `${f.rule} ${f.detail}`).join('; ')}`,
+      );
     return { key: s.key, nodes: renderText(s.text, bundle, opts), origin: 'template' as const };
   });
   return { sections, issues, provider: 'template', latencyMs: 0 };

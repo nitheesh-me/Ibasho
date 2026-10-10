@@ -38,23 +38,48 @@ export interface QuarantineResult {
 
 const FLAG_RULES: readonly { flag: InjectionFlag; re: RegExp }[] = [
   // Override attempts in the languages the corpus covers (fr, es, de, it, nl, pt, ja, hi).
-  { flag: 'override-instructions', re: /\b(?:ignorez|ignora|ignoriere|ignore|negeer)\b[^.!?\n]{0,30}\b(?:instructions?|instrucciones|anweisungen|istruzioni|instructies|instruções|instrucoes)\b|指示を無視|निर्देशों को अनदेखा/i },
-  { flag: 'override-instructions', re: /\b(?:ignore|disregard|forget|override|bypass)\b[^.!?\n]{0,40}\b(?:instructions?|rules?|prompts?|guidelines|above|previous|prior|everything)\b/i },
-  { flag: 'addressed-to-ai', re: /\b(?:ai|assistant|chatbot|language model|llm|narrator|model|claude|gpt|ollama|qwen)\b[^.!?\n]{0,30}\b(?:must|should|will|shall|please|always|never)\b|\b(?:dear|attention|note to|hey|hi)\s+(?:ai|assistant|narrator|model|bot)\b|\byou are (?:now|a|an)\b|\bnew instructions?\b|\bpretend\b|\bact as\b/i },
-  { flag: 'role-words', re: /(?:^|\n|\s)(?:system|assistant|developer|user)\s*[:>]|<\/?(?:system|assistant|user|im_start|im_end|instructions?)\b|\[(?:system|inst)\]/i },
+  {
+    flag: 'override-instructions',
+    re: /\b(?:ignorez|ignora|ignoriere|ignore|negeer)\b[^.!?\n]{0,30}\b(?:instructions?|instrucciones|anweisungen|istruzioni|instructies|instruções|instrucoes)\b|指示を無視|निर्देशों को अनदेखा/i,
+  },
+  {
+    flag: 'override-instructions',
+    re: /\b(?:ignore|disregard|forget|override|bypass)\b[^.!?\n]{0,40}\b(?:instructions?|rules?|prompts?|guidelines|above|previous|prior|everything)\b/i,
+  },
+  {
+    flag: 'addressed-to-ai',
+    re: /\b(?:ai|assistant|chatbot|language model|llm|narrator|model|claude|gpt|ollama|qwen)\b[^.!?\n]{0,30}\b(?:must|should|will|shall|please|always|never)\b|\b(?:dear|attention|note to|hey|hi)\s+(?:ai|assistant|narrator|model|bot)\b|\byou are (?:now|a|an)\b|\bnew instructions?\b|\bpretend\b|\bact as\b/i,
+  },
+  {
+    flag: 'role-words',
+    re: /(?:^|\n|\s)(?:system|assistant|developer|user)\s*[:>]|<\/?(?:system|assistant|user|im_start|im_end|instructions?)\b|\[(?:system|inst)\]/i,
+  },
   { flag: 'url', re: /\bhttps?:\/\/|\bwww\.[a-z0-9-]+\.|\b[a-z0-9-]+\.(?:com|net|org|io|ru|xyz|co\.uk)\b/i },
   { flag: 'encoded-blob', re: /[A-Za-z0-9+/]{40,}={0,2}|(?:%[0-9a-f]{2}){6,}|(?:\\u[0-9a-f]{4}){4,}/i },
   { flag: 'markup', re: /<!--|-->|```|<script|<\/?[a-z]+[^>]*>|\]\(|\u200b|\u200c|\u200d|\u2060|\ufeff/i },
-  { flag: 'memory-planting', re: /\b(?:remember|memori[sz]e) (?:this|that)\s*[:,]|\b(?:remember|memori[sz]e|store|save|note) (?:that|this)?\s*(?:the )?(?:owner|user|they|i|we)\b|\bthe owner (?:wants|prefers|has agreed|agreed|insists|always wants)\b|\badd (?:this )?to (?:your |the )?memory\b/i },
-  { flag: 'op-triggering', re: /\b(?:set|change|raise|increase|lower|reduce|update)\s+(?:the\s+)?(?:budget|horizon|tariff|thermostat|setpoint|target)\b|\b(?:add|remove|apply|reject|select|choose)\s+(?:the\s+)?(?:measure|package|option|op)\b|\bsetBudget\b|\baddMeasure\b|\brejectMeasure\b|\bsetParam\b/i },
-  { flag: 'number-planting', re: /\b(?:say|state|tell (?:them|the owner|people|buyers)|report|claim|write|show)\b[^.!?\n]{0,50}(?:\d|percent|per cent|%|\b(?:half|double|twice|triple|quarter|third|zero|one|two|three|four|five|six|seven|eight|nine|ten|twenty|fifty|hundred|thousand)\b)/i },
+  {
+    flag: 'memory-planting',
+    re: /\b(?:remember|memori[sz]e) (?:this|that)\s*[:,]|\b(?:remember|memori[sz]e|store|save|note) (?:that|this)?\s*(?:the )?(?:owner|user|they|i|we)\b|\bthe owner (?:wants|prefers|has agreed|agreed|insists|always wants)\b|\badd (?:this )?to (?:your |the )?memory\b/i,
+  },
+  {
+    flag: 'op-triggering',
+    re: /\b(?:set|change|raise|increase|lower|reduce|update)\s+(?:the\s+)?(?:budget|horizon|tariff|thermostat|setpoint|target)\b|\b(?:add|remove|apply|reject|select|choose)\s+(?:the\s+)?(?:measure|package|option|op)\b|\bsetBudget\b|\baddMeasure\b|\brejectMeasure\b|\bsetParam\b/i,
+  },
+  {
+    flag: 'number-planting',
+    re: /\b(?:say|state|tell (?:them|the owner|people|buyers)|report|claim|write|show)\b[^.!?\n]{0,50}(?:\d|percent|per cent|%|\b(?:half|double|twice|triple|quarter|third|zero|one|two|three|four|five|six|seven|eight|nine|ten|twenty|fifty|hundred|thousand)\b)/i,
+  },
 ];
 
 /** Decode the most common obfuscations before scanning (zero-width characters, spaced letters). */
 function scanForms(text: string): string[] {
   const noZw = text.replace(/[\u200b-\u200d\u2060\ufeff]/g, '');
   const despaced = noZw.replace(/\b(?:[a-z] ){3,}[a-z]\b/gi, (m) => m.replace(/ /g, ''));
-  const leet = despaced.replace(/[0134578@$]/g, (c) => ({ '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '8': 'b', '@': 'a', $: 's' })[c] ?? c);
+  const leet = despaced.replace(
+    /[0134578@$]/g,
+    (c) =>
+      ({ '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '8': 'b', '@': 'a', $: 's' })[c] ?? c,
+  );
   return [text, noZw, despaced, leet];
 }
 
@@ -77,7 +102,8 @@ function clauses(text: string): string[] {
     .filter((s) => s.length > 0);
 }
 
-const IMPERATIVE = /^(?:please\s+)?(?:ignore|disregard|forget|override|say|tell|write|state|report|claim|set|change|add|remove|apply|reject|remember|recommend|always|never|you (?:must|should|will)|do not|don't|output|print|respond|reply|act|pretend)\b/i;
+const IMPERATIVE =
+  /^(?:please\s+)?(?:ignore|disregard|forget|override|say|tell|write|state|report|claim|set|change|add|remove|apply|reject|remember|recommend|always|never|you (?:must|should|will)|do not|don't|output|print|respond|reply|act|pretend)\b/i;
 
 /** Clauses that read as instructions, normalised for the validator's G8 copy check. */
 function imperativeFragments(text: string, flagged: boolean): string[] {
@@ -87,12 +113,16 @@ function imperativeFragments(text: string, flagged: boolean): string[] {
     .map((c) => c.slice(0, 200));
 }
 
-const NEG = /\b(?:no|not|never|won't|wont|don't|dont|do not|refuse|without|avoid|against|hate|dislike|rather not|isn't|cannot|can't|mustn't)\b/i;
+const NEG =
+  /\b(?:no|not|never|won't|wont|don't|dont|do not|refuse|without|avoid|against|hate|dislike|rather not|isn't|cannot|can't|mustn't)\b/i;
 const POS = /\b(?:want|wants|like|keen|love|would like|interested|happy to|planning|plan to|prefer|yes)\b/i;
-const HISTORY = /\b(?:was|were|had|has been|have been|installed|fitted|replaced|boarded|added|done|in (?:19|20)\d\d|last year|years ago|previous owner)\b/i;
+const HISTORY =
+  /\b(?:was|were|had|has been|have been|installed|fitted|replaced|boarded|added|done|in (?:19|20)\d\d|last year|years ago|previous owner)\b/i;
 const HISTORY_STRONG = /\b(?:installed|fitted|replaced|boarded|removed|in (?:19|20)\d\d|years ago)\b/i;
-const CONDITION = /\b(?:damp|mould|mold|leak|leaks|leaking|crack|cracked|rot|rotten|condensation|draughty|drafty|cold|broken|rust|failing|old|noisy|sagging|blocked)\b/i;
-const CONSTRAINT = /\b(?:conservation area|listed|article 4|freeholder|landlord|lease|leasehold|planning|consent|not allowed|can't|cannot|mustn't|must not|forbidden|council)\b/i;
+const CONDITION =
+  /\b(?:damp|mould|mold|leak|leaks|leaking|crack|cracked|rot|rotten|condensation|draughty|drafty|cold|broken|rust|failing|old|noisy|sagging|blocked)\b/i;
+const CONSTRAINT =
+  /\b(?:conservation area|listed|article 4|freeholder|landlord|lease|leasehold|planning|consent|not allowed|can't|cannot|mustn't|must not|forbidden|council)\b/i;
 
 const BUDGET = /\b(?:budget|afford|spend|money|cost|£|pounds|grand)\b/i;
 const TENURE = /\b(?:rent|renting|tenant|landlord|leasehold|freehold|own the|owner[- ]occupier|mortgage)\b/i;
@@ -113,7 +143,10 @@ function polarityOf(c: string): OwnerFact['polarity'] {
 }
 
 const wordRe = (phrase: string) =>
-  new RegExp(`(?<![\\w-])${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')}(?![\\w-])`, 'i');
+  new RegExp(
+    `(?<![\\w-])${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')}(?![\\w-])`,
+    'i',
+  );
 
 /** Topics a clause talks about, as measure ids, `budget` or `tenure`. */
 function topicsOf(c: string): string[] {
@@ -172,7 +205,13 @@ export function extractFacts(note: QuarantinedNote, homeId = ''): QuarantineResu
       }
     }
   }
-  return { noteId: note.id, facts, flags, fragments: imperativeFragments(note.text, flags.length > 0), seeds };
+  return {
+    noteId: note.id,
+    facts,
+    flags,
+    fragments: imperativeFragments(note.text, flags.length > 0),
+    seeds,
+  };
 }
 
 const TOPIC = z.string().min(1).max(40);
@@ -203,8 +242,15 @@ export function sanitiseFacts(note: QuarantinedNote, raw: unknown): OwnerFact[] 
   const out: OwnerFact[] = [];
   for (const f of parsed.data.facts) {
     const quote = f.quote.replace(/\s+/g, ' ').trim();
-    if (!topics.has(f.topic) || quote === '' || !flat.includes(quote) || injectionFlags(quote).length > 0) continue;
-    out.push({ id: `${note.id}.${out.length + 1}`, kind: f.kind, topic: f.topic, polarity: f.polarity, quote: truncateQuote(quote) });
+    if (!topics.has(f.topic) || quote === '' || !flat.includes(quote) || injectionFlags(quote).length > 0)
+      continue;
+    out.push({
+      id: `${note.id}.${out.length + 1}`,
+      kind: f.kind,
+      topic: f.topic,
+      polarity: f.polarity,
+      quote: truncateQuote(quote),
+    });
   }
   return out;
 }

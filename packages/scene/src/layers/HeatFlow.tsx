@@ -4,18 +4,12 @@
  */
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
-import {
-  AdditiveBlending,
-  BufferAttribute,
-  BufferGeometry,
-  NormalBlending,
-  ShaderMaterial,
-} from 'three';
+import { AdditiveBlending, BufferAttribute, BufferGeometry, NormalBlending, ShaderMaterial } from 'three';
 import { netsuLinear } from '../colour/palette.ts';
 import type { SceneQuantities } from '../quantities/types.ts';
 import type { SelectionStore } from '../select/store.ts';
-import type { HouseModel } from '../twin/house.ts';
 import { OverlayGroup, useTicker } from '../three/overlay.tsx';
+import type { HouseModel } from '../twin/house.ts';
 import { buildMotes, type MoteField } from './motes.ts';
 
 export const MAX_MOTES = 20000;

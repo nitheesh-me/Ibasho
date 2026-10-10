@@ -4,19 +4,18 @@
  * mounted) and a `Bake` part (what only the still-life bake adds), plus the bake recipe the
  * still-life controller runs. Owner: WP-07.
  */
-import type { RenderStylePlugin } from '@ibasho/core';
+import type { RenderStylePlugin, Vec3 } from '@ibasho/core';
 import { AccumulativeShadows, Environment, Lightformer, RandomizedLight } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { Component, type ReactNode, Suspense, useEffect, useMemo } from 'react';
-import { CanvasTexture, SpriteMaterial, AdditiveBlending, SRGBColorSpace } from 'three';
-import type { Vec3 } from '@ibasho/core';
-import { netsuHex } from '../colour/palette.ts';
+import { AdditiveBlending, CanvasTexture, SpriteMaterial, SRGBColorSpace } from 'three';
 import type { Theme } from '../colour/palette.ts';
+import { netsuHex } from '../colour/palette.ts';
+import type { TierSettings } from '../quality/ladder.ts';
 import { plinthOf } from '../svg/project.ts';
 import { hdriFiles } from '../three/assets.ts';
 import { useSceneData } from '../three/context.tsx';
 import type { BakeRecipe } from '../three/StillLife.tsx';
-import type { TierSettings } from '../quality/ladder.ts';
 import { DEFAULT_SUN_TIME, sunAt } from './sun.ts';
 
 class Quiet extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
@@ -39,16 +38,39 @@ function useCentre(): { c: Vec3; r: number } {
 
 function useSun() {
   const { twin } = useSceneData();
-  return useMemo(() => sunAt(new Date(DEFAULT_SUN_TIME), twin.location.lat, twin.location.lon), [twin.location]);
+  return useMemo(
+    () => sunAt(new Date(DEFAULT_SUN_TIME), twin.location.lat, twin.location.lon),
+    [twin.location],
+  );
 }
 
 /** Procedural sky for when the HDRI is missing: soft paper light from above, warm sideways. */
 function PaperSky({ night }: { night: boolean }) {
   return (
     <Environment resolution={64} frames={1}>
-      <Lightformer form="rect" intensity={night ? 0.25 : 1.6} color={night ? '#4a5a78' : '#fff8ee'} scale={[20, 20, 1]} position={[0, 12, 0]} rotation={[Math.PI / 2, 0, 0]} />
-      <Lightformer form="rect" intensity={night ? 0.1 : 0.7} color={night ? '#2a2620' : '#f4e2c8'} scale={[20, 6, 1]} position={[0, 2, -12]} />
-      <Lightformer form="rect" intensity={night ? 0.1 : 0.5} color={night ? '#2a2620' : '#e8eef0'} scale={[20, 6, 1]} position={[0, 2, 12]} rotation={[0, Math.PI, 0]} />
+      <Lightformer
+        form="rect"
+        intensity={night ? 0.25 : 1.6}
+        color={night ? '#4a5a78' : '#fff8ee'}
+        scale={[20, 20, 1]}
+        position={[0, 12, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
+      />
+      <Lightformer
+        form="rect"
+        intensity={night ? 0.1 : 0.7}
+        color={night ? '#2a2620' : '#f4e2c8'}
+        scale={[20, 6, 1]}
+        position={[0, 2, -12]}
+      />
+      <Lightformer
+        form="rect"
+        intensity={night ? 0.1 : 0.5}
+        color={night ? '#2a2620' : '#e8eef0'}
+        scale={[20, 6, 1]}
+        position={[0, 2, 12]}
+        rotation={[0, Math.PI, 0]}
+      />
     </Environment>
   );
 }
@@ -181,15 +203,20 @@ function LeakGlows() {
     const k = Math.sqrt(l.watts / max);
     if (l.kind === 'chimney') {
       const c = house.chimneys[0];
-      if (c) sprites.push({ key: `leak${i}`, p: [c.base[0], c.base[1] + c.size[1] + 0.45, c.base[2]], s: 0.35 + 0.7 * k });
+      if (c)
+        sprites.push({
+          key: `leak${i}`,
+          p: [c.base[0], c.base[1] + c.size[1] + 0.45, c.base[2]],
+          s: 0.35 + 0.7 * k,
+        });
       return;
     }
     const o = house.openings.find((x) => x.elementId === l.elementId);
     if (!o) return;
     const top: Vec3 = [
-      o.corner[0] + o.frame.u[0] * o.width / 2 + o.frame.n[0] * 0.08,
+      o.corner[0] + (o.frame.u[0] * o.width) / 2 + o.frame.n[0] * 0.08,
       o.corner[1] + o.height + 0.02,
-      o.corner[2] + o.frame.u[2] * o.width / 2 + o.frame.n[2] * 0.08,
+      o.corner[2] + (o.frame.u[2] * o.width) / 2 + o.frame.n[2] * 0.08,
     ];
     sprites.push({ key: `leak${i}`, p: top, s: 0.3 + 1.1 * k });
   });

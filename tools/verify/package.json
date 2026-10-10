@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "`pnpm verify [cert]`: runs the Lean checker on a certificate or the golden set.",
+  "description": "`pnpm verify [cert ...]`: runs the Lean checker and the TS mirror on certificates (default: the committed golden and mutant set) and requires them to agree.",
   "exports": {
     ".": "./src/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests",
-    "verify": "node -e \"console.log('tools-verify: not implemented yet (WP-04, M-0)'); process.exit(1)\""
+    "test": "vitest run",
+    "verify": "tsx src/cli.ts"
   }
 }

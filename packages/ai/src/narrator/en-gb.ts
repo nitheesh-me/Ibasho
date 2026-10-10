@@ -35,7 +35,10 @@ export const EN_GB: TemplatePack = {
       'Ranked by heat lost, {e:loss.top.rank} place goes to {t:topLossName}, about {e:loss.top.share|approx} of the total.',
       'Ranked by heat lost, {t:topLossName} take {e:loss.top.rank} place, with about {e:loss.top.share|approx} of the total.',
     ],
-    'chapter.ie.year': ['Keeping it warm takes {e:home.heatDemand}.', 'Heating it takes {e:home.heatDemand}.'],
+    'chapter.ie.year': [
+      'Keeping it warm takes {e:home.heatDemand}.',
+      'Heating it takes {e:home.heatDemand}.',
+    ],
 
     // Chapter 2, Your bills (kan)
     'chapter.kan.open': ["Let's check us against your bills."],
@@ -97,18 +100,26 @@ export const EN_GB: TemplatePack = {
     // Package
     'package.what': ['This future brings {ms:packageMeasures}.', 'This one is {ms:packageMeasures}.'],
     'package.upfront': ['It costs {e:pkg.$p.upfront} upfront.', 'Upfront, it costs {e:pkg.$p.upfront}.'],
-    'package.saving.saving': ['It cuts your bills by {e:pkg.$p.saving|abs}.', 'Your bills go down by {e:pkg.$p.saving|abs}.'],
+    'package.saving.saving': [
+      'It cuts your bills by {e:pkg.$p.saving|abs}.',
+      'Your bills go down by {e:pkg.$p.saving|abs}.',
+    ],
     'package.saving.increase': ['Your bills go up by {e:pkg.$p.saving|abs}.'],
     'package.gas.saving': ['Gas use goes down by {e:pkg.$p.gas|abs}.'],
     'package.gas.increase': ['Gas use goes up by {e:pkg.$p.gas|abs}.'],
     'package.electricity.saving': ['Electricity use goes down by {e:pkg.$p.electricity|abs}.'],
     'package.electricity.increase': ['Electricity use goes up by {e:pkg.$p.electricity|abs}.'],
-    'package.carbon.saving': ['Carbon falls by {e:pkg.$p.carbon|abs}.', 'It cuts carbon by {e:pkg.$p.carbon|abs}.'],
+    'package.carbon.saving': [
+      'Carbon falls by {e:pkg.$p.carbon|abs}.',
+      'It cuts carbon by {e:pkg.$p.carbon|abs}.',
+    ],
     'package.carbon.increase': ['Carbon rises by {e:pkg.$p.carbon|abs}.'],
     'package.payback': ['It pays back in about {e:pkg.$p.payback|approx}.'],
 
     // Trade-off between two picks
-    'tradeoff.upfront': ['{t:nameA} costs {e:pick.$a.upfront} to start. {t:nameB} costs {e:pick.$b.upfront}.'],
+    'tradeoff.upfront': [
+      '{t:nameA} costs {e:pick.$a.upfront} to start. {t:nameB} costs {e:pick.$b.upfront}.',
+    ],
     'tradeoff.saving': [
       '{t:nameA} cuts bills by {e:pick.$a.saving|abs}. {t:nameB} cuts them by {e:pick.$b.saving|abs}.',
     ],
@@ -118,11 +129,12 @@ export const EN_GB: TemplatePack = {
     'tradeoff.fuel': ['With a heat pump, gas goes down and electricity goes up a little.'],
 
     // Answer
-    'answer.found': ['The closest figure we have is {t:label}: {e:$r}.', 'Here is what the model says, {t:label}: {e:$r}.'],
-    'answer.bare': ['The closest figure we have is {e:$r}.'],
-    'answer.none': [
-      "We don't have a figure for that yet. Ask about cost, bills, carbon or comfort.",
+    'answer.found': [
+      'The closest figure we have is {t:label}: {e:$r}.',
+      'Here is what the model says, {t:label}: {e:$r}.',
     ],
+    'answer.bare': ['The closest figure we have is {e:$r}.'],
+    'answer.none': ["We don't have a figure for that yet. Ask about cost, bills, carbon or comfort."],
 
     // Welcome back
     'welcome.greet.one': ["Welcome back. It's been {e:visit.daysSince} day."],

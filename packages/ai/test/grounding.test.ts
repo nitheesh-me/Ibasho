@@ -1,6 +1,8 @@
 /**
  * Slot tokenizer, number formatting and the renderer (AM 3.2, R10, D1).
  */
+
+import type { EvidenceItem } from '@ibasho/core';
 import { describe, expect, it } from 'vitest';
 import { parseDecimal, plain, roundToSig, roundToStep, toDecimal } from '../src/grounding/decimal.ts';
 import { formatItem } from '../src/grounding/format.ts';
@@ -8,7 +10,6 @@ import { nodesToString, RenderError, renderText } from '../src/grounding/render.
 import { SentenceBuffer, sentences } from '../src/grounding/sentences.ts';
 import { maskSlots, slot, tokenize } from '../src/grounding/slots.ts';
 import { gh1Story } from './helpers.ts';
-import type { EvidenceItem } from '@ibasho/core';
 
 const item = (over: Partial<EvidenceItem>): EvidenceItem => ({
   id: 'e1',
@@ -44,22 +45,39 @@ describe('decimal', () => {
 
 describe('formatItem', () => {
   it('formats money, energy, carbon, years, points and ranks in en-GB', () => {
-    expect(formatItem(item({ value: 1843.27, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }))).toBe('£1,840 a year');
-    expect(formatItem(item({ value: -96.4, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }))).toBe('−£100 a year');
-    expect(formatItem(item({ value: -96.4, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }), 'abs')).toBe('£100 a year');
+    expect(formatItem(item({ value: 1843.27, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }))).toBe(
+      '£1,840 a year',
+    );
+    expect(formatItem(item({ value: -96.4, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }))).toBe(
+      '−£100 a year',
+    );
+    expect(
+      formatItem(item({ value: -96.4, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }), 'abs'),
+    ).toBe('£100 a year');
     expect(formatItem(item({ value: { lo: 1820, hi: 2640 }, unit: 'GBP' }))).toBe('£1,820 to £2,640');
-    expect(formatItem(item({ value: { lo: -243, hi: -178 }, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }), 'abs')).toBe('£180 to £240 a year');
+    expect(
+      formatItem(
+        item({ value: { lo: -243, hi: -178 }, unit: 'GBP/yr', rounding: { mode: 'step', value: 10 } }),
+        'abs',
+      ),
+    ).toBe('£180 to £240 a year');
     expect(formatItem(item({ value: 15012.4, unit: 'kWh/yr' }))).toBe('15,000 kWh a year');
     expect(formatItem(item({ value: 3071.6, unit: 'kgCO2e/yr' }))).toBe('3,070 kg CO2e a year');
-    expect(formatItem(item({ value: 11.3, unit: 'yr', rounding: { mode: 'sig', value: 3 } }), 'approx')).toBe('11.5 years');
+    expect(formatItem(item({ value: 11.3, unit: 'yr', rounding: { mode: 'sig', value: 3 } }), 'approx')).toBe(
+      '11.5 years',
+    );
     expect(formatItem(item({ value: 1, unit: 'yr', rounding: { mode: 'step', value: 0.5 } }))).toBe('1 year');
-    expect(formatItem(item({ value: 54, unit: 'pts', rounding: { mode: 'step', value: 1 } }))).toBe('54 points');
+    expect(formatItem(item({ value: 54, unit: 'pts', rounding: { mode: 'step', value: 1 } }))).toBe(
+      '54 points',
+    );
     expect(formatItem(item({ value: 41.3, unit: '%', rounding: { mode: 'step', value: 1 } }))).toBe('41%');
     expect(formatItem(item({ value: 1, unit: 'rank', kind: 'rank' }))).toBe('first');
     expect(formatItem(item({ value: 12, unit: 'rank', kind: 'rank' }))).toBe('number 12');
   });
   it('collapses a range whose ends round to the same value', () => {
-    expect(formatItem(item({ value: { lo: 101, hi: 104 }, unit: 'GBP', rounding: { mode: 'step', value: 10 } }))).toBe('£100');
+    expect(
+      formatItem(item({ value: { lo: 101, hi: 104 }, unit: 'GBP', rounding: { mode: 'step', value: 10 } })),
+    ).toBe('£100');
   });
 });
 
@@ -74,8 +92,19 @@ describe('tokenize', () => {
   it('accepts [[e:e3]] and [[e:3]] alike and rejects malformed slots', () => {
     expect(tokenize('[[e:e3]]')[0]).toMatchObject({ t: 'slot', ref: 'e3' });
     expect(tokenize('[[e:3]]')[0]).toMatchObject({ t: 'slot', ref: 'e3' });
-    for (const bad of ['[[e:x]]', '[[e:3|wild]]', '[[m:Loft_300]]', '[[m:loft|abs]]', '[[q:1]]', '[[e:3', '[[ ]]']) {
-      expect(tokenize(bad).some((x) => x.t === 'bad'), bad).toBe(true);
+    for (const bad of [
+      '[[e:x]]',
+      '[[e:3|wild]]',
+      '[[m:Loft_300]]',
+      '[[m:loft|abs]]',
+      '[[q:1]]',
+      '[[e:3',
+      '[[ ]]',
+    ]) {
+      expect(
+        tokenize(bad).some((x) => x.t === 'bad'),
+        bad,
+      ).toBe(true);
     }
   });
   it('masks slots and builds them', () => {

@@ -65,9 +65,15 @@ importers:
       '@hono/node-server':
         specifier: 2.1.4
         version: 2.1.4(hono@4.13.13)
+      '@ibasho/agent-bridge':
+        specifier: workspace:*
+        version: link:../../packages/agent-bridge
       '@ibasho/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ibasho/verify':
+        specifier: workspace:*
+        version: link:../../packages/verify
       hono:
         specifier: 4.13.13
         version: 4.13.13
@@ -133,6 +139,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@ibasho/agent-bridge':
+        specifier: workspace:*
+        version: link:../../packages/agent-bridge
       '@ibasho/ai':
         specifier: workspace:*
         version: link:../../packages/ai
@@ -145,9 +154,24 @@ importers:
       '@ibasho/engine':
         specifier: workspace:*
         version: link:../../packages/engine
+      '@ibasho/pack-climate':
+        specifier: workspace:*
+        version: link:../../packs/climate
+      '@ibasho/pack-home-uk':
+        specifier: workspace:*
+        version: link:../../packs/home-uk
+      '@ibasho/pack-money-uk':
+        specifier: workspace:*
+        version: link:../../packs/money-uk
+      '@ibasho/pack-rules-uk':
+        specifier: workspace:*
+        version: link:../../packs/rules-uk
       '@ibasho/scene':
         specifier: workspace:*
         version: link:../../packages/scene
+      '@ibasho/spec-gen':
+        specifier: workspace:*
+        version: link:../../packages/spec-gen
       '@ibasho/store':
         specifier: workspace:*
         version: link:../../packages/store

@@ -63,7 +63,9 @@ describe('story from the real engine (GH1, M-0 slice)', () => {
       const item = s.bundle.items.find((i) => i.id === s.roles[role]);
       expect(item && engineIds.has(item.hash as never), role).toBe(true);
     }
-    const gas = nodes.filter((n) => n.subject.packageId === 'baseline' && /^energy\.delivered\.gas\.\d+$/.test(n.quantity));
+    const gas = nodes.filter(
+      (n) => n.subject.packageId === 'baseline' && /^energy\.delivered\.gas\.\d+$/.test(n.quantity),
+    );
     expect(gas).toHaveLength(12);
     let wh = 0n;
     for (const n of gas) wh += BigInt((n.value as { fixed: string }).fixed);

@@ -43,7 +43,18 @@ export function roundFor(d: Decimal, r: EvidenceItem['rounding']): Decimal {
   return roundToStep(d, toDecimal(r.value));
 }
 
-const ORDINAL = ['zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth'];
+const ORDINAL = [
+  'zeroth',
+  'first',
+  'second',
+  'third',
+  'fourth',
+  'fifth',
+  'sixth',
+  'seventh',
+  'eighth',
+  'ninth',
+];
 
 /** Number body with grouping and a true minus. */
 function body(d: Decimal): string {

@@ -152,7 +152,14 @@ export function layoutProps(house: HouseModel): PropItem[] {
         const dbl = D > 3;
         put(r, dbl ? 'kenney-bed-double' : 'kenney-bed-single', W - 1.0, D * 0.5, f.intoRoomFromRight);
         put(r, 'quaternius-night-stand', W - 0.3, D * 0.5 - (dbl ? 1.15 : 0.8), f.intoRoomFromRight);
-        put(r, 'kenney-lamp-round-table', W - 0.3, D * 0.5 - (dbl ? 1.15 : 0.8), f.intoRoomFromRight, ':lamp');
+        put(
+          r,
+          'kenney-lamp-round-table',
+          W - 0.3,
+          D * 0.5 - (dbl ? 1.15 : 0.8),
+          f.intoRoomFromRight,
+          ':lamp',
+        );
         if (dbl) put(r, 'quaternius-curtains-double', W * 0.7, 0.15, f.towardsRear);
         break;
       }
@@ -169,7 +176,8 @@ export function layoutProps(house: HouseModel): PropItem[] {
   }
   // Lamps on night stands sit on top of them.
   for (const p of out) {
-    if (p.assetId === 'kenney-lamp-round-table') p.position = [p.position[0], p.position[1] + 0.55, p.position[2]];
+    if (p.assetId === 'kenney-lamp-round-table')
+      p.position = [p.position[0], p.position[1] + 0.55, p.position[2]];
   }
   return out;
 }

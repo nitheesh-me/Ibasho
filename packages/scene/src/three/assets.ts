@@ -33,7 +33,10 @@ export function assetFile(a: SceneAssets | null | undefined, id: string, role: s
 }
 
 /** Gain-map HDRI triple for drei `<Environment files>` (sdr, gain, meta). */
-export function hdriFiles(a: SceneAssets | null | undefined, id: string): [string, string, string] | undefined {
+export function hdriFiles(
+  a: SceneAssets | null | undefined,
+  id: string,
+): [string, string, string] | undefined {
   if (!a) return undefined;
   const asset = a.manifest.assets.find((x) => x.id === id && x.kind === 'hdri');
   if (!asset) return undefined;
@@ -69,7 +72,9 @@ export function textureSet(a: SceneAssets | null | undefined, id: string): Textu
 
 export function modelUrl(a: SceneAssets | null | undefined, id: string): string | undefined {
   if (!a) return undefined;
-  const asset = a.manifest.assets.find((x) => x.id === id && x.kind === 'model' && (x.status ?? 'ok') === 'ok');
+  const asset = a.manifest.assets.find(
+    (x) => x.id === id && x.kind === 'model' && (x.status ?? 'ok') === 'ok',
+  );
   const f = asset?.files.find((x) => x.path.endsWith('.glb'));
   return f ? `${a.base}${f.path}` : undefined;
 }
@@ -80,7 +85,8 @@ export async function loadAssets(base: string, fetcher: typeof fetch = fetch): P
     const res = await fetcher(`${base}manifest.json`);
     if (!res.ok) return null;
     const json = (await res.json()) as unknown;
-    if (!json || typeof json !== 'object' || !Array.isArray((json as { assets?: unknown }).assets)) return null;
+    if (!json || typeof json !== 'object' || !Array.isArray((json as { assets?: unknown }).assets))
+      return null;
     return { base, manifest: json as AssetManifestLike };
   } catch {
     return null;

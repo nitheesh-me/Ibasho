@@ -143,17 +143,24 @@ export const SUPERLATIVES: Readonly<Record<string, readonly string[]>> = {
 };
 
 /** G5: unit nouns next to a slot, and the item units each one fits. `''` fits any noun. */
-export const UNIT_NOUNS: readonly { re: RegExp; fits: readonly EvidenceItem['unit'][]; side: 'before' | 'after' }[] =
-  [
-    { re: /£\s*$/, fits: ['GBP', 'GBP/yr'], side: 'before' },
-    { re: /^\s*(?:pounds|pound|quid|gbp)\b/i, fits: ['GBP', 'GBP/yr'], side: 'after' },
-    { re: /^\s*(?:kwh|kilowatt[- ]hours?|units)\b/i, fits: ['kWh/yr'], side: 'after' },
-    { re: /^\s*(?:tonnes?|kg|kilograms?|kgco2e)\b/i, fits: ['kgCO2e/yr'], side: 'after' },
-    { re: /^\s*(?:a|per|each|every) year\b|^\s*(?:yearly|annually)\b/i, fits: ['GBP/yr', 'kWh/yr', 'kgCO2e/yr'], side: 'after' },
-    { re: /^\s*(?:years?|yrs?)\b/i, fits: ['yr'], side: 'after' },
-    { re: /^\s*(?:points?|pts)\b/i, fits: ['pts'], side: 'after' },
-    { re: /^\s*(?:%|per ?cent)/i, fits: ['%'], side: 'after' },
-  ];
+export const UNIT_NOUNS: readonly {
+  re: RegExp;
+  fits: readonly EvidenceItem['unit'][];
+  side: 'before' | 'after';
+}[] = [
+  { re: /£\s*$/, fits: ['GBP', 'GBP/yr'], side: 'before' },
+  { re: /^\s*(?:pounds|pound|quid|gbp)\b/i, fits: ['GBP', 'GBP/yr'], side: 'after' },
+  { re: /^\s*(?:kwh|kilowatt[- ]hours?|units)\b/i, fits: ['kWh/yr'], side: 'after' },
+  { re: /^\s*(?:tonnes?|kg|kilograms?|kgco2e)\b/i, fits: ['kgCO2e/yr'], side: 'after' },
+  {
+    re: /^\s*(?:a|per|each|every) year\b|^\s*(?:yearly|annually)\b/i,
+    fits: ['GBP/yr', 'kWh/yr', 'kgCO2e/yr'],
+    side: 'after',
+  },
+  { re: /^\s*(?:years?|yrs?)\b/i, fits: ['yr'], side: 'after' },
+  { re: /^\s*(?:points?|pts)\b/i, fits: ['pts'], side: 'after' },
+  { re: /^\s*(?:%|per ?cent)/i, fits: ['%'], side: 'after' },
+];
 
 /** G6: cues that a sentence acknowledges a ruled-out measure. */
 export const ACKNOWLEDGE_CUES: readonly RegExp[] = [

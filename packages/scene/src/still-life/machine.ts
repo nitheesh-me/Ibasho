@@ -39,7 +39,13 @@ export interface TickInput {
 export function tick(s: StillState, i: TickInput): { state: StillState; action: StillAction } {
   if (i.changed || !i.allowBake) {
     return {
-      state: { ...s, phase: 'live', lastChange: i.changed ? i.now : s.lastChange, bakeFrame: 0, sceneRenders: s.sceneRenders + 1 },
+      state: {
+        ...s,
+        phase: 'live',
+        lastChange: i.changed ? i.now : s.lastChange,
+        bakeFrame: 0,
+        sceneRenders: s.sceneRenders + 1,
+      },
       action: 'live',
     };
   }
@@ -56,7 +62,10 @@ export function tick(s: StillState, i: TickInput): { state: StillState; action: 
 function startOrFinish(s: StillState, frames: number): { state: StillState; action: StillAction } {
   const n = Math.max(1, frames);
   if (s.bakeFrame + 1 >= n) {
-    return { state: { ...s, phase: 'baked', bakeFrame: n, sceneRenders: s.sceneRenders + 1 }, action: 'bake-final' };
+    return {
+      state: { ...s, phase: 'baked', bakeFrame: n, sceneRenders: s.sceneRenders + 1 },
+      action: 'bake-final',
+    };
   }
   return {
     state: { ...s, bakeFrame: s.bakeFrame + 1, sceneRenders: s.sceneRenders + 1 },

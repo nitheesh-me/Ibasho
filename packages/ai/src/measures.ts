@@ -23,7 +23,14 @@ export const MEASURE_CATALOGUE: readonly MeasureEntry[] = [
     id: 'loft',
     name: 'loft insulation',
     options: { 'loft-270': '270 mm loft insulation', 'loft-300': '300 mm loft insulation' },
-    synonyms: ['loft insulation', 'loft', 'attic insulation', 'attic', 'roof insulation', 'insulate the roof'],
+    synonyms: [
+      'loft insulation',
+      'loft',
+      'attic insulation',
+      'attic',
+      'roof insulation',
+      'insulate the roof',
+    ],
   },
   {
     id: 'wall-ewi',
@@ -61,7 +68,17 @@ export const MEASURE_CATALOGUE: readonly MeasureEntry[] = [
     id: 'draught',
     name: 'draught-proofing',
     options: { 'draught-proofing-chimney-balloon': 'draught-proofing and a chimney balloon' },
-    synonyms: ['draught-proofing', 'draught proofing', 'draughtproofing', 'draughts', 'chimney balloon', 'draft proofing', 'draughty', 'drafty', 'chimney'],
+    synonyms: [
+      'draught-proofing',
+      'draught proofing',
+      'draughtproofing',
+      'draughts',
+      'chimney balloon',
+      'draft proofing',
+      'draughty',
+      'drafty',
+      'chimney',
+    ],
   },
   {
     id: 'glazing-secondary',
@@ -79,7 +96,16 @@ export const MEASURE_CATALOGUE: readonly MeasureEntry[] = [
     id: 'controls',
     name: 'heating controls',
     options: { 'controls-trv-weather-comp': 'radiator valves and weather compensation' },
-    synonyms: ['heating controls', 'controls', 'trvs', 'trv', 'thermostatic valves', 'thermostatic radiator valves', 'weather compensation', 'smart thermostat'],
+    synonyms: [
+      'heating controls',
+      'controls',
+      'trvs',
+      'trv',
+      'thermostatic valves',
+      'thermostatic radiator valves',
+      'weather compensation',
+      'smart thermostat',
+    ],
   },
   {
     id: 'mvhr',
@@ -90,13 +116,20 @@ export const MEASURE_CATALOGUE: readonly MeasureEntry[] = [
   {
     id: 'ashp',
     name: 'air source heat pump',
-    options: { 'heat-ashp': 'air source heat pump', 'heat-ashp-radiators-plus': 'heat pump with larger radiators' },
+    options: {
+      'heat-ashp': 'air source heat pump',
+      'heat-ashp-radiators-plus': 'heat pump with larger radiators',
+    },
     synonyms: ['air source heat pump', 'heat pump', 'ashp', 'heatpump'],
   },
   {
     id: 'pv',
     name: 'solar panels',
-    options: { 'pv-2kwp': '2 kWp solar panels', 'pv-3kwp': '3 kWp solar panels', 'pv-4kwp': '4 kWp solar panels' },
+    options: {
+      'pv-2kwp': '2 kWp solar panels',
+      'pv-3kwp': '3 kWp solar panels',
+      'pv-4kwp': '4 kWp solar panels',
+    },
     synonyms: ['solar panels', 'solar pv', 'pv', 'solar', 'photovoltaics', 'panels on the roof'],
   },
   {

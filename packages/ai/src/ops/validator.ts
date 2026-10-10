@@ -79,7 +79,10 @@ export function defaultCatalogue(): OpCatalogue {
   return {
     measures: MEASURE_CATALOGUE.map((m) => {
       const right = NEEDS_RIGHT[m.id];
-      const c: CatalogueMeasure = { id: m.id, options: Object.keys(m.options).map((id) => ({ id, params: {} })) };
+      const c: CatalogueMeasure = {
+        id: m.id,
+        options: Object.keys(m.options).map((id) => ({ id, params: {} })),
+      };
       if (right) c.needsRight = right;
       return c;
     }),
@@ -96,7 +99,10 @@ export function catalogueFromModels(
   return {
     measures: models.map((m) => {
       const right = NEEDS_RIGHT[m.id];
-      const c: CatalogueMeasure = { id: m.id, options: m.options.map((o) => ({ id: o.id, params: o.params })) };
+      const c: CatalogueMeasure = {
+        id: m.id,
+        options: m.options.map((o) => ({ id: o.id, params: o.params })),
+      };
       if (right) c.needsRight = right;
       return c;
     }),
@@ -110,7 +116,10 @@ export function catalogueFromModels(
 
 type Rejection = OpValidation['rejected'][number];
 
-function findMeasure(cat: OpCatalogue, id: string): { measure: CatalogueMeasure; option?: string } | undefined {
+function findMeasure(
+  cat: OpCatalogue,
+  id: string,
+): { measure: CatalogueMeasure; option?: string } | undefined {
   for (const m of cat.measures) {
     if (m.id === id) return { measure: m };
     if (m.options.some((o) => o.id === id)) return { measure: m, option: id };
@@ -137,12 +146,17 @@ function checkAdd(op: Extract<ScenarioOp, { op: 'addMeasure' }>, ctx: OpContext)
   if (ctx.preferences.completed[measure.id]) {
     return { op, code: 'memory-conflict', detail: `${measure.id} is already done` };
   }
-  const right: Right | undefined = measure.needsRight ? ctx.preferences.rights[measure.needsRight] : undefined;
-  if (right === 'no') return { op, code: 'tenure', detail: `needs the right to change the ${measure.needsRight}` };
+  const right: Right | undefined = measure.needsRight
+    ? ctx.preferences.rights[measure.needsRight]
+    : undefined;
+  if (right === 'no')
+    return { op, code: 'tenure', detail: `needs the right to change the ${measure.needsRight}` };
 
-  const optionId = found.option ?? (typeof op.params?.['option'] === 'string' ? op.params['option'] : undefined);
+  const optionId =
+    found.option ?? (typeof op.params?.['option'] === 'string' ? op.params['option'] : undefined);
   const options = optionId ? measure.options.filter((o) => o.id === optionId) : measure.options;
-  if (optionId && options.length === 0) return { op, code: 'unknown-measure', detail: `${measure.id} has no option ${optionId}` };
+  if (optionId && options.length === 0)
+    return { op, code: 'unknown-measure', detail: `${measure.id} has no option ${optionId}` };
   for (const [k, v] of Object.entries(op.params ?? {})) {
     if (k === 'option') continue;
     const defs = options.map((o) => o.params[k]).filter((d): d is MeasureOptionParam => d !== undefined);
@@ -169,7 +183,9 @@ function checkOne(op: ScenarioOp, ctx: OpContext): Rejection | null {
       return checkAdd(op, ctx);
     case 'removeMeasure':
     case 'rejectMeasure':
-      return findMeasure(cat, op.measureId) ? null : { op, code: 'unknown-measure', detail: `no measure ${op.measureId}` };
+      return findMeasure(cat, op.measureId)
+        ? null
+        : { op, code: 'unknown-measure', detail: `no measure ${op.measureId}` };
     case 'setParam': {
       const def = cat.params[op.path];
       if (!def) return { op, code: 'schema', detail: `${op.path} is not an owner lever` };
@@ -244,15 +260,37 @@ export function opPlanJsonSchema(cat: OpCatalogue): Record<string, unknown> {
         type: 'array',
         items: {
           anyOf: [
-            obj('addMeasure', { measureId: measure, params: { type: 'object', additionalProperties: { type: ['number', 'string'] } } }, ['measureId']),
+            obj(
+              'addMeasure',
+              {
+                measureId: measure,
+                params: { type: 'object', additionalProperties: { type: ['number', 'string'] } },
+              },
+              ['measureId'],
+            ),
             obj('removeMeasure', { measureId: measure }, ['measureId']),
-            obj('setParam', { path: { type: 'string', enum: Object.keys(cat.params).sort() }, value: { type: ['number', 'string'] } }, ['path', 'value']),
-            obj('setTariff', { fuel: { type: 'string', enum: Object.keys(cat.tariffs).sort() }, tariffId: str }, ['fuel', 'tariffId']),
+            obj(
+              'setParam',
+              {
+                path: { type: 'string', enum: Object.keys(cat.params).sort() },
+                value: { type: ['number', 'string'] },
+              },
+              ['path', 'value'],
+            ),
+            obj(
+              'setTariff',
+              { fuel: { type: 'string', enum: Object.keys(cat.tariffs).sort() }, tariffId: str },
+              ['fuel', 'tariffId'],
+            ),
             obj('setBudget', { capGBP: { type: 'number' } }, ['capGBP']),
             obj('setHorizon', { years: { type: 'integer' } }, ['years']),
             obj('compare', { scenarioIds: { type: 'array', items: str } }, ['scenarioIds']),
             obj('explain', { evidenceId: str }, ['evidenceId']),
-            obj('rejectMeasure', { measureId: measure, scope: { type: 'string', enum: ['never', 'snooze'] }, reason: str }, ['measureId', 'scope']),
+            obj(
+              'rejectMeasure',
+              { measureId: measure, scope: { type: 'string', enum: ['never', 'snooze'] }, reason: str },
+              ['measureId', 'scope'],
+            ),
           ],
         },
       },

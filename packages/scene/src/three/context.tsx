@@ -3,8 +3,8 @@
  */
 import type { HomeTwin, QualityTier, SearchResult } from '@ibasho/core';
 import { createContext, useContext } from 'react';
-import type { CameraModel } from '../camera/model.ts';
 import type { ComposedSurface, ViewSpec } from '../camera/compose.ts';
+import type { CameraModel } from '../camera/model.ts';
 import type { ScenePalette, Theme } from '../colour/palette.ts';
 import type { TierSettings } from '../quality/ladder.ts';
 import type { SceneQuantities } from '../quantities/types.ts';

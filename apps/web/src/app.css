@@ -1,0 +1,413 @@
+/*
+ * App layout on Andon tokens (DESIGN_SYSTEM 4.3 zones, 4.4 depth, 4.5 grain). Owner: WP-08.
+ * Colours, type and space come from @ibasho/ui tokens only; --seal and --gold are never read here.
+ */
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+body {
+  background-color: var(--surface);
+}
+
+.ib-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ib-skip {
+  position: absolute;
+  left: var(--ma-3);
+  top: -4rem;
+  padding: var(--ma-2) var(--ma-3);
+  background: var(--surface-raised);
+  color: var(--text);
+  z-index: 10;
+}
+.ib-skip:focus {
+  top: var(--ma-3);
+}
+
+.ib-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ top bar */
+
+.ib-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ma-4);
+  padding: var(--ma-3) var(--ma-5);
+  border-bottom: 1px solid var(--line);
+}
+.ib-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-3);
+  color: var(--text);
+  text-decoration: none;
+}
+.ib-brand__mark {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+.ib-brand__name {
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.ib-lantern {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-2);
+  min-height: 44px;
+  padding: 0 var(--ma-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-1);
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-ui);
+  cursor: pointer;
+}
+.ib-lantern__glyph {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.ib-lantern[aria-pressed="true"] {
+  box-shadow: var(--tomoshibi);
+}
+
+.ib-main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* ------------------------------------------------------------------ home stage */
+
+.ib-kicker {
+  display: block;
+  margin: 0 0 var(--ma-2);
+  font-size: var(--fs-cap);
+  font-weight: 500;
+  line-height: var(--lh-cap);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.ib-h2 {
+  margin: 0 0 var(--ma-4);
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-h2);
+}
+.ib-h3 {
+  margin: 0 0 var(--ma-3);
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+
+/* Desktop: Niwa about 62%, then Engawa and Zashiki in the remaining width. */
+.ib-home {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 62fr) minmax(0, 38fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "niwa engawa"
+    "niwa zashiki";
+  min-height: 0;
+}
+
+.ib-niwa {
+  grid-area: niwa;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface-sunk);
+  border-right: 1px solid var(--line);
+}
+.ib-niwa__drawing {
+  flex: 1;
+  min-height: 22rem;
+  padding: var(--ma-5);
+}
+.ib-niwa__caption {
+  margin: 0;
+  padding: 0 var(--ma-5) var(--ma-5);
+  max-width: 34rem;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-ui);
+  line-height: var(--lh-body-mincho);
+  color: var(--text-2);
+}
+
+.ib-engawa {
+  grid-area: engawa;
+  padding: var(--ma-5) var(--ma-6) var(--ma-4);
+  border-bottom: 1px solid var(--line);
+}
+.ib-engawa__line {
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: var(--lh-body-mincho);
+  text-wrap: pretty;
+}
+.ib-inkstone {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-right: var(--ma-3);
+  border-radius: var(--r-mon);
+  background: var(--text-2);
+  vertical-align: 0.05em;
+  animation: ib-breathe 1.6s var(--ease-sumi) infinite alternate;
+}
+@keyframes ib-breathe {
+  from {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+[data-motion="reduced"] .ib-inkstone {
+  animation: none;
+  opacity: 0.6;
+}
+.ib-mended__detail {
+  margin: var(--ma-2) 0 var(--ma-4);
+  font-size: var(--fs-ui);
+  color: var(--text-2);
+}
+.ib-button {
+  appearance: none;
+  min-height: 44px;
+  padding: 0 var(--ma-4);
+  border: 1px solid var(--text);
+  border-radius: var(--r-1);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.ib-zashiki {
+  grid-area: zashiki;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-6);
+  padding: var(--ma-5) var(--ma-6) var(--ma-7);
+  overflow-y: auto;
+}
+
+/* Tokonoma: the one raised card, holding the seals. */
+.ib-tokonoma {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-5);
+  padding: var(--ma-5);
+  background: var(--surface-raised);
+  box-shadow: var(--depth-1);
+}
+.ib-checked {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ma-3) var(--ma-4);
+}
+.ib-checked__note {
+  flex: 1 1 14rem;
+  margin: 0;
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+  color: var(--text-2);
+}
+.ib-tokonoma .ib-claim {
+  padding-top: var(--ma-4);
+  border-top: 1px solid var(--line);
+}
+
+/* Futures: three panels, in fixed order, reading like a folding screen. */
+.ib-futures__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ma-4);
+}
+.ib-future {
+  padding: var(--ma-4) var(--ma-5) var(--ma-5);
+  background: var(--surface-raised);
+  box-shadow: var(--depth-1);
+  border-left: 3px solid var(--line);
+}
+.ib-future__title {
+  margin: 0;
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.ib-future__name {
+  margin: var(--ma-1) 0 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+.ib-future__same {
+  margin: var(--ma-1) 0 0;
+  font-size: var(--fs-ui);
+  color: var(--text-3);
+}
+.ib-future__figures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ma-3) var(--ma-5);
+  margin: var(--ma-4) 0 0;
+}
+.ib-figure dt {
+  font-size: var(--fs-cap);
+  line-height: var(--lh-cap);
+  color: var(--text-2);
+}
+.ib-figure dd {
+  margin: var(--ma-1) 0 0;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+
+.ib-lane__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-3);
+}
+.ib-lane__list li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-1);
+  padding-left: var(--ma-4);
+  border-left: 1px dashed var(--line);
+}
+.ib-lane__list span {
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+  color: var(--text-2);
+}
+
+.ib-kept {
+  margin: 0;
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+
+.ib-zashiki__waiting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-4);
+}
+.ib-ghost {
+  height: 7rem;
+  border: 1px dashed var(--line);
+  opacity: 0.6;
+}
+
+/* Evidence note: a shoji sheet over the room (PLACEHOLDER for the drawer). */
+.ib-sheet {
+  position: fixed;
+  right: var(--ma-4);
+  bottom: var(--ma-4);
+  width: min(26rem, calc(100vw - 2 * var(--ma-4)));
+  padding: var(--ma-5);
+  background: color-mix(in oklch, var(--paper-raised) 92%, transparent);
+  backdrop-filter: blur(6px) saturate(1.1);
+  box-shadow: var(--depth-2);
+  z-index: 5;
+}
+.ib-sheet__value {
+  margin: 0;
+  font-size: var(--fs-h2);
+}
+.ib-sheet__words {
+  margin: var(--ma-3) 0;
+  font-family: var(--font-mincho);
+  line-height: var(--lh-body-mincho);
+}
+.ib-sheet__src {
+  margin: 0 0 var(--ma-4);
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+
+.ib-empty {
+  margin: var(--ma-7) auto;
+  padding: var(--ma-6);
+  max-width: 36rem;
+  background: var(--surface-raised);
+}
+
+/* Tablet and phone: the house on top (about 45%), the room below. */
+@media (max-width: 960px) {
+  .ib-home {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "niwa"
+      "engawa"
+      "zashiki";
+  }
+  .ib-niwa {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .ib-niwa__drawing {
+    height: 45vh;
+    min-height: 16rem;
+    padding: var(--ma-3);
+  }
+  .ib-niwa__caption {
+    padding: 0 var(--ma-4) var(--ma-4);
+  }
+  .ib-engawa,
+  .ib-zashiki {
+    padding-left: var(--ma-4);
+    padding-right: var(--ma-4);
+  }
+  .ib-zashiki {
+    overflow: visible;
+  }
+  .ib-top {
+    padding: var(--ma-2) var(--ma-4);
+  }
+}
+@media (max-width: 420px) {
+  .ib-future__figures {
+    grid-template-columns: 1fr;
+  }
+}

@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@hono/node-server": "2.1.4",
+    "@ibasho/agent-bridge": "workspace:*",
     "@ibasho/core": "workspace:*",
+    "@ibasho/verify": "workspace:*",
     "hono": "4.13.13"
   },
   "devDependencies": {

@@ -5,16 +5,16 @@
  * that hold values but no graph. Untrusted, so it is parsed with zod.
  */
 import {
-  evidenceId,
   type EvidenceNode,
   type EvidenceSubject,
+  evidenceId,
   type MemoryDigest,
   type Unit,
 } from '@ibasho/core';
 import { MemoryEventSchema } from '@ibasho/core/schemas';
 import { z } from 'zod';
-import { buildBundle } from './bundle.ts';
 import type { Story, StoryContext } from '../narrator/template.ts';
+import { buildBundle } from './bundle.ts';
 
 const KIND = z.enum([
   'energy',
@@ -94,7 +94,9 @@ const PICK = z.enum(['leastUpfront', 'bestReturn', 'lowestRunningCarbon']);
 const ContextSpec = z.strictObject({
   topLossName: z.string().exactOptional(),
   leverMeasure: z.string().exactOptional(),
-  picks: z.partialRecord(PICK, z.strictObject({ packageId: z.string(), measures: z.array(z.string()) })).exactOptional(),
+  picks: z
+    .partialRecord(PICK, z.strictObject({ packageId: z.string(), measures: z.array(z.string()) }))
+    .exactOptional(),
   chosen: PICK.exactOptional(),
   nextStep: z.string().exactOptional(),
   packages: z.record(z.string(), z.strictObject({ measures: z.array(z.string()) })).exactOptional(),

@@ -5,8 +5,8 @@
 
 export {
   type BuiltBundle,
-  type BundleInput,
   BundleError,
+  type BundleInput,
   buildBundle,
   bundleSeed,
   type DerivedEntry,
@@ -14,12 +14,25 @@ export {
   type RoleMap,
 } from './evidence/bundle.ts';
 export { buildStory, type StorySpec, StorySpecSchema } from './evidence/spec.ts';
-export { type Decimal, DecimalError, parseDecimal, roundToSig, roundToStep, toDecimal } from './grounding/decimal.ts';
+export {
+  type Decimal,
+  DecimalError,
+  parseDecimal,
+  roundToSig,
+  roundToStep,
+  toDecimal,
+} from './grounding/decimal.ts';
 export { formatItem, type SlotModifier } from './grounding/format.ts';
-export { type GroundOptions, groundDraft, type Repairer, type RepairRequest, renderTemplate } from './grounding/ground.ts';
+export {
+  type GroundOptions,
+  groundDraft,
+  type Repairer,
+  type RepairRequest,
+  renderTemplate,
+} from './grounding/ground.ts';
 export { NUMBER_WORDS, POLARITY_EN_GB } from './grounding/lexicon.ts';
 export { nodesToString, RenderError, type RenderOptions, renderText } from './grounding/render.ts';
-export { SentenceBuffer, type Sentence, sentences } from './grounding/sentences.ts';
+export { type Sentence, SentenceBuffer, sentences } from './grounding/sentences.ts';
 export { maskSlots, type SlotKind, type SlotToken, slot, type Token, tokenize } from './grounding/slots.ts';
 export { activeRejections, type ValidateOptions, validateSection } from './grounding/validate.ts';
 export { MEASURE_CATALOGUE, type MeasureEntry, measureName, measureOf } from './measures.ts';
@@ -102,5 +115,10 @@ export {
   narrationSchema,
   narratorSystemPrompt,
 } from './providers/payload.ts';
-export { type NarrateResult, NarratorRouter, type ProviderInfo, type RouterOptions } from './providers/router.ts';
+export {
+  type NarrateResult,
+  NarratorRouter,
+  type ProviderInfo,
+  type RouterOptions,
+} from './providers/router.ts';
 export { TemplateProvider } from './providers/template-provider.ts';

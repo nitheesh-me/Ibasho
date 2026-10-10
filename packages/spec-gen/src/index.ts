@@ -1,6 +1,5 @@
-// PLACEHOLDER: replaced by ibasho-gen.
-// Owner: WP-04 (from G0). This barrel stays; the files under generated/ are rewritten by
-// `lake exe ibasho-gen` and committed. CI fails on drift once proofs/ exists (ARCH 8.2).
+// Owner: WP-04. The files under generated/ are written by `lake exe ibasho-gen` (ARCH 8.2) and
+// committed; `ibasho-gen --check` fails CI on drift (D6). This barrel is hand written.
 export * from './generated/cert.ts';
 export * from './generated/rules.ts';
 export * from './generated/spec.ts';

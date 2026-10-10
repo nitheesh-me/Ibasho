@@ -1,24 +1,27 @@
 # @ibasho/spec-gen
 
-**PLACEHOLDER: replaced by ibasho-gen.**
+Generated from Lean by `lake exe ibasho-gen` (ARCH 8.2). Do not edit `src/generated/**` by hand.
 
-Owner: WP-00 created the placeholder at G0. From G0, WP-04 (Lean and verify) owns `packages/spec-gen/**` and replaces `src/generated/**` with the output of `lake exe ibasho-gen` (ARCH 8.2).
+- **Owner:** WP-04 (Lean and verify).
+- **Layer:** L0. Imports nothing in the repo.
+- **Regenerate:** `pnpm --filter @ibasho/spec-gen gen` (builds `ibasho-gen` in `proofs/` and writes the files).
+- **Drift gate (D6):** `pnpm --filter @ibasho/spec-gen gen:check` exits 1 if any file differs from the Lean output.
 
-Layer L0. Imports nothing in the repo.
+## Public API
 
-## Public API (shape is final, values are placeholders)
+| Export | File | Lean source | Consumer |
+|---|---|---|---|
+| `Certificate`, `CertGroup`, `CertHome`, `CertOptionMeta`, `CertCheckId`, `CERT_CHECK_IDS`, `CERT_SKIPPED_CHECKS`, `CERT_STATUS`, `CERT_NO_WITNESS` | `generated/cert.ts` | `Ibasho.Check.Ids`, `Check` | engine emitter, verify, store, core |
+| `NamedFn`, `NAMED_FNS`, `NAMED_FN_IMPLEMENTED`, `BUILTIN_RULE_IDS` | `generated/rules.ts` | `Ibasho.Check.Ids` | core registry, rule packs |
+| `SCORE_DIMS`, `SCORE_WEIGHTS`, `SCORE_GROUPS`, `ANCHORS`, `R_TARGET`, `T_CAPS`, `BAND_THRESHOLDS`, `FIXED`, `SEARCH_LIMITS`, `ClaimKey` | `generated/spec.ts` | `Ibasho.Spec.V2.Score`, `Fixed`, `Units` | engine, verify |
+| `SPEC_VERSION`, `SPEC_HASH`, `HISTORICAL_SPEC_HASHES`, `SPEC_GEN_IS_PLACEHOLDER` (false), `SPEC_MANIFEST` | `generated/specHash.ts` | `Ibasho.Check.Manifest` | verify, engine |
+| `@ibasho/spec-gen/cert.schema.json` | JSON | shape of `ibasho.cert/2` | verify, store |
+| `@ibasho/spec-gen/seals.json` | JSON | SPEC 7.3 claims, each theorem's statement and axioms read from the compiled environment | verify, ui, `/app/proofs` |
 
-| Export | From | Consumer |
-|---|---|---|
-| `Certificate`, `CertGroup`, `CertCheckId`, `CERT_CHECK_IDS` | `generated/cert.ts` | engine emitter, verify, store, core (type re-export) |
-| `NamedFn`, `NAMED_FNS` | `generated/rules.ts` | core registry, rule packs |
-| `SCORE_WEIGHTS`, `SCORE_GROUPS`, `BAND_THRESHOLDS`, `FIXED`, `SEARCH_LIMITS` | `generated/spec.ts` | engine, verify |
-| `SPEC_HASH`, `HISTORICAL_SPEC_HASHES`, `SPEC_GEN_IS_PLACEHOLDER` | `generated/specHash.ts` | verify |
-| `@ibasho/spec-gen/cert.schema.json`, `@ibasho/spec-gen/seals.json` | JSON | verify, ui, `/app/proofs` |
+`SPEC_HASH` is the SHA-256 of `SPEC_MANIFEST` joined with newlines plus a final newline: every normative constant the TS side consumes, check ids, built-in rule ids and `specVersion`.
 
 ## What is stubbed
 
-- `SPEC_HASH` is `placeholder-spec-hash`; `SPEC_GEN_IS_PLACEHOLDER` is `true`. Verify must refuse to show a Checked seal while it is `true`.
-- Anchors and reference prices are absent (they exist only in Lean).
-- `cert.schema.json` checks the top-level shape only.
-- `seals.json` has claim sentences and theorem names from SPEC 7.3 but no Lean statements or axiom lists.
+- Reference price packs are not in the spec yet (they arrive with the M-B finance work).
+- `NAMED_FN_IMPLEMENTED` is all false: no named rule function is wired into the checker yet, so a rule that uses one is unknown in both checkers.
+- `cert.schema.json` checks the shape, not the values (the checks are the Lean checker's job).

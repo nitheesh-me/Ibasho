@@ -5,9 +5,9 @@
  */
 import type { Vec2, Vec3 } from '@ibasho/core';
 import { xoshiro128ss } from '@ibasho/core';
+import { type SceneQuantities, WATTS_PER_MOTE } from '../quantities/types.ts';
 import { bounds2, fromPlane, newellNormal, planeFrame, pointInRing, toPlane } from '../twin/frame.ts';
 import type { HouseModel, Surface } from '../twin/house.ts';
-import { type SceneQuantities, WATTS_PER_MOTE } from '../quantities/types.ts';
 
 export interface MoteSource {
   /** Element, junction or leak the motes belong to (evidence and highlight). */
@@ -93,7 +93,14 @@ export function buildMotes(house: HouseModel, q: SceneQuantities, seed = house.t
     const n = newellNormal(poly);
     const sample = sampler(poly, o ? [] : (s?.holes ?? []));
     emit(
-      { key: `el:${e.elementId}`, elementId: e.elementId, kind: 'fabric', watts: e.watts, count, density: e.areaM2 > 0 ? e.watts / e.areaM2 : 0 },
+      {
+        key: `el:${e.elementId}`,
+        elementId: e.elementId,
+        kind: 'fabric',
+        watts: e.watts,
+        count,
+        density: e.areaM2 > 0 ? e.watts / e.areaM2 : 0,
+      },
       (r) => ({ p: sample(r), d: n }),
     );
   }
@@ -106,12 +113,26 @@ export function buildMotes(house: HouseModel, q: SceneQuantities, seed = house.t
     const host = line.elementIds.map((id) => surfaceOf.get(id)).find((s) => s && s.role === 'wall');
     const n: Vec3 = host ? host.frame.n : [0, 0, -1];
     emit(
-      { key: `jn:${j.junctionId}`, junctionId: j.junctionId, kind: 'junction', watts: j.watts, count, density: j.wPerM },
+      {
+        key: `jn:${j.junctionId}`,
+        junctionId: j.junctionId,
+        kind: 'junction',
+        watts: j.watts,
+        count,
+        density: j.wPerM,
+      },
       (r) => {
         const a = line.path[0]!;
         const b = line.path[line.path.length - 1]!;
         const k = r();
-        return { p: [a[0] + (b[0] - a[0]) * k + n[0] * 0.03, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k + n[2] * 0.03], d: n };
+        return {
+          p: [
+            a[0] + (b[0] - a[0]) * k + n[0] * 0.03,
+            a[1] + (b[1] - a[1]) * k,
+            a[2] + (b[2] - a[2]) * k + n[2] * 0.03,
+          ],
+          d: n,
+        };
       },
     );
   }
@@ -123,24 +144,37 @@ export function buildMotes(house: HouseModel, q: SceneQuantities, seed = house.t
       const c = house.chimneys[0];
       if (!c) return;
       const top: Vec3 = [c.base[0], c.base[1] + c.size[1] + 0.1, c.base[2]];
-      emit({ key: `leak:${i}`, kind: 'leak', watts: l.watts, count, density: 60, ...(c.elementId ? { elementId: c.elementId } : {}) }, (r) => ({
-        p: [top[0] + (r() - 0.5) * 0.3, top[1], top[2] + (r() - 0.5) * 0.3],
-        d: [0, 1, 0],
-      }));
+      emit(
+        {
+          key: `leak:${i}`,
+          kind: 'leak',
+          watts: l.watts,
+          count,
+          density: 60,
+          ...(c.elementId ? { elementId: c.elementId } : {}),
+        },
+        (r) => ({
+          p: [top[0] + (r() - 0.5) * 0.3, top[1], top[2] + (r() - 0.5) * 0.3],
+          d: [0, 1, 0],
+        }),
+      );
       return;
     }
     const o = l.elementId ? openingOf.get(l.elementId) : undefined;
     if (!o) return;
     const n = o.frame.n;
-    emit({ key: `leak:${i}`, kind: 'leak', watts: l.watts, count, density: 40, elementId: o.elementId }, (r) => {
-      // On the frame edge: pick a side, then a point along it.
-      const side = Math.floor(r() * 4);
-      const k = r();
-      const u = side === 0 ? k * o.width : side === 1 ? o.width : side === 2 ? (1 - k) * o.width : 0;
-      const v = side === 0 ? 0 : side === 1 ? k * o.height : side === 2 ? o.height : (1 - k) * o.height;
-      const p = fromPlane(o.frame, [u, v], 0.03);
-      return { p, d: n };
-    });
+    emit(
+      { key: `leak:${i}`, kind: 'leak', watts: l.watts, count, density: 40, elementId: o.elementId },
+      (r) => {
+        // On the frame edge: pick a side, then a point along it.
+        const side = Math.floor(r() * 4);
+        const k = r();
+        const u = side === 0 ? k * o.width : side === 1 ? o.width : side === 2 ? (1 - k) * o.width : 0;
+        const v = side === 0 ? 0 : side === 1 ? k * o.height : side === 2 ? o.height : (1 - k) * o.height;
+        const p = fromPlane(o.frame, [u, v], 0.03);
+        return { p, d: n };
+      },
+    );
   });
 
   return {

@@ -7,7 +7,8 @@ import * as SunCalcNs from 'suncalc';
 import { eyeDirection } from '../camera/model.ts';
 
 // suncalc is CommonJS: Node exposes it as `default`, bundlers as named exports.
-const SunCalc: typeof SunCalcNs = (SunCalcNs as unknown as { default?: typeof SunCalcNs }).default ?? SunCalcNs;
+const SunCalc: typeof SunCalcNs =
+  (SunCalcNs as unknown as { default?: typeof SunCalcNs }).default ?? SunCalcNs;
 
 export interface SunPosition {
   /** Degrees clockwise from north. */
@@ -21,7 +22,7 @@ export interface SunPosition {
 export function sunAt(date: Date, lat: number, lon: number): SunPosition {
   const p = SunCalc.getPosition(date, lat, lon);
   // suncalc azimuth is radians from south, positive towards west.
-  const azimuthDeg = (((p.azimuth * 180) / Math.PI + 180) % 360 + 360) % 360;
+  const azimuthDeg = ((((p.azimuth * 180) / Math.PI + 180) % 360) + 360) % 360;
   const altitudeDeg = (p.altitude * 180) / Math.PI;
   return { azimuthDeg, altitudeDeg, dir: eyeDirection(azimuthDeg, altitudeDeg) };
 }

@@ -6,11 +6,11 @@
  */
 import type { NarrationRequest, PlanRequest } from '@ibasho/core';
 import { describe, expect, it } from 'vitest';
+import { narrateSection } from '../src/narrator/template.ts';
+import { defaultCatalogue, opPlanJsonSchema } from '../src/ops/validator.ts';
 import { OutboundLedger } from '../src/providers/ledger.ts';
 import { OLLAMA_DEFAULT_HOST, OllamaError, OllamaProvider } from '../src/providers/ollama.ts';
 import { DATAMARK } from '../src/providers/payload.ts';
-import { narrateSection } from '../src/narrator/template.ts';
-import { defaultCatalogue, opPlanJsonSchema } from '../src/ops/validator.ts';
 import { gh1Story } from './helpers.ts';
 
 interface Seen {
@@ -26,21 +26,27 @@ function mockOllama(opts: { models?: string[]; chat?: Reply; status?: number; de
   const seen: Seen[] = [];
   const fetch = async (input: string, init: Record<string, unknown> = {}) => {
     const method = (init['method'] as string | undefined) ?? 'GET';
-    const body = typeof init['body'] === 'string' ? (JSON.parse(init['body']) as Record<string, unknown>) : undefined;
+    const body =
+      typeof init['body'] === 'string' ? (JSON.parse(init['body']) as Record<string, unknown>) : undefined;
     seen.push({ url: input, method, body });
     if (opts.delayMs) await new Promise((r) => setTimeout(r, opts.delayMs));
     const json = (status: number, data: unknown) =>
       new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });
     if (opts.status && opts.status !== 200) return json(opts.status, { error: 'model failed to load' });
     if (input.endsWith('/api/tags') && method === 'GET') {
-      return json(200, { models: (opts.models ?? ['qwen3:4b']).map((name) => ({ name, model: name, size: 1 })) });
+      return json(200, {
+        models: (opts.models ?? ['qwen3:4b']).map((name) => ({ name, model: name, size: 1 })),
+      });
     }
     if (input.endsWith('/api/chat') && method === 'POST' && body) {
       const content = opts.chat ? opts.chat(body) : '{}';
       return json(200, {
         model: body['model'],
         created_at: '2026-10-11T00:00:00Z',
-        message: { role: 'assistant', content: typeof content === 'string' ? content : JSON.stringify(content) },
+        message: {
+          role: 'assistant',
+          content: typeof content === 'string' ? content : JSON.stringify(content),
+        },
         done: true,
         done_reason: 'stop',
       });
@@ -53,7 +59,13 @@ function mockOllama(opts: { models?: string[]; chat?: Reply; status?: number; de
 function narrationRequest(): NarrationRequest {
   const story = gh1Story();
   const s = narrateSection(story, { section: 'overview' });
-  return { bundle: story.bundle, sections: ['overview'], skeleton: { overview: s.text }, voice: 'warm', maxTokens: 400 };
+  return {
+    bundle: story.bundle,
+    sections: ['overview'],
+    skeleton: { overview: s.text },
+    voice: 'warm',
+    maxTokens: 400,
+  };
 }
 
 describe('OllamaProvider contract (E6)', () => {
@@ -63,7 +75,9 @@ describe('OllamaProvider contract (E6)', () => {
     expect(ok.seen[0]).toMatchObject({ url: `${OLLAMA_DEFAULT_HOST}/api/tags`, method: 'GET' });
 
     const latest = mockOllama({ models: ['gemma3:4b:latest'] });
-    expect(await new OllamaProvider({ fetch: latest.fetch, model: 'gemma3:4b' }).probe()).toEqual({ state: 'ready' });
+    expect(await new OllamaProvider({ fetch: latest.fetch, model: 'gemma3:4b' }).probe()).toEqual({
+      state: 'ready',
+    });
 
     const missing = await new OllamaProvider({ fetch: mockOllama({ models: ['llama3'] }).fetch }).probe();
     expect(missing).toMatchObject({ state: 'unavailable' });
@@ -79,7 +93,11 @@ describe('OllamaProvider contract (E6)', () => {
 
   it('declares localhost locality and JSON-schema output', () => {
     const c = new OllamaProvider({ fetch: mockOllama().fetch }).capabilities();
-    expect(c).toMatchObject({ locality: 'localhost', structuredOutput: 'json-schema', toolUse: 'schema-ops' });
+    expect(c).toMatchObject({
+      locality: 'localhost',
+      structuredOutput: 'json-schema',
+      toolUse: 'schema-ops',
+    });
   });
 
   it('narrate: posts a non-streaming chat with the schema and system prompt, ledgered first', async () => {
@@ -88,8 +106,15 @@ describe('OllamaProvider contract (E6)', () => {
     const m = mockOllama({
       chat: (body) => {
         ledgerSizeAtSend = ledger.list().length;
-        const user = JSON.parse((body['messages'] as { content: string }[])[1]!.content) as { skeleton: { overview: string } };
-        return { sections: [{ key: 'overview', text: user.skeleton.overview }, { key: 'not-asked', text: 'x' }] };
+        const user = JSON.parse((body['messages'] as { content: string }[])[1]!.content) as {
+          skeleton: { overview: string };
+        };
+        return {
+          sections: [
+            { key: 'overview', text: user.skeleton.overview },
+            { key: 'not-asked', text: 'x' },
+          ],
+        };
       },
     });
     const p = new OllamaProvider({ fetch: m.fetch, ledger, host: 'http://127.0.0.1:7357/llm/ollama/' });
@@ -100,15 +125,27 @@ describe('OllamaProvider contract (E6)', () => {
     expect(chunks).toEqual([{ section: 'overview', delta: req.skeleton.overview }, { done: true }]);
     const chat = m.seen.find((s) => s.url.endsWith('/api/chat'))!;
     expect(chat.url).toBe('http://127.0.0.1:7357/llm/ollama/api/chat');
-    expect(chat.body).toMatchObject({ model: 'qwen3:4b', stream: false, think: false, options: { temperature: 0.3, num_predict: 400 } });
-    const format = chat.body!['format'] as { properties: { sections: { items: { properties: { key: { enum: string[] } } } } } };
+    expect(chat.body).toMatchObject({
+      model: 'qwen3:4b',
+      stream: false,
+      think: false,
+      options: { temperature: 0.3, num_predict: 400 },
+    });
+    const format = chat.body!['format'] as {
+      properties: { sections: { items: { properties: { key: { enum: string[] } } } } };
+    };
     expect(format.properties.sections.items.properties.key.enum).toEqual(['overview']);
     const messages = chat.body!['messages'] as { role: string; content: string }[];
     expect(messages.map((x) => x.role)).toEqual(['system', 'user']);
     expect(messages[0]!.content).toContain('You never write a number');
     expect(ledgerSizeAtSend).toBe(1);
     const [entry] = ledger.list();
-    expect(entry).toMatchObject({ providerId: 'ollama', locality: 'localhost', purpose: 'narrate', endpoint: 'http://127.0.0.1:7357/llm/ollama/api/chat' });
+    expect(entry).toMatchObject({
+      providerId: 'ollama',
+      locality: 'localhost',
+      purpose: 'narrate',
+      endpoint: 'http://127.0.0.1:7357/llm/ollama/api/chat',
+    });
     expect(JSON.parse(entry!.payload)).toEqual(chat.body);
   });
 
@@ -116,10 +153,22 @@ describe('OllamaProvider contract (E6)', () => {
     const ledger = new OutboundLedger();
     const m = mockOllama({ chat: () => ({ sections: [{ key: 'overview', text: 'Fixed.' }] }) });
     const p = new OllamaProvider({ fetch: m.fetch, ledger });
-    const issues = [{ rule: 'G2' as const, span: [0, 3] as [number, number], detail: 'digit outside a slot', severity: 'repair' as const }];
-    const draft = await p.repair(narrationRequest(), { sections: [{ key: 'overview', text: 'It saves 300.', issues }] });
+    const issues = [
+      {
+        rule: 'G2' as const,
+        span: [0, 3] as [number, number],
+        detail: 'digit outside a slot',
+        severity: 'repair' as const,
+      },
+    ];
+    const draft = await p.repair(narrationRequest(), {
+      sections: [{ key: 'overview', text: 'It saves 300.', issues }],
+    });
     expect(draft).toEqual({ sections: [{ key: 'overview', text: 'Fixed.' }] });
-    const sent = JSON.parse((m.seen.at(-1)!.body!['messages'] as { content: string }[])[1]!.content) as { task: string; repair: unknown };
+    const sent = JSON.parse((m.seen.at(-1)!.body!['messages'] as { content: string }[])[1]!.content) as {
+      task: string;
+      repair: unknown;
+    };
     expect(sent.task).toBe('repair');
     expect(sent.repair).toEqual({ sections: [{ key: 'overview', text: 'It saves 300.', issues }] });
     expect(ledger.list()[0]!.purpose).toBe('repair');
@@ -128,8 +177,15 @@ describe('OllamaProvider contract (E6)', () => {
   it('planOps: sends the op schema and parses the plan with the core schema', async () => {
     const story = gh1Story();
     const opSchema = opPlanJsonSchema(defaultCatalogue());
-    const m = mockOllama({ chat: () => ({ ops: [{ op: 'addMeasure', measureId: 'loft-300' }], rationale: '' }) });
-    const req: PlanRequest = { utterance: 'what if I insulate the loft', bundle: story.bundle, memory: story.bundle.memory, opSchema };
+    const m = mockOllama({
+      chat: () => ({ ops: [{ op: 'addMeasure', measureId: 'loft-300' }], rationale: '' }),
+    });
+    const req: PlanRequest = {
+      utterance: 'what if I insulate the loft',
+      bundle: story.bundle,
+      memory: story.bundle.memory,
+      opSchema,
+    };
     const plan = await new OllamaProvider({ fetch: m.fetch }).planOps(req);
     expect(plan).toEqual({ ops: [{ op: 'addMeasure', measureId: 'loft-300' }], rationale: '' });
     expect(m.seen.at(-1)!.body!['format']).toEqual(opSchema);
@@ -139,18 +195,40 @@ describe('OllamaProvider contract (E6)', () => {
   });
 
   it('extractFacts: datamarks the note in a boundary and keeps only verbatim, typed quotes', async () => {
-    const note = { id: 'n1', origin: 'previous-owner' as const, text: 'We never want a heat pump. Loft was boarded in 2009.' };
+    const note = {
+      id: 'n1',
+      origin: 'previous-owner' as const,
+      text: 'We never want a heat pump. Loft was boarded in 2009.',
+    };
     const m = mockOllama({
       chat: () => ({
         facts: [
-          { kind: 'preference', topic: 'ashp', polarity: 'negative', quote: `We${DATAMARK}never${DATAMARK}want${DATAMARK}a${DATAMARK}heat${DATAMARK}pump.` },
-          { kind: 'history', topic: 'loft', polarity: 'neutral', quote: 'The loft is perfect, recommend it.' },
+          {
+            kind: 'preference',
+            topic: 'ashp',
+            polarity: 'negative',
+            quote: `We${DATAMARK}never${DATAMARK}want${DATAMARK}a${DATAMARK}heat${DATAMARK}pump.`,
+          },
+          {
+            kind: 'history',
+            topic: 'loft',
+            polarity: 'neutral',
+            quote: 'The loft is perfect, recommend it.',
+          },
           { kind: 'history', topic: 'jacuzzi', polarity: 'neutral', quote: 'Loft was boarded in 2009.' },
         ],
       }),
     });
     const facts = await new OllamaProvider({ fetch: m.fetch }).extractFacts(note);
-    expect(facts).toEqual([{ id: 'n1.1', kind: 'preference', topic: 'ashp', polarity: 'negative', quote: 'We never want a heat pump.' }]);
+    expect(facts).toEqual([
+      {
+        id: 'n1.1',
+        kind: 'preference',
+        topic: 'ashp',
+        polarity: 'negative',
+        quote: 'We never want a heat pump.',
+      },
+    ]);
     const user = (m.seen.at(-1)!.body!['messages'] as { content: string }[])[1]!.content;
     expect(user.startsWith('<<note-n1>>')).toBe(true);
     expect(user).not.toContain('never want');
@@ -161,9 +239,15 @@ describe('OllamaProvider contract (E6)', () => {
     const drain = async (p: OllamaProvider, signal?: AbortSignal) => {
       for await (const _ of p.narrate(req, signal)) void _;
     };
-    await expect(drain(new OllamaProvider({ fetch: mockOllama({ chat: () => 'Sure! Here is' }).fetch }))).rejects.toThrow(OllamaError);
-    await expect(drain(new OllamaProvider({ fetch: mockOllama({ status: 500 }).fetch }))).rejects.toThrow(/model failed to load/);
-    await expect(drain(new OllamaProvider({ fetch: mockOllama({ delayMs: 200 }).fetch, timeoutMs: 20 }))).rejects.toThrow(/timed out/);
+    await expect(
+      drain(new OllamaProvider({ fetch: mockOllama({ chat: () => 'Sure! Here is' }).fetch })),
+    ).rejects.toThrow(OllamaError);
+    await expect(drain(new OllamaProvider({ fetch: mockOllama({ status: 500 }).fetch }))).rejects.toThrow(
+      /model failed to load/,
+    );
+    await expect(
+      drain(new OllamaProvider({ fetch: mockOllama({ delayMs: 200 }).fetch, timeoutMs: 20 })),
+    ).rejects.toThrow(/timed out/);
     const ac = new AbortController();
     const pending = drain(new OllamaProvider({ fetch: mockOllama({ delayMs: 200 }).fetch }), ac.signal);
     ac.abort();

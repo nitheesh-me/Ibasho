@@ -1,0 +1,18 @@
+{
+  "name": "@ibasho/pack-rules-uk",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ENG, WLS, SCT stub, tenure, MEES, DNO, PAS 2035, applicability (`APPL.*`) rules.",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/dmath": "workspace:*"
+  }
+}

@@ -1,0 +1,14 @@
+/*
+ * Andon webfonts (DESIGN_SYSTEM 3, DEC TE-8). Owner: WP-06.
+ * Exactly three families, self-hosted through Fontsource. Every @font-face carries a
+ * unicode-range slice, so a page downloads only the glyph blocks it renders.
+ * Seal and chapter kanji are not a webfont: they are baked SVG paths (src/glyphs/baked.ts).
+ * test/fonts.test.ts checks this list against src/tokens/scale.ts FAMILIES.
+ */
+@import "@fontsource/shippori-mincho-b1/500.css";
+@import "@fontsource/shippori-mincho-b1/700.css";
+@import "@fontsource/shippori-mincho-b1/800.css";
+@import "@fontsource/zen-kaku-gothic-new/400.css";
+@import "@fontsource/zen-kaku-gothic-new/500.css";
+@import "@fontsource/zen-kaku-gothic-new/700.css";
+@import "@fontsource-variable/m-plus-1-code/wght.css";

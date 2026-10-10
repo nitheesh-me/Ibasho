@@ -1,0 +1,18 @@
+{
+  "name": "@ibasho/pack-money-in",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TGSPDCL, DERC, AEML slabs, CEA, PM Surya Ghar, measure costs (stub until T3).",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/dmath": "workspace:*"
+  }
+}

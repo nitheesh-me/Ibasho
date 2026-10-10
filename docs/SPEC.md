@@ -479,3 +479,14 @@ Each rule has one golden test.
 | AC-SG1 | Three random, untuned UK archetype homes: compute without NaN, baseline within NEED ranges, futures non-empty, template narration passes G1 to G8 | `tests/stranger` (gate before M-D) |
 | AC-PERF | `renderer.info` counts within budget on GH1 key frames | Scene CI |
 | AC-Q1 | Hallway test: no participant reads a seal as "guaranteed" | Manual, recorded on the blackboard |
+
+## 13. Agent link (WP-12, ARCH 14)
+
+A person can ask an AI agent, for example Claude Code, to explore their home with them. The agent uses the same typed operations as the person's hands. It works headless on fixtures and `.ibasho` files, or live in the open app once **Settings > Agent link** is on and the pairing code is entered.
+
+- Off by default. The toggle says, in one line, that a connected agent may send what it reads to its model provider.
+- Agent edits appear with an "agent" mark, are undoable, and are listed in the outbound ledger.
+- Agent prose shown in the app passes the narrator validator. An agent cannot place a number the engine did not compute.
+- Install: `pnpm agent:install` (Claude Code plugin, or direct skill + subagent + MCP + hook, like the tldraw offline skill). `--uninstall` removes only what it installed.
+
+Acceptance: BUILD_PLAN WP-12 L1 to L8.

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignore": ["**/__fixtures__/**", "**/__lint_fixtures__/**"],
+  "workspaces": {
+    ".": { "entry": [] },
+    "tools/lint": { "entry": ["test/**/*.test.ts"] },
+    "tests": { "entry": ["smoke/**/*.spec.ts"] }
+  }
+}

@@ -1,0 +1,70 @@
+# CI (BUILD_PLAN WP-00 output 7). Owner: WP-00 until G0, then WP-10.
+# G0-1: install, lint, typecheck, test, build. G0-6: Playwright smoke.
+# The Lean job runs only once proofs/lakefile.toml exists (WP-04).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm -r typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm contracts
+      - run: pnpm exec playwright install --with-deps chromium firefox
+      - run: pnpm smoke
+        env:
+          CI: 'true'
+
+  lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - id: has
+        run: |
+          if [ -f proofs/lakefile.toml ]; then echo "proofs=true" >> "$GITHUB_OUTPUT"; else echo "proofs=false" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.has.outputs.proofs == 'true'
+        name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - if: steps.has.outputs.proofs == 'true'
+        uses: actions/cache@v4
+        with:
+          path: proofs/.lake
+          key: lake-${{ runner.os }}-${{ hashFiles('proofs/lean-toolchain', 'proofs/lakefile.toml', 'proofs/lake-manifest.json') }}
+      - if: steps.has.outputs.proofs == 'true'
+        name: lake build
+        working-directory: proofs
+        run: lake build
+      - if: steps.has.outputs.proofs == 'true'
+        name: Spec generator checks (ARCH 8.5 steps 2 and 3)
+        working-directory: proofs
+        run: |
+          if lake exe ibasho-gen --help >/dev/null 2>&1; then
+            lake exe ibasho-gen --audit
+            lake exe ibasho-gen --check
+          else
+            echo "ibasho-gen not built yet (WP-04)"
+          fi
+      - if: steps.has.outputs.proofs != 'true'
+        run: echo "No proofs/lakefile.toml yet; Lean job skipped."

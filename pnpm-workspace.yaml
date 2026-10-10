@@ -1,0 +1,14 @@
+packages:
+  - packages/*
+  - packs/*
+  - apps/*
+  - tools/*
+  - integrations/*
+  - tests
+
+# Mirrors .npmrc (ARCH section 13). pnpm 11 reads these settings from here.
+saveExact: true
+strictPeerDependencies: true
+autoInstallPeers: false
+allowBuilds:
+  esbuild: true

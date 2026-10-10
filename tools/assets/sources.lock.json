@@ -1,0 +1,847 @@
+{
+  "archives": {
+    "kenney/kenney_furniture-kit.zip": {
+      "bytes": 5130729,
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip"
+    }
+  },
+  "assets": {
+    "hdri-kloofendal-overcast-puresky": {
+      "authors": ["Greg Zaal"],
+      "files": {
+        "hdr": {
+          "bytes": 1174053,
+          "cache": "polyhaven/kloofendal_overcast_puresky/kloofendal_overcast_puresky_1k.hdr",
+          "md5": "d5c53f6432193893e7dc17eb65e67409",
+          "sha256": "5f98aa01d43a49cd899299751a978b3e5559a76300198b5dd2d9c68ecc4ad130",
+          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/kloofendal_overcast_puresky_1k.hdr"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/kloofendal_overcast_puresky",
+      "provider": "polyhaven",
+      "title": "Kloofendal Overcast (Pure Sky)"
+    },
+    "hdri-qwantani-dusk-2": {
+      "authors": ["Greg Zaal (Photography)", "Jarod Guest (Processing)"],
+      "files": {
+        "hdr": {
+          "bytes": 1578108,
+          "cache": "polyhaven/qwantani_dusk_2/qwantani_dusk_2_1k.hdr",
+          "md5": "320a49e6646f632d8b5e3fc3876e1812",
+          "sha256": "67f51d0f158de3d32649379d0988d0663283392e763e4b74971b4ac746a12a63",
+          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_dusk_2_1k.hdr"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/qwantani_dusk_2",
+      "provider": "polyhaven",
+      "title": "Qwantani Dusk 2"
+    },
+    "hdri-qwantani-late-afternoon": {
+      "authors": ["Greg Zaal (Photography)", "Jarod Guest (Processing)"],
+      "files": {
+        "hdr": {
+          "bytes": 1488472,
+          "cache": "polyhaven/qwantani_late_afternoon/qwantani_late_afternoon_1k.hdr",
+          "md5": "df79f957626e82d348d2bf3917d0f5ad",
+          "sha256": "7d14c4225bf2e9a1499cb3891a476eed447b3e14abd3ab65cc1f981d7b7f30f2",
+          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_late_afternoon_1k.hdr"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/qwantani_late_afternoon",
+      "provider": "polyhaven",
+      "title": "Qwantani Late Afternoon"
+    },
+    "hdri-qwantani-noon": {
+      "authors": ["Greg Zaal (Photography)", "Jarod Guest (Processing)"],
+      "files": {
+        "hdr": {
+          "bytes": 1420645,
+          "cache": "polyhaven/qwantani_noon/qwantani_noon_1k.hdr",
+          "md5": "628c8887291f30d2d2a5b9e4036e610b",
+          "sha256": "dd27e20fb8609d812055259be30f1e849152d68903c5e0cb8599bf56abc7cd78",
+          "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_noon_1k.hdr"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/qwantani_noon",
+      "provider": "polyhaven",
+      "title": "Qwantani Noon"
+    },
+    "kenney-bathroom-sink": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 22536,
+          "cache": "kenney/furniture-kit/bathroomSink.glb",
+          "sha256": "39d4f19608cab7e0fed52303b2c689f5f51fae1bad9b6913cb53d838875e797e",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bathroomSink.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: bathroomSink"
+    },
+    "kenney-bathtub": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 35500,
+          "cache": "kenney/furniture-kit/bathtub.glb",
+          "sha256": "54c405c7035aab63dc41e709dc3c50fc5bcfbc4cddc91ffc54188075a6d25d01",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bathtub.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: bathtub"
+    },
+    "kenney-bed-double": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 23368,
+          "cache": "kenney/furniture-kit/bedDouble.glb",
+          "sha256": "c49b33e7d797d2ba1111895587dba7ff63b17a712eb9b4ceeb40a598f73e476c",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bedDouble.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: bedDouble"
+    },
+    "kenney-bed-single": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 18636,
+          "cache": "kenney/furniture-kit/bedSingle.glb",
+          "sha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bedSingle.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: bedSingle"
+    },
+    "kenney-bookcase-open": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 18020,
+          "cache": "kenney/furniture-kit/bookcaseOpen.glb",
+          "sha256": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bookcaseOpen.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: bookcaseOpen"
+    },
+    "kenney-cabinet-bed-drawer": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 16088,
+          "cache": "kenney/furniture-kit/cabinetBedDrawer.glb",
+          "sha256": "e3dfd2e120af3d4d29b66509e317452cd15bd3f57ac8945575462c582adc6de8",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/cabinetBedDrawer.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: cabinetBedDrawer"
+    },
+    "kenney-cabinet-television": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 10524,
+          "cache": "kenney/furniture-kit/cabinetTelevision.glb",
+          "sha256": "811719593d676ff76f7b5904d52c845ce0396af2bc9a6a2636c4818ead320b99",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/cabinetTelevision.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: cabinetTelevision"
+    },
+    "kenney-chair": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 10756,
+          "cache": "kenney/furniture-kit/chair.glb",
+          "sha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/chair.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: chair"
+    },
+    "kenney-coat-rack-standing": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 13288,
+          "cache": "kenney/furniture-kit/coatRackStanding.glb",
+          "sha256": "d8231c22dab63ceb9fc8678f6c8ceafc62afa8726b51a73b4ce349043d3cdc91",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/coatRackStanding.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: coatRackStanding"
+    },
+    "kenney-kitchen-cabinet": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 10444,
+          "cache": "kenney/furniture-kit/kitchenCabinet.glb",
+          "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenCabinet.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: kitchenCabinet"
+    },
+    "kenney-kitchen-cabinet-upper": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 8168,
+          "cache": "kenney/furniture-kit/kitchenCabinetUpper.glb",
+          "sha256": "8f2496feed85a745ffb6e554075b8450d647f8f68b01d6a010fcac1510fc173a",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenCabinetUpper.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: kitchenCabinetUpper"
+    },
+    "kenney-kitchen-fridge-small": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 12988,
+          "cache": "kenney/furniture-kit/kitchenFridgeSmall.glb",
+          "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenFridgeSmall.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: kitchenFridgeSmall"
+    },
+    "kenney-kitchen-sink": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 23480,
+          "cache": "kenney/furniture-kit/kitchenSink.glb",
+          "sha256": "7b9610277d71f00dcf1bba49cf4d98d77ce5177e84bf76c7da2f8893e542f743",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenSink.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: kitchenSink"
+    },
+    "kenney-kitchen-stove": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 54324,
+          "cache": "kenney/furniture-kit/kitchenStove.glb",
+          "sha256": "3239edb36295dfca9530a9b9a6ad0aff98ce62e7cf8d13ca2a5a1a6b2a904656",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenStove.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: kitchenStove"
+    },
+    "kenney-lamp-round-floor": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 6600,
+          "cache": "kenney/furniture-kit/lampRoundFloor.glb",
+          "sha256": "50fe1b5b588edf15bfa9cc880f71a02a4fda6036350b24733d0ef4de5cc5e908",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/lampRoundFloor.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: lampRoundFloor"
+    },
+    "kenney-lamp-round-table": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 6604,
+          "cache": "kenney/furniture-kit/lampRoundTable.glb",
+          "sha256": "75bb644caaa3da003b4fcad7a931722dd61cd2858aab70cf660021d5061fa1b2",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/lampRoundTable.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: lampRoundTable"
+    },
+    "kenney-lounge-chair": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 9648,
+          "cache": "kenney/furniture-kit/loungeChair.glb",
+          "sha256": "ddfe6bc4b3451bca61666d7b614552d6ed2a03d82fc76244b72ae3155874dc6c",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/loungeChair.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: loungeChair"
+    },
+    "kenney-lounge-sofa": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 9644,
+          "cache": "kenney/furniture-kit/loungeSofa.glb",
+          "sha256": "1886b811c0d3ad0d8525a4fd43adf4112c497c8e0ed906f06877ca3517f4c7dd",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/loungeSofa.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: loungeSofa"
+    },
+    "kenney-potted-plant": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 7576,
+          "cache": "kenney/furniture-kit/pottedPlant.glb",
+          "sha256": "5b760eda2766f75fda36b2c5df652a1662f82981ef64cd8fa7fe7bcd386b3a15",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/pottedPlant.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: pottedPlant"
+    },
+    "kenney-rug-doormat": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 13812,
+          "cache": "kenney/furniture-kit/rugDoormat.glb",
+          "sha256": "bd888e41853342cdc0d34d3f09b99cedc50a144f47b514943b65cdb9a2cfd802",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/rugDoormat.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: rugDoormat"
+    },
+    "kenney-rug-rectangle": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 3188,
+          "cache": "kenney/furniture-kit/rugRectangle.glb",
+          "sha256": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/rugRectangle.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: rugRectangle"
+    },
+    "kenney-side-table": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 8800,
+          "cache": "kenney/furniture-kit/sideTable.glb",
+          "sha256": "8227810584f7d37582e4e9ec821c56f1dc54b99c88a8dc74242ea3b7402bc472",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/sideTable.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: sideTable"
+    },
+    "kenney-table": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 8196,
+          "cache": "kenney/furniture-kit/table.glb",
+          "sha256": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/table.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: table"
+    },
+    "kenney-table-coffee": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 8256,
+          "cache": "kenney/furniture-kit/tableCoffee.glb",
+          "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/tableCoffee.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: tableCoffee"
+    },
+    "kenney-television-modern": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 6368,
+          "cache": "kenney/furniture-kit/televisionModern.glb",
+          "sha256": "d89519ad0a5f28b5b0dccb0d83209dccf610cda959578238dd21bbf9e219cfc6",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/televisionModern.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: televisionModern"
+    },
+    "kenney-toilet": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 18112,
+          "cache": "kenney/furniture-kit/toilet.glb",
+          "sha256": "16165cfd03c56c2cb443b800570810a22ef770f65e7a468f6761d9dc14eaaeae",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/toilet.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: toilet"
+    },
+    "kenney-washer": {
+      "authors": ["Kenney"],
+      "files": {
+        "glb": {
+          "bytes": 48104,
+          "cache": "kenney/furniture-kit/washer.glb",
+          "sha256": "0c9704df1817d2699b72305b96cde097c9558bacabaef2fd5ab1ff4c03b81abf",
+          "zip": {
+            "archive": "kenney/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/washer.glb"
+          }
+        }
+      },
+      "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "provider": "kenney",
+      "title": "Furniture Kit: washer"
+    },
+    "quaternius-chair-ladder-back": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 13360,
+          "cache": "quaternius/chair-ladder-back.glb",
+          "sha256": "bdc6aeeb64524bbdccba2f079e6485e2a372aed1c428d976d5da67aadcf18b7a",
+          "url": "https://static.poly.pizza/84ecc6a3-2751-4f50-912a-b9f4ff033d7a.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record iMNqRzPwwe: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/iMNqRzPwwe",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Chair"
+    },
+    "quaternius-couch-medium": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 22940,
+          "cache": "quaternius/couch-medium.glb",
+          "sha256": "7003e8c52669c171090231f8589aa23090d53eb9a4bb8d4b3adecef93561c30d",
+          "url": "https://static.poly.pizza/92a2404e-10d5-4c6a-a188-18b556474f8f.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record mWgQ94zhDZ: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/mWgQ94zhDZ",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Couch Medium"
+    },
+    "quaternius-curtains-double": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 13312,
+          "cache": "quaternius/curtains-double.glb",
+          "sha256": "3e1c17ee803414382470f1316825005ba4808f5c665602f8223880b1578f76b9",
+          "url": "https://static.poly.pizza/cf707f1b-8d82-467d-b89e-e4c1322f4515.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record kkeII96j9N: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/kkeII96j9N",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Curtains Double"
+    },
+    "quaternius-door-panel": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 24320,
+          "cache": "quaternius/door-panel.glb",
+          "sha256": "1d5f1c2f478609a41cba26d6bb3a3e39aac61332e00c058a0f8aa1aed41fa03d",
+          "url": "https://static.poly.pizza/df219d1d-2583-4082-b150-f7529527a63a.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record LI93WgnjyS: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/LI93WgnjyS",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Door"
+    },
+    "quaternius-fireplace": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 17728,
+          "cache": "quaternius/fireplace.glb",
+          "sha256": "b9c8d82cf1a64ca15cc5a28bb64e7a4b379fc89a02de523f3b45674183176477",
+          "url": "https://static.poly.pizza/7841807d-cab9-46e2-95c2-1ca0bbee5736.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record nzxZYIOCIr: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/nzxZYIOCIr",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Fireplace"
+    },
+    "quaternius-houseplant": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 17960,
+          "cache": "quaternius/houseplant.glb",
+          "sha256": "f45d6fe813f0273ce0d080d87b5bf203ce9ff8079caeba8a1860fd7233746883",
+          "url": "https://static.poly.pizza/c087694b-eda0-426e-a5d6-a1f9b9d57a28.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record Kr4kr7OCCQ: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/Kr4kr7OCCQ",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Houseplant"
+    },
+    "quaternius-light-ceiling-single": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 10360,
+          "cache": "quaternius/light-ceiling-single.glb",
+          "sha256": "4e307b591d68d8aff049f07b59e5aa75b81e8da211fd48b752bf847918eded1b",
+          "url": "https://static.poly.pizza/2cc064fb-2b1b-4269-9007-473dfe78bffc.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record JT44JUXU2d: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/JT44JUXU2d",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Light Ceiling Single"
+    },
+    "quaternius-night-stand": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 11148,
+          "cache": "quaternius/night-stand.glb",
+          "sha256": "1c08a98905ea18850fc91932fae9976a556aa30a564f7c45845c2f4f1bc5289a",
+          "url": "https://static.poly.pizza/deb08e3b-cd54-4252-b5b2-53f86f1c1d04.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record 9LI73c5uFA: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/9LI73c5uFA",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Night Stand"
+    },
+    "quaternius-rug": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 6020,
+          "cache": "quaternius/rug.glb",
+          "sha256": "cda873c6fd6769727687002e8f04c449d3002671a4d4587fd3f842e3f47b4ae6",
+          "url": "https://static.poly.pizza/93588780-3405-40b7-acb4-9a87c88569f6.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record 7H5qKjuxVY: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/7H5qKjuxVY",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Rug"
+    },
+    "quaternius-table-round-large": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 23024,
+          "cache": "quaternius/table-round-large.glb",
+          "sha256": "863966591cae25d9b7afacd3b60ba999c0c097c2cdffddfa50d1bb176be50eed",
+          "url": "https://static.poly.pizza/4c09df5b-30e0-4b51-a0b2-f22713000b84.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record eCnblJPsW8: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/eCnblJPsW8",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Table Round Large"
+    },
+    "quaternius-towel-rack": {
+      "authors": ["Quaternius"],
+      "files": {
+        "glb": {
+          "bytes": 11568,
+          "cache": "quaternius/towel-rack.glb",
+          "sha256": "05feb7f40b486b88ddcc9d4702da5184e493fd7b3dd4dcb453695642eac739b5",
+          "url": "https://static.poly.pizza/1748df2d-c41a-4815-81ef-a25a3ee29cbe.glb"
+        }
+      },
+      "licenceEvidence": "Poly Pizza record 8R9fXwL11r: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+      "page": "https://poly.pizza/m/8R9fXwL11r",
+      "provider": "quaternius",
+      "title": "Ultimate House Interior: Towel Rack"
+    },
+    "tex-pavement-02": {
+      "authors": ["Dario Barresi (Processing)", "Charlotte Baglioni (Photography)"],
+      "files": {
+        "arm": {
+          "bytes": 4550316,
+          "cache": "polyhaven/pavement_02/pavement_02_arm_1k.png",
+          "md5": "e6a8bc9ddfb7de7a01c2b18e374fc827",
+          "sha256": "7193ddbb41d039f01d3776a5660d75318da0ee893e4674e258aafe5be0d32edc",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pavement_02/pavement_02_arm_1k.png"
+        },
+        "diff": {
+          "bytes": 6029835,
+          "cache": "polyhaven/pavement_02/pavement_02_diff_1k.png",
+          "md5": "95221448692882f01ceef3dbe5cbe4a6",
+          "sha256": "945345e917cc3ce5c0662a11430fe139d28d03270228ceee8b330649784afb3a",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pavement_02/pavement_02_diff_1k.png"
+        },
+        "nor": {
+          "bytes": 5401579,
+          "cache": "polyhaven/pavement_02/pavement_02_nor_gl_1k.png",
+          "md5": "3e6c39ccc8160d06bf1d122e59e65bf9",
+          "sha256": "b5c66a2a0a99d1a782bb16c93d557df8e5e685ddc1170c233e90abd398f40553",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pavement_02/pavement_02_nor_gl_1k.png"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/pavement_02",
+      "provider": "polyhaven",
+      "title": "Pavement 02"
+    },
+    "tex-red-brick-03": {
+      "authors": ["Rob Tuytel"],
+      "files": {
+        "arm": {
+          "bytes": 5877058,
+          "cache": "polyhaven/red_brick_03/red_brick_03_arm_2k.png",
+          "md5": "c6dd487b1a18730dd78812421b26a390",
+          "sha256": "c2cbc138ad29f6ef03849340d4f69d3a6298c2be39187b438c2c51dcf1c15b07",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_brick_03/red_brick_03_arm_2k.png"
+        },
+        "diff": {
+          "bytes": 9101323,
+          "cache": "polyhaven/red_brick_03/red_brick_03_diff_2k.png",
+          "md5": "2c0b87b51626d637e29c0596274151f4",
+          "sha256": "c7acd2473455d71729ae9c649047f39ff8cc4a4b37873da47273b71925304181",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_brick_03/red_brick_03_diff_2k.png"
+        },
+        "nor": {
+          "bytes": 8141778,
+          "cache": "polyhaven/red_brick_03/red_brick_03_nor_gl_2k.png",
+          "md5": "d5c3e4b5216c2decee54b3a036cc64b8",
+          "sha256": "f27cdea3ee64e775e48654de6ec154d1a48082ae1a5b7007fd111ae2b6a50e22",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_brick_03/red_brick_03_nor_gl_2k.png"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/red_brick_03",
+      "provider": "polyhaven",
+      "title": "Red Brick 03"
+    },
+    "tex-roof-slates-02": {
+      "authors": ["Rob Tuytel"],
+      "files": {
+        "arm": {
+          "bytes": 4355718,
+          "cache": "polyhaven/roof_slates_02/roof_slates_02_arm_1k.png",
+          "md5": "8585c40441e97889802e3cc020974be9",
+          "sha256": "b36043c4a770b7474ceb29f04f68fc23545573fa4b43fa7cddd565fff47da480",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/roof_slates_02/roof_slates_02_arm_1k.png"
+        },
+        "diff": {
+          "bytes": 6208261,
+          "cache": "polyhaven/roof_slates_02/roof_slates_02_diff_1k.png",
+          "md5": "12103818a995e247393e4a945ba86d5a",
+          "sha256": "af60b0c8429d5a8f68da7bf1c74e375c311035435d1ca969772eb2ca2b57fd67",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/roof_slates_02/roof_slates_02_diff_1k.png"
+        },
+        "nor": {
+          "bytes": 5938579,
+          "cache": "polyhaven/roof_slates_02/roof_slates_02_nor_gl_1k.png",
+          "md5": "1d3068e48dc21785e8dde02e04b223e2",
+          "sha256": "2c0f9debeb90dd8339ee6f0843b0acbb8a0d90b620c48282c9f0e8fb7d7a0ceb",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/roof_slates_02/roof_slates_02_nor_gl_1k.png"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/roof_slates_02",
+      "provider": "polyhaven",
+      "title": "Roof Slates 02"
+    },
+    "tex-white-stucco": {
+      "authors": ["Amal Kumar"],
+      "files": {
+        "arm": {
+          "bytes": 3506134,
+          "cache": "polyhaven/white_stucco/white_stucco_arm_1k.png",
+          "md5": "b9942e0629631528fb7d6bb04d1dae87",
+          "sha256": "6ac026a77efbfe49434082f392eefdbda7e37ba89ae9daa7912c177a2faa45e4",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_arm_1k.png"
+        },
+        "diff": {
+          "bytes": 5328938,
+          "cache": "polyhaven/white_stucco/white_stucco_diff_1k.png",
+          "md5": "3dc354c11aa09d616702c21861a58e1d",
+          "sha256": "24ed9486ac78892b34a47cba0cde44a27f356b7c34d3c93c0da7b464be0de131",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_diff_1k.png"
+        },
+        "nor": {
+          "bytes": 5675112,
+          "cache": "polyhaven/white_stucco/white_stucco_nor_gl_1k.png",
+          "md5": "0c91c3962f11cf0536857a5e7ffc8a06",
+          "sha256": "0d2f0911ca98b84f78fcf35878e027bdaffb6d661d763f6141642e5581b06d69",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_nor_gl_1k.png"
+        }
+      },
+      "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+      "page": "https://polyhaven.com/a/white_stucco",
+      "provider": "polyhaven",
+      "title": "White Stucco"
+    }
+  },
+  "schema": 1
+}

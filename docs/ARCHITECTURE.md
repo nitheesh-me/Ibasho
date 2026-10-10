@@ -34,6 +34,7 @@ ibasho/
     ui/                       Andon design system: tokens, CSS, components, mon icons, motion, Storybook
     scene/                    R3F stage, twin to geometry, layers, render styles, camera sequences, a11y-scene, SVG renderer
     content/                  landing chapters, glossary, voice guide, measure guidance (disruption, next step)
+    agent-bridge/             agent link protocol, Hono sub-app, browser client (ARCH 14)
     fixtures/                 golden homes, bills, results, certs, rules goldens, injection corpus (per-owner folders)
   packs/                      each a workspace package with separate ./engine and ./ui exports
     climate/                  src/engine: London, Manchester, Edinburgh, Hyderabad, Mumbai, Delhi (+ SAP Appendix U, London TMY)
@@ -47,7 +48,10 @@ ibasho/
   apps/
     web/                      the app (/app/), public/assets/** (curated assets)
     landing/                  landing page (/)
-    companion/                optional local Node helper: LLM proxy, POST /verify
+    companion/                optional local Node helper: LLM proxy, POST /verify, mounts the agent bridge
+    mcp/                      stdio MCP server: headless engine tools + live tools via the bridge (ARCH 14)
+  integrations/
+    claude-code/              Claude Code plugin: skill, subagent, .mcp.json, hooks, iq helper, evals
   tests/                      e2e, visual, a11y, demo, stranger homes, mutation, differential, determinism matrix
   tools/                      assets/, lint/ (no-dash, tatami, legend, no-math, mon), verify/
 ```
@@ -716,3 +720,56 @@ Versions were verified against the npm registry on 2026-10-10. `.npmrc`: `save-e
 | A vector DB | Not needed |
 | SharedArrayBuffer cancellation | Needs cross-origin isolation |
 | drei `MeshPortalMaterial` | Replaced by the scissor split |
+
+## 14. Agent link: MCP server and Claude Code plugin (WP-12)
+
+Goal: an AI agent (Claude Code, or any MCP client) can explore a home the way a person does, headless or live in the open app. It follows the pattern of the tldraw offline skill: a local server, a per-launch token file, a skill, a subagent, a SubagentStart hook, a tiny helper, and an installer.
+
+**Principle.** The agent gets the same power as the user's hands, never more. It edits the twin only through typed `Op`s (ARCH 5.5), reads numbers only as evidence ids with values, and its prose to the user goes through the narrator validator (G1 to G8). No arbitrary code execution in the app. Lean seals and grounding rules apply unchanged.
+
+**Pieces and owners**
+
+| Path | Owner | What |
+|---|---|---|
+| `packages/agent-bridge/` | WP-12 | Protocol types (zod), Hono sub-app (HTTP + WebSocket) mounted by the companion, browser client `connectAgentLink()` used by `apps/web` |
+| `apps/mcp/` | WP-12 | stdio MCP server (`@modelcontextprotocol/sdk`). Runs the engine headless in Node; forwards `live_*` tools to the bridge when the app is open |
+| `integrations/claude-code/` | WP-12 | Claude Code plugin: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `skills/ibasho/SKILL.md`, `agents/ibasho-explorer.md`, `.mcp.json`, `hooks/` (SubagentStart context inject), `bin/iq.mjs` helper, `evals/` for `claude plugin eval` |
+| `tools/agent-install/` | WP-12 | `pnpm agent:install [--mode plugin or direct] [--scope user or project] [--dry-run] [--uninstall]` |
+
+Mount points owned by others (one line each, requested via INTERFACES): the companion mounts the bridge sub-app (WP-05); `apps/web` calls `connectAgentLink()` when Settings > Agent link is on (WP-08).
+
+**Discovery.** The companion writes `~/.config/ibasho/server.json` `{port, token, pid, startedAt, sessions}` on start and removes it on clean exit. Every route except `GET /health` needs `Authorization: Bearer <token>`. Bind 127.0.0.1 only. The browser tab connects by WebSocket with a pairing code shown in Settings, so a random local page cannot join.
+
+**MCP tools.** Headless tools need no browser:
+
+| Tool | Does |
+|---|---|
+| `ibasho_list_homes` | fixtures, `.ibasho` files in `~/.config/ibasho/homes/`, and live sessions |
+| `ibasho_get_home` | twin summary, knowns and unknowns, provenance |
+| `ibasho_simulate` | baseline in a run mode; returns values with evidence ids |
+| `ibasho_what_if` | apply `Op[]` to a copy; returns deltas per fuel with evidence ids |
+| `ibasho_search_futures` | full search; front, picks, witnesses, why-not list, certificate hash |
+| `ibasho_evidence` | one evidence node: formula, inputs, sources, seal |
+| `ibasho_why_not` | why a measure is absent and what check would unlock it |
+| `ibasho_verify` | check a certificate with the TS mirror, or Lean `ibasho-check` if built |
+| `ibasho_memory_list`, `_remember`, `_forget` | the "things you told us" log (typed events only) |
+| `ibasho_compare` | two homes or two packages side by side |
+
+Live tools need the app open with Agent link on:
+
+| Tool | Does |
+|---|---|
+| `ibasho_live_sessions`, `ibasho_live_state` | open tabs; current home, route, chapter, layer, selection |
+| `ibasho_live_apply` | apply `Op[]` in the app; the change shows an "agent" mark and is undoable |
+| `ibasho_live_view` | layer, camera preset, time of day and month, chapter, focus element |
+| `ibasho_live_thread` | pull the red thread from a number to its evidence |
+| `ibasho_live_screenshot` | PNG of the stage (for the agent to look at) |
+| `ibasho_live_say` | slotted narration rendered in the narrator strip, validated, values filled from evidence |
+
+Resources: `ibasho://docs/{vision,spec}`, `ibasho://schema/twin`, `ibasho://schema/ops`, `ibasho://home/{id}`, `ibasho://cert/{hash}`. Prompts: `explore-my-home`, `compare-futures`, `audit-the-numbers`.
+
+**Privacy.** Agent link is off by default. Turning it on says plainly that the connected agent may send what it reads to its model provider. Every live call is listed in the outbound ledger (SPEC 5.14).
+
+**Installer.** `plugin` mode registers `integrations/claude-code` as a local marketplace and installs it (`claude plugin marketplace add`, `claude plugin install ibasho@ibasho`). `direct` mode mirrors tldraw: copies the skill to `~/.claude/skills/ibasho`, the agent to `~/.claude/agents/ibasho-explorer.md`, runs `claude mcp add ibasho -- node <repo>/apps/mcp/dist/index.js`, and merges the SubagentStart hook into `~/.claude/settings.json` with a timestamped backup. Every installed file carries `installed-by:ibasho`; `--uninstall` removes only marked files and entries.
+
+**Dependencies (T1, WP-12):** `@modelcontextprotocol/sdk` 1.32.1, `ws` 8.22.0 (Node side of the bridge tests).

@@ -1,0 +1,18 @@
+{
+  "name": "@ibasho/verify",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Certificate emitter, TS mirror checker (worker safe), seal and claim resolver, checker-rung plugins and the companion `POST /verify` handler.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/spec-gen": "workspace:*"
+  }
+}

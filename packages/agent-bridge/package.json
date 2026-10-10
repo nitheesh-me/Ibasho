@@ -1,0 +1,22 @@
+{
+  "name": "@ibasho/agent-bridge",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agent link protocol types (zod), a Hono sub-app (HTTP and WebSocket) the companion mounts, and the browser client `connectAgentLink()` used by apps/web (ARCH 14).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "hono": "4.13.13",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "ws": "8.22.0"
+  }
+}

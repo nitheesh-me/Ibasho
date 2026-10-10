@@ -1,0 +1,14 @@
+{
+  "name": "@ibasho/dmath",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic exp, log, log10, pow, sin, cos, atan2, acos and sqrt ported from fdlibm, with test vectors that run in Node, Chromium and Firefox (AC-D1).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  }
+}

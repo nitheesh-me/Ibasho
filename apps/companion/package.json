@@ -1,0 +1,23 @@
+{
+  "name": "@ibasho/companion",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional local Node helper on 127.0.0.1:7357: `GET /health`, `POST /verify`, optional Ollama CORS pass-through (ARCH 11).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.4",
+    "@ibasho/core": "workspace:*",
+    "hono": "4.13.13"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15"
+  }
+}

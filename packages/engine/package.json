@@ -1,0 +1,20 @@
+{
+  "name": "@ibasho/engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Worker API, pipeline runner, physics stages, 5R1C, calibration, rules evaluator, search, finance, score, uncertainty and evidence.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/dmath": "workspace:*",
+    "@ibasho/spec-gen": "workspace:*",
+    "comlink": "4.4.2"
+  }
+}

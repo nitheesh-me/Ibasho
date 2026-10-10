@@ -1,0 +1,8 @@
+/*
+ * Andon, the Ibasho design system. Owner: WP-06.
+ * Import once at the app root: tokens, the three webfonts, base and component styles.
+ */
+@import "./tokens.css";
+@import "./fonts.css";
+@import "./base.css";
+@import "./components.css";

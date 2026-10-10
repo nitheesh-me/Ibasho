@@ -1,0 +1,25 @@
+{
+  "name": "@ibasho/pack-home-in",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "India home pack (stub until T3).",
+  "exports": {
+    "./engine": "./src/engine/index.ts",
+    "./ui": "./src/ui/index.ts",
+    "./ids": "./src/ids.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/dmath": "workspace:*",
+    "@ibasho/ui": "workspace:*",
+    "react": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0"
+  }
+}

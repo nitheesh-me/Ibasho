@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ibasho.local/schemas/ibasho.cert-2.json",
+  "$comment": "PLACEHOLDER: replaced by ibasho-gen. Top-level shape only.",
+  "title": "ibasho.cert/2",
+  "type": "object",
+  "required": ["schema", "specHash", "engine", "packs", "context", "groups", "baseline", "heavy", "light", "claimed", "front", "picks", "needsCheck"],
+  "properties": {
+    "schema": { "const": "ibasho.cert/2" },
+    "specHash": { "type": "string" }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@ibasho/spec-gen",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GENERATED from Lean by ibasho-gen. PLACEHOLDER until WP-04 replaces it.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./cert.schema.json": "./src/generated/cert.schema.json",
+    "./seals.json": "./src/generated/seals.json"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}

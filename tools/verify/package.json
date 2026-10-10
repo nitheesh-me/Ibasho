@@ -1,0 +1,15 @@
+{
+  "name": "@ibasho/tools-verify",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "`pnpm verify [cert]`: runs the Lean checker on a certificate or the golden set.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "verify": "node -e \"console.log('tools-verify: not implemented yet (WP-04, M-0)'); process.exit(1)\""
+  }
+}

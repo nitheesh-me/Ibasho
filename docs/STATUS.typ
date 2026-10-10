@@ -47,6 +47,8 @@ Ibasho is a digital twin of a home that you can edit. Change the house and the m
   fill: (_, y) => if y == 0 { tint },
   [Feature], [State],
   [Planned. Filled in as work packages land.], state("todo"),
+  [Agent link: MCP server and Claude Code plugin, so an AI agent can explore a home headless or live in the app. One-command install.], state("todo"),
+  [G0 scaffold: a 28-package monorepo with enforced layers and ownership. The kernel holds every contract plus exact fixed-point money, exact fractions for the score, SHA-256 hashing @fips-180-4, a seeded generator @xoshiro and Latin hypercube sampling @mckay-lhs, all tested. Both apps boot in Chromium and Firefox.], state("done"),
 )
 
 = Walkthrough

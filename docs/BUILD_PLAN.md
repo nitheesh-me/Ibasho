@@ -46,6 +46,7 @@ Every path belongs to exactly one work package. A WP may read anything but edits
 | WP-09 | Content and landing | `apps/landing/**`, `packages/content/**` |
 | WP-10 | QA | `tests/**` (`tests/smoke/**` from G0), `tools/lint/**` (from G0), `.github/**` (from G0), `packages/fixtures/{package.json,tsconfig.json,README.md}`, `packages/fixtures/src/stranger/**` |
 | WP-11 | Assets | `apps/web/public/assets/**`, `tools/assets/**` |
+| WP-12 | Agent link (MCP + Claude Code) | `packages/agent-bridge/**`, `apps/mcp/**`, `integrations/claude-code/**`, `tools/agent-install/**`, `packages/fixtures/src/agent/**` |
 
 **How the split avoids overlap (DEC TE-7):**
 
@@ -81,6 +82,7 @@ G0 ──► M-0 ──┬─► M-A ──┬─► M-B ──┬─► M-C ─
  WP-04 ── spec-gen (first) ─── Lean spec v2, checker ┤                 │
  WP-05 ── validator, template ───────────── Ollama, memory ┤           │
  WP-09 ── measure content ─────────────────────── landing ─────────────┤
+ WP-12 ──────────────── headless MCP ┤ bridge, live tools, plugin ┤      │
  WP-10 ── CI, contracts, determinism ── stranger generator ── demo, a11y, visual
 ```
 
@@ -430,6 +432,22 @@ Each owner writes thin real code in its own directories, in this order. The slic
   - K3 No hero entry is `pending-manual`.
   - K4 The attribution page is generated from the manifest.
 - **Gate:** M-A (hero), M-D (lazy sets).
+
+### WP-12 Agent link: MCP server and Claude Code plugin
+
+- **Goal:** let an AI agent explore a home headless or live in the open app, installed into Claude Code in one command (ARCH 14).
+- **Inputs:** ARCH 5.5, 14; SPEC 5.14, 10; AM (all); the tldraw offline skill as a pattern (`~/skills/tldraw-offline`, `~/.claude/agents/tldraw-offline.md`).
+- **Outputs:** `packages/agent-bridge`, `apps/mcp`, `integrations/claude-code`, `tools/agent-install`, agent fixtures, plus INTERFACES requests for the two mount points (companion, web).
+- **Acceptance:**
+  - L1 MCP contract test with the SDK in-memory transport: every tool in ARCH 14 lists, validates input with zod, and returns evidence ids for every number.
+  - L2 Headless parity: `ibasho_search_futures` on GH1 returns the same result hash as the worker API.
+  - L3 `ibasho_what_if` rejects any op outside the typed `Op` schema; no code execution path exists (grep and test).
+  - L4 Bridge: no token gives 401; wrong pairing code is refused; binds 127.0.0.1 only.
+  - L5 Live e2e (Playwright + MCP client): `ibasho_live_apply` adds loft insulation in the open app, the stage updates, the change carries the agent mark and undoes cleanly; `ibasho_live_screenshot` returns a non-blank PNG.
+  - L6 `ibasho_live_say` with a raw digit is rejected by the validator; with slots it renders grounded values.
+  - L7 Installer: `--dry-run` prints the plan and writes nothing; install then `--uninstall` against a temp HOME leaves it byte-identical to before; `claude plugin validate` (or `details`) passes on `integrations/claude-code`.
+  - L8 `claude plugin eval` runs the plugin evals (explore GH1, find the biggest heat leak, explain why inside insulation is absent) and records scores on the blackboard (manual gate).
+- **Gate:** M-B (headless MCP, L1 to L3), M-D (bridge, live tools, plugin, installer, L4 to L8).
 
 ## 5. Gates
 

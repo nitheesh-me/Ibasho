@@ -1,0 +1,19 @@
+{
+  "name": "@ibasho/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kernel: contracts, plugin registry, event bus, evidence graph builder, fixed point, Q, intervals, units, PRNG, hashing.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas": "./src/schemas/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@ibasho/spec-gen": "workspace:*",
+    "zod": "4.6.5"
+  }
+}

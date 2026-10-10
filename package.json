@@ -1,0 +1,46 @@
+{
+  "name": "ibasho",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.1.1",
+  "engines": {
+    "node": ">=26.1.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "biome check . && pnpm run lint:deps && pnpm run lint:knip && pnpm run lint:tools",
+    "lint:deps": "depcruise packages packs apps --config .dependency-cruiser.cjs",
+    "lint:knip": "knip --include files,duplicates,unresolved",
+    "lint:tools": "tsx tools/lint/run.ts",
+    "format": "biome check --write .",
+    "contracts": "pnpm --filter @ibasho/tests run contracts",
+    "m0": "pnpm --filter @ibasho/tests run m0",
+    "e2e": "pnpm --filter @ibasho/tests run e2e",
+    "smoke": "playwright test -c tests/smoke/playwright.config.ts",
+    "proofs": "cd proofs && lake build && lake exe ibasho-gen",
+    "verify": "pnpm --filter @ibasho/tools-verify run verify",
+    "assets": "pnpm --filter @ibasho/tools-assets run assets"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.64.0",
+    "@size-limit/preset-app": "14.2.0",
+    "@types/culori": "4.0.1",
+    "@types/node": "26.6.5",
+    "@vitest/coverage-v8": "5.0.3",
+    "culori": "4.0.2",
+    "dependency-cruiser": "18.5.0",
+    "fast-check": "4.10.2",
+    "happy-dom": "20.14.6",
+    "knip": "6.41.0",
+    "size-limit": "14.2.0",
+    "tsx": "4.23.15",
+    "turbo": "2.11.7",
+    "typescript": "6.0.3",
+    "vitest": "5.0.3"
+  }
+}

@@ -1,0 +1,501 @@
+/*
+ * Andon components: Num, Seal, ClaimSeal (DESIGN_SYSTEM 8). Owner: WP-06.
+ * --seal is read only under .ib-seal and .ib-claim (rule 2: scarcity creates aura).
+ */
+
+/* ---------------------------------------------------------------- Num (evidence chip) */
+
+.ib-num {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.32em;
+  margin: 0 -0.2em;
+  padding: 0.02em 0.2em 0.1em;
+  border: 0;
+  border-radius: var(--r-1);
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-code);
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings:
+    "tnum" 1,
+    "lnum" 1;
+  letter-spacing: -0.01em;
+  text-align: inherit;
+  white-space: nowrap;
+  vertical-align: baseline;
+  cursor: pointer;
+  transition: background-color var(--t-fade) linear;
+}
+.ib-num[data-size="ui"] {
+  font-size: var(--fs-ui);
+}
+.ib-num[data-size="display"] {
+  gap: 0.18em;
+  font-size: var(--fs-d1);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+/* The value sits on a pencil hairline that says "this opens". */
+.ib-num__value {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  background: linear-gradient(var(--line), var(--line)) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 0.06em;
+}
+.ib-num__sign {
+  margin-right: 0.03em;
+}
+.ib-num__prefix {
+  margin-right: 0.04em;
+  color: var(--text-2);
+  font-weight: 400;
+}
+.ib-num__sep {
+  margin-inline: -0.1em;
+}
+.ib-num[data-size="display"] .ib-num__sep {
+  margin-inline: -0.13em;
+}
+/* CJK fonts draw the degree sign full width; the code face draws it close to the C. */
+.ib-num__deg {
+  font-family: var(--font-code);
+  margin-right: -0.12em;
+}
+.ib-num__unit,
+.ib-num__join {
+  font-family: var(--font-gothic);
+  font-feature-settings: "palt" 1;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.01em;
+}
+.ib-num[data-size="display"] .ib-num__unit {
+  margin-left: 0.12em;
+  font-size: 0.38em;
+  letter-spacing: 0.04em;
+}
+.ib-num[data-size="display"] .ib-num__prefix {
+  font-size: 0.6em;
+  vertical-align: 0.48em;
+}
+
+.ib-num:hover {
+  background-color: var(--surface-sunk);
+}
+.ib-num:hover .ib-num__value {
+  background-image: linear-gradient(var(--text-3), var(--text-3));
+}
+.ib-num:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Deltas: colour plus pattern. Saving is a solid underline, an increase a 45 degree hatch. */
+.ib-num[data-delta="saving"] :is(.ib-num__sign, .ib-num__digits, .ib-num__prefix) {
+  color: var(--delta-saving);
+}
+.ib-num[data-delta="saving"] .ib-num__value {
+  background: linear-gradient(var(--delta-saving), var(--delta-saving)) 0 100% / 100% 2px no-repeat;
+}
+.ib-num[data-delta="increase"] :is(.ib-num__sign, .ib-num__digits, .ib-num__prefix) {
+  color: var(--delta-increase);
+}
+.ib-num[data-delta="increase"] .ib-num__value {
+  background:
+    repeating-linear-gradient(-45deg, var(--delta-increase) 0 1.2px, transparent 1.2px 3.4px) 0 100% / 100%
+    3px no-repeat;
+  padding-bottom: 0.14em;
+}
+
+.ib-num__seal.ib-seal {
+  --ib-seal-size: 0.72em;
+  align-self: center;
+  margin-left: 0.02em;
+}
+.ib-num[data-size="display"] .ib-num__seal.ib-seal {
+  --ib-seal-size: 0.3em;
+  align-self: flex-start;
+  margin-top: 0.12em;
+}
+
+/* Evidence missing: marked, never a bare number. */
+.ib-num[data-missing] {
+  cursor: default;
+  color: var(--text-3);
+}
+.ib-num[data-missing] .ib-num__value {
+  background:
+    repeating-linear-gradient(90deg, var(--text-3) 0 2px, transparent 2px 5px) 0 100% / 100% 1px no-repeat;
+}
+
+/* Recompute: the old value stays readable while a brush stroke sweeps beneath it. */
+.ib-num[data-seal="pressing"] .ib-num__value {
+  color: var(--text-2);
+}
+.ib-num[data-seal="pressing"] .ib-num__value::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background:
+    linear-gradient(90deg, transparent, var(--text-2) 45%, var(--text-2) 55%, transparent) 0 0 / 40% 100%
+    no-repeat;
+  animation: ib-sweep 1.2s var(--ease-sumi) infinite;
+}
+
+/* Sumi: a changed value bleeds in. */
+.ib-num__value[data-settle] {
+  animation: ib-sumi var(--t-sumi) var(--ease-sumi) both;
+}
+
+/* -------------------------------------------------------------- Notes ("Not proved") */
+
+.ib-num__note,
+.ib-seal__note {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 20;
+  width: max-content;
+  max-width: min(19rem, 80vw);
+  padding: var(--ma-2) var(--ma-3);
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--kage-1);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-cap);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  text-align: left;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  translate: -50% 4px;
+  transition:
+    opacity var(--t-fade) linear,
+    translate var(--t-shoji) var(--ease-shoji),
+    visibility 0s linear var(--t-fade);
+}
+.ib-num__note::after,
+.ib-seal__note::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: var(--ink);
+}
+.ib-num__note-level {
+  font-weight: 700;
+}
+.ib-num:is(:hover, :focus-visible) .ib-num__note,
+.ib-seal:is(:hover, :focus-visible) > .ib-seal__note {
+  opacity: 1;
+  visibility: visible;
+  translate: -50% 0;
+  transition-delay: var(--ma-pause), var(--ma-pause), 0s;
+}
+
+/* ------------------------------------------------------------------- Seal (Hanko) */
+
+.ib-seal {
+  --ib-seal-size: 32px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-2);
+  vertical-align: middle;
+  border-radius: var(--r-seal);
+}
+.ib-seal[data-size="glyph"] {
+  --ib-seal-size: 0.9em;
+}
+.ib-seal[data-size="sm"] {
+  --ib-seal-size: 20px;
+}
+.ib-seal[data-size="lg"] {
+  --ib-seal-size: 56px;
+}
+.ib-seal[data-size="xl"] {
+  --ib-seal-size: 88px;
+}
+.ib-seal__print {
+  position: relative;
+  display: block;
+  flex: none;
+  width: var(--ib-seal-size);
+  height: var(--ib-seal-size);
+  color: var(--text-2);
+  rotate: var(--ib-seal-tilt, 0deg);
+}
+.ib-seal[data-seal="unverified"] .ib-seal__print {
+  color: var(--text-3);
+}
+.ib-seal__mark {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ib-seal__label {
+  font-family: var(--font-gothic);
+  font-size: var(--fs-cap);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+}
+
+/* Press: 90 ms down, a two frame squash, the spring, and ink spreading into the paper. */
+.ib-seal[data-press] .ib-seal__mark {
+  animation:
+    ib-hanko-press var(--t-press) var(--ease-hanko) both,
+    ib-hanko-settle var(--t-hanko-spring) var(--ease-hanko-spring) var(--t-press) both;
+}
+.ib-seal[data-press] .ib-seal__print::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  z-index: -1;
+  background: var(--seal);
+  filter: blur(8px);
+  opacity: 0;
+  animation: ib-ink-spread 640ms cubic-bezier(0.2, 0.7, 0.3, 1) var(--t-press) both;
+}
+.ib-seal[data-seal="pressing"] .ib-seal__mark {
+  animation: ib-hanko-hover 1.4s var(--ease-sumi) infinite alternate;
+}
+
+/* ------------------------------------------------------------------- ClaimSeal */
+
+.ib-claim {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--ma-4) var(--ma-5);
+  max-width: 42rem;
+  margin: 0;
+  padding: var(--ma-5) var(--ma-6) var(--ma-5) var(--ma-5);
+  background: var(--surface-raised);
+  color: var(--text);
+  box-shadow: var(--depth-1);
+  border-radius: var(--r-0);
+}
+.ib-claim[data-variant="inline"] {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.ib-claim__seal {
+  flex: none;
+  padding-top: var(--ma-1);
+}
+.ib-claim__body {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+.ib-claim__kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--ma-3);
+  margin: 0;
+  font-family: var(--font-gothic);
+  font-size: var(--fs-cap);
+  font-weight: 500;
+  line-height: var(--lh-cap);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.ib-claim__kicker::after {
+  content: "";
+  flex: 0 0 var(--ma-6);
+  height: 1px;
+  background: var(--line);
+}
+.ib-claim__sentence {
+  margin: var(--ma-2) 0 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-h2);
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+  font-feature-settings: "palt" 1;
+}
+.ib-claim[data-variant="inline"] .ib-claim__sentence {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+.ib-claim__statement {
+  margin: var(--ma-3) 0 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: var(--lh-body-mincho);
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+.ib-claim__not {
+  margin: var(--ma-4) 0 0;
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+.ib-claim__not strong {
+  font-weight: 700;
+  color: var(--text);
+}
+.ib-claim__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ma-2) var(--ma-5);
+  margin-top: var(--ma-4);
+}
+.ib-claim__theorems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-1) var(--ma-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+.ib-claim__theorems code {
+  font-size: inherit;
+  letter-spacing: -0.01em;
+}
+.ib-claim__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-4);
+  font-size: var(--fs-ui);
+  font-weight: 500;
+}
+.ib-claim__links a {
+  text-decoration-color: color-mix(in oklch, var(--link) 40%, transparent);
+}
+.ib-claim__links a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* --------------------------------------------------------------------- Keyframes */
+
+@keyframes ib-sumi {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes ib-sweep {
+  from {
+    background-position: -60% 0;
+  }
+  to {
+    background-position: 160% 0;
+  }
+}
+@keyframes ib-hanko-press {
+  from {
+    transform: scale(1.24) translateY(-5%);
+    opacity: 0;
+  }
+  to {
+    transform: scale(0.94, 0.92);
+    opacity: 1;
+  }
+}
+@keyframes ib-hanko-settle {
+  from {
+    transform: scale(0.94, 0.92);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes ib-ink-spread {
+  from {
+    opacity: 0.32;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+@keyframes ib-hanko-hover {
+  from {
+    transform: scale(1.08) translateY(-4%);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+@keyframes ib-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: every motion becomes a cross-fade of at most 150 ms (DESIGN_SYSTEM 5). */
+@media (prefers-reduced-motion: reduce) {
+  .ib-num__value[data-settle],
+  .ib-seal[data-press] .ib-seal__mark {
+    animation: ib-fade var(--t-fade) linear both;
+  }
+  .ib-seal[data-press] .ib-seal__print::after,
+  .ib-num[data-seal="pressing"] .ib-num__value::after {
+    animation: none;
+    opacity: 0;
+  }
+  .ib-seal[data-seal="pressing"] .ib-seal__mark {
+    animation: none;
+    opacity: 0.6;
+  }
+  .ib-num__note,
+  .ib-seal__note {
+    translate: -50% 0;
+    transition: opacity var(--t-fade) linear;
+  }
+}
+:root[data-motion="reduced"] :is(.ib-num__value[data-settle], .ib-seal[data-press] .ib-seal__mark) {
+  animation: ib-fade var(--t-fade) linear both;
+}
+:root[data-motion="reduced"]
+  :is(.ib-seal[data-press] .ib-seal__print, .ib-num[data-seal="pressing"] .ib-num__value)::after {
+  animation: none;
+  opacity: 0;
+}
+:root[data-motion="reduced"] .ib-seal[data-seal="pressing"] .ib-seal__mark {
+  animation: none;
+  opacity: 0.6;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@ibasho/mcp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "stdio MCP server: headless engine tools in Node, and live tools forwarded to the bridge when the app is open (ARCH 14).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/agent-bridge": "workspace:*",
+    "@ibasho/core": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "4.6.5"
+  }
+}

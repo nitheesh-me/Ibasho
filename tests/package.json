@@ -1,0 +1,16 @@
+{
+  "name": "@ibasho/tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Cross-package tests: contracts, M-0 slice, e2e, a11y, visual, demo, stranger homes, mutation, differential.",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "contracts": "vitest run --passWithNoTests --dir contracts",
+    "m0": "node -e \"console.log('m0: placeholder, WP-10 fills tests/m0 during M-0')\"",
+    "e2e": "node -e \"console.log('e2e: placeholder, WP-10 fills tests/e2e')\""
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

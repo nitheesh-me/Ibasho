@@ -23,3 +23,29 @@ dami-lee:
   title: "Dami Lee, architecture storytelling channel"
   author: "Lee, Dami"
   url: https://www.youtube.com/@DamiLeeArch
+fips-180-4:
+  type: Report
+  title: "FIPS PUB 180-4: Secure Hash Standard (SHS)"
+  author: NIST
+  date: 2015
+  url: https://doi.org/10.6028/NIST.FIPS.180-4
+xoshiro:
+  type: Article
+  title: "Scrambled Linear Pseudorandom Number Generators"
+  author: ["Blackman, David", "Vigna, Sebastiano"]
+  date: 2021
+  parent:
+    type: Periodical
+    title: "ACM Transactions on Mathematical Software"
+    volume: 47
+  url: https://doi.org/10.1145/3460772
+mckay-lhs:
+  type: Article
+  title: "A Comparison of Three Methods for Selecting Values of Input Variables in the Analysis of Output from a Computer Code"
+  author: ["McKay, M. D.", "Beckman, R. J.", "Conover, W. J."]
+  date: 1979
+  parent:
+    type: Periodical
+    title: "Technometrics"
+    volume: 21
+  url: https://doi.org/10.2307/1268522

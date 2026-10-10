@@ -1,0 +1,48 @@
+{
+  "$comment": "PLACEHOLDER: replaced by ibasho-gen. Claims and theorem names from SPEC 7.3; statements and axioms come from Lean.",
+  "placeholder": true,
+  "claims": [
+    {
+      "id": "nothing-better-hidden",
+      "sentence": "Nothing better is hidden",
+      "theorems": [
+        "check_sound",
+        "checkFront_sound",
+        "checkFront_complete",
+        "witness_sound",
+        "enum_complete_sound"
+      ],
+      "notProved": "The physics model's numbers are modelled, not proved."
+    },
+    {
+      "id": "rejected-never-returned",
+      "sentence": "What you ruled out never came back",
+      "theorems": ["rejected_never_offered", "rejection_antitone", "restore_monotone"],
+      "notProved": "Whether a ruled out measure would have suited you."
+    },
+    {
+      "id": "every-rule-passed",
+      "sentence": "Every option shown passes every rule we encoded",
+      "theorems": ["kleene_sound", "unknown_never_feasible", "feasibleB_sound"],
+      "notProved": "That our encoding matches the law. Check with your planning authority."
+    },
+    {
+      "id": "picks-as-named",
+      "sentence": "The three picks are what their names say",
+      "theorems": ["lexMin_nondominated", "checkPicks_sound"],
+      "notProved": "That the inputs to the ranking are accurate."
+    },
+    {
+      "id": "noise-decided-soundly",
+      "sentence": "The noise test is decided only when rounding cannot change it",
+      "theorems": ["noise_enclosure_sound", "noise_sum_ge_max"],
+      "notProved": "The unit's sound power figure, which comes from the maker."
+    },
+    {
+      "id": "score-bookkeeping",
+      "sentence": "Score bookkeeping is sound",
+      "theorems": ["weights_sum_one", "score_bounds", "score_monotone"],
+      "notProved": "That the score weights match what matters to you."
+    }
+  ]
+}

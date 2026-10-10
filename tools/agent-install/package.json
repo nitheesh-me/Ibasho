@@ -1,0 +1,14 @@
+{
+  "name": "@ibasho/tools-agent-install",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "`pnpm agent:install [--mode plugin|direct] [--scope user|project] [--dry-run] [--uninstall]` (ARCH 14).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  }
+}

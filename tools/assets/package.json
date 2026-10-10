@@ -1,0 +1,23 @@
+{
+  "name": "@ibasho/tools-assets",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "`pnpm assets`: fetch, transcode, subset and write `apps/web/public/assets/manifest.json`.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "assets": "node -e \"console.log('tools-assets: not implemented yet (WP-11, M-A)'); process.exit(1)\""
+  },
+  "dependencies": {
+    "@gltf-transform/cli": "4.5.1",
+    "@gltf-transform/core": "4.5.1",
+    "meshoptimizer": "1.3.0",
+    "sharp": "0.35.5",
+    "subset-font": "2.9.0",
+    "svgo": "4.1.0"
+  }
+}

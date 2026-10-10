@@ -9,7 +9,8 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "start": "node src/main.ts"
   },
   "dependencies": {
     "@ibasho/agent-bridge": "workspace:*",

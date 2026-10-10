@@ -45,6 +45,6 @@ export function createDefaultStages(
 }
 
 export { PhysicsError } from './common.ts';
-export { quantiseWh, QuantiseError } from './delivered.ts';
-export { type Household, household, sapOccupancy } from './household.ts';
+export { QuantiseError, quantiseWh } from './delivered.ts';
 export { offPeriodReduction, sapControlType } from './heat-balance.ts';
+export { type Household, household, sapOccupancy } from './household.ts';

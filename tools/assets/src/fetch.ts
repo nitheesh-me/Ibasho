@@ -28,7 +28,14 @@ import {
   type QuaterniusModelSpec,
   type TextureSpec,
 } from './config.ts';
-import { type Lock, type LockArchive, type LockAsset, type LockFileEntry, loadLock, sortKeys } from './lock.ts';
+import {
+  type Lock,
+  type LockArchive,
+  type LockAsset,
+  type LockFileEntry,
+  loadLock,
+  sortKeys,
+} from './lock.ts';
 import {
   CACHE_DIR,
   formatJson,
@@ -63,7 +70,11 @@ function cachedMatches(entry: { cache: string; sha256: string }): boolean {
   return existsSync(p) && sha256(new Uint8Array(readFileSync(p))) === entry.sha256;
 }
 
-async function downloadPinned(url: string, cache: string, expect?: { sha256?: string; md5?: string; bytes?: number }) {
+async function downloadPinned(
+  url: string,
+  cache: string,
+  expect?: { sha256?: string; md5?: string; bytes?: number },
+) {
   const buf = await httpGet(url);
   if (expect?.bytes !== undefined && buf.length !== expect.bytes)
     throw new Error(`${url}: got ${buf.length} bytes, expected ${expect.bytes}`);
@@ -126,7 +137,8 @@ async function resolvePolyHaven(spec: HdriSpec | TextureSpec): Promise<LockAsset
     if (!f) throw new Error(`Poly Haven ${spec.phId}: no ${role} file at the requested resolution`);
     const name = f.url.split('/').pop()!;
     const cache = `polyhaven/${spec.phId}/${name}`;
-    const buf = cachedMatchesMd5(cache, f.md5) ?? (await downloadPinned(f.url, cache, { md5: f.md5, bytes: f.size }));
+    const buf =
+      cachedMatchesMd5(cache, f.md5) ?? (await downloadPinned(f.url, cache, { md5: f.md5, bytes: f.size }));
     out[role] = { cache, url: f.url, bytes: buf.length, sha256: sha256(buf), md5: f.md5 };
   }
   return {
@@ -150,7 +162,10 @@ const KENNEY_ZIP = 'kenney/kenney_furniture-kit.zip';
 
 async function resolveKenneyArchive(archives: Record<string, LockArchive>): Promise<LockArchive> {
   const html = await httpText(KENNEY_FURNITURE_PAGE);
-  const m = /https:\/\/kenney\.nl\/media\/pages\/assets\/furniture-kit\/[^'"\s]+\/kenney_furniture-kit\.zip/.exec(html);
+  const m =
+    /https:\/\/kenney\.nl\/media\/pages\/assets\/furniture-kit\/[^'"\s]+\/kenney_furniture-kit\.zip/.exec(
+      html,
+    );
   if (!m) throw new Error('Kenney: zip link not found on the kit page');
   const buf = await downloadPinned(m[0], KENNEY_ZIP);
   const arc = { url: m[0], bytes: buf.length, sha256: sha256(buf) };
@@ -163,7 +178,7 @@ function kenneyLicence(): string {
     execFileSync('unzip', ['-p', cachePath(KENNEY_ZIP), 'License.txt'], { maxBuffer: 1024 * 1024 }),
   );
   const line = txt.split(/\r?\n/).find((l) => l.includes('License:'));
-  if (!line || !line.includes('CC0')) throw new Error('Kenney: License.txt does not state CC0');
+  if (!line?.includes('CC0')) throw new Error('Kenney: License.txt does not state CC0');
   return `Furniture Kit License.txt: "${line.trim()}"`;
 }
 
@@ -206,7 +221,10 @@ async function readPizzaBundle(): Promise<Map<string, PizzaRecord>> {
   return out;
 }
 
-async function resolveQuaternius(spec: QuaterniusModelSpec, bundle: Map<string, PizzaRecord>): Promise<LockAsset> {
+async function resolveQuaternius(
+  spec: QuaterniusModelSpec,
+  bundle: Map<string, PizzaRecord>,
+): Promise<LockAsset> {
   const rec = bundle.get(spec.publicId);
   if (!rec) throw new Error(`Poly Pizza: ${spec.publicId} (${spec.title}) not in the bundle`);
   if (rec.licence !== 'CC0 1.0') throw new Error(`Poly Pizza: ${spec.publicId} licence is ${rec.licence}`);
@@ -256,7 +274,9 @@ export async function fetchAll(specs: readonly AssetSpec[], refresh: boolean): P
   }
   // Keep only archives still referenced.
   const used = new Set(
-    Object.values(assets).flatMap((a) => Object.values(a.files).flatMap((f) => (f.zip ? [f.zip.archive] : []))),
+    Object.values(assets).flatMap((a) =>
+      Object.values(a.files).flatMap((f) => (f.zip ? [f.zip.archive] : [])),
+    ),
   );
   for (const k of Object.keys(archives)) if (!used.has(k)) delete archives[k];
   return { schema: 1, archives, assets };
@@ -267,8 +287,14 @@ async function main(): Promise<void> {
   const lock = await fetchAll(ALL_SPECS, refresh);
   writeFileEnsured(LOCK_PATH, formatJson(sortKeys(lock), 'tools/assets/sources.lock.json'));
   const n = Object.values(lock.assets).reduce((s, a) => s + Object.keys(a.files).length, 0);
-  console.log(`assets:fetch: ${Object.keys(lock.assets).length} assets, ${n} source files pinned in sources.lock.json`);
-  console.log(`providers: ${Object.values(PROVIDERS).map((p) => `${p.name} (${p.licence})`).join(', ')}`);
+  console.log(
+    `assets:fetch: ${Object.keys(lock.assets).length} assets, ${n} source files pinned in sources.lock.json`,
+  );
+  console.log(
+    `providers: ${Object.values(PROVIDERS)
+      .map((p) => `${p.name} (${p.licence})`)
+      .join(', ')}`,
+  );
 }
 
 if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {

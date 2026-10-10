@@ -21,7 +21,9 @@ export async function processHdri(dir: string, hdr: Uint8Array): Promise<StepRes
   const raw = { raw: { width: img.width, height: img.height, channels: 3 as const } };
 
   const sdrWebp = new Uint8Array(
-    await sharp(toneMapToSdr(img), raw).webp({ quality: SDR_QUALITY, smartSubsample: true, effort: 6 }).toBuffer(),
+    await sharp(toneMapToSdr(img), raw)
+      .webp({ quality: SDR_QUALITY, smartSubsample: true, effort: 6 })
+      .toBuffer(),
   );
   const sdr = await rawRgb(sdrWebp);
   const { gain, metadata } = encodeGain(img, sdr);
@@ -43,8 +45,22 @@ export async function processHdri(dir: string, hdr: Uint8Array): Promise<StepRes
     sum += v;
   }
   const files: OutFile[] = [
-    { rel: `${dir}/sdr.webp`, role: 'sdr', mime: 'image/webp', data: sdrWebp, width: img.width, height: img.height },
-    { rel: `${dir}/gain.webp`, role: 'gain', mime: 'image/webp', data: gainWebp, width: img.width, height: img.height },
+    {
+      rel: `${dir}/sdr.webp`,
+      role: 'sdr',
+      mime: 'image/webp',
+      data: sdrWebp,
+      width: img.width,
+      height: img.height,
+    },
+    {
+      rel: `${dir}/gain.webp`,
+      role: 'gain',
+      mime: 'image/webp',
+      data: gainWebp,
+      width: img.width,
+      height: img.height,
+    },
     { rel: `${dir}/meta.json`, role: 'gain-metadata', mime: 'application/json', data: metaJson },
     {
       rel: `${dir}/preview.webp`,

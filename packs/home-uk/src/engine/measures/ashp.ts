@@ -36,7 +36,7 @@ function cop(value: number, range: [number, number]): NumField {
 
 export const ashpMeasure: MeasureModel = {
   kind: 'measure',
-  ...identity('ashp'),
+  ...identity('ashp', 'heat', 'light', 'ashp'),
   version: '0.1.0',
   title: 'measure.ashp.title',
   regions: ['GB'],
@@ -73,7 +73,10 @@ export const ashpMeasure: MeasureModel = {
     const set: TwinPatch['set'] = [
       { path: '/systems/space/systemId', value: 'ashp-air-water' },
       { path: '/systems/space/fuel', value: 'electricity' },
-      { path: '/systems/space/efficiency', value: cop(space, [o.params.copSpace!.min!, o.params.copSpace!.max!]) },
+      {
+        path: '/systems/space/efficiency',
+        value: cop(space, [o.params.copSpace!.min!, o.params.copSpace!.max!]),
+      },
       { path: '/systems/dhw/systemId', value: 'ashp-air-water' },
       { path: '/systems/dhw/fuel', value: 'electricity' },
       { path: '/systems/dhw/efficiency', value: cop(dhw, [o.params.copDhw!.min!, o.params.copDhw!.max!]) },

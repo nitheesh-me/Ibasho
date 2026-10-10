@@ -1,0 +1,2747 @@
+{
+  "schema": 1,
+  "generator": "tools/assets/src/process.ts",
+  "budgets": {
+    "hero": {
+      "limitBytes": 8000000,
+      "bytes": 5726633
+    },
+    "lazy": {
+      "limitBytes": null,
+      "bytes": 0
+    }
+  },
+  "assets": [
+    {
+      "id": "hdri-kloofendal-overcast-puresky",
+      "kind": "hdri",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Kloofendal Overcast (Pure Sky)",
+      "use": "UK-like overcast default sky (Hiru)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Greg Zaal"],
+        "page": "https://polyhaven.com/a/kloofendal_overcast_puresky",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "hdr",
+            "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/kloofendal_overcast_puresky_1k.hdr",
+            "sha256": "5f98aa01d43a49cd899299751a978b3e5559a76300198b5dd2d9c68ecc4ad130"
+          }
+        ]
+      },
+      "processing": [
+        "Decoded the 1k Radiance file (three.js RGBELoader convention).",
+        "Tone mapped to an sRGB SDR base (extended Reinhard on luminance, white at the 99.5th percentile), WebP quality 85.",
+        "Gain map computed against the decoded SDR base (Adobe gain map maths, offsets 1/64, gamma 1), lossless WebP.",
+        "Preview: SDR base at 256 by 128, WebP quality 80."
+      ],
+      "files": [
+        {
+          "path": "hdri/kloofendal-overcast-puresky/sdr.webp",
+          "role": "sdr",
+          "mime": "image/webp",
+          "bytes": 7946,
+          "sha256": "0082103a131d129c5ce85753c0e68913ad59dcba0b58e278e3a879a7c6ef5840",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/kloofendal-overcast-puresky/gain.webp",
+          "role": "gain",
+          "mime": "image/webp",
+          "bytes": 366136,
+          "sha256": "9101cae73443c9387555a6c3cbeede78bfc1eb0c3ae76322b41b928ae7192bd1",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/kloofendal-overcast-puresky/meta.json",
+          "role": "gain-metadata",
+          "mime": "application/json",
+          "bytes": 341,
+          "sha256": "50e337eea51f54b3a3b685583f3de647fdb35d40a6ce0f30fe5d5847001f755a"
+        },
+        {
+          "path": "hdri/kloofendal-overcast-puresky/preview.webp",
+          "role": "preview",
+          "mime": "image/webp",
+          "bytes": 1098,
+          "sha256": "6d7f7e395c3b65606c4d1f22ce8baf78f661a1d65d54ee4150409dd0b1615631",
+          "width": 256,
+          "height": 128
+        }
+      ],
+      "hdri": {
+        "width": 1024,
+        "height": 512,
+        "maxRadiance": 6.56,
+        "meanRadiance": 0.888,
+        "loader": "gainmap-js GainMapLoader, or drei <Environment files={[sdr, gain, meta]} />",
+        "reconstruction": {
+          "medianRelError": 0.0012,
+          "p99RelError": 0.0031,
+          "meanLuminanceRelError": 0.000011
+        }
+      }
+    },
+    {
+      "id": "hdri-qwantani-noon",
+      "kind": "hdri",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Qwantani Noon",
+      "use": "Time of day scrubber: midday",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Greg Zaal (Photography)", "Jarod Guest (Processing)"],
+        "page": "https://polyhaven.com/a/qwantani_noon",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "hdr",
+            "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_noon_1k.hdr",
+            "sha256": "dd27e20fb8609d812055259be30f1e849152d68903c5e0cb8599bf56abc7cd78"
+          }
+        ]
+      },
+      "processing": [
+        "Decoded the 1k Radiance file (three.js RGBELoader convention).",
+        "Tone mapped to an sRGB SDR base (extended Reinhard on luminance, white at the 99.5th percentile), WebP quality 85.",
+        "Gain map computed against the decoded SDR base (Adobe gain map maths, offsets 1/64, gamma 1), lossless WebP.",
+        "Preview: SDR base at 256 by 128, WebP quality 80."
+      ],
+      "files": [
+        {
+          "path": "hdri/qwantani-noon/sdr.webp",
+          "role": "sdr",
+          "mime": "image/webp",
+          "bytes": 53956,
+          "sha256": "9d83cc8ab661d0ad1f1dd852576519014912d49d5a7af363c8ac275d59e68c77",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/qwantani-noon/gain.webp",
+          "role": "gain",
+          "mime": "image/webp",
+          "bytes": 308366,
+          "sha256": "88520019ac7ba5cda83dea5bba4a918f04bcfd46c24cc7275ccb0328cfdbc96e",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/qwantani-noon/meta.json",
+          "role": "gain-metadata",
+          "mime": "application/json",
+          "bytes": 337,
+          "sha256": "bf13d519ad64ceade5dd011cda1f5cd74b69ff9486133cbdf3d3d1ceac6e16c7"
+        },
+        {
+          "path": "hdri/qwantani-noon/preview.webp",
+          "role": "preview",
+          "mime": "image/webp",
+          "bytes": 3666,
+          "sha256": "81dfaa830745151eadbf99fb7c2eeccbfa37abab8c225243dd26898022bb86a9",
+          "width": 256,
+          "height": 128
+        }
+      ],
+      "hdri": {
+        "width": 1024,
+        "height": 512,
+        "maxRadiance": 108032,
+        "meanRadiance": 0.7256,
+        "loader": "gainmap-js GainMapLoader, or drei <Environment files={[sdr, gain, meta]} />",
+        "reconstruction": {
+          "medianRelError": 0.0101,
+          "p99RelError": 0.0238,
+          "meanLuminanceRelError": 0.001305
+        }
+      }
+    },
+    {
+      "id": "hdri-qwantani-late-afternoon",
+      "kind": "hdri",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Qwantani Late Afternoon",
+      "use": "Time of day scrubber: late afternoon",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Greg Zaal (Photography)", "Jarod Guest (Processing)"],
+        "page": "https://polyhaven.com/a/qwantani_late_afternoon",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "hdr",
+            "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_late_afternoon_1k.hdr",
+            "sha256": "7d14c4225bf2e9a1499cb3891a476eed447b3e14abd3ab65cc1f981d7b7f30f2"
+          }
+        ]
+      },
+      "processing": [
+        "Decoded the 1k Radiance file (three.js RGBELoader convention).",
+        "Tone mapped to an sRGB SDR base (extended Reinhard on luminance, white at the 99.5th percentile), WebP quality 85.",
+        "Gain map computed against the decoded SDR base (Adobe gain map maths, offsets 1/64, gamma 1), lossless WebP.",
+        "Preview: SDR base at 256 by 128, WebP quality 80."
+      ],
+      "files": [
+        {
+          "path": "hdri/qwantani-late-afternoon/sdr.webp",
+          "role": "sdr",
+          "mime": "image/webp",
+          "bytes": 62960,
+          "sha256": "67e23b4741ae707b67cb1f2efd2d1010c252f88941e32a6c9c2386309b215b13",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/qwantani-late-afternoon/gain.webp",
+          "role": "gain",
+          "mime": "image/webp",
+          "bytes": 343222,
+          "sha256": "f1dea615d19c0fb5921138972fbc1951d63a66ad3f785f90bee861de41025fe6",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/qwantani-late-afternoon/meta.json",
+          "role": "gain-metadata",
+          "mime": "application/json",
+          "bytes": 336,
+          "sha256": "1f57a83d03cd68b6d67cea1785458a9ae53209387d70c4e4e390beb58a54d8b6"
+        },
+        {
+          "path": "hdri/qwantani-late-afternoon/preview.webp",
+          "role": "preview",
+          "mime": "image/webp",
+          "bytes": 4140,
+          "sha256": "ac9675bdce65e5ae7f1bae53af415a674d32fadc0aa90c4f0be81d6bf7e883d9",
+          "width": 256,
+          "height": 128
+        }
+      ],
+      "hdri": {
+        "width": 1024,
+        "height": 512,
+        "maxRadiance": 125952,
+        "meanRadiance": 0.691,
+        "loader": "gainmap-js GainMapLoader, or drei <Environment files={[sdr, gain, meta]} />",
+        "reconstruction": {
+          "medianRelError": 0.0094,
+          "p99RelError": 0.0254,
+          "meanLuminanceRelError": 0.003594
+        }
+      }
+    },
+    {
+      "id": "hdri-qwantani-dusk-2",
+      "kind": "hdri",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Qwantani Dusk 2",
+      "use": "Yoru: dusk sky behind emissive windows",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Greg Zaal (Photography)", "Jarod Guest (Processing)"],
+        "page": "https://polyhaven.com/a/qwantani_dusk_2",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "hdr",
+            "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_dusk_2_1k.hdr",
+            "sha256": "67f51d0f158de3d32649379d0988d0663283392e763e4b74971b4ac746a12a63"
+          }
+        ]
+      },
+      "processing": [
+        "Decoded the 1k Radiance file (three.js RGBELoader convention).",
+        "Tone mapped to an sRGB SDR base (extended Reinhard on luminance, white at the 99.5th percentile), WebP quality 85.",
+        "Gain map computed against the decoded SDR base (Adobe gain map maths, offsets 1/64, gamma 1), lossless WebP.",
+        "Preview: SDR base at 256 by 128, WebP quality 80."
+      ],
+      "files": [
+        {
+          "path": "hdri/qwantani-dusk-2/sdr.webp",
+          "role": "sdr",
+          "mime": "image/webp",
+          "bytes": 34660,
+          "sha256": "aad892050a7da0419128d71ccd182d654100bb8bc6d07c13a370901b9494cbf6",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/qwantani-dusk-2/gain.webp",
+          "role": "gain",
+          "mime": "image/webp",
+          "bytes": 589846,
+          "sha256": "959200e09f115faf3ab697fc57811d3bf944d82bca747897648072729aea9fcc",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "path": "hdri/qwantani-dusk-2/meta.json",
+          "role": "gain-metadata",
+          "mime": "application/json",
+          "bytes": 337,
+          "sha256": "87a27f997575af81b5029308141520f41ed6dab140a7c4810d0269b732b46bc8"
+        },
+        {
+          "path": "hdri/qwantani-dusk-2/preview.webp",
+          "role": "preview",
+          "mime": "image/webp",
+          "bytes": 2386,
+          "sha256": "33ec478fa8bf1961b069b04fc15c2eeaca8b3d895e44d77daa08c071fbb8acdf",
+          "width": 256,
+          "height": 128
+        }
+      ],
+      "hdri": {
+        "width": 1024,
+        "height": 512,
+        "maxRadiance": 21.13,
+        "meanRadiance": 0.6696,
+        "loader": "gainmap-js GainMapLoader, or drei <Environment files={[sdr, gain, meta]} />",
+        "reconstruction": {
+          "medianRelError": 0.0026,
+          "p99RelError": 0.0068,
+          "meanLuminanceRelError": 0.000072
+        }
+      }
+    },
+    {
+      "id": "tex-red-brick-03",
+      "kind": "texture",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Red Brick 03",
+      "use": "Hero facade, solid brick walls",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Rob Tuytel"],
+        "page": "https://polyhaven.com/a/red_brick_03",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "arm",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_brick_03/red_brick_03_arm_2k.png",
+            "sha256": "c2cbc138ad29f6ef03849340d4f69d3a6298c2be39187b438c2c51dcf1c15b07"
+          },
+          {
+            "role": "diff",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_brick_03/red_brick_03_diff_2k.png",
+            "sha256": "c7acd2473455d71729ae9c649047f39ff8cc4a4b37873da47273b71925304181"
+          },
+          {
+            "role": "nor",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/red_brick_03/red_brick_03_nor_gl_2k.png",
+            "sha256": "f27cdea3ee64e775e48654de6ec154d1a48082ae1a5b7007fd111ae2b6a50e22"
+          }
+        ]
+      },
+      "processing": [
+        "Resized to 2048 by 2048 and converted to 8-bit sRGB.",
+        "Diffuse mixed 15% towards a paper-tinted grey (#F4EEE3) of equal luma (DS 10).",
+        "WebP quality 80 (diffuse), 80 (normal), 75 (ARM)."
+      ],
+      "files": [
+        {
+          "path": "textures/red-brick-03/diff.webp",
+          "role": "diff",
+          "mime": "image/webp",
+          "bytes": 1208758,
+          "sha256": "a214ba4201289bf567d25464e884f4e8f46d310e62302a4659181a1a5aedbee9",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "path": "textures/red-brick-03/nor.webp",
+          "role": "nor",
+          "mime": "image/webp",
+          "bytes": 943458,
+          "sha256": "20b2797b40b6fd1ae228696117a4638ba63de737dc5ad5f3e87b24d2c673863f",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "path": "textures/red-brick-03/arm.webp",
+          "role": "arm",
+          "mime": "image/webp",
+          "bytes": 314536,
+          "sha256": "5ce4d87a15fc6d92a097df059aad140ea0553116514bbc29ac936d8160e91de0",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "texture": {
+        "size": 2048,
+        "colorSpace": {
+          "diff": "srgb",
+          "nor": "linear",
+          "arm": "linear"
+        },
+        "normalConvention": "OpenGL (+Y), as three.js expects",
+        "armChannels": "R ambient occlusion, G roughness, B metalness (three.js aoMap, roughnessMap, metalnessMap)"
+      }
+    },
+    {
+      "id": "tex-roof-slates-02",
+      "kind": "texture",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Roof Slates 02",
+      "use": "Welsh slate roof",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Rob Tuytel"],
+        "page": "https://polyhaven.com/a/roof_slates_02",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "arm",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/roof_slates_02/roof_slates_02_arm_1k.png",
+            "sha256": "b36043c4a770b7474ceb29f04f68fc23545573fa4b43fa7cddd565fff47da480"
+          },
+          {
+            "role": "diff",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/roof_slates_02/roof_slates_02_diff_1k.png",
+            "sha256": "af60b0c8429d5a8f68da7bf1c74e375c311035435d1ca969772eb2ca2b57fd67"
+          },
+          {
+            "role": "nor",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/roof_slates_02/roof_slates_02_nor_gl_1k.png",
+            "sha256": "2c0f9debeb90dd8339ee6f0843b0acbb8a0d90b620c48282c9f0e8fb7d7a0ceb"
+          }
+        ]
+      },
+      "processing": [
+        "Resized to 1024 by 1024 and converted to 8-bit sRGB.",
+        "Diffuse mixed 15% towards a paper-tinted grey (#F4EEE3) of equal luma (DS 10).",
+        "WebP quality 80 (diffuse), 80 (normal), 75 (ARM)."
+      ],
+      "files": [
+        {
+          "path": "textures/roof-slates-02/diff.webp",
+          "role": "diff",
+          "mime": "image/webp",
+          "bytes": 161428,
+          "sha256": "54d1203c06e5225ee7e4eb72ab018d7a2872125489cf7a99bf93e8b7d2329b7f",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "textures/roof-slates-02/nor.webp",
+          "role": "nor",
+          "mime": "image/webp",
+          "bytes": 192058,
+          "sha256": "a26bcf864e5283c34c06bd9f726ed6b7733fde75da61f799436f82603e04f965",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "textures/roof-slates-02/arm.webp",
+          "role": "arm",
+          "mime": "image/webp",
+          "bytes": 115092,
+          "sha256": "a035bb1743efc2ea6e73a9587211c410bb39afa99b80ad7b3b8bed6f622664d6",
+          "width": 1024,
+          "height": 1024
+        }
+      ],
+      "texture": {
+        "size": 1024,
+        "colorSpace": {
+          "diff": "srgb",
+          "nor": "linear",
+          "arm": "linear"
+        },
+        "normalConvention": "OpenGL (+Y), as three.js expects",
+        "armChannels": "R ambient occlusion, G roughness, B metalness (three.js aoMap, roughnessMap, metalnessMap)"
+      }
+    },
+    {
+      "id": "tex-white-stucco",
+      "kind": "texture",
+      "tier": "hero",
+      "status": "ok",
+      "title": "White Stucco",
+      "use": "Render and plaster",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Amal Kumar"],
+        "page": "https://polyhaven.com/a/white_stucco",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "arm",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_arm_1k.png",
+            "sha256": "6ac026a77efbfe49434082f392eefdbda7e37ba89ae9daa7912c177a2faa45e4"
+          },
+          {
+            "role": "diff",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_diff_1k.png",
+            "sha256": "24ed9486ac78892b34a47cba0cde44a27f356b7c34d3c93c0da7b464be0de131"
+          },
+          {
+            "role": "nor",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_nor_gl_1k.png",
+            "sha256": "0d2f0911ca98b84f78fcf35878e027bdaffb6d661d763f6141642e5581b06d69"
+          }
+        ]
+      },
+      "processing": [
+        "Resized to 1024 by 1024 and converted to 8-bit sRGB.",
+        "Diffuse mixed 15% towards a paper-tinted grey (#F4EEE3) of equal luma (DS 10).",
+        "WebP quality 80 (diffuse), 80 (normal), 75 (ARM)."
+      ],
+      "files": [
+        {
+          "path": "textures/white-stucco/diff.webp",
+          "role": "diff",
+          "mime": "image/webp",
+          "bytes": 38830,
+          "sha256": "046ddb3487003e05ed748458bf4577546ee3412f18af6694d82d367398357478",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "textures/white-stucco/nor.webp",
+          "role": "nor",
+          "mime": "image/webp",
+          "bytes": 193566,
+          "sha256": "8ac05291a75d5ac3f19b00c0017f6a5c49a0162d74c307e3c884e053d7855be3",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "textures/white-stucco/arm.webp",
+          "role": "arm",
+          "mime": "image/webp",
+          "bytes": 9532,
+          "sha256": "66ea90dfcfb324a988a9a9682ea69c27dbac0545a2a1044c2ed432bd33ede030",
+          "width": 1024,
+          "height": 1024
+        }
+      ],
+      "texture": {
+        "size": 1024,
+        "colorSpace": {
+          "diff": "srgb",
+          "nor": "linear",
+          "arm": "linear"
+        },
+        "normalConvention": "OpenGL (+Y), as three.js expects",
+        "armChannels": "R ambient occlusion, G roughness, B metalness (three.js aoMap, roughnessMap, metalnessMap)"
+      }
+    },
+    {
+      "id": "tex-pavement-02",
+      "kind": "texture",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Pavement 02",
+      "use": "Street and front path",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "polyhaven",
+        "providerName": "Poly Haven",
+        "authors": ["Dario Barresi (Processing)", "Charlotte Baglioni (Photography)"],
+        "page": "https://polyhaven.com/a/pavement_02",
+        "licenceEvidence": "polyhaven.com/license: \"Our assets are all licensed as CC0\"",
+        "files": [
+          {
+            "role": "arm",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pavement_02/pavement_02_arm_1k.png",
+            "sha256": "7193ddbb41d039f01d3776a5660d75318da0ee893e4674e258aafe5be0d32edc"
+          },
+          {
+            "role": "diff",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pavement_02/pavement_02_diff_1k.png",
+            "sha256": "945345e917cc3ce5c0662a11430fe139d28d03270228ceee8b330649784afb3a"
+          },
+          {
+            "role": "nor",
+            "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/pavement_02/pavement_02_nor_gl_1k.png",
+            "sha256": "b5c66a2a0a99d1a782bb16c93d557df8e5e685ddc1170c233e90abd398f40553"
+          }
+        ]
+      },
+      "processing": [
+        "Resized to 1024 by 1024 and converted to 8-bit sRGB.",
+        "Diffuse mixed 15% towards a paper-tinted grey (#F4EEE3) of equal luma (DS 10).",
+        "WebP quality 80 (diffuse), 80 (normal), 75 (ARM)."
+      ],
+      "files": [
+        {
+          "path": "textures/pavement-02/diff.webp",
+          "role": "diff",
+          "mime": "image/webp",
+          "bytes": 367312,
+          "sha256": "deb62e1944b1b348c1cd2fdc4d608763cc509ac5a9a500868c1a39f2a500c743",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "textures/pavement-02/nor.webp",
+          "role": "nor",
+          "mime": "image/webp",
+          "bytes": 67332,
+          "sha256": "ab620f93e7a8378285f7e31c1fbcf8864b5cc28e27fd2aa3fd9092a499fee6c4",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "path": "textures/pavement-02/arm.webp",
+          "role": "arm",
+          "mime": "image/webp",
+          "bytes": 95484,
+          "sha256": "c6f403d22ad30b8275376b75d4de7717eab98b91b67ea4e2f7d1b9b3c35fc0d2",
+          "width": 1024,
+          "height": 1024
+        }
+      ],
+      "texture": {
+        "size": 1024,
+        "colorSpace": {
+          "diff": "srgb",
+          "nor": "linear",
+          "arm": "linear"
+        },
+        "normalConvention": "OpenGL (+Y), as three.js expects",
+        "armChannels": "R ambient occlusion, G roughness, B metalness (three.js aoMap, roughnessMap, metalnessMap)"
+      }
+    },
+    {
+      "id": "kenney-lounge-sofa",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: loungeSofa",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/loungeSofa.glb",
+            "sha256": "1886b811c0d3ad0d8525a4fd43adf4112c497c8e0ed906f06877ca3517f4c7dd"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.847826 so its height is 0.85 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/lounge-sofa.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 4364,
+          "sha256": "4219338f68ec129d8c0f45f5ed6a2b42e6b8c0351813a26fb446a2ab552ba429"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.85,
+          "scale": 1.847826
+        },
+        "boundsM": {
+          "min": [-0.9054, 0, -0.3788],
+          "max": [0.9054, 0.85, 0.3788]
+        },
+        "triangles": 128,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-lounge-chair",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: loungeChair",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/loungeChair.glb",
+            "sha256": "ddfe6bc4b3451bca61666d7b614552d6ed2a03d82fc76244b72ae3155874dc6c"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.847826 so its height is 0.85 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/lounge-chair.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 4376,
+          "sha256": "b58b1cfb67d16d27a0c229d032c51930f0dfcd6e650accb9001bc6e095490a10"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.85,
+          "scale": 1.847826
+        },
+        "boundsM": {
+          "min": [-0.4527, 0, -0.3788],
+          "max": [0.4527, 0.85, 0.3788]
+        },
+        "triangles": 128,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-table-coffee",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: tableCoffee",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/tableCoffee.glb",
+            "sha256": "e38bea760fbd514efbb75528d09b4752c91af44677bbb97e6d4386c263525179"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.956522 so its height is 0.45 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/table-coffee.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 2944,
+          "sha256": "113c210ec7a5553b52f8f393621368fba392f0be51f244f4b954264cc3ce4317"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.45,
+          "scale": 1.956522
+        },
+        "boundsM": {
+          "min": [-0.6466, 0, -0.3913],
+          "max": [0.6466, 0.45, 0.3913]
+        },
+        "triangles": 124,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-rug-rectangle",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: rugRectangle",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/rugRectangle.glb",
+            "sha256": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.273885 so its length is 2 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/rug-rectangle.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3160,
+          "sha256": "f870c9e619123a73c3ba48b050824fece3129718d0d088ff4301ae13041a99c1"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 2,
+          "scale": 1.273885
+        },
+        "boundsM": {
+          "min": [-1, 0, -0.586],
+          "max": [1, 0.0127, 0.586]
+        },
+        "triangles": 28,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-bookcase-open",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: bookcaseOpen",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bookcaseOpen.glb",
+            "sha256": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2.045455 so its height is 1.8 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/bookcase-open.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 4252,
+          "sha256": "44553cf18a0e372093523998ec226eb34049e18067afe871a5fba73821c25109"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 1.8,
+          "scale": 2.045455
+        },
+        "boundsM": {
+          "min": [-0.4091, 0, -0.2557],
+          "max": [0.4091, 1.8, 0.2557]
+        },
+        "triangles": 320,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-lamp-round-floor",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: lampRoundFloor",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/lampRoundFloor.glb",
+            "sha256": "50fe1b5b588edf15bfa9cc880f71a02a4fda6036350b24733d0ef4de5cc5e908"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.860465 so its height is 1.6 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/lamp-round-floor.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3764,
+          "sha256": "4558bee07292e74bd401326af18df19374641015360b6970128f133acd4ced48"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 1.6,
+          "scale": 1.860465
+        },
+        "boundsM": {
+          "min": [-0.1414, 0, -0.1633],
+          "max": [0.1414, 1.6, 0.1633]
+        },
+        "triangles": 76,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-television-modern",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: televisionModern",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/televisionModern.glb",
+            "sha256": "d89519ad0a5f28b5b0dccb0d83209dccf610cda959578238dd21bbf9e219cfc6"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.46028 so its length is 1 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/television-modern.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3636,
+          "sha256": "032c12c7792c65aa8db4ac2bd25b99c3fb8bf1b46077eacbc0cd984c05beb589"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 1,
+          "scale": 1.46028
+        },
+        "boundsM": {
+          "min": [-0.5, 0, -0.0937],
+          "max": [0.5, 0.6641, 0.0937]
+        },
+        "triangles": 72,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-cabinet-television",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: cabinetTelevision",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/cabinetTelevision.glb",
+            "sha256": "811719593d676ff76f7b5904d52c845ce0396af2bc9a6a2636c4818ead320b99"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.612903 so its height is 0.5 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/cabinet-television.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3296,
+          "sha256": "d7b07f675b2c1427b39b36f8bef3ae3d3c8d1f42ba2a77f82154d1ea6320e346"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.5,
+          "scale": 1.612903
+        },
+        "boundsM": {
+          "min": [-0.6452, 0, -0.2016],
+          "max": [0.6452, 0.5, 0.2016]
+        },
+        "triangles": 154,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-table",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: table",
+      "room": "dining",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/table.glb",
+            "sha256": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2.295445 so its height is 0.75 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/table.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 2948,
+          "sha256": "d690275b81bade5f7d0702be8396f26eb26468df9f49f52eb9a08da3cedaf591"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.75,
+          "scale": 2.295445
+        },
+        "boundsM": {
+          "min": [-0.9658, 0, -0.5135],
+          "max": [0.9658, 0.75, 0.5135]
+        },
+        "triangles": 120,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-chair",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: chair",
+      "room": "dining",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/chair.glb",
+            "sha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.914894 so its height is 0.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/chair.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3336,
+          "sha256": "85fbded8394d2cc332aecfdb26eceb0dd37a8c9ca06cbd8684674573d1f78f18"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.9,
+          "scale": 1.914894
+        },
+        "boundsM": {
+          "min": [-0.1915, 0, -0.1915],
+          "max": [0.1915, 0.9, 0.1915]
+        },
+        "triangles": 170,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-side-table",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: sideTable",
+      "room": "dining",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/sideTable.glb",
+            "sha256": "8227810584f7d37582e4e9ec821c56f1dc54b99c88a8dc74242ea3b7402bc472"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.560843 so its height is 0.6 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/side-table.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 4052,
+          "sha256": "a3c1a5cd5c0c0e374c312ed37b5ef61735c93e19a3f1f663ec4ec54285911e5e"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.6,
+          "scale": 1.560843
+        },
+        "boundsM": {
+          "min": [-0.4171, 0, -0.1717],
+          "max": [0.4171, 0.6, 0.1717]
+        },
+        "triangles": 118,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-kitchen-cabinet",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: kitchenCabinet",
+      "room": "kitchen",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2 so its height is 0.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/kitchen-cabinet.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5456,
+          "sha256": "4953fa9f3ce733b771521252b0d0dfc47af286cb2b0a41d85d4dc33a3c208fa7"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.9,
+          "scale": 2
+        },
+        "boundsM": {
+          "min": [-0.43, 0, -0.45],
+          "max": [0.43, 0.9, 0.45]
+        },
+        "triangles": 114,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-kitchen-cabinet-upper",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: kitchenCabinetUpper",
+      "room": "kitchen",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenCabinetUpper.glb",
+            "sha256": "8f2496feed85a745ffb6e554075b8450d647f8f68b01d6a010fcac1510fc173a"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.794872 so its height is 0.7 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/kitchen-cabinet-upper.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5112,
+          "sha256": "5404690586ad6c279badeb8a99a654f25cf0b7ef9aa372477c4d403e95bd9976"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.7,
+          "scale": 1.794872
+        },
+        "boundsM": {
+          "min": [-0.3859, 0, -0.1974],
+          "max": [0.3859, 0.7, 0.1974]
+        },
+        "triangles": 80,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-kitchen-sink",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: kitchenSink",
+      "room": "kitchen",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenSink.glb",
+            "sha256": "7b9610277d71f00dcf1bba49cf4d98d77ce5177e84bf76c7da2f8893e542f743"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.836735 so its height is 0.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/kitchen-sink.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5928,
+          "sha256": "8fd41d58060d9330aaf16c4ad83506743621c79f974c9a9ae9dc746900d82b42"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.9,
+          "scale": 1.836735
+        },
+        "boundsM": {
+          "min": [-0.3949, 0, -0.4133],
+          "max": [0.3949, 0.9, 0.4133]
+        },
+        "triangles": 318,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "EXT_texture_webp", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-kitchen-stove",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: kitchenStove",
+      "room": "kitchen",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenStove.glb",
+            "sha256": "3239edb36295dfca9530a9b9a6ad0aff98ce62e7cf8d13ca2a5a1a6b2a904656"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2 so its height is 0.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/kitchen-stove.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 12544,
+          "sha256": "a71e668c4da484c288b5fda7abb700313395f9ed3193169af793908ffed9fe86"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.9,
+          "scale": 2
+        },
+        "boundsM": {
+          "min": [-0.43, 0, -0.45],
+          "max": [0.43, 0.9, 0.45]
+        },
+        "triangles": 830,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "EXT_texture_webp", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-kitchen-fridge-small",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: kitchenFridgeSmall",
+      "room": "kitchen",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.416085 so its height is 0.85 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/kitchen-fridge-small.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 6920,
+          "sha256": "ea65138ba1ed2487ad58ecdfd8ebbf6e10e402cc75de9b729aaba4f2a03b7620"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.85,
+          "scale": 1.416085
+        },
+        "boundsM": {
+          "min": [-0.3045, 0, -0.2067],
+          "max": [0.3045, 0.85, 0.2067]
+        },
+        "triangles": 152,
+        "drawCalls": 4,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-washer",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: washer",
+      "room": "kitchen",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/washer.glb",
+            "sha256": "0c9704df1817d2699b72305b96cde097c9558bacabaef2fd5ab1ff4c03b81abf"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.808511 so its height is 0.85 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/washer.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 12680,
+          "sha256": "e5f908f49e1841b1d26ccf6de3405ff8a3a60141fa1c4f4ba214ada3878b11fe"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.85,
+          "scale": 1.808511
+        },
+        "boundsM": {
+          "min": [-0.3527, 0, -0.3527],
+          "max": [0.3527, 0.85, 0.3527]
+        },
+        "triangles": 720,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "EXT_texture_webp", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-bed-double",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: bedDouble",
+      "room": "bedroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bedDouble.glb",
+            "sha256": "c49b33e7d797d2ba1111895587dba7ff63b17a712eb9b4ceeb40a598f73e476c"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.688889 so its length is 1.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/bed-double.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 8424,
+          "sha256": "afbdf0f6f0520a5464b71a280746552b7faf01e9ecd46bdd39c9c5b22f34e24f"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 1.9,
+          "scale": 1.688889
+        },
+        "boundsM": {
+          "min": [-0.8073, 0, -0.95],
+          "max": [0.8073, 0.6333, 0.95]
+        },
+        "triangles": 264,
+        "drawCalls": 4,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-bed-single",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: bedSingle",
+      "room": "bedroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bedSingle.glb",
+            "sha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.688889 so its length is 1.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/bed-single.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 7772,
+          "sha256": "c9770e835d5e96893e6c1d71f335a9783d434250cbe580927f00f1338db8a9cd"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 1.9,
+          "scale": 1.688889
+        },
+        "boundsM": {
+          "min": [-0.4822, 0, -0.95],
+          "max": [0.4822, 0.6333, 0.95]
+        },
+        "triangles": 214,
+        "drawCalls": 4,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-cabinet-bed-drawer",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: cabinetBedDrawer",
+      "room": "bedroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/cabinetBedDrawer.glb",
+            "sha256": "e3dfd2e120af3d4d29b66509e317452cd15bd3f57ac8945575462c582adc6de8"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2.089666 so its height is 0.55 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/cabinet-bed-drawer.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 6156,
+          "sha256": "024dc2621cffdf08a4a45604ed3459f307e8486e61deabfbe3045bee3d0eb94d"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.55,
+          "scale": 2.089666
+        },
+        "boundsM": {
+          "min": [-0.2779, 0, -0.227],
+          "max": [0.2779, 0.55, 0.227]
+        },
+        "triangles": 182,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-lamp-round-table",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: lampRoundTable",
+      "room": "bedroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/lampRoundTable.glb",
+            "sha256": "75bb644caaa3da003b4fcad7a931722dd61cd2858aab70cf660021d5061fa1b2"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.431981 so its height is 0.45 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/lamp-round-table.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3792,
+          "sha256": "414404579dd9991183aab617a3913f06f75b2884ae7184871a159e66c2acce90"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.45,
+          "scale": 1.431981
+        },
+        "boundsM": {
+          "min": [-0.1089, 0, -0.1257],
+          "max": [0.1089, 0.45, 0.1257]
+        },
+        "triangles": 76,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-bathtub",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: bathtub",
+      "room": "bathroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bathtub.glb",
+            "sha256": "54c405c7035aab63dc41e709dc3c50fc5bcfbc4cddc91ffc54188075a6d25d01"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.428571 so its length is 1.7 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/bathtub.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 9900,
+          "sha256": "0b5a650eae2b67deb781939e7ffdc5fdf3c8e6b0617b170a584c5e5f049a260b"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 1.7,
+          "scale": 1.428571
+        },
+        "boundsM": {
+          "min": [-0.85, 0, -0.4],
+          "max": [0.85, 0.6, 0.4]
+        },
+        "triangles": 602,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-toilet",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: toilet",
+      "room": "bathroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/toilet.glb",
+            "sha256": "16165cfd03c56c2cb443b800570810a22ef770f65e7a468f6761d9dc14eaaeae"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.773974 so its height is 0.8 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/toilet.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 8192,
+          "sha256": "c55767233370d6e137b42eb0dfe6c7c0e3bda41e24c6d75b89ee8284bcbd8f9e"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.8,
+          "scale": 1.773974
+        },
+        "boundsM": {
+          "min": [-0.2772, 0, -0.4232],
+          "max": [0.2772, 0.8, 0.4232]
+        },
+        "triangles": 230,
+        "drawCalls": 4,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-bathroom-sink",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: bathroomSink",
+      "room": "bathroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/bathroomSink.glb",
+            "sha256": "39d4f19608cab7e0fed52303b2c689f5f51fae1bad9b6913cb53d838875e797e"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.517857 so its height is 0.85 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/bathroom-sink.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 7096,
+          "sha256": "81ce76ecb68b6ffd210d545a14f74d84cafcd9006202492aa5a6503dcd5b290d"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.85,
+          "scale": 1.517857
+        },
+        "boundsM": {
+          "min": [-0.258, 0, -0.2201],
+          "max": [0.258, 0.85, 0.2201]
+        },
+        "triangles": 316,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-coat-rack-standing",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: coatRackStanding",
+      "room": "hall",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/coatRackStanding.glb",
+            "sha256": "d8231c22dab63ceb9fc8678f6c8ceafc62afa8726b51a73b4ce349043d3cdc91"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2.337662 so its height is 1.8 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/coat-rack-standing.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3900,
+          "sha256": "6c4841ad96f26448a5cda30474b8ed561359923188d9e981f4fdc711109aabc6"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 1.8,
+          "scale": 2.337662
+        },
+        "boundsM": {
+          "min": [-0.3189, 0, -0.3189],
+          "max": [0.3189, 1.8, 0.3189]
+        },
+        "triangles": 190,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-rug-doormat",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: rugDoormat",
+      "room": "hall",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/rugDoormat.glb",
+            "sha256": "bd888e41853342cdc0d34d3f09b99cedc50a144f47b514943b65cdb9a2cfd802"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.863499 so its length is 0.8 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/rug-doormat.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 3648,
+          "sha256": "5f4f5578ae34e32d7b57718ad7665d8896de8e3f146f82dbdae6a6ccc0727e7b"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 0.8,
+          "scale": 1.863499
+        },
+        "boundsM": {
+          "min": [-0.4, 0, -0.2208],
+          "max": [0.4, 0.0186, 0.2208]
+        },
+        "triangles": 204,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "kenney-potted-plant",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Furniture Kit: pottedPlant",
+      "room": "any",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "kenney",
+        "providerName": "Kenney",
+        "authors": ["Kenney"],
+        "page": "https://kenney.nl/assets/furniture-kit",
+        "licenceEvidence": "Furniture Kit License.txt: \"License: (Creative Commons Zero, CC0)\"",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://kenney.nl/media/pages/assets/furniture-kit/440e0608a4-1677580847/kenney_furniture-kit.zip",
+            "member": "Models/GLTF format/pottedPlant.glb",
+            "sha256": "5b760eda2766f75fda36b2c5df652a1662f82981ef64cd8fa7fe7bcd386b3a15"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.22321 so its height is 0.8 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/kenney/potted-plant.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5208,
+          "sha256": "00e3ea15e4ac514f691a0ef73d5468c85ae30efd15330e2e5620b280d4c11a51"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.8,
+          "scale": 1.22321
+        },
+        "boundsM": {
+          "min": [-0.1297, 0, -0.1477],
+          "max": [0.1297, 0.8, 0.1477]
+        },
+        "triangles": 60,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-fireplace",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Fireplace",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/nzxZYIOCIr",
+        "licenceEvidence": "Poly Pizza record nzxZYIOCIr: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/7841807d-cab9-46e2-95c2-1ca0bbee5736.glb",
+            "sha256": "b9c8d82cf1a64ca15cc5a28bb64e7a4b379fc89a02de523f3b45674183176477"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.468531 so its height is 1.2 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/fireplace.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5936,
+          "sha256": "57b058af15b988bc89f9910db62d37272e647dfa588d44001d1d57bde539f859"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 1.2,
+          "scale": 0.468531
+        },
+        "boundsM": {
+          "min": [-0.7613, 0, -0.2712],
+          "max": [0.7613, 1.2, 0.2712]
+        },
+        "triangles": 360,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-couch-medium",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Couch Medium",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/mWgQ94zhDZ",
+        "licenceEvidence": "Poly Pizza record mWgQ94zhDZ: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/92a2404e-10d5-4c6a-a188-18b556474f8f.glb",
+            "sha256": "7003e8c52669c171090231f8589aa23090d53eb9a4bb8d4b3adecef93561c30d"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.44502 so its height is 0.85 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/couch-medium.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 8624,
+          "sha256": "15b40d345f8dbd536db887925905baa2193e3b7d4a7ec98cdf6d32c5632e0588"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.85,
+          "scale": 0.44502
+        },
+        "boundsM": {
+          "min": [-1.0432, 0, -0.4903],
+          "max": [1.0432, 0.85, 0.4903]
+        },
+        "triangles": 1012,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-curtains-double",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Curtains Double",
+      "room": "any",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/kkeII96j9N",
+        "licenceEvidence": "Poly Pizza record kkeII96j9N: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/cf707f1b-8d82-467d-b89e-e4c1322f4515.glb",
+            "sha256": "3e1c17ee803414382470f1316825005ba4808f5c665602f8223880b1578f76b9"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.50639 so its height is 2.2 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/curtains-double.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5688,
+          "sha256": "08dbd882fe9a34ac4513b035e97e133eee8cd6bef015734c9319ea2895e56dec"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 2.2,
+          "scale": 0.50639
+        },
+        "boundsM": {
+          "min": [-0.8783, 0, -0.1206],
+          "max": [0.8783, 2.2, 0.1206]
+        },
+        "triangles": 320,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-rug",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Rug",
+      "room": "living",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/7H5qKjuxVY",
+        "licenceEvidence": "Poly Pizza record 7H5qKjuxVY: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/93588780-3405-40b7-acb4-9a87c88569f6.glb",
+            "sha256": "cda873c6fd6769727687002e8f04c449d3002671a4d4587fd3f842e3f47b4ae6"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.646578 so its length is 2 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/rug.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 4020,
+          "sha256": "a531554cff3561e93b7a5aa3d6bddb79089cdedc67d515f71f58aa03230bbdc9"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "length",
+          "metres": 2,
+          "scale": 0.646578
+        },
+        "boundsM": {
+          "min": [-0.689, 0, -1],
+          "max": [0.689, 0.0237, 1]
+        },
+        "triangles": 108,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-table-round-large",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Table Round Large",
+      "room": "dining",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/eCnblJPsW8",
+        "licenceEvidence": "Poly Pizza record eCnblJPsW8: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/4c09df5b-30e0-4b51-a0b2-f22713000b84.glb",
+            "sha256": "863966591cae25d9b7afacd3b60ba999c0c097c2cdffddfa50d1bb176be50eed"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.668929 so its height is 0.75 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/table-round-large.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 7092,
+          "sha256": "0ef7d84b73574fc380442db7bb8244c2810693e69de289fe16f2f76f63622b17"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.75,
+          "scale": 0.668929
+        },
+        "boundsM": {
+          "min": [-1.242, 0, -0.6492],
+          "max": [1.242, 0.75, 0.6492]
+        },
+        "triangles": 592,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-chair-ladder-back",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Chair",
+      "room": "dining",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/iMNqRzPwwe",
+        "licenceEvidence": "Poly Pizza record iMNqRzPwwe: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/84ecc6a3-2751-4f50-912a-b9f4ff033d7a.glb",
+            "sha256": "bdc6aeeb64524bbdccba2f079e6485e2a372aed1c428d976d5da67aadcf18b7a"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.537399 so its height is 0.95 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/chair-ladder-back.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 4856,
+          "sha256": "94a30db76aae4993d5f99e6faca3221329ad64b7d8f601df98bea71d45c5c336"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.95,
+          "scale": 0.537399
+        },
+        "boundsM": {
+          "min": [-0.2047, 0, -0.2218],
+          "max": [0.2047, 0.95, 0.2218]
+        },
+        "triangles": 216,
+        "drawCalls": 1,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-night-stand",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Night Stand",
+      "room": "bedroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/9LI73c5uFA",
+        "licenceEvidence": "Poly Pizza record 9LI73c5uFA: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/deb08e3b-cd54-4252-b5b2-53f86f1c1d04.glb",
+            "sha256": "1c08a98905ea18850fc91932fae9976a556aa30a564f7c45845c2f4f1bc5289a"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.581856 so its height is 0.55 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/night-stand.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 5336,
+          "sha256": "a1977b518a5987f5d665e753b3ef28dcca05007b2eeb55aa8d6f0e247db51572"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.55,
+          "scale": 0.581856
+        },
+        "boundsM": {
+          "min": [-0.277, 0, -0.277],
+          "max": [0.277, 0.55, 0.277]
+        },
+        "triangles": 184,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-towel-rack",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Towel Rack",
+      "room": "bathroom",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/8R9fXwL11r",
+        "licenceEvidence": "Poly Pizza record 8R9fXwL11r: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/1748df2d-c41a-4815-81ef-a25a3ee29cbe.glb",
+            "sha256": "05feb7f40b486b88ddcc9d4702da5184e493fd7b3dd4dcb453695642eac739b5"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 1.376525 so its height is 0.9 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/towel-rack.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 6136,
+          "sha256": "6254acfe071a93b629594edef6d4e4f07f3babedd8e94a2e08afef8e131b4635"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.9,
+          "scale": 1.376525
+        },
+        "boundsM": {
+          "min": [-0.8153, 0, -0.1109],
+          "max": [0.8153, 0.9, 0.1109]
+        },
+        "triangles": 192,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-light-ceiling-single",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Light Ceiling Single",
+      "room": "any",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/JT44JUXU2d",
+        "licenceEvidence": "Poly Pizza record JT44JUXU2d: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/2cc064fb-2b1b-4269-9007-473dfe78bffc.glb",
+            "sha256": "4e307b591d68d8aff049f07b59e5aa75b81e8da211fd48b752bf847918eded1b"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.83615 so its height is 0.4 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/light-ceiling-single.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 6140,
+          "sha256": "995536674c2b1be16883f391ac5175c551b03be9d352b380c062b88b5e551f0d"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 0.4,
+          "scale": 0.83615
+        },
+        "boundsM": {
+          "min": [-0.1105, 0, -0.1162],
+          "max": [0.1105, 0.4, 0.1162]
+        },
+        "triangles": 232,
+        "drawCalls": 3,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-houseplant",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Houseplant",
+      "room": "any",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/Kr4kr7OCCQ",
+        "licenceEvidence": "Poly Pizza record Kr4kr7OCCQ: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/c087694b-eda0-426e-a5d6-a1f9b9d57a28.glb",
+            "sha256": "f45d6fe813f0273ce0d080d87b5bf203ce9ff8079caeba8a1860fd7233746883"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 2.598132 so its height is 1 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/houseplant.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 9200,
+          "sha256": "1503bed45592aedb90d53cdab0e5bdfab496df471830ab5caa73780005217951"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 1,
+          "scale": 2.598132
+        },
+        "boundsM": {
+          "min": [-0.3255, 0, -0.3255],
+          "max": [0.3255, 1, 0.3255]
+        },
+        "triangles": 324,
+        "drawCalls": 4,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "quaternius-door-panel",
+      "kind": "model",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Ultimate House Interior: Door",
+      "room": "hall",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": {
+        "provider": "quaternius",
+        "providerName": "Quaternius",
+        "authors": ["Quaternius"],
+        "page": "https://poly.pizza/m/LI93WgnjyS",
+        "licenceEvidence": "Poly Pizza record LI93WgnjyS: \"licence\":\"CC0 1.0\"; quaternius.com pack page links CC0 1.0",
+        "files": [
+          {
+            "role": "glb",
+            "url": "https://static.poly.pizza/df219d1d-2583-4082-b150-f7529527a63a.glb",
+            "sha256": "1d5f1c2f478609a41cba26d6bb3a3e39aac61332e00c058a0f8aa1aed41fa03d"
+          }
+        ]
+      },
+      "processing": [
+        "Dropped unregistered extensions on read (KHR_materials_unlit on Kenney 2018 GLBs).",
+        "Materials set matte: metallic 0, roughness 0.85; base colours kept.",
+        "Scaled by 0.473037 so its height is 1.981 m; base on y = 0, centred on x and z.",
+        "Validated with the Khronos glTF validator (no errors).",
+        "gltf-transform optimize --compress meshopt --instance false --simplify false --texture-compress webp --texture-size 512."
+      ],
+      "files": [
+        {
+          "path": "models/quaternius/door-panel.glb",
+          "role": "glb",
+          "mime": "model/gltf-binary",
+          "bytes": 7768,
+          "sha256": "d8eb56446f4fbd37da0b5e0f6940772dfeb160d1a179e18e0329a4720878bf5b"
+        }
+      ],
+      "model": {
+        "fit": {
+          "dim": "height",
+          "metres": 1.981,
+          "scale": 0.473037
+        },
+        "boundsM": {
+          "min": [-0.4105, 0, -0.0994],
+          "max": [0.4105, 1.981, 0.0994]
+        },
+        "triangles": 456,
+        "drawCalls": 2,
+        "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"]
+      }
+    },
+    {
+      "id": "doc-attribution",
+      "kind": "doc",
+      "tier": "hero",
+      "status": "ok",
+      "title": "Credits page",
+      "use": "Attribution for every credited asset, generated from this manifest",
+      "licence": "LicenseRef-Ibasho-project",
+      "licenceUrl": "",
+      "source": {
+        "provider": "ibasho",
+        "providerName": "Ibasho",
+        "authors": ["Ibasho contributors"],
+        "page": "attribution.html",
+        "licenceEvidence": "Generated by tools/assets/src/attribution.ts",
+        "files": []
+      },
+      "processing": ["Rendered by renderAttribution(manifest)."],
+      "files": [
+        {
+          "path": "attribution.html",
+          "role": "page",
+          "mime": "text/html",
+          "bytes": 15862,
+          "sha256": "44345f45d48ff501fa86c8f75994a67ee83c5a500d7fc2c566e253cae41a9bb7"
+        }
+      ]
+    }
+  ]
+}

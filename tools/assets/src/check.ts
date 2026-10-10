@@ -45,7 +45,8 @@ export function checkAssetsDir(dir: string = OUT_DIR): CheckReport {
   else if (readFileSync(aPath, 'utf8') !== renderAttribution(manifest))
     problems.push(`K4 ${ATTRIBUTION_FILE} is not the page generated from the manifest`);
   const heroBytes =
-    manifest.assets.filter((a) => a.tier === 'hero').reduce((s, a) => s + a.files.reduce((t, f) => t + f.bytes, 0), 0) +
-    raw.length;
+    manifest.assets
+      .filter((a) => a.tier === 'hero')
+      .reduce((s, a) => s + a.files.reduce((t, f) => t + f.bytes, 0), 0) + raw.length;
   return { manifest, heroBytes, problems };
 }

@@ -11,7 +11,7 @@
  * (rooftop tanks). Cylinder standing loss: a daily allowance when the DHW class is `cylinder`.
  * M-0 status: combi keep-hot losses, primary circuit losses and solar water heating arrive at M-A.
  */
-import { type DhwMonthly, type PhysicsStage } from '@ibasho/core';
+import type { DhwMonthly, PhysicsStage } from '@ibasho/core';
 import { days, monthly, monthlyDrafts } from './common.ts';
 
 /** SAP 10.2 Table J1 cold water temperature, UK, degC. */
@@ -50,10 +50,18 @@ export function createDhwStage(d: DhwDefaults): PhysicsStage<'dhw'> {
       const cylinderLossKWh = monthly((m) => (cylinder ? d.cylinderLossKWhPerDay * days(m) : 0));
       const output: DhwMonthly = { qwKWh, cylinderLossKWh };
       const evidence = [
-        ...monthlyDrafts(ctx, 'dhw.qw', qwKWh, 'kWh', { id: 'BP-3.9', doc: 'Q_W = 4.18 V n (52 - T_c) / 3600, + 15% distribution' }, () => [
-          { key: 'occ.n', role: 'occupancy' },
-        ]),
-        ...monthlyDrafts(ctx, 'dhw.cyl_loss', cylinderLossKWh, 'kWh', { id: 'BP-3.9', doc: 'cylinder standing loss' }),
+        ...monthlyDrafts(
+          ctx,
+          'dhw.qw',
+          qwKWh,
+          'kWh',
+          { id: 'BP-3.9', doc: 'Q_W = 4.18 V n (52 - T_c) / 3600, + 15% distribution' },
+          () => [{ key: 'occ.n', role: 'occupancy' }],
+        ),
+        ...monthlyDrafts(ctx, 'dhw.cyl_loss', cylinderLossKWh, 'kWh', {
+          id: 'BP-3.9',
+          doc: 'cylinder standing loss',
+        }),
       ];
       return { output, evidence };
     },

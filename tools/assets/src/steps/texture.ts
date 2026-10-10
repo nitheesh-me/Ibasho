@@ -5,7 +5,7 @@
  * WebP; three.js uploads them as plain RGBA8. Switch here once toktx exists.
  */
 import sharp from 'sharp';
-import { type OutFile, type StepResult } from './types.ts';
+import type { OutFile, StepResult } from './types.ts';
 
 /** `--paper` (Hiru), DS 2.1: #F4EEE3. */
 export const PAPER_SRGB = [0xf4, 0xee, 0xe3] as const;
@@ -70,7 +70,8 @@ export async function processTexture(dir: string, src: TextureSources, size: num
       size,
       colorSpace: { diff: 'srgb', nor: 'linear', arm: 'linear' },
       normalConvention: 'OpenGL (+Y), as three.js expects',
-      armChannels: 'R ambient occlusion, G roughness, B metalness (three.js aoMap, roughnessMap, metalnessMap)',
+      armChannels:
+        'R ambient occlusion, G roughness, B metalness (three.js aoMap, roughnessMap, metalnessMap)',
     },
   };
 }

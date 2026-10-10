@@ -20,7 +20,8 @@ function orientationOf(e: Element, byId: Map<string, Element>, twin: HomeTwin): 
   if (e.orientationDeg !== undefined) return e.orientationDeg;
   const parent = e.parentId !== undefined ? byId.get(e.parentId) : undefined;
   if (parent?.orientationDeg !== undefined) return parent.orientationDeg;
-  if (VERTICAL.has(e.kind) && e.kind !== 'party-wall') return central(twin.form.frontAzimuthDeg, 'form.frontAzimuthDeg');
+  if (VERTICAL.has(e.kind) && e.kind !== 'party-wall')
+    return central(twin.form.frontAzimuthDeg, 'form.frontAzimuthDeg');
   return undefined;
 }
 
@@ -70,16 +71,30 @@ export const geometryStage: PhysicsStage<'geometry'> = {
       floatDraft(ctx, 'geom.tfa', tfaM2, 'm2', doc),
       floatDraft(ctx, 'geom.volume', volumeM3, 'm3', doc, { inputs: [{ key: 'geom.tfa', role: 'tfa' }] }),
       ...twin.elements.map((e, i) =>
-        floatDraft(ctx, `geom.area.${e.id}`, elements[i]!.areaM2, 'm2', { id: 'twin', doc: 'net element area' }, {
-          elementId: e.id,
-          provenance: provenanceOf(e.areaM2.source),
-        }),
+        floatDraft(
+          ctx,
+          `geom.area.${e.id}`,
+          elements[i]!.areaM2,
+          'm2',
+          { id: 'twin', doc: 'net element area' },
+          {
+            elementId: e.id,
+            provenance: provenanceOf(e.areaM2.source),
+          },
+        ),
       ),
       ...twin.junctions.map((j, i) =>
-        floatDraft(ctx, `geom.len.${j.id}`, junctions[i]!.lengthM, 'm', { id: 'twin', doc: 'junction length' }, {
-          junctionId: j.id,
-          provenance: provenanceOf(j.lengthM.source),
-        }),
+        floatDraft(
+          ctx,
+          `geom.len.${j.id}`,
+          junctions[i]!.lengthM,
+          'm',
+          { id: 'twin', doc: 'junction length' },
+          {
+            junctionId: j.id,
+            provenance: provenanceOf(j.lengthM.source),
+          },
+        ),
       ),
     ];
     return {

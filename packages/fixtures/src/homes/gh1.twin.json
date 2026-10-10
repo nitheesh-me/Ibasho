@@ -24,10 +24,7 @@
     "storeyHeightM": {
       "state": "estimated",
       "value": 2.6,
-      "range": [
-        2.4,
-        2.9
-      ],
+      "range": [2.4, 2.9],
       "source": {
         "kind": "document",
         "doc": "survey",
@@ -37,10 +34,7 @@
     "footprintM2": {
       "state": "estimated",
       "value": 42.0,
-      "range": [
-        38,
-        46
-      ],
+      "range": [38, 46],
       "source": {
         "kind": "document",
         "doc": "survey",
@@ -77,10 +71,7 @@
     "pitchDeg": {
       "state": "estimated",
       "value": 35,
-      "range": [
-        30,
-        40
-      ],
+      "range": [30, 40],
       "source": {
         "kind": "document",
         "doc": "survey",
@@ -92,10 +83,7 @@
     "livingAreaFrac": {
       "state": "estimated",
       "value": 0.3,
-      "range": [
-        0.2,
-        0.4
-      ],
+      "range": [0.2, 0.4],
       "source": {
         "kind": "default",
         "pluginId": "sap10-2-livingarea"
@@ -112,10 +100,7 @@
       "areaM2": {
         "state": "estimated",
         "value": 19.11,
-        "range": [
-          17.5,
-          20.5
-        ],
+        "range": [17.5, 20.5],
         "source": {
           "kind": "document",
           "doc": "survey",
@@ -126,105 +111,18 @@
       "u": {
         "state": "estimated",
         "value": 1.5,
-        "range": [
-          1.2,
-          1.9
-        ],
+        "range": [1.2, 1.9],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-solid-brick-230"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            5.0,
-            0,
-            0
-          ],
-          [
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            5.2,
-            0
-          ],
-          [
-            5.0,
-            5.2,
-            0
-          ]
-        ],
+        "polygon": [[5.0, 0, 0], [0, 0, 0], [0, 5.2, 0], [5.0, 5.2, 0]],
         "holes": [
-          [
-            [
-              4.6,
-              0.8,
-              0
-            ],
-            [
-              2.6,
-              0.8,
-              0
-            ],
-            [
-              2.6,
-              2.4,
-              0
-            ],
-            [
-              4.6,
-              2.4,
-              0
-            ]
-          ],
-          [
-            [
-              3.8,
-              3.3,
-              0
-            ],
-            [
-              2.6,
-              3.3,
-              0
-            ],
-            [
-              2.6,
-              4.8,
-              0
-            ],
-            [
-              3.8,
-              4.8,
-              0
-            ]
-          ],
-          [
-            [
-              1.5,
-              0.0,
-              0
-            ],
-            [
-              0.6,
-              0.0,
-              0
-            ],
-            [
-              0.6,
-              2.1,
-              0
-            ],
-            [
-              1.5,
-              2.1,
-              0
-            ]
-          ]
+          [[4.6, 0.8, 0], [2.6, 0.8, 0], [2.6, 2.4, 0], [4.6, 2.4, 0]],
+          [[3.8, 3.3, 0], [2.6, 3.3, 0], [2.6, 4.8, 0], [3.8, 4.8, 0]],
+          [[1.5, 0.0, 0], [0.6, 0.0, 0], [0.6, 2.1, 0], [1.5, 2.1, 0]]
         ]
       },
       "finish": "brick",
@@ -240,10 +138,7 @@
       "areaM2": {
         "state": "estimated",
         "value": 20.51,
-        "range": [
-          19.0,
-          22.0
-        ],
+        "range": [19.0, 22.0],
         "source": {
           "kind": "document",
           "doc": "survey",
@@ -254,105 +149,18 @@
       "u": {
         "state": "estimated",
         "value": 1.5,
-        "range": [
-          1.2,
-          1.9
-        ],
+        "range": [1.2, 1.9],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-solid-brick-230"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            0,
-            0,
-            8.4
-          ],
-          [
-            5.0,
-            0,
-            8.4
-          ],
-          [
-            5.0,
-            5.2,
-            8.4
-          ],
-          [
-            0,
-            5.2,
-            8.4
-          ]
-        ],
+        "polygon": [[0, 0, 8.4], [5.0, 0, 8.4], [5.0, 5.2, 8.4], [0, 5.2, 8.4]],
         "holes": [
-          [
-            [
-              3.0,
-              0.8,
-              8.4
-            ],
-            [
-              4.25,
-              0.8,
-              8.4
-            ],
-            [
-              4.25,
-              2.4,
-              8.4
-            ],
-            [
-              3.0,
-              2.4,
-              8.4
-            ]
-          ],
-          [
-            [
-              3.0,
-              3.3,
-              8.4
-            ],
-            [
-              4.0,
-              3.3,
-              8.4
-            ],
-            [
-              4.0,
-              4.9,
-              8.4
-            ],
-            [
-              3.0,
-              4.9,
-              8.4
-            ]
-          ],
-          [
-            [
-              0.8,
-              0.0,
-              8.4
-            ],
-            [
-              1.7,
-              0.0,
-              8.4
-            ],
-            [
-              1.7,
-              2.1,
-              8.4
-            ],
-            [
-              0.8,
-              2.1,
-              8.4
-            ]
-          ]
+          [[3.0, 0.8, 8.4], [4.25, 0.8, 8.4], [4.25, 2.4, 8.4], [3.0, 2.4, 8.4]],
+          [[3.0, 3.3, 8.4], [4.0, 3.3, 8.4], [4.0, 4.9, 8.4], [3.0, 4.9, 8.4]],
+          [[0.8, 0.0, 8.4], [1.7, 0.0, 8.4], [1.7, 2.1, 8.4], [0.8, 2.1, 8.4]]
         ]
       },
       "finish": "brick",
@@ -384,28 +192,7 @@
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            0,
-            8.4
-          ],
-          [
-            0,
-            5.2,
-            8.4
-          ],
-          [
-            0,
-            5.2,
-            0
-          ]
-        ]
+        "polygon": [[0, 0, 0], [0, 0, 8.4], [0, 5.2, 8.4], [0, 5.2, 0]]
       },
       "onBoundary": true
     },
@@ -434,28 +221,7 @@
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            5.0,
-            0,
-            8.4
-          ],
-          [
-            5.0,
-            0,
-            0
-          ],
-          [
-            5.0,
-            5.2,
-            0
-          ],
-          [
-            5.0,
-            5.2,
-            8.4
-          ]
-        ]
+        "polygon": [[5.0, 0, 8.4], [5.0, 0, 0], [5.0, 5.2, 0], [5.0, 5.2, 8.4]]
       },
       "onBoundary": true
     },
@@ -477,38 +243,14 @@
       "u": {
         "state": "estimated",
         "value": 0.68,
-        "range": [
-          0.6,
-          0.8
-        ],
+        "range": [0.6, 0.8],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-t16-50mm"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            0,
-            5.2,
-            0
-          ],
-          [
-            0,
-            5.2,
-            8.4
-          ],
-          [
-            5.0,
-            5.2,
-            8.4
-          ],
-          [
-            5.0,
-            5.2,
-            0
-          ]
-        ]
+        "polygon": [[0, 5.2, 0], [0, 5.2, 8.4], [5.0, 5.2, 8.4], [5.0, 5.2, 0]]
       }
     },
     {
@@ -529,40 +271,14 @@
       "u": {
         "state": "estimated",
         "value": 0.49,
-        "range": [
-          0.4,
-          0.8
-        ],
+        "range": [0.4, 0.8],
         "source": {
           "kind": "derived",
-          "from": [
-            "BP-3.2 suspended timber floor, B' = 8.4 m, w = 0.23 m"
-          ]
+          "from": ["BP-3.2 suspended timber floor, B' = 8.4 m, w = 0.23 m"]
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            0,
-            0,
-            0
-          ],
-          [
-            5.0,
-            0,
-            0
-          ],
-          [
-            5.0,
-            0,
-            8.4
-          ],
-          [
-            0,
-            0,
-            8.4
-          ]
-        ]
+        "polygon": [[0, 0, 0], [5.0, 0, 0], [5.0, 0, 8.4], [0, 0, 8.4]]
       }
     },
     {
@@ -585,46 +301,19 @@
       "u": {
         "state": "estimated",
         "value": 2.8,
-        "range": [
-          2.4,
-          3.1
-        ],
+        "range": [2.4, 3.1],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-window-double-pre2002"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            4.6,
-            0.8,
-            0
-          ],
-          [
-            2.6,
-            0.8,
-            0
-          ],
-          [
-            2.6,
-            2.4,
-            0
-          ],
-          [
-            4.6,
-            2.4,
-            0
-          ]
-        ]
+        "polygon": [[4.6, 0.8, 0], [2.6, 0.8, 0], [2.6, 2.4, 0], [4.6, 2.4, 0]]
       },
       "g": {
         "state": "estimated",
         "value": 0.76,
-        "range": [
-          0.72,
-          0.76
-        ],
+        "range": [0.72, 0.76],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6b"
@@ -633,10 +322,7 @@
       "frameFactor": {
         "state": "estimated",
         "value": 0.7,
-        "range": [
-          0.6,
-          0.8
-        ],
+        "range": [0.6, 0.8],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6c"
@@ -664,46 +350,19 @@
       "u": {
         "state": "estimated",
         "value": 2.8,
-        "range": [
-          2.4,
-          3.1
-        ],
+        "range": [2.4, 3.1],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-window-double-pre2002"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            3.8,
-            3.3,
-            0
-          ],
-          [
-            2.6,
-            3.3,
-            0
-          ],
-          [
-            2.6,
-            4.8,
-            0
-          ],
-          [
-            3.8,
-            4.8,
-            0
-          ]
-        ]
+        "polygon": [[3.8, 3.3, 0], [2.6, 3.3, 0], [2.6, 4.8, 0], [3.8, 4.8, 0]]
       },
       "g": {
         "state": "estimated",
         "value": 0.76,
-        "range": [
-          0.72,
-          0.76
-        ],
+        "range": [0.72, 0.76],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6b"
@@ -712,10 +371,7 @@
       "frameFactor": {
         "state": "estimated",
         "value": 0.7,
-        "range": [
-          0.6,
-          0.8
-        ],
+        "range": [0.6, 0.8],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6c"
@@ -743,38 +399,14 @@
       "u": {
         "state": "estimated",
         "value": 3.0,
-        "range": [
-          2.5,
-          3.5
-        ],
+        "range": [2.5, 3.5],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-door"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            1.5,
-            0.0,
-            0
-          ],
-          [
-            0.6,
-            0.0,
-            0
-          ],
-          [
-            0.6,
-            2.1,
-            0
-          ],
-          [
-            1.5,
-            2.1,
-            0
-          ]
-        ]
+        "polygon": [[1.5, 0.0, 0], [0.6, 0.0, 0], [0.6, 2.1, 0], [1.5, 2.1, 0]]
       },
       "frontsHighway": true
     },
@@ -798,46 +430,19 @@
       "u": {
         "state": "estimated",
         "value": 4.8,
-        "range": [
-          4.6,
-          5.0
-        ],
+        "range": [4.6, 5.0],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-window-single"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            3.0,
-            0.8,
-            8.4
-          ],
-          [
-            4.25,
-            0.8,
-            8.4
-          ],
-          [
-            4.25,
-            2.4,
-            8.4
-          ],
-          [
-            3.0,
-            2.4,
-            8.4
-          ]
-        ]
+        "polygon": [[3.0, 0.8, 8.4], [4.25, 0.8, 8.4], [4.25, 2.4, 8.4], [3.0, 2.4, 8.4]]
       },
       "g": {
         "state": "estimated",
         "value": 0.85,
-        "range": [
-          0.85,
-          0.85
-        ],
+        "range": [0.85, 0.85],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6b"
@@ -846,10 +451,7 @@
       "frameFactor": {
         "state": "estimated",
         "value": 0.7,
-        "range": [
-          0.6,
-          0.8
-        ],
+        "range": [0.6, 0.8],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6c"
@@ -876,46 +478,19 @@
       "u": {
         "state": "estimated",
         "value": 4.8,
-        "range": [
-          4.6,
-          5.0
-        ],
+        "range": [4.6, 5.0],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-window-single"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            3.0,
-            3.3,
-            8.4
-          ],
-          [
-            4.0,
-            3.3,
-            8.4
-          ],
-          [
-            4.0,
-            4.9,
-            8.4
-          ],
-          [
-            3.0,
-            4.9,
-            8.4
-          ]
-        ]
+        "polygon": [[3.0, 3.3, 8.4], [4.0, 3.3, 8.4], [4.0, 4.9, 8.4], [3.0, 4.9, 8.4]]
       },
       "g": {
         "state": "estimated",
         "value": 0.85,
-        "range": [
-          0.85,
-          0.85
-        ],
+        "range": [0.85, 0.85],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6b"
@@ -924,10 +499,7 @@
       "frameFactor": {
         "state": "estimated",
         "value": 0.7,
-        "range": [
-          0.6,
-          0.8
-        ],
+        "range": [0.6, 0.8],
         "source": {
           "kind": "default",
           "pluginId": "sap10-2-t6c"
@@ -954,38 +526,14 @@
       "u": {
         "state": "estimated",
         "value": 3.0,
-        "range": [
-          2.5,
-          3.5
-        ],
+        "range": [2.5, 3.5],
         "source": {
           "kind": "default",
           "pluginId": "rdsap10-door"
         }
       },
       "geometry": {
-        "polygon": [
-          [
-            0.8,
-            0.0,
-            8.4
-          ],
-          [
-            1.7,
-            0.0,
-            8.4
-          ],
-          [
-            1.7,
-            2.1,
-            8.4
-          ],
-          [
-            0.8,
-            2.1,
-            8.4
-          ]
-        ]
+        "polygon": [[0.8, 0.0, 8.4], [1.7, 0.0, 8.4], [1.7, 2.1, 8.4], [0.8, 2.1, 8.4]]
       }
     }
   ],
@@ -1021,15 +569,10 @@
     "draughtProofedFrac": {
       "state": "estimated",
       "value": 0.33,
-      "range": [
-        0.2,
-        0.5
-      ],
+      "range": [0.2, 0.5],
       "source": {
         "kind": "derived",
-        "from": [
-          "2 of 6 openings (front double glazing) sealed"
-        ]
+        "from": ["2 of 6 openings (front double glazing) sealed"]
       }
     },
     "floorType": {
@@ -1066,10 +609,7 @@
       "efficiency": {
         "state": "estimated",
         "value": 0.84,
-        "range": [
-          0.8,
-          0.89
-        ],
+        "range": [0.8, 0.89],
         "source": {
           "kind": "default",
           "pluginId": "gas-combi-condensing"
@@ -1083,10 +623,7 @@
       "efficiency": {
         "state": "estimated",
         "value": 0.8,
-        "range": [
-          0.75,
-          0.85
-        ],
+        "range": [0.75, 0.85],
         "source": {
           "kind": "default",
           "pluginId": "bp-3-10-combi-dhw"
@@ -1098,10 +635,7 @@
     "boilerAgeYears": {
       "state": "estimated",
       "value": 9,
-      "range": [
-        8,
-        10
-      ],
+      "range": [8, 10],
       "source": {
         "kind": "stated"
       }
@@ -1117,10 +651,7 @@
       "kOversize": {
         "state": "estimated",
         "value": 1.3,
-        "range": [
-          1.0,
-          1.8
-        ],
+        "range": [1.0, 1.8],
         "source": {
           "kind": "default",
           "pluginId": "dec-sc-2-k-os-prior"
@@ -1130,11 +661,7 @@
     "controls": {
       "state": "estimated",
       "value": "programmer-thermostat",
-      "options": [
-        "programmer-only",
-        "programmer-thermostat",
-        "programmer-thermostat-trvs"
-      ],
+      "options": ["programmer-only", "programmer-thermostat", "programmer-thermostat-trvs"],
       "source": {
         "kind": "document",
         "doc": "survey",
@@ -1153,10 +680,7 @@
     "setpointC": {
       "state": "estimated",
       "value": 20,
-      "range": [
-        19,
-        21
-      ],
+      "range": [19, 21],
       "source": {
         "kind": "stated"
       }
@@ -1164,10 +688,7 @@
     "heatingHours": {
       "state": "estimated",
       "value": 9,
-      "range": [
-        7,
-        12
-      ],
+      "range": [7, 12],
       "source": {
         "kind": "stated"
       }
@@ -1177,11 +698,7 @@
     "overshading": {
       "state": "estimated",
       "value": "more-than-average",
-      "options": [
-        "average",
-        "more-than-average",
-        "heavy"
-      ],
+      "options": ["average", "more-than-average", "heavy"],
       "source": {
         "kind": "document",
         "doc": "survey",

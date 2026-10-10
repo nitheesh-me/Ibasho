@@ -44,8 +44,11 @@ function setAt(root: unknown, path: string, value: unknown): void {
   let cur: unknown = root;
   for (let i = 0; i < toks.length - 1; i++) {
     const t = toks[i]!;
-    const next: unknown = Array.isArray(cur) ? cur[indexOf(cur, t, path)] : (cur as Record<string, unknown>)?.[t];
-    if (next === null || typeof next !== 'object') throw new PatchError(`path ${path} does not exist at ${t}`);
+    const next: unknown = Array.isArray(cur)
+      ? cur[indexOf(cur, t, path)]
+      : (cur as Record<string, unknown>)?.[t];
+    if (next === null || typeof next !== 'object')
+      throw new PatchError(`path ${path} does not exist at ${t}`);
     cur = next;
   }
   const last = toks[toks.length - 1]!;
@@ -139,7 +142,8 @@ export function packagePatch(twin: HomeTwin, pkg: PackageSpec, measures: readonl
   for (const [group, optionId] of choices) {
     if (optionId === 'none') continue;
     const model = byOption.get(optionId);
-    if (!model) throw new PatchError(`package ${pkg.id}: no measure model for option ${optionId} (group ${group})`);
+    if (!model)
+      throw new PatchError(`package ${pkg.id}: no measure model for option ${optionId} (group ${group})`);
     patches.push(model.apply(twin, optionId));
   }
   return composePatches(patches);

@@ -63,7 +63,7 @@
   margin-inline: -0.1em;
 }
 .ib-num[data-size="display"] .ib-num__sep {
-  margin-inline: -0.13em;
+  margin-inline: -0.07em -0.04em;
 }
 /* CJK fonts draw the degree sign full width; the code face draws it close to the C. */
 .ib-num__deg {

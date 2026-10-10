@@ -1,0 +1,34 @@
+# Ibasho Lean package (WP-04). Core only, no Mathlib (SPEC R12, ARCH 8).
+# The spec library is the default target. The M-0 WP-04 checker adds its own
+# `[[lean_lib]]` (Ibasho.Check) and the `ibasho-check`, `ibasho-gen`, `ibasho-ref`
+# executables below this block; they import `Ibasho.Spec.V2`.
+name = "ibasho-proofs"
+version = "0.2.0"
+defaultTargets = ["IbashoSpec"]
+
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[lean_lib]]
+name = "IbashoSpec"
+roots = ["Ibasho.Spec.V2"]
+globs = ["Ibasho.Spec.+"]
+# Any warning (a `sorry` above all) fails the spec build, so a stray module that Audit.lean
+# does not reach still cannot land with a hole in it.
+leanOptions = { warningAsError = true }
+
+# Checker half (WP-04, M-0 step 4). Owner of this block: builder:WP-04.
+[[lean_lib]]
+name = "IbashoCheck"
+roots = ["Ibasho.Check"]
+globs = ["Ibasho.Check", "Ibasho.Check.+"]
+
+[[lean_exe]]
+name = "ibasho-check"
+root = "Main.Check"
+
+[[lean_exe]]
+name = "ibasho-gen"
+root = "Main.Gen"
+supportInterpreter = true

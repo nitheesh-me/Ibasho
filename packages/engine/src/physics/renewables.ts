@@ -19,7 +19,9 @@ export const renewablesStage: PhysicsStage<'renewables'> = {
   modes: ['rating', 'standard', 'your-home'],
   run(_input, ctx) {
     if ((ctx.twin.systems.pv?.length ?? 0) > 0) {
-      throw new PhysicsError('PV is not modelled before M-A (SAP 10.2 Appendix M beta pending re-read, DEC SC-F2)');
+      throw new PhysicsError(
+        'PV is not modelled before M-A (SAP 10.2 Appendix M beta pending re-read, DEC SC-F2)',
+      );
     }
     const output: RenewOut = {
       pvYieldKWh: ZERO12,

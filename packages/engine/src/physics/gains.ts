@@ -48,22 +48,29 @@ export const gainsStage: PhysicsStage<'gains'> = {
       const ffField = src?.frameFactor;
       const ff = ffField && ffField.state !== 'unknown' ? ffField.value : DEFAULT_FF;
       const s = ctx.climate.irradiance(e.orientationDeg ?? 180, e.tiltDeg ?? 90);
-      for (let m = 0; m < 12; m++) solar[m] = solar[m]! + (0.9 * e.areaM2 * s[m]! * g * ff * z * 1000) / (24 * days(m));
+      for (let m = 0; m < 12; m++)
+        solar[m] = solar[m]! + (0.9 * e.areaM2 * s[m]! * g * ff * z * 1000) / (24 * days(m));
     }
     const solarW = monthly((m) => solar[m]!);
 
     const n = hh.occupancyN;
     const fixedW = 60 * n - 40 * n + (35 + 7 * n);
     const internalW = monthly(
-      (m) => fixedW + (1000 * hh.appliancesKWh[m]!) / (24 * days(m)) + (850 * hh.lightingKWh[m]!) / (24 * days(m)),
+      (m) =>
+        fixedW + (1000 * hh.appliancesKWh[m]!) / (24 * days(m)) + (850 * hh.lightingKWh[m]!) / (24 * days(m)),
     );
     const output: GainsOut = { solarW, opaqueW: ZERO12, internalW };
 
     const evidence = [
       ...monthlyDrafts(ctx, 'gain.solar', solarW, 'W', { id: 'BP-3.4', doc: 'G_sol = sum 0.9 A S g FF Z' }),
-      ...monthlyDrafts(ctx, 'gain.int', internalW, 'W', { id: 'BP-3.6', doc: 'SAP Table 5 internal gains' }, () => [
-        { key: 'occ.n', role: 'occupancy' },
-      ]),
+      ...monthlyDrafts(
+        ctx,
+        'gain.int',
+        internalW,
+        'W',
+        { id: 'BP-3.6', doc: 'SAP Table 5 internal gains' },
+        () => [{ key: 'occ.n', role: 'occupancy' }],
+      ),
     ];
     return { output, evidence };
   },

@@ -1,0 +1,13 @@
+{
+  "name": "ibasho",
+  "owner": { "name": "Ibasho" },
+  "metadata": { "description": "Local marketplace for the Ibasho agent link plugin." },
+  "plugins": [
+    {
+      "name": "ibasho",
+      "source": "./",
+      "description": "Explore a home with Ibasho: headless MCP tools, a live link to the open app, a skill and an explorer subagent.",
+      "version": "0.1.0"
+    }
+  ]
+}

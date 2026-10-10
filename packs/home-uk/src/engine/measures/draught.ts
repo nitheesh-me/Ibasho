@@ -18,7 +18,7 @@ const SAP_S2 = {
 
 export const draughtMeasure: MeasureModel = {
   kind: 'measure',
-  ...identity('draught'),
+  ...identity('draught', 'draught', 'heavy', 'draught'),
   version: '0.1.0',
   title: 'measure.draught.title',
   regions: ['GB'],
@@ -37,7 +37,9 @@ export const draughtMeasure: MeasureModel = {
     const fdp = param(optionOf(draughtMeasure, optionId), 'draughtProofedFrac');
     const v = twin.ventilation;
     const open = numCentral(v.chimneysOpen);
-    const set: TwinPatch['set'] = [{ path: '/ventilation/draughtProofedFrac', value: measureValue(fdp, 'draught') }];
+    const set: TwinPatch['set'] = [
+      { path: '/ventilation/draughtProofedFrac', value: measureValue(fdp, 'draught') },
+    ];
     if (open > 0) {
       set.push({ path: '/ventilation/chimneysOpen', value: measureValue(0, 'draught') });
       set.push({

@@ -80,7 +80,10 @@ export function readCached(rel: string): Uint8Array | undefined {
 
 /** Repo-relative POSIX path, for messages and the manifest. */
 export function repoRel(abs: string): string {
-  return abs.slice(REPO_ROOT.length + 1).split('\\').join('/');
+  return abs
+    .slice(REPO_ROOT.length + 1)
+    .split('\\')
+    .join('/');
 }
 
 /**

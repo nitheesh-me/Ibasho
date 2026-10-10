@@ -163,7 +163,12 @@ export const QUATERNIUS_MODELS: readonly QuaterniusModelSpec[] = [
   q('LI93WgnjyS', 'door-panel', 'Door', 'hall', h(1.981)),
 ];
 
-export const ALL_SPECS: readonly AssetSpec[] = [...HDRIS, ...TEXTURES, ...KENNEY_MODELS, ...QUATERNIUS_MODELS];
+export const ALL_SPECS: readonly AssetSpec[] = [
+  ...HDRIS,
+  ...TEXTURES,
+  ...KENNEY_MODELS,
+  ...QUATERNIUS_MODELS,
+];
 
 /** Provider facts recorded in the manifest and on the attribution page. */
 export const PROVIDERS = {

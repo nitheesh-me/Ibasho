@@ -10,16 +10,16 @@
  */
 import { hiWord, loWord, withHi } from './bits.ts';
 
-const LN2_HI = 6.93147180369123816490e-1; // 0x3FE62E42 FEE00000
-const LN2_LO = 1.90821492927058770002e-10; // 0x3DEA39EF 35793C76
-const TWO54 = 1.8014398509481984e16; // 0x43500000 00000000
-const LG1 = 6.666666666666735130e-1; // 0x3FE55555 55555593
-const LG2 = 3.999999999940941908e-1; // 0x3FD99999 9997FA04
-const LG3 = 2.857142874366239149e-1; // 0x3FD24924 94229359
-const LG4 = 2.222219843214978396e-1; // 0x3FCC71C5 1D8E78AF
-const LG5 = 1.818357216161805012e-1; // 0x3FC74664 96CB03DE
-const LG6 = 1.531383769920937332e-1; // 0x3FC39A09 D078C69F
-const LG7 = 1.479819860511658591e-1; // 0x3FC2F112 DF3E5244
+const LN2_HI = 0.6931471803691238; // 0x3FE62E42 FEE00000
+const LN2_LO = 1.9082149292705877e-10; // 0x3DEA39EF 35793C76
+const TWO54 = 18014398509481984; // 0x43500000 00000000
+const LG1 = 0.6666666666666735; // 0x3FE55555 55555593
+const LG2 = 0.3999999999940942; // 0x3FD99999 9997FA04
+const LG3 = 0.2857142874366239; // 0x3FD24924 94229359
+const LG4 = 0.22222198432149784; // 0x3FCC71C5 1D8E78AF
+const LG5 = 0.1818357216161805; // 0x3FC74664 96CB03DE
+const LG6 = 0.15313837699209373; // 0x3FC39A09 D078C69F
+const LG7 = 0.14798198605116586; // 0x3FC2F112 DF3E5244
 
 export function log(x: number): number {
   let hx = hiWord(x);
@@ -39,7 +39,7 @@ export function log(x: number): number {
   let i = (hx + 0x95f64) & 0x100000;
   x = withHi(x, hx | (i ^ 0x3ff00000)); // normalise x or x/2
   k += i >> 20;
-  const f = x - 1.0;
+  const f = x - 1;
   if ((0x000fffff & (2 + hx)) < 3) {
     // |f| < 2^-20
     if (f === 0) {
@@ -47,12 +47,12 @@ export function log(x: number): number {
       const dk = k;
       return dk * LN2_HI + dk * LN2_LO;
     }
-    const r = f * f * (0.5 - 0.33333333333333333 * f);
+    const r = f * f * (0.5 - 0.3333333333333333 * f);
     if (k === 0) return f - r;
     const dk = k;
     return dk * LN2_HI - (r - dk * LN2_LO - f);
   }
-  const s = f / (2.0 + f);
+  const s = f / (2 + f);
   const dk = k;
   const z = s * s;
   i = hx - 0x6147a;
@@ -71,9 +71,9 @@ export function log(x: number): number {
   return dk * LN2_HI - (s * (f - r) - dk * LN2_LO - f);
 }
 
-const IVLN10 = 4.34294481903251816668e-1; // 0x3FDBCB7B 1526E50E
-const LOG10_2HI = 3.01029995663611771306e-1; // 0x3FD34413 509F6000
-const LOG10_2LO = 3.69423907715893078616e-13; // 0x3D59FEF3 11F12B36
+const IVLN10 = 0.4342944819032518; // 0x3FDBCB7B 1526E50E
+const LOG10_2HI = 0.30102999566361177; // 0x3FD34413 509F6000
+const LOG10_2LO = 3.694239077158931e-13; // 0x3D59FEF3 11F12B36
 
 export function log10(x: number): number {
   let hx = hiWord(x);

@@ -11,9 +11,9 @@
  */
 import {
   choiceValue,
+  FUELS,
   type Fuel,
   type FuelMonthly,
-  FUELS,
   type Monthly,
   numCentral,
   type PhysicsStage,
@@ -28,10 +28,17 @@ export interface SystemsDefaults {
   systems: ReadonlyMap<string, SystemPlugin>;
 }
 
-export function efficiencyOf(ref: SystemRef, systems: ReadonlyMap<string, SystemPlugin>, what: string): number {
-  const eff = ref.efficiency !== undefined ? numCentral(ref.efficiency) : systems.get(ref.systemId)?.efficiency;
-  if (eff === undefined) throw new PhysicsError(`${what} system ${ref.systemId} has no efficiency (twin or plugin)`);
-  if (!(eff > 0) || !Number.isFinite(eff)) throw new PhysicsError(`${what} efficiency must be positive, got ${eff}`);
+export function efficiencyOf(
+  ref: SystemRef,
+  systems: ReadonlyMap<string, SystemPlugin>,
+  what: string,
+): number {
+  const eff =
+    ref.efficiency !== undefined ? numCentral(ref.efficiency) : systems.get(ref.systemId)?.efficiency;
+  if (eff === undefined)
+    throw new PhysicsError(`${what} system ${ref.systemId} has no efficiency (twin or plugin)`);
+  if (!(eff > 0) || !Number.isFinite(eff))
+    throw new PhysicsError(`${what} efficiency must be positive, got ${eff}`);
   return eff;
 }
 

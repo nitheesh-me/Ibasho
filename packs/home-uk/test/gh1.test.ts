@@ -2,11 +2,18 @@
  * GH1 walking-skeleton physics (M-0 step 1). Owner: WP-01.
  * Tests may wire packs, engine and fixtures together (dependency-cruiser exempts tests).
  */
-import { createRegistry, FUELS, type HomeTwin, type PackageSpec, RUN_MODES, sumBig } from '@ibasho/core';
+import {
+  createRegistry,
+  FUELS,
+  type HomeTwin,
+  type MeasureCost,
+  type PackageSpec,
+  Q,
+  RUN_MODES,
+  sumBig,
+} from '@ibasho/core';
 import { parseTwin } from '@ibasho/core/schemas';
 import { describe, expect, it } from 'vitest';
-import { londonClimate } from '../../../packs/climate/src/engine/index.ts';
-import gh1Json from '../../../packages/fixtures/src/homes/gh1.twin.json' with { type: 'json' };
 import {
   applyPatch,
   type PipelineConfig,
@@ -17,15 +24,19 @@ import {
   simulateBundle,
   splitPatch,
 } from '../../../packages/engine/src/pipeline/index.ts';
-import { GROUPS, MEASURES } from '../src/ids.ts';
+import gh1Json from '../../../packages/fixtures/src/homes/gh1.twin.json' with { type: 'json' };
+import { londonClimate } from '../../../packs/climate/src/engine/index.ts';
 import { homeUkEngineModule, M0_MEASURES, UK_SYSTEMS } from '../src/engine/index.ts';
+import { GROUPS, MEASURES } from '../src/ids.ts';
 
 const twin: HomeTwin = parseTwin(gh1Json);
 const cfg: PipelineConfig = { climate: londonClimate, measures: M0_MEASURES, systems: UK_SYSTEMS };
 const asOf = '2026-10-11';
 
 function pkg(options: Record<string, string>): PackageSpec {
-  const ids = Object.values(options).filter((o) => o !== 'none').sort();
+  const ids = Object.values(options)
+    .filter((o) => o !== 'none')
+    .sort();
   return { id: ids.length ? ids.join('+') : 'baseline', options };
 }
 const annual = (xs: readonly bigint[]) => Number(sumBig(xs)) / 1000; // kWh
@@ -38,9 +49,30 @@ describe('GH1 fixture and pack wiring', () => {
     expect(twin.form.builtForm).toBe('mid-terrace');
   });
 
-  it('the home-uk engine module registers cleanly', async () => {
+  it('the home-uk engine module registers cleanly once every option is costed', async () => {
+    const plugins = await homeUkEngineModule.load();
+    // Costs come from money-uk (WP-02). Without them the registry rejects the join (ARCH 5.2).
+    expect(() => createRegistry().registerAll(plugins)).toThrow(/heat-ashp has no measure-cost/);
+    // Test-local adapter: one zero cost per M-0 option, standing in for money-uk.
+    const costs: MeasureCost[] = M0_MEASURES.flatMap((m) =>
+      m.options.map((o) => ({
+        kind: 'measure-cost' as const,
+        id: `test-cost-${o.id}`,
+        version: '0.0.0',
+        title: 'test.cost',
+        regions: ['GB'],
+        side: 'engine' as const,
+        provenance: {
+          sources: [{ id: 'test', title: 'test adapter', retrieved: '2026-10-11' }],
+          lastChecked: '2026-10-11',
+          grade: 'estimate' as const,
+        },
+        optionId: o.id,
+        cost: () => ({ lo: 0n, mid: 0n, hi: 0n, vatRate: Q.ZERO, grade: 'estimate' as const }),
+      })),
+    );
     const reg = createRegistry();
-    reg.registerAll(await homeUkEngineModule.load());
+    reg.registerAll([...plugins, ...costs]);
     expect(reg.all('measure').map((m) => m.id)).toEqual(['ashp', 'draught', 'loft']);
     expect(reg.all('system').map((s) => s.id)).toEqual(['ashp-air-water', 'gas-combi-condensing']);
   });
@@ -68,7 +100,8 @@ describe('GH1 baseline (M-0 steady monthly balance)', () => {
     expect(gas).toBeLessThan(25_000);
     expect(elec).toBeGreaterThan(1_000);
     expect(elec).toBeLessThan(4_000);
-    for (const f of FUELS) if (f !== 'gas' && f !== 'electricity') expect(annual(base.deliveredWh[f])).toBe(0);
+    for (const f of FUELS)
+      if (f !== 'gas' && f !== 'electricity') expect(annual(base.deliveredWh[f])).toBe(0);
   });
 
   it('heats in winter more than in summer and never goes negative', () => {
@@ -112,7 +145,9 @@ describe('GH1 measures', () => {
 
   it('fabric first lowers heat pump electricity (BP 6.3 oracle 1, fixed-COP half)', () => {
     const hpOnly = elecOf(pkg({ heat: 'heat-ashp' }));
-    const all = elecOf(pkg({ loft: 'loft-300', draught: 'draught-proofing-chimney-balloon', heat: 'heat-ashp' }));
+    const all = elecOf(
+      pkg({ loft: 'loft-300', draught: 'draught-proofing-chimney-balloon', heat: 'heat-ashp' }),
+    );
     expect(all).toBeLessThan(hpOnly);
   });
 
@@ -133,7 +168,8 @@ describe('light path (factorised search, ARCH 6)', () => {
   };
   const all: PackageSpec[] = [];
   for (const l of groups.loft!)
-    for (const d of groups.draught!) for (const h of groups.heat!) all.push(pkg({ loft: l, draught: d, heat: h }));
+    for (const d of groups.draught!)
+      for (const h of groups.heat!) all.push(pkg({ loft: l, draught: d, heat: h }));
 
   it('equals full simulation bit for bit on every M-0 package and mode', () => {
     for (const mode of RUN_MODES) {

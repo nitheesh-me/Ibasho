@@ -26,15 +26,23 @@ function lofts(twin: HomeTwin): number[] {
 
 export const loftMeasure: MeasureModel = {
   kind: 'measure',
-  ...identity('loft'),
+  ...identity('loft', 'loft', 'heavy', 'loft'),
   version: '0.1.0',
   title: 'measure.loft.title',
   regions: ['GB'],
   side: 'engine',
   provenance: provenance([RDSAP_T16], 'secondary'),
   options: [
-    { id: 'loft-270', title: 'measure.loft-270.title', params: { depthMm: { value: 270 }, uAfter: { value: 0.16, unit: 'W/m2K' } } },
-    { id: 'loft-300', title: 'measure.loft-300.title', params: { depthMm: { value: 300 }, uAfter: { value: 0.14, unit: 'W/m2K' } } },
+    {
+      id: 'loft-270',
+      title: 'measure.loft-270.title',
+      params: { depthMm: { value: 270 }, uAfter: { value: 0.16, unit: 'W/m2K' } },
+    },
+    {
+      id: 'loft-300',
+      title: 'measure.loft-300.title',
+      params: { depthMm: { value: 300 }, uAfter: { value: 0.14, unit: 'W/m2K' } },
+    },
   ],
   touches: ['roof'],
   lifetimeYears: 40,

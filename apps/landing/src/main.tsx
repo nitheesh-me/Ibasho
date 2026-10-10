@@ -1,18 +1,15 @@
 /**
- * Entry. Owner: WP-09 (Content and landing). SKELETON (G0): renders a blank Andon page. Chapters come from `@ibasho/content`.
+ * Entry. Owner: WP-09 (Content and landing).
+ * The HTML is prerendered at build time (`prerender.tsx`); this script only enhances it.
+ *
+ * First paint needs only tokens and the landing styles (AC-L1). The three webfonts load after,
+ * as a separate stylesheet, because their unicode-range table is large; until then, and with
+ * JavaScript off, the token font stacks fall back to system serif and sans.
  */
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './andon-blank.css';
+import '@ibasho/ui/tokens.css';
+import './landing.css';
+import { setupLantern, setupReveal } from './enhance.ts';
 
-function Blank() {
-  return <main data-andon="blank" aria-label="Ibasho" />;
-}
-
-const root = document.getElementById('root');
-if (!root) throw new Error('missing #root');
-createRoot(root).render(
-  <StrictMode>
-    <Blank />
-  </StrictMode>,
-);
+setupLantern(document, window);
+setupReveal(document, window);
+void import('./fonts.ts');

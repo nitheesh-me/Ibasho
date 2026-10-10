@@ -67,7 +67,9 @@ export const ATTRIBUTION_FILE = 'attribution.html';
 
 /** Total bytes of a tier's files. */
 export function tierBytes(m: Manifest, tier: Tier): number {
-  return m.assets.filter((a) => a.tier === tier).reduce((s, a) => s + a.files.reduce((t, f) => t + f.bytes, 0), 0);
+  return m.assets
+    .filter((a) => a.tier === tier)
+    .reduce((s, a) => s + a.files.reduce((t, f) => t + f.bytes, 0), 0);
 }
 
 export interface DiskFile {
@@ -94,9 +96,11 @@ export function checkManifest(
     ids.add(a.id);
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(a.id)) problems.push(`${a.id}: id is not kebab-case`);
     if (a.licence.trim() === '') problems.push(`K1 ${a.id}: missing licence`);
-    if (a.source.provider !== 'ibasho' && a.licenceUrl.trim() === '') problems.push(`K1 ${a.id}: missing licence URL`);
+    if (a.source.provider !== 'ibasho' && a.licenceUrl.trim() === '')
+      problems.push(`K1 ${a.id}: missing licence URL`);
     if (a.files.length === 0) problems.push(`${a.id}: no files`);
-    if (a.tier === 'hero' && a.status === 'pending-manual') problems.push(`K3 ${a.id}: hero asset is pending-manual`);
+    if (a.tier === 'hero' && a.status === 'pending-manual')
+      problems.push(`K3 ${a.id}: hero asset is pending-manual`);
     for (const f of a.files) {
       if (listed.has(f.path)) problems.push(`K1 ${f.path}: listed twice`);
       listed.set(f.path, { asset: a, file: f });
@@ -112,13 +116,16 @@ export function checkManifest(
     if (hit.file.sha256 !== d.sha256) problems.push(`K1 ${path}: sha256 differs from the manifest`);
     if (hit.file.bytes !== d.bytes) problems.push(`K1 ${path}: size differs from the manifest`);
   }
-  for (const path of listed.keys()) if (!disk.has(path)) problems.push(`K1 ${path}: in the manifest but missing`);
+  for (const path of listed.keys())
+    if (!disk.has(path)) problems.push(`K1 ${path}: in the manifest but missing`);
 
   for (const tier of ['hero', 'lazy'] as const) {
     const b = m.budgets[tier];
-    if (b && b.bytes !== tierBytes(m, tier)) problems.push(`budget ${tier}: recorded bytes do not match files`);
+    if (b && b.bytes !== tierBytes(m, tier))
+      problems.push(`budget ${tier}: recorded bytes do not match files`);
   }
   const hero = tierBytes(m, 'hero') + manifestBytes;
-  if (hero > heroLimitBytes) problems.push(`K2 hero tier is ${hero} bytes (with manifest), limit ${heroLimitBytes}`);
+  if (hero > heroLimitBytes)
+    problems.push(`K2 hero tier is ${hero} bytes (with manifest), limit ${heroLimitBytes}`);
   return problems;
 }

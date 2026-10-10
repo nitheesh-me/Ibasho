@@ -71,10 +71,10 @@ export function parseHdr(buf: Uint8Array): HdrImage {
           count -= 128;
           if (count === 0 || x + count > width) throw new Error('hdr: bad run');
           const v = buf[pos++]!;
-          for (let i = 0; i < count; i++) scan[(x++) * 4 + c] = v;
+          for (let i = 0; i < count; i++) scan[x++ * 4 + c] = v;
         } else {
           if (count === 0 || x + count > width) throw new Error('hdr: bad literal');
-          for (let i = 0; i < count; i++) scan[(x++) * 4 + c] = buf[pos++]!;
+          for (let i = 0; i < count; i++) scan[x++ * 4 + c] = buf[pos++]!;
         }
       }
     }
@@ -112,9 +112,7 @@ export function toRgbe(r: number, g: number, b: number): [number, number, number
  */
 export function writeHdr(img: HdrImage, rle = true): Uint8Array {
   const { width, height, data } = img;
-  const header = new TextEncoder().encode(
-    `#?RADIANCE\nFORMAT=32-bit_rle_rgbe\n\n-Y ${height} +X ${width}\n`,
-  );
+  const header = new TextEncoder().encode(`#?RADIANCE\nFORMAT=32-bit_rle_rgbe\n\n-Y ${height} +X ${width}\n`);
   const out: number[] = [...header];
   const scan = new Uint8Array(width * 4);
   for (let y = 0; y < height; y++) {
@@ -142,11 +140,7 @@ export function writeHdr(img: HdrImage, rle = true): Uint8Array {
         let len = 0;
         while (x + len < width && len < 128) {
           const a = scan[(x + len) * 4 + c];
-          if (
-            x + len + 2 < width &&
-            a === scan[(x + len + 1) * 4 + c] &&
-            a === scan[(x + len + 2) * 4 + c]
-          )
+          if (x + len + 2 < width && a === scan[(x + len + 1) * 4 + c] && a === scan[(x + len + 2) * 4 + c])
             break;
           len++;
         }

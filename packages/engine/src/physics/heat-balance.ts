@@ -41,7 +41,12 @@ export function sapControlType(c: ControlType | undefined): 1 | 2 | 3 {
 }
 
 /** Mean temperature reduction (K) over a day from heating off-periods (SAP Table 9). */
-export function offPeriodReduction(offHours: readonly number[], thetaH: number, thetaSc: number, tc: number): number {
+export function offPeriodReduction(
+  offHours: readonly number[],
+  thetaH: number,
+  thetaSc: number,
+  tc: number,
+): number {
   const dT = Math.max(0, thetaH - thetaSc);
   let u = 0;
   for (const t of offHours) {
@@ -75,7 +80,8 @@ export const heatBalanceStage: PhysicsStage<'heat-balance'> = {
     const twin = geometry.twin;
     const tfa = geometry.tfaM2;
     const fLA = Math.min(1, Math.max(0, central(twin.zones.livingAreaFrac, 'zones.livingAreaFrac')));
-    const theta1 = ctx.mode === 'your-home' ? central(twin.occupancy.setpointC, 'occupancy.setpointC') : SAP_SETPOINT_C;
+    const theta1 =
+      ctx.mode === 'your-home' ? central(twin.occupancy.setpointC, 'occupancy.setpointC') : SAP_SETPOINT_C;
     const control = sapControlType(choiceValue(twin.systems.controls));
     const sched =
       ctx.mode === 'your-home'
@@ -109,20 +115,37 @@ export const heatBalanceStage: PhysicsStage<'heat-balance'> = {
     const output: DemandMonthly = { qhKWh, util, thetaIC };
 
     const evidence = [
-      ...monthlyDrafts(ctx, 'heat.util', util, '1', { id: 'BP-3.7', doc: 'utilisation factor (eta = 1 at M-0)' }),
-      ...monthlyDrafts(ctx, 'heat.theta_i', thetaIC, 'degC', { id: 'BP-3.7', doc: 'SAP two-zone mean internal temperature' }, (m) => [
-        { key: 'fabric.htr', role: 'htr' },
-        { key: `vent.hve.${m}`, role: 'hve' },
-        { key: 'fabric.tmp', role: 'tmp' },
-      ]),
-      ...monthlyDrafts(ctx, 'heat.qh', qhKWh, 'kWh', { id: 'BP-3.7', doc: 'Q_H = 0.024 (H (theta_i - theta_e) - eta G) n' }, (m) => [
-        { key: 'fabric.htr', role: 'htr' },
-        { key: `vent.hve.${m}`, role: 'hve' },
-        { key: `heat.theta_i.${m}`, role: 'theta_i' },
-        { key: `gain.solar.${m}`, role: 'solar' },
-        { key: `gain.int.${m}`, role: 'internal' },
-        { key: `heat.util.${m}`, role: 'eta' },
-      ]),
+      ...monthlyDrafts(ctx, 'heat.util', util, '1', {
+        id: 'BP-3.7',
+        doc: 'utilisation factor (eta = 1 at M-0)',
+      }),
+      ...monthlyDrafts(
+        ctx,
+        'heat.theta_i',
+        thetaIC,
+        'degC',
+        { id: 'BP-3.7', doc: 'SAP two-zone mean internal temperature' },
+        (m) => [
+          { key: 'fabric.htr', role: 'htr' },
+          { key: `vent.hve.${m}`, role: 'hve' },
+          { key: 'fabric.tmp', role: 'tmp' },
+        ],
+      ),
+      ...monthlyDrafts(
+        ctx,
+        'heat.qh',
+        qhKWh,
+        'kWh',
+        { id: 'BP-3.7', doc: 'Q_H = 0.024 (H (theta_i - theta_e) - eta G) n' },
+        (m) => [
+          { key: 'fabric.htr', role: 'htr' },
+          { key: `vent.hve.${m}`, role: 'hve' },
+          { key: `heat.theta_i.${m}`, role: 'theta_i' },
+          { key: `gain.solar.${m}`, role: 'solar' },
+          { key: `gain.int.${m}`, role: 'internal' },
+          { key: `heat.util.${m}`, role: 'eta' },
+        ],
+      ),
     ];
     return { output, evidence };
   },

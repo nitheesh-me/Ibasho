@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ibasho": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/ibasho-mcp.mjs"]
+    }
+  }
+}

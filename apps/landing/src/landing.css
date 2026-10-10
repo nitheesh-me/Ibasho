@@ -1,0 +1,442 @@
+/*
+ * Landing page styles on Andon tokens (DESIGN_SYSTEM 2 to 5). Owner: WP-09.
+ * Mobile first, 16 px gutters, no horizontal scroll. At least 30% of every screen is empty (Ma).
+ * Gold appears only on the one hero action. No vermilion: nothing on this page is a seal.
+ */
+:root {
+  --lp-gutter: 16px;
+  --lp-measure: 36rem;
+  --lp-wide: 72rem;
+  --lp-on-gold: oklch(20% 0.01 60);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--surface);
+  color: var(--text);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+[data-theme] {
+  color: var(--text);
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+a {
+  color: var(--link);
+  text-underline-offset: 0.2em;
+}
+
+/* Washi grain, as in @ibasho/ui base.css (DESIGN_SYSTEM 4.5). */
+.ib-washi {
+  position: relative;
+  isolation: isolate;
+}
+.ib-washi::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 280px 280px;
+  mix-blend-mode: var(--grain-blend);
+  opacity: var(--grain-opacity);
+}
+
+.lp-skip {
+  position: absolute;
+  left: var(--lp-gutter);
+  top: -100px;
+  z-index: 10;
+  padding: var(--ma-2) var(--ma-3);
+  background: var(--surface-raised);
+  color: var(--text);
+}
+.lp-skip:focus {
+  top: var(--ma-2);
+}
+
+/* Bar: sits over the lit hero. */
+.lp-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--lp-wide);
+  margin-inline: auto;
+  padding: var(--ma-4) var(--lp-gutter);
+  background: transparent;
+}
+.lp-bar__name {
+  font-family: var(--font-mincho);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.lp-bar__lantern {
+  font: 500 var(--fs-ui) / 1 var(--font-gothic);
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  padding: var(--ma-2) var(--ma-3);
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+}
+.lp-bar__lantern:hover {
+  border-color: var(--text-2);
+}
+
+/* Hero: a lantern lit in a dark room (SPEC 5.1 chapter 1). */
+.lp-hero {
+  background: var(--surface);
+  color: var(--text);
+  min-height: min(100svh, 60rem);
+  display: grid;
+  align-items: center;
+}
+.lp-hero__inner {
+  display: grid;
+  gap: var(--ma-6);
+  width: 100%;
+  max-width: var(--lp-wide);
+  margin-inline: auto;
+  padding: calc(var(--ma-7) + var(--ma-4)) var(--lp-gutter) var(--ma-7);
+  box-sizing: border-box;
+}
+.lp-hero__art {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ma-5);
+  color: var(--text);
+}
+.lp-lantern {
+  width: clamp(6rem, 22vw, 11rem);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 0 2.5rem oklch(82% 0.145 73 / 0.25));
+}
+.lp-hero__brush {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-1);
+  color: var(--text-2);
+}
+.lp-hero__brush svg {
+  width: clamp(2.25rem, 7vw, 3.75rem);
+  height: auto;
+}
+.lp-hero__title {
+  font-family: var(--font-mincho);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 7vw, var(--fs-d2));
+  line-height: var(--lh-d2);
+  margin: var(--ma-3) 0 var(--ma-5);
+  max-width: 15ch;
+  text-wrap: balance;
+}
+.lp-hero__body {
+  font-family: var(--font-mincho);
+  line-height: var(--lh-body-mincho);
+  color: var(--text-2);
+  max-width: var(--lp-measure);
+  margin: 0 0 var(--ma-4);
+}
+
+.lp-kicker {
+  font: 500 var(--fs-ui) / var(--lh-ui) var(--font-gothic);
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  margin: 0;
+}
+.lp-kicker__aside {
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+}
+.lp-kicker__n {
+  color: var(--text-3);
+  margin-right: var(--ma-2);
+}
+
+.lp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ma-4) var(--ma-5);
+  margin-top: var(--ma-6);
+}
+.lp-actions--centre {
+  justify-content: center;
+}
+
+/* The one gold action (DESIGN_SYSTEM 1 rule 2). */
+.lp-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 var(--ma-5);
+  background: var(--gold);
+  color: var(--lp-on-gold);
+  font: 700 var(--fs-body) / 1 var(--font-gothic);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: var(--r-0);
+  box-shadow: var(--tomoshibi);
+  transition: filter var(--t-fade) var(--ease-fade);
+}
+.lp-cta:hover {
+  filter: brightness(1.06);
+}
+
+/* The invitation repeats the action in ink, so gold stays singular. */
+.lp-step {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 var(--ma-5);
+  color: var(--text);
+  border: 1.5px solid var(--text);
+  font: 700 var(--fs-body) / 1 var(--font-gothic);
+  text-decoration: none;
+  border-radius: var(--r-0);
+}
+.lp-step:hover {
+  background: var(--surface-sunk);
+}
+
+.lp-quiet {
+  color: var(--text-2);
+  font: 500 var(--fs-body) / 1.5 var(--font-gothic);
+  text-decoration-color: var(--rule);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.lp-quiet:hover {
+  color: var(--text);
+  text-decoration-color: currentColor;
+}
+
+/* Chapters: one idea each, laid out 1 to 2 like a tatami pair. */
+.lp-ch {
+  position: relative;
+  display: grid;
+  gap: var(--ma-5);
+  max-width: var(--lp-wide);
+  margin-inline: auto;
+  padding: var(--ma-7) var(--lp-gutter);
+  box-sizing: border-box;
+}
+/* Mist between chapters: a faded ink rule, never gold. */
+.lp-ch::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--lp-gutter);
+  right: var(--lp-gutter);
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--rule) 20%, var(--rule) 80%, transparent);
+}
+
+.lp-mark {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ma-3);
+  color: var(--text-2);
+}
+.lp-mark__glyph {
+  width: clamp(3.5rem, 12vw, 7rem);
+  height: auto;
+}
+.lp-mark__gloss {
+  font: 500 var(--fs-cap) / var(--lh-cap) var(--font-gothic);
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+
+.lp-ch__title {
+  font-family: var(--font-mincho);
+  font-weight: 700;
+  font-size: clamp(var(--fs-h2), 5vw, var(--fs-d1));
+  line-height: var(--lh-d1);
+  margin: var(--ma-3) 0 var(--ma-4);
+  text-wrap: balance;
+}
+.lp-ch__line {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  margin: 0 0 var(--ma-5);
+  max-width: var(--lp-measure);
+}
+.lp-ch__body {
+  font-family: var(--font-mincho);
+  line-height: var(--lh-body-mincho);
+  color: var(--text-2);
+  margin: 0 0 var(--ma-4);
+  max-width: var(--lp-measure);
+}
+.lp-ch__poster {
+  margin: 0;
+}
+.lp-ch__poster img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lp-term {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--text-3);
+  text-underline-offset: 0.22em;
+}
+.lp-term:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --lp-gutter: var(--ma-6);
+  }
+  .lp-hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: center;
+  }
+  .lp-hero__art {
+    justify-content: center;
+  }
+  .lp-ch {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: start;
+    padding-block: var(--ma-8);
+  }
+  .lp-ch[data-side="end"] {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+  .lp-mark {
+    flex-direction: column;
+    align-items: flex-start;
+    position: sticky;
+    top: var(--ma-6);
+  }
+  .lp-ch[data-side="end"] .lp-mark {
+    order: 2;
+    justify-content: flex-end;
+  }
+  .lp-ch[data-side="end"] .lp-mark {
+    align-items: flex-end;
+  }
+  .lp-mark__gloss {
+    writing-mode: vertical-rl;
+  }
+}
+
+/* Ink in on scroll (enhance.ts). Only ever set by script, so no script means no hiding. */
+.lp-ch[data-inked] {
+  transition:
+    opacity var(--t-sumi) var(--ease-sumi),
+    transform var(--t-sumi) var(--ease-sumi);
+}
+/* Never fully invisible: a page captured without scrolling still shows every chapter. */
+.lp-ch[data-inked="false"] {
+  opacity: 0.2;
+  transform: translateY(12px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-ch[data-inked] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Invitation. */
+.lp-invite {
+  text-align: center;
+  max-width: var(--lp-wide);
+  margin-inline: auto;
+  padding: var(--ma-8) var(--lp-gutter);
+  box-sizing: border-box;
+}
+.lp-invite__title {
+  font-family: var(--font-mincho);
+  font-weight: 700;
+  font-size: clamp(var(--fs-h2), 5vw, var(--fs-d1));
+  line-height: var(--lh-d1);
+  margin: 0 0 var(--ma-4);
+}
+.lp-invite__line {
+  font-family: var(--font-mincho);
+  color: var(--text-2);
+  max-width: var(--lp-measure);
+  margin: 0 auto;
+  line-height: var(--lh-body-mincho);
+}
+
+/* Words we use: the glossary for terms on this page (UX 15). */
+.lp-words {
+  max-width: 48rem;
+  margin-inline: auto;
+  padding: var(--ma-7) var(--lp-gutter);
+  box-sizing: border-box;
+  border-top: 1px solid var(--rule);
+}
+.lp-words__title {
+  font: 700 var(--fs-h3) / var(--lh-h3) var(--font-mincho);
+  margin: 0 0 var(--ma-5);
+}
+.lp-words__list {
+  display: grid;
+  gap: var(--ma-4);
+  margin: 0;
+}
+.lp-words__item {
+  display: grid;
+  gap: var(--ma-1);
+  scroll-margin-top: var(--ma-6);
+}
+.lp-words__item dt {
+  font: 700 var(--fs-body) / 1.4 var(--font-mincho);
+}
+.lp-words__item:target dt {
+  text-decoration: underline dotted var(--text-3);
+  text-underline-offset: 0.22em;
+}
+.lp-words__item dd {
+  margin: 0;
+  color: var(--text-2);
+}
+@media (min-width: 48rem) {
+  .lp-words__item {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--ma-5);
+  }
+}
+
+.lp-foot {
+  padding: var(--ma-6) var(--lp-gutter) var(--ma-7);
+  text-align: center;
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+.lp-foot p {
+  margin: 0;
+}

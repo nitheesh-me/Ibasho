@@ -11,3 +11,7 @@ storybook-static/
 proofs/.lake/
 .DS_Store
 *.log
+
+# Local, machine-specific agent rules and agent working state
+CLAUDE.local.md
+docs/progress/

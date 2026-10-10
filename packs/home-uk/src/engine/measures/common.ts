@@ -1,8 +1,14 @@
 /**
  * Helpers shared by the UK measure models. Owner: WP-01.
+ *
+ * Local adapter: the engine half restates each measure's id, group, weight and kind instead of
+ * importing `../../ids.ts`, because dependency-cruiser rule `l1-imports-l0-only` does not yet allow
+ * a pack engine half to import its own pack's `src/ids.ts` (INTERFACES request to WP-00 on the
+ * blackboard). `test/gh1.test.ts` ("measure models follow the frozen ids") checks every model
+ * against `ids.ts`, so the ids stay single-sourced in effect. Switch back to the import once the
+ * rule allows it.
  */
-import type { MeasureModel, MeasureOption, NumField, Provenance } from '@ibasho/core';
-import { GROUPS, MEASURES, type MeasureId } from '../../ids.ts';
+import type { MeasureKind, MeasureModel, MeasureOption, NumField, Provenance } from '@ibasho/core';
 
 export const BP_6_1 = {
   id: 'bp-6-1',
@@ -15,7 +21,7 @@ export function provenance(extra: Provenance['sources'], grade: Provenance['grad
 }
 
 /** A value a measure sets, tagged with the measure as its default source. */
-export function measureValue(value: number, measureId: MeasureId): NumField {
+export function measureValue(value: number, measureId: string): NumField {
   return { state: 'known', value, source: { kind: 'default', pluginId: measureId } };
 }
 
@@ -33,9 +39,7 @@ export function param(o: MeasureOption, name: string): number {
   return p.value;
 }
 
-/** Group, weight and kind of a measure, read from the frozen ids. */
-export function identity(id: MeasureId) {
-  const m = MEASURES[id];
-  const group = m.group as keyof typeof GROUPS;
-  return { id, group: m.group, weight: GROUPS[group].weight, measureKind: m.kind } as const;
+/** Id, group, weight and kind of a measure (must equal `ids.ts`; checked by test). */
+export function identity(id: string, group: string, weight: 'heavy' | 'light', measureKind: MeasureKind) {
+  return { id, group, weight, measureKind } as const;
 }

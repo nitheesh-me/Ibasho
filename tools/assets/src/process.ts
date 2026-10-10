@@ -126,7 +126,8 @@ export async function build(tiers: readonly Tier[]): Promise<Manifest> {
   const lock = loadLock();
   if (!lock) throw new Error('tools/assets/sources.lock.json missing; run pnpm assets:fetch');
   // This script owns the output tree: clear it so stale files cannot linger (K1).
-  if (existsSync(OUT_DIR)) for (const e of readdirSync(OUT_DIR)) rmSync(join(OUT_DIR, e), { recursive: true });
+  if (existsSync(OUT_DIR))
+    for (const e of readdirSync(OUT_DIR)) rmSync(join(OUT_DIR, e), { recursive: true });
 
   const assets: ManifestAsset[] = [];
   for (const spec of ALL_SPECS) {
@@ -179,7 +180,10 @@ export async function build(tiers: readonly Tier[]): Promise<Manifest> {
     },
   });
   const manifest = withBytes({ ...draft, assets });
-  writeFileEnsured(join(OUT_DIR, MANIFEST_FILE), formatJson(manifest, `apps/web/public/assets/${MANIFEST_FILE}`));
+  writeFileEnsured(
+    join(OUT_DIR, MANIFEST_FILE),
+    formatJson(manifest, `apps/web/public/assets/${MANIFEST_FILE}`),
+  );
   return manifest;
 }
 

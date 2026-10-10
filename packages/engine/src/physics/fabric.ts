@@ -57,10 +57,17 @@ export function createFabricStage(d: FabricDefaults): PhysicsStage<'fabric'> {
         byJunctionWK[j.id] = h;
         sumPsiL += h;
         evidence.push(
-          floatDraft(ctx, `fabric.psi.${j.id}`, j.psi, 'W/mK', { id: 'SAP-K1', doc: 'junction psi' }, {
-            junctionId: j.id,
-            inputs: [{ key: `geom.len.${j.id}`, role: 'length' }],
-          }),
+          floatDraft(
+            ctx,
+            `fabric.psi.${j.id}`,
+            j.psi,
+            'W/mK',
+            { id: 'SAP-K1', doc: 'junction psi' },
+            {
+              junctionId: j.id,
+              inputs: [{ key: `geom.len.${j.id}`, role: 'length' }],
+            },
+          ),
         );
       }
       const yRestWK = geo.junctions.length === 0 ? d.bridgingYWm2K * geo.exposedAreaM2 : 0;
@@ -75,18 +82,39 @@ export function createFabricStage(d: FabricDefaults): PhysicsStage<'fabric'> {
         ...geo.junctions.map((j) => ({ key: `fabric.psi.${j.id}`, role: 'psi' })),
       ];
       evidence.push(
-        floatDraft(ctx, 'fabric.htr', htrWK, 'W/K', { id: 'BP-3.2', doc: 'H_tr = sum A U + sum psi L + y A_rest' }, {
-          inputs: htrInputs,
-        }),
-        floatDraft(ctx, 'fabric.hlp', hlpWm2K, 'W/m2K', { id: 'BP-3.2', doc: 'HLP_fabric = H_tr / TFA' }, {
-          inputs: [
-            { key: 'fabric.htr', role: 'htr' },
-            { key: 'geom.tfa', role: 'tfa' },
-          ],
-        }),
-        floatDraft(ctx, 'fabric.tmp', tmpKJm2K, 'kJ/m2K', { id: 'RdSAP-T22', doc: 'thermal mass parameter' }, {
-          provenance: 'default',
-        }),
+        floatDraft(
+          ctx,
+          'fabric.htr',
+          htrWK,
+          'W/K',
+          { id: 'BP-3.2', doc: 'H_tr = sum A U + sum psi L + y A_rest' },
+          {
+            inputs: htrInputs,
+          },
+        ),
+        floatDraft(
+          ctx,
+          'fabric.hlp',
+          hlpWm2K,
+          'W/m2K',
+          { id: 'BP-3.2', doc: 'HLP_fabric = H_tr / TFA' },
+          {
+            inputs: [
+              { key: 'fabric.htr', role: 'htr' },
+              { key: 'geom.tfa', role: 'tfa' },
+            ],
+          },
+        ),
+        floatDraft(
+          ctx,
+          'fabric.tmp',
+          tmpKJm2K,
+          'kJ/m2K',
+          { id: 'RdSAP-T22', doc: 'thermal mass parameter' },
+          {
+            provenance: 'default',
+          },
+        ),
       );
       return {
         output: { htrWK, byElementWK, byJunctionWK, yRestWK, hlpWm2K, tmpKJm2K },

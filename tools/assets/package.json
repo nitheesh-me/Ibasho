@@ -3,14 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "`pnpm assets`: fetch, transcode, subset and write `apps/web/public/assets/manifest.json`.",
+  "description": "`pnpm assets`: fetch, process and list the asset sets in `apps/web/public/assets/manifest.json`.",
   "exports": {
     ".": "./src/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests",
-    "assets": "node -e \"console.log('tools-assets: not implemented yet (WP-11, M-A)'); process.exit(1)\""
+    "test": "vitest run",
+    "assets": "node src/process.ts",
+    "fetch": "node src/fetch.ts",
+    "check": "node src/process.ts --check"
   },
   "dependencies": {
     "@gltf-transform/cli": "4.5.1",

@@ -11,6 +11,6 @@ TGSPDCL, DERC, AEML slabs, CEA, PM Surya Ghar, measure costs (stub until T3).
 
 ## Status
 
-Everything.
+SKELETON: stub until T3 (M-G: slab tariffs, PM Surya Ghar, free-units schemes). Nothing is registered yet.
 
 Commands: `pnpm --filter @ibasho/pack-money-in typecheck`, `pnpm --filter @ibasho/pack-money-in test`.

@@ -1,5 +1,7 @@
 /**
- * SKELETON (G0). Owner: WP-03. Engine half of pack `rules-uk`.
- * Intentionally empty: the owner fills this in from M-0 on.
+ * Engine half of pack `rules-uk`. Owner: WP-03.
+ * M-0: one Kleene rule (`UK.DNO.HP.LOOPED`). Full SPEC 9 pack at M-B.
  */
-export {};
+export { default as rulesUkEngineModule } from './module.ts';
+export { RULES_UK_ID, rulesUk } from './rule-pack.ts';
+export { DNO_RULES, UK_DNO_HP_LOOPED } from './rules/dno.ts';

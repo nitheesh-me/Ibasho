@@ -74,7 +74,11 @@ export function inspectSection(csv: string, section: string): Record<string, str
 }
 
 function cli(args: string[]): string {
-  return execFileSync(CLI, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 });
+  return execFileSync(CLI, args, {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+    maxBuffer: 64 * 1024 * 1024,
+  });
 }
 
 export async function processModel(rel: string, glb: Uint8Array, fit: Fit): Promise<StepResult> {
@@ -127,7 +131,8 @@ export async function processModel(rel: string, glb: Uint8Array, fit: Fit): Prom
       .slice(1)
       .map(splitCsv)
       .filter((r) => r.length >= 3 && r[2] === '0');
-    if (errors.length > 0) throw new Error(`${rel}: glTF validator errors: ${errors.map((r) => r[1]).join('; ')}`);
+    if (errors.length > 0)
+      throw new Error(`${rel}: glTF validator errors: ${errors.map((r) => r[1]).join('; ')}`);
     cli(['optimize', mid, out, ...OPTIMIZE_ARGS]);
     const data = new Uint8Array(readFileSync(out));
     const inspect = cli(['inspect', out, '--format', 'csv']);

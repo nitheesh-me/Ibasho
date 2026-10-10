@@ -49,3 +49,130 @@ mckay-lhs:
     title: "Technometrics"
     volume: 21
   url: https://doi.org/10.2307/1268522
+ottosson-oklab:
+  type: Web
+  title: "A perceptual color space for image processing (OKLab)"
+  author: "Ottosson, Björn"
+  date: 2020
+  url: https://bottosson.github.io/posts/oklab/
+machado-cvd:
+  type: Article
+  title: "A Physiologically-based Model for Simulation of Color Vision Deficiency"
+  author: ["Machado, Gustavo M.", "Oliveira, Manuel M.", "Fernandes, Leandro A. F."]
+  date: 2009
+  parent:
+    type: Periodical
+    title: "IEEE Transactions on Visualization and Computer Graphics"
+yuji-syuku:
+  type: Web
+  title: "Yuji Syuku (SIL Open Font License 1.1)"
+  author: "Kinuta Font Factory"
+  url: https://fonts.google.com/specimen/Yuji+Syuku
+polyhaven:
+  type: Web
+  title: "Poly Haven: HDRIs and textures (CC0)"
+  author: "Poly Haven"
+  url: https://polyhaven.com
+kenney-furniture:
+  type: Web
+  title: "Furniture Kit (CC0)"
+  author: "Kenney"
+  url: https://kenney.nl/assets/furniture-kit
+quaternius-interior:
+  type: Web
+  title: "Ultimate House Interior Pack (CC0)"
+  author: "Quaternius"
+  url: https://quaternius.com/packs/ultimatehomeinterior.html
+adobe-gainmap:
+  type: Web
+  title: "Gain Map Specification"
+  author: "Adobe"
+  date: 2023
+  url: https://helpx.adobe.com/camera-raw/using/gain-map.html
+rdsap-10:
+  type: Report
+  title: "RdSAP 10 Specification"
+  author: BRE
+  date: 2025
+  url: https://bregroup.com/documents/d/bre-group/rdsap-10-specification-10-06-2025
+nasa-power:
+  type: Web
+  title: "NASA POWER climatology API"
+  author: "NASA Langley Research Center"
+  url: https://power.larc.nasa.gov/docs/services/api/temporal/climatology/
+fdlibm:
+  type: Web
+  title: "fdlibm 5.3, freely distributable libm"
+  author: "Sun Microsystems"
+  date: 1993
+  url: https://www.netlib.org/fdlibm/
+kleene-1952:
+  type: Book
+  title: "Introduction to Metamathematics"
+  author: "Kleene, Stephen Cole"
+  date: 1952
+  publisher: "North-Holland"
+ofgem-cap-2026q4:
+  type: Web
+  title: "Changes to energy price cap between 1 October and 31 December 2026"
+  author: "Ofgem"
+  date: 2026
+  url: https://ofgem.gov.uk/news/changes-energy-price-cap-between-1-october-and-31-december-2026
+green-book-discounting:
+  type: Report
+  title: "The Green Book: supplementary guidance on discounting"
+  author: "HM Treasury"
+  url: https://assets.publishing.service.gov.uk/media/698488ab2df808759a7bd70f/Green_Book_supplementary_guidance_-_discounting.pdf
+boiler-upgrade-scheme:
+  type: Web
+  title: "Boiler Upgrade Scheme"
+  author: "Energy Saving Trust"
+  url: https://www.energysavingtrust.org.uk/advice/boiler-upgrade-scheme/
+nationwide-epc-2026:
+  type: Web
+  title: "Energy efficiency ratings have limited impact on owner-occupied house prices"
+  author: "Nationwide Building Society"
+  date: 2026
+  url: https://www.nationwide.co.uk/media/hpi/reports/energy-efficiency-ratings-have-limited-impact-on-owner-occupied-house-prices-despite-increased-interest-in-going-green
+est-advice:
+  type: Web
+  title: "Energy Saving Trust, home energy advice (insulation, glazing, controls, heat pumps, solar)"
+  author: "Energy Saving Trust"
+  url: https://energysavingtrust.org.uk/advice/
+historic-england-retrofit:
+  type: Web
+  title: "Retrofit and energy efficiency in historic buildings"
+  author: "Historic England"
+  url: https://historicengland.org.uk/advice/technical-advice/retrofit-and-energy-efficiency-in-historic-buildings/
+trustmark-pas2035:
+  type: Web
+  title: "PAS 2035 and the retrofit coordinator"
+  author: TrustMark
+  url: https://www.trustmark.org.uk/ourservices/pas-2035
+mcs-installers:
+  type: Web
+  title: "MCS, find a certified installer"
+  author: "MCS"
+  url: https://mcscertified.com/find-an-installer/
+mcs-020a:
+  type: Report
+  title: "MCS 020 a) Issue 1.1, permitted development noise assessment for air source heat pumps"
+  author: "MCS"
+  date: 2025
+  url: https://mcscertified.com/wp-content/uploads/2025/04/MCS-020-a-Issue-1.1-Final.pdf
+mcp-spec:
+  type: Web
+  title: "Model Context Protocol specification"
+  author: "Model Context Protocol"
+  url: https://modelcontextprotocol.io/specification
+claude-code-plugins:
+  type: Web
+  title: "Claude Code plugins"
+  author: Anthropic
+  url: https://docs.claude.com/en/docs/claude-code/plugins
+proof-carrying-numbers:
+  type: Article
+  title: "Proof-Carrying Numbers (PCN)"
+  author: "Solatorio, Aivin V."
+  date: 2025
+  url: https://arxiv.org/abs/2509.06902

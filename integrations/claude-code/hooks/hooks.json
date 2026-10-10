@@ -1,0 +1,17 @@
+{
+  "description": "Inject the Ibasho agent link (base URL, token, open tabs, pairing code) into the ibasho-explorer subagent at launch.",
+  "hooks": {
+    "SubagentStart": [
+      {
+        "matcher": "^(ibasho:)?ibasho-explorer$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/inject-context.mjs\" SubagentStart",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1235 @@
+{
+ "schema": "ibasho.utterances/1",
+ "conventions": "addMeasure.measureId is the measure id; sizes go in params.option; compare uses pick keys; an empty ops list means the parser should not guess.",
+ "items": [
+  {
+   "u": "What if we do the loft?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    }
+   ]
+  },
+  {
+   "u": "Add loft insulation",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    }
+   ]
+  },
+  {
+   "u": "Try 300mm loft insulation",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft",
+     "params": {
+      "option": "loft-300"
+     }
+    }
+   ]
+  },
+  {
+   "u": "What about 270mm in the attic?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft",
+     "params": {
+      "option": "loft-270"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Insulate the roof",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    }
+   ]
+  },
+  {
+   "u": "What if we add draught-proofing?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "Sort out the draughts",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "Fit a chimney balloon",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "Add external wall insulation",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "wall-ewi"
+    }
+   ]
+  },
+  {
+   "u": "What if we insulate the outside of the walls?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "wall-ewi"
+    }
+   ]
+  },
+  {
+   "u": "Try internal wall insulation",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "wall-iwi"
+    }
+   ]
+  },
+  {
+   "u": "What about wood fibre on the inside walls?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "wall-iwi"
+    }
+   ]
+  },
+  {
+   "u": "Insulate the floor",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "floor"
+    }
+   ]
+  },
+  {
+   "u": "Put in secondary glazing",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "glazing-secondary"
+    }
+   ]
+  },
+  {
+   "u": "What if we get double glazing?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "glazing-double"
+    }
+   ]
+  },
+  {
+   "u": "Replace the windows",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "glazing-double"
+    }
+   ]
+  },
+  {
+   "u": "Add TRVs",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "controls"
+    }
+   ]
+  },
+  {
+   "u": "Try weather compensation",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "controls"
+    }
+   ]
+  },
+  {
+   "u": "Get better heating controls",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "controls"
+    }
+   ]
+  },
+  {
+   "u": "What if we install a heat pump?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "Try an air source heat pump",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "Heat pump with bigger radiators",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp",
+     "params": {
+      "option": "heat-ashp-radiators-plus"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Add solar panels",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    }
+   ]
+  },
+  {
+   "u": "What if we put 4kWp of solar on the roof?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "pv",
+     "params": {
+      "option": "pv-4kwp"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Try a 3 kWp solar array",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "pv",
+     "params": {
+      "option": "pv-3kwp"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Add a home battery",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "battery"
+    }
+   ]
+  },
+  {
+   "u": "What about a 10kWh battery?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "battery",
+     "params": {
+      "option": "battery-10kwh"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Add a 5 kWh battery",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "battery",
+     "params": {
+      "option": "battery-5kwh"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Swap the gas hob for induction",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "hob-induction"
+    }
+   ]
+  },
+  {
+   "u": "Disconnect the gas",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "hob-induction"
+    }
+   ]
+  },
+  {
+   "u": "Add a cylinder jacket",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "cylinder-jacket"
+    }
+   ]
+  },
+  {
+   "u": "What if we add solar hot water?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "solar-thermal"
+    }
+   ]
+  },
+  {
+   "u": "Loft and draught-proofing",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "What if we keep the boiler but do the loft and windows?",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "glazing-double"
+    }
+   ]
+  },
+  {
+   "u": "Do the loft, the floor and the draughts",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "floor"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "Heat pump plus solar panels",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    }
+   ]
+  },
+  {
+   "u": "Add solar and a battery",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "battery"
+    }
+   ]
+  },
+  {
+   "u": "Try a heat pump, solar and a battery",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "battery"
+    }
+   ]
+  },
+  {
+   "u": "Loft insulation with secondary glazing",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "glazing-secondary"
+    }
+   ]
+  },
+  {
+   "u": "What about TRVs and draught-proofing?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "controls"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "Internal wall insulation and floor insulation",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "wall-iwi"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "floor"
+    }
+   ]
+  },
+  {
+   "u": "Add 300mm loft insulation and a 4kWp array",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft",
+     "params": {
+      "option": "loft-300"
+     }
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "pv",
+     "params": {
+      "option": "pv-4kwp"
+     }
+    }
+   ]
+  },
+  {
+   "u": "Without the heat pump",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "Drop the battery",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "battery"
+    }
+   ]
+  },
+  {
+   "u": "Remove the solar panels",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "pv"
+    }
+   ]
+  },
+  {
+   "u": "Keep the gas boiler",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "Skip the floor insulation",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "floor"
+    }
+   ]
+  },
+  {
+   "u": "Take out the double glazing",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "glazing-double"
+    }
+   ]
+  },
+  {
+   "u": "What if we don't do the heat pump?",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "No battery",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "battery"
+    }
+   ]
+  },
+  {
+   "u": "Leave out the external insulation",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "wall-ewi"
+    }
+   ]
+  },
+  {
+   "u": "Same again but without the windows",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "glazing-double"
+    }
+   ]
+  },
+  {
+   "u": "Solar instead of a heat pump",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    },
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "Drop the battery and add more loft insulation",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "battery"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    }
+   ]
+  },
+  {
+   "u": "Swap double glazing for secondary glazing",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "glazing-double"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "glazing-secondary"
+    }
+   ]
+  },
+  {
+   "u": "Keep the boiler and add solar",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    }
+   ]
+  },
+  {
+   "u": "Remove the heat pump, add TRVs",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "controls"
+    }
+   ]
+  },
+  {
+   "u": "Without the solar but with a battery",
+   "ops": [
+    {
+     "op": "removeMeasure",
+     "measureId": "pv"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "battery"
+    }
+   ]
+  },
+  {
+   "u": "I never want a heat pump",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "ashp",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "Rule out external wall insulation",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "wall-ewi",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "I'm not interested in solar panels",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "pv",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "We don't want MVHR",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "mvhr",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "No way are we doing internal insulation",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "wall-iwi",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "A battery isn't for me",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "battery",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "Forget about double glazing",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "glazing-double",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "We won't do a heat pump",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "ashp",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "Not a heat pump for now",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "ashp",
+     "scope": "snooze"
+    }
+   ]
+  },
+  {
+   "u": "Maybe later for the solar panels",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "pv",
+     "scope": "snooze"
+    }
+   ]
+  },
+  {
+   "u": "Hold off on the battery until next year",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "battery",
+     "scope": "snooze"
+    }
+   ]
+  },
+  {
+   "u": "Not this year for the floor",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "floor",
+     "scope": "snooze"
+    }
+   ]
+  },
+  {
+   "u": "Set the thermostat to 19",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "occupancy.setpointC",
+     "value": 19
+    }
+   ]
+  },
+  {
+   "u": "What if we keep the house at 20 degrees?",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "occupancy.setpointC",
+     "value": 20
+    }
+   ]
+  },
+  {
+   "u": "Turn the thermostat down to 18°C",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "occupancy.setpointC",
+     "value": 18
+    }
+   ]
+  },
+  {
+   "u": "Thermostat at twenty one",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "occupancy.setpointC",
+     "value": 21
+    }
+   ]
+  },
+  {
+   "u": "Set the flow temperature to 45",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "heating.flowTempC",
+     "value": 45
+    }
+   ]
+  },
+  {
+   "u": "What if the flow temp is 50?",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "heating.flowTempC",
+     "value": 50
+    }
+   ]
+  },
+  {
+   "u": "Use a discount rate of 5%",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "finance.discountRatePct",
+     "value": 5
+    }
+   ]
+  },
+  {
+   "u": "Discount rate 3.5 percent",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "finance.discountRatePct",
+     "value": 3.5
+    }
+   ]
+  },
+  {
+   "u": "What if gas price goes to 9p?",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "price.gasPence",
+     "value": 9
+    }
+   ]
+  },
+  {
+   "u": "Electricity at 30p",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "price.electricityPence",
+     "value": 30
+    }
+   ]
+  },
+  {
+   "u": "What if electricity rises to 35p?",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "price.electricityPence",
+     "value": 35
+    }
+   ]
+  },
+  {
+   "u": "Radiators 2 times bigger",
+   "ops": [
+    {
+     "op": "setParam",
+     "path": "heating.radiatorOversize",
+     "value": 2
+    }
+   ]
+  },
+  {
+   "u": "Our budget is £15,000",
+   "ops": [
+    {
+     "op": "setBudget",
+     "capGBP": 15000
+    }
+   ]
+  },
+  {
+   "u": "We can spend up to 10k",
+   "ops": [
+    {
+     "op": "setBudget",
+     "capGBP": 10000
+    }
+   ]
+  },
+  {
+   "u": "I can afford about 8 grand",
+   "ops": [
+    {
+     "op": "setBudget",
+     "capGBP": 8000
+    }
+   ]
+  },
+  {
+   "u": "Budget of fifteen thousand pounds",
+   "ops": [
+    {
+     "op": "setBudget",
+     "capGBP": 15000
+    }
+   ]
+  },
+  {
+   "u": "No more than £5000",
+   "ops": [
+    {
+     "op": "setBudget",
+     "capGBP": 5000
+    }
+   ]
+  },
+  {
+   "u": "Spend at most £12,500",
+   "ops": [
+    {
+     "op": "setBudget",
+     "capGBP": 12500
+    }
+   ]
+  },
+  {
+   "u": "Over 20 years",
+   "ops": [
+    {
+     "op": "setHorizon",
+     "years": 20
+    }
+   ]
+  },
+  {
+   "u": "We'll stay for 10 years",
+   "ops": [
+    {
+     "op": "setHorizon",
+     "years": 10
+    }
+   ]
+  },
+  {
+   "u": "Plan for a 15 year horizon",
+   "ops": [
+    {
+     "op": "setHorizon",
+     "years": 15
+    }
+   ]
+  },
+  {
+   "u": "We plan to live here for another 25 years",
+   "ops": [
+    {
+     "op": "setHorizon",
+     "years": 25
+    }
+   ]
+  },
+  {
+   "u": "Switch to Economy 7",
+   "ops": [
+    {
+     "op": "setTariff",
+     "fuel": "electricity",
+     "tariffId": "economy-7"
+    }
+   ]
+  },
+  {
+   "u": "What if we're on Octopus Agile?",
+   "ops": [
+    {
+     "op": "setTariff",
+     "fuel": "electricity",
+     "tariffId": "octopus-agile"
+    }
+   ]
+  },
+  {
+   "u": "Move to the Cosy tariff",
+   "ops": [
+    {
+     "op": "setTariff",
+     "fuel": "electricity",
+     "tariffId": "octopus-cosy"
+    }
+   ]
+  },
+  {
+   "u": "Go back to the price cap",
+   "ops": [
+    {
+     "op": "setTariff",
+     "fuel": "electricity",
+     "tariffId": "price-cap"
+    }
+   ]
+  },
+  {
+   "u": "Compare least upfront and best return",
+   "ops": [
+    {
+     "op": "compare",
+     "scenarioIds": [
+      "leastUpfront",
+      "bestReturn"
+     ]
+    }
+   ]
+  },
+  {
+   "u": "Best return versus lowest carbon",
+   "ops": [
+    {
+     "op": "compare",
+     "scenarioIds": [
+      "bestReturn",
+      "lowestRunningCarbon"
+     ]
+    }
+   ]
+  },
+  {
+   "u": "Show the cheapest against the greenest",
+   "ops": [
+    {
+     "op": "compare",
+     "scenarioIds": [
+      "leastUpfront",
+      "lowestRunningCarbon"
+     ]
+    }
+   ]
+  },
+  {
+   "u": "What's the difference between least upfront and lowest running carbon?",
+   "ops": [
+    {
+     "op": "compare",
+     "scenarioIds": [
+      "leastUpfront",
+      "lowestRunningCarbon"
+     ]
+    }
+   ]
+  },
+  {
+   "u": "Heat pump and solar on a £20k budget",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    },
+    {
+     "op": "setBudget",
+     "capGBP": 20000
+    }
+   ]
+  },
+  {
+   "u": "Loft insulation, and set the thermostat to 19",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    },
+    {
+     "op": "setParam",
+     "path": "occupancy.setpointC",
+     "value": 19
+    }
+   ]
+  },
+  {
+   "u": "Add a heat pump and switch to Cosy",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "setTariff",
+     "fuel": "electricity",
+     "tariffId": "octopus-cosy"
+    }
+   ]
+  },
+  {
+   "u": "Do the loft with a budget of £3000",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    },
+    {
+     "op": "setBudget",
+     "capGBP": 3000
+    }
+   ]
+  },
+  {
+   "u": "Heat pump with flow temperature 45",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    },
+    {
+     "op": "setParam",
+     "path": "heating.flowTempC",
+     "value": 45
+    }
+   ]
+  },
+  {
+   "u": "No heat pump ever, but add the loft",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "ashp",
+     "scope": "never"
+    },
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    }
+   ]
+  },
+  {
+   "u": "Solar panels over 25 years",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "pv"
+    },
+    {
+     "op": "setHorizon",
+     "years": 25
+    }
+   ]
+  },
+  {
+   "u": "Make it cosier in winter without spending much",
+   "ops": []
+  },
+  {
+   "u": "What would make the biggest difference to our bills?",
+   "ops": []
+  },
+  {
+   "u": "Can we do something about the cold back bedroom?",
+   "ops": []
+  },
+  {
+   "u": "Is it worth doing the walls if we're moving in five years?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "wall-ewi"
+    },
+    {
+     "op": "setHorizon",
+     "years": 5
+    }
+   ]
+  },
+  {
+   "u": "Let's go all in on the greenest option",
+   "ops": []
+  },
+  {
+   "u": "Whatever is cheapest to run, please",
+   "ops": []
+  },
+  {
+   "u": "Undo the last change",
+   "ops": []
+  },
+  {
+   "u": "What if my partner works from home three days a week?",
+   "ops": []
+  },
+  {
+   "u": "If we got a grant, would a heat pump pay off?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "ashp"
+    }
+   ]
+  },
+  {
+   "u": "Could we heat with the sun?",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "solar-thermal"
+    }
+   ]
+  },
+  {
+   "u": "I hate the look of render on the front",
+   "ops": [
+    {
+     "op": "rejectMeasure",
+     "measureId": "wall-ewi",
+     "scope": "never"
+    }
+   ]
+  },
+  {
+   "u": "Stop the windows rattling",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "draught"
+    }
+   ]
+  },
+  {
+   "u": "Lower the bills by fixing the roof space",
+   "ops": [
+    {
+     "op": "addMeasure",
+     "measureId": "loft"
+    }
+   ]
+  }
+ ]
+}

@@ -70,7 +70,7 @@ describe('log and log10 (fdlibm e_log.c, e_log10.c)', () => {
     expect(Number.isNaN(log10(-2))).toBe(true);
     expect(log10(Infinity)).toBe(Infinity);
     expect(log(5e-324)).toBeCloseTo(-744.44007192138, 9);
-    expect(log10(5e-324)).toBeCloseTo(-323.30621534311584, 9);
+    expect(log10(5e-324)).toBeCloseTo(-323.30621534311587, 9);
   });
 
   it('matches the platform within 1 ulp', () => {
@@ -78,7 +78,7 @@ describe('log and log10 (fdlibm e_log.c, e_log10.c)', () => {
     const xs = [
       ...samples(3000, 1e-300, 1e-290),
       ...samples(3000, 0.5, 2),
-      ...samples(3000, 1, 1e6),
+      ...samples(3000, 1, 1000000),
       ...samples(1000, 1 - 1e-7, 1 + 1e-7),
       2,
       Math.E,
@@ -102,7 +102,7 @@ describe('log and log10 (fdlibm e_log.c, e_log10.c)', () => {
 describe('sqrt (correctly rounded)', () => {
   it('equals IEEE sqrt bit for bit', () => {
     const xs = [
-      ...samples(3000, 0, 1e6),
+      ...samples(3000, 0, 1000000),
       ...samples(1000, 1e-310, 1e-300),
       ...samples(1000, 1e300, 1.7e308),
       2,
@@ -157,19 +157,19 @@ describe('pow', () => {
       [9, 0.5],
       [4, -1],
     ];
-    for (const [x, y] of cases) expect(Object.is(pow(x, y), Math.pow(x, y)), `pow(${x}, ${y})`).toBe(true);
+    for (const [x, y] of cases) expect(Object.is(pow(x, y), x ** y), `pow(${x}, ${y})`).toBe(true);
   });
 
   it('is within (2 + 2|y ln x|) ulp of the platform on the physics domain', () => {
-    const xs = samples(400, 1e-3, 1e5, 7);
+    const xs = samples(400, 0.001, 100000, 7);
     const ys = samples(400, -4, 4, 11);
     for (let i = 0; i < xs.length; i++) {
       const x = xs[i]!;
       const y = ys[i]!;
       const bound = 2 + 2 * Math.abs(y * Math.log(x));
-      expect(ulps(pow(x, y), Math.pow(x, y))).toBeLessThanOrEqual(bound);
+      expect(ulps(pow(x, y), x ** y)).toBeLessThanOrEqual(bound);
     }
     // SAP appliance exponent on a GH1-sized home.
-    expect(ulps(pow(218.4, 0.4714), Math.pow(218.4, 0.4714))).toBeLessThanOrEqual(4);
+    expect(ulps(pow(218.4, 0.4714), 218.4 ** 0.4714)).toBeLessThanOrEqual(4);
   });
 });

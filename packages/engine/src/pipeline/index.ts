@@ -2,6 +2,21 @@
  * Pipeline runner public surface. Owner: WP-01.
  * WP-02 (api, search) calls these; it never reorders stages (BUILD_PLAN 2).
  */
+
+export {
+  createDefaultStages,
+  type Household,
+  household,
+  offPeriodReduction,
+  PHYSICS_DEFAULTS,
+  type PhysicsDefaults,
+  PhysicsError,
+  QuantiseError,
+  quantiseWh,
+  type StageSet,
+  sapControlType,
+  sapOccupancy,
+} from '../physics/index.ts';
 export {
   applyPatch,
   composePatches,
@@ -15,8 +30,8 @@ export {
   type HeavyRun,
   type LightRun,
   makeSimFn,
-  PipelineError,
   type PipelineConfig,
+  PipelineError,
   type RunOpts,
   runHeavy,
   runLight,
@@ -24,17 +39,3 @@ export {
   simulate,
   simulateBundle,
 } from './runner.ts';
-export {
-  createDefaultStages,
-  type Household,
-  household,
-  offPeriodReduction,
-  PHYSICS_DEFAULTS,
-  type PhysicsDefaults,
-  PhysicsError,
-  QuantiseError,
-  quantiseWh,
-  sapControlType,
-  sapOccupancy,
-  type StageSet,
-} from '../physics/index.ts';

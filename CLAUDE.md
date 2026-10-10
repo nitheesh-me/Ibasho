@@ -52,6 +52,10 @@ Node 26.1.0, pnpm 11.1.1. Run from the repo root.
 - **No em dashes or en dashes** anywhere: copy, docs, comments, code. `pnpm lint` fails on them.
 - **Do not commit.** The orchestrator commits at gates. Never run `git stash`, `reset` or `checkout` on others' work.
 
+## Reuse and acknowledge
+
+Stand on the shoulders of giants. Prefer proven open-source libraries, algorithms, shaders, datasets and tools over writing from scratch. Licensing is not a constraint here (personal use), but credit is required: vendored files keep a header with source URL, author and licence, and every borrowed library, snippet, dataset or asset gets a line in `ACKNOWLEDGEMENTS.md`. During an install freeze, request new npm packages on the blackboard (INTERFACES) instead of installing.
+
 ## Blackboard protocol (`docs/BLACKBOARD.typ`)
 
 - Append only. Use `#entry(who, kind, status: ...)[body]` in the right section: Claims, Interfaces, Decisions, Blockers, Handoffs.
@@ -59,6 +63,17 @@ Node 26.1.0, pnpm 11.1.1. Run from the repo root.
 - Insert with one read-modify-write (a short script that inserts before the next `== ` heading), so parallel agents do not clobber each other.
 - Check it compiles: `typst compile docs/BLACKBOARD.typ deliverables/BLACKBOARD.pdf` (snap typst cannot write to `/tmp`).
 - When work lands, add a row to the Features table in `docs/STATUS.typ` and cite sources in `docs/refs.yml`.
+
+## Checkpoints
+
+An agent session can end at any time; files persist, context does not. So:
+
+- Keep `docs/progress/<WP>.md` (for example `docs/progress/WP-07.md`; local working state, git-ignored). Sections: **Done**, **Next** (ordered, concrete), **Decisions**, **Gotchas**, **Test status** (last command and result).
+- **Read it first** when you start. If it is missing but your owned paths have work in them, reconstruct it from the files before coding.
+- **Update it after every milestone** (a module working, a test suite green, a design decision), at least every 15 tool calls. Keep it under 80 lines; rewrite rather than append.
+- Write files whole and atomically where you can (write to a temp name, then rename), so an interrupted session never leaves a half-written source file.
+
+Machine-specific rules, if any, live in `CLAUDE.local.md` (git-ignored). Follow them when present.
 
 ## Never wait
 

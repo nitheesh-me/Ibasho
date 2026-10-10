@@ -126,5 +126,7 @@ export function monthlyDrafts(
   formula: { id: FormulaId; doc: string },
   inputs: (m: number) => { key: string; role: string }[] = () => [],
 ): EvidenceDraft[] {
-  return values.map((v, m) => floatDraft(ctx, `${prefix}.${m}`, v, unit, formula, { month: m, inputs: inputs(m) }));
+  return values.map((v, m) =>
+    floatDraft(ctx, `${prefix}.${m}`, v, unit, formula, { month: m, inputs: inputs(m) }),
+  );
 }

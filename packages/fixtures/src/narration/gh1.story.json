@@ -1,0 +1,841 @@
+{
+ "schema": "ibasho.story/1",
+ "homeId": "gh1",
+ "createdAt": "2026-10-11T09:30:00Z",
+ "locale": "en-GB",
+ "modelVersion": "0.1.0",
+ "mode": "your-home",
+ "preferences": {
+  "tenure": "owner",
+  "rights": {
+   "roof": "yes",
+   "externalWalls": "ask",
+   "windows": "yes"
+  },
+  "rejected": {
+   "wall-ewi": {
+    "scope": "never",
+    "reason": "keep the front looking as it is",
+    "at": "2026-09-18T10:00:00Z"
+   }
+  },
+  "completed": {},
+  "priorities": [
+   "warmth",
+   "low-disruption",
+   "quiet"
+  ]
+ },
+ "hiddenByRejection": 2,
+ "facts": [
+  {
+   "id": "f1",
+   "kind": "history",
+   "topic": "loft",
+   "polarity": "neutral",
+   "quote": "Loft was boarded in 2009, some insulation under the boards."
+  }
+ ],
+ "nodes": [
+  {
+   "role": "home.score",
+   "kind": "score",
+   "label": "score today",
+   "quantity": "score.total",
+   "unit": "pts",
+   "value": {
+    "float": 54
+   }
+  },
+  {
+   "role": "home.bill",
+   "kind": "cost",
+   "label": "energy bill per year",
+   "quantity": "money.bill.year",
+   "unit": "micro-pence/yr",
+   "value": {
+    "fixed": "184327000000"
+   }
+  },
+  {
+   "role": "home.gas",
+   "kind": "energy",
+   "label": "gas use per year",
+   "quantity": "energy.delivered.gas.year",
+   "unit": "Wh",
+   "value": {
+    "fixed": "15012400"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "home.electricity",
+   "kind": "energy",
+   "label": "electricity use per year",
+   "quantity": "energy.delivered.electricity.year",
+   "unit": "Wh",
+   "value": {
+    "fixed": "2437900"
+   },
+   "fuel": "electricity"
+  },
+  {
+   "role": "home.carbon",
+   "kind": "carbon",
+   "label": "running carbon per year",
+   "quantity": "carbon.year",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "3071600"
+   }
+  },
+  {
+   "role": "climate.januaryNightC",
+   "kind": "param",
+   "label": "typical January night temperature outside",
+   "quantity": "climate.theta.night.0",
+   "unit": "degC",
+   "value": {
+    "float": 1.6
+   }
+  },
+  {
+   "role": "home.januaryLossKW",
+   "kind": "param",
+   "label": "heat loss rate on a January night",
+   "quantity": "heat.loss.rate.0",
+   "unit": "kW",
+   "value": {
+    "float": 5.83
+   }
+  },
+  {
+   "role": "home.heatDemand",
+   "kind": "energy",
+   "label": "heat needed per year",
+   "quantity": "heat.qh.year",
+   "unit": "Wh",
+   "value": {
+    "fixed": "13204000"
+   }
+  },
+  {
+   "role": "calibration.before",
+   "kind": "energy",
+   "label": "gas use before your bills",
+   "quantity": "energy.delivered.gas.year.prior",
+   "unit": "Wh",
+   "value": {
+    "fixed": "15012400"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "calibration.after",
+   "kind": "energy",
+   "label": "gas use after your bills",
+   "quantity": "energy.delivered.gas.year.posterior",
+   "unit": "Wh",
+   "value": {
+    "fixed": "16834000"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "calibration.shift",
+   "kind": "energyDelta",
+   "label": "correction from your bills",
+   "quantity": "calibration.shift.gas",
+   "unit": "Wh",
+   "value": {
+    "fixed": "1821600"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "lever.top.bill",
+   "kind": "costDelta",
+   "label": "bill change from loft insulation alone",
+   "quantity": "money.bill.delta.lever",
+   "unit": "micro-pence/yr",
+   "value": {
+    "fixed": "-9640000000"
+   },
+   "subject": {
+    "measureId": "loft"
+   }
+  },
+  {
+   "role": "lever.flowC",
+   "kind": "param",
+   "label": "heat pump flow temperature",
+   "quantity": "system.flow.theta",
+   "unit": "degC",
+   "value": {
+    "float": 50
+   }
+  },
+  {
+   "role": "pick.leastUpfront.upfront",
+   "kind": "valueRange",
+   "label": "upfront cost",
+   "quantity": "money.n0",
+   "unit": "micro-pence",
+   "value": {
+    "interval": {
+     "lo": 182000000000,
+     "hi": 264000000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pick.leastUpfront.saving",
+   "kind": "costDelta",
+   "label": "yearly bill change",
+   "quantity": "money.bill.delta",
+   "unit": "micro-pence/yr",
+   "value": {
+    "interval": {
+     "lo": -24300000000,
+     "hi": -17800000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pick.leastUpfront.carbon",
+   "kind": "carbonDelta",
+   "label": "yearly running carbon change",
+   "quantity": "carbon.delta",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "-618000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pick.leastUpfront.payback",
+   "kind": "payback",
+   "label": "simple payback",
+   "quantity": "money.payback",
+   "unit": "yr",
+   "value": {
+    "float": 6.5
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught.upfront",
+   "kind": "valueRange",
+   "label": "upfront cost",
+   "quantity": "money.n0",
+   "unit": "micro-pence",
+   "value": {
+    "interval": {
+     "lo": 182000000000,
+     "hi": 264000000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught.saving",
+   "kind": "costDelta",
+   "label": "yearly bill change",
+   "quantity": "money.bill.delta",
+   "unit": "micro-pence/yr",
+   "value": {
+    "interval": {
+     "lo": -24300000000,
+     "hi": -17800000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught.gas",
+   "kind": "energyDelta",
+   "label": "yearly gas change",
+   "quantity": "energy.delivered.gas.delta",
+   "unit": "Wh",
+   "value": {
+    "fixed": "-2910000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "pkg.p-loft300-draught.electricity",
+   "kind": "energyDelta",
+   "label": "yearly electricity change",
+   "quantity": "energy.delivered.electricity.delta",
+   "unit": "Wh",
+   "value": {
+    "fixed": "0"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   },
+   "fuel": "electricity"
+  },
+  {
+   "role": "pkg.p-loft300-draught.carbon",
+   "kind": "carbonDelta",
+   "label": "yearly running carbon change",
+   "quantity": "carbon.delta",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "-618000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught.payback",
+   "kind": "payback",
+   "label": "simple payback",
+   "quantity": "money.payback",
+   "unit": "yr",
+   "value": {
+    "float": 6.5
+   },
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pick.bestReturn.upfront",
+   "kind": "valueRange",
+   "label": "upfront cost",
+   "quantity": "money.n0",
+   "unit": "micro-pence",
+   "value": {
+    "interval": {
+     "lo": 793000000000,
+     "hi": 984000000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pick.bestReturn.saving",
+   "kind": "costDelta",
+   "label": "yearly bill change",
+   "quantity": "money.bill.delta",
+   "unit": "micro-pence/yr",
+   "value": {
+    "interval": {
+     "lo": -64100000000,
+     "hi": -51700000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pick.bestReturn.carbon",
+   "kind": "carbonDelta",
+   "label": "yearly running carbon change",
+   "quantity": "carbon.delta",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "-1052000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pick.bestReturn.payback",
+   "kind": "payback",
+   "label": "simple payback",
+   "quantity": "money.payback",
+   "unit": "yr",
+   "value": {
+    "float": 11.5
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught-controls-pv3.upfront",
+   "kind": "valueRange",
+   "label": "upfront cost",
+   "quantity": "money.n0",
+   "unit": "micro-pence",
+   "value": {
+    "interval": {
+     "lo": 793000000000,
+     "hi": 984000000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught-controls-pv3.saving",
+   "kind": "costDelta",
+   "label": "yearly bill change",
+   "quantity": "money.bill.delta",
+   "unit": "micro-pence/yr",
+   "value": {
+    "interval": {
+     "lo": -64100000000,
+     "hi": -51700000000
+    }
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught-controls-pv3.gas",
+   "kind": "energyDelta",
+   "label": "yearly gas change",
+   "quantity": "energy.delivered.gas.delta",
+   "unit": "Wh",
+   "value": {
+    "fixed": "-4120000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "pkg.p-loft300-draught-controls-pv3.electricity",
+   "kind": "energyDelta",
+   "label": "yearly electricity change",
+   "quantity": "energy.delivered.electricity.delta",
+   "unit": "Wh",
+   "value": {
+    "fixed": "-1890000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   },
+   "fuel": "electricity"
+  },
+  {
+   "role": "pkg.p-loft300-draught-controls-pv3.carbon",
+   "kind": "carbonDelta",
+   "label": "yearly running carbon change",
+   "quantity": "carbon.delta",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "-1052000"
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-loft300-draught-controls-pv3.payback",
+   "kind": "payback",
+   "label": "simple payback",
+   "quantity": "money.payback",
+   "unit": "yr",
+   "value": {
+    "float": 11.5
+   },
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pick.lowestRunningCarbon.upfront",
+   "kind": "valueRange",
+   "label": "upfront cost",
+   "quantity": "money.n0",
+   "unit": "micro-pence",
+   "value": {
+    "interval": {
+     "lo": 1148000000000,
+     "hi": 1579000000000
+    }
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pick.lowestRunningCarbon.saving",
+   "kind": "costDelta",
+   "label": "yearly bill change",
+   "quantity": "money.bill.delta",
+   "unit": "micro-pence/yr",
+   "value": {
+    "interval": {
+     "lo": -45200000000,
+     "hi": -30900000000
+    }
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pick.lowestRunningCarbon.carbon",
+   "kind": "carbonDelta",
+   "label": "yearly running carbon change",
+   "quantity": "carbon.delta",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "-2643000"
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pick.lowestRunningCarbon.payback",
+   "kind": "payback",
+   "label": "simple payback",
+   "quantity": "money.payback",
+   "unit": "yr",
+   "value": {
+    "float": 14.0
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-ashp-loft300-draught-pv3.upfront",
+   "kind": "valueRange",
+   "label": "upfront cost",
+   "quantity": "money.n0",
+   "unit": "micro-pence",
+   "value": {
+    "interval": {
+     "lo": 1148000000000,
+     "hi": 1579000000000
+    }
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-ashp-loft300-draught-pv3.saving",
+   "kind": "costDelta",
+   "label": "yearly bill change",
+   "quantity": "money.bill.delta",
+   "unit": "micro-pence/yr",
+   "value": {
+    "interval": {
+     "lo": -45200000000,
+     "hi": -30900000000
+    }
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-ashp-loft300-draught-pv3.gas",
+   "kind": "energyDelta",
+   "label": "yearly gas change",
+   "quantity": "energy.delivered.gas.delta",
+   "unit": "Wh",
+   "value": {
+    "fixed": "-12380000"
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   },
+   "fuel": "gas"
+  },
+  {
+   "role": "pkg.p-ashp-loft300-draught-pv3.electricity",
+   "kind": "energyDelta",
+   "label": "yearly electricity change",
+   "quantity": "energy.delivered.electricity.delta",
+   "unit": "Wh",
+   "value": {
+    "fixed": "3910000"
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   },
+   "fuel": "electricity"
+  },
+  {
+   "role": "pkg.p-ashp-loft300-draught-pv3.carbon",
+   "kind": "carbonDelta",
+   "label": "yearly running carbon change",
+   "quantity": "carbon.delta",
+   "unit": "gCO2e/yr",
+   "value": {
+    "fixed": "-2643000"
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "pkg.p-ashp-loft300-draught-pv3.payback",
+   "kind": "payback",
+   "label": "simple payback",
+   "quantity": "money.payback",
+   "unit": "yr",
+   "value": {
+    "float": 14.0
+   },
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "diff.score.before",
+   "kind": "score",
+   "label": "score before the model update",
+   "quantity": "score.total.prev",
+   "unit": "pts",
+   "value": {
+    "float": 54
+   }
+  },
+  {
+   "role": "diff.score.after",
+   "kind": "score",
+   "label": "score after the model update",
+   "quantity": "score.total.updated",
+   "unit": "pts",
+   "value": {
+    "float": 52
+   }
+  }
+ ],
+ "derived": [
+  {
+   "role": "loss.top.rank",
+   "kind": "rank",
+   "label": "rank of heat loss by element",
+   "value": 1,
+   "of": [
+    "home.heatDemand"
+   ]
+  },
+  {
+   "role": "loss.top.share",
+   "kind": "percent",
+   "label": "share of heat lost through the walls",
+   "value": 41.3,
+   "of": [
+    "home.heatDemand"
+   ]
+  },
+  {
+   "role": "lever.top.rank",
+   "kind": "rank",
+   "label": "rank of levers by bill change",
+   "value": 1,
+   "of": [
+    "lever.top.bill"
+   ],
+   "subject": {
+    "measureId": "loft"
+   }
+  },
+  {
+   "role": "pick.leastUpfront.rank",
+   "kind": "rank",
+   "label": "rank by upfront cost",
+   "value": 1,
+   "of": [
+    "pick.leastUpfront.upfront"
+   ],
+   "subject": {
+    "packageId": "p-loft300-draught"
+   }
+  },
+  {
+   "role": "pick.bestReturn.rank",
+   "kind": "rank",
+   "label": "rank by return (net present value)",
+   "value": 1,
+   "of": [
+    "pick.bestReturn.saving"
+   ],
+   "subject": {
+    "packageId": "p-loft300-draught-controls-pv3"
+   }
+  },
+  {
+   "role": "pick.lowestRunningCarbon.rank",
+   "kind": "rank",
+   "label": "rank by running carbon saved",
+   "value": 1,
+   "of": [
+    "pick.lowestRunningCarbon.carbon"
+   ],
+   "subject": {
+    "packageId": "p-ashp-loft300-draught-pv3"
+   }
+  },
+  {
+   "role": "hidden.count",
+   "kind": "count",
+   "label": "futures hidden by things you ruled out",
+   "value": 2,
+   "of": []
+  },
+  {
+   "role": "needsCheck.count",
+   "kind": "count",
+   "label": "futures possible after a check",
+   "value": 3,
+   "of": []
+  },
+  {
+   "role": "visit.daysSince",
+   "kind": "count",
+   "label": "days since your last visit",
+   "value": 23,
+   "of": []
+  },
+  {
+   "role": "plan.done",
+   "kind": "count",
+   "label": "plan steps done",
+   "value": 1,
+   "of": []
+  },
+  {
+   "role": "plan.total",
+   "kind": "count",
+   "label": "plan steps",
+   "value": 4,
+   "of": []
+  },
+  {
+   "role": "whynot.glazing.over",
+   "kind": "param",
+   "label": "amount over your budget for double glazing",
+   "value": 2350,
+   "unit": "GBP",
+   "of": [],
+   "rounding": {
+    "mode": "step",
+    "value": 10
+   }
+  }
+ ],
+ "context": {
+  "topLossName": "the solid brick walls",
+  "leverMeasure": "loft",
+  "picks": {
+   "leastUpfront": {
+    "packageId": "p-loft300-draught",
+    "measures": [
+     "loft-300",
+     "draught"
+    ]
+   },
+   "bestReturn": {
+    "packageId": "p-loft300-draught-controls-pv3",
+    "measures": [
+     "loft-300",
+     "draught",
+     "controls",
+     "pv-3kwp"
+    ]
+   },
+   "lowestRunningCarbon": {
+    "packageId": "p-ashp-loft300-draught-pv3",
+    "measures": [
+     "heat-ashp",
+     "loft-300",
+     "draught",
+     "pv-3kwp"
+    ]
+   }
+  },
+  "chosen": "bestReturn",
+  "nextStep": "ask an installer certified for solar panels for a survey",
+  "packages": {
+   "p-loft300-draught": {
+    "measures": [
+     "loft-300",
+     "draught"
+    ]
+   },
+   "p-loft300-draught-controls-pv3": {
+    "measures": [
+     "loft-300",
+     "draught",
+     "controls",
+     "pv-3kwp"
+    ]
+   },
+   "p-ashp-loft300-draught-pv3": {
+    "measures": [
+     "heat-ashp",
+     "loft-300",
+     "draught",
+     "pv-3kwp"
+    ]
+   }
+  },
+  "diffReason": "We improved how we model sash windows.",
+  "billsGiven": true,
+  "whyNot": [
+   {
+    "measureId": "wall-ewi",
+    "reason": {
+     "kind": "memory"
+    }
+   },
+   {
+    "measureId": "wall-iwi",
+    "reason": {
+     "kind": "rule",
+     "status": "needs-check",
+     "ruleId": "ENG.MOIST.IWI",
+     "ruleTitle": "a moisture assessment"
+    }
+   },
+   {
+    "measureId": "battery",
+    "reason": {
+     "kind": "dominated"
+    }
+   },
+   {
+    "measureId": "glazing-double",
+    "reason": {
+     "kind": "budget",
+     "overByRole": "whynot.glazing.over"
+    }
+   },
+   {
+    "measureId": "mvhr",
+    "reason": {
+     "kind": "not-applicable"
+    }
+   }
+  ]
+ }
+}

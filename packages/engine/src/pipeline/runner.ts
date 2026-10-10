@@ -39,13 +39,18 @@ import {
 } from '@ibasho/core';
 import { floatDraft } from '../physics/common.ts';
 import { quantiseWh } from '../physics/delivered.ts';
-import { createDefaultStages, PHYSICS_DEFAULTS, type PhysicsDefaults, type StageSet } from '../physics/index.ts';
 import {
   type GainsInWithHousehold,
   type Household,
   household,
   type SystemsInWithHousehold,
 } from '../physics/household.ts';
+import {
+  createDefaultStages,
+  PHYSICS_DEFAULTS,
+  type PhysicsDefaults,
+  type StageSet,
+} from '../physics/index.ts';
 import { applyPatch, packagePatch, splitPatch } from './patch.ts';
 
 export class PipelineError extends Error {
@@ -116,7 +121,9 @@ function prefixFor(opts: RunOpts): string {
 
 function ctxFor(twin: HomeTwin, opts: RunOpts, cfg: PipelineConfig): StageCtx {
   if (twin.climatePackId !== cfg.climate.id) {
-    throw new PipelineError(`twin ${twin.id} wants climate ${twin.climatePackId}, pipeline has ${cfg.climate.id}`);
+    throw new PipelineError(
+      `twin ${twin.id} wants climate ${twin.climatePackId}, pipeline has ${cfg.climate.id}`,
+    );
   }
   if (cfg.climate.months.length !== 12) throw new PipelineError(`climate ${cfg.climate.id} needs 12 months`);
   const ctx: StageCtx = { mode: opts.mode, asOf: opts.asOf, climate: cfg.climate, twin };
@@ -154,10 +161,17 @@ export function runHeavy(twin: HomeTwin, opts: RunOpts, cfg: PipelineConfig): He
   const geometry = take(st.geometry.run(twin, ctx));
   const hh = household(opts.mode, geometry.tfaM2, ctx);
   drafts.push(
-    floatDraft(ctx, 'occ.n', hh.occupancyN, 'persons', {
-      id: opts.mode === 'your-home' ? 'twin' : 'SAP-1b',
-      doc: opts.mode === 'your-home' ? 'stated occupants' : 'SAP 10.2 Table 1b occupancy',
-    }, { inputs: [{ key: 'geom.tfa', role: 'tfa' }] }),
+    floatDraft(
+      ctx,
+      'occ.n',
+      hh.occupancyN,
+      'persons',
+      {
+        id: opts.mode === 'your-home' ? 'twin' : 'SAP-1b',
+        doc: opts.mode === 'your-home' ? 'stated occupants' : 'SAP 10.2 Table 1b occupancy',
+      },
+      { inputs: [{ key: 'geom.tfa', role: 'tfa' }] },
+    ),
   );
   const fabric = take(st.fabric.run(geometry, ctx));
   const vent = take(st.ventilation.run(geometry, ctx));
@@ -190,9 +204,15 @@ export function runHeavy(twin: HomeTwin, opts: RunOpts, cfg: PipelineConfig): He
  * Run systems, renewables and delivered on a cached heavy run. `lightTwin` is the heavy twin with
  * the light part of the package applied; `opts` defaults to the heavy run's (same package).
  */
-export function runLight(heavy: HeavyRun, lightTwin: HomeTwin, cfg: PipelineConfig, opts?: RunOpts): LightRun {
+export function runLight(
+  heavy: HeavyRun,
+  lightTwin: HomeTwin,
+  cfg: PipelineConfig,
+  opts?: RunOpts,
+): LightRun {
   const o = opts ?? heavy.opts;
-  if (o.mode !== heavy.opts.mode) throw new PipelineError(`light run mode ${o.mode} on a ${heavy.opts.mode} heavy run`);
+  if (o.mode !== heavy.opts.mode)
+    throw new PipelineError(`light run mode ${o.mode} on a ${heavy.opts.mode} heavy run`);
   const st = stagesOf(cfg);
   const ctx = ctxFor(lightTwin, o, cfg);
   const drafts: EvidenceDraft[] = [];
@@ -208,7 +228,9 @@ export function runLight(heavy: HeavyRun, lightTwin: HomeTwin, cfg: PipelineConf
     household: heavy.household,
   };
   const systems = take(st.systems.run(systemsIn, ctx));
-  const renew = take(st.renewables.run({ geometry: heavy.geometry, electricityKWh: systems.electricity }, ctx));
+  const renew = take(
+    st.renewables.run({ geometry: heavy.geometry, electricityKWh: systems.electricity }, ctx),
+  );
   const deliveredWh = take(st.delivered.run({ systems, renew }, ctx));
   const exportWh = renew.exportKWh.map((k) => quantiseWh(k)) as unknown as SimResult['exportWh'];
   const result: SimResult = {

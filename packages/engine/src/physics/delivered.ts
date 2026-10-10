@@ -5,7 +5,7 @@
  * once to integer Wh by `quantiseWh` (round half to even on kWh * 1000). After this point all
  * bookkeeping is integer.
  */
-import { type EvidenceDraft, type Fuel, FUELS, type PhysicsStage, toWire } from '@ibasho/core';
+import { type EvidenceDraft, FUELS, type Fuel, type PhysicsStage, toWire } from '@ibasho/core';
 import { subjectOf } from './common.ts';
 import { freezeFuelMonthly } from './systems.ts';
 

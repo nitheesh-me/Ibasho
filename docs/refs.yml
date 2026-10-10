@@ -1,0 +1,25 @@
+# Hayagriva bibliography for docs/STATUS.typ. Agents append entries; keys are kebab-case.
+iso-52016:
+  type: Book
+  title: "ISO 52016-1:2017 Energy performance of buildings. Energy needs for heating and cooling"
+  author: ISO
+  date: 2017
+sap-10-2:
+  type: Report
+  title: "The Government's Standard Assessment Procedure for Energy Rating of Dwellings, SAP 10.2"
+  author: BRE
+  date: 2023
+  url: https://www.gov.uk/guidance/standard-assessment-procedure
+lean4:
+  type: Article
+  title: "The Lean 4 Theorem Prover and Programming Language"
+  author: ["de Moura, Leonardo", "Ullrich, Sebastian"]
+  date: 2021
+  parent:
+    type: Proceedings
+    title: "CADE 28"
+dami-lee:
+  type: Web
+  title: "Dami Lee, architecture storytelling channel"
+  author: "Lee, Dami"
+  url: https://www.youtube.com/@DamiLeeArch

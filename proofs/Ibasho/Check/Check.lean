@@ -5,7 +5,7 @@ Ibasho checker: re-derive every bookkeeping claim of a certificate (ARCH 8.3, LV
 Each check is a Boolean function over the decoded certificate and the per-row derivation
 `derive`, which is built only from trusted inputs (physics, twin facts, pack data) and the spec
 definitions: `Accounting.saving` and `carbonSavingG`, `Finance`, `Kleene.status`,
-`Memory.respectsMemory`, `Pareto.checkFrontWitnessed` and `checkPicks`. `Sound.lean` proves
+`Memory.respectsMemory`, `Pareto.checkFrontWitnessed`, `checkPicks` and `Score.score`. `Sound.lean` proves
 that all checks passing implies `Valid`.
 
 The TS mirror (`packages/verify/src/mirror`) implements the same checks with the same ids.
@@ -16,6 +16,7 @@ import Ibasho.Spec.V2.Accounting
 import Ibasho.Spec.V2.Rules.Kleene
 import Ibasho.Spec.V2.Pareto
 import Ibasho.Spec.V2.Memory
+import Ibasho.Spec.V2.Score
 import Ibasho.Check.Schema
 import Ibasho.Check.Finance
 import Ibasho.Check.Ids
@@ -135,6 +136,8 @@ def dedupSorted : List String → List String
 
 structure RowD where
   delivered : Array Int
+  /-- Annual your-home bill per fuel, certificate order (`money.bills`). -/
+  bills : List Int
   /-- Annual saving per fuel, certificate order. -/
   saving : List Int
   carbonAnnual : Int
@@ -159,6 +162,10 @@ def meetsTarget (t : Target) (b1 carbon : Int) : Bool :=
   | .custom save cut => (!save || decide (0 < b1)) && (!cut || decide (0 < carbon))
   | .epcBand _ => false
 
+/-- What the memory built-in excludes: ruled out and done measures (SPEC AC-P1), both matched
+on option ids and measure ids. -/
+def memoryExcluded (c : Cert) : List String := c.rejected ++ c.completed
+
 def deriveRow (c : Cert) (base : Array Int) (r : Nat) : RowD :=
   let d := delivered c r
   let sav := saving (vec base) (vec d)
@@ -173,7 +180,7 @@ def deriveRow (c : Cert) (base : Array Int) (r : Nat) : RowD :=
   let reasons := (as.filter fun a => a.blocks fnTable c.checkTable || a.undecided fnTable c.checkTable).map
     (·.rule.id)
   let ids := (rowOptions c r) ++ opts.filterMap (·.measure)
-  let rejected := !respectsMemory c.rejected ⟨r, ids⟩
+  let rejected := !respectsMemory (memoryExcluded c) ⟨r, ids⟩
   let b1 := firstYearSaving billSaving c.horizon
   let meets := meetsTarget c.target b1 carbon
   let expected :=
@@ -183,6 +190,7 @@ def deriveRow (c : Cert) (base : Array Int) (r : Nat) : RowD :=
   let extra := (if rejected then [builtinMemory] else []) ++
     (if expected == stTargetMiss then [builtinTarget] else [])
   { delivered := d
+    bills := Fuel.all.map (billOf c d)
     saving := Fuel.all.map sav.annual
     carbonAnnual := carbon
     lifetimeCarbon := lifetimeCarbonG sav.annual (trajectory c) c.horizon
@@ -276,6 +284,18 @@ def chkAcctCarbon (c : Cert) (D : Array RowD) : Bool :=
       | some d => a.getD r 0 == d.carbonAnnual
       | none => false
 
+def billRowOk (D : Array RowD) (b : Array Int) (r : Nat) : Bool :=
+  match D[r]? with
+  | some d => (List.range 6).all fun i => b.getD (r * 6 + i) 0 == d.bills.getD i 0
+  | none => false
+
+/-- `money.bills`: every claimed annual bill is the slab-exact bill of the row's delivered
+energy under its fuel's tariff. -/
+def chkBills (c : Cert) (D : Array RowD) : Bool :=
+  match c.bills with
+  | none => false
+  | some b => b.size == c.rows * 6 && allRows c (billRowOk D b)
+
 def chkFin (c : Cert) (D : Array RowD) : Bool :=
   allRows c fun r => match D[r]? with
     | some d => c.n0.getD r 0 == d.n0 && c.npv.getD r 0 == d.npv &&
@@ -346,6 +366,40 @@ def claimedPicks (c : Cert) : Ibasho.Spec.V2.Picks :=
 
 def chkPicks (c : Cert) : Bool := checkPicks (pickCands c) 0 (claimedPicks c)
 
+/-! ## Score (exact rationals, SPEC 8, R20) -/
+
+def dimIdx : Dim → Nat
+  | .F => 0 | .C => 1 | .E => 2 | .A => 3 | .H => 4 | .R => 5 | .T => 6
+
+/-- Indicators of a score row, in dimension order. -/
+def indOf (xs : List Rat) : Indicators := fun d => xs.getD (dimIdx d) 0
+
+def anchorsOf (s : ScoreClaim) : Anchors :=
+  match s.zone with
+  | .uk => ukAnchors s.mode
+  | .india => inAnchors s.mode
+
+/-- One scored package: seven indicators, and the claimed sub-scores, group scores and total
+equal the spec definitions exactly. -/
+def scoreRowOk (an : Anchors) (e : ScoreRow) : Bool :=
+  e.ind.length == 7 && e.sub == Dim.all.map (subScore an (indOf e.ind)) &&
+  e.groups == Ibasho.Spec.V2.Group.all.map (groupScore an (indOf e.ind)) &&
+  e.total == score an (indOf e.ind)
+
+/-- The packages the UI displays: the front and the three picks. -/
+def displayedRows (c : Cert) : List Nat :=
+  c.front ++ [c.picks.leastUpfront, c.picks.bestReturn, c.picks.lowestCarbon].filterMap id
+
+/-- `score.recompute`: rows in order and in range, every displayed package scored, every score
+exact. Vacuous when the certificate claims no score (the check is then reported as skipped). -/
+def chkScore (c : Cert) : Bool :=
+  match c.score with
+  | none => true
+  | some s =>
+    strictlySorted (s.rows.map (·.row)) &&
+    s.rows.all (fun e => decide (e.row < c.rows) && scoreRowOk (anchorsOf s) e) &&
+    (displayedRows c).all fun r => s.rows.any (·.row == r)
+
 /-! ## Verdicts -/
 
 structure Verdict where
@@ -354,10 +408,25 @@ structure Verdict where
   path : Option String := none
   detail : Option String := none
 
+/-- Checks skipped when the certificate does not claim what they check, with the reason. -/
+def skipReasons : List (CheckId × String) :=
+  [(.scoreRecompute, "the certificate claims no score")]
+
 /-- Checks that do not apply to this certificate, with the reason (never shown as passed). -/
-def skipped : List (CheckId × String) :=
-  [(.moneyBills, "the certificate claims no bill figures; bills are re-derived inside fin.recompute"),
-   (.scoreRecompute, "the certificate claims no score (PLACEHOLDER until M-B)")]
+def skipped (c : Cert) : List (CheckId × String) :=
+  if c.score.isSome then [] else skipReasons
+
+/-- A score row out of range or not exact (for the verdict `path`). -/
+def scoreRowBad (c : Cert) (s : ScoreClaim) (e : ScoreRow) : Bool :=
+  !(decide (e.row < c.rows) && scoreRowOk (anchorsOf s) e)
+
+/-- The `score.recompute` verdict, present only when the certificate claims a score. -/
+def scoreVerdicts (c : Cert) : List Verdict :=
+  match c.score with
+  | some s =>
+    [ { id := .scoreRecompute, ok := chkScore c,
+        path := (s.rows.find? (scoreRowBad c s)).map fun e => s!"row/{e.row}" } ]
+  | none => []
 
 def check (c : Cert) : List Verdict :=
   let D := derive c
@@ -373,6 +442,11 @@ def check (c : Cert) : List Verdict :=
         | none => none },
     { id := .acctCarbon, ok := chkAcctCarbon c D,
       detail := if c.carbonAnnual.isNone then some "claimed.carbonAnnual is missing" else none },
+    { id := .moneyBills, ok := chkBills c D,
+      detail := if c.bills.isNone then some "claimed.bills is missing" else none,
+      path := match c.bills with
+        | some b => firstBad c (billRowOk D b)
+        | none => none },
     { id := .finRecompute, ok := chkFin c D,
       path := firstBad c fun r => match D[r]? with
         | some d => c.n0.getD r 0 == d.n0 && c.npv.getD r 0 == d.npv &&
@@ -387,7 +461,7 @@ def check (c : Cert) : List Verdict :=
     { id := .targetRecompute, ok := chkTarget c D },
     { id := .paretoFront, ok := chkFront c },
     { id := .paretoWitness, ok := chkWitness c },
-    { id := .paretoPicks, ok := chkPicks c } ]
+    { id := .paretoPicks, ok := chkPicks c } ] ++ scoreVerdicts c
 
 /-- Every check that ran passed. -/
 def checkAll (c : Cert) : Bool := (check c).all (·.ok)

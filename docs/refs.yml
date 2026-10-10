@@ -197,3 +197,58 @@ private-network-access:
   title: "Private Network Access"
   author: "W3C WICG"
   url: https://wicg.github.io/private-network-access/
+threejs:
+  type: Web
+  title: "three.js: JavaScript 3D library"
+  author: "Cabello, Ricardo and three.js authors"
+  url: https://threejs.org
+r3f:
+  type: Web
+  title: "React Three Fiber"
+  author: "Poimandres"
+  url: https://github.com/pmndrs/react-three-fiber
+suncalc:
+  type: Web
+  title: "SunCalc: sun position and sunlight phases"
+  author: "Agafonkin, Vladimir"
+  url: https://github.com/mourner/suncalc
+genji-emaki:
+  type: Web
+  title: "Genji Monogatari Emaki (Tale of Genji handscrolls), fukinuki yatai roofless view"
+  author: "Tokugawa Art Museum"
+  url: https://www.tokugawa-art-museum.jp/en/
+gpdo-2015:
+  type: Legislation
+  title: "The Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2"
+  author: "UK Government"
+  date: 2015
+  url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+si-2025-560:
+  type: Legislation
+  title: "SI 2025/560, permitted development amendments for heat pumps"
+  author: "UK Government"
+  date: 2025
+  url: https://www.legislation.gov.uk/uksi/2025/560
+ad-l-2021:
+  type: Report
+  title: "Approved Document L, Conservation of fuel and power, Volume 1: Dwellings, 2021 edition incorporating 2023 amendments"
+  author: "Department for Levelling Up, Housing and Communities"
+  date: 2023
+  url: https://assets.publishing.service.gov.uk/media/662a2e3e55e1582b6ca7e592/Approved_Document_L__Conservation_of_fuel_and_power__Volume_1_Dwellings__2021_edition_incorporating_2023_amendments.pdf
+ad-f-2021:
+  type: Report
+  title: "Approved Document F, Ventilation, Volume 1: Dwellings, 2021 edition"
+  author: "Department for Levelling Up, Housing and Communities"
+  date: 2021
+  url: https://assets.publishing.service.gov.uk/media/61deba42d3bf7f054fcc243d/ADF1.pdf
+ena-g98-g99:
+  type: Web
+  title: "Engineering Recommendations G98 and G99, connecting generation and storage"
+  author: "Energy Networks Association"
+  url: https://www.energynetworks.org/
+prs-regs-2015:
+  type: Legislation
+  title: "The Energy Efficiency (Private Rented Property) (England and Wales) Regulations 2015"
+  author: "UK Government"
+  date: 2015
+  url: https://www.legislation.gov.uk/uksi/2015/962

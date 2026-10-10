@@ -1,14 +1,17 @@
 /**
  * Irradiance on a plane from tabulated monthly orientation values. Owner: WP-01.
  *
- * M-0 method: the pack stores monthly irradiation on vertical planes facing N, E, S and W plus the
- * horizontal (GHI), as published in BP 4.3. Vertical planes interpolate linearly in azimuth
- * between the four compass points; tilted planes interpolate linearly in tilt between horizontal
- * (0 deg) and vertical (90 deg). Linear tilt interpolation underestimates well-oriented tilted
- * planes (London south at 46 deg: about 990 against the tabulated 1,220 kWh/m2 per year), so the
- * Collares-Pereira-Rabl transposition of BP 4.1 replaces it at M-A. Vertical planes, which carry
- * all window gains at M-0, are exact at the compass points.
+ * A pack stores monthly irradiation on vertical planes facing N, E, S and W, the horizontal (GHI)
+ * and, when known, the equator-facing plane at the PV tilt (about 0.9 x latitude), as published in
+ * BP 4.3. Vertical planes interpolate linearly in azimuth between the four compass points.
+ * Tilted planes interpolate linearly in tilt between the horizontal and the vertical plane of the
+ * same azimuth, plus a correction that makes the equator-facing PV plane exact:
+ *   corr(az, beta) = max(0, cos(az - az_eq)) * (PV - lin_eq(beta_pv)) * tri(beta),
+ * where lin_eq is the linear tilt interpolation facing the equator and tri rises from 0 at the
+ * horizontal to 1 at beta_pv and falls back to 0 at the vertical. Compass verticals and the
+ * horizontal stay exact. The Collares-Pereira-Rabl transposition of BP 4.1 is the upgrade path.
  */
+import { cos, PI } from '@ibasho/dmath';
 
 export interface OrientationTable {
   /** Monthly irradiation, kWh/m2 per month, January first. */
@@ -17,6 +20,11 @@ export interface OrientationTable {
   east: readonly number[];
   south: readonly number[];
   west: readonly number[];
+  /** Equator-facing plane at `pvTiltDeg`, kWh/m2 per month (optional). */
+  pv?: readonly number[];
+  pvTiltDeg?: number;
+  /** Azimuth of the equator, degrees from north: 180 in the northern hemisphere. Default 180. */
+  equatorAzimuthDeg?: number;
 }
 
 /** Normalise an azimuth to [0, 360). */
@@ -44,5 +52,18 @@ export function planeIrradiance(t: OrientationTable, azimuthDeg: number, tiltDeg
   const tilt = tiltDeg > 90 ? 90 : tiltDeg; // overhangs facing down see no more than a wall
   const vert = verticalIrradiance(t, azimuthDeg);
   const w = tilt / 90;
-  return t.ghi.map((h, m) => h + (vert[m]! - h) * w);
+  const lin = t.ghi.map((h, m) => h + (vert[m]! - h) * w);
+  const pv = t.pv;
+  const bp = t.pvTiltDeg;
+  if (!pv || bp === undefined || !(bp > 0 && bp < 90) || tilt === 0 || tilt === 90) return lin;
+  const eqAz = t.equatorAzimuthDeg ?? 180;
+  const facing = cos(((wrap(azimuthDeg) - eqAz) * PI) / 180);
+  if (!(facing > 0)) return lin;
+  const tri = tilt <= bp ? tilt / bp : (90 - tilt) / (90 - bp);
+  const vertEq = verticalIrradiance(t, eqAz);
+  const wp = bp / 90;
+  return lin.map((v, m) => {
+    const linEq = t.ghi[m]! + (vertEq[m]! - t.ghi[m]!) * wp;
+    return v + facing * (pv[m]! - linEq) * tri;
+  });
 }

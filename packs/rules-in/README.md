@@ -11,6 +11,6 @@ ENS, Telangana, RWA, DT, applicability rules (stub until T3).
 
 ## Status
 
-Everything.
+PLACEHOLDER until T3 (gate M-G): no rules yet. The named functions it will use, `ens_retv` and `dt_hosting`, already exist in `@ibasho/engine` (WP-03 M-B).
 
 Commands: `pnpm --filter @ibasho/pack-rules-in typecheck`, `pnpm --filter @ibasho/pack-rules-in test`.

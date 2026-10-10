@@ -67,6 +67,25 @@ body {
   font-weight: 700;
   letter-spacing: 0.04em;
 }
+.ib-top__nav {
+  display: flex;
+  gap: var(--ma-4);
+  margin-left: auto;
+}
+.ib-top__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.ib-top__link:hover,
+.ib-top__link[aria-current="page"] {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
 .ib-lantern {
   appearance: none;
   display: inline-flex;
@@ -374,6 +393,17 @@ body {
 
 /* Tablet and phone: the house on top (about 45%), the room below. */
 @media (max-width: 960px) {
+  .ib-start {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--ma-4);
+  }
+  .ib-steps ol {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .ib-choices[data-layout="grid"] .ib-choices__list {
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  }
   .ib-home {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto;
@@ -407,7 +437,284 @@ body {
   }
 }
 @media (max-width: 420px) {
+  .ib-top__nav {
+    gap: var(--ma-2);
+  }
+  .ib-lantern span:not(.ib-lantern__glyph) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .ib-choices[data-layout="grid"] .ib-choices__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .ib-future__figures {
     grid-template-columns: 1fr;
   }
+}
+
+/* ------------------------------------------------------------------ house in Niwa */
+
+.ib-niwa__drawing {
+  display: flex;
+}
+.ib-house {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+}
+.ib-house > * {
+  width: 100%;
+  height: 100%;
+}
+.ib-empty__wait {
+  margin: var(--ma-6) auto;
+  color: var(--text-2);
+  font-family: var(--font-mincho);
+}
+
+/* ------------------------------------------------------------------ onboarding */
+
+.ib-start {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 44rem);
+  justify-content: center;
+  gap: var(--ma-6);
+  padding: var(--ma-6) var(--ma-5);
+}
+.ib-steps ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-3);
+}
+.ib-steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--ma-3);
+  color: var(--text-3);
+  font-size: var(--fs-ui);
+}
+.ib-steps li[data-done],
+.ib-steps li[aria-current="step"] {
+  color: var(--text);
+}
+.ib-steps li[aria-current="step"] {
+  font-weight: 700;
+}
+.ib-steps__n {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid currentColor;
+  border-radius: var(--r-mon);
+  font-family: var(--font-mincho);
+}
+.ib-start__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-5);
+  padding: var(--ma-6);
+  background: var(--surface-raised);
+  box-shadow: var(--depth-1);
+  border-radius: var(--r-0);
+}
+.ib-start__card .ib-h2 {
+  margin: 0;
+}
+.ib-start__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ma-3);
+}
+.ib-start__error {
+  margin: 0;
+  color: var(--text);
+  border-left: 3px solid var(--warning);
+  padding-left: var(--ma-3);
+}
+.ib-start__sample {
+  margin: 0;
+  font-size: var(--fs-ui);
+}
+.ib-start__sample a,
+.ib-link {
+  color: var(--link);
+}
+.ib-link {
+  appearance: none;
+  min-height: 44px;
+  padding: 0 var(--ma-2);
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--fs-ui);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ib-button--ink {
+  background: var(--text);
+  color: var(--surface);
+}
+.ib-button:disabled,
+.ib-hero-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* The one hero action (DS 1: gold is for repairs and the hero action only). */
+.ib-hero-action {
+  appearance: none;
+  min-height: 48px;
+  padding: 0 var(--ma-5);
+  border: 1px solid var(--gold-ink);
+  border-radius: var(--r-1);
+  background: var(--gold);
+  color: var(--ink);
+  font: inherit;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  cursor: pointer;
+}
+:where(.ib-button, .ib-hero-action, .ib-link, .ib-top__link, .ib-input):focus-visible,
+.ib-choice:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.ib-input {
+  min-height: 44px;
+  min-width: 0;
+  flex: 1;
+  padding: 0 var(--ma-3);
+  border: 1px solid var(--text-2);
+  border-radius: var(--r-1);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-transform: uppercase;
+}
+.ib-postcode label {
+  display: block;
+  margin-bottom: var(--ma-2);
+  font-size: var(--fs-ui);
+  font-weight: 500;
+}
+.ib-postcode__row {
+  display: flex;
+  gap: var(--ma-2);
+  max-width: 24rem;
+}
+.ib-hint {
+  margin: var(--ma-2) 0 0;
+  font-size: var(--fs-cap);
+  line-height: var(--lh-cap);
+  color: var(--text-2);
+}
+.ib-hint--warn {
+  color: var(--text);
+}
+
+.ib-tune {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-5);
+}
+.ib-choices {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.ib-choices__legend {
+  padding: 0;
+  margin-bottom: var(--ma-2);
+  font-weight: 500;
+}
+.ib-choices__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-2);
+  margin-top: var(--ma-2);
+}
+.ib-choices[data-layout="grid"] .ib-choices__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.ib-choices[data-layout="pictures"] .ib-choices__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+}
+.ib-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ma-1);
+  min-height: 44px;
+  padding: var(--ma-2) var(--ma-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-1);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-ui);
+  text-align: center;
+  cursor: pointer;
+}
+.ib-choice input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: inherit;
+}
+.ib-choice:has(input:checked) {
+  border-color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--text);
+  font-weight: 700;
+}
+.ib-choice[data-disabled] {
+  color: var(--text-3);
+  cursor: not-allowed;
+  border-style: dashed;
+}
+.ib-choice__pic {
+  display: block;
+  width: 100%;
+  max-width: 6rem;
+}
+.ib-choice__pic svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ib-choice__detail {
+  font-size: var(--fs-cap);
+  color: var(--text-3);
+}
+/* AC-G2: an answer left as a default says so, in the estimated state's pencil style. */
+.ib-estimated {
+  display: flex;
+  align-items: center;
+  gap: var(--ma-2);
+  margin: var(--ma-2) 0 0;
+  font-size: var(--fs-cap);
+  color: var(--text-2);
+}
+.ib-estimated__mark {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px dashed var(--state-estimated);
+  border-radius: var(--r-mon);
+  background: repeating-linear-gradient(45deg, var(--state-estimated) 0 1px, transparent 1px 4px);
 }

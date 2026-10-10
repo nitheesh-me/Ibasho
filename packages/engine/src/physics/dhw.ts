@@ -8,10 +8,15 @@
  * The total is scaled by the SAP monthly factors (1.10 in January to 0.90 in June and July).
  * Energy content Q_W = 4.18 V n (52 - T_c) / 3600 kWh, plus 15% distribution loss (BP 3.9);
  * `qwKWh` reports both. Mains temperature T_c: SAP Table J1 in the UK, theta_e in India
- * (rooftop tanks). Cylinder standing loss: a daily allowance when the DHW class is `cylinder`.
- * M-0 status: combi keep-hot losses, primary circuit losses and solar water heating arrive at M-A.
+ * (rooftop tanks).
+ * Cylinder standing loss (class `cylinder`): a new factory-insulated cylinder that comes with a
+ * heat pump (SPEC 9 sub-measure `cylinder`) loses `newCylinderLossKWhPerDay`; any other cylinder
+ * loses `cylinderLossKWhPerDay` (BP 3.9 range 0.5 to 1.5 kWh/day). Combi keep-hot and primary
+ * circuit losses sit inside the seasonal efficiencies (SAP Appendix D values the pack uses).
+ * PLACEHOLDER: the twin has no cylinder description yet (volume, insulation, jacket); the
+ * cylinder jacket and solar thermal measures need it (INTERFACES request on the blackboard).
  */
-import type { DhwMonthly, PhysicsStage } from '@ibasho/core';
+import type { DhwMonthly, HomeTwin, Monthly, PhysicsStage, StageCtx } from '@ibasho/core';
 import { days, monthly, monthlyDrafts } from './common.ts';
 
 /** SAP 10.2 Table J1 cold water temperature, UK, degC. */
@@ -21,34 +26,56 @@ const MONTH_FACTOR = [1.1, 1.06, 1.02, 0.98, 0.94, 0.9, 0.9, 0.94, 0.98, 1.02, 1
 const DISTRIBUTION_LOSS = 0.15;
 
 export interface DhwDefaults {
-  /** Standing loss of a hot water cylinder, kWh/day (BP 3.9: 0.5 to 1.5 by insulation). */
+  /** Standing loss of an existing hot water cylinder, kWh/day (BP 3.9: 0.5 to 1.5 by insulation). */
   cylinderLossKWhPerDay: number;
+  /** Standing loss of a new factory-insulated heat pump cylinder, kWh/day. */
+  newCylinderLossKWhPerDay: number;
+  /** System ids that are heat pumps. */
+  heatPumpIds: ReadonlySet<string>;
+}
+
+export interface DhwModel {
+  /** Energy content of the hot water drawn, kWh. */
+  contentKWh: Monthly<number>;
+  /** Distribution loss, kWh. */
+  distKWh: Monthly<number>;
+  /** Storage (cylinder) loss, kWh. */
+  storeKWh: Monthly<number>;
+}
+
+/** Shared DHW model (the gains stage reads it for water heating gains). */
+export function dhwModel(twin: HomeTwin, n: number, ctx: StageCtx, d: DhwDefaults): DhwModel {
+  const india = twin.region.startsWith('IN');
+  const cold = (m: number) => (india ? ctx.climate.months[m]!.thetaE : T_COLD_UK[m]!);
+  const contentKWh = monthly((m) => {
+    const tc = Math.min(cold(m), 40);
+    const fHot = (41 - tc) / (52 - tc);
+    const litres =
+      ((0.45 * n + 0.65) * 60 * fHot + (0.13 * n + 0.19) * 73 * fHot + (9.8 * n + 14)) * MONTH_FACTOR[m]!;
+    return (4.18 * litres * days(m) * (52 - tc)) / 3600;
+  });
+  const distKWh = monthly((m) => contentKWh[m]! * DISTRIBUTION_LOSS);
+  const cylinder = twin.systems.dhw.class === 'cylinder';
+  const perDay = d.heatPumpIds.has(twin.systems.dhw.systemId)
+    ? d.newCylinderLossKWhPerDay
+    : d.cylinderLossKWhPerDay;
+  const storeKWh = monthly((m) => (cylinder ? perDay * days(m) : 0));
+  return { contentKWh, distKWh, storeKWh };
 }
 
 export function createDhwStage(d: DhwDefaults): PhysicsStage<'dhw'> {
   return {
     kind: 'physics-stage',
-    id: 'stage-dhw-m0',
-    version: '0.1.0',
+    id: 'stage-dhw',
+    version: '0.2.0',
     title: 'engine.stage.dhw',
     side: 'engine',
     stage: 'dhw',
     modes: ['rating', 'standard', 'your-home'],
     run({ geometry, occupancyN: n }, ctx) {
-      const twin = geometry.twin;
-      const india = twin.region.startsWith('IN');
-      const cold = (m: number) => (india ? ctx.climate.months[m]!.thetaE : T_COLD_UK[m]!);
-      const qwKWh = monthly((m) => {
-        const tc = Math.min(cold(m), 40);
-        const fHot = (41 - tc) / (52 - tc);
-        const litres =
-          ((0.45 * n + 0.65) * 60 * fHot + (0.13 * n + 0.19) * 73 * fHot + (9.8 * n + 14)) * MONTH_FACTOR[m]!;
-        const content = (4.18 * litres * days(m) * (52 - tc)) / 3600;
-        return content * (1 + DISTRIBUTION_LOSS);
-      });
-      const cylinder = twin.systems.dhw.class === 'cylinder';
-      const cylinderLossKWh = monthly((m) => (cylinder ? d.cylinderLossKWhPerDay * days(m) : 0));
-      const output: DhwMonthly = { qwKWh, cylinderLossKWh };
+      const model = dhwModel(geometry.twin, n, ctx, d);
+      const qwKWh = monthly((m) => model.contentKWh[m]! + model.distKWh[m]!);
+      const output: DhwMonthly = { qwKWh, cylinderLossKWh: model.storeKWh };
       const evidence = [
         ...monthlyDrafts(
           ctx,
@@ -58,7 +85,7 @@ export function createDhwStage(d: DhwDefaults): PhysicsStage<'dhw'> {
           { id: 'BP-3.9', doc: 'Q_W = 4.18 V n (52 - T_c) / 3600, + 15% distribution' },
           () => [{ key: 'occ.n', role: 'occupancy' }],
         ),
-        ...monthlyDrafts(ctx, 'dhw.cyl_loss', cylinderLossKWh, 'kWh', {
+        ...monthlyDrafts(ctx, 'dhw.cyl_loss', model.storeKWh, 'kWh', {
           id: 'BP-3.9',
           doc: 'cylinder standing loss',
         }),

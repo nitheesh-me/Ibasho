@@ -19,4 +19,6 @@ Executables (`proofs/Main`): `lake exe ibasho-check [--batch] [cert.json]` (exit
 
 Build: `lake build IbashoCheck ibasho-check ibasho-gen`.
 
-Trusted, not proved: physics outputs, the JSON parser, the Lean compiler and runtime. PLACEHOLDER until M-B: fuel price escalation (growth 0), O and M, explicit replacement schedules, named rule functions (all unknown), `money.bills` and `score.recompute` (skipped with a reason).
+Trusted, not proved: physics outputs, the JSON parser, the Lean compiler and runtime. PLACEHOLDER until M-B: fuel price escalation (growth 0), O and M, explicit replacement schedules, named rule functions (all unknown).
+
+Checks: `money.bills` ties every claimed annual bill to the slab-exact bill of the row's delivered energy; `score.recompute` recomputes every claimed sub-score, group score and total in exact rationals (`Ibasho.Spec.V2.Score`) and requires the front and picks to be scored (it is skipped, with its reason, only when the certificate claims no score); the memory built-in excludes both `rejected` and `completed` measures (SPEC AC-P1). `check_sound` covers all three (`chkBills_sound`, `chkScore_sound`, `memory_sound`); the axiom audit lists 25 theorems. Trust boundary of the score: the seven indicators and the anchor choice (`zone`, `mode`) are taken from the certificate, like other physics outputs; the check proves the arithmetic from them, not the indicators themselves, and does not yet tie `zone` to `context.home.region`.

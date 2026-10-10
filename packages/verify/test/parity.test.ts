@@ -2,13 +2,11 @@
  * Differential parity: Lean `ibasho-check` and the TS mirror on many one-field mutations of the
  * GH1 golden (D4, LV 6.6). Owner: WP-04.
  *
- * The three M-0 mutants only exercise `acct.saving` and `feas.recompute`. Here every claimed
- * column, the front, the picks, the witnesses, the context and a few malformed shapes are
- * perturbed one at a time; both checkers must give the same report shape and exit code. Each
- * case also states the exit code it must give, so a bug shared by both checkers still fails.
- *
- * Not covered: `context.memory.completed` (SPEC AC-P1). Neither the engine nor either checker
- * reads it yet; see the WP-04 progress file.
+ * The fixture mutants exercise a few checks each. Here every claimed column (bills and score
+ * included), the front, the picks, the witnesses, the context (done measures included) and a few
+ * malformed shapes are perturbed one at a time; both checkers must give the same report shape
+ * and exit code. Each case also states the exit code it must give, so a bug shared by both
+ * checkers still fails. Score cases start from the scored certificate.
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -17,7 +15,7 @@ import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { exitCode, mirrorCheck, type VerdictReport } from '../src/index.ts';
 import { decodeI64, decodeU8, decodeU32, encodeI64, encodeU8, encodeU32 } from '../src/wire.ts';
-import { CERT_DIR } from './gh1-certs.ts';
+import { CERT_DIR, SCORED_FILE } from './gh1-certs.ts';
 
 const LEAN = '../../proofs/.lake/build/bin/ibasho-check';
 const hasLean = existsSync(LEAN);
@@ -25,7 +23,17 @@ const hasLean = existsSync(LEAN);
 // biome-ignore lint/suspicious/noExplicitAny: mutations reach into arbitrary certificate JSON on purpose, including invalid shapes.
 type Json = Record<string, any>;
 const golden = JSON.parse(readFileSync(`${CERT_DIR}/gh1-m0.cert.json`, 'utf8')) as Json;
+const scored = JSON.parse(readFileSync(`${CERT_DIR}/${SCORED_FILE}`, 'utf8')) as Json;
 const clone = (): Json => JSON.parse(JSON.stringify(golden)) as Json;
+/** Mutate the scored certificate instead of the golden. */
+const onScored =
+  (f: (c: Json) => void) =>
+  (c: Json): void => {
+    for (const k of Object.keys(c)) delete c[k];
+    Object.assign(c, JSON.parse(JSON.stringify(scored)) as Json);
+    f(c);
+  };
+const scoreRow = (c: Json, row: number): Json => c.claimed.score.rows.find((e: Json) => e.row === row);
 
 const bumpI64 = (s: string, i: number, d: bigint): string => {
   const xs = decodeI64(s);
@@ -83,6 +91,31 @@ const CASES: [string, (c: Json) => void, 0 | 1 | 2][] = [
   ['grant applied to the baseline', (c) => c.packs.grants[0].data.applied.push(['0', '1']), 1],
   ['option cost changed', (c) => (c.groups[0].facts['draught-proofing-chimney-balloon']['c.mid'] = '1'), 1],
   // A column of the wrong length is a well formed certificate that fails `enum.complete`.
+  ['claimed electricity bill off by one', (c) => (c.claimed.bills = bumpI64(c.claimed.bills, 6 * 3, 1n)), 1],
+  ['claimed bills missing', (c) => delete c.claimed.bills, 1],
+  [
+    'claimed bills one row short',
+    (c) => (c.claimed.bills = encodeI64(decodeI64(c.claimed.bills).slice(6))),
+    1,
+  ],
+  ['done measure on the front', (c) => (c.context.memory.completed = ['loft']), 1],
+  ['done option id on the front', (c) => (c.context.memory.completed = ['loft-300']), 1],
+  ['done measure nobody offers', (c) => (c.context.memory.completed = ['solar-pv']), 0],
+  ['memory completed missing', (c) => delete c.context.memory.completed, 2],
+  ['scored certificate unchanged', onScored(() => {}), 0],
+  ['score sub off', onScored((c) => (scoreRow(c, 1).sub[0] = '26')), 1],
+  ['score group off', onScored((c) => (scoreRow(c, 4).groups[2] = '0')), 1],
+  ['score total off', onScored((c) => (scoreRow(c, 0).total = '19')), 1],
+  ['score in unreduced form', onScored((c) => (scoreRow(c, 1).sub[0] = '50/2')), 0],
+  ['score indicator changed', onScored((c) => (scoreRow(c, 5).indicators[1] = '0')), 1],
+  ['score six indicators', onScored((c) => scoreRow(c, 1).indicators.pop()), 1],
+  ['score row out of range', onScored((c) => (scoreRow(c, 5).row = 99)), 1],
+  ['score rows out of order', onScored((c) => c.claimed.score.rows.reverse()), 1],
+  ['score drops a front row', onScored((c) => c.claimed.score.rows.splice(1, 1)), 1],
+  ['score with per-area anchors', onScored((c) => (c.claimed.score.mode = 'per-area')), 1],
+  ['score unknown zone', onScored((c) => (c.claimed.score.zone = 'mars')), 2],
+  ['score zero denominator', onScored((c) => (scoreRow(c, 1).total = '1/0')), 2],
+  ['score decimal not a rational', onScored((c) => (scoreRow(c, 1).total = '0.5')), 2],
   ['status column too short', (c) => (c.claimed.status = encodeU8(decodeU8(c.claimed.status).slice(1))), 1],
   ['npv column not base64', (c) => (c.claimed.npv = '***'), 2],
   ['groups missing', (c) => delete c.groups, 2],

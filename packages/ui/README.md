@@ -18,16 +18,32 @@ import { ClaimSeal, EvidenceProvider, Num, Seal } from '@ibasho/ui';
 - `<ClaimSeal claim={{ id, sentence, theorems, notProved }} statement proofHref certificateHref press />`. DOM: `section.ib-claim[data-claim]`. Copy should come from `@ibasho/spec-gen` `seals.json`.
 - Theme: `data-theme="hiru"` or `"yoru"` on `<html>` or any subtree; without it the system preference decides. `data-motion="reduced"` on `<html>` forces reduced motion. Put `.ib-washi` on a surface for the procedural grain.
 
-## Public API (M-0)
+## Public API
 
 | Export | What |
 |---|---|
-| `andon.css`, `tokens.css`, `fonts.css` | Generated tokens (Hiru, Yoru), the three families, base and component styles |
+| `andon.css`, `tokens.css`, `fonts.css` | Generated tokens (Hiru, Yoru), the three families, base, component and kit styles |
 | `@ibasho/ui/tokens` | Token sources as data, `renderTokensCss`, colour maths (OKLCH, contrast, CVD simulation) |
-| `Num`, `formatEvidence`, `Dec` helpers | The only way to render a number |
+| `Num`, `formatEvidence`, `Dec` helpers, `magnitude` | The only way to render a number; `magnitude` gives bar lengths from the same node |
 | `Seal`, `ClaimSeal`, `sealName`, `SEAL_LABEL`, `NOT_PROVED` | Hanko seals and their copy |
 | `Glyph`, `BAKE_LIST` | Kanji baked from Yuji Syuku into SVG paths (no font request) |
 | `EvidenceProvider`, `staticEvidence`, `useStaticEvidence` | Where `Num` finds nodes |
+| `Sheet` | Shoji sheet: side from 900 px, bottom below with peek, half, full (each a button). `aside.ib-sheet[data-open][data-snap]` |
+| `NarratorStrip`, `sentencesFromRendered` | Engawa strip; "Plain narrator" marker; chips without seals (R11). `section.ib-narrator` |
+| `ScoreGroups`, `SCORE_LINE` | Score 0 to 100, four groups, seven parts on tap, band while material fields are unknown. No letter |
+| `EpcChip`, `epcSpread`, `epcLabel` | "Estimated EPC" with the spread either side until `bandValidated` (AC-R1) |
+| `Futures`, `FutureCard`, `DoNothingLine`, `FUTURE_ORDER` | Byobu screen in fixed order and the fourth line "If nothing is done" (SPEC 14). `[data-do-nothing]` |
+| `Negatives`, `negativeItems` | What gets worse, on every card and the fourth line; `negativeItems` maps core `Negative[]` |
+| `MeasureCard` | Fuda: available, in scenario, ask, needs check, blocked, ruled out. `article.ib-fuda[data-state]` |
+| `FuelBars` | Signed diverging bars per fuel, hatch for increases, table toggle |
+| `Slider` | Kumiko bar over evidence stops; keys, step buttons, tap; `aria-valuetext` in words |
+| `WhyNot` | Reason chips: rule, memory, tenure, witness, target, budget |
+| `CheckLane`, `GradeBadge` | "Possible after a check" (R22) with the check, its cost and grade (R17) |
+| `MonthRing`, `MONTH_NAME` | Twelve month ring with per-fuel stacks; arrow keys wrap; table |
+| `ChartFrame`, `TableAlt` | Every chart: a one sentence summary and a table alternative |
+| `Mon`, `MONS`, `monFor`, `isMonId`, `MEASURE_MON` | Kamon crests for measures and fuels (DS 7) |
+
+Components are presentational. Props carry `EvidenceId`s and plain strings; the app maps engine output to them. Every digit sits inside a `Num` (tests audit this per component).
 
 ## Scripts
 
@@ -37,8 +53,8 @@ import { ClaimSeal, EvidenceProvider, Num, Seal } from '@ibasho/ui';
 
 ## Status
 
-M-0 step 5 done: tokens, fonts, baked glyphs, `Num`, `Seal`, `ClaimSeal`, stories for each. Acceptance covered so far: F1 (AC-14 ramp), F2 (text contrast), F5 (`--seal` and `--gold` scarcity, checked in tests until the lint lands), F6 (type test), F8 at the source (three families), F9 (baked glyphs).
+M-0, M-A and M-B sets done: tokens, fonts, baked glyphs, `Num`, seals, and the kit above with stories (`Kit/*`, illustrative evidence in `stories/kit-evidence.ts`). Acceptance covered: F1, F2, F5, F6, F7 (no letter on the score, EPC spread), F8 at the source, F9; AC-B1 and AC-B3 at the component level (fourth line, negatives on every card); R17 badges; R22 lane; 2.5.7 alternatives for every drag (Sheet, Slider, MonthRing).
 
-Not built yet (M-A onward): `Sheet`, `NarratorStrip`, `ScoreGroups`, `EpcChip`, the other DS 8 components, `BrushFrame`, mon icons and `tools/lint/mon`, chart primitives with `TableAlt`, motion presets beyond CSS tokens, axe and visual snapshot runs over stories (F4), the network audit (F8 in a browser).
+Not built yet (M-D): the rest of DS 8 (`RangeBand`, `RedThread`, `EvidenceDrawer`, `InsightCard`, `Tabs`, `Modal`, `ConsentCard`, inputs, `ToldList`, loaders, `MendedError`, `Lantern`, `Toast`, `Palette`, `BrushFrame`), `tools/lint/mon`, axe and visual snapshot runs over stories (F4), the network audit (F8 in a browser), a Latin-first fonts entry.
 
 Commands: `pnpm --filter @ibasho/ui typecheck`, `pnpm --filter @ibasho/ui test`.

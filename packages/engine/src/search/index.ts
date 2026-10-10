@@ -10,7 +10,19 @@ export {
   type RowMoney,
 } from './bookkeeping.ts';
 export { type CertInput, ENGINE_VERSION, emitCertificate, flatFuelMonth } from './certificate.ts';
+export { ageSeries, DoNothingError, matchModels, runDoNothing } from './do-nothing.ts';
 export { envFromRegistry, type SearchEnv, SearchEnvError } from './env.ts';
+export {
+  type ExtrasInput,
+  type RowExtras,
+  type RowReturns,
+  type RuleRisk,
+  riskOfRule,
+  rowExtras,
+  rowReturns,
+  ruleRisks,
+  zoneOf,
+} from './extras.ts';
 export { dominates, NO_WITNESS, type Outcome, type Picks, paretoFront, picks, witnesses } from './pareto.ts';
 export {
   BASELINE_ID,
@@ -27,6 +39,7 @@ export {
   addPackageEvidence,
   BUILTIN_MEMORY,
   BUILTIN_TARGET,
+  meetsTarget,
   type ProgressFn,
   runSearch,
   SearchError,

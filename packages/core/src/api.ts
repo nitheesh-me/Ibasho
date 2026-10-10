@@ -17,6 +17,7 @@ import type {
 import type { EvidenceGraph, EvidenceId, EvidenceNode, QuantityId } from './evidence/types.ts';
 import type { Tri } from './fields.ts';
 import type { Ival } from './ival.ts';
+import type { DoNothingRequest, DoNothingResult, NegativesByPackage } from './maintenance.ts';
 import type { HomeTwin, MeterData, Vec3 } from './twin.ts';
 
 export interface SearchRequest {
@@ -72,6 +73,11 @@ export interface SearchResult {
   /** Baseline, front and picks only; the rest via `evidence()`. */
   graph: EvidenceGraph;
   certificate: Certificate;
+  /**
+   * What gets worse, per package (SPEC 14, AC-B3). Covers baseline, front and picks, like
+   * `graph`; the rest via `EngineApi.negatives`. Optional until WP-02 fills it at M-B.
+   */
+  negatives?: NegativesByPackage;
 }
 
 export interface UncertaintyResult {
@@ -133,4 +139,8 @@ export interface EngineApi {
   flips(resultHash: string, param: FlipPoint['param']): Promise<FlipPoint[]>;
   /** Under 5 ms, enclosure included. */
   noise(req: { twin: HomeTwin; units: AshpUnit[] }): Promise<NoiseResult>;
+  /** "If nothing is done" (SPEC 14, AC-B1): ages the twin with the `maintenance` plugins. M-B. */
+  doNothing?(req: DoNothingRequest): Promise<DoNothingResult>;
+  /** Lazy negatives for packages outside `SearchResult.negatives`. M-B. */
+  negatives?(resultHash: string, packageIds: string[]): Promise<NegativesByPackage>;
 }

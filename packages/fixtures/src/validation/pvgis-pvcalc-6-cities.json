@@ -1,0 +1,124 @@
+{
+  "schema": "ibasho.validation/1",
+  "id": "pvgis-pvcalc-6-cities",
+  "title": "PVGIS 5.2 PVcalc, 1 kWp at the optimal angle, 14% system loss, six cities",
+  "grade": "primary",
+  "dataDate": "2005-2020",
+  "retrieved": "2026-10-11",
+  "status": "ready",
+  "sources": [
+    {
+      "title": "PVGIS 5.2 PVcalc API, JRC European Commission",
+      "url": "https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?peakpower=1&loss=14&optimalangles=1&outputformat=json"
+    }
+  ],
+  "data": {
+    "rows": [
+      {
+        "city": "london",
+        "lat": 51.51,
+        "lon": -0.13,
+        "slopeDeg": 40,
+        "azimuthDeg": -5,
+        "systemLossPct": 14,
+        "peakKWp": 1,
+        "eYKWhPerKWp": 1028.75,
+        "hIYKWhPerM2": 1270.62,
+        "eMKWh": [42.34, 54.51, 89.24, 114.9, 120.01, 120.06, 122.5, 109.21, 97.06, 69.36, 50.05, 39.5],
+        "hIMKWhPerM2": [
+          49.19, 64.15, 106.26, 141.58, 150.15, 152.41, 157.59, 139.2, 120.9, 84.12, 59.11, 45.96
+        ],
+        "radiationDb": "PVGIS-SARAH2",
+        "years": [2005, 2020]
+      },
+      {
+        "city": "manchester",
+        "lat": 53.48,
+        "lon": -2.24,
+        "slopeDeg": 39,
+        "azimuthDeg": -4,
+        "systemLossPct": 14,
+        "peakKWp": 1,
+        "eYKWhPerKWp": 888.13,
+        "hIYKWhPerM2": 1095.97,
+        "eMKWh": [27.61, 47.36, 79.86, 103.53, 113.07, 106.75, 106.49, 95.05, 81.57, 57.13, 39.78, 29.95],
+        "hIMKWhPerM2": [
+          32.88, 55.93, 95.77, 126.55, 140.46, 135.49, 136.42, 119.77, 101.03, 69.29, 47.19, 35.19
+        ],
+        "radiationDb": "PVGIS-SARAH2",
+        "years": [2005, 2020]
+      },
+      {
+        "city": "edinburgh",
+        "lat": 55.95,
+        "lon": -3.19,
+        "slopeDeg": 43,
+        "azimuthDeg": -1,
+        "systemLossPct": 14,
+        "peakKWp": 1,
+        "eYKWhPerKWp": 921.75,
+        "hIYKWhPerM2": 1121.2,
+        "eMKWh": [30.99, 51.9, 81.1, 106.76, 121.02, 106.37, 109.75, 100.77, 85.61, 59.88, 42.53, 25.08],
+        "hIMKWhPerM2": [
+          35.68, 60.33, 94.96, 128.79, 148.34, 133.46, 138.79, 125.33, 104.58, 71.24, 49.6, 30.11
+        ],
+        "radiationDb": "PVGIS-SARAH2",
+        "years": [2005, 2020]
+      },
+      {
+        "city": "hyderabad",
+        "lat": 17.39,
+        "lon": 78.49,
+        "slopeDeg": 23,
+        "azimuthDeg": -8,
+        "systemLossPct": 14,
+        "peakKWp": 1,
+        "eYKWhPerKWp": 1508.63,
+        "hIYKWhPerM2": 2015.58,
+        "eMKWh": [155.03, 145.08, 153.89, 137.25, 132.62, 98.8, 85.39, 91.11, 100.8, 126.79, 134.27, 147.59],
+        "hIMKWhPerM2": [
+          203.11, 195.61, 212.41, 191.31, 184.89, 131.56, 111.55, 118.22, 131.89, 166.39, 175.82, 192.83
+        ],
+        "radiationDb": "PVGIS-ERA5",
+        "years": [2005, 2020]
+      },
+      {
+        "city": "mumbai",
+        "lat": 19.08,
+        "lon": 72.88,
+        "slopeDeg": 25,
+        "azimuthDeg": 4,
+        "systemLossPct": 14,
+        "peakKWp": 1,
+        "eYKWhPerKWp": 1560.34,
+        "hIYKWhPerM2": 2081.7,
+        "eMKWh": [161.68, 150.13, 164.34, 150.43, 140.39, 95.44, 77.3, 87.99, 104.15, 136.22, 141.97, 150.31],
+        "hIMKWhPerM2": [
+          212.86, 200.93, 224.1, 206.1, 190.97, 125.2, 100.48, 114.21, 136.28, 182.41, 190.1, 198.06
+        ],
+        "radiationDb": "PVGIS-ERA5",
+        "years": [2005, 2020]
+      },
+      {
+        "city": "delhi",
+        "lat": 28.61,
+        "lon": 77.21,
+        "slopeDeg": 32,
+        "azimuthDeg": -2,
+        "systemLossPct": 14,
+        "peakKWp": 1,
+        "eYKWhPerKWp": 1635.1,
+        "hIYKWhPerM2": 2179.47,
+        "eMKWh": [
+          148.35, 140.62, 158.87, 151.15, 144.33, 121.36, 101.41, 102.69, 121.43, 151.54, 144.38, 148.96
+        ],
+        "hIMKWhPerM2": [
+          185.89, 180.38, 213.22, 210.07, 204.64, 167.8, 136.68, 137.01, 162.77, 203.34, 189.21, 188.47
+        ],
+        "radiationDb": "PVGIS-ERA5",
+        "years": [2005, 2020]
+      }
+    ]
+  },
+  "notes": "Azimuth is the PVGIS aspect (0 = south, negative = east). E_y is the AC yield per kWp; H(i)_y the in-plane irradiation. Free to use with attribution to the JRC."
+}

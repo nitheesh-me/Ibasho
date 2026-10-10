@@ -21,6 +21,7 @@ export * from './fixed/index.ts';
 // Hashing and randomness
 export * from './hash.ts';
 export * from './ival.ts';
+export * from './maintenance.ts';
 export * from './measure-kinds.ts';
 export * from './plugin/kind-map.ts';
 export * from './plugin/registry.ts';

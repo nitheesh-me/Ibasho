@@ -537,7 +537,744 @@
       }
     }
   ],
-  "junctions": [],
+  "junctions": [
+    {
+      "id": "jn-lintel-win-front-bay",
+      "kind": "lintel",
+      "elementIds": ["win-front-bay", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 2.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-bay, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 1.0,
+        "range": [0.5, 1.0],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e2"
+        }
+      },
+      "path": [[2.6, 2.4, 0], [4.6, 2.4, 0]]
+    },
+    {
+      "id": "jn-sill-win-front-bay",
+      "kind": "sill",
+      "elementIds": ["win-front-bay", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 2.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-bay, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e3"
+        }
+      },
+      "path": [[2.6, 0.8, 0], [4.6, 0.8, 0]]
+    },
+    {
+      "id": "jn-jamb-win-front-bay-a",
+      "kind": "jamb",
+      "elementIds": ["win-front-bay", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.6,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-bay, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[2.6, 0.8, 0], [2.6, 2.4, 0]]
+    },
+    {
+      "id": "jn-jamb-win-front-bay-b",
+      "kind": "jamb",
+      "elementIds": ["win-front-bay", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.6,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-bay, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[4.6, 0.8, 0], [4.6, 2.4, 0]]
+    },
+    {
+      "id": "jn-lintel-win-front-first",
+      "kind": "lintel",
+      "elementIds": ["win-front-first", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.2,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-first, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 1.0,
+        "range": [0.5, 1.0],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e2"
+        }
+      },
+      "path": [[2.6, 4.8, 0], [3.8, 4.8, 0]]
+    },
+    {
+      "id": "jn-sill-win-front-first",
+      "kind": "sill",
+      "elementIds": ["win-front-first", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.2,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-first, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e3"
+        }
+      },
+      "path": [[2.6, 3.3, 0], [3.8, 3.3, 0]]
+    },
+    {
+      "id": "jn-jamb-win-front-first-a",
+      "kind": "jamb",
+      "elementIds": ["win-front-first", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.5,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-first, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[2.6, 3.3, 0], [2.6, 4.8, 0]]
+    },
+    {
+      "id": "jn-jamb-win-front-first-b",
+      "kind": "jamb",
+      "elementIds": ["win-front-first", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.5,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-front-first, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[3.8, 3.3, 0], [3.8, 4.8, 0]]
+    },
+    {
+      "id": "jn-lintel-door-front",
+      "kind": "lintel",
+      "elementIds": ["door-front", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 0.9,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of door-front, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 1.0,
+        "range": [0.5, 1.0],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e2"
+        }
+      },
+      "path": [[0.6, 2.1, 0], [1.5, 2.1, 0]]
+    },
+    {
+      "id": "jn-jamb-door-front-a",
+      "kind": "jamb",
+      "elementIds": ["door-front", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 2.1,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of door-front, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[0.6, 0.0, 0], [0.6, 2.1, 0]]
+    },
+    {
+      "id": "jn-jamb-door-front-b",
+      "kind": "jamb",
+      "elementIds": ["door-front", "wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 2.1,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of door-front, wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[1.5, 0.0, 0], [1.5, 2.1, 0]]
+    },
+    {
+      "id": "jn-lintel-win-rear-sash",
+      "kind": "lintel",
+      "elementIds": ["win-rear-sash", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.25,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-sash, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 1.0,
+        "range": [0.5, 1.0],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e2"
+        }
+      },
+      "path": [[3.0, 2.4, 8.4], [4.25, 2.4, 8.4]]
+    },
+    {
+      "id": "jn-sill-win-rear-sash",
+      "kind": "sill",
+      "elementIds": ["win-rear-sash", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.25,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-sash, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e3"
+        }
+      },
+      "path": [[3.0, 0.8, 8.4], [4.25, 0.8, 8.4]]
+    },
+    {
+      "id": "jn-jamb-win-rear-sash-a",
+      "kind": "jamb",
+      "elementIds": ["win-rear-sash", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.6,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-sash, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[3.0, 0.8, 8.4], [3.0, 2.4, 8.4]]
+    },
+    {
+      "id": "jn-jamb-win-rear-sash-b",
+      "kind": "jamb",
+      "elementIds": ["win-rear-sash", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.6,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-sash, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[4.25, 0.8, 8.4], [4.25, 2.4, 8.4]]
+    },
+    {
+      "id": "jn-lintel-win-rear-first",
+      "kind": "lintel",
+      "elementIds": ["win-rear-first", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-first, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 1.0,
+        "range": [0.5, 1.0],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e2"
+        }
+      },
+      "path": [[3.0, 4.9, 8.4], [4.0, 4.9, 8.4]]
+    },
+    {
+      "id": "jn-sill-win-rear-first",
+      "kind": "sill",
+      "elementIds": ["win-rear-first", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-first, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e3"
+        }
+      },
+      "path": [[3.0, 3.3, 8.4], [4.0, 3.3, 8.4]]
+    },
+    {
+      "id": "jn-jamb-win-rear-first-a",
+      "kind": "jamb",
+      "elementIds": ["win-rear-first", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.6,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-first, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[3.0, 3.3, 8.4], [3.0, 4.9, 8.4]]
+    },
+    {
+      "id": "jn-jamb-win-rear-first-b",
+      "kind": "jamb",
+      "elementIds": ["win-rear-first", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 1.6,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of win-rear-first, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[4.0, 3.3, 8.4], [4.0, 4.9, 8.4]]
+    },
+    {
+      "id": "jn-lintel-door-rear",
+      "kind": "lintel",
+      "elementIds": ["door-rear", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 0.9,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of door-rear, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 1.0,
+        "range": [0.5, 1.0],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e2"
+        }
+      },
+      "path": [[0.8, 2.1, 8.4], [1.7, 2.1, 8.4]]
+    },
+    {
+      "id": "jn-jamb-door-rear-a",
+      "kind": "jamb",
+      "elementIds": ["door-rear", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 2.1,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of door-rear, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[0.8, 0.0, 8.4], [0.8, 2.1, 8.4]]
+    },
+    {
+      "id": "jn-jamb-door-rear-b",
+      "kind": "jamb",
+      "elementIds": ["door-rear", "wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 2.1,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of door-rear, wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.1,
+        "range": [0.05, 0.1],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e4"
+        }
+      },
+      "path": [[1.7, 0.0, 8.4], [1.7, 2.1, 8.4]]
+    },
+    {
+      "id": "jn-ground-front",
+      "kind": "ground-floor",
+      "elementIds": ["wall-front", "floor-ground"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-front, floor-ground"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.32,
+        "range": [0.16, 0.32],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e5"
+        }
+      },
+      "path": [[0, 0, 0], [5.0, 0, 0]]
+    },
+    {
+      "id": "jn-floor1-front",
+      "kind": "intermediate-floor",
+      "elementIds": ["wall-front"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-front"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.14,
+        "range": [0.07, 0.14],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e6"
+        }
+      },
+      "path": [[0, 2.6, 0], [5.0, 2.6, 0]]
+    },
+    {
+      "id": "jn-eaves-front",
+      "kind": "eaves",
+      "elementIds": ["wall-front", "roof-loft"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-front, roof-loft"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.12,
+        "range": [0.06, 0.12],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e10"
+        }
+      },
+      "path": [[0, 5.2, 0], [5.0, 5.2, 0]]
+    },
+    {
+      "id": "jn-party-front-left",
+      "kind": "party-wall",
+      "elementIds": ["wall-front", "party-left"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.2,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-front, party-left"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.12,
+        "range": [0.06, 0.12],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e18"
+        }
+      },
+      "path": [[0, 0, 0], [0, 5.2, 0]]
+    },
+    {
+      "id": "jn-party-front-right",
+      "kind": "party-wall",
+      "elementIds": ["wall-front", "party-right"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.2,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-front, party-right"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.12,
+        "range": [0.06, 0.12],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e18"
+        }
+      },
+      "path": [[5.0, 0, 0], [5.0, 5.2, 0]]
+    },
+    {
+      "id": "jn-ground-rear",
+      "kind": "ground-floor",
+      "elementIds": ["wall-rear", "floor-ground"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-rear, floor-ground"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.32,
+        "range": [0.16, 0.32],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e5"
+        }
+      },
+      "path": [[0, 0, 8.4], [5.0, 0, 8.4]]
+    },
+    {
+      "id": "jn-floor1-rear",
+      "kind": "intermediate-floor",
+      "elementIds": ["wall-rear"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-rear"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.14,
+        "range": [0.07, 0.14],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e6"
+        }
+      },
+      "path": [[0, 2.6, 8.4], [5.0, 2.6, 8.4]]
+    },
+    {
+      "id": "jn-eaves-rear",
+      "kind": "eaves",
+      "elementIds": ["wall-rear", "roof-loft"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.0,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-rear, roof-loft"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.12,
+        "range": [0.06, 0.12],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e10"
+        }
+      },
+      "path": [[0, 5.2, 8.4], [5.0, 5.2, 8.4]]
+    },
+    {
+      "id": "jn-party-rear-left",
+      "kind": "party-wall",
+      "elementIds": ["wall-rear", "party-left"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.2,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-rear, party-left"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.12,
+        "range": [0.06, 0.12],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e18"
+        }
+      },
+      "path": [[0, 0, 8.4], [0, 5.2, 8.4]]
+    },
+    {
+      "id": "jn-party-rear-right",
+      "kind": "party-wall",
+      "elementIds": ["wall-rear", "party-right"],
+      "lengthM": {
+        "state": "known",
+        "value": 5.2,
+        "source": {
+          "kind": "derived",
+          "from": ["geometry of wall-rear, party-right"]
+        }
+      },
+      "psi": {
+        "state": "estimated",
+        "value": 0.12,
+        "range": [0.06, 0.12],
+        "source": {
+          "kind": "default",
+          "pluginId": "sap-10-2-k1-e18"
+        }
+      },
+      "path": [[5.0, 0, 8.4], [5.0, 5.2, 8.4]]
+    }
+  ],
   "ventilation": {
     "chimneysOpen": {
       "state": "known",

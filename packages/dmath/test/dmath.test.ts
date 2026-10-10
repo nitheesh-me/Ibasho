@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { exp, log, log10, pow, sqrt } from '../src/index.ts';
+import { cos, exp, log, log10, PI, pow, sin, sqrt } from '../src/index.ts';
 
 /** Distance in ulps between two finite doubles of the same sign. */
 function ulps(a: number, b: number): number {
@@ -171,5 +171,50 @@ describe('pow', () => {
     }
     // SAP appliance exponent on a GH1-sized home.
     expect(ulps(pow(218.4, 0.4714), 218.4 ** 0.4714)).toBeLessThanOrEqual(4);
+  });
+});
+
+describe('sin and cos (FreeBSD msun k_sin.c, k_cos.c, e_rem_pio2.c)', () => {
+  const bits = (x: number) => {
+    const v = new DataView(new ArrayBuffer(8));
+    v.setFloat64(0, x);
+    return v.getBigUint64(0).toString(16).padStart(16, '0');
+  };
+
+  it('special values', () => {
+    expect(Object.is(sin(0), 0)).toBe(true);
+    expect(Object.is(sin(-0), -0)).toBe(true);
+    expect(cos(0)).toBe(1);
+    expect(Number.isNaN(sin(Infinity))).toBe(true);
+    expect(Number.isNaN(cos(-Infinity))).toBe(true);
+    expect(Number.isNaN(sin(Number.NaN))).toBe(true);
+    expect(sin(1e-30)).toBe(1e-30);
+    expect(PI).toBe(Math.PI);
+    expect(() => sin(1e7)).toThrow(RangeError);
+  });
+
+  it('matches pinned bit patterns (cross-engine vectors)', () => {
+    const v: [number, string, string][] = [
+      [0.5, '3fdeaee8744b05f0', '3fec1528065b7d50'],
+      [1, '3feaed548f090cee', '3fe14a280fb5068c'],
+      [2, '3fed18f6ead1b446', 'bfdaa22657537205'],
+      [3, '3fc210386db6d55b', 'bfefae04be85e5d2'],
+      [10, 'bfe1689ef5f34f52', 'bfead9ac890c6b1f'],
+      [100, 'bfe03425b78c4db8', '3feb981dbf665fdf'],
+      [-7.25, 'bfea56adb62a27b9', '3fe22c6f50dc3fbe'],
+      [0.7853981633974483, '3fe6a09e667f3bcc', '3fe6a09e667f3bcd'],
+      [100000, '3fa24daa9c527e96', 'bfeffac3841b3da7'],
+    ];
+    for (const [x, s, c] of v) {
+      expect(bits(sin(x)), `sin(${x})`).toBe(s);
+      expect(bits(cos(x)), `cos(${x})`).toBe(c);
+    }
+  });
+
+  it('is within 1 ulp of the platform on [-1000, 1000]', () => {
+    for (const x of samples(20000, -1000, 1000, 3)) {
+      expect(ulps(sin(x), Math.sin(x))).toBeLessThanOrEqual(1);
+      expect(ulps(cos(x), Math.cos(x))).toBeLessThanOrEqual(1);
+    }
   });
 });

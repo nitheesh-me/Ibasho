@@ -16,7 +16,7 @@ The kernel: every contract in ARCHITECTURE 4 and 5, plus the services every laye
 
 | Module | API |
 |---|---|
-| `plugin/registry.ts` | `createRegistry()` (`register`, `registerAll`, `get`, `all`, `has`, `fingerprint`, `onChange`, `validate`), `checkPlugin`, `matchesQuery`, `loadModules`, `assertSharedFingerprint`, `RegistryError` with typed issues |
+| `plugin/registry.ts` | `createRegistry()` (`register`, `registerAll`, `get`, `all`, `has`, `fingerprint`, `onChange`, `validate`), `checkPlugin`, `checkMaintenance`, `matchesQuery`, `loadModules`, `assertSharedFingerprint`, `RegistryError` with typed issues |
 | `events/bus.ts` | `createEventBus({ onError })`: typed `AppEvent`s, synchronous, every handler runs before errors are rethrown |
 | `fixed/index.ts` | `Fixed.roundHalfEven`, `divRound`, `mulDiv`, `discountFactors` (SPEC 7.4 recurrence), `growthFactors`, `applyFactor`, `parseScaled`, `formatScaled`, `percentToPpb`, `toWire`, `fromWire` |
 | `exact/q.ts` | `Q.of`, arithmetic, `cmp`, `clamp`, `floor`, `roundHalfEven`, `toScaled`, `fromDecimal`, `toWire`, `fromWire` (normalised `n/d`) |
@@ -29,13 +29,14 @@ The kernel: every contract in ARCHITECTURE 4 and 5, plus the services every laye
 
 ## Contracts (types)
 
-`twin.ts` (HomeTwin, Element, Junction, TwinPatch), `engine.ts` (engine plugins, `StageIO`, `STAGE_ORDER`, `SimResult`, `SimBundle`), `rules.ts` (Expr, Rule, Effect, Obligation, Feasibility), `api.ts` (EngineApi, SearchRequest, SearchResult, PackageTable), `ui.ts` (UI plugins and typed modules), `evidence/types.ts`, `ai/*.ts` (narration, providers, ops, memory, `MemoryRepo`), `certificate.ts` (re-exports `Certificate` from spec-gen).
+`twin.ts` (HomeTwin, Element, Junction, TwinPatch), `engine.ts` (engine plugins, `StageIO`, `STAGE_ORDER`, `SimResult`, `SimBundle`), `rules.ts` (Expr, Rule, Effect, Obligation, Feasibility), `api.ts` (EngineApi, SearchRequest, SearchResult, PackageTable; optional `doNothing` and `negatives` for M-B), `maintenance.ts` (SPEC 14: `MaintenancePlugin` decay models, `DoNothingRequest`/`DoNothingResult` for "If nothing is done", `Negative`/`NegativesByPackage`), `ui.ts` (UI plugins and typed modules), `evidence/types.ts`, `ai/*.ts` (narration, providers, ops, memory, `MemoryRepo`), `certificate.ts` (re-exports `Certificate` from spec-gen).
 
 ## Deviations from ARCHITECTURE text (recorded on the blackboard)
 
 - `EngineApi.simulate` returns `SimBundle` (one `SimResult` per requested mode plus evidence), since it accepts several modes.
 - `VisualLayerPlugin.quantities` holds the quantity ids ARCH 5.6 calls `requires`, because `PluginBase.requires` already means plugin ids.
 - `NAMED_FNS` and `NamedFn` are re-exported from `@ibasho/spec-gen` (the generated list is the source of truth).
+- Added the `maintenance` engine kind (SPEC 14); `OwnerCtx` gained optional `escalation` and `counterfactual` (SF 5.1, DEC SC-F5).
 - Added kinds' interfaces not spelled out in ARCH: `RegionPlugin`, `ConstructionPlugin`, `ArchetypePlugin`, `SystemPlugin`, `ExportTariffPlugin`, `FinancePlugin`, `ValueEvidencePlugin`, `IndicatorPlugin`, `RulePackPlugin`.
 
 ## Tests

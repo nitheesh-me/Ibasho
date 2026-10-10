@@ -1,0 +1,34 @@
+{
+  "schema": "ibasho.validation/1",
+  "id": "need-2025",
+  "title": "Domestic NEED June 2025: 2023 consumption medians and 2022 measure savings",
+  "grade": "primary",
+  "dataDate": "2023",
+  "retrieved": "2026-10-11",
+  "status": "ready",
+  "sources": [
+    {
+      "title": "DESNZ, National Energy Efficiency Data-Framework (NEED): Consumption data tables and report, June 2025",
+      "url": "https://assets.publishing.service.gov.uk/media/685bf0d30433072fce0e1000/need-report-june-2025.pdf",
+      "clause": "Sections 2 and 3, Figures 2.3 and 3.1"
+    }
+  ],
+  "data": {
+    "medianGasKWh": {
+      "englandWales": 10100,
+      "scotland": 10700
+    },
+    "medianElecKWh": {
+      "englandWales": 2600
+    },
+    "gasIntensityHouses51to150m2KWhPerM2": {
+      "value": 100,
+      "qualifier": "just over 100"
+    },
+    "measureSavingsMedianPct": {
+      "solidWallInsulation": -16,
+      "cavityPlusLoft": -9
+    }
+  },
+  "notes": "Values read from the report text (pages 6, 7 and 23). Savings are median gas savings in 2023 for measures installed in 2022 with no other recorded measure."
+}

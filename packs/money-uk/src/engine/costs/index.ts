@@ -9,9 +9,15 @@
  * Ranges: BP 6.1 gives central models only, so lo and hi are ESTIMATE spreads (80% and 130% of
  * mid) until quote data arrives (M-F quote check).
  *
- * M-0 costs the five options the home-uk engine half models (loft 270 and 300, draught-proofing,
- * ASHP and ASHP with radiators+). PLACEHOLDER until M-B: the other SPEC 9 options, the cylinder
- * and hob sub-measures as their own options, and the moisture and PAS 2035 assessments.
+ * Every SPEC 9 option is costed (heavy and light groups, the `cylinder-new` and
+ * `hob-induction-gas-disconnect` sub-measures, the `assess-moisture` and `assess-pas2035`
+ * assessments), plus the like-for-like boiler that the counterfactual (A_cf) and the "If nothing
+ * is done" run replace. Items that are not energy-saving materials (the hob, the assessments, a gas
+ * boiler) always carry 20% VAT.
+ *
+ * The ASHP cost still includes a new cylinder when it replaces a combi, because the home-uk ASHP
+ * model has no `sub-cylinder` choice yet. When WP-01 adds it, the cylinder moves to
+ * `cost-cylinder-new` only (tracked on the blackboard, INTERFACES).
  */
 import {
   type Grade,
@@ -26,7 +32,21 @@ import {
   quantise,
   type SourceRef,
 } from '@ibasho/core';
-import { BP_6_1, EST_DRAUGHT, EST_LOFT, provenance, VAT_ESM, WHICH_ASHP } from '../sources.ts';
+import {
+  BP_6_1,
+  DESNZ_BATTERY_COSTS,
+  DESNZ_PV_COSTS,
+  EST_DRAUGHT,
+  EST_LOFT,
+  EST_SOLID_WALL,
+  IBASHO_ESTIMATE,
+  MVHR_COSTS,
+  provenance,
+  SAP_10_2_T4,
+  VAT_ESM,
+  WHICH_ASHP,
+  WHICH_FLOOR,
+} from '../sources.ts';
 
 export class CostError extends Error {
   override name = 'CostError';
@@ -54,9 +74,9 @@ function linear(fixed: MicroPence, perUnit: MicroPence, quantityCenti: bigint): 
   return fixed + mulDiv(perUnit, quantityCenti, 100n);
 }
 
-/** Apply VAT and the ESTIMATE spread to a net central cost. */
-function priced(net: MicroPence, asOf: IsoDate, grade: Grade) {
-  const vatRate = esmVatRate(asOf);
+/** Apply VAT and the ESTIMATE spread to a net central cost. `vat: 'standard'` is always 20%. */
+function priced(net: MicroPence, asOf: IsoDate, grade: Grade, vat: 'esm' | 'standard' = 'esm') {
+  const vatRate = vat === 'esm' ? esmVatRate(asOf) : VAT_STANDARD;
   const mid = net + mulDiv(net, vatRate.n, vatRate.d);
   return { lo: mulDiv(mid, 4n, 5n), mid, hi: mulDiv(mid, 13n, 10n), vatRate, grade };
 }
@@ -93,7 +113,7 @@ export function openingCount(twin: HomeTwin): number {
 }
 
 /** Floor area, m2: footprint times storeys. */
-function tfaM2(twin: HomeTwin): number {
+export function tfaM2(twin: HomeTwin): number {
   return numCentral(twin.form.footprintM2) * numCentral(twin.form.storeys);
 }
 
@@ -119,10 +139,26 @@ export function heatPumpSizeKw(twin: HomeTwin): number {
   return Math.min(16, Math.max(4, kw));
 }
 
+/** Area of every element of `kind`, m2. */
+function areaOf(twin: HomeTwin, kind: HomeTwin['elements'][number]['kind']): number {
+  let a = 0;
+  for (const e of twin.elements) if (e.kind === kind) a += numCentral(e.areaM2);
+  return a;
+}
+/** Net external wall area, m2 (party walls excluded; openings are separate elements). */
+export const externalWallAreaM2 = (twin: HomeTwin): number => areaOf(twin, 'wall');
+/** Ground floor area, m2. */
+export const floorAreaM2 = (twin: HomeTwin): number => areaOf(twin, 'floor');
+/** Window area, m2. */
+export const windowAreaM2 = (twin: HomeTwin): number => areaOf(twin, 'window');
+/** Radiator count: the twin's radiators, else one per 12 m2 of floor (ESTIMATE). */
+export function radiatorCount(twin: HomeTwin): number {
+  return twin.systems.emitters.radiators?.length ?? Math.ceil(tfaM2(twin) / 12);
+}
+
 /** Radiators replaced by `radiators+`: 60% of the radiators, rounded up (ESTIMATE). */
 export function radiatorsReplaced(twin: HomeTwin): number {
-  const count = twin.systems.emitters.radiators?.length ?? Math.ceil(tfaM2(twin) / 12);
-  return Math.ceil((count * 6) / 10);
+  return Math.ceil((radiatorCount(twin) * 6) / 10);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -176,10 +212,217 @@ export const costAshpRadiatorsPlus: MeasureCost = {
   cost: (twin, asOf) => priced(ashpNet(twin, true), asOf, 'estimate'),
 };
 
+/** An option whose central net cost is `fixed + perUnit * quantity(twin)`. */
+function linearCost(
+  optionId: string,
+  sources: SourceRef[],
+  grade: Grade,
+  fixed: string,
+  perUnit: string,
+  quantity: (twin: HomeTwin) => number,
+  what: string,
+  extra: Partial<Pick<MeasureCost, 'replacements' | 'omDeltaPerYear'>> = {},
+  vat: 'esm' | 'standard' = 'esm',
+): MeasureCost {
+  return {
+    ...base(optionId, sources, grade),
+    ...extra,
+    cost(twin, asOf) {
+      return priced(linear(pounds(fixed), pounds(perUnit), centi(quantity(twin), what)), asOf, grade, vat);
+    },
+  };
+}
+
+/** A fixed-price option (no twin scaling). */
+function fixedCost(
+  optionId: string,
+  sources: SourceRef[],
+  grade: Grade,
+  net: string,
+  vat: 'esm' | 'standard',
+): MeasureCost {
+  return { ...base(optionId, sources, grade), cost: (_twin, asOf) => priced(pounds(net), asOf, grade, vat) };
+}
+
+/** EWI 100 mm: 2,500 pounds plus 130 per m2 of external wall (BP 6.1, EST). */
+export const costWallEwi = linearCost(
+  'wall-ewi-100',
+  [EST_SOLID_WALL],
+  'secondary',
+  '2500',
+  '130',
+  externalWallAreaM2,
+  'wall area',
+);
+/** IWI wood fibre: 2,000 pounds plus 95 per m2 of external wall (BP 6.1, EST). */
+export const costWallIwi = linearCost(
+  'wall-iwi-woodfibre',
+  [EST_SOLID_WALL],
+  'secondary',
+  '2000',
+  '95',
+  externalWallAreaM2,
+  'wall area',
+);
+/** Suspended timber floor: 500 pounds plus 35 per m2 of ground floor (BP 6.1, Which?). */
+export const costFloor = linearCost(
+  'floor-suspended-insulation',
+  [WHICH_FLOOR],
+  'secondary',
+  '500',
+  '35',
+  floorAreaM2,
+  'floor area',
+);
+/** Secondary low-E glazing: 200 pounds per m2 of window (BP 6.1, EST era benchmark). */
+export const costGlazingSecondary = linearCost(
+  'glazing-secondary-lowe',
+  [],
+  'estimate',
+  '0',
+  '200',
+  windowAreaM2,
+  'window area',
+);
+/** A-rated double glazing: 450 pounds per m2 of window (BP 6.1, EST era benchmark). */
+export const costGlazingDouble = linearCost(
+  'glazing-double-a',
+  [],
+  'estimate',
+  '0',
+  '450',
+  windowAreaM2,
+  'window area',
+);
+/** TRVs plus weather compensation: 350 pounds plus 40 per radiator (BP 6.1). */
+export const costControls = linearCost(
+  'controls-trv-weather-comp',
+  [SAP_10_2_T4],
+  'estimate',
+  '350',
+  '40',
+  radiatorCount,
+  'radiators',
+);
+/** MVHR: 3,500 pounds plus 50 per m2 of floor (BP 6.1, Trade2base). */
+export const costMvhr = linearCost('vent-mvhr', [MVHR_COSTS], 'secondary', '3500', '50', tfaM2, 'floor area');
+
+/** Inverter replacement at year 12 for PV (BP 6.1). */
+export const PV_INVERTER = pounds('1000');
+function pvCost(optionId: string, kWp: number): MeasureCost {
+  return linearCost(optionId, [DESNZ_PV_COSTS], 'secondary', '1000', '1550', () => kWp, 'kWp', {
+    replacements: [{ atYear: 12, cost: PV_INVERTER }],
+  });
+}
+/** PV: 1,000 pounds plus 1,550 per kWp, inverter 1,000 at year 12 (BP 6.1, DESNZ MCS data). */
+export const costPv2 = pvCost('pv-2kwp', 2);
+export const costPv3 = pvCost('pv-3kwp', 3);
+export const costPv4 = pvCost('pv-4kwp', 4);
+
+/** Battery: 1,500 pounds plus 650 per kWh (BP 6.1, DESNZ medians). */
+export const costBattery5 = linearCost(
+  'battery-5kwh',
+  [DESNZ_BATTERY_COSTS],
+  'secondary',
+  '1500',
+  '650',
+  () => 5,
+  'kWh',
+);
+export const costBattery10 = linearCost(
+  'battery-10kwh',
+  [DESNZ_BATTERY_COSTS],
+  'secondary',
+  '1500',
+  '650',
+  () => 10,
+  'kWh',
+);
+
+/** Solar thermal 3 m2: 3,000 pounds plus 700 per m2 of collector (BP 6.1, estimate). */
+export const costSolarThermal = linearCost(
+  'solar-thermal-3m2',
+  [],
+  'estimate',
+  '3000',
+  '700',
+  () => 3,
+  'collector area',
+);
+
+/** Cylinder jacket and pipe lagging: 30 to 150 pounds (BP 6.1, SAP Table 2), central 90. */
+export const costCylinderJacket: MeasureCost = {
+  ...base('cylinder-jacket', [SAP_10_2_T4], 'estimate'),
+  cost(_twin, asOf) {
+    const p = priced(pounds('90'), asOf, 'estimate');
+    const vat = (x: MicroPence) => x + mulDiv(x, p.vatRate.n, p.vatRate.d);
+    return { ...p, lo: vat(pounds('30')), hi: vat(pounds('150')) };
+  },
+};
+
+/** New hot water cylinder as its own sub-option (SPEC 9), 1,600 pounds (ESTIMATE). */
+export const costCylinderNew = fixedCost('cylinder-new', [IBASHO_ESTIMATE], 'estimate', '1600', 'esm');
+/** Induction hob plus gas cap-off: 600 pounds hob, 400 pounds disconnection (ESTIMATE, 20% VAT). */
+export const costHobInduction = fixedCost(
+  'hob-induction-gas-disconnect',
+  [IBASHO_ESTIMATE],
+  'estimate',
+  '1000',
+  'standard',
+);
+/** BS 5250 / BS EN 15026 moisture risk assessment for IWI (`ENG.MOIST.IWI`), 900 pounds (ESTIMATE, 20% VAT). */
+export const costAssessMoisture = fixedCost(
+  'assess-moisture',
+  [IBASHO_ESTIMATE],
+  'estimate',
+  '900',
+  'standard',
+);
+/** PAS 2035 retrofit assessment and coordination (`UK.PAS2035`), 1,000 pounds (ESTIMATE, 20% VAT). */
+export const costAssessPas2035 = fixedCost(
+  'assess-pas2035',
+  [IBASHO_ESTIMATE],
+  'estimate',
+  '1000',
+  'standard',
+);
+/**
+ * Like-for-like gas combi boiler, keyed by the `system` plugin id: the A_cf counterfactual and the
+ * replacement that falls due in the "If nothing is done" run. 3,000 pounds installed (ESTIMATE, 20% VAT).
+ */
+export const costBoilerGasCombi = fixedCost(
+  'gas-combi-condensing',
+  [IBASHO_ESTIMATE],
+  'estimate',
+  '3000',
+  'standard',
+);
+
+/** System replacement costs by `system` plugin id (A_cf, do-nothing replacements). */
+export const UK_SYSTEM_COSTS: readonly MeasureCost[] = [costBoilerGasCombi];
+
 export const UK_MEASURE_COSTS: readonly MeasureCost[] = [
   costLoft270,
   costLoft300,
   costDraught,
   costAshp,
   costAshpRadiatorsPlus,
+  costWallEwi,
+  costWallIwi,
+  costFloor,
+  costGlazingSecondary,
+  costGlazingDouble,
+  costControls,
+  costMvhr,
+  costPv2,
+  costPv3,
+  costPv4,
+  costBattery5,
+  costBattery10,
+  costSolarThermal,
+  costCylinderJacket,
+  costCylinderNew,
+  costHobInduction,
+  costAssessMoisture,
+  costAssessPas2035,
 ];

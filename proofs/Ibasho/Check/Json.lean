@@ -244,6 +244,45 @@ def optB64I64 (j : Json) (k : String) : P (Option (Array Int)) :=
   | some v => do pure (some (← decodeI64 (← str v k)))
   | none => pure none
 
+/-- An exact rational in wire form, `"n"` or `"n/d"` with `d > 0` (TS `Q.toWire`). Digits only,
+an optional leading minus on `n`; not required to be reduced. -/
+def ratWireOf (j : Json) (what : String) : P Rat := do
+  let s ← str j what
+  let digits (t : String) : Bool := !t.isEmpty && t.all Char.isDigit
+  let intOf (t : String) : Option Int :=
+    if t.startsWith "-" then
+      let u := String.ofList (t.toList.drop 1)
+      if digits u then u.toNat?.map fun n => -(n : Int) else none
+    else if digits t then t.toNat?.map Int.ofNat else none
+  match s.splitOn "/" with
+  | [n] => match intOf n with
+    | some n => .ok n
+    | none => .error s!"{what}: bad rational {s}"
+  | [n, d] => match intOf n, (if digits d then d.toNat? else none) with
+    | some n, some d => if d == 0 then .error s!"{what}: zero denominator" else .ok ((n : Rat) / (d : Rat))
+    | _, _ => .error s!"{what}: bad rational {s}"
+  | _ => .error s!"{what}: bad rational {s}"
+
+def ratList (j : Json) (what : String) : P (List Rat) := do
+  (← arr j what).toList.mapM (ratWireOf · what)
+
+def scoreClaim (j : Json) : P ScoreClaim := do
+  let zone ← match ← strField j "zone" with
+    | "uk" => pure Zone.uk
+    | "in" => pure Zone.india
+    | z => throw s!"unknown score zone {z}"
+  let mode ← match ← strField j "mode" with
+    | "burden" => pure AMode.burden
+    | "per-area" => pure AMode.perArea
+    | m => throw s!"unknown score mode {m}"
+  let rows ← (← arr (← field j "rows") "score rows").toList.mapM fun e => do
+    return { row := ← natOf (← field e "row") "row",
+             ind := ← ratList (← field e "indicators") "indicators",
+             sub := ← ratList (← field e "sub") "sub",
+             groups := ← ratList (← field e "groups") "groups",
+             total := ← ratWireOf (← field e "total") "total" : ScoreRow }
+  return { zone, mode, rows }
+
 def options (groups : Array Json) : P (List OptionInfo) := do
   let mut out := []
   for g in groups do
@@ -298,6 +337,8 @@ def cert (j : Json) : P Cert := do
     target := ← target (← field ctx "target")
     rejected := (← (← arr (← field (← field ctx "memory") "rejected") "rejected").toList.mapM
       (str · "rejected"))
+    completed := (← (← arr (← field (← field ctx "memory") "completed") "completed").toList.mapM
+      (str · "completed"))
     region := home.bind fun h => (opt h "region").bind fun r => (str r "region").toOption
     homeFacts := ← match home.bind (opt · "facts") with
       | some f => factTable f "home facts"
@@ -329,6 +370,10 @@ def cert (j : Json) : P Cert := do
       (← arr r "ruleIds").toList.mapM (str · "ruleId")))
     saving := ← optB64I64 claimed "saving"
     carbonAnnual := ← optB64I64 claimed "carbonAnnual"
+    bills := ← optB64I64 claimed "bills"
+    score := ← match opt claimed "score" with
+      | some v => pure (some (← scoreClaim v))
+      | none => pure none
     front := (← decodeU32 (← strField j "front")).toList
     picks := { leastUpfront := ← pick "leastUpfront", bestReturn := ← pick "bestReturn",
                lowestCarbon := ← pick "lowestRunningCarbon" }

@@ -7,8 +7,18 @@
  */
 export { createEngine, type Engine, EngineNotReady, type EngineOptions, NotImplementedYet } from './api.ts';
 export { addBookkeeping, bookkeepingDrafts } from './evidence/index.ts';
+export { addOutcomes, negativesOf, outcomeDrafts } from './evidence/outcomes.ts';
 export * from './finance/index.ts';
+export {
+  DISCOUNT_STEP_PPB,
+  FlipError,
+  type FlipOptions,
+  type FlipParam,
+  flipAt,
+  flips,
+} from './flips/index.ts';
 export * from './pipeline/index.ts';
 export * from './rules/index.ts';
+export * from './score/index.ts';
 export * from './search/index.ts';
 export { type ExposedEngine, exposedEngine, exposeEngine } from './worker.ts';

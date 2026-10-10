@@ -13,7 +13,14 @@ import {
   SEARCH_LIMITS,
   SPEC_HASH,
 } from '@ibasho/spec-gen';
-import { type Decoded, decodeCert, FUEL_NAMES, MalformedError } from './decode.ts';
+import {
+  type Decoded,
+  decodeCert,
+  FUEL_NAMES,
+  MalformedError,
+  type ScoreClaim,
+  type ScoreRow,
+} from './decode.ts';
 import {
   at,
   BUILTIN_TARGET,
@@ -30,6 +37,7 @@ import {
   ST_TARGET_MISS,
   tariffFor,
 } from './derive.ts';
+import { scoreRowOk } from './score.ts';
 
 export interface Verdict {
   check: CertCheckId;
@@ -158,6 +166,18 @@ function chkAcctCarbon(c: Decoded, D: RowD[]): boolean {
   const a = c.carbonAnnual;
   if (a === undefined) return false;
   return a.length === rows(c) && allRows(c, (r) => D[r] !== undefined && at(a, r, 0n) === D[r]!.carbonAnnual);
+}
+const billRowOk = (D: RowD[], b: bigint[], r: number): boolean => {
+  const db = D[r]?.bills;
+  if (db === undefined) return false;
+  for (let i = 0; i < 6; i++) if (at(b, r * 6 + i, 0n) !== at(db, i, 0n)) return false;
+  return true;
+};
+/** `money.bills`: every claimed annual bill is the slab-exact bill of the row's delivered energy. */
+function chkBills(c: Decoded, D: RowD[]): boolean {
+  const b = c.bills;
+  if (b === undefined) return false;
+  return b.length === rows(c) * 6 && allRows(c, (r) => billRowOk(D, b, r));
 }
 const finRowOk = (c: Decoded, D: RowD[], r: number): boolean => {
   const d = D[r];
@@ -292,6 +312,34 @@ function chkPicks(c: Decoded): boolean {
   });
 }
 
+/* Score (Lean `chkScore`, exact rationals). */
+
+/** Lean `displayedRows`: the front and the three picks. */
+const displayedRows = (c: Decoded): number[] => [
+  ...c.front,
+  ...[c.picks.leastUpfront, c.picks.bestReturn, c.picks.lowestCarbon].filter(
+    (x): x is number => x !== undefined,
+  ),
+];
+const scoreRowBad = (c: Decoded, s: ScoreClaim, e: ScoreRow): boolean =>
+  !(e.row < rows(c) && scoreRowOk(s, e));
+/** `score.recompute`: rows in order and in range, every displayed package scored, all exact. */
+function chkScore(c: Decoded, s: ScoreClaim): boolean {
+  return (
+    strictlySorted(s.rows.map((e) => e.row)) &&
+    s.rows.every((e) => !scoreRowBad(c, s, e)) &&
+    displayedRows(c).every((r) => s.rows.some((e) => e.row === r))
+  );
+}
+function scoreVerdicts(c: Decoded): Verdict[] {
+  const s = c.score;
+  if (s === undefined) return [];
+  const bad = s.rows.find((e) => scoreRowBad(c, s, e));
+  const v: Verdict = { check: 'score.recompute', ok: chkScore(c, s) };
+  if (bad !== undefined) v.path = `row/${bad.row}`;
+  return [v];
+}
+
 /** Verdicts of a decoded certificate, in Lean order. */
 export function checkDecoded(c: Decoded): Verdict[] {
   const D = derive(c);
@@ -303,6 +351,7 @@ export function checkDecoded(c: Decoded): Verdict[] {
   });
   const known = KNOWN_SPEC_HASHES.includes(c.specHash);
   const s = c.saving;
+  const b = c.bills;
   return [
     v('spec.known', known, undefined, known ? undefined : `specHash ${c.specHash} is not known`),
     v('packs.wellformed', chkPacks(c, D)),
@@ -320,6 +369,12 @@ export function checkDecoded(c: Decoded): Verdict[] {
       c.carbonAnnual === undefined ? 'claimed.carbonAnnual is missing' : undefined,
     ),
     v(
+      'money.bills',
+      chkBills(c, D),
+      b === undefined ? undefined : firstBad(c, (r) => billRowOk(D, b, r)),
+      b === undefined ? 'claimed.bills is missing' : undefined,
+    ),
+    v(
       'fin.recompute',
       allRows(c, (r) => finRowOk(c, D, r)),
       firstBad(c, (r) => finRowOk(c, D, r)),
@@ -334,13 +389,16 @@ export function checkDecoded(c: Decoded): Verdict[] {
     v('pareto.front', chkFront(c)),
     v('pareto.witness', chkWitness(c)),
     v('pareto.picks', chkPicks(c)),
+    ...scoreVerdicts(c),
   ];
 }
 
-const SKIPPED = CERT_CHECK_IDS.flatMap((id) => {
+const SKIP_REASONS = CERT_CHECK_IDS.flatMap((id) => {
   const reason = CERT_SKIPPED_CHECKS[id];
   return reason === undefined ? [] : [{ check: id, reason }];
 });
+/** Lean `skipped`: the score check is skipped only when the certificate claims no score. */
+const skipped = (c: Decoded) => (c.score === undefined ? SKIP_REASONS : []);
 
 /** Check a certificate (parsed JSON). Never throws: a malformed certificate gives `error`. */
 export function mirrorCheck(cert: unknown): VerdictReport {
@@ -358,7 +416,7 @@ export function mirrorCheck(cert: unknown): VerdictReport {
     specHash: c.specHash,
     rows: rows(c),
     verdicts,
-    skipped: SKIPPED,
+    skipped: skipped(c),
   };
 }
 

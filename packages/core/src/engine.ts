@@ -66,6 +66,32 @@ export interface PackageSpec {
   subOptions?: Record<string, string>;
 }
 
+// ---------------------------------------------------------------------------------------------
+// Owner context: escalation and counterfactual (SF 5.1, DEC SC-F5)
+
+/** Real fuel price escalation scenario `g_f` (SF 5.1: low, central, high). Values come from money packs. */
+export type EscalationScenario = 'low' | 'central' | 'high';
+export const ESCALATION_SCENARIOS: readonly EscalationScenario[] = ['low', 'central', 'high'];
+
+/** Optional `OwnerCtx.escalation`. Absent means 0 ppb per year for every fuel (the M-0 behaviour). */
+export interface EscalationCtx {
+  scenario: EscalationScenario;
+  /** Real escalation per fuel per year in ppb (2% = 20_000_000n). Overrides the scenario's pack values. */
+  ppbPerYear?: Partial<Record<Fuel, bigint>>;
+}
+
+/**
+ * Optional `OwnerCtx.counterfactual` (A_cf, DEC SC-F5). A_cf counts only when the owner
+ * confirms the replacement is due (`replacementDue: 'yes'`); a boiler-age prior may suggest it.
+ */
+export interface CounterfactualCtx {
+  replacementDue: Tri;
+  /** `system` plugin id of the like-for-like replacement (e.g. `gas-combi-condensing`). */
+  systemId?: string;
+  /** Owner-stated cost; else the money pack's cost for `systemId`. */
+  cost?: MicroPence;
+}
+
 export interface OwnerCtx {
   tenure: 'owner' | 'tenant' | 'landlord' | 'leaseholder' | 'unknown';
   /** Real discount rate in ppb (3.5% = 35_000_000n). */
@@ -73,6 +99,10 @@ export interface OwnerCtx {
   horizonYears: number;
   budget?: MicroPence;
   rights?: { roof: Tri; externalWalls: Tri; windows: Tri };
+  /** Fuel price escalation `g_f`. Absent: 0 ppb per year (M-0 behaviour). */
+  escalation?: EscalationCtx;
+  /** Avoided counterfactual replacement A_cf. Absent: none. */
+  counterfactual?: CounterfactualCtx;
 }
 
 /** Picks come from the target set (SPEC R7). */
@@ -400,8 +430,16 @@ export interface ArchetypePlugin extends PluginBase<'archetype'> {
   /** Build a full twin with defaulted fields (each tagged `{ kind: 'default', pluginId }`). */
   seed(input: ArchetypeSeedInput): HomeTwin;
 }
+export type SystemCategory =
+  | 'boiler'
+  | 'heat-pump'
+  | 'direct-electric'
+  | 'ac'
+  | 'geyser'
+  | 'district'
+  | 'other';
 export interface SystemPlugin extends PluginBase<'system'> {
-  category: 'boiler' | 'heat-pump' | 'direct-electric' | 'ac' | 'geyser' | 'district' | 'other';
+  category: SystemCategory;
   fuel: Fuel;
   /** Seasonal efficiency or SCOP central value. */
   efficiency: number;

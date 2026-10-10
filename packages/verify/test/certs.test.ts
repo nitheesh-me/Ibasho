@@ -1,5 +1,6 @@
 /**
- * Golden and M-0 mutant certificates (BUILD_PLAN M0-1 to M0-4, D4 parity). Owner: WP-04.
+ * Golden, scored and mutant certificates (BUILD_PLAN M0-1 to M0-4, SPEC AC-P1 and R20, D4 parity).
+ * Owner: WP-04.
  *
  * The mirror passes the GH1 golden and fails each mutant on its named check. When the Lean
  * checker is built (`cd proofs && lake build ibasho-check`), both checkers must agree on every
@@ -10,7 +11,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { CERT_CHECK_IDS, SPEC_HASH } from '@ibasho/spec-gen';
 import { describe, expect, it } from 'vitest';
 import { exitCode, mirrorCheck, type VerdictReport } from '../src/index.ts';
-import { buildGolden, buildMutant, CERT_DIR, MUTANTS } from './gh1-certs.ts';
+import { buildGolden, buildMutant, buildScored, CERT_DIR, MUTANTS, SCORED_FILE } from './gh1-certs.ts';
 
 const LEAN = '../../proofs/.lake/build/bin/ibasho-check';
 const hasLean = existsSync(LEAN);
@@ -27,7 +28,7 @@ const shape = (r: VerdictReport) => ({
   verdicts: r.verdicts?.map((v) => ({ check: v.check, ok: v.ok, path: v.path })),
   skipped: r.skipped?.map((s) => s.check),
 });
-const FILES = ['gh1-m0.cert.json', ...MUTANTS.map((m) => m.file)];
+const FILES = ['gh1-m0.cert.json', SCORED_FILE, ...MUTANTS.map((m) => m.file)];
 
 describe('GH1 M-0 golden certificate', () => {
   it('passes every check in the mirror (exit 0)', () => {
@@ -45,16 +46,29 @@ describe('GH1 M-0 golden certificate', () => {
   it('the committed golden and mutants equal a fresh engine search plus emit', async () => {
     const golden = await buildGolden();
     expect(read('gh1-m0.cert.json')).toEqual(JSON.parse(JSON.stringify(golden)));
+    expect(read(SCORED_FILE)).toEqual(JSON.parse(JSON.stringify(buildScored(golden))));
     for (const m of MUTANTS)
       expect(read(m.file)).toEqual(JSON.parse(JSON.stringify(buildMutant(golden, m.file))));
   }, 60_000);
 });
 
+describe('scored certificate', () => {
+  it('passes every check, score included, and skips none (exit 0)', () => {
+    const r = mirrorCheck(read(SCORED_FILE));
+    expect(r.verdicts?.filter((v) => !v.ok)).toEqual([]);
+    expect(r.verdicts?.map((v) => v.check)).toEqual([...CERT_CHECK_IDS]);
+    expect(r.skipped).toEqual([]);
+    expect(exitCode(r)).toBe(0);
+  });
+});
+
 describe.each(MUTANTS)('mutant $acceptance ($file)', (m) => {
-  it(`fails ${m.fails} at ${m.path} in the mirror (exit 1)`, () => {
+  it(`fails ${m.fails} at ${m.path ?? 'no row'} in the mirror (exit 1)`, () => {
     const r = mirrorCheck(read(m.file));
     expect(exitCode(r)).toBe(1);
-    expect(r.verdicts?.find((v) => v.check === m.fails)).toMatchObject({ ok: false, path: m.path });
+    const v = r.verdicts?.find((x) => x.check === m.fails);
+    expect(v?.ok).toBe(false);
+    expect(v?.path).toBe(m.path);
   });
 });
 

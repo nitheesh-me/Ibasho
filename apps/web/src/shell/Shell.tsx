@@ -1,13 +1,14 @@
 /**
  * App shell (SPEC 4 layout, DS 1, 11). Owner: WP-08.
  *
- * The top bar (name, the home, the day and night lantern) and the theme. Hiru by default; the
+ * The top bar (name, the way to a home, the day and night lantern) and the theme. The page body
+ * below it is laid out in the DS 4.3 zones by `Zones.tsx`. Hiru by default; the
  * choice is a per-viewer convenience kept in `localStorage` when the browser allows it. Reduced
  * motion follows the system setting and is written to `<html data-motion>` for `@ibasho/ui`.
  */
 import { Glyph } from '@ibasho/ui';
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import { Link, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 
 export type Theme = 'hiru' | 'yoru';
 
@@ -65,10 +66,18 @@ export function Shell({ children }: { children?: ReactNode }) {
           Skip to the page
         </a>
         <header className="ib-top">
-          <Link to="/home/gh1" className="ib-brand" aria-label="Ibasho, home">
+          <Link to="/" className="ib-brand" aria-label="Ibasho, your home">
             <Glyph char="居" className="ib-brand__mark" pad={60} />
             <span className="ib-brand__name">Ibasho</span>
           </Link>
+          <nav className="ib-top__nav" aria-label="Homes">
+            <NavLink to="/home/gh1" className="ib-top__link">
+              Sample home
+            </NavLink>
+            <NavLink to="/start" className="ib-top__link">
+              Draw my home
+            </NavLink>
+          </nav>
           <button
             type="button"
             className="ib-lantern"

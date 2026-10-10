@@ -25,7 +25,8 @@ export type EnginePluginKind =
   | 'epc-proxy'
   | 'calibration'
   | 'search-strategy'
-  | 'importer';
+  | 'importer'
+  | 'maintenance';
 export type UiPluginKind =
   | 'measure-ui'
   | 'narrator'
@@ -61,6 +62,7 @@ export const ENGINE_PLUGIN_KINDS: readonly EnginePluginKind[] = [
   'calibration',
   'search-strategy',
   'importer',
+  'maintenance',
 ];
 export const UI_PLUGIN_KINDS: readonly UiPluginKind[] = [
   'measure-ui',
@@ -97,6 +99,7 @@ export const NUMERIC_PLUGIN_KINDS: ReadonlySet<PluginKind> = new Set<PluginKind>
   'rule-pack',
   'indicator',
   'epc-proxy',
+  'maintenance',
 ]);
 
 export interface PluginBase<K extends PluginKind> {

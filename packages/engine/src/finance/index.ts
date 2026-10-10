@@ -1,9 +1,10 @@
 /**
  * Finance and accounting (SPEC 7.2, SF 5). Owner: WP-02.
+ * M-B: paybacks, IRR (single sign change), the loan annuity and cash-positive flag
+ * (`returns.ts`), fuel escalation and the avoided counterfactual replacement (`owner.ts`).
  * M-0: signed savings and monthly carbon per (fuel, month), lifetime carbon, slab-exact bills
  * through tariff plugins, grants with stacking and expiry, N0, B_t, NPV with replacements and
- * residual value. PLACEHOLDER until M-B: export income, the counterfactual boiler (A_cf), paybacks,
- * IRR, the loan and cash-positive flag, the value range and the landlord ledger.
+ * residual value. PLACEHOLDER: export income (SEG), the value range and the landlord ledger (T4).
  */
 export {
   annualByFuel,
@@ -30,3 +31,31 @@ export {
   lifecycle,
   netUpfront,
 } from './money.ts';
+export {
+  avoidedCost,
+  ESCALATION_DEFAULT_PPB,
+  escalationPpb,
+  HEAT_REPLACING_KINDS,
+  replacesSpaceHeating,
+} from './owner.ts';
+export {
+  annuityMonthly,
+  type DiscountedPayback,
+  discountedPayback,
+  type FlowTerms,
+  flowTerms,
+  IRR_HI_PPB,
+  IRR_LO_PPB,
+  IRR_TOL_PPB,
+  type Irr,
+  irr,
+  type LoanView,
+  loanView,
+  netFlows,
+  npvAt,
+  powBig,
+  ppbToPercent,
+  type SimplePayback,
+  signChanges,
+  simplePayback,
+} from './returns.ts';

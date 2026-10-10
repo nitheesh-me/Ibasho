@@ -8,6 +8,13 @@
  * bit for bit whenever the light twin differs from the heavy twin only on light paths
  * (`isLightPath`), which is the factorisation assumption of ARCH 6.
  *
+ * Climate: `rating` runs on `cfg.ratingClimate` (SAP 10.2 Appendix U, UK average) when given;
+ * the other modes run on `cfg.climate`, which must match the twin's `climatePackId`.
+ * Heat pumps: the systems stage needs the design heat loss of the run's twin and of the home
+ * before the package (`opts.baseTwin`, the emitter sizing basis, BP 3.10 step 3). `simulate` sets
+ * `baseTwin` itself; callers of `runHeavy` and `runLight` pass it (absent means the run's own twin
+ * is the base, which is right for baseline runs only).
+ *
  * Evidence: stages emit drafts with keys unique within one run. The runner namespaces keys per
  * (package, mode) run and assigns ids through the core evidence graph builder
  * (`evidenceId(quantity, subject)`, deterministic). Seals start `unverified`; `verify` decides them.
@@ -25,6 +32,7 @@ import {
   type GainsOut,
   type GeometryOut,
   type HomeTwin,
+  type HourlyClimate,
   type IsoDate,
   type MeasureModel,
   type PackageSpec,
@@ -38,13 +46,9 @@ import {
   type VentOut,
 } from '@ibasho/core';
 import { floatDraft } from '../physics/common.ts';
+import type { HeatLossIn, SystemsInExt } from '../physics/systems.ts';
 import { quantiseWh } from '../physics/delivered.ts';
-import {
-  type GainsInWithHousehold,
-  type Household,
-  household,
-  type SystemsInWithHousehold,
-} from '../physics/household.ts';
+import { type GainsInWithHousehold, type Household, household } from '../physics/household.ts';
 import {
   createDefaultStages,
   PHYSICS_DEFAULTS,
@@ -59,6 +63,8 @@ export class PipelineError extends Error {
 
 export interface PipelineConfig {
   climate: ClimatePack;
+  /** Climate for `rating` mode (SAP 10.2 Appendix U UK average). Absent: `climate`. */
+  ratingClimate?: ClimatePack;
   /** Measure models used to turn a `PackageSpec` into a patch. */
   measures?: readonly MeasureModel[];
   /** System plugins supplying efficiencies the twin does not state. */
@@ -73,7 +79,15 @@ export interface RunOpts {
   asOf: IsoDate;
   /** The package this run belongs to (evidence subject). Absent means `baseline`. */
   pkg?: PackageSpec;
+  /** The home before the package (heat pump emitter basis). Absent: the run's own twin. */
+  baseTwin?: HomeTwin;
 }
+
+/**
+ * A climate pack may also expose its hourly data synchronously (local adapter until core
+ * `ClimatePack` carries it; INTERFACES request). Used for EN 14825 bins and the 5R1C model.
+ */
+export type ClimateWithSyncHourly = ClimatePack & { hourlySync?: () => HourlyClimate };
 
 /** Cached result of the heavy stages for one twin and mode. */
 export interface HeavyRun {
@@ -119,14 +133,20 @@ function prefixFor(opts: RunOpts): string {
   return `${opts.pkg?.id ?? 'baseline'}@${opts.mode}/`;
 }
 
+/** The climate a mode runs on. */
+export function climateFor(mode: RunMode, cfg: PipelineConfig): ClimatePack {
+  return mode === 'rating' && cfg.ratingClimate ? cfg.ratingClimate : cfg.climate;
+}
+
 function ctxFor(twin: HomeTwin, opts: RunOpts, cfg: PipelineConfig): StageCtx {
   if (twin.climatePackId !== cfg.climate.id) {
     throw new PipelineError(
       `twin ${twin.id} wants climate ${twin.climatePackId}, pipeline has ${cfg.climate.id}`,
     );
   }
-  if (cfg.climate.months.length !== 12) throw new PipelineError(`climate ${cfg.climate.id} needs 12 months`);
-  const ctx: StageCtx = { mode: opts.mode, asOf: opts.asOf, climate: cfg.climate, twin };
+  const climate = climateFor(opts.mode, cfg);
+  if (climate.months.length !== 12) throw new PipelineError(`climate ${climate.id} needs 12 months`);
+  const ctx: StageCtx = { mode: opts.mode, asOf: opts.asOf, climate, twin };
   if (opts.pkg) ctx.pkg = opts.pkg;
   return ctx;
 }
@@ -147,6 +167,51 @@ function namespace(
     if (d.key !== undefined) out.key = prefix + d.key;
     return out;
   });
+}
+
+const DESIGN_INDOOR_C = 21;
+
+/** Design heat loss H_d (21 - theta_e,d) in W from fabric and ventilation (BP 3.10 step 1). */
+function designLossW(fabric: FabricOut, vent: VentOut, climate: ClimatePack): number {
+  const hve = Math.max(...vent.hveWK);
+  return (fabric.htrWK + hve) * (DESIGN_INDOOR_C - climate.design.thetaEdC);
+}
+
+const baseLossCache = new WeakMap<PipelineConfig, WeakMap<HomeTwin, number>>();
+
+/**
+ * Design heat loss of a twin on the home's own climate, W (no evidence). Cached per config and
+ * twin object, so the factorised search pays for it once per home.
+ */
+export function designHeatLossW(twin: HomeTwin, cfg: PipelineConfig): number {
+  let byTwin = baseLossCache.get(cfg);
+  if (!byTwin) {
+    byTwin = new WeakMap();
+    baseLossCache.set(cfg, byTwin);
+  }
+  const hit = byTwin.get(twin);
+  if (hit !== undefined) return hit;
+  const st = stagesOf(cfg);
+  const ctx = ctxFor(twin, { mode: 'standard', asOf: '2026-01-01' }, cfg);
+  const geometry = st.geometry.run(twin, ctx).output;
+  const fabric = st.fabric.run(geometry, ctx).output;
+  const vent = st.ventilation.run(geometry, ctx).output;
+  const w = designLossW(fabric, vent, cfg.climate);
+  byTwin.set(twin, w);
+  return w;
+}
+
+function heatLossIn(heavy: HeavyRun, cfg: PipelineConfig, base: HomeTwin): HeatLossIn {
+  const own = cfg.climate as ClimateWithSyncHourly;
+  const out: HeatLossIn = {
+    designLossW: designLossW(heavy.fabric, heavy.vent, cfg.climate),
+    designLossBaseW: designHeatLossW(base, cfg),
+    thetaEdC: cfg.climate.design.thetaEdC,
+    months: cfg.climate.months,
+    volumeM3: heavy.geometry.volumeM3,
+  };
+  if (own.hourlySync) out.hourly = own.hourlySync();
+  return out;
 }
 
 /** Run geometry to dhw on a twin that already carries the heavy part of its package. */
@@ -220,12 +285,13 @@ export function runLight(
     drafts.push(...r.evidence);
     return r.output;
   };
-  const systemsIn: SystemsInWithHousehold = {
+  const systemsIn: SystemsInExt = {
     demand: heavy.demand,
     cooling: heavy.cooling,
     dhw: heavy.dhw,
     systems: lightTwin.systems,
     household: heavy.household,
+    heat: heatLossIn(heavy, cfg, o.baseTwin ?? heavy.opts.baseTwin ?? heavy.twin),
   };
   const systems = take(st.systems.run(systemsIn, ctx));
   const renew = take(
@@ -259,7 +325,7 @@ export function simulate(
   const patch = req.pkg ? packagePatch(req.twin, req.pkg, cfg.measures ?? []) : { set: [] };
   const { heavy: hp, light: lp } = splitPatch(patch);
   const heavyTwin = applyPatch(req.twin, hp);
-  const opts: RunOpts = { mode: req.mode, asOf: req.asOf };
+  const opts: RunOpts = { mode: req.mode, asOf: req.asOf, baseTwin: req.twin };
   if (req.pkg) opts.pkg = req.pkg;
   const heavy = runHeavy(heavyTwin, opts, cfg);
   const light = runLight(heavy, applyPatch(heavyTwin, lp), cfg);

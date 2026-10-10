@@ -5,10 +5,13 @@ import {
   type CarbonPack,
   type CarbonTrajectory,
   compareStrings,
+  type EpcProxy,
+  type FinancePlugin,
   type Fuel,
   type GrantPlugin,
   type HomeTwin,
   type IsoDate,
+  type MaintenancePlugin,
   type MeasureCost,
   type MeasureModel,
   type PluginRegistry,
@@ -32,6 +35,12 @@ export interface SearchEnv {
   grants: readonly GrantPlugin[];
   rulePacks: readonly RulePackPlugin[];
   value?: ValueEvidencePlugin;
+  /** Finance products in force (T1: the loan stub), sorted by id. */
+  finance: readonly FinancePlugin[];
+  /** The `epc-proxy` plugin for the rating band (at most one in force). */
+  epcProxy?: EpcProxy;
+  /** Decay models for the "If nothing is done" run (SPEC 14), sorted by id. */
+  maintenance: readonly MaintenancePlugin[];
   /** Option ids the search may use (all registered options when absent). */
   allowOptions?: readonly string[];
   /** Registry fingerprint of the engine plugins in force (part of the result hash). */
@@ -74,6 +83,10 @@ export function envFromRegistry(
   }
   const values = reg.all('value-evidence', q);
   if (values.length > 1) throw new SearchEnvError(`two value tables for ${where}`);
+  const proxies = reg.all('epc-proxy', q);
+  if (proxies.length > 1) throw new SearchEnvError(`two EPC proxies for ${where}`);
+  const byId = <T extends { id: string }>(xs: readonly T[]) =>
+    [...xs].sort((a, b) => compareStrings(a.id, b.id));
   const env: SearchEnv = {
     pipeline: { climate, measures, systems: reg.all('system', q) },
     measures,
@@ -82,10 +95,13 @@ export function envFromRegistry(
     carbon: one(reg.all('carbon', q), 'carbon', where),
     trajectory: one(reg.all('carbon-trajectory', q), 'carbon-trajectory', where),
     grants: reg.all('grant', q),
-    rulePacks: [...reg.all('rule-pack', q)].sort((a, b) => compareStrings(a.id, b.id)),
+    rulePacks: byId(reg.all('rule-pack', q)),
+    finance: byId(reg.all('finance', q)),
+    maintenance: byId(reg.all('maintenance', q)),
     fingerprint: reg.fingerprint({ side: 'engine' }),
   };
   if (values[0]) env.value = values[0];
+  if (proxies[0]) env.epcProxy = proxies[0];
   if (allowOptions) env.allowOptions = allowOptions;
   return env;
 }

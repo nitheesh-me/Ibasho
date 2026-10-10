@@ -15,7 +15,8 @@ open Ibasho.Check in
   check_sound checkAll_iff chkSpecKnown_sound chkEnum_sound chkAcctSaving_sound
   chkAcctCarbon_sound chkFin_sound chkFeas_class expected_passed chkTarget_feasible
   meets_of_expected feasible_row rules_feasible_sound memory_sound chkTarget_lane
-  chkWitness_witnessed net_cost_nonneg netUpfront_le slabCharge_flat lifetimeCarbonG_zero
+  chkWitness_witnessed chkBills_sound chkScore_sound claimed_score_bounds
+  valid_score_bounds scoreVerdicts_all net_cost_nonneg netUpfront_le slabCharge_flat lifetimeCarbonG_zero
 
 -- Exhaustive sweep over every checker module (helpers and definitions included).
 #audit_modules Ibasho.Check

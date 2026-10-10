@@ -1,7 +1,8 @@
 /**
- * UK heating systems (BP 3.10 table). Owner: WP-01.
- * `efficiency` is the seasonal efficiency (boilers) or the M-0 fixed space SPF (heat pumps), used
- * when a twin's system ref does not state its own.
+ * UK heating systems (BP 3.10 table, SAP 10.2 Tables 4a and 4b). Owner: WP-01.
+ * `efficiency` is the seasonal efficiency, used when a twin's system ref does not state its own.
+ * Heat pumps (`category: 'heat-pump'`) get their seasonal performance from the engine's chain
+ * (EN 14825 bins); their `efficiency` is the BP 3.10 typical retrofit SPF, for display only.
  */
 import type { SystemPlugin } from '@ibasho/core';
 import { BP_6_1 } from './measures/common.ts';
@@ -14,32 +15,44 @@ const SAP_T4 = {
   retrieved: '2026-10-10',
 } as const;
 
-export const gasCombiCondensing: SystemPlugin = {
-  kind: 'system',
-  id: 'gas-combi-condensing',
-  version: '0.1.0',
-  title: 'system.gas-combi-condensing.title',
-  regions: ['GB'],
-  side: 'engine',
-  provenance: { sources: [SAP_T4], lastChecked: '2026-10-11', grade: 'secondary' },
-  category: 'boiler',
-  fuel: 'gas',
-  efficiency: 0.84,
-  efficiencyRange: { lo: 0.8, hi: 0.89 },
-};
+function system(
+  id: string,
+  category: SystemPlugin['category'],
+  fuel: SystemPlugin['fuel'],
+  efficiency: number,
+  lo: number,
+  hi: number,
+  grade: 'secondary' | 'estimate' = 'secondary',
+): SystemPlugin {
+  return {
+    kind: 'system',
+    id,
+    version: '0.2.0',
+    title: `system.${id}.title`,
+    regions: ['GB'],
+    side: 'engine',
+    provenance: { sources: grade === 'secondary' ? [SAP_T4] : [BP_6_1], lastChecked: '2026-10-11', grade },
+    category,
+    fuel,
+    efficiency,
+    efficiencyRange: { lo, hi },
+  };
+}
 
-export const ashpSystem: SystemPlugin = {
-  kind: 'system',
-  id: 'ashp-air-water',
-  version: '0.1.0',
-  title: 'system.ashp-air-water.title',
-  regions: ['GB'],
-  side: 'engine',
-  provenance: { sources: [BP_6_1], lastChecked: '2026-10-11', grade: 'estimate' },
-  category: 'heat-pump',
-  fuel: 'electricity',
-  efficiency: 2.65,
-  efficiencyRange: { lo: 2.5, hi: 3.8 },
-};
+export const gasCombiCondensing = system('gas-combi-condensing', 'boiler', 'gas', 0.84, 0.8, 0.89);
+export const gasRegularCondensing = system('gas-regular-condensing', 'boiler', 'gas', 0.84, 0.8, 0.89);
+export const gasNonCondensing = system('gas-non-condensing', 'boiler', 'gas', 0.7, 0.6, 0.78);
+export const oilBoiler = system('oil-boiler-condensing', 'boiler', 'oil', 0.84, 0.8, 0.89);
+export const directElectric = system('direct-electric', 'direct-electric', 'electricity', 1, 1, 1);
+export const electricImmersion = system('electric-immersion', 'direct-electric', 'electricity', 1, 0.95, 1);
+export const ashpSystem = system('ashp-air-water', 'heat-pump', 'electricity', 2.9, 2.5, 3.8, 'estimate');
 
-export const UK_SYSTEMS: readonly SystemPlugin[] = [gasCombiCondensing, ashpSystem];
+export const UK_SYSTEMS: readonly SystemPlugin[] = [
+  ashpSystem,
+  directElectric,
+  electricImmersion,
+  gasCombiCondensing,
+  gasNonCondensing,
+  gasRegularCondensing,
+  oilBoiler,
+];

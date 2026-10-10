@@ -8,7 +8,7 @@ import { coolingStage } from './cooling.ts';
 import { deliveredStage } from './delivered.ts';
 import { createDhwStage } from './dhw.ts';
 import { createFabricStage } from './fabric.ts';
-import { gainsStage } from './gains.ts';
+import { createGainsStage } from './gains.ts';
 import { geometryStage } from './geometry.ts';
 import { heatBalanceStage } from './heat-balance.ts';
 import { renewablesStage } from './renewables.ts';
@@ -22,23 +22,35 @@ export interface PhysicsDefaults {
   bridgingYWm2K: number;
   /** Cylinder standing loss, kWh/day (BP 3.9 range 0.5 to 1.5; ESTIMATE central 1.0). */
   cylinderLossKWhPerDay: number;
+  /** New factory-insulated heat pump cylinder (about 200 l), kWh/day (ESTIMATE, range 0.9 to 1.6). */
+  newCylinderLossKWhPerDay: number;
+  /** Heat pump field factor f_field (BP 3.10 step 7: 0.90, range 0.80 to 1.0). */
+  hpFieldFactor: number;
 }
 
-export const PHYSICS_DEFAULTS: PhysicsDefaults = { bridgingYWm2K: 0.15, cylinderLossKWhPerDay: 1.0 };
+export const PHYSICS_DEFAULTS: PhysicsDefaults = {
+  bridgingYWm2K: 0.15,
+  cylinderLossKWhPerDay: 1.0,
+  newCylinderLossKWhPerDay: 1.2,
+  hpFieldFactor: 0.9,
+};
 
 export function createDefaultStages(
   defaults: PhysicsDefaults = PHYSICS_DEFAULTS,
   systems: readonly SystemPlugin[] = [],
 ): StageSet {
+  const byId = new Map(systems.map((s) => [s.id, s]));
+  const heatPumpIds = new Set(systems.filter((s) => s.category === 'heat-pump').map((s) => s.id));
+  const dhwDefaults = { ...defaults, heatPumpIds };
   return {
     geometry: geometryStage,
     fabric: createFabricStage(defaults),
     ventilation: ventilationStage,
-    gains: gainsStage,
+    gains: createGainsStage(dhwDefaults),
     'heat-balance': heatBalanceStage,
     cooling: coolingStage,
-    dhw: createDhwStage(defaults),
-    systems: createSystemsStage({ systems: new Map(systems.map((s) => [s.id, s])) }),
+    dhw: createDhwStage(dhwDefaults),
+    systems: createSystemsStage({ systems: byId, hpFieldFactor: defaults.hpFieldFactor }),
     renewables: renewablesStage,
     delivered: deliveredStage,
   };
@@ -46,5 +58,30 @@ export function createDefaultStages(
 
 export { PhysicsError } from './common.ts';
 export { QuantiseError, quantiseWh } from './delivered.ts';
-export { offPeriodReduction, sapControlType } from './heat-balance.ts';
+export { coolingUtilisation, humidityRatio } from './cooling.ts';
+export { type DhwModel, dhwModel } from './dhw.ts';
+export { pumpGainW } from './gains.ts';
+export {
+  gainLossRatio,
+  heatingSchedule,
+  offPeriodReduction,
+  restSetpoint,
+  sapControlType,
+  utilisation,
+} from './heat-balance.ts';
+export {
+  type Bin,
+  BALANCE_C,
+  DEFAULT_FIELD_FACTOR,
+  designFlowC,
+  flowAt,
+  HP_SIZES_KW,
+  type HpChain,
+  heatPumpChain,
+  hpSizeKw,
+  ruhnauCop,
+} from './heat-pump.ts';
+export { MONTH_START_HOUR, normalQuantile, synthesiseHourlyTemps } from './hourly-synth.ts';
 export { type Household, household, sapOccupancy } from './household.ts';
+export { pvBeta, pvPerformanceRatio } from './renewables.ts';
+export { type HeatLossIn, isHeatPump, type SystemsInExt } from './systems.ts';

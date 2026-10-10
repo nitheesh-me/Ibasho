@@ -70,6 +70,69 @@ export const SF_4_2: SourceRef = {
   retrieved: '2026-10-10',
 };
 
+export const EST_SOLID_WALL: SourceRef = {
+  id: 'est-solid-wall',
+  title: 'Energy Saving Trust solid wall insulation costs, EWI and IWI (BP 6.1)',
+  url: 'https://energysavingtrust.org.uk/home-insulation/solid-wall',
+  retrieved: '2026-10-10',
+};
+export const WHICH_FLOOR: SourceRef = {
+  id: 'which-floor-insulation',
+  title: 'Which? floor insulation costs and savings (BP 6.1)',
+  url: 'https://www.which.co.uk/reviews/insulation/article/floor-insulation',
+  retrieved: '2026-10-10',
+};
+export const MVHR_COSTS: SourceRef = {
+  id: 'trade2base-mvhr',
+  title: 'Trade2base, MVHR installation costs UK (BP 6.1)',
+  url: 'https://www.trade2base.com/blog/mvhr-installation-costs-uk',
+  retrieved: '2026-10-10',
+};
+export const DESNZ_PV_COSTS: SourceRef = {
+  id: 'pv-magazine-desnz-mcs',
+  title: 'pv magazine on DESNZ MCS small-scale solar costs FY24/25 (BP 6.1)',
+  url: 'https://www.pv-magazine.com/2025/06/12/uk-small-scale-solar-costs-tumble-as-competition-heats-up-for-installers/',
+  retrieved: '2026-10-10',
+};
+export const DESNZ_BATTERY_COSTS: SourceRef = {
+  id: 'solar-power-portal-desnz-batteries',
+  title: 'Solar Power Portal on DESNZ domestic battery installation costs (BP 6.1)',
+  url: 'https://www.solarpowerportal.co.uk/energy-storage/desnz-over-22-000-domestic-batteries-installed-in-past-year',
+  retrieved: '2026-10-10',
+};
+export const SAP_10_2_T4: SourceRef = {
+  id: 'sap-10-2-t2-t4',
+  title: 'SAP 10.2 Tables 2 and 4e, cylinder insulation and heating controls (BP 6.1)',
+  url: 'https://bregroup.com/sap/sap10',
+  clause: 'Table 2, Table 4e',
+  retrieved: '2026-10-10',
+};
+export const IBASHO_ESTIMATE: SourceRef = {
+  id: 'ibasho-estimate-2026',
+  title: 'Ibasho estimate from installer price ranges, not yet backed by a published survey (R17 badge)',
+  retrieved: '2026-10-11',
+};
+export const RDSAP_10_T32: SourceRef = {
+  id: 'rdsap-10-t32',
+  title: 'RdSAP 10 Table 32 fuel prices and standing charges (via BP 7.1)',
+  url: 'https://bregroup.com/sap/sap10',
+  clause: 'RdSAP 10 Table 32',
+  retrieved: '2026-10-10',
+};
+export const SAP_10_2_RATING: SourceRef = {
+  id: 'sap-10-2-s13',
+  title: 'SAP 10.2 section 13, energy cost rating: ECF = deflator * cost / (TFA + 45) (SF 3.1)',
+  url: 'https://bregroup.com/sap/sap10',
+  clause: 'Section 13',
+  retrieved: '2026-10-10',
+};
+export const WARM_HOMES_LOAN: SourceRef = {
+  id: 'which-warm-homes-plan-loans',
+  title: 'Which?, the Warm Homes Plan explained: low and zero interest loans for green tech (SF 6)',
+  url: 'https://www.which.co.uk/news/article/the-warm-homes-plan-explained-loans-for-green-tech-and-free-insulation-ap3y34T36XPc',
+  retrieved: '2026-10-10',
+};
+
 export function provenance(sources: SourceRef[], grade: Grade): Provenance {
   return { sources, lastChecked: LAST_CHECKED, grade };
 }

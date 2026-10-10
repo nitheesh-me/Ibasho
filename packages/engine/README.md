@@ -12,6 +12,7 @@ Worker API, pipeline runner, physics stages, rules evaluator, search, finance, e
 - `createEngine({ modules, plugins?, allowOptions?, sliceMs?, keepResults? })` gives an `Engine` (an `EngineApi` plus `registry` and `stateOf(hash)`). Node callers (tests, `pnpm m0`, the CI proxy) use it directly.
 - `exposeEngine(endpoint, opts)` exposes the engine through Comlink. The app's worker file calls it with the engine half of its module manifest. On the main thread, wrap `onProgress` in `Comlink.proxy`; `search` returns a proxied `{ jobId, result }` (read with `await r.jobId`, `await r.result`).
 - `M0_OPTION_IDS` restricts the search to the walking skeleton: loft 300, draught-proofing, ASHP, so 8 packages.
+- M-B methods: `flips(hash, 'price.gas' | 'price.electricity' | 'discount')` (every crossing), `doNothing(req)` ("If nothing is done", SPEC 14) and `negatives(hash, ids)` (lazy). `SearchResult.negatives` covers the baseline, front and picks.
 - Search, finance, Pareto and wire helpers are exported for the verify mirror and tests: `runSearch`, `planGroups`, `paretoFront`, `witnesses`, `picks`, `dominates`, `bills`, `cashFlows`, `applyGrants`, `carbonSavingG`, `lifetimeCarbonG`, `emitCertificate`, `decodeI64`, `decodeU32`, `decodeU8`.
 
 ## How a search runs (M-0)
@@ -26,13 +27,25 @@ Worker API, pipeline runner, physics stages, rules evaluator, search, finance, e
 
 The search runs in about 20 ms slices and checks for `cancel` between them.
 
+## M-B outputs for shown packages
+
+For the baseline, front and picks (and on demand for any other package), next to the bookkeeping nodes:
+
+- **Finance** (`src/finance/returns.ts`, `owner.ts`): `fin.payback_simple` (exact N0 / B_1, immediate or never), `fin.payback_discounted`, `fin.irr` (only on one sign change, integer bisection in ppb, else `n/a`), `fin.loan_monthly` and `fin.cash_positive_m1` (exact annuity with the `finance` plugin), escalation from `owner.escalation` (SF 5.1 scenario defaults, PLACEHOLDER until a pack kind holds them), A_cf from `owner.counterfactual` (only when confirmed and the package replaces the space heating).
+- **Score** (`src/score/`): exact rationals with weights, groups, anchors, R target and T caps from `@ibasho/spec-gen` (Lean `Score.lean` term for term), inputs from the standard run quantised to milli-units, A per m2 at `prices/reference-v1` (PLACEHOLDER in `reference.ts` until spec-gen exports it). T needs 5R1C comfort (WP-01): until then T, the comfort group and the total are ranges. Nodes `score.sub.<d>`, `score.group.<g>`, `score.total`, `score.delta`.
+- **EPC band** from the rating run through `epc-proxy` (money-uk `sapFor` with floor area): `epc.sap_est`, `epc.band_est` with one band either side. The `epc-band-at-least` target uses the central band.
+- **Negatives** (`src/evidence/outcomes.ts`, SPEC 14, AC-B3): fuel rise, bill rise per fuel, negative B_1 or NPV, no payback, carbon rise, score fall, band fall, rule-raised risks (moisture, noise, overheating, fire, structural). Each holds evidence ids only.
+- **Flips** (`src/flips/`): bookkeeping-only reruns on an integer grid (0.001 p/kWh, 0.001 percentage points) plus each row's break-even price, split by integer bisection; a price move shifts every slab equally.
+- **"If nothing is done"** (`src/search/do-nothing.ts`): ages the twin with the `maintenance` plugins (SPEC 7.4 recurrence on milli-units), runs the pipeline per year, bills with escalation, carbon with the trajectory, replacements at end of life from the money pack; every value is a node whose inputs reach the decay model's sources.
+
 ## Status
 
 Done at M-0: search over 8 packages (18 with every M-0 option), fixed-point savings, monthly carbon, N0, NPV, front, witnesses, picks, needs-check lane, certificate input, `api.ts`, `worker.ts` (Comlink), lazy evidence, `packages/fixtures/src/results/gh1-m0.search.json`.
 
 PLACEHOLDER (marked in code), by milestone:
 
-- M-B: score (exact Q from spec-gen) and groups, EPC band and the band target, uncertainty (LHS 200), flips, export income, paybacks, IRR, loan and cash-positive flag, the counterfactual boiler, value range in results, obligations re-keying heavy runs, branch and bound above the R9 limits, the real-scale `gh1.search.json`.
+- Done at M-B (this pass): score and groups, EPC band and the band target, flips, paybacks, IRR, loan and cash-positive flag, escalation, A_cf, negatives, "If nothing is done".
+- Still M-B: uncertainty (LHS 200), export income (SEG), value range nodes, obligations re-keying heavy runs, branch and bound above the R9 limits, the real-scale `gh1.search.json` (needs every SPEC 9 measure from WP-01), disruption negatives (needs measure fields), renewable fraction from PV yield (needs `SimResult` PV fields), a do-nothing replacement resetting the decayed efficiency.
 - `calibrate` and `valueOfInformation` (WP-01) and `noise` (WP-03) throw `NotImplementedYet`.
 
 Commands: `pnpm --filter @ibasho/engine typecheck`, `pnpm --filter @ibasho/engine test`, `pnpm --filter @ibasho/engine gen:results` (rewrite the results fixture after a deliberate engine or pack change; a test fails on drift).

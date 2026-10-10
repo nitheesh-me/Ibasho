@@ -89,6 +89,11 @@ Proofs:
 - Boiler Upgrade Scheme (Ofgem, GOV.UK): grants.
 - Energy Saving Trust and Which?: typical measure costs and savings.
 - MCS 020 a): heat pump noise assessment.
+- GPDO 2015 Schedule 2 and SI 2025/560 (legislation.gov.uk, Open Government Licence): permitted development rules in `packs/rules-uk`.
+- Approved Documents L and F (DLUHC, Open Government Licence): renovation U-values and the AD F Diagram 3.1 ventilation categories.
+- ENA Engineering Recommendations G98 and G99: grid export thresholds. Energy Efficiency (Private Rented Property) Regulations 2015 and the January 2026 MEES response: rental rules.
+- Oxford City Council, Wyre Forest DC, Cornwall Council and Croydon Council householder guidance: secondary sources for heat pump, solar and wall insulation limbs.
+- Eco Niwas Samhita 2018 and 2024 (BEE): RETV coefficients for `ens_retv`.
 - Historic England, TrustMark PAS 2035: retrofit guidance.
 - Nationwide (2026) house price and EPC study: value evidence.
 

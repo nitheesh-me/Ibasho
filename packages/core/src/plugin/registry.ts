@@ -7,6 +7,8 @@
  */
 import { NAMED_FNS } from '@ibasho/spec-gen';
 import { compareStrings, isIsoDate, isSemVer, regionContains } from '../common.ts';
+import { Q } from '../exact/q.ts';
+import type { MaintenancePlugin } from '../maintenance.ts';
 import { exprFns } from '../rules.ts';
 import { sha256Hex } from '../sha256.ts';
 import type { AnyPlugin, ModuleRef, PluginOf, PluginRegistry } from './kind-map.ts';
@@ -21,7 +23,8 @@ export type RegistryCheck =
   | 'visual-layers'
   | 'rule-packs'
   | 'measure-ids'
-  | 'side';
+  | 'side'
+  | 'maintenance';
 
 export interface RegistryIssue {
   pluginId: string;
@@ -114,6 +117,10 @@ export function checkPlugin(p: AnyPlugin, opts: RegistryOptions = {}): RegistryI
       add('visual-layers', 'encodes numbers but has no evidenceAt (AC-15)');
   }
 
+  if (p.kind === 'maintenance') {
+    for (const m of checkMaintenance(p)) add('maintenance', m);
+  }
+
   if (p.kind === 'rule-pack') {
     const known = new Set(opts.namedFns ?? NAMED_FNS);
     const seen = new Set<string>();
@@ -131,6 +138,33 @@ export function checkPlugin(p: AnyPlugin, opts: RegistryOptions = {}): RegistryI
     }
   }
   return issues;
+}
+
+/** Shape checks for a decay model (SPEC 14): ordered ranges, twin pointers, a target. */
+export function checkMaintenance(p: MaintenancePlugin): string[] {
+  const out: string[] = [];
+  const t = p.ages;
+  if (t.kind === 'measure' ? !t.measureId : !t.category) out.push('ages names no measure or system');
+  if (p.effects.length === 0 && p.endOfLife === undefined) out.push('no effects and no end of life');
+  for (const e of p.effects) {
+    if (!e.param.startsWith('/')) out.push(`param ${e.param} is not a JSON Pointer`);
+    if (e.onsetYears !== undefined && !(Number.isInteger(e.onsetYears) && e.onsetYears >= 0)) {
+      out.push(`${e.param}: onsetYears ${e.onsetYears} is not a whole number of years`);
+    }
+    const ordered =
+      e.rate.form === 'relative'
+        ? e.rate.ppbPerYear.lo <= e.rate.ppbPerYear.mid && e.rate.ppbPerYear.mid <= e.rate.ppbPerYear.hi
+        : Q.le(e.rate.perYear.lo, e.rate.perYear.mid) && Q.le(e.rate.perYear.mid, e.rate.perYear.hi);
+    if (!ordered) out.push(`${e.param}: rate range is not lo <= mid <= hi`);
+    if (e.clamp?.min !== undefined && e.clamp.max !== undefined && Q.lt(e.clamp.max, e.clamp.min)) {
+      out.push(`${e.param}: clamp min is above max`);
+    }
+  }
+  const eol = p.endOfLife?.ageYears;
+  if (eol && !(eol.lo > 0 && eol.lo <= eol.mid && eol.mid <= eol.hi)) {
+    out.push('endOfLife.ageYears is not 0 < lo <= mid <= hi');
+  }
+  return out;
 }
 
 export class FingerprintMismatchError extends Error {

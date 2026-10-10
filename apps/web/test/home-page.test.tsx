@@ -25,7 +25,7 @@ afterAll(() => {
 
 describe('/app/home/gh1', () => {
   it('shows the house, at least three Num chips, one Checked seal and the claim', async () => {
-    const router = createMemoryRouter(routes, { initialEntries: ['/'] });
+    const router = createMemoryRouter(routes, { initialEntries: ['/home/gh1'] });
     const { container } = render(
       <ServicesContext.Provider value={services}>
         <RouterProvider router={router} />

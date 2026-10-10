@@ -1,14 +1,13 @@
 /**
  * Engine module of pack `climate` (ARCH 4.1). Owner: WP-01.
- * M-0: London only. Manchester, Edinburgh, Hyderabad, Mumbai, Delhi, SAP Appendix U (rating mode)
- * and the London TMY arrive at M-A.
+ * Six city packs (London with the PVGIS TMY) and the SAP 10.2 Appendix U `rating` climate.
  */
 import type { IbashoModule } from '@ibasho/core';
-import { londonClimate } from './london.ts';
+import { CLIMATE_PACKS } from './packs.ts';
 
 const climateEngineModule: IbashoModule = {
   id: 'pack-climate/engine',
-  load: () => [londonClimate],
+  load: () => [...CLIMATE_PACKS],
 };
 
 export default climateEngineModule;

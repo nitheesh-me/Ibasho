@@ -11,6 +11,9 @@
  * 6. front, witnesses, picks and the needs-check lane;
  * 7. eager evidence for the baseline, front and picks, and the certificate.
  *
+ * M-B: the EPC band target (rating proxy), and for shown packages (baseline, front, picks)
+ * paybacks, IRR, loan, score, estimated band, risks and the negatives list (SPEC 14).
+ *
  * The pipeline runner (WP-01) owns stage order and quantisation; this file only calls it.
  * Obligations returned by rules are recorded but not yet applied (PLACEHOLDER until M-B: an
  * obligation re-keys the heavy run, ARCH 6 step 4); no M-0 rule obliges anything.
@@ -25,6 +28,7 @@ import {
   type FuelMonthly,
   type HomeTwin,
   type MeasureModel,
+  type NegativesByPackage,
   PACKAGE_STATUS,
   type PackageSpec,
   type PackageTable,
@@ -38,6 +42,7 @@ import {
 } from '@ibasho/core';
 import { SPEC_HASH } from '@ibasho/spec-gen';
 import { addBookkeeping } from '../evidence/index.ts';
+import { addOutcomes, negativesOf } from '../evidence/outcomes.ts';
 import { bills } from '../finance/index.ts';
 import {
   applyPatch,
@@ -45,13 +50,16 @@ import {
   packagePatch,
   runHeavy,
   runLight,
+  type SimRun,
   simulate,
   splitPatch,
 } from '../pipeline/index.ts';
 import { evaluateRules, homeFacts, moneyFact, ownerFacts, packageFacts } from '../rules/index.ts';
+import { bandRank, type EpcEstimate, type EpcProxyLike, epcEstimate } from '../score/index.ts';
 import { type BookkeepCtx, bookkeep, type RowMoney } from './bookkeeping.ts';
 import { emitCertificate, flatFuelMonth } from './certificate.ts';
 import type { SearchEnv } from './env.ts';
+import { type RowExtras, rowExtras } from './extras.ts';
 import { picks as choosePicks, NO_WITNESS, type Outcome, paretoFront, witnesses } from './pareto.ts';
 import { BASELINE_ID, type GroupPlan, NONE, packageId, planGroups, rowPackage } from './plan.ts';
 import type { Slicer } from './slicer.ts';
@@ -71,6 +79,10 @@ export interface SearchState {
   plan: GroupPlan;
   rows: PackageSpec[];
   money: RowMoney[];
+  /** Estimated EPC band per row (rating run), when an `epc-proxy` plugin is in force. */
+  epc: (EpcEstimate | undefined)[];
+  /** Outcomes of shown packages, by row (filled lazily for others). */
+  extras: Map<number, RowExtras>;
   result: SearchResult;
 }
 
@@ -85,18 +97,26 @@ function rejectedBy(p: PackageSpec, rejected: readonly string[], modelOf: Readon
   return packageOptionIds(p).some((o) => rejected.includes(o) || rejected.includes(modelOf.get(o)?.id ?? ''));
 }
 
-function meetsTarget(req: SearchRequest, m: RowMoney): boolean {
+/**
+ * Target test (SPEC R7). The band target needs the lower end of the estimated band (central band
+ * minus one until AC-R1 passes) to reach the target band, so the one-band uncertainty can never
+ * pass a package (no "compliant" label, SPEC 8).
+ */
+export function meetsTarget(
+  target: SearchRequest['target'],
+  m: Pick<RowMoney, 'flows' | 'carbonAnnualG'>,
+  epc?: EpcEstimate,
+): boolean {
   const saves = (m.flows.b[0] ?? 0n) > 0n;
   const cuts = m.carbonAnnualG > 0n;
-  const t = req.target;
-  switch (t.kind) {
+  switch (target.kind) {
     case 'default':
       return saves && cuts;
     case 'custom':
-      return (!t.saveMoneyYear1 || saves) && (!t.cutRunningCarbon || cuts);
+      return (!target.saveMoneyYear1 || saves) && (!target.cutRunningCarbon || cuts);
     case 'epc-band-at-least':
-      // PLACEHOLDER until M-B: needs the `epc-proxy/rating` plugin (SPEC R3). Refuse, never guess.
-      throw new SearchError('the EPC band target needs the rating proxy, which lands at M-B');
+      if (!epc) throw new SearchError('the EPC band target needs an epc-proxy plugin for this region');
+      return bandRank(epc.lo) >= bandRank(target.band);
   }
 }
 
@@ -199,6 +219,17 @@ export async function runSearch(
     await slicer.tick();
   }
 
+  // Estimated EPC band per row from its rating run and its heavy key's floor area.
+  const epc: (EpcEstimate | undefined)[] = rows.map((_, r) =>
+    env.epcProxy
+      ? epcEstimate(
+          env.epcProxy as EpcProxyLike,
+          results[r]!.rating,
+          heavyRuns.rating[heavyIdx[r]!]!.geometry.tfaM2,
+        )
+      : undefined,
+  );
+
   // 4. Rules, memory and target.
   const rules = env.rulePacks.flatMap((p) => p.rules);
   const home = homeFacts(twin);
@@ -239,7 +270,7 @@ export async function runSearch(
     ]);
     const rejected = rejectedBy(p, req.memory.rejected, plan.modelOf);
     if (rejected) why.add(BUILTIN_MEMORY);
-    const meets = meetsTarget(req, m);
+    const meets = meetsTarget(req.target, m, epc[r]);
     targetMet.push(meets);
     let s: number;
     if (rejected || f.status === 'blocked') s = PACKAGE_STATUS.blocked;
@@ -354,8 +385,18 @@ export async function runSearch(
     ]),
   ];
   const builder = createEvidenceGraphBuilder();
+  const extras = new Map<number, RowExtras>();
+  const negatives: NegativesByPackage = {};
+  const shown = { req, env, rows, money, results, extras, ruleIds };
   for (const r of eagerRows) {
-    addPackageEvidence(builder, { req, env, rows, money, results }, r);
+    addPackageEvidence(builder, shown, r);
+    negatives[rows[r]!.id] = negativesOf(
+      builder,
+      rows[r]!.id,
+      money[r]!,
+      extras.get(r)!,
+      extras.get(baselineRow),
+    );
     progress('evidence', builder.size, builder.size);
     await slicer.tick();
   }
@@ -372,13 +413,16 @@ export async function runSearch(
     needsCheck,
     graph,
     certificate,
+    negatives,
   };
-  return { req, env, plan, rows, money, result };
+  return { req, env, plan, rows, money, epc, extras, result };
 }
 
 /**
- * Physics (all modes, from a full `simulate`) and bookkeeping evidence for one row. The full run is
- * compared with the factorised one: a mismatch means the factorisation assumption broke (AC-7).
+ * Physics (all modes, from a full `simulate`), bookkeeping and outcome evidence for one row. The
+ * full run is compared with the factorised one: a mismatch means the factorisation assumption
+ * broke (AC-7). Outcomes (paybacks, IRR, loan, score, band, risks) are computed here once per row
+ * and kept in `s.extras`; the baseline row must be added first so deltas can point at it.
  */
 export function addPackageEvidence(
   builder: ReturnType<typeof createEvidenceGraphBuilder>,
@@ -388,10 +432,13 @@ export function addPackageEvidence(
     rows: readonly PackageSpec[];
     money: readonly RowMoney[];
     results?: readonly Record<RunMode, SimResult>[];
+    extras: Map<number, RowExtras>;
+    ruleIds: readonly (readonly string[])[];
   },
   r: number,
 ): void {
   const pkg = s.rows[r]!;
+  const runs: Partial<Record<RunMode, SimRun>> = {};
   for (const mode of RUN_MODES) {
     const run = simulate(
       { twin: s.req.twin, mode, asOf: s.req.asOf, ...(pkg.id === BASELINE_ID ? {} : { pkg }) },
@@ -401,7 +448,25 @@ export function addPackageEvidence(
     if (expected && canonicalJson(expected.deliveredWh) !== canonicalJson(run.result.deliveredWh)) {
       throw new SearchError(`light path differs from full simulation for ${pkg.id} in ${mode}`);
     }
+    runs[mode] = run;
     builder.addDrafts(run.drafts);
   }
   addBookkeeping(builder, s.req.twin.id, pkg.id, s.money[r]!);
+  let x = s.extras.get(r);
+  if (!x) {
+    const fullTwin =
+      pkg.id === BASELINE_ID
+        ? s.req.twin
+        : applyPatch(s.req.twin, packagePatch(s.req.twin, pkg, s.env.measures));
+    x = rowExtras({
+      env: s.env,
+      money: s.money[r]!,
+      discountRatePpb: s.req.owner.discountRatePpb,
+      runs,
+      twin: fullTwin,
+      ruleIds: s.ruleIds[r] ?? [],
+    });
+    s.extras.set(r, x);
+  }
+  addOutcomes(builder, s.req.twin.id, pkg.id, s.money[r]!, x, s.extras.get(0));
 }

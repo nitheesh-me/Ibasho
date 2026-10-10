@@ -26,7 +26,7 @@ import {
 } from '../../../packages/engine/src/pipeline/index.ts';
 import gh1Json from '../../../packages/fixtures/src/homes/gh1.twin.json' with { type: 'json' };
 import { londonClimate } from '../../../packs/climate/src/engine/index.ts';
-import { homeUkEngineModule, M0_MEASURES, UK_SYSTEMS } from '../src/engine/index.ts';
+import { homeUkEngineModule, M0_MEASURES, UK_MEASURES, UK_SYSTEMS } from '../src/engine/index.ts';
 import { GROUPS, MEASURES } from '../src/ids.ts';
 
 const twin: HomeTwin = parseTwin(gh1Json);
@@ -52,9 +52,9 @@ describe('GH1 fixture and pack wiring', () => {
   it('the home-uk engine module registers cleanly once every option is costed', async () => {
     const plugins = await homeUkEngineModule.load();
     // Costs come from money-uk (WP-02). Without them the registry rejects the join (ARCH 5.2).
-    expect(() => createRegistry().registerAll(plugins)).toThrow(/heat-ashp has no measure-cost/);
-    // Test-local adapter: one zero cost per M-0 option, standing in for money-uk.
-    const costs: MeasureCost[] = M0_MEASURES.flatMap((m) =>
+    expect(() => createRegistry().registerAll(plugins)).toThrow(/has no measure-cost/);
+    // Test-local adapter: one zero cost per option, standing in for money-uk.
+    const costs: MeasureCost[] = UK_MEASURES.flatMap((m) =>
       m.options.map((o) => ({
         kind: 'measure-cost' as const,
         id: `test-cost-${o.id}`,
@@ -73,8 +73,9 @@ describe('GH1 fixture and pack wiring', () => {
     );
     const reg = createRegistry();
     reg.registerAll([...plugins, ...costs]);
-    expect(reg.all('measure').map((m) => m.id)).toEqual(['ashp', 'draught', 'loft']);
-    expect(reg.all('system').map((s) => s.id)).toEqual(['ashp-air-water', 'gas-combi-condensing']);
+    expect(reg.all('measure')).toHaveLength(16);
+    expect(reg.all('system').map((s) => s.id)).toContain('gas-combi-condensing');
+    expect(reg.all('maintenance').map((m) => m.id)).toEqual(['maint-draught', 'maint-gas-boiler', 'maint-heat-pump']);
   });
 
   it('measure models follow the frozen ids', () => {
@@ -178,7 +179,7 @@ describe('light path (factorised search, ARCH 6)', () => {
         // Factorised: heavy key from the heavy part, then the light part on the cached heavy run.
         const { heavy, light } = splitPatch(packagePatch(twin, p, M0_MEASURES));
         const heavyTwin = applyPatch(twin, heavy);
-        const h = runHeavy(heavyTwin, { mode, asOf, pkg: p }, cfg);
+        const h = runHeavy(heavyTwin, { mode, asOf, pkg: p, baseTwin: twin }, cfg);
         const viaLight = runLight(h, applyPatch(heavyTwin, light), cfg).result;
         expect(viaLight).toEqual(full);
       }

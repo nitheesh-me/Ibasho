@@ -26,6 +26,7 @@ import type {
   ThermalModel,
   ValueEvidencePlugin,
 } from '../engine.ts';
+import type { MaintenancePlugin } from '../maintenance.ts';
 import type {
   CheckerRung,
   ExporterPlugin,
@@ -60,6 +61,7 @@ export interface PluginKindMap {
   calibration: CalibrationPlugin;
   'search-strategy': SearchStrategy;
   importer: ImporterPlugin;
+  maintenance: MaintenancePlugin;
   'measure-ui': MeasureUi;
   narrator: NarratorPlugin;
   'template-pack': TemplatePackPlugin;

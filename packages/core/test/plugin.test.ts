@@ -307,7 +307,7 @@ describe('cross-plugin checks', () => {
 describe('plugin kinds', () => {
   it('lists every kind once', () => {
     expect(new Set(PLUGIN_KINDS).size).toBe(PLUGIN_KINDS.length);
-    expect(PLUGIN_KINDS.length).toBe(31);
+    expect(PLUGIN_KINDS.length).toBe(32);
   });
   it('grades that need a badge (R17)', () => {
     expect(gradeNeedsBadge('estimate')).toBe(true);

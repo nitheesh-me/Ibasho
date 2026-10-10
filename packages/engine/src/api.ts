@@ -6,9 +6,11 @@
  * registers them as one batch and checks the shared fingerprint against the main thread's
  * (ARCH 4.1 boot, DEC TE-6).
  *
- * M-0 implements `init`, `simulate`, `search` (sliced, cancellable, with progress), `cancel` and
- * `evidence`. The rest throw `NotImplementedYet` naming the milestone (PLACEHOLDER): `uncertainty`,
- * `flips` (M-B, WP-02), `calibrate`, `valueOfInformation` (M-A/M-D, WP-01), `noise` (M-B, WP-03).
+ * Implemented: `init`, `simulate`, `search` (sliced, cancellable, with progress), `cancel`,
+ * `evidence` (eager and lazy), `flips` (every crossing), `doNothing` ("If nothing is done",
+ * SPEC 14) and `negatives` (lazy, for packages outside `SearchResult.negatives`). The rest throw
+ * `NotImplementedYet` naming the milestone (PLACEHOLDER): `uncertainty` (M-B, WP-02),
+ * `calibrate`, `valueOfInformation` (M-A/M-D, WP-01), `noise` (M-B, WP-03).
  */
 import {
   type AnyPlugin,
@@ -21,11 +23,16 @@ import {
   indexGraph,
   type KernelRegistry,
   type ModuleRef,
+  type Negative,
+  type NegativesByPackage,
   RUN_MODES,
   type SearchRequest,
   type SearchResult,
 } from '@ibasho/core';
+import { negativesOf } from './evidence/outcomes.ts';
+import { flips as flipsOf } from './flips/index.ts';
 import { simulateBundle } from './pipeline/index.ts';
+import { runDoNothing } from './search/do-nothing.ts';
 import { envFromRegistry } from './search/env.ts';
 import { addPackageEvidence, runSearch, type SearchState } from './search/run.ts';
 import { Slicer } from './search/slicer.ts';
@@ -64,7 +71,7 @@ export function createEngine(opts: EngineOptions = {}): Engine {
   const cancelled = new Set<string>();
   const states = new Map<string, SearchState>();
   const keep = opts.keepResults ?? 4;
-  const lazyGraphs = new Map<string, Map<string, EvidenceNode[]>>();
+  const lazyGraphs = new Map<string, Map<string, { nodes: EvidenceNode[]; negatives: Negative[] }>>();
 
   const need = () => {
     if (!ready) throw new EngineNotReady('call init() first');
@@ -79,7 +86,10 @@ export function createEngine(opts: EngineOptions = {}): Engine {
     }
   };
 
-  const packageNodes = (s: SearchState, packageId: string): EvidenceNode[] => {
+  const packageLazy = (
+    s: SearchState,
+    packageId: string,
+  ): { nodes: EvidenceNode[]; negatives: Negative[] } => {
     let perHash = lazyGraphs.get(s.result.hash);
     if (!perHash) {
       perHash = new Map();
@@ -90,11 +100,20 @@ export function createEngine(opts: EngineOptions = {}): Engine {
     const r = s.rows.findIndex((p) => p.id === packageId);
     if (r < 0) throw new RangeError(`no package ${packageId} in result ${s.result.hash}`);
     const builder = createEvidenceGraphBuilder();
-    addPackageEvidence(builder, s, 0);
-    if (r !== 0) addPackageEvidence(builder, s, r);
+    const ctx = { ...s, ruleIds: s.result.packages.ruleIds };
+    addPackageEvidence(builder, ctx, 0);
+    if (r !== 0) addPackageEvidence(builder, ctx, r);
+    const negatives = negativesOf(builder, packageId, s.money[r]!, s.extras.get(r)!, s.extras.get(0));
     const nodes = builder.build().nodes.filter((n) => n.subject.packageId === packageId);
-    perHash.set(packageId, nodes);
-    return nodes;
+    const out = { nodes, negatives };
+    perHash.set(packageId, out);
+    return out;
+  };
+  const packageNodes = (s: SearchState, packageId: string): EvidenceNode[] => packageLazy(s, packageId).nodes;
+  const stateOrThrow = (resultHash: string): SearchState => {
+    const s = states.get(resultHash);
+    if (!s) throw new RangeError(`no result ${resultHash} in this worker (it may have been evicted)`);
+    return s;
   };
 
   const engine: Engine = {
@@ -154,7 +173,7 @@ export function createEngine(opts: EngineOptions = {}): Engine {
       if (!s) throw new RangeError(`no result ${resultHash} in this worker (it may have been evicted)`);
       if (Array.isArray(ids)) {
         const idx = indexGraph(s.result.graph);
-        const lazy = [...(lazyGraphs.get(resultHash)?.values() ?? [])].flat();
+        const lazy = [...(lazyGraphs.get(resultHash)?.values() ?? [])].flatMap((x) => x.nodes);
         const byId = new Map(lazy.map((n) => [n.id, n]));
         return ids.flatMap((id: EvidenceId) => idx.get(id) ?? byId.get(id) ?? []);
       }
@@ -173,8 +192,18 @@ export function createEngine(opts: EngineOptions = {}): Engine {
     async valueOfInformation() {
       throw new NotImplementedYet('value of information lands at M-D (WP-01)');
     },
-    async flips() {
-      throw new NotImplementedYet('flip points land at M-B (WP-02)');
+    async flips(resultHash, param) {
+      return flipsOf(stateOrThrow(resultHash), param);
+    },
+    async doNothing(req) {
+      need();
+      return runDoNothing(req, envFromRegistry(registry, req.twin, req.asOf, opts.allowOptions));
+    },
+    async negatives(resultHash, packageIds) {
+      const s = stateOrThrow(resultHash);
+      const out: NegativesByPackage = {};
+      for (const id of packageIds) out[id] = s.result.negatives?.[id] ?? packageLazy(s, id).negatives;
+      return out;
     },
     async noise() {
       throw new NotImplementedYet('the noise rule lands at M-B (WP-03)');

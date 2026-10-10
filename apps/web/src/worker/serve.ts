@@ -15,9 +15,9 @@ import {
   homeFacts,
   M0_OPTION_IDS,
 } from '@ibasho/engine';
+import { MEASURES, measureOfOption } from '@ibasho/pack-home-uk/ids';
 import { emit, mirrorCheck, type VerdictReport } from '@ibasho/verify';
 import * as Comlink from 'comlink';
-import { MEASURES, measureOfOption } from '@ibasho/pack-home-uk/ids';
 
 export interface VerifyOutcome {
   rung: 'mirror';

@@ -1,0 +1,45 @@
+{
+  "schema": "ibasho.validation/1",
+  "id": "hp-field-spf",
+  "title": "Air source heat pump field SPF: Electrification of Heat and HeatpumpMonitor.org",
+  "grade": "secondary",
+  "dataDate": "2023-2026",
+  "retrieved": "2026-10-11",
+  "status": "ready",
+  "sources": [
+    {
+      "title": "Heat Pump Association summary of the Electrification of Heat demonstration final results",
+      "url": "https://hpauk.org.uk/?p=273"
+    },
+    {
+      "title": "HeatpumpMonitor.org public system list and last-365-day statistics (OpenEnergyMonitor)",
+      "url": "https://heatpumpmonitor.org/system/stats/last365"
+    }
+  ],
+  "data": {
+    "electrificationOfHeat": {
+      "ashpMeanSpf": 2.93,
+      "shareAtLeast3_5": 0.08,
+      "grade": "secondary",
+      "note": "BP 3.10 and 8 via the HPA summary; older installs"
+    },
+    "heatpumpMonitor": {
+      "grade": "primary",
+      "filter": "hp_type Air Source, at least 324 days of data in the last 365, 1 < COP < 7",
+      "n": 462,
+      "median": 3.887,
+      "mean": 3.897,
+      "p10": 3.171,
+      "p25": 3.525,
+      "p75": 4.255,
+      "p90": 4.562,
+      "shareAtLeast3_5": 0.766
+    },
+    "defaultRetrofitTarget": {
+      "lo": 2.6,
+      "hi": 3.4,
+      "source": "BP 8"
+    }
+  },
+  "notes": "HeatpumpMonitor is a self-selected, well-tuned sample (its median is about 1 above the EoH mean); the engine targets the EoH-like range for a typical retrofit and shows HeatpumpMonitor as the upper reference."
+}

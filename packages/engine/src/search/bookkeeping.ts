@@ -29,6 +29,7 @@ import {
   netUpfront,
   saving,
 } from '../finance/index.ts';
+import { avoidedCost, escalationPpb } from '../finance/owner.ts';
 import type { SearchEnv } from './env.ts';
 
 export class BookkeepingError extends Error {
@@ -59,7 +60,12 @@ export interface RowMoney {
   grossCost: MicroPence;
   grants: AppliedGrant[];
   grantTotal: MicroPence;
+  /** A_cf: avoided counterfactual replacement, 0 unless the owner confirmed it is due. */
+  avoided: MicroPence;
   n0: MicroPence;
+  /** Real escalation per fuel used for B_t (ppb per year). */
+  escalationPpb: Partial<Record<Fuel, bigint>>;
+  installed: Installed[];
   flows: CashFlows;
 }
 
@@ -110,7 +116,9 @@ export function bookkeep(ctx: BookkeepCtx, pkg: PackageSpec, delivered: FuelMont
   const grants = applyGrants(env.grants, { twin: ctx.twin, owner, pkg, asOf, grossCost });
   let grantTotal = 0n;
   for (const g of grants) grantTotal += g.amount;
-  const n0 = netUpfront(grossCost, grantTotal);
+  const avoided = avoidedCost(env, ctx.twin, owner, pkg, asOf);
+  const n0 = netUpfront(grossCost, grantTotal, avoided);
+  const esc = escalationPpb(owner);
   const installed: Installed[] = options.map((o) => {
     const x: Installed = { optionId: o.optionId, cost: o.mid, lifetimeYears: o.lifetimeYears };
     if (o.omDeltaPerYear !== undefined) x.omDeltaPerYear = o.omDeltaPerYear;
@@ -119,6 +127,7 @@ export function bookkeep(ctx: BookkeepCtx, pkg: PackageSpec, delivered: FuelMont
   });
   const flows = cashFlows({
     billSavingByFuel,
+    escalationPpb: esc,
     installed,
     n0,
     discountRatePpb: owner.discountRatePpb,
@@ -136,7 +145,10 @@ export function bookkeep(ctx: BookkeepCtx, pkg: PackageSpec, delivered: FuelMont
     grossCost,
     grants,
     grantTotal,
+    avoided,
     n0,
+    escalationPpb: esc,
+    installed,
     flows,
   };
 }

@@ -28,9 +28,11 @@ import type {
 } from '@ibasho/core';
 import { regionContains } from '@ibasho/core';
 import { BUILTIN_RULES } from './builtins.ts';
+import { derivePackageFacts } from './derive.ts';
 import type { FactEnv, FactValue, FnTable } from './expr.ts';
 import { evalExpr, unknownFacts } from './expr.ts';
 import { moneyFact } from './facts.ts';
+import { DEFAULT_FNS, K_FACTS } from './fns/index.ts';
 
 export interface RuleOption {
   optionId: string;
@@ -52,6 +54,7 @@ export interface RuleCtx {
   pkg: FactEnv;
   /** Recorded checks (`twin.checks`). */
   checks: HomeTwin['checks'];
+  /** Named functions; default `DEFAULT_FNS`. Pass `{}` to read every function as unknown. */
   fns?: FnTable;
   /** Include `CITY` rules (M-H). */
   city?: boolean;
@@ -85,11 +88,25 @@ export function activeRules(rules: readonly Rule[], region: RegionCode, asOf: Is
   );
 }
 
-/** `p.*` facts. M-0: option count and central capital cost (omitted when unknown). */
-export function packageFacts(input: { optionIds: readonly string[]; capex?: MicroPence }): FactEnv {
+/**
+ * `p.*` facts the caller knows: option count, central capital cost (omitted when unknown) and
+ * whether a funded scheme needing PAS 2035 applies. Facts derived from the option set
+ * (`derivePackageFacts`) are merged by `evaluateRules` underneath these.
+ */
+export function packageFacts(input: {
+  optionIds: readonly string[];
+  capex?: MicroPence;
+  fundedPas2035?: boolean;
+}): FactEnv {
   const out: Record<string, FactValue> = { 'p.count': input.optionIds.length };
   if (input.capex !== undefined) out['p.capex'] = moneyFact(input.capex);
+  if (input.fundedPas2035 !== undefined) out['p.funded.pas2035'] = input.fundedPas2035;
   return out;
+}
+
+/** The package environment a package rule sees: home, owner, constants, derived, then caller facts. */
+export function packageEnv(ctx: Pick<RuleCtx, 'home' | 'owner' | 'options' | 'pkg'>): FactEnv {
+  return { ...ctx.home, ...ctx.owner, ...K_FACTS, ...derivePackageFacts(ctx.options, ctx.home), ...ctx.pkg };
 }
 
 function latestCheck(checks: HomeTwin['checks'], kind: CheckKind): HomeTwin['checks'][number] | undefined {
@@ -99,7 +116,7 @@ function latestCheck(checks: HomeTwin['checks'], kind: CheckKind): HomeTwin['che
 }
 
 export function evaluateRules(rules: readonly Rule[], ctx: RuleCtx): RulesEvaluation {
-  const fns = ctx.fns ?? {};
+  const fns = ctx.fns ?? DEFAULT_FNS;
   const all = [
     ...(ctx.builtins ?? BUILTIN_RULES).filter((r) => isInForce(r, ctx.asOf)),
     ...activeRules(rules, ctx.region, ctx.asOf, ctx.city ?? false),
@@ -156,16 +173,17 @@ export function evaluateRules(rules: readonly Rule[], ctx: RuleCtx): RulesEvalua
     }
   };
 
+  const pkgEnv = packageEnv(ctx);
   for (const rule of all) {
     if (rule.scope === 'measure') {
       for (const o of ctx.options) {
         if (rule.measures !== '*' && !rule.measures.includes(o.kind)) continue;
-        apply(rule, o.optionId, { ...ctx.home, ...ctx.owner, ...o.facts });
+        apply(rule, o.optionId, { ...ctx.home, ...ctx.owner, ...K_FACTS, ...o.facts });
       }
     } else {
       const kinds = new Set(ctx.options.map((o) => o.kind));
       if (rule.measures !== '*' && !rule.measures.some((k) => kinds.has(k))) continue;
-      apply(rule, 'package', { ...ctx.home, ...ctx.owner, ...ctx.pkg });
+      apply(rule, 'package', pkgEnv);
     }
   }
 

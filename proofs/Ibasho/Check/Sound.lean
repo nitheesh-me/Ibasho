@@ -4,10 +4,11 @@ the spec.
 
 `Valid c` states, in the spec's own terms, what a certificate that passes every check
 guarantees: the enumeration is complete, every claimed saving, carbon figure, upfront cost and NPV
-equals the spec definition applied to the trusted inputs, every package shown as feasible passes
-every rule we encoded and respects memory and the target, the front is exactly the nondominated
-set with a dominating witness for every other candidate, and the three picks are what their names
-say. `check_sound` proves `checkAll c = true → Valid c` by composing the spec theorems
+equals the spec definition applied to the trusted inputs, every claimed bill is slab exact, every
+package shown as feasible passes every rule we encoded and respects memory (ruled out and done
+measures) and the target, the front is exactly the nondominated set with a dominating witness for
+every other candidate, the three picks are what their names say, and every claimed score of a
+displayed package is the spec score of its indicators (so it lies in 0 to 100). `check_sound` proves `checkAll c = true → Valid c` by composing the spec theorems
 `feasibleB_sound`, `checkFront_sound`, `checkFront_complete`, `front_dominates_rest`,
 `witness_sound` and `checkPicks_sound`. No `sorry`, no `native_decide`: the axiom audit at the
 end fails the build otherwise.
@@ -55,6 +56,9 @@ structure Valid (c : Cert) : Prop where
   /-- `acct.carbon`: the claimed annual carbon saving is `carbonSavingG`, rounded once. -/
   carbon : ∀ r < c.rows, ∃ a, c.carbonAnnual = some a ∧
     a.getD r 0 = carbonSavingG (factors c) (vec c.baseline) (vec (delivered c r))
+  /-- `money.bills`: the claimed annual bill per fuel is the slab-exact bill of the row. -/
+  bills : ∀ r < c.rows, ∀ f : Fuel, ∃ b, c.bills = some b ∧
+    b.getD (r * 6 + fuelIdx f) 0 = billOf c (delivered c r) f
   /-- `fin.recompute`: claimed N0, NPV and lifetime carbon equal the spec finance. -/
   finance : ∀ r < c.rows,
     c.n0.getD r 0 = (deriveRow c c.baseline r).n0 ∧
@@ -70,6 +74,10 @@ structure Valid (c : Cert) : Prop where
   option id and no option of a rejected measure. -/
   memoryRespected : ∀ r < c.rows, c.status.getD r 99 = stFeasible →
     ∀ m ∈ c.rejected, m ∉ rowOptions c r ++
+      ((rowOptions c r).filterMap c.option?).filterMap (·.measure)
+  /-- A measure the owner marked done never comes back (SPEC AC-P1). -/
+  completedNeverOffered : ∀ r < c.rows, c.status.getD r 99 = stFeasible →
+    ∀ m ∈ c.completed, m ∉ rowOptions c r ++
       ((rowOptions c r).filterMap c.option?).filterMap (·.measure)
   /-- A package shown as feasible meets the owner's target. -/
   targetMet : ∀ r < c.rows, c.status.getD r 99 = stFeasible → (deriveRow c c.baseline r).meets = true
@@ -89,6 +97,14 @@ structure Valid (c : Cert) : Prop where
   picks : ∀ k : PickKind,
     (∀ x, (claimedPicks c).get k = some x → PickValid k (pickCands c) 0 x) ∧
     ((claimedPicks c).get k = none → pickCands c = [])
+  /-- `score.recompute`: when a score is claimed, every displayed package is scored and every
+  claimed sub-score, group score and total is the spec value of its indicators. -/
+  score : ∀ s, c.score = some s →
+    (∀ r ∈ displayedRows c, ∃ e ∈ s.rows, e.row = r) ∧
+    ∀ e ∈ s.rows, e.row < c.rows ∧ e.ind.length = 7 ∧
+      e.sub = Dim.all.map (subScore (anchorsOf s) (indOf e.ind)) ∧
+      e.groups = Ibasho.Spec.V2.Group.all.map (groupScore (anchorsOf s) (indOf e.ind)) ∧
+      e.total = Ibasho.Spec.V2.score (anchorsOf s) (indOf e.ind)
 
 /-! ## Each check, sound on its own -/
 
@@ -137,6 +153,58 @@ theorem chkAcctCarbon_sound {c : Cert} (h : chkAcctCarbon c (derive c) = true) :
     rw [derive_getElem? c hr] at hr'
     simp only [beq_iff_eq] at hr'
     exact ⟨a, ha, by rw [hr']; rfl⟩
+
+theorem chkBills_sound {c : Cert} (h : chkBills c (derive c) = true) :
+    ∀ r < c.rows, ∀ f : Fuel, ∃ b, c.bills = some b ∧
+      b.getD (r * 6 + fuelIdx f) 0 = billOf c (delivered c r) f := by
+  unfold chkBills at h
+  split at h
+  · cases h
+  · rename_i b hb
+    simp only [Bool.and_eq_true] at h
+    intro r hr f
+    have hr' := allRows_spec h.2 r hr
+    simp only [billRowOk, derive_getElem? c hr, List.all_eq_true, List.mem_range, beq_iff_eq] at hr'
+    refine ⟨b, hb, ?_⟩
+    rw [hr' (fuelIdx f) (fuelIdx_lt f)]
+    simp only [deriveRow]
+    exact getD_fuel_map _ 0 f
+
+theorem chkScore_sound {c : Cert} (h : chkScore c = true) : ∀ s, c.score = some s →
+    (∀ r ∈ displayedRows c, ∃ e ∈ s.rows, e.row = r) ∧
+    ∀ e ∈ s.rows, e.row < c.rows ∧ e.ind.length = 7 ∧
+      e.sub = Dim.all.map (subScore (anchorsOf s) (indOf e.ind)) ∧
+      e.groups = Ibasho.Spec.V2.Group.all.map (groupScore (anchorsOf s) (indOf e.ind)) ∧
+      e.total = Ibasho.Spec.V2.score (anchorsOf s) (indOf e.ind) := by
+  intro s hs
+  unfold chkScore at h
+  rw [hs] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true, beq_iff_eq,
+    decide_eq_true_eq] at h
+  obtain ⟨⟨_, hrows⟩, hdisp⟩ := h
+  refine ⟨hdisp, fun e he => ?_⟩
+  have ⟨hlt, hok⟩ := hrows e he
+  simp only [scoreRowOk, Bool.and_eq_true, beq_iff_eq] at hok
+  exact ⟨hlt, hok.1.1.1, hok.1.1.2, hok.1.2, hok.2⟩
+
+/-- A claimed score that passes `score.recompute` lies in 0 to 100: total, groups and every
+sub-score (catches an unclamped sub-score). -/
+theorem claimed_score_bounds {c : Cert} {s : ScoreClaim} {e : ScoreRow}
+    (h : ∀ e ∈ s.rows, e.row < c.rows ∧ e.ind.length = 7 ∧
+      e.sub = Dim.all.map (subScore (anchorsOf s) (indOf e.ind)) ∧
+      e.groups = Ibasho.Spec.V2.Group.all.map (groupScore (anchorsOf s) (indOf e.ind)) ∧
+      e.total = Ibasho.Spec.V2.score (anchorsOf s) (indOf e.ind))
+    (he : e ∈ s.rows) :
+    (0 ≤ e.total ∧ e.total ≤ 100) ∧ (∀ x ∈ e.sub, 0 ≤ x ∧ x ≤ 100) ∧
+      (∀ x ∈ e.groups, 0 ≤ x ∧ x ≤ 100) := by
+  obtain ⟨_, _, hsub, hgrp, htot⟩ := h e he
+  refine ⟨htot ▸ score_bounds _ _, fun x hx => ?_, fun x hx => ?_⟩
+  · rw [hsub, List.mem_map] at hx
+    obtain ⟨d, _, rfl⟩ := hx
+    exact subscore_bounds _ _ d
+  · rw [hgrp, List.mem_map] at hx
+    obtain ⟨g, _, rfl⟩ := hx
+    exact groupScore_bounds _ _ g
 
 theorem chkFin_sound {c : Cert} (h : chkFin c (derive c) = true) : ∀ r < c.rows,
     c.n0.getD r 0 = (deriveRow c c.baseline r).n0 ∧
@@ -222,11 +290,11 @@ theorem rules_feasible_sound {c : Cert} {r : Nat}
   rfl
 
 theorem memory_sound {c : Cert} {r : Nat} (h : (deriveRow c c.baseline r).rejected = false) :
-    ∀ m ∈ c.rejected, m ∉ rowOptions c r ++
+    ∀ m ∈ memoryExcluded c, m ∉ rowOptions c r ++
       ((rowOptions c r).filterMap c.option?).filterMap (·.measure) := by
-  have h' : respectsMemory c.rejected
+  have h' : respectsMemory (memoryExcluded c)
       ⟨r, rowOptions c r ++ ((rowOptions c r).filterMap c.option?).filterMap (·.measure)⟩ = true := by
-    have : (deriveRow c c.baseline r).rejected = !respectsMemory c.rejected
+    have : (deriveRow c c.baseline r).rejected = !respectsMemory (memoryExcluded c)
         ⟨r, rowOptions c r ++ ((rowOptions c r).filterMap c.option?).filterMap (·.measure)⟩ := rfl
     rw [this] at h
     simpa using h
@@ -258,16 +326,22 @@ theorem chkWitness_witnessed {c : Cert} (h : chkWitness c = true) : ∀ q ∈ ca
 
 /-! ## The soundness theorem -/
 
+theorem scoreVerdicts_all (c : Cert) : (scoreVerdicts c).all (·.ok) = chkScore c := by
+  unfold scoreVerdicts chkScore
+  cases c.score <;> simp
+
 theorem checkAll_iff (c : Cert) : checkAll c = true ↔
     chkSpecKnown c = true ∧ chkPacks c (derive c) = true ∧ chkEnum c = true ∧
     chkAcctSaving c (derive c) = true ∧ chkAcctCarbon c (derive c) = true ∧
+    chkBills c (derive c) = true ∧
     chkFin c (derive c) = true ∧ chkFeas c (derive c) = true ∧ chkTarget c (derive c) = true ∧
-    chkFront c = true ∧ chkWitness c = true ∧ chkPicks c = true := by
-  simp only [checkAll, check, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true]
+    chkFront c = true ∧ chkWitness c = true ∧ chkPicks c = true ∧ chkScore c = true := by
+  simp only [checkAll, check, List.all_append, scoreVerdicts_all, List.all_cons, List.all_nil,
+    Bool.and_true, Bool.and_eq_true, and_assoc]
 
 /-- SPEC 7.3 `check_sound`: a certificate that passes every check is valid. -/
 theorem check_sound (c : Cert) (h : checkAll c = true) : Valid c := by
-  obtain ⟨hSpec, _, hEnum, hSav, hCarb, hFin, hFeas, hTgt, hFront, hWit, hPicks⟩ :=
+  obtain ⟨hSpec, _, hEnum, hSav, hCarb, hBills, hFin, hFeas, hTgt, hFront, hWit, hPicks, hScore⟩ :=
     (checkAll_iff c).mp h
   have hF : checkFront (cands c) (frontOutcomes c) = true := by
     simp only [chkFront, Bool.and_eq_true] at hFront; exact hFront.2
@@ -277,16 +351,28 @@ theorem check_sound (c : Cert) (h : checkAll c = true) : Valid c := by
     saving := (chkAcctSaving_sound hSav).1
     rowZeroBaseline := (chkAcctSaving_sound hSav).2
     carbon := chkAcctCarbon_sound hCarb
+    bills := chkBills_sound hBills
     finance := chkFin_sound hFin
     statusFaithful := chkFeas_class hFeas
     everyRulePassed := fun r hr hs => rules_feasible_sound (feasible_row hFeas hTgt hr hs).2.1
-    memoryRespected := fun r hr hs => memory_sound (feasible_row hFeas hTgt hr hs).1
+    memoryRespected := fun r hr hs m hm =>
+      memory_sound (feasible_row hFeas hTgt hr hs).1 m (List.mem_append_left _ hm)
+    completedNeverOffered := fun r hr hs m hm =>
+      memory_sound (feasible_row hFeas hTgt hr hs).1 m (List.mem_append_right _ hm)
     targetMet := fun r hr hs => (feasible_row hFeas hTgt hr hs).2.2
     needsCheckLane := chkTarget_lane hTgt
     frontSound := checkFront_sound hF
     frontComplete := checkFront_complete hF
     nothingHidden := front_dominates_rest hF
     witnessed := chkWitness_witnessed hWit
-    picks := checkPicks_sound hPicks }
+    picks := checkPicks_sound hPicks
+    score := chkScore_sound hScore }
+
+/-- Every score a passing certificate claims lies in 0 to 100. -/
+theorem valid_score_bounds {c : Cert} (hv : Valid c) {s : ScoreClaim} (hs : c.score = some s)
+    {e : ScoreRow} (he : e ∈ s.rows) :
+    (0 ≤ e.total ∧ e.total ≤ 100) ∧ (∀ x ∈ e.sub, 0 ≤ x ∧ x ≤ 100) ∧
+      (∀ x ∈ e.groups, 0 ≤ x ∧ x ≤ 100) :=
+  claimed_score_bounds (hv.score s hs).2 he
 
 end Ibasho.Check

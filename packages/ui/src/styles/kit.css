@@ -1,0 +1,1942 @@
+/*
+ * Andon kit: the M-A and M-B components (DESIGN_SYSTEM 4, 5, 8, 12). Owner: WP-06.
+ * Paper is cut, not rounded: panels keep --r-0, chips --r-1. Every colour-coded state also has a
+ * pattern, mark or label. --seal and --gold are never read here (rule 2).
+ */
+
+/* ------------------------------------------------------------------- Shared pieces */
+
+.ib-kicker {
+  margin: 0;
+  color: var(--text-3);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  line-height: var(--lh-cap);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ib-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ma-2);
+  min-height: 44px;
+  padding: 0 var(--ma-4);
+  border: 1px solid var(--text);
+  border-radius: var(--r-0);
+  background: var(--text);
+  color: var(--surface-raised);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-ui);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 color-mix(in oklch, var(--text) 18%, transparent);
+  transition:
+    transform var(--t-press) var(--ease-hanko),
+    box-shadow var(--t-press) var(--ease-hanko),
+    background-color var(--t-fade) linear;
+}
+.ib-button:hover {
+  background: color-mix(in oklch, var(--text) 88%, var(--deep));
+}
+.ib-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 color-mix(in oklch, var(--text) 18%, transparent);
+}
+.ib-button[aria-pressed="true"] {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+.ib-button[aria-pressed="true"]::before {
+  content: "";
+  inline-size: 0.6em;
+  block-size: 0.35em;
+  border-inline-start: 2px solid currentColor;
+  border-block-end: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-0.1em);
+}
+
+.ib-link-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--ma-1);
+  margin: 0 calc(-1 * var(--ma-1));
+  border: 0;
+  background: transparent;
+  color: var(--link);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+.ib-link-button:hover {
+  text-decoration-thickness: 2px;
+}
+
+.ib-list-title {
+  margin: 0 0 var(--ma-3);
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+.ib-list-empty {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+
+/* Numbers inside narration: no seal glyph (R11); the drawer still shows it. */
+.ib-num--plain .ib-num__seal {
+  display: none;
+}
+
+/* Shita-e pencil: a short line drawn again and again while something is worked out. */
+.ib-pencil,
+.ib-narrator__pencil {
+  display: inline-block;
+  inline-size: 2.4em;
+  block-size: 2px;
+  vertical-align: middle;
+  background: linear-gradient(90deg, var(--text-2) 0 50%, transparent 50%) 0 0 / 200% 100% no-repeat;
+  opacity: 0.7;
+  animation: ib-pencil 1.4s var(--ease-sumi) infinite;
+}
+@keyframes ib-pencil {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Figures: a label above a number, used by futures, the check lane and the fourth line. */
+.ib-figure {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+.ib-figure__label {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+  line-height: var(--lh-cap);
+}
+.ib-figure__value {
+  margin: 0;
+  font-size: var(--fs-body);
+}
+
+/* GradeBadge (R17): flagged grades get a dashed or hatched edge as well as colour. */
+.ib-grade {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-inline-start: var(--ma-2);
+  padding: 0 0.45em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-1);
+  color: var(--text-2);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-cap);
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: 0.1em;
+}
+.ib-grade[data-grade="primary"]::before {
+  content: "";
+  inline-size: 0.45em;
+  block-size: 0.45em;
+  background: currentColor;
+}
+.ib-grade[data-grade="secondary"]::before {
+  content: "";
+  inline-size: 0.45em;
+  block-size: 0.45em;
+  border: 1px solid currentColor;
+}
+.ib-grade[data-grade="announced"] {
+  border-style: dashed;
+  border-color: var(--warning);
+  color: var(--warning);
+}
+.ib-grade[data-grade="estimate"] {
+  border-color: var(--warning);
+  color: var(--warning);
+  background: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklch, var(--warning) 14%, transparent) 0 2px,
+    transparent 2px 5px
+  );
+}
+
+/* -------------------------------------------------------- Chart frame and TableAlt */
+
+.ib-chart {
+  margin: 0;
+  display: grid;
+  gap: var(--ma-3);
+}
+.ib-chart__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ma-4);
+}
+.ib-chart__title {
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+.ib-chart__toggle {
+  margin-inline-start: auto;
+}
+.ib-chart__summary {
+  max-inline-size: 38rem;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-chart__body {
+  position: relative;
+}
+/* Shita-e: faint construction lines behind every chart. */
+.ib-chart__body:not(.ib-chart__body--table)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--line) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--line) 40%, transparent) 1px, transparent 1px);
+  background-size: var(--jo) var(--jo);
+  opacity: 0.5;
+}
+.ib-chart__legend {
+  margin-block-start: var(--ma-3);
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+
+.ib-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-ui);
+}
+.ib-table__caption {
+  padding-block-end: var(--ma-2);
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+  text-align: start;
+}
+.ib-table th,
+.ib-table td {
+  padding: var(--ma-2) var(--ma-3);
+  border-block-end: 1px solid var(--rule);
+  text-align: start;
+}
+.ib-table thead th {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-block-end-color: var(--text-3);
+}
+.ib-table tbody th {
+  font-weight: 500;
+}
+.ib-table td {
+  text-align: end;
+}
+.ib-table__none {
+  color: var(--text-3);
+}
+
+/* -------------------------------------------------------------------- Mon */
+
+.ib-mon {
+  flex: none;
+  color: currentColor;
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------------- Sheet (Shoji) */
+
+.ib-sheet {
+  --ib-sheet-w: min(30rem, 42vw);
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: var(--surface-raised);
+  color: var(--text);
+  box-shadow: var(--depth-2);
+  transition:
+    transform var(--t-shoji) var(--ease-shoji),
+    block-size var(--t-shoji) var(--ease-shoji),
+    visibility 0s linear var(--t-shoji);
+  visibility: hidden;
+}
+.ib-sheet[data-open] {
+  visibility: visible;
+  transition:
+    transform var(--t-shoji) var(--ease-shoji),
+    block-size var(--t-shoji) var(--ease-shoji),
+    visibility 0s;
+}
+.ib-sheet[data-translucent] {
+  background: color-mix(in oklch, var(--paper-raised) 84%, transparent);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+  backdrop-filter: blur(6px) saturate(1.1);
+}
+.ib-sheet[data-dragging] {
+  transition: none;
+}
+
+/* Side sheet: slides in on its rail from the right edge. The kumiko rail is the left edge. */
+.ib-sheet[data-placement="side"] {
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: var(--ib-sheet-w);
+  border-inline-start: 1px solid var(--line);
+  transform: translateX(100%);
+}
+.ib-sheet[data-placement="side"][data-open] {
+  transform: translateX(0);
+}
+
+/* Bottom sheet: three snap points, each also a button. */
+.ib-sheet[data-placement="bottom"] {
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: calc(var(--ib-sheet-share) * 100dvh);
+  border-block-start: 1px solid var(--line);
+  transform: translateY(100%);
+}
+.ib-sheet[data-placement="bottom"][data-open] {
+  transform: translateY(max(0px, var(--ib-sheet-drag)));
+}
+
+@media (min-width: 900px) {
+  .ib-sheet[data-placement="auto"] {
+    inset-block: 0;
+    inset-inline-end: 0;
+    inline-size: var(--ib-sheet-w);
+    border-inline-start: 1px solid var(--line);
+    transform: translateX(100%);
+  }
+  .ib-sheet[data-placement="auto"][data-open] {
+    transform: translateX(0);
+  }
+}
+@media (max-width: 899.98px) {
+  .ib-sheet[data-placement="auto"] {
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: calc(var(--ib-sheet-share) * 100dvh);
+    border-block-start: 1px solid var(--line);
+    transform: translateY(100%);
+  }
+  .ib-sheet[data-placement="auto"][data-open] {
+    transform: translateY(max(0px, var(--ib-sheet-drag)));
+  }
+}
+
+.ib-sheet__grip {
+  display: grid;
+  place-items: center;
+  block-size: 24px;
+  cursor: grab;
+  touch-action: none;
+}
+.ib-sheet__grip:active {
+  cursor: grabbing;
+}
+.ib-sheet__grip-bar {
+  inline-size: 48px;
+  block-size: 3px;
+  background: var(--text-3);
+  opacity: 0.6;
+}
+.ib-sheet__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ma-4);
+  padding: var(--ma-4) var(--ma-5) var(--ma-3);
+  /* Shoji lattice: a thin kumiko grid behind the head, the only frame the sheet needs. */
+  background-image:
+    linear-gradient(90deg, color-mix(in oklch, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--line) 55%, transparent) 1px, transparent 1px);
+  background-size: calc(var(--jo) / 2) calc(var(--jo) / 1);
+  background-position: -1px -1px;
+  border-block-end: 1px solid var(--line);
+}
+.ib-sheet__titles {
+  min-inline-size: 0;
+  padding: var(--ma-1) var(--ma-2);
+  margin: calc(-1 * var(--ma-1)) calc(-1 * var(--ma-2));
+  background: color-mix(in oklch, var(--paper-raised) 92%, transparent);
+}
+.ib-sheet__title {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-h2);
+}
+.ib-sheet__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--ma-2);
+  background: color-mix(in oklch, var(--paper-raised) 92%, transparent);
+}
+.ib-sheet__snaps {
+  display: flex;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.ib-sheet__snap,
+.ib-sheet__close {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.ib-sheet__snap:hover,
+.ib-sheet__close:hover {
+  color: var(--text);
+}
+/* Each snap button is a little paper with its fill height: peek, half, full. */
+.ib-sheet__snap-mark {
+  position: relative;
+  inline-size: 14px;
+  block-size: 18px;
+  border: 1px solid currentColor;
+}
+.ib-sheet__snap-mark::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  background: currentColor;
+}
+.ib-sheet__snap[data-snap="peek"] .ib-sheet__snap-mark::after {
+  block-size: 25%;
+}
+.ib-sheet__snap[data-snap="half"] .ib-sheet__snap-mark::after {
+  block-size: 55%;
+}
+.ib-sheet__snap[data-snap="full"] .ib-sheet__snap-mark::after {
+  block-size: 100%;
+}
+.ib-sheet__snap[aria-pressed="true"] {
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--text);
+}
+.ib-sheet__close-x {
+  position: relative;
+  inline-size: 16px;
+  block-size: 16px;
+}
+.ib-sheet__close-x::before,
+.ib-sheet__close-x::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline: 0;
+  block-size: 1.5px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+.ib-sheet__close-x::after {
+  transform: rotate(-45deg);
+}
+.ib-sheet__body {
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--ma-4) var(--ma-5) var(--ma-5);
+}
+.ib-sheet__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-3);
+  padding: var(--ma-3) var(--ma-5);
+  border-block-start: 1px solid var(--line);
+}
+
+/* Side sheets have no grip or snaps: they are full height. */
+.ib-sheet[data-placement="side"] .ib-sheet__grip,
+.ib-sheet[data-placement="side"] .ib-sheet__snaps {
+  display: none;
+}
+@media (min-width: 900px) {
+  .ib-sheet[data-placement="auto"] .ib-sheet__grip,
+  .ib-sheet[data-placement="auto"] .ib-sheet__snaps {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------ NarratorStrip (Engawa) */
+
+.ib-narrator {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--ma-4);
+  max-inline-size: calc(var(--jo) * 6);
+  padding: var(--ma-5) var(--ma-4);
+  border-block-start: 1px solid var(--line);
+  border-block-end: 1px solid var(--line);
+}
+.ib-narrator[data-layout="band"] {
+  max-inline-size: none;
+}
+/* The veranda post: a vertical rule with the chapter kanji. */
+.ib-narrator__post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ma-3);
+  inline-size: 36px;
+  color: var(--text-3);
+}
+.ib-narrator__post::after {
+  content: "";
+  flex: 1;
+  inline-size: 1px;
+  background: var(--line);
+}
+.ib-narrator__glyph {
+  inline-size: 32px;
+  block-size: 32px;
+}
+.ib-narrator__body {
+  grid-column: 2;
+  min-inline-size: 0;
+}
+.ib-narrator:not(:has(.ib-narrator__post)) {
+  grid-template-columns: 1fr;
+}
+.ib-narrator:not(:has(.ib-narrator__post)) .ib-narrator__body {
+  grid-column: 1;
+}
+.ib-narrator__title {
+  margin: 0 0 var(--ma-3);
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+.ib-narrator__text {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: calc(var(--fs-body) * 1.125);
+  font-weight: 500;
+  line-height: var(--lh-body-mincho);
+  text-wrap: pretty;
+}
+.ib-narrator[data-layout="band"] .ib-narrator__text {
+  columns: 2 22rem;
+  column-gap: var(--ma-6);
+}
+/* Sentences settle one by one: sumi bleed, a ma pause apart. */
+.ib-narrator__s {
+  animation: ib-sumi var(--t-sumi) var(--ease-sumi) both;
+  animation-delay: calc(var(--i, 0) * (var(--ma-pause) * 2));
+}
+.ib-narrator__measure {
+  font-weight: 700;
+  text-decoration: underline dotted var(--text-3);
+  text-underline-offset: 0.3em;
+}
+.ib-narrator__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-3);
+  margin: var(--ma-4) 0 0;
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+.ib-narrator__plain {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0 0.45em;
+  border: 1px dashed var(--text-3);
+  border-radius: var(--r-1);
+  color: var(--text-2);
+}
+
+/* ---------------------------------------------------------------- ScoreGroups */
+
+.ib-score {
+  display: grid;
+  gap: var(--ma-5);
+  max-inline-size: calc(var(--jo) * 6);
+}
+.ib-score__head {
+  display: grid;
+  gap: var(--ma-2);
+}
+.ib-score__numeral {
+  font-family: var(--font-mincho);
+  line-height: var(--lh-d1);
+}
+.ib-score__strip {
+  block-size: 10px;
+}
+.ib-score__band-note {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-score__groups,
+.ib-score__indicators {
+  display: grid;
+  gap: var(--ma-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-score__indicators {
+  gap: var(--ma-2);
+  margin-block-start: var(--ma-3);
+  padding-inline-start: var(--ma-4);
+  border-inline-start: 1px solid var(--line);
+  animation: ib-unfold var(--t-ori) var(--ease-ori) both;
+  transform-origin: top;
+}
+.ib-score__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ma-3);
+}
+.ib-score__line {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+
+.ib-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: var(--ma-1) var(--ma-3);
+}
+.ib-bar__label {
+  font-size: var(--fs-ui);
+  font-weight: 500;
+}
+.ib-bar[data-size="sm"] .ib-bar__label {
+  color: var(--text-2);
+  font-weight: 400;
+}
+.ib-bar__value {
+  text-align: end;
+}
+.ib-bar__none {
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+.ib-bar__track {
+  grid-column: 1 / -1;
+  block-size: 6px;
+}
+.ib-bar[data-size="sm"] .ib-bar__track {
+  block-size: 4px;
+}
+
+/*
+ * Strip: a 0 to 100 track. Known: a solid fill to the value. Range: a pencil hatched band from lo
+ * to hi with the likely dot (state-estimated). Missing: a dashed empty track (state-unknown).
+ */
+.ib-strip {
+  position: relative;
+  display: block;
+  background: var(--surface-sunk);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--line) 70%, transparent);
+}
+.ib-strip__fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: calc(var(--hi, 0) * 100%);
+  background: var(--state-known);
+  transform-origin: left;
+  animation: ib-grow var(--t-sumi) var(--ease-sumi) both;
+}
+.ib-strip[data-range] .ib-strip__fill {
+  inset-inline-start: calc(var(--lo, 0) * 100%);
+  inline-size: calc((var(--hi, 0) - var(--lo, 0)) * 100%);
+  background: repeating-linear-gradient(-45deg, var(--state-estimated) 0 1.5px, transparent 1.5px 4px);
+  box-shadow: inset 0 0 0 1px var(--state-estimated);
+}
+.ib-strip__dot {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: calc(var(--mid, 0) * 100%);
+  inline-size: 10px;
+  block-size: 10px;
+  border: 2px solid var(--surface-raised);
+  border-radius: var(--r-mon);
+  background: var(--text);
+  transform: translate(-50%, -50%);
+}
+.ib-strip[data-empty] {
+  background: transparent;
+  box-shadow: none;
+  border-block-end: 1px dashed var(--state-unknown);
+}
+
+/* ----------------------------------------------------------------------- EpcChip */
+
+.ib-epc {
+  appearance: none;
+  display: inline-grid;
+  grid-template-columns: auto;
+  gap: 2px;
+  min-inline-size: 7.5rem;
+  padding: var(--ma-2) var(--ma-3);
+  border: 1px solid var(--text-2);
+  border-radius: var(--r-1);
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  text-align: start;
+  vertical-align: middle;
+}
+button.ib-epc {
+  cursor: pointer;
+}
+button.ib-epc:hover {
+  border-color: var(--text);
+  box-shadow: var(--depth-1);
+}
+.ib-epc__label {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ib-epc__main {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ma-2);
+}
+.ib-epc__letter {
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h2);
+  font-weight: 800;
+  line-height: 1;
+}
+.ib-epc[data-size="sm"] .ib-epc__letter {
+  font-size: var(--fs-h3);
+}
+.ib-epc__spread {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-epc__scale {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  block-size: 4px;
+}
+.ib-epc__cell {
+  background: var(--line);
+}
+.ib-epc__cell[data-near] {
+  background: repeating-linear-gradient(-45deg, var(--text-2) 0 1px, transparent 1px 3px);
+}
+.ib-epc__cell[data-on] {
+  background: var(--text);
+}
+
+/* ------------------------------------------------------------- Futures (Byobu) */
+
+.ib-futures-screen {
+  display: grid;
+  gap: var(--ma-5);
+}
+.ib-futures-screen__title {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-h2);
+}
+.ib-byobu {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  perspective: 1600px;
+}
+/* Three leaves of a folding screen: hinged edges, alternate folds, unfolding on arrival. */
+.ib-byobu__panel {
+  display: flex;
+  transform-origin: left center;
+  animation: ib-byobu-open var(--t-ori) var(--ease-ori) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger-fold));
+}
+.ib-byobu__panel + .ib-byobu__panel {
+  border-inline-start: 2px solid var(--text-3);
+}
+.ib-byobu__panel:nth-child(2) {
+  --fold: 2deg;
+}
+.ib-byobu__panel:nth-child(odd) {
+  --fold: -2deg;
+}
+@keyframes ib-byobu-open {
+  from {
+    opacity: 0;
+    transform: rotateY(68deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(var(--fold, 0deg));
+  }
+}
+@media (max-width: 767.98px) {
+  .ib-byobu {
+    grid-template-columns: 1fr;
+    gap: var(--ma-4);
+  }
+  .ib-byobu__panel + .ib-byobu__panel {
+    border-inline-start: 0;
+  }
+  .ib-byobu__panel:nth-child(n) {
+    --fold: 0deg;
+    transform-origin: top center;
+  }
+}
+
+.ib-future {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-4);
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--ma-5) var(--ma-4);
+  background: var(--surface-raised);
+  box-shadow: var(--depth-1);
+}
+.ib-future[data-chosen] {
+  box-shadow:
+    inset 0 0 0 2px var(--text),
+    var(--depth-2);
+}
+.ib-future[data-empty],
+.ib-future[data-withheld] {
+  background: var(--surface-sunk);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.ib-future__head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--ma-1) var(--ma-3);
+  padding-block-end: var(--ma-3);
+  border-block-end: 1px solid var(--line);
+}
+.ib-future__glyph {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  inline-size: 40px;
+  block-size: 40px;
+  color: var(--text-3);
+  opacity: 0.55;
+}
+.ib-future__glyph svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+.ib-future__title {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 800;
+  line-height: var(--lh-h3);
+}
+.ib-future__axis {
+  grid-column: 1;
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-future__name {
+  margin: 0;
+  font-weight: 700;
+}
+.ib-future__mons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-2);
+}
+.ib-future__mon-blank {
+  display: inline-block;
+  inline-size: 24px;
+  block-size: 24px;
+  border: 1.5px solid currentColor;
+  border-radius: var(--r-mon);
+}
+.ib-future__same,
+.ib-future__note {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-future__figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ma-4) var(--ma-3);
+  margin: 0;
+}
+.ib-future__figures[data-size="sm"] .ib-figure__value {
+  font-size: var(--fs-ui);
+}
+.ib-future__more-toggle {
+  align-self: flex-start;
+}
+.ib-future__more:not([hidden]) {
+  animation: ib-unfold var(--t-ori) var(--ease-ori) both;
+  transform-origin: top;
+}
+.ib-future__negatives {
+  margin-block-start: auto;
+}
+.ib-future__choose {
+  align-self: stretch;
+}
+
+/* Negatives: what gets worse. Hatched warm mark, the increase pattern (DS 2.2). */
+.ib-negatives {
+  display: grid;
+  gap: var(--ma-2);
+  padding-block-start: var(--ma-3);
+  border-block-start: 1px dashed var(--line);
+}
+.ib-negatives__title {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ib-negatives__empty {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-ui);
+}
+.ib-negatives__list {
+  display: grid;
+  gap: var(--ma-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-negatives__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: var(--ma-2);
+  font-size: var(--fs-ui);
+}
+.ib-negatives__mark {
+  inline-size: 10px;
+  block-size: 10px;
+  align-self: center;
+  background: repeating-linear-gradient(45deg, var(--delta-increase) 0 1.5px, transparent 1.5px 3.5px);
+  box-shadow: inset 0 0 0 1px var(--delta-increase);
+}
+.ib-negatives__item[data-kind="risk"] .ib-negatives__mark {
+  transform: rotate(45deg) scale(0.85);
+}
+.ib-negatives__text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--ma-2);
+  min-inline-size: 0;
+}
+.ib-negatives__kind {
+  color: var(--delta-increase);
+  font-weight: 700;
+}
+.ib-negatives__rule {
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+.ib-negatives__value {
+  text-align: end;
+}
+
+/* The fourth line: "If nothing is done". A scroll of aged paper beneath the screen. */
+.ib-nothing {
+  display: grid;
+  gap: var(--ma-4);
+  padding: var(--ma-5);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--text-3) 10%, transparent), transparent 18%),
+    var(--surface-sunk);
+  border-block-start: 2px solid var(--text-3);
+  animation: ib-sumi var(--t-sumi) var(--ease-sumi) both;
+  animation-delay: calc(3 * var(--stagger-fold) + var(--ma-pause));
+}
+.ib-nothing__head {
+  display: grid;
+  gap: var(--ma-1);
+}
+.ib-nothing__title {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+.ib-nothing__sub {
+  margin: 0;
+  max-inline-size: 42rem;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-nothing__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--ma-5);
+  align-items: start;
+}
+@media (max-width: 899.98px) {
+  .ib-nothing__grid {
+    grid-template-columns: 1fr;
+  }
+}
+.ib-nothing__figures {
+  display: grid;
+  gap: var(--ma-4);
+  margin: 0;
+}
+.ib-nothing__col {
+  display: grid;
+  gap: var(--ma-2);
+}
+.ib-nothing__effects {
+  display: grid;
+  gap: var(--ma-3);
+  margin: 0 0 var(--ma-3);
+  padding: 0;
+  list-style: none;
+}
+.ib-nothing__effect {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px var(--ma-3);
+  padding-block-end: var(--ma-2);
+  border-block-end: 1px solid color-mix(in oklch, var(--line) 60%, transparent);
+  font-size: var(--fs-ui);
+}
+.ib-nothing__effect-value {
+  text-align: end;
+}
+.ib-nothing__effect-band {
+  color: var(--text-2);
+}
+.ib-nothing__source {
+  grid-column: 1 / -1;
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+.ib-nothing__negatives {
+  border-block-start: 0;
+  padding-block-start: 0;
+}
+.ib-nothing__gap {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+
+/* ------------------------------------------------------------- MeasureCard (Fuda) */
+
+.ib-fuda {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ma-2);
+  inline-size: calc(var(--jo) * 3);
+  max-inline-size: 100%;
+  min-block-size: calc(var(--jo) * 4);
+  box-sizing: border-box;
+  padding: var(--ma-5) var(--ma-4) var(--ma-4);
+  background: var(--surface-raised);
+  box-shadow: var(--depth-1);
+  /* A fuda is a wooden tag: the top corners are cut. */
+  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%, 0 14px);
+  transition:
+    transform var(--t-shoji) var(--ease-shoji),
+    box-shadow var(--t-shoji) var(--ease-shoji);
+}
+.ib-fuda:hover {
+  transform: translateY(-2px);
+}
+.ib-fuda__hole {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-start: 50%;
+  inline-size: 8px;
+  block-size: 8px;
+  border: 1px solid var(--text-3);
+  border-radius: var(--r-mon);
+  transform: translateX(-50%);
+}
+.ib-fuda__crest {
+  color: var(--text-2);
+}
+.ib-fuda__name {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  line-height: 1.35;
+}
+.ib-fuda__blurb,
+.ib-fuda__reason,
+.ib-fuda__rule {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-fuda__rule code {
+  font-size: var(--fs-cap);
+}
+.ib-fuda__cost {
+  margin: 0;
+}
+.ib-fuda__cost-label {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-fuda__state {
+  display: flex;
+  align-items: center;
+  gap: var(--ma-2);
+  margin: auto 0 0;
+  padding-block-start: var(--ma-2);
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.ib-fuda__stamp {
+  inline-size: 12px;
+  block-size: 12px;
+  border: 1.5px solid currentColor;
+}
+.ib-fuda__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-2);
+}
+.ib-fuda__toggle,
+.ib-fuda__action {
+  appearance: none;
+  min-block-size: 44px;
+  flex: 1;
+  padding: 0 var(--ma-3);
+  border: 1px solid var(--text-2);
+  border-radius: var(--r-0);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-ui);
+  font-weight: 700;
+  cursor: pointer;
+}
+.ib-fuda__toggle:hover,
+.ib-fuda__action:hover {
+  border-color: var(--text);
+}
+.ib-fuda__toggle[data-on] {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--surface-raised);
+}
+
+/* States: pattern, mark and label, not colour alone. */
+.ib-fuda[data-state="in-scenario"] {
+  box-shadow:
+    inset 0 0 0 2px var(--text),
+    var(--depth-2);
+}
+.ib-fuda[data-state="in-scenario"] .ib-fuda__stamp {
+  background: currentColor;
+}
+.ib-fuda[data-state="in-scenario"] .ib-fuda__state {
+  color: var(--text);
+}
+.ib-fuda[data-state="ask"] .ib-fuda__stamp {
+  border-radius: var(--r-mon);
+  border-style: dashed;
+}
+.ib-fuda[data-state="needs-check"] {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklch, var(--warning) 8%, transparent) 0 2px,
+      transparent 2px 7px
+    ),
+    var(--surface-raised);
+}
+.ib-fuda[data-state="needs-check"] .ib-fuda__state {
+  color: var(--warning);
+}
+.ib-fuda[data-state="needs-check"] .ib-fuda__stamp {
+  border-style: dashed;
+  transform: rotate(45deg) scale(0.85);
+}
+.ib-fuda[data-state="blocked"] {
+  background: var(--surface-sunk);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.ib-fuda[data-state="blocked"] .ib-fuda__name {
+  color: var(--text-2);
+}
+.ib-fuda[data-state="blocked"] .ib-fuda__stamp {
+  background: linear-gradient(45deg, transparent 45%, currentColor 45% 55%, transparent 55%);
+}
+.ib-fuda[data-state="ruled-out"] {
+  background: var(--surface-sunk);
+  box-shadow: inset 0 0 0 1px var(--line);
+  opacity: 0.86;
+}
+.ib-fuda[data-state="ruled-out"] .ib-fuda__name {
+  text-decoration: line-through 1px var(--text-3);
+}
+.ib-fuda[data-state="ruled-out"] .ib-fuda__stamp {
+  background:
+    linear-gradient(45deg, transparent 45%, currentColor 45% 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, currentColor 45% 55%, transparent 55%);
+}
+
+/* ------------------------------------------------------------ FuelBars (Hakari) */
+
+.ib-fuelbars__rows {
+  display: grid;
+  gap: var(--ma-3);
+  margin: 0;
+  padding: var(--ma-2) 0;
+  list-style: none;
+}
+.ib-fuelbars__row {
+  display: grid;
+  grid-template-columns: minmax(7rem, auto) minmax(0, 1fr) minmax(7.5rem, auto);
+  align-items: center;
+  gap: var(--ma-3);
+}
+@media (max-width: 559.98px) {
+  .ib-fuelbars__row {
+    grid-template-columns: 1fr auto;
+  }
+  .ib-fuelbars__beam {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+.ib-fuelbars__name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-2);
+  font-size: var(--fs-ui);
+  font-weight: 500;
+}
+.ib-fuelbars__name .ib-mon {
+  color: var(--fuel);
+}
+.ib-fuelbars__beam {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  align-items: center;
+  block-size: 18px;
+}
+.ib-fuelbars__half {
+  position: relative;
+  block-size: 100%;
+}
+.ib-fuelbars__zero {
+  block-size: 140%;
+  background: var(--text);
+}
+/* The fuel key stroke runs along the outer edge of each bar, so colour pairs with the hatch. */
+.ib-fuelbars__bar {
+  position: absolute;
+  inset-block: 2px;
+  inline-size: calc(var(--len, 0) * 100%);
+  box-shadow: inset 0 -3px 0 var(--fuel);
+  animation: ib-grow var(--t-sumi) var(--ease-sumi) both;
+}
+.ib-fuelbars__half[data-side="saving"] .ib-fuelbars__bar {
+  inset-inline-end: 0;
+  background: var(--delta-saving);
+  transform-origin: right;
+}
+.ib-fuelbars__half[data-side="increase"] .ib-fuelbars__bar {
+  inset-inline-start: 0;
+  background: repeating-linear-gradient(45deg, var(--delta-increase) 0 2px, transparent 2px 5px);
+  box-shadow:
+    inset 0 0 0 1px var(--delta-increase),
+    inset 0 -3px 0 var(--fuel);
+  transform-origin: left;
+}
+/* A range: the likely end is solid, the rest to the far end is a faint band. */
+.ib-fuelbars__row[data-range] .ib-fuelbars__bar {
+  inline-size: calc(var(--len-mid, 0) * 100%);
+}
+.ib-fuelbars__row[data-range] .ib-fuelbars__half::after {
+  content: "";
+  position: absolute;
+  inset-block: 7px;
+  inline-size: calc((var(--len) - var(--len-lo)) * 100%);
+  border-block: 1px dashed var(--text-2);
+}
+.ib-fuelbars__row[data-range] .ib-fuelbars__half[data-side="saving"]::after {
+  inset-inline-end: calc(var(--len-lo) * 100%);
+}
+.ib-fuelbars__row[data-range] .ib-fuelbars__half[data-side="increase"]::after {
+  inset-inline-start: calc(var(--len-lo) * 100%);
+}
+.ib-fuelbars__row:not([data-direction="saving"]) .ib-fuelbars__half[data-side="saving"]::after,
+.ib-fuelbars__row:not([data-direction="increase"]) .ib-fuelbars__half[data-side="increase"]::after {
+  content: none;
+}
+.ib-fuelbars__value {
+  text-align: end;
+}
+.ib-fuelbars__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-4);
+}
+.ib-fuelbars__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-2);
+}
+.ib-fuelbars__swatch {
+  inline-size: 18px;
+  block-size: 10px;
+}
+.ib-fuelbars__key[data-direction="saving"] .ib-fuelbars__swatch {
+  background: var(--delta-saving);
+}
+.ib-fuelbars__key[data-direction="increase"] .ib-fuelbars__swatch {
+  background: repeating-linear-gradient(45deg, var(--delta-increase) 0 2px, transparent 2px 5px);
+  box-shadow: inset 0 0 0 1px var(--delta-increase);
+}
+
+/* --------------------------------------------------------------- Slider (Kumiko) */
+
+.ib-kumiko {
+  display: grid;
+  gap: var(--ma-2);
+  max-inline-size: calc(var(--jo) * 6);
+}
+.ib-kumiko__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ma-3);
+}
+.ib-kumiko__label {
+  font-size: var(--fs-ui);
+  font-weight: 700;
+}
+.ib-kumiko__value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--ma-2);
+}
+.ib-kumiko__stop-label {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-kumiko__row {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+}
+.ib-kumiko__step {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.ib-kumiko__step:hover:not(:disabled) {
+  color: var(--text);
+}
+.ib-kumiko__step:disabled {
+  color: var(--line);
+  cursor: default;
+}
+.ib-kumiko__step-mark {
+  position: relative;
+  inline-size: 12px;
+  block-size: 12px;
+}
+.ib-kumiko__step-mark::before,
+.ib-kumiko__step-mark::after {
+  content: "";
+  position: absolute;
+  inset-block-start: calc(50% - 0.75px);
+  inset-inline: 0;
+  block-size: 1.5px;
+  background: currentColor;
+}
+.ib-kumiko__step[data-step="up"] .ib-kumiko__step-mark::after {
+  transform: rotate(90deg);
+}
+.ib-kumiko__step[data-step="down"] .ib-kumiko__step-mark::after {
+  content: none;
+}
+
+/* The bar: a timber rail holding an asanoha-like lattice; the lit cells run to the key. */
+.ib-kumiko__bar {
+  position: relative;
+  block-size: 28px;
+  margin-inline: 10px;
+  cursor: pointer;
+  touch-action: none;
+  border-block: 2px solid var(--text-2);
+  background: var(--surface-sunk);
+}
+.ib-kumiko__lattice {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      60deg,
+      transparent 47%,
+      color-mix(in oklch, var(--text-3) 55%, transparent) 47% 53%,
+      transparent 53%
+    ),
+    linear-gradient(
+      -60deg,
+      transparent 47%,
+      color-mix(in oklch, var(--text-3) 55%, transparent) 47% 53%,
+      transparent 53%
+    );
+  background-size: 14px 24px;
+  background-position: center;
+  opacity: 0.6;
+}
+.ib-kumiko__cells {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--count, 1), 1fr);
+  pointer-events: none;
+}
+.ib-kumiko__cell {
+  position: relative;
+  border-inline-end: 1px solid var(--text-3);
+  transition: background-color var(--t-sumi) var(--ease-sumi);
+}
+.ib-kumiko__cell:last-child {
+  border-inline-end: 0;
+}
+.ib-kumiko__cell[data-on] {
+  background: color-mix(in oklch, var(--glow) 34%, transparent);
+}
+.ib-kumiko__cell[data-current]::after {
+  content: "";
+  position: absolute;
+  inset-block-end: -8px;
+  inset-inline-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  border-inline: 4px solid transparent;
+  border-block-end: 5px solid var(--text-2);
+  transform: translateX(-50%) rotate(180deg);
+}
+/* The key: a timber peg that sits over the chosen stop. */
+.ib-kumiko__key {
+  position: absolute;
+  inset-block: -8px;
+  inset-inline-start: calc((var(--at, 0) * (100% - 100% / var(--count, 1))) + (100% / var(--count, 1) / 2));
+  inline-size: 14px;
+  margin-inline-start: -7px;
+  background: var(--text);
+  box-shadow:
+    inset 0 0 0 2px var(--text),
+    inset 0 0 0 3px var(--surface-raised);
+  cursor: grab;
+  transition: inset-inline-start var(--t-shoji) var(--ease-shoji);
+}
+.ib-kumiko[data-dragging] .ib-kumiko__key {
+  cursor: grabbing;
+  transition-duration: 90ms;
+}
+.ib-kumiko__key:focus-visible {
+  outline-offset: 3px;
+}
+.ib-kumiko[data-disabled] {
+  opacity: 0.55;
+}
+.ib-kumiko[data-disabled] .ib-kumiko__bar,
+.ib-kumiko[data-disabled] .ib-kumiko__key {
+  cursor: not-allowed;
+}
+.ib-kumiko__hint {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+
+/* ------------------------------------------------------------------------ WhyNot */
+
+.ib-whynot__list,
+.ib-checklane__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-whynot__row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--ma-3);
+  padding: var(--ma-3) 0;
+  border-block-end: 1px solid color-mix(in oklch, var(--line) 70%, transparent);
+}
+@media (max-width: 559.98px) {
+  .ib-whynot__row {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .ib-whynot__side {
+    grid-column: 2;
+    justify-items: start;
+  }
+}
+.ib-whynot__mon {
+  color: var(--text-3);
+  padding-block-start: 2px;
+}
+.ib-whynot__main {
+  display: grid;
+  gap: 2px;
+}
+.ib-whynot__name {
+  font-weight: 700;
+}
+.ib-whynot__detail {
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-whynot__side {
+  display: grid;
+  justify-items: end;
+  gap: 0;
+}
+
+/* Reason chip: a mark shape per reason, so it reads without colour. */
+.ib-reason {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-block-size: 28px;
+  padding: 0 0.6em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-1);
+  background: var(--surface-raised);
+  color: var(--text-2);
+  font-family: var(--font-gothic);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  white-space: nowrap;
+}
+button.ib-reason {
+  cursor: pointer;
+}
+button.ib-reason:hover {
+  border-color: var(--text-2);
+}
+.ib-reason__rule {
+  font-weight: 400;
+}
+.ib-reason__mark {
+  inline-size: 8px;
+  block-size: 8px;
+  border: 1.5px solid currentColor;
+}
+.ib-reason[data-reason="rule"] .ib-reason__mark {
+  background: currentColor;
+}
+.ib-reason[data-reason="memory"] .ib-reason__mark {
+  border-radius: var(--r-mon);
+}
+.ib-reason[data-reason="tenure"] .ib-reason__mark {
+  border-style: dashed;
+}
+.ib-reason[data-reason="witness"] .ib-reason__mark {
+  transform: rotate(45deg);
+}
+.ib-reason[data-reason="target"] .ib-reason__mark {
+  border-radius: var(--r-mon);
+  background: radial-gradient(circle, currentColor 30%, transparent 32%);
+}
+.ib-reason[data-reason="budget"] {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+.ib-reason[data-reason="budget"] .ib-reason__mark {
+  background: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 3px);
+}
+
+/* --------------------------------------------------------------------- CheckLane */
+
+.ib-checklane {
+  padding: var(--ma-4);
+  border: 1.5px dashed var(--text-3);
+  background: var(--surface);
+}
+.ib-checklane__lede {
+  margin: calc(-1 * var(--ma-2)) 0 var(--ma-3);
+  max-inline-size: 40rem;
+  color: var(--text-2);
+  font-size: var(--fs-ui);
+}
+.ib-checklane__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+  grid-template-areas:
+    "what check actions"
+    "gains gains actions";
+  gap: var(--ma-2) var(--ma-4);
+  padding: var(--ma-4) 0;
+  border-block-start: 1px solid var(--line);
+}
+@media (max-width: 767.98px) {
+  .ib-checklane__row {
+    grid-template-columns: 1fr;
+    grid-template-areas: "what" "check" "gains" "actions";
+  }
+}
+.ib-checklane__what {
+  grid-area: what;
+  display: grid;
+  gap: var(--ma-1);
+  align-content: start;
+}
+.ib-checklane__mons {
+  display: flex;
+  gap: var(--ma-1);
+  color: var(--text-2);
+}
+.ib-checklane__name {
+  font-family: var(--font-mincho);
+  font-weight: 700;
+}
+.ib-checklane__check {
+  grid-area: check;
+  display: grid;
+  gap: 2px;
+  font-size: var(--fs-ui);
+}
+.ib-checklane__needs {
+  color: var(--warning);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ib-checklane__check-name {
+  font-weight: 500;
+}
+.ib-checklane__cost-label,
+.ib-checklane__rules {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-checklane__gains {
+  grid-area: gains;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-4);
+  margin: 0;
+}
+.ib-checklane__actions {
+  grid-area: actions;
+  display: grid;
+  align-content: start;
+  justify-items: end;
+  gap: var(--ma-1);
+}
+@media (max-width: 767.98px) {
+  .ib-checklane__actions {
+    justify-items: start;
+  }
+}
+.ib-checklane__done {
+  max-inline-size: 14rem;
+  color: var(--good);
+  font-size: var(--fs-ui);
+  font-weight: 700;
+}
+.ib-checklane__done::before {
+  content: "";
+  display: inline-block;
+  inline-size: 0.6em;
+  block-size: 0.35em;
+  margin-inline-end: 0.5em;
+  border-inline-start: 2px solid currentColor;
+  border-block-end: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-0.2em);
+}
+.ib-checklane__row[data-check-done] {
+  background: color-mix(in oklch, var(--good-soft) 18%, transparent);
+}
+
+/* --------------------------------------------------------------------- MonthRing */
+
+.ib-monthring__layout {
+  display: grid;
+  grid-template-columns: minmax(12rem, 20rem) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ma-5);
+}
+@media (max-width: 559.98px) {
+  .ib-monthring__layout {
+    grid-template-columns: 1fr;
+  }
+}
+.ib-monthring__ring {
+  inline-size: 100%;
+  cursor: pointer;
+  touch-action: none;
+}
+.ib-monthring__ring svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  overflow: visible;
+}
+.ib-monthring__guide {
+  fill: none;
+  stroke: color-mix(in oklch, var(--line) 60%, transparent);
+  stroke-width: 0.5;
+  stroke-dasharray: 1 2;
+}
+.ib-monthring__rim {
+  fill: var(--surface-raised);
+  stroke: var(--text-3);
+  stroke-width: 0.75;
+}
+.ib-monthring__slot {
+  fill: color-mix(in oklch, var(--surface-sunk) 70%, transparent);
+}
+.ib-monthring__wedge {
+  transition: opacity var(--t-fade) linear;
+}
+.ib-monthring__ring:hover .ib-monthring__wedge:not([data-on], :hover) {
+  opacity: 0.8;
+}
+.ib-monthring__letter {
+  fill: var(--text-3);
+  font-family: var(--font-gothic);
+  font-size: 8px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.ib-monthring__wedge[data-on] .ib-monthring__letter {
+  fill: var(--text);
+}
+.ib-monthring__focus {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.25;
+  transition: d var(--t-shoji) var(--ease-shoji);
+}
+.ib-monthring__ring:focus-visible .ib-monthring__focus {
+  stroke: var(--focus);
+  stroke-width: 2;
+}
+.ib-monthring__centre {
+  fill: var(--text);
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.ib-monthring__readout {
+  display: grid;
+  gap: var(--ma-2);
+}
+.ib-monthring__month {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+}
+.ib-monthring__values {
+  display: grid;
+  gap: var(--ma-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-monthring__values li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ma-3);
+  padding-block-end: var(--ma-1);
+  border-block-end: 1px solid color-mix(in oklch, var(--line) 60%, transparent);
+}
+.ib-monthring__fuel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-2);
+  font-size: var(--fs-ui);
+}
+.ib-monthring__steps {
+  display: flex;
+  gap: var(--ma-4);
+}
+.ib-monthring__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-monthring__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-2);
+}
+
+/* ---------------------------------------------------------------------- Keyframes */
+
+@keyframes ib-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes ib-unfold {
+  from {
+    opacity: 0;
+    transform: perspective(600px) rotateX(-70deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Reduced motion: cross-fades of at most 150 ms, no slides, folds or growth (DS 5). */
+@media (prefers-reduced-motion: reduce) {
+  .ib-narrator__s,
+  .ib-byobu__panel,
+  .ib-nothing,
+  .ib-score__indicators,
+  .ib-future__more:not([hidden]),
+  .ib-strip__fill,
+  .ib-fuelbars__bar {
+    animation: ib-fade var(--t-fade) linear both;
+    animation-delay: 0s;
+  }
+  .ib-byobu__panel {
+    transform: none;
+  }
+  .ib-pencil,
+  .ib-narrator__pencil {
+    animation: none;
+  }
+  .ib-sheet,
+  .ib-sheet[data-open],
+  .ib-kumiko__key,
+  .ib-fuda,
+  .ib-monthring__focus {
+    transition-property: opacity, visibility;
+    transition-duration: var(--t-fade), 0s;
+  }
+  .ib-fuda:hover {
+    transform: none;
+  }
+}
+:root[data-motion="reduced"]
+  :is(
+    .ib-narrator__s,
+    .ib-byobu__panel,
+    .ib-nothing,
+    .ib-score__indicators,
+    .ib-future__more:not([hidden]),
+    .ib-strip__fill,
+    .ib-fuelbars__bar
+  ) {
+  animation: ib-fade var(--t-fade) linear both;
+  animation-delay: 0s;
+}
+:root[data-motion="reduced"] .ib-byobu__panel {
+  transform: none;
+}
+:root[data-motion="reduced"] :is(.ib-pencil, .ib-narrator__pencil) {
+  animation: none;
+}
+:root[data-motion="reduced"]
+  :is(.ib-sheet, .ib-sheet[data-open], .ib-kumiko__key, .ib-fuda, .ib-monthring__focus) {
+  transition-property: opacity, visibility;
+  transition-duration: var(--t-fade), 0s;
+}
+:root[data-motion="reduced"] .ib-fuda:hover {
+  transform: none;
+}

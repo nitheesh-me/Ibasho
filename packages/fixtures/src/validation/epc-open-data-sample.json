@@ -1,0 +1,35 @@
+{
+  "schema": "ibasho.validation/1",
+  "id": "epc-open-data-sample",
+  "title": "500 domestic EPC records from the open data service (AC-R1 band confusion)",
+  "grade": "primary",
+  "dataDate": "pending",
+  "retrieved": "pending",
+  "status": "pending",
+  "sources": [
+    {
+      "title": "DLUHC Energy Performance of Buildings Data, England and Wales (domestic)",
+      "url": "https://epc.opendatacommunities.org"
+    }
+  ],
+  "data": {
+    "target": 500,
+    "records": [],
+    "fields": [
+      "lmk-key",
+      "property-type",
+      "built-form",
+      "construction-age-band",
+      "total-floor-area",
+      "walls-description",
+      "roof-description",
+      "floor-description",
+      "windows-description",
+      "mainheat-description",
+      "main-fuel",
+      "current-energy-rating",
+      "current-energy-efficiency"
+    ]
+  },
+  "notes": "PLACEHOLDER: the API needs a registered account key, which this build does not have. AC-R1 (M-B) cannot run until 500 records are downloaded; until then every band shows +-1 and no compliant label exists (SPEC 12)."
+}

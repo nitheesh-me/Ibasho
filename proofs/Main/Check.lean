@@ -24,7 +24,7 @@ def report (c : Cert) : Lean.Json × Bool :=
   let ok := vs.all (·.ok)
   (Lean.Json.mkObj [("schema", "ibasho.verdicts/1"), ("ok", ok), ("specHash", c.specHash),
     ("rows", c.rows), ("verdicts", Lean.Json.arr (vs.map verdictJson).toArray),
-    ("skipped", Lean.Json.arr (skipped.map fun (id, why) =>
+    ("skipped", Lean.Json.arr ((skipped c).map fun (id, why) =>
       Lean.Json.mkObj [("check", id.name), ("reason", why)]).toArray)], ok)
 
 def malformed (e : String) : Lean.Json :=

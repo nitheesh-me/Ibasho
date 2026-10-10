@@ -7,6 +7,7 @@ data only after `packs.wellformed`). Everything under `claimed`, `front`, `picks
 `needsCheck` is re-derived by `Check.lean`.
 -/
 import Ibasho.Spec.V2.Units
+import Ibasho.Spec.V2.Score
 import Ibasho.Spec.V2.Rules.Kleene
 
 namespace Ibasho.Check
@@ -86,6 +87,28 @@ structure Picks where
   lowestCarbon : Option Nat
   deriving Repr, DecidableEq
 
+/-- Climate zone of the score anchors (`ukAnchors`, `inAnchors`; TS `AnchorZone`). -/
+inductive Zone where
+  | uk | india
+  deriving Repr, DecidableEq
+
+/-- One scored package: its row, the seven indicators (dimension order F C E A H R T, R and T as
+their composites; standard mode, trusted physics) and the claimed sub-scores, group scores
+(fabric and heating, running cost, carbon, comfort) and total, all exact. -/
+structure ScoreRow where
+  row : Nat
+  ind : List Rat
+  sub : List Rat
+  groups : List Rat
+  total : Rat
+
+/-- The score block of a certificate (`claimed.score`): the anchors in use and every scored
+package, at least the displayed ones (front and picks). -/
+structure ScoreClaim where
+  zone : Zone
+  mode : AMode
+  rows : List ScoreRow
+
 /-- The decoded certificate. Arrays are row-major; `n` rows. -/
 structure Cert where
   specHash : String
@@ -98,6 +121,8 @@ structure Cert where
   horizon : Nat
   target : Target
   rejected : List String
+  /-- Measures (or option ids) the owner marked done (SPEC AC-P1); excluded like `rejected`. -/
+  completed : List String
   /-- `context.home` present: region, `h.*` facts, recorded checks. -/
   region : Option String
   homeFacts : FactTable
@@ -131,6 +156,10 @@ structure Cert where
   saving : Option (Array Int)
   /-- Annual operational carbon saved per row (g), when the emitter includes it. -/
   carbonAnnual : Option (Array Int)
+  /-- Annual your-home bill per row and fuel (`[row][fuel]`, micro-pence), `money.bills`. -/
+  bills : Option (Array Int)
+  /-- Score of the displayed packages (`score.recompute`), when the certificate claims one. -/
+  score : Option ScoreClaim
   front : List Nat
   picks : Picks
   needsCheck : List Nat

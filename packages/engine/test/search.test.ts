@@ -201,8 +201,13 @@ describe('rules, target and status', () => {
     expect(r.picks).toEqual({});
   });
 
-  it('the EPC band target is refused until the rating proxy exists (never guessed)', async () => {
-    await expect(run(request({ target: { kind: 'epc-band-at-least', band: 'C' } }))).rejects.toThrow(/M-B/);
+  it('the EPC band target reads the rating proxy; band A is out of reach for GH1 (never guessed)', async () => {
+    // A separate engine, so the shared one keeps its four remembered results.
+    const other = await readyEngine();
+    const r = await (await other.search(request({ target: { kind: 'epc-band-at-least', band: 'A' } })))
+      .result;
+    expect([...r.packages.status].includes(PACKAGE_STATUS.feasible)).toBe(false);
+    expect(r.picks).toEqual({});
   });
 });
 
@@ -393,7 +398,6 @@ describe('jobs: progress and cancel (B8)', () => {
   });
 
   it('API methods of later milestones say so instead of guessing', async () => {
-    await expect(engine.flips(res.hash, 'discount')).rejects.toBeInstanceOf(NotImplementedYet);
     await expect(engine.uncertainty(res.hash, [], 200)).rejects.toBeInstanceOf(NotImplementedYet);
   });
 

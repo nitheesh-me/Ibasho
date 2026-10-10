@@ -1,0 +1,30 @@
+{
+  "schema": "ibasho.validation/1",
+  "id": "lbnl-cool-roof",
+  "title": "Cool roof savings, Hyderabad (LBNL)",
+  "grade": "secondary",
+  "retrieved": "2026-10-10",
+  "status": "ready",
+  "sources": [
+    {
+      "title": "LBNL, Using cool roofs to reduce energy use (Hyderabad measurements)",
+      "url": "https://eta-publications.lbl.gov/publications/using-cool-roofs-reduce-energy-use"
+    }
+  ],
+  "data": {
+    "coolingSavingPct": {
+      "lo": 10,
+      "hi": 19
+    },
+    "savingKWhPerM2RoofPerYear": {
+      "lo": 13,
+      "hi": 14
+    },
+    "absorptance": {
+      "darkRcc": 0.75,
+      "newCoolRoof": [0.2, 0.25],
+      "agedCoolRoof": [0.35, 0.45]
+    }
+  },
+  "notes": "Top-floor archetype should land in range (BP 8). Absorptance values from BP 3.5."
+}

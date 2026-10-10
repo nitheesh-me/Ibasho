@@ -3,8 +3,8 @@
  *
  * Runs the Lean checker (`proofs/.lake/build/bin/ibasho-check`) and the TS mirror on each
  * certificate and requires them to agree (check id, ok, path, exit code). With no argument it
- * runs the committed set in `packages/fixtures/src/certs/`: the golden must pass and every
- * mutant must fail its named check.
+ * runs the committed set in `packages/fixtures/src/certs/`: the golden and the scored
+ * certificate must pass and every mutant must fail its named check (at its row, when named).
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
@@ -53,20 +53,24 @@ export function runOne(file: string): Outcome {
 
 interface Manifest {
   golden: string;
-  mutants: { file: string; fails: string; path: string }[];
+  scored?: string;
+  mutants: { file: string; fails: string; path?: string }[];
 }
 
 export function runCommitted(): Outcome[] {
   const m = JSON.parse(readFileSync(join(CERT_DIR, 'manifest.json'), 'utf8')) as Manifest;
-  const golden = runOne(join(CERT_DIR, m.golden));
-  golden.expected = golden.mirror.code === 0;
+  const passing = [m.golden, ...(m.scored === undefined ? [] : [m.scored])].map((f) => {
+    const o = runOne(join(CERT_DIR, f));
+    o.expected = o.mirror.code === 0;
+    return o;
+  });
   const mutants = m.mutants.map((mu) => {
     const o = runOne(join(CERT_DIR, mu.file));
     const v = o.mirror.report.verdicts?.find((x) => x.check === mu.fails);
     o.expected = o.mirror.code === 1 && v?.ok === false && v.path === mu.path;
     return o;
   });
-  return [golden, ...mutants];
+  return [...passing, ...mutants];
 }
 
 export function main(args: string[]): number {

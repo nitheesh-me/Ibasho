@@ -7,7 +7,7 @@ Deterministic exp, log, log10, pow, sin, cos, atan2, acos and sqrt ported from f
 
 ## Public API
 
-M-0 exports `exp`, `log`, `log10`, `pow` and `sqrt`. ARCH 4.3 also lists `sin`, `cos`, `atan2` and `acos`, which come at M-A.
+Exports `exp`, `log`, `log10`, `pow`, `sqrt`, `sin`, `cos` and `PI`. ARCH 4.3 also lists `atan2` and `acos` (not yet built).
 
 - `exp`, `log`, `log10`: ports of fdlibm 5.3, error under 1 ulp, using only IEEE basic operations, so every engine gets the same bits.
 - `sqrt`: correctly rounded, bit for bit equal to IEEE sqrt.
@@ -17,6 +17,7 @@ M-0 exports `exp`, `log`, `log10`, `pow` and `sqrt`. ARCH 4.3 also lists `sin`, 
 
 - **Done at M-0:** `exp`, `log`, `log10`, `sqrt`, `pow`. The tests pin bit patterns as cross-engine vectors and compare against the platform within 1 ulp.
 - **PLACEHOLDER:** the general case of `pow` is not yet the full fdlibm `e_pow.c` port.
-- **Not yet built (M-A):** `sin`, `cos`, `atan2`, `acos`; the Chromium and Firefox vector run (A5).
+- **Done at M-A:** `sin`, `cos` (FreeBSD msun ports, under 1 ulp, arguments below 2^20 π/2; larger ones throw).
+- **Not yet built:** `atan2`, `acos` (no engine stage needs them yet); the Chromium and Firefox vector run (A5, WP-10 browser matrix).
 
 Commands: `pnpm --filter @ibasho/dmath typecheck`, `pnpm --filter @ibasho/dmath test`.

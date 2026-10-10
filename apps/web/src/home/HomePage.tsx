@@ -1,20 +1,24 @@
 /**
- * `/app/home/:id`, the home stage at M-0 (SPEC 5.3, BUILD_PLAN M-0 step 9). Owner: WP-08.
+ * `/app/home/:id`, the home stage (SPEC 5.3). Owner: WP-08.
  *
- * Zones (DS 4.3): Niwa (the house), Engawa (the narrator strip), Zashiki (the futures, seals and
- * the check lane) with the Tokonoma card holding the seals. Every number is a `Num` chip over the
- * engine's evidence; the Checked seal appears only when the mirror agreed with every row and the
- * spec is the real generated one.
+ * Zones (DS 4.3, `shell/Zones.tsx`): Niwa (the house on WP-07's stage), Engawa (the narrator
+ * strip), Zashiki (the futures, seals and the check lane) with the Tokonoma card holding the
+ * seals. Every number is a `Num` chip over the engine's evidence; the Checked seal appears only
+ * when the mirror agreed with every row and the spec is the real generated one. A home is a
+ * sample or a person's own (from onboarding or the store); arriving from onboarding plays the
+ * Reveal.
  */
 import type { EvidenceId, EvidenceNode, SearchProgress } from '@ibasho/core';
 import { ClaimSeal, EvidenceProvider, Num, Seal, staticEvidence } from '@ibasho/ui';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import { useShell } from '../shell/Shell.tsx';
 import { useServices } from '../shell/services.ts';
-import { HouseDrawing } from './HouseDrawing.tsx';
+import { Zones } from '../shell/Zones.tsx';
+import { HomeHouse } from './HomeHouse.tsx';
+import { findHome } from './homes.ts';
 import { type HomeRun, runHome } from './run.ts';
-import { type SampleHome, sampleHome } from './sample.ts';
+import { type HomeEntry, sampleHome } from './sample.ts';
 import { homeView, type PickView } from './view.ts';
 
 const PHASE_WORDS: Record<SearchProgress['phase'], string> = {
@@ -32,14 +36,37 @@ type State =
   | { kind: 'ready'; run: HomeRun }
   | { kind: 'error'; message: string };
 
+type Lookup = { id: string; home: HomeEntry | undefined } | null;
+
 export function HomePage() {
   const { id = '' } = useParams();
-  const home = useMemo(() => sampleHome(id), [id]);
-  if (!home) return <UnknownHome id={id} />;
-  return <HomeStage key={home.id} home={home} />;
+  const services = useServices();
+  const location = useLocation();
+  const reveal = (location.state as { reveal?: unknown } | null)?.reveal === true;
+  // Samples resolve at once (no flash); a person's own home may need the store.
+  const [lookup, setLookup] = useState<Lookup>(() => {
+    const s = sampleHome(id);
+    return s ? { id, home: s } : null;
+  });
+  useEffect(() => {
+    if (lookup?.id === id) return;
+    let live = true;
+    findHome(id, services.store()).then((home) => live && setLookup({ id, home }));
+    return () => {
+      live = false;
+    };
+  }, [id, lookup, services]);
+  if (!lookup || lookup.id !== id)
+    return (
+      <p className="ib-empty__wait" aria-live="polite">
+        Finding your home
+      </p>
+    );
+  if (!lookup.home) return <UnknownHome id={id} />;
+  return <HomeStage key={lookup.home.id} home={lookup.home} reveal={reveal} />;
 }
 
-function useHomeRun(home: SampleHome): [State, () => void] {
+function useHomeRun(home: HomeEntry): [State, () => void] {
   const [state, setState] = useState<State>({ kind: 'computing', phase: null });
   const [attempt, setAttempt] = useState(0);
   const services = useServices();
@@ -66,7 +93,7 @@ function useHomeRun(home: SampleHome): [State, () => void] {
   return [state, useCallback(() => setAttempt((a) => a + 1), [])];
 }
 
-function HomeStage({ home }: { home: SampleHome }) {
+function HomeStage({ home, reveal }: { home: HomeEntry; reveal: boolean }) {
   const { theme, reducedMotion } = useShell();
   const [state, retry] = useHomeRun(home);
   const [open, setOpen] = useState<EvidenceId | null>(null);
@@ -80,25 +107,32 @@ function HomeStage({ home }: { home: SampleHome }) {
 
   return (
     <EvidenceProvider source={source}>
-      <div className="ib-home" data-state={state.kind}>
-        <section className="ib-niwa ib-washi" aria-label="Your home">
-          <div className="ib-niwa__drawing">
-            <HouseDrawing
-              twin={home.twin}
-              theme={theme}
-              pencil={state.kind !== 'ready'}
-              reducedMotion={reducedMotion}
-              title={`Cutaway drawing of ${home.name.toLowerCase()} in ${home.place}`}
-            />
-          </div>
-          <p className="ib-niwa__caption">
-            <span className="ib-kicker">Your home</span>
+      <Zones
+        state={state.kind}
+        niwaLabel="Your home"
+        niwa={
+          <HomeHouse
+            twin={home.twin}
+            result={run?.result ?? null}
+            theme={theme}
+            pencil={state.kind !== 'ready'}
+            reducedMotion={reducedMotion}
+            reveal={reveal}
+            title={
+              home.sample
+                ? `Cutaway drawing of ${home.name.toLowerCase()} in ${home.place}`
+                : `Cutaway drawing of your home in ${home.place}`
+            }
+          />
+        }
+        caption={
+          <>
+            <span className="ib-kicker">{home.sample ? 'A sample home' : 'Your home'}</span>
             {home.name}, {home.place}. Drawn from what we know about it; some parts are estimates.
-          </p>
-        </section>
-
-        <aside className="ib-engawa" aria-live="polite" aria-label="What is happening">
-          {state.kind === 'computing' ? (
+          </>
+        }
+        engawa={
+          state.kind === 'computing' ? (
             <p className="ib-engawa__line" data-phase={state.phase ?? 'start'}>
               <span className="ib-inkstone" aria-hidden="true" />
               {state.phase ? PHASE_WORDS[state.phase] : 'Waking the engine'}
@@ -116,11 +150,10 @@ function HomeStage({ home }: { home: SampleHome }) {
               We tried every combination of the changes we know for this home, kept only those that pass the
               rules, and had a second checker redo the sums. Here is what stands out.
             </p>
-          )}
-        </aside>
-
-        <div className="ib-zashiki">
-          {view && run ? (
+          )
+        }
+        zashiki={
+          view && run ? (
             <>
               <section className="ib-tokonoma ib-washi" aria-label="What we checked and proved">
                 {view.checked ? (
@@ -192,11 +225,10 @@ function HomeStage({ home }: { home: SampleHome }) {
               <div className="ib-ghost" />
               <div className="ib-ghost" />
             </div>
-          )}
-        </div>
-
-        {openNode ? <EvidenceNote node={openNode} onClose={() => setOpen(null)} /> : null}
-      </div>
+          )
+        }
+      />
+      {openNode ? <EvidenceNote node={openNode} onClose={() => setOpen(null)} /> : null}
     </EvidenceProvider>
   );
 }

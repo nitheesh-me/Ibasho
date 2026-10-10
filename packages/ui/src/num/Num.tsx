@@ -32,15 +32,20 @@ export interface NumProps {
   as?: DisplayAs;
   /** Visual size. `display` is the score numeral. */
   size?: 'ui' | 'body' | 'display';
+  /**
+   * Narration (R11): no seal glyph, no seal in the accessible name, no seal note. The evidence
+   * drawer still shows the seal when the chip is opened.
+   */
+  plain?: boolean;
   className?: string;
 }
 
-export function Num({ ev, seal, signed, delta, as, size = 'body', className }: NumProps) {
+export function Num({ ev, seal, signed, delta, as, size = 'body', plain = false, className }: NumProps) {
   const src = useEvidenceSource();
   const node = src.node(ev);
   const noteId = useId();
   const ref = useRef<HTMLButtonElement>(null);
-  const cls = ['ib-num', className].filter(Boolean).join(' ');
+  const cls = ['ib-num', plain ? 'ib-num--plain' : undefined, className].filter(Boolean).join(' ');
 
   let f: Formatted | undefined;
   let error: string | undefined;
@@ -89,7 +94,7 @@ export function Num({ ev, seal, signed, delta, as, size = 'body', className }: N
   const level: NumberSeal = seal ?? node.seal;
   const check = level === 'checked' && node.check ? node.check : undefined;
   const sealLabel = sealName(check ? { level, check } : { level });
-  const label = `${f.spoken}. ${sealLabel}. Open evidence.`;
+  const label = plain ? `${f.spoken}. Open evidence.` : `${f.spoken}. ${sealLabel}. Open evidence.`;
 
   return (
     <button
@@ -103,7 +108,7 @@ export function Num({ ev, seal, signed, delta, as, size = 'body', className }: N
       data-delta={delta}
       data-sign={f.sign}
       aria-label={label}
-      aria-describedby={noteId}
+      aria-describedby={plain ? undefined : noteId}
       onClick={() => {
         if (ref.current) src.open?.(ev, ref.current);
       }}
@@ -122,14 +127,18 @@ export function Num({ ev, seal, signed, delta, as, size = 'body', className }: N
           </span>
         ))}
       </span>
-      <span className="ib-num__seal ib-seal" data-seal={level} data-size="glyph" aria-hidden="true">
-        <span className="ib-seal__print">
-          <SealMark kind={level} size="glyph" seed={sealSeed(ev)} />
-        </span>
-      </span>
-      <span id={noteId} role="tooltip" className="ib-num__note">
-        <span className="ib-num__note-level">{sealLabel}.</span> {notProvedLine(NOT_PROVED[level])}
-      </span>
+      {plain ? null : (
+        <>
+          <span className="ib-num__seal ib-seal" data-seal={level} data-size="glyph" aria-hidden="true">
+            <span className="ib-seal__print">
+              <SealMark kind={level} size="glyph" seed={sealSeed(ev)} />
+            </span>
+          </span>
+          <span id={noteId} role="tooltip" className="ib-num__note">
+            <span className="ib-num__note-level">{sealLabel}.</span> {notProvedLine(NOT_PROVED[level])}
+          </span>
+        </>
+      )}
     </button>
   );
 }

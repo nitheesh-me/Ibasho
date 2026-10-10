@@ -37,21 +37,23 @@ const owner: OwnerCtx = { tenure: 'owner', discountRatePpb: 35_000_000n, horizon
 const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 describe('module', () => {
-  it('registers with home-uk: every M-0 option now has a measure-cost (ARCH 4.1 measure ids)', async () => {
+  it('registers with home-uk: every registered option has a measure-cost (ARCH 4.1 measure ids)', async () => {
     const reg = createRegistry();
-    reg.registerAll([...(await homeUkEngineModule.load()), ...(await moneyUkEngineModule.load())]);
-    expect(
-      reg
-        .all('measure-cost')
-        .map((c) => c.optionId)
-        .sort(),
-    ).toEqual([
-      'draught-proofing-chimney-balloon',
-      'heat-ashp',
-      'heat-ashp-radiators-plus',
-      'loft-270',
-      'loft-300',
-    ]);
+    const home = await homeUkEngineModule.load();
+    reg.registerAll([...home, ...(await moneyUkEngineModule.load())]);
+    const costed = new Set(reg.all('measure-cost').map((c) => c.optionId));
+    for (const m of reg.all('measure')) {
+      for (const o of m.options) expect(costed.has(o.id), o.id).toBe(true);
+    }
+    // SPEC 9 options beyond the measures modelled so far, the like-for-like boiler and assessments.
+    for (const id of [
+      'glazing-double-a',
+      'pv-3kwp',
+      'cylinder-new',
+      'gas-combi-condensing',
+      'assess-pas2035',
+    ])
+      expect(costed.has(id), id).toBe(true);
     expect(reg.all('tariff', { region: 'GB-ENG', asOf: '2026-10-11' })).toHaveLength(2);
     expect(reg.all('tariff', { region: 'GB-ENG', asOf: '2027-01-01' })).toHaveLength(0);
   });

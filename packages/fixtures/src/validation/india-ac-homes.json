@@ -1,0 +1,38 @@
+{
+  "schema": "ibasho.validation/1",
+  "id": "india-ac-homes",
+  "title": "Metered electricity in Indian homes with and without AC (41 dwellings)",
+  "grade": "secondary",
+  "retrieved": "2026-10-10",
+  "status": "ready",
+  "sources": [
+    {
+      "title": "Oxford Brookes University, metered study of AC use in Indian homes (via BP 8)",
+      "url": "https://radar.brookes.ac.uk/radar/items/b4988545-d335-44d7-9129-4216da43a844/1"
+    },
+    {
+      "title": "Down To Earth on CLASP and BEE 2024: cooling appliances drive household electricity",
+      "url": "https://www.downtoearth.org.in/amp/story/energy/cooling-appliances-now-drive-indias-household-electricity-use"
+    }
+  ],
+  "data": {
+    "dwellings": 41,
+    "acHomesKWhPerYear": 4208,
+    "nonAcHomesKWhPerYear": 2260,
+    "acRuntimeHoursPerNight": 6.2,
+    "acHomeSummerKWhPerDay": 15.1,
+    "coolingShareOfHouseholdElectricity": 0.4,
+    "engineTarget": {
+      "case": "Hyderabad 2BHK, 2 ACs, 7 h per night",
+      "kWhPerYear": {
+        "lo": 3500,
+        "hi": 5000
+      },
+      "coolingPlusFansShare": {
+        "lo": 0.3,
+        "hi": 0.5
+      }
+    }
+  },
+  "notes": "Values as summarised in BP 8; re-read against the paper before any public claim (graded secondary)."
+}

@@ -68,6 +68,8 @@ We also made our claims say exactly what is true. "A better home never scores wo
 
 The rest are smaller. We renamed the three futures Least upfront, Best return and Lowest running carbon, and moved the budget question to after the owner has seen them. Real bills can now correct the model, including the wall's insulation value, within published limits. And AI assistants can explore a home through a standard plug-in, using the same controls a person does.
 
+We have also widened the scope to outcomes that make a home worse. Ibasho will show what happens if maintenance is ignored, accept custom what-if requests from the owner and run them through the same engine, and put every negative impact next to the savings. Part of this already works: the heat pump below has a negative 25-year value, and Ibasho shows it rather than hiding it.
+
 = 3 · On the reference home, two cheap measures do more together than apart
 
 Our reference home is a 1905 brick terrace in a London conservation area. We tried three measures on it: loft insulation, draught-proofing and a heat pump.
@@ -88,10 +90,10 @@ We also tested the safeguards. We planted 34 deliberate errors in a result, such
 
 = 4 · Four of M1's seven claims now pass
 
-The two claims we have not started need more of the model in place. The physics needs published UK home energy data to compare against, and building context needs all measures and three unseen homes.
+The two claims we have not started need more of the model in place. The physics needs published UK home energy data to compare against, and building context needs all measures and three unseen homes. We have also added one claim of our own, that Ibasho shows outcomes that make a home worse. Its tests come next.
 
 #rows(columns: (2fr, auto, 2.4fr),
-  [Claim from M1], [State], [Evidence],
+  [Claim], [State], [Evidence],
   [The arithmetic is correct], ok, [Proved in Lean, with no shortcuts.],
   [The checks catch errors], ok, [34 of 34 planted errors caught.],
   [The physics is plausible], todo, [Compare with published UK home energy data.],
@@ -99,11 +101,12 @@ The two claims we have not started need more of the model in place. The physics 
   [The AI stays grounded], ok, [No AI-written numbers shown. All planted instructions caught.],
   [The memory is consistent], ok, [500 of 500 sessions consistent.],
   [It works end to end], wip, [All layers connect. The first app screen is being finished.],
+  [Bad outcomes are shown (new)], todo, [Test ignored maintenance, custom owner requests and negative results.],
 )
 
 = 5 · Next we finish the screen and validate the physics
 
-First we finish the app screen for the reference home. Then we bring the physics to full strength and check it against real data, and add all twelve UK measures with the full planning and safety rules. On top of that we build the story the owner sees: the three futures, an answer to every "why not?", and the ability to tap any number to see where it came from. We will test on three unseen homes before any polishing. The landing page, a Hyderabad flat, landlords and whole streets come later.
+First we finish the app screen for the reference home. Then we bring the physics to full strength and check it against real data, and add all twelve UK measures with the full planning and safety rules. On top of that we build the story the owner sees: the three futures, an answer to every "why not?", and the ability to tap any number to see where it came from. The same story will cover bad outcomes: the cost of skipped maintenance, the result of any custom request, and every negative impact. We will test on three unseen homes before any polishing. The landing page, a Hyderabad flat, landlords and whole streets come later.
 
 #block(fill: tint, inset: 8pt, radius: 3pt, width: 100%)[
   #set text(9.8pt)

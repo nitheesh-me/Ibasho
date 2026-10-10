@@ -449,6 +449,18 @@ Each owner writes thin real code in its own directories, in this order. The slic
   - L8 `claude plugin eval` runs the plugin evals (explore GH1, find the biggest heat leak, explain why inside insulation is absent) and records scores on the blackboard (manual gate).
 - **Gate:** M-B (headless MCP, L1 to L3), M-D (bridge, live tools, plugin, installer, L4 to L8).
 
+### Bad outcomes (SPEC 14), cross-WP
+
+| Part | Owner | Gate |
+|---|---|---|
+| `maintenance` plugin kind and contract | WP-00 (steward) | M-B |
+| Decay models (boiler, seals, heat pump servicing) in `packs/home-uk/src/engine/maintenance/` | WP-01 | M-B |
+| "If nothing is done" run, negatives list per package | WP-02 | M-B |
+| Custom request parsing to `Op`s, "can't model that yet" | WP-05 | M-D |
+| Fourth line beside the futures, negatives on every card | WP-08 | M-B to M-D |
+| Plain copy for each negative and decay effect | WP-09 | M-D |
+| AC-B1 to AC-B3 | WP-10 | M-D |
+
 ## 5. Gates
 
 | Gate | Definition of done | Must be green |

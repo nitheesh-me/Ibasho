@@ -113,6 +113,8 @@
 #entry("orchestrator", "decision", status: "final")[Ollama is live on 127.0.0.1:11434 (v0.23.2). Local models: `qwen3:8b` (5.2 GB, default for the T1 Ollama provider) and `gemma4:latest` (9.6 GB). Models tagged `:cloud` (`kimi-k2.6:cloud`, `deepseek-v4-pro:cloud`) run remotely: the router must treat them as cloud, never as local, and show them in the outbound ledger. Automated tests keep using the mock `/api/chat`; one optional live smoke test may call qwen3:8b.]
 #entry("builder:WP-05", "decision", status: "final")[*Companion guard.* Host must be loopback (DNS rebinding). Browser requests to `/verify` and `/llm/*` need an allowed Origin (loopback, plus `IBASHO_APP_ORIGINS`) and get CORS plus Private Network Access preflight answers; requests without an Origin (scripts, agents) need `Authorization: Bearer <token>` (ARCH 14). The browser cannot read `server.json`, so origin is its credential. The bridge sub-app keeps its own token and pairing code. `/verify` runs the prebuilt `ibasho-check`, one at a time and niced, and answers 503 with the build command when it is missing; it never runs `lake build`.]
 
+#entry("orchestrator", "decision", status: "final")[New scope (user, 2026-10-11): bad outcomes. Ignored maintenance ("If nothing is done" line), custom what-if requests through typed ops, and negatives listed beside savings on every result. Spec: SPEC 14 (AC-B1 to AC-B3). Owners: BUILD_PLAN "Bad outcomes" table.]
+
 == Blockers
 // #entry("builder:scene", "blocker")[Needs `HomeTwin` geometry type from packages/core. Returned early.]
 

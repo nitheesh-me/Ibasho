@@ -490,3 +490,16 @@ A person can ask an AI agent, for example Claude Code, to explore their home wit
 - Install: `pnpm agent:install` (Claude Code plugin, or direct skill + subagent + MCP + hook, like the tldraw offline skill). `--uninstall` removes only what it installed.
 
 Acceptance: BUILD_PLAN WP-12 L1 to L8.
+
+## 14. Bad outcomes: ignored maintenance, custom requests, negative impacts
+
+Ibasho shows what makes a home worse as plainly as what makes it better.
+
+- **Ignored maintenance.** A "do nothing" future that ages the home: boiler efficiency drifts down, seals and draught-proofing wear, an unserviced heat pump loses efficiency, and a counterfactual boiler replacement falls due. Each effect comes from a documented decay model in a pack (`maintenance` plugin kind), with its source and a range, never a guess presented as fact. Shown as a fourth line beside the three futures: "If nothing is done".
+- **Custom requests.** The owner can ask "what if I only do the front room", "what if I keep the gas hob", "what if prices rise 20%". The intent parser (WP-05) turns the request into typed `Op`s; the engine recomputes the whole package; the answer cites evidence like any other result. Requests that cannot be expressed as ops get a plain "I can't model that yet" and are logged.
+- **Negative impacts.** Every result lists what gets worse beside what gets better: a fuel that rises, a negative NPV, extra disruption, a new risk (moisture, overheating, noise). No result hides a negative behind a total.
+
+Acceptance:
+- **AC-B1** The "If nothing is done" line exists for GH1 and every value in it has evidence and a decay source.
+- **AC-B2** 30 custom requests from a gold set map to the expected ops or to the "can't model that yet" answer; none produces a number not computed by the engine.
+- **AC-B3** For every package shown, each indicator that worsens appears in its negatives list (property test).

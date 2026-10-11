@@ -353,17 +353,17 @@ cbecs-2018:
 nrel-spa:
   type: Report
   title: "Solar Position Algorithm for Solar Radiation Applications"
-  author: "Reda, Ibrahim and Andreas, Afshin"
+  author: ["Reda, Ibrahim", "Andreas, Afshin"]
   url: https://www.nrel.gov/docs/fy08osti/34302.pdf
 perez-1993:
   type: Article
   title: "All-weather model for sky luminance distribution: preliminary configuration and validation"
-  author: "Perez, Richard and Seals, R. and Michalsky, Joseph"
+  author: ["Perez, Richard", "Seals, R.", "Michalsky, Joseph"]
   url: https://doi.org/10.1016/0038-092X(93)90017-I
 robinson-stone-2004:
   type: Article
   title: "Irradiation modelling made simple: the cumulative sky approach and its applications"
-  author: "Robinson, Darren and Stone, Andrew"
+  author: ["Robinson, Darren", "Stone, Andrew"]
   url: https://doi.org/10.1016/j.solener.2004.04.016
 ies-lm-83:
   type: Web

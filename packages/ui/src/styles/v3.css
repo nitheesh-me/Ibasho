@@ -1317,7 +1317,13 @@ span.ib-stale {
   font: inherit;
   font-size: var(--fs-ui);
   font-weight: 500;
-  letter-spacing: 0.02em;
+  /* Round 4 B1: tracking and legibility shaping split words in the 500 cut ("St art"); keep glyph runs whole. */
+  letter-spacing: 0;
+  font-kerning: normal;
+  font-feature-settings: normal;
+  text-rendering: auto;
+  white-space: nowrap;
+  word-break: keep-all;
   text-decoration: none;
   cursor: pointer;
   transition:

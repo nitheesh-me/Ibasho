@@ -1,0 +1,1792 @@
+[
+ {
+  "propertyId": "P10002",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-09-15"
+ },
+ {
+  "propertyId": "P10002",
+  "retrofit": "solar",
+  "completionDate": "2013-10-15"
+ },
+ {
+  "propertyId": "P10003",
+  "retrofit": "heat-pump",
+  "completionDate": "2019-02-15"
+ },
+ {
+  "propertyId": "P10004",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-04-15"
+ },
+ {
+  "propertyId": "P10006",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-08-15"
+ },
+ {
+  "propertyId": "P10006",
+  "retrofit": "glazing",
+  "completionDate": "2022-05-15"
+ },
+ {
+  "propertyId": "P10007",
+  "retrofit": "loft",
+  "completionDate": "2022-07-15"
+ },
+ {
+  "propertyId": "P10007",
+  "retrofit": "cavity-wall",
+  "completionDate": "2017-01-15"
+ },
+ {
+  "propertyId": "P10011",
+  "retrofit": "loft",
+  "completionDate": "2024-06-15"
+ },
+ {
+  "propertyId": "P10014",
+  "retrofit": "glazing",
+  "completionDate": "2019-01-15"
+ },
+ {
+  "propertyId": "P10016",
+  "retrofit": "glazing",
+  "completionDate": "2022-05-15"
+ },
+ {
+  "propertyId": "P10019",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-11-15"
+ },
+ {
+  "propertyId": "P10021",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10022",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-02-15"
+ },
+ {
+  "propertyId": "P10024",
+  "retrofit": "loft",
+  "completionDate": "2014-11-15"
+ },
+ {
+  "propertyId": "P10025",
+  "retrofit": "loft",
+  "completionDate": "2021-08-15"
+ },
+ {
+  "propertyId": "P10025",
+  "retrofit": "glazing",
+  "completionDate": "2017-01-15"
+ },
+ {
+  "propertyId": "P10026",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10028",
+  "retrofit": "cavity-wall",
+  "completionDate": "2013-04-15"
+ },
+ {
+  "propertyId": "P10029",
+  "retrofit": "solar",
+  "completionDate": "2022-04-15"
+ },
+ {
+  "propertyId": "P10035",
+  "retrofit": "solar",
+  "completionDate": "2015-11-15"
+ },
+ {
+  "propertyId": "P10036",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-12-15"
+ },
+ {
+  "propertyId": "P10037",
+  "retrofit": "solar",
+  "completionDate": "2022-02-15"
+ },
+ {
+  "propertyId": "P10038",
+  "retrofit": "solar",
+  "completionDate": "2020-10-15"
+ },
+ {
+  "propertyId": "P10039",
+  "retrofit": "cavity-wall",
+  "completionDate": "2014-11-15"
+ },
+ {
+  "propertyId": "P10040",
+  "retrofit": "loft",
+  "completionDate": "2016-11-15"
+ },
+ {
+  "propertyId": "P10041",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-10-15"
+ },
+ {
+  "propertyId": "P10041",
+  "retrofit": "glazing",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10043",
+  "retrofit": "loft",
+  "completionDate": "2017-02-15"
+ },
+ {
+  "propertyId": "P10047",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-11-15"
+ },
+ {
+  "propertyId": "P10047",
+  "retrofit": "glazing",
+  "completionDate": "2021-01-15"
+ },
+ {
+  "propertyId": "P10049",
+  "retrofit": "loft",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10050",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-09-15"
+ },
+ {
+  "propertyId": "P10051",
+  "retrofit": "glazing",
+  "completionDate": "2014-04-15"
+ },
+ {
+  "propertyId": "P10053",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-10-15"
+ },
+ {
+  "propertyId": "P10054",
+  "retrofit": "loft",
+  "completionDate": "2024-10-15"
+ },
+ {
+  "propertyId": "P10054",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2018-09-15"
+ },
+ {
+  "propertyId": "P10056",
+  "retrofit": "glazing",
+  "completionDate": "2024-11-15"
+ },
+ {
+  "propertyId": "P10057",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-02-15"
+ },
+ {
+  "propertyId": "P10057",
+  "retrofit": "heat-pump",
+  "completionDate": "2015-03-15"
+ },
+ {
+  "propertyId": "P10058",
+  "retrofit": "loft",
+  "completionDate": "2024-03-15"
+ },
+ {
+  "propertyId": "P10060",
+  "retrofit": "solar",
+  "completionDate": "2020-02-15"
+ },
+ {
+  "propertyId": "P10060",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2016-02-15"
+ },
+ {
+  "propertyId": "P10065",
+  "retrofit": "glazing",
+  "completionDate": "2019-04-15"
+ },
+ {
+  "propertyId": "P10067",
+  "retrofit": "loft",
+  "completionDate": "2014-05-15"
+ },
+ {
+  "propertyId": "P10068",
+  "retrofit": "loft",
+  "completionDate": "2023-06-15"
+ },
+ {
+  "propertyId": "P10069",
+  "retrofit": "cavity-wall",
+  "completionDate": "2013-02-15"
+ },
+ {
+  "propertyId": "P10070",
+  "retrofit": "loft",
+  "completionDate": "2021-12-15"
+ },
+ {
+  "propertyId": "P10070",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2022-02-15"
+ },
+ {
+  "propertyId": "P10071",
+  "retrofit": "glazing",
+  "completionDate": "2015-05-15"
+ },
+ {
+  "propertyId": "P10075",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-06-15"
+ },
+ {
+  "propertyId": "P10075",
+  "retrofit": "glazing",
+  "completionDate": "2020-08-15"
+ },
+ {
+  "propertyId": "P10076",
+  "retrofit": "glazing",
+  "completionDate": "2014-10-15"
+ },
+ {
+  "propertyId": "P10077",
+  "retrofit": "cavity-wall",
+  "completionDate": "2025-06-15"
+ },
+ {
+  "propertyId": "P10079",
+  "retrofit": "loft",
+  "completionDate": "2020-02-15"
+ },
+ {
+  "propertyId": "P10082",
+  "retrofit": "loft",
+  "completionDate": "2021-10-15"
+ },
+ {
+  "propertyId": "P10082",
+  "retrofit": "solar",
+  "completionDate": "2018-07-15"
+ },
+ {
+  "propertyId": "P10084",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2020-05-15"
+ },
+ {
+  "propertyId": "P10085",
+  "retrofit": "loft",
+  "completionDate": "2019-11-15"
+ },
+ {
+  "propertyId": "P10087",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2014-09-15"
+ },
+ {
+  "propertyId": "P10088",
+  "retrofit": "loft",
+  "completionDate": "2015-09-15"
+ },
+ {
+  "propertyId": "P10088",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-04-15"
+ },
+ {
+  "propertyId": "P10089",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-01-15"
+ },
+ {
+  "propertyId": "P10089",
+  "retrofit": "heat-pump",
+  "completionDate": "2022-02-15"
+ },
+ {
+  "propertyId": "P10090",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2020-12-15"
+ },
+ {
+  "propertyId": "P10093",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-05-15"
+ },
+ {
+  "propertyId": "P10094",
+  "retrofit": "glazing",
+  "completionDate": "2025-05-15"
+ },
+ {
+  "propertyId": "P10096",
+  "retrofit": "glazing",
+  "completionDate": "2025-02-15"
+ },
+ {
+  "propertyId": "P10097",
+  "retrofit": "glazing",
+  "completionDate": "2015-01-15"
+ },
+ {
+  "propertyId": "P10100",
+  "retrofit": "loft",
+  "completionDate": "2015-04-15"
+ },
+ {
+  "propertyId": "P10101",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2024-11-15"
+ },
+ {
+  "propertyId": "P10103",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-11-15"
+ },
+ {
+  "propertyId": "P10105",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-08-15"
+ },
+ {
+  "propertyId": "P10105",
+  "retrofit": "glazing",
+  "completionDate": "2025-04-15"
+ },
+ {
+  "propertyId": "P10105",
+  "retrofit": "heat-pump",
+  "completionDate": "2018-08-15"
+ },
+ {
+  "propertyId": "P10105",
+  "retrofit": "solar",
+  "completionDate": "2015-02-15"
+ },
+ {
+  "propertyId": "P10106",
+  "retrofit": "loft",
+  "completionDate": "2025-07-15"
+ },
+ {
+  "propertyId": "P10107",
+  "retrofit": "loft",
+  "completionDate": "2025-04-15"
+ },
+ {
+  "propertyId": "P10107",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2025-07-15"
+ },
+ {
+  "propertyId": "P10108",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-09-15"
+ },
+ {
+  "propertyId": "P10108",
+  "retrofit": "glazing",
+  "completionDate": "2018-02-15"
+ },
+ {
+  "propertyId": "P10110",
+  "retrofit": "glazing",
+  "completionDate": "2023-07-15"
+ },
+ {
+  "propertyId": "P10112",
+  "retrofit": "glazing",
+  "completionDate": "2017-12-15"
+ },
+ {
+  "propertyId": "P10114",
+  "retrofit": "cavity-wall",
+  "completionDate": "2013-07-15"
+ },
+ {
+  "propertyId": "P10115",
+  "retrofit": "loft",
+  "completionDate": "2025-03-15"
+ },
+ {
+  "propertyId": "P10117",
+  "retrofit": "loft",
+  "completionDate": "2023-11-15"
+ },
+ {
+  "propertyId": "P10119",
+  "retrofit": "cavity-wall",
+  "completionDate": "2025-05-15"
+ },
+ {
+  "propertyId": "P10121",
+  "retrofit": "glazing",
+  "completionDate": "2017-02-15"
+ },
+ {
+  "propertyId": "P10122",
+  "retrofit": "solar",
+  "completionDate": "2024-10-15"
+ },
+ {
+  "propertyId": "P10123",
+  "retrofit": "heat-pump",
+  "completionDate": "2023-03-15"
+ },
+ {
+  "propertyId": "P10127",
+  "retrofit": "glazing",
+  "completionDate": "2015-06-15"
+ },
+ {
+  "propertyId": "P10129",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-12-15"
+ },
+ {
+  "propertyId": "P10130",
+  "retrofit": "heat-pump",
+  "completionDate": "2013-04-15"
+ },
+ {
+  "propertyId": "P10134",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-02-15"
+ },
+ {
+  "propertyId": "P10135",
+  "retrofit": "loft",
+  "completionDate": "2014-07-15"
+ },
+ {
+  "propertyId": "P10135",
+  "retrofit": "glazing",
+  "completionDate": "2024-11-15"
+ },
+ {
+  "propertyId": "P10136",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-11-15"
+ },
+ {
+  "propertyId": "P10136",
+  "retrofit": "heat-pump",
+  "completionDate": "2021-03-15"
+ },
+ {
+  "propertyId": "P10138",
+  "retrofit": "glazing",
+  "completionDate": "2023-08-15"
+ },
+ {
+  "propertyId": "P10140",
+  "retrofit": "loft",
+  "completionDate": "2025-10-15"
+ },
+ {
+  "propertyId": "P10140",
+  "retrofit": "glazing",
+  "completionDate": "2024-11-15"
+ },
+ {
+  "propertyId": "P10141",
+  "retrofit": "loft",
+  "completionDate": "2020-09-15"
+ },
+ {
+  "propertyId": "P10141",
+  "retrofit": "heat-pump",
+  "completionDate": "2025-11-15"
+ },
+ {
+  "propertyId": "P10142",
+  "retrofit": "loft",
+  "completionDate": "2024-02-15"
+ },
+ {
+  "propertyId": "P10143",
+  "retrofit": "loft",
+  "completionDate": "2015-10-15"
+ },
+ {
+  "propertyId": "P10145",
+  "retrofit": "glazing",
+  "completionDate": "2018-07-15"
+ },
+ {
+  "propertyId": "P10149",
+  "retrofit": "loft",
+  "completionDate": "2019-10-15"
+ },
+ {
+  "propertyId": "P10151",
+  "retrofit": "cavity-wall",
+  "completionDate": "2014-12-15"
+ },
+ {
+  "propertyId": "P10153",
+  "retrofit": "glazing",
+  "completionDate": "2020-01-15"
+ },
+ {
+  "propertyId": "P10155",
+  "retrofit": "loft",
+  "completionDate": "2025-03-15"
+ },
+ {
+  "propertyId": "P10155",
+  "retrofit": "glazing",
+  "completionDate": "2014-06-15"
+ },
+ {
+  "propertyId": "P10159",
+  "retrofit": "loft",
+  "completionDate": "2017-07-15"
+ },
+ {
+  "propertyId": "P10160",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-08-15"
+ },
+ {
+  "propertyId": "P10161",
+  "retrofit": "loft",
+  "completionDate": "2023-11-15"
+ },
+ {
+  "propertyId": "P10162",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-05-15"
+ },
+ {
+  "propertyId": "P10163",
+  "retrofit": "cavity-wall",
+  "completionDate": "2013-03-15"
+ },
+ {
+  "propertyId": "P10164",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-08-15"
+ },
+ {
+  "propertyId": "P10166",
+  "retrofit": "cavity-wall",
+  "completionDate": "2025-06-15"
+ },
+ {
+  "propertyId": "P10166",
+  "retrofit": "solar",
+  "completionDate": "2025-09-15"
+ },
+ {
+  "propertyId": "P10167",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2020-01-15"
+ },
+ {
+  "propertyId": "P10169",
+  "retrofit": "glazing",
+  "completionDate": "2017-09-15"
+ },
+ {
+  "propertyId": "P10170",
+  "retrofit": "solar",
+  "completionDate": "2022-10-15"
+ },
+ {
+  "propertyId": "P10170",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2017-10-15"
+ },
+ {
+  "propertyId": "P10171",
+  "retrofit": "loft",
+  "completionDate": "2016-12-15"
+ },
+ {
+  "propertyId": "P10173",
+  "retrofit": "loft",
+  "completionDate": "2023-02-15"
+ },
+ {
+  "propertyId": "P10174",
+  "retrofit": "loft",
+  "completionDate": "2024-01-15"
+ },
+ {
+  "propertyId": "P10178",
+  "retrofit": "loft",
+  "completionDate": "2012-10-15"
+ },
+ {
+  "propertyId": "P10181",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-02-15"
+ },
+ {
+  "propertyId": "P10181",
+  "retrofit": "solar",
+  "completionDate": "2018-05-15"
+ },
+ {
+  "propertyId": "P10183",
+  "retrofit": "glazing",
+  "completionDate": "2020-09-15"
+ },
+ {
+  "propertyId": "P10185",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10186",
+  "retrofit": "glazing",
+  "completionDate": "2024-10-15"
+ },
+ {
+  "propertyId": "P10187",
+  "retrofit": "glazing",
+  "completionDate": "2017-05-15"
+ },
+ {
+  "propertyId": "P10189",
+  "retrofit": "glazing",
+  "completionDate": "2012-01-15"
+ },
+ {
+  "propertyId": "P10190",
+  "retrofit": "loft",
+  "completionDate": "2014-08-15"
+ },
+ {
+  "propertyId": "P10190",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-09-15"
+ },
+ {
+  "propertyId": "P10190",
+  "retrofit": "glazing",
+  "completionDate": "2025-12-15"
+ },
+ {
+  "propertyId": "P10191",
+  "retrofit": "glazing",
+  "completionDate": "2020-03-15"
+ },
+ {
+  "propertyId": "P10192",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-11-15"
+ },
+ {
+  "propertyId": "P10194",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-08-15"
+ },
+ {
+  "propertyId": "P10194",
+  "retrofit": "glazing",
+  "completionDate": "2023-05-15"
+ },
+ {
+  "propertyId": "P10199",
+  "retrofit": "loft",
+  "completionDate": "2017-02-15"
+ },
+ {
+  "propertyId": "P10199",
+  "retrofit": "glazing",
+  "completionDate": "2017-10-15"
+ },
+ {
+  "propertyId": "P10202",
+  "retrofit": "heat-pump",
+  "completionDate": "2018-05-15"
+ },
+ {
+  "propertyId": "P10204",
+  "retrofit": "glazing",
+  "completionDate": "2018-02-15"
+ },
+ {
+  "propertyId": "P10205",
+  "retrofit": "solar",
+  "completionDate": "2015-10-15"
+ },
+ {
+  "propertyId": "P10205",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2023-03-15"
+ },
+ {
+  "propertyId": "P10207",
+  "retrofit": "heat-pump",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10215",
+  "retrofit": "loft",
+  "completionDate": "2020-11-15"
+ },
+ {
+  "propertyId": "P10217",
+  "retrofit": "glazing",
+  "completionDate": "2013-07-15"
+ },
+ {
+  "propertyId": "P10218",
+  "retrofit": "glazing",
+  "completionDate": "2024-09-15"
+ },
+ {
+  "propertyId": "P10223",
+  "retrofit": "loft",
+  "completionDate": "2014-10-15"
+ },
+ {
+  "propertyId": "P10223",
+  "retrofit": "heat-pump",
+  "completionDate": "2015-04-15"
+ },
+ {
+  "propertyId": "P10225",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-09-15"
+ },
+ {
+  "propertyId": "P10225",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2025-01-15"
+ },
+ {
+  "propertyId": "P10227",
+  "retrofit": "heat-pump",
+  "completionDate": "2022-10-15"
+ },
+ {
+  "propertyId": "P10228",
+  "retrofit": "glazing",
+  "completionDate": "2023-02-15"
+ },
+ {
+  "propertyId": "P10229",
+  "retrofit": "solar",
+  "completionDate": "2018-04-15"
+ },
+ {
+  "propertyId": "P10230",
+  "retrofit": "loft",
+  "completionDate": "2021-11-15"
+ },
+ {
+  "propertyId": "P10230",
+  "retrofit": "glazing",
+  "completionDate": "2015-02-15"
+ },
+ {
+  "propertyId": "P10230",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2017-07-15"
+ },
+ {
+  "propertyId": "P10231",
+  "retrofit": "heat-pump",
+  "completionDate": "2012-01-15"
+ },
+ {
+  "propertyId": "P10235",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-02-15"
+ },
+ {
+  "propertyId": "P10235",
+  "retrofit": "glazing",
+  "completionDate": "2016-06-15"
+ },
+ {
+  "propertyId": "P10236",
+  "retrofit": "cavity-wall",
+  "completionDate": "2025-02-15"
+ },
+ {
+  "propertyId": "P10239",
+  "retrofit": "loft",
+  "completionDate": "2020-12-15"
+ },
+ {
+  "propertyId": "P10241",
+  "retrofit": "cavity-wall",
+  "completionDate": "2016-09-15"
+ },
+ {
+  "propertyId": "P10241",
+  "retrofit": "glazing",
+  "completionDate": "2022-08-15"
+ },
+ {
+  "propertyId": "P10241",
+  "retrofit": "solar",
+  "completionDate": "2016-08-15"
+ },
+ {
+  "propertyId": "P10244",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-08-15"
+ },
+ {
+  "propertyId": "P10244",
+  "retrofit": "heat-pump",
+  "completionDate": "2017-04-15"
+ },
+ {
+  "propertyId": "P10246",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-01-15"
+ },
+ {
+  "propertyId": "P10246",
+  "retrofit": "glazing",
+  "completionDate": "2023-09-15"
+ },
+ {
+  "propertyId": "P10249",
+  "retrofit": "glazing",
+  "completionDate": "2016-08-15"
+ },
+ {
+  "propertyId": "P10251",
+  "retrofit": "heat-pump",
+  "completionDate": "2022-03-15"
+ },
+ {
+  "propertyId": "P10253",
+  "retrofit": "cavity-wall",
+  "completionDate": "2016-04-15"
+ },
+ {
+  "propertyId": "P10254",
+  "retrofit": "loft",
+  "completionDate": "2021-06-15"
+ },
+ {
+  "propertyId": "P10256",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-09-15"
+ },
+ {
+  "propertyId": "P10256",
+  "retrofit": "glazing",
+  "completionDate": "2021-11-15"
+ },
+ {
+  "propertyId": "P10257",
+  "retrofit": "solar",
+  "completionDate": "2019-01-15"
+ },
+ {
+  "propertyId": "P10258",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10259",
+  "retrofit": "cavity-wall",
+  "completionDate": "2013-03-15"
+ },
+ {
+  "propertyId": "P10259",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2012-07-15"
+ },
+ {
+  "propertyId": "P10260",
+  "retrofit": "loft",
+  "completionDate": "2022-12-15"
+ },
+ {
+  "propertyId": "P10260",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-09-15"
+ },
+ {
+  "propertyId": "P10261",
+  "retrofit": "loft",
+  "completionDate": "2021-04-15"
+ },
+ {
+  "propertyId": "P10262",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2024-08-15"
+ },
+ {
+  "propertyId": "P10263",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-12-15"
+ },
+ {
+  "propertyId": "P10268",
+  "retrofit": "loft",
+  "completionDate": "2012-10-15"
+ },
+ {
+  "propertyId": "P10268",
+  "retrofit": "heat-pump",
+  "completionDate": "2020-10-15"
+ },
+ {
+  "propertyId": "P10271",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2018-07-15"
+ },
+ {
+  "propertyId": "P10272",
+  "retrofit": "loft",
+  "completionDate": "2018-09-15"
+ },
+ {
+  "propertyId": "P10275",
+  "retrofit": "loft",
+  "completionDate": "2018-08-15"
+ },
+ {
+  "propertyId": "P10275",
+  "retrofit": "cavity-wall",
+  "completionDate": "2017-04-15"
+ },
+ {
+  "propertyId": "P10276",
+  "retrofit": "loft",
+  "completionDate": "2015-10-15"
+ },
+ {
+  "propertyId": "P10278",
+  "retrofit": "glazing",
+  "completionDate": "2014-11-15"
+ },
+ {
+  "propertyId": "P10278",
+  "retrofit": "heat-pump",
+  "completionDate": "2013-05-15"
+ },
+ {
+  "propertyId": "P10279",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2021-05-15"
+ },
+ {
+  "propertyId": "P10280",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-05-15"
+ },
+ {
+  "propertyId": "P10281",
+  "retrofit": "glazing",
+  "completionDate": "2012-06-15"
+ },
+ {
+  "propertyId": "P10282",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2012-03-15"
+ },
+ {
+  "propertyId": "P10283",
+  "retrofit": "glazing",
+  "completionDate": "2025-07-15"
+ },
+ {
+  "propertyId": "P10286",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-01-15"
+ },
+ {
+  "propertyId": "P10286",
+  "retrofit": "glazing",
+  "completionDate": "2013-08-15"
+ },
+ {
+  "propertyId": "P10287",
+  "retrofit": "cavity-wall",
+  "completionDate": "2014-10-15"
+ },
+ {
+  "propertyId": "P10289",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2020-10-15"
+ },
+ {
+  "propertyId": "P10290",
+  "retrofit": "solar",
+  "completionDate": "2018-10-15"
+ },
+ {
+  "propertyId": "P10291",
+  "retrofit": "glazing",
+  "completionDate": "2014-07-15"
+ },
+ {
+  "propertyId": "P10293",
+  "retrofit": "loft",
+  "completionDate": "2013-01-15"
+ },
+ {
+  "propertyId": "P10296",
+  "retrofit": "loft",
+  "completionDate": "2018-03-15"
+ },
+ {
+  "propertyId": "P10298",
+  "retrofit": "solar",
+  "completionDate": "2024-03-15"
+ },
+ {
+  "propertyId": "P10299",
+  "retrofit": "heat-pump",
+  "completionDate": "2014-12-15"
+ },
+ {
+  "propertyId": "P10300",
+  "retrofit": "loft",
+  "completionDate": "2022-09-15"
+ },
+ {
+  "propertyId": "P10301",
+  "retrofit": "loft",
+  "completionDate": "2014-11-15"
+ },
+ {
+  "propertyId": "P10303",
+  "retrofit": "loft",
+  "completionDate": "2017-06-15"
+ },
+ {
+  "propertyId": "P10304",
+  "retrofit": "loft",
+  "completionDate": "2023-06-15"
+ },
+ {
+  "propertyId": "P10304",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10304",
+  "retrofit": "solar",
+  "completionDate": "2015-01-15"
+ },
+ {
+  "propertyId": "P10305",
+  "retrofit": "loft",
+  "completionDate": "2021-06-15"
+ },
+ {
+  "propertyId": "P10307",
+  "retrofit": "cavity-wall",
+  "completionDate": "2016-03-15"
+ },
+ {
+  "propertyId": "P10308",
+  "retrofit": "loft",
+  "completionDate": "2017-04-15"
+ },
+ {
+  "propertyId": "P10308",
+  "retrofit": "glazing",
+  "completionDate": "2019-01-15"
+ },
+ {
+  "propertyId": "P10309",
+  "retrofit": "loft",
+  "completionDate": "2015-03-15"
+ },
+ {
+  "propertyId": "P10310",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2012-09-15"
+ },
+ {
+  "propertyId": "P10311",
+  "retrofit": "glazing",
+  "completionDate": "2022-11-15"
+ },
+ {
+  "propertyId": "P10312",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2024-08-15"
+ },
+ {
+  "propertyId": "P10314",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2020-03-15"
+ },
+ {
+  "propertyId": "P10315",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-06-15"
+ },
+ {
+  "propertyId": "P10315",
+  "retrofit": "glazing",
+  "completionDate": "2023-04-15"
+ },
+ {
+  "propertyId": "P10317",
+  "retrofit": "loft",
+  "completionDate": "2013-08-15"
+ },
+ {
+  "propertyId": "P10318",
+  "retrofit": "loft",
+  "completionDate": "2021-11-15"
+ },
+ {
+  "propertyId": "P10320",
+  "retrofit": "cavity-wall",
+  "completionDate": "2016-05-15"
+ },
+ {
+  "propertyId": "P10321",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-07-15"
+ },
+ {
+  "propertyId": "P10321",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2017-08-15"
+ },
+ {
+  "propertyId": "P10326",
+  "retrofit": "loft",
+  "completionDate": "2025-05-15"
+ },
+ {
+  "propertyId": "P10326",
+  "retrofit": "solar",
+  "completionDate": "2014-10-15"
+ },
+ {
+  "propertyId": "P10327",
+  "retrofit": "loft",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10327",
+  "retrofit": "glazing",
+  "completionDate": "2013-04-15"
+ },
+ {
+  "propertyId": "P10328",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-08-15"
+ },
+ {
+  "propertyId": "P10328",
+  "retrofit": "solar",
+  "completionDate": "2024-12-15"
+ },
+ {
+  "propertyId": "P10330",
+  "retrofit": "glazing",
+  "completionDate": "2021-02-15"
+ },
+ {
+  "propertyId": "P10332",
+  "retrofit": "cavity-wall",
+  "completionDate": "2023-04-15"
+ },
+ {
+  "propertyId": "P10332",
+  "retrofit": "glazing",
+  "completionDate": "2016-12-15"
+ },
+ {
+  "propertyId": "P10333",
+  "retrofit": "glazing",
+  "completionDate": "2022-12-15"
+ },
+ {
+  "propertyId": "P10334",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-05-15"
+ },
+ {
+  "propertyId": "P10334",
+  "retrofit": "solar",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10335",
+  "retrofit": "loft",
+  "completionDate": "2025-04-15"
+ },
+ {
+  "propertyId": "P10335",
+  "retrofit": "heat-pump",
+  "completionDate": "2020-10-15"
+ },
+ {
+  "propertyId": "P10335",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2017-12-15"
+ },
+ {
+  "propertyId": "P10336",
+  "retrofit": "glazing",
+  "completionDate": "2022-10-15"
+ },
+ {
+  "propertyId": "P10337",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2023-05-15"
+ },
+ {
+  "propertyId": "P10339",
+  "retrofit": "loft",
+  "completionDate": "2013-08-15"
+ },
+ {
+  "propertyId": "P10339",
+  "retrofit": "heat-pump",
+  "completionDate": "2021-06-15"
+ },
+ {
+  "propertyId": "P10339",
+  "retrofit": "solar",
+  "completionDate": "2018-06-15"
+ },
+ {
+  "propertyId": "P10341",
+  "retrofit": "glazing",
+  "completionDate": "2012-12-15"
+ },
+ {
+  "propertyId": "P10343",
+  "retrofit": "glazing",
+  "completionDate": "2025-10-15"
+ },
+ {
+  "propertyId": "P10345",
+  "retrofit": "loft",
+  "completionDate": "2019-05-15"
+ },
+ {
+  "propertyId": "P10345",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-11-15"
+ },
+ {
+  "propertyId": "P10345",
+  "retrofit": "glazing",
+  "completionDate": "2019-03-15"
+ },
+ {
+  "propertyId": "P10346",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-11-15"
+ },
+ {
+  "propertyId": "P10347",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2015-08-15"
+ },
+ {
+  "propertyId": "P10348",
+  "retrofit": "loft",
+  "completionDate": "2018-01-15"
+ },
+ {
+  "propertyId": "P10349",
+  "retrofit": "loft",
+  "completionDate": "2018-09-15"
+ },
+ {
+  "propertyId": "P10350",
+  "retrofit": "loft",
+  "completionDate": "2018-03-15"
+ },
+ {
+  "propertyId": "P10350",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-11-15"
+ },
+ {
+  "propertyId": "P10350",
+  "retrofit": "glazing",
+  "completionDate": "2023-07-15"
+ },
+ {
+  "propertyId": "P10351",
+  "retrofit": "loft",
+  "completionDate": "2015-11-15"
+ },
+ {
+  "propertyId": "P10351",
+  "retrofit": "cavity-wall",
+  "completionDate": "2014-07-15"
+ },
+ {
+  "propertyId": "P10351",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2024-06-15"
+ },
+ {
+  "propertyId": "P10352",
+  "retrofit": "glazing",
+  "completionDate": "2025-07-15"
+ },
+ {
+  "propertyId": "P10353",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2012-02-15"
+ },
+ {
+  "propertyId": "P10354",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10356",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-04-15"
+ },
+ {
+  "propertyId": "P10358",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2018-04-15"
+ },
+ {
+  "propertyId": "P10361",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2018-10-15"
+ },
+ {
+  "propertyId": "P10372",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2013-04-15"
+ },
+ {
+  "propertyId": "P10374",
+  "retrofit": "glazing",
+  "completionDate": "2023-06-15"
+ },
+ {
+  "propertyId": "P10377",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-08-15"
+ },
+ {
+  "propertyId": "P10378",
+  "retrofit": "loft",
+  "completionDate": "2018-07-15"
+ },
+ {
+  "propertyId": "P10379",
+  "retrofit": "loft",
+  "completionDate": "2014-01-15"
+ },
+ {
+  "propertyId": "P10382",
+  "retrofit": "loft",
+  "completionDate": "2015-03-15"
+ },
+ {
+  "propertyId": "P10385",
+  "retrofit": "heat-pump",
+  "completionDate": "2016-02-15"
+ },
+ {
+  "propertyId": "P10388",
+  "retrofit": "heat-pump",
+  "completionDate": "2015-03-15"
+ },
+ {
+  "propertyId": "P10389",
+  "retrofit": "loft",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10391",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-07-15"
+ },
+ {
+  "propertyId": "P10391",
+  "retrofit": "heat-pump",
+  "completionDate": "2019-12-15"
+ },
+ {
+  "propertyId": "P10393",
+  "retrofit": "loft",
+  "completionDate": "2021-03-15"
+ },
+ {
+  "propertyId": "P10393",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2020-05-15"
+ },
+ {
+  "propertyId": "P10395",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2019-02-15"
+ },
+ {
+  "propertyId": "P10396",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-11-15"
+ },
+ {
+  "propertyId": "P10396",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2014-12-15"
+ },
+ {
+  "propertyId": "P10397",
+  "retrofit": "heat-pump",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10399",
+  "retrofit": "cavity-wall",
+  "completionDate": "2014-03-15"
+ },
+ {
+  "propertyId": "P10399",
+  "retrofit": "solar",
+  "completionDate": "2020-01-15"
+ },
+ {
+  "propertyId": "P10400",
+  "retrofit": "loft",
+  "completionDate": "2017-04-15"
+ },
+ {
+  "propertyId": "P10401",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-12-15"
+ },
+ {
+  "propertyId": "P10401",
+  "retrofit": "heat-pump",
+  "completionDate": "2014-11-15"
+ },
+ {
+  "propertyId": "P10403",
+  "retrofit": "solar",
+  "completionDate": "2019-08-15"
+ },
+ {
+  "propertyId": "P10405",
+  "retrofit": "loft",
+  "completionDate": "2015-07-15"
+ },
+ {
+  "propertyId": "P10407",
+  "retrofit": "cavity-wall",
+  "completionDate": "2018-04-15"
+ },
+ {
+  "propertyId": "P10409",
+  "retrofit": "cavity-wall",
+  "completionDate": "2015-03-15"
+ },
+ {
+  "propertyId": "P10410",
+  "retrofit": "loft",
+  "completionDate": "2021-11-15"
+ },
+ {
+  "propertyId": "P10411",
+  "retrofit": "solar",
+  "completionDate": "2023-06-15"
+ },
+ {
+  "propertyId": "P10416",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-07-15"
+ },
+ {
+  "propertyId": "P10417",
+  "retrofit": "loft",
+  "completionDate": "2017-11-15"
+ },
+ {
+  "propertyId": "P10420",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-04-15"
+ },
+ {
+  "propertyId": "P10424",
+  "retrofit": "glazing",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10424",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2025-10-15"
+ },
+ {
+  "propertyId": "P10427",
+  "retrofit": "glazing",
+  "completionDate": "2014-06-15"
+ },
+ {
+  "propertyId": "P10429",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-05-15"
+ },
+ {
+  "propertyId": "P10430",
+  "retrofit": "loft",
+  "completionDate": "2017-12-15"
+ },
+ {
+  "propertyId": "P10430",
+  "retrofit": "glazing",
+  "completionDate": "2019-08-15"
+ },
+ {
+  "propertyId": "P10430",
+  "retrofit": "solar",
+  "completionDate": "2018-04-15"
+ },
+ {
+  "propertyId": "P10437",
+  "retrofit": "cavity-wall",
+  "completionDate": "2023-01-15"
+ },
+ {
+  "propertyId": "P10437",
+  "retrofit": "glazing",
+  "completionDate": "2018-12-15"
+ },
+ {
+  "propertyId": "P10438",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-12-15"
+ },
+ {
+  "propertyId": "P10438",
+  "retrofit": "glazing",
+  "completionDate": "2019-03-15"
+ },
+ {
+  "propertyId": "P10439",
+  "retrofit": "loft",
+  "completionDate": "2025-02-15"
+ },
+ {
+  "propertyId": "P10440",
+  "retrofit": "cavity-wall",
+  "completionDate": "2021-10-15"
+ },
+ {
+  "propertyId": "P10440",
+  "retrofit": "glazing",
+  "completionDate": "2018-01-15"
+ },
+ {
+  "propertyId": "P10443",
+  "retrofit": "glazing",
+  "completionDate": "2014-11-15"
+ },
+ {
+  "propertyId": "P10443",
+  "retrofit": "heat-pump",
+  "completionDate": "2023-02-15"
+ },
+ {
+  "propertyId": "P10447",
+  "retrofit": "glazing",
+  "completionDate": "2021-08-15"
+ },
+ {
+  "propertyId": "P10448",
+  "retrofit": "loft",
+  "completionDate": "2016-06-15"
+ },
+ {
+  "propertyId": "P10449",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2012-05-15"
+ },
+ {
+  "propertyId": "P10450",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-03-15"
+ },
+ {
+  "propertyId": "P10456",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2016-10-15"
+ },
+ {
+  "propertyId": "P10457",
+  "retrofit": "loft",
+  "completionDate": "2025-05-15"
+ },
+ {
+  "propertyId": "P10458",
+  "retrofit": "cavity-wall",
+  "completionDate": "2020-10-15"
+ },
+ {
+  "propertyId": "P10460",
+  "retrofit": "glazing",
+  "completionDate": "2021-12-15"
+ },
+ {
+  "propertyId": "P10460",
+  "retrofit": "smart-thermostat",
+  "completionDate": "2018-06-15"
+ },
+ {
+  "propertyId": "P10462",
+  "retrofit": "cavity-wall",
+  "completionDate": "2024-05-15"
+ },
+ {
+  "propertyId": "P10463",
+  "retrofit": "glazing",
+  "completionDate": "2014-01-15"
+ },
+ {
+  "propertyId": "P10464",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10464",
+  "retrofit": "solar",
+  "completionDate": "2022-06-15"
+ },
+ {
+  "propertyId": "P10466",
+  "retrofit": "cavity-wall",
+  "completionDate": "2017-10-15"
+ },
+ {
+  "propertyId": "P10468",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-11-15"
+ },
+ {
+  "propertyId": "P10468",
+  "retrofit": "solar",
+  "completionDate": "2020-05-15"
+ },
+ {
+  "propertyId": "P10469",
+  "retrofit": "cavity-wall",
+  "completionDate": "2013-08-15"
+ },
+ {
+  "propertyId": "P10470",
+  "retrofit": "cavity-wall",
+  "completionDate": "2017-05-15"
+ },
+ {
+  "propertyId": "P10471",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-10-15"
+ },
+ {
+  "propertyId": "P10474",
+  "retrofit": "loft",
+  "completionDate": "2015-03-15"
+ },
+ {
+  "propertyId": "P10475",
+  "retrofit": "cavity-wall",
+  "completionDate": "2016-05-15"
+ },
+ {
+  "propertyId": "P10476",
+  "retrofit": "heat-pump",
+  "completionDate": "2017-08-15"
+ },
+ {
+  "propertyId": "P10478",
+  "retrofit": "cavity-wall",
+  "completionDate": "2019-05-15"
+ },
+ {
+  "propertyId": "P10482",
+  "retrofit": "cavity-wall",
+  "completionDate": "2012-03-15"
+ },
+ {
+  "propertyId": "P10483",
+  "retrofit": "cavity-wall",
+  "completionDate": "2022-07-15"
+ },
+ {
+  "propertyId": "P10485",
+  "retrofit": "loft",
+  "completionDate": "2013-03-15"
+ },
+ {
+  "propertyId": "P10486",
+  "retrofit": "glazing",
+  "completionDate": "2023-05-15"
+ },
+ {
+  "propertyId": "P10487",
+  "retrofit": "glazing",
+  "completionDate": "2013-11-15"
+ },
+ {
+  "propertyId": "P10488",
+  "retrofit": "cavity-wall",
+  "completionDate": "2017-08-15"
+ },
+ {
+  "propertyId": "P10489",
+  "retrofit": "glazing",
+  "completionDate": "2018-08-15"
+ },
+ {
+  "propertyId": "P10490",
+  "retrofit": "glazing",
+  "completionDate": "2016-04-15"
+ },
+ {
+  "propertyId": "P10491",
+  "retrofit": "loft",
+  "completionDate": "2019-03-15"
+ },
+ {
+  "propertyId": "P10491",
+  "retrofit": "glazing",
+  "completionDate": "2020-05-15"
+ },
+ {
+  "propertyId": "P10495",
+  "retrofit": "heat-pump",
+  "completionDate": "2014-06-15"
+ },
+ {
+  "propertyId": "P10497",
+  "retrofit": "loft",
+  "completionDate": "2013-07-15"
+ },
+ {
+  "propertyId": "P10497",
+  "retrofit": "solar",
+  "completionDate": "2021-06-15"
+ }
+]

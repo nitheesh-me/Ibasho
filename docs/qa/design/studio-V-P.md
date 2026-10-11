@@ -266,3 +266,129 @@ Copy and polish (content editor)
 - Prove: yellow dashed box over the ratings, overlapping star labels, LEED label past the card edge.
 
 Shots: `docs/qa/ux/V-P/studio/round4/` (01 to 37; 13, 16, 19, 20, 24, 25, 33, 35, 36 and 38 were not retaken after the resets). Page text and console errors for each shot: `pass-log.txt` in the same folder.
+
+## Round 4
+
+Reviewers: senior product designer, product QA lead, content editor. Date: 2026-10-11. Scope: the studio and its 3D city after agent B rounds 5 and 6 plus the minors (B-m9 to B-m12), and agent C rounds 6 to 8. Question: is it ready to film the trailer? Shots: `docs/qa/ux/V-P/studio/round7/` (one guarded headless Chromium, software GL, CPU capped, batches of about six). Page text, frame times, long tasks and console lines for every shot: `pass-log.txt` in the same folder. Software GL draws City level as the flat drawing, so the WebGL city at City level is judged from agent C's own shots, not ours.
+
+### Verdict: at the end of this section
+
+### Working notes (pass 1: home, menu, search, New)
+
+- 01, 05: home by day and by night is calm and on token; Design before you build now sits in the top bar and as a hero button (round 3 item 10 fixed). No console errors.
+- 01 (major, polish): the letter spacing on button labels still splits words: "St art a new place", "Design bef ore you build", "St art over". It shows on every button in the hero, by day and by night, and will be read in any close shot. Round 3 raised it on the gold button; it now shows on the quiet buttons too.
+- 02: the place card More menu is clean (Branch a copy, Add a building, Rename, Remove in clay). Opening it scrolls the page by about 60 px so the top bar leaves the frame; open the menu without moving the page.
+- 01: the Open and More row sits at a different height on each card (the campus title wraps to two lines). Pin the action row to the card foot so the two place cards line up.
+- 03: "Qualcomm" now finds a building (round 3 blocker 2 fixed), grouped under Buildings. The row says "Commerzone Raidurg, Modelled building, Raidurg and Knowledge City" and never says Qualcomm, so a customer may think the search missed. Show the matched name ("Qualcomm offices, in Commerzone Raidurg").
+- 03, 04: reopening search starts empty (round 3 item 9 fixed). 04: rooms are grouped with "Show 21 more"; every room row repeats "First floor, Vindhya Bhavan" under a group header that already says it. Drop the per row line when the group header carries it.
+- 06: New lists Raidurg and Knowledge City and King's Cross under More places (round 3 blocker 2 fixed). The disclosure uses the browser's default black triangle, not an Andon chevron. The primary action here is a black ink button ("Next: building type") while home uses the gold button: one primary style across flows, please.
+
+### Working notes (pass 2: Vindhya Bhavan at 1600, day and night)
+
+- 07, 08: Building level, Radiation. The roof is now painted (gold, 1,600 to 1,700 kWh/m²) and the courtyard facades read dark blue, so round 3 item 7 is fixed on the roof. Ranges that round to one value now show one number ("1,100 kWh/m²"). The first frame at 4 s took 5.6 s to arrive and the page logged a 2.6 s long task while stages started; the stall is shorter than round 3 (10 to 24 s) but still there on first open.
+- 08 (major, C): a large four blade pinwheel of blue, navy and grey triangles is drawn across the middle of the roof. Nothing on screen explains it; it reads as a debug gizmo or a facade orientation glyph left on. In a trailer close shot it is the first thing the eye lands on. Remove it, or if it is a radiation rose, move it to the panel with a caption.
+- 08: the Building camera looks almost straight down, so the new facade detail (punched windows, chajjas) is only seen as thin strips on the courtyard walls. Windows read well on the south wings; the chajjas cannot be judged from the default view. A lower default pitch at Building level would show the work agent C did.
+- 09: the lantern now switches in about 0.5 s (theme set 495 ms after the click, longest task 137 ms). Round 6 lantern stall fixed. Night at Building level is handsome: the hero glows, windows lit, neighbours dark.
+- 09 (minor, C): at night the Radiation lens still shows its legend and numbers, but the roof turns to lamplight and the radiation colours vanish. Either keep the radiation paint at night or say in the panel that night shows the building lit, not the lens.
+- 10, 11: City level is the flat drawing on software GL. By day it is a clean campus plan with the hero painted in radiation; at night (11) it now follows the page theme, with a warm halo round the hero and dark neighbours (agent B's round 6 interface fixed). Beautiful; trailer ready.
+- 10 (minor, A or B): numbers move between levels while refining: City says Roof "1,600 to 1,800 kWh/m²" with the legend top at 1,700, Building says "1,600 to 1,700". A refining value that runs past the legend top should clamp or the legend should grow with it. City also says "Where: The neighbourhood" while the three rows are this building's roof and facades.
+- 12: Floor level with Daylight keeps the floor plate inside the building, with floors above lifted away (round 3 item 5 fixed). The plate reads as dark grey with a dotted texture; the cells are hard to tell apart from the hatch. The four bars under the legend have no labels or axis. Copy: Daylight says "Where: Every facade and the roof"; it should say the floor's work plane.
+- 13 (major, B and C): Make split. The plan (north up, building at about 45°) and the 3D view (an oblique camera from the south west, no north mark) still do not read as the same floor in the same orientation. The 3D shows the whole building with its roof, not the first floor that is selected in the panel. Round 3 item 6 is only half fixed: the rooms now agree, the views do not. Put the 3D camera north up over the selected floor (floors above lifted, as Floor level does), or add a north mark and match the azimuth.
+- 13: the plan carries every chajja depth as tiny labels ("0.75 m", "0.60 m") on every facade segment, about 7 px high, which clutters the drawing; "Open" is still a cut room name; "Open office" and "CIE Startup Cabins" stack on one room and overlap its wall. Show shade depths only on the selected facade.
+
+- 08, 32: the pinwheel is the "radiation rose" (`CityScene.tsx`, moment 3): a 16 bin rose drawn flat on the hero's roof whenever Radiation is on. On a rectangular building it collapses to four blades. Keep it only if it gets a caption ("Sun on each facade, by direction") and sits clear of the roof paint, for example on the ground beside the building.
+
+### Working notes (pass 3: Choose, Prove, Tell, Site, Settings at 1280)
+
+- 14, 15: Choose now computes "As it is" first: at 19 s the current card has EUI, bill and "between 3.2% better and 34% worse than code" while the what-if still says computing (agent B leftover 1 fixed). The two thumbnails are still tight crops of the roof that look identical, so the what-if (chajjas, cool roof, low-e glass) cannot be seen; round 3 raised this. Show both at Building level framing with the facade that changes facing the camera.
+- 14 (minor, B): an amber dashed banner says "These results were run at different resolutions, so they are not compared side by side until both refresh." while both cards still say computing. "Resolutions" is our word, and the banner flashes on every first open. Hide it until both sides have a value.
+- 15: "Against code" sets its words in the large serif at body size and wraps to three lines, while EUI and Bill use the small figure style. Use the same figure style, for example "3.2% better to 34% worse".
+- 16, 21 (round 3 blocker 1 fixed): Prove opened from its tab renders, no white page, no console error. But the page logs a single long task of 4.7 s (16) and 5.4 s (21) after the switch: the screen freezes for about five seconds while the codes stage runs. In a trailer take this is a visible hitch.
+- 16, 18, 21: in Prove and Tell the hero's roof and courtyard corners carry soft dark smudges (ambient occlusion blotches) that are not there in Look (07). They read as dirt on the model.
+- 22 (major, B): the ratings card has lost the dashed box and now has one shaded band per row (round 3 fixed), but it still looks unfinished: the first diamond and the "Standard" label sit outside the card padding on the left; the last LEED and IGBC diamonds sit past the end of the shaded band; row titles wrap ("GHMC / stars", "LEED / energy") next to a monospaced edition line in a different face. Give the band the full row width, keep every marker inside it, and set the edition in the body face.
+- 18: Tell is calm and reads well. Number mismatch (major, A or B): Tell says "against a code standard design of 130 kWh/m²·yr", while Look's Energy card says "ECSBC 2024 standard design 140 kWh/m²·yr" for the same building at the same moment. One building, one code baseline.
+- 18: "Each was recomputed whole, never added up from parts." is engineer speak; "Each option was worked out in full." is enough.
+- 19: Site at night with Shadows: the hero glows, neighbours are outlines. The Shadows panel shows a "Sun hours" legend and sun hour rows; either name the lens Sun hours here or show the shadow legend.
+- 20: Settings by night is as clear as by day. The Plain and Pro toggle still opens on Pro.
+
+### Working notes (pass 4: Design before you build, 1280)
+
+Note: other agents were editing `apps/web` during this pass (a new Homes link appeared in the top bar mid pass, and Vite reloaded the page seven times), so two attempts at this flow were reset to the brief. The third attempt ran end to end.
+
+- 23: the brief reads well; "an office" and "(UK)" are fixed. The button tracking splits words here too ("St art wit h massing", "of f ice templat e").
+- 24 (minor, B): after "Start from an office template" the window still lands scrolled to the bottom, with the plan half off screen and the tool rail cut. The office template is still four Lobby rooms around a 622.6 m² Corridor (round 3).
+- 25 (major, B and A): Place it. The default Hyderabad spot overlaps an existing building ("Overlaps 1 existing building: unnamed"), and the default London spot (29) overlaps The Lighterman. Start every city on free ground. "unnamed" should read "a neighbouring building".
+- 25, 29 (minor, B): the "Place it" plate over the map repeats the arrow, turn and ground controls that also sit under the map (North 10 m, Turn the building), and covers a third of the map. Keep one set. 29: "Shaded by Platform 37 3 h (estimated height)" puts two numbers side by side; the line under the map says it better ("Platform 37 (about 3 h, estimated height)"), so keep that one only.
+- 29 (major, B): switching the Place map to London logged "Maximum update depth exceeded" (a render loop) and 174 long tasks while it settled.
+- 30 (major, B): Compare. Plot 2 (London) is drawn as a night scene in the lens strip while plot 1 (Hyderabad) is day, at the same date and hour: round 3 major 3 is only half fixed (the bill is now in pounds, the saved design in the studio uses London time). The plot thumbnails are still near identical roof crops. The lens strip is still cut at the right edge. Plot 1 says "Show large", plot 2 says "Main view" for the same action.
+- 30 (minor, A): the London bill reads £27,400 a year for a 2,400 m² office at 170 to 240 kWh/m²·yr, which is about 6p a kWh; please check the UK tariff path.
+- 31 (major, B): Shape to goals has an explicit plot picker now (round 3 fixed), but picks plot 2 by default; prefer the plot that fits the brief's goals. Pound amounts use Indian digit grouping ("£5,65,000", "£4,28,000", "£1,36,000"); pounds need "£565,000". The page says "Goals that do not apply there are left out" and then lists "ECSBC Super, Not applicable"; the "Lowest running cost" goal row says "Unknown, Waiting for the results" while the four cards below already show results. "Lowest running cost" and "Lowest energy" are now different bundles (fixed).
+- 32: the saved London design opens in the studio on London time (sunrise 06:01, "Typical weather year for London", "The sun stays in the south here"): fixed. The breadcrumb still reads "My new building ... > My new building". Save allowed a plot that overlaps a building, so the new office stands inside The Lighterman.
+
+### Working notes (pass 5: tablet 768, phone 360, editor 1280)
+
+- 33: tablet holds well: panel as a column beside the stage, time strip visible, no sideways scroll. The rose shows here too. The level tabs carry a leading tick ("−City −Site") that reads as a minus sign at this size.
+- 34: City by night on the tablet is lovely. The rough roof value "1,500 to 1,900 kWh/m²" again runs past the legend top (1,700).
+- 35 (minor, B): phone progress text is still cut ("Rad...") next to the dots at 360; agent B's leftover 2 says it wraps to two lines, but in this build it truncates. The first frame took 3.4 s (long task 2.7 s).
+- 36 (minor, B): opening `?mode=choose` directly on the phone shows the compare cards in the stage while the mode tabs underline Look and the panel shows the Radiation lens. Opening Choose from its tab (40) is correct (Scenarios panel). The amber "different resolutions" banner shows here too.
+- 37, 43 (major, B): the phone top bar on home now reads "Places New Design Homes Se", with Settings cut at the right edge (the new Homes link pushed it out). Collapse the links into a menu below about 480 px.
+- 42: phone Prove reads well; the ratings card has the same left edge overflow as 22.
+- 39: Make at 1280 shows the plan alone with the panel (the scene stays mounted but hidden, agent B m9): no unmount warning seen in any shot this round. Room names now in full ("Corridor", "Lab"); "TTO and Makers Lab" overlaps "Lab" in a narrow room, and the shade depth labels clutter the drawing as in 13.
+- Fonts: no font swap was visible in any shot, by day or night, at any width (agent B m12 holds as far as screenshots can show).
+- Agent C's own close shot (`docs/qa/ux/V-P/city/round7/close.png`) shows punched windows on the courtyard walls, but the chajjas read only as a thin line over each band and the Himalaya blocks in front hide most of the main facade. For the trailer, frame Vindhya from the open side, lower, so the chajjas cast visible shadow. City round 8 shots are still pending (folder empty), and software GL here draws City level as the plan, so the WebGL city at City level was not judged this round.
+
+### Round 3 items, checked
+
+| Round 3 item | Now |
+|---|---|
+| 1 White page (Prove from tab, City at night) | Fixed. Prove from its tab renders (16); City at night renders and follows the theme (11, 34). |
+| 2 Offices of interest in search and New | Fixed. "Qualcomm" finds the building (03); New lists Raidurg and Knowledge City (06). Row does not show the matched name. |
+| 3 Design flow mixes cities and currency | Mostly fixed. Studio uses London time and weather (32); bill in pounds (30). Compare still draws London at night (30); pounds use lakh grouping (31). |
+| 4 Shape to goals plot | Partly fixed. Explicit picker and distinct bundles (31); still defaults to the last plot and lists a goal it says it left out. |
+| 5 Floor plate beside the building | Fixed (12). |
+| 6 Make split plan and 3D aligned | Partly fixed. Rooms agree; views still differ in orientation and floor (13). |
+| 7 Radiation unpainted on Vindhya | Fixed on the roof (08); the new rose sits on top of it. |
+| 8 Long stalls | Better, not gone. Lantern 0.5 s; first open 5.6 s frame; Prove 4.7 to 5.4 s long task; Floor 3.1 s. |
+| 9 Search keeps old query, duplicate keys | Fixed (03, 04; no key errors). |
+| 10 Design link | Fixed (01). |
+| Copy items | Fixed: "v2", lab blurb, estimate notes, city pack note, typed target, "a office", "(UK) (UK)", Corr and Lab+, zero width ranges, signed ranges, "Since your last visit". Left: "unnamed" building, "resolutions" banner, "recomputed whole". |
+| Prove ratings card | Partly fixed. Dashed box gone, labels fit; markers and labels still spill outside the band and card (22, 42). |
+
+### Verdict: NOT YET
+
+Much closer. There are no white pages, no dead ends, the lantern is quick, the night city is beautiful, search and New reach every place, and a London design now lives on London time. But a trailer would catch five things on screen, and several screens it would show (Choose, Prove, Compare) still look unfinished.
+
+Trailer blockers (would be visible on camera)
+
+| Id | Owner | Finding | Fix | Shot |
+|---|---|---|---|---|
+| R4-B1 | B | Button labels split words at desktop widths: "St art a new place", "Design bef ore you build", "of f ice templat e". Not seen at 360. | Check the button letter spacing and font feature settings on `ib-btn` at desktop sizes; confirm on a real GPU browser before filming. | 01, 05, 23 |
+| R4-B2 | C | The radiation rose is drawn flat across the hero's roof as an unlabelled four blade pinwheel whenever Radiation is on. | Move it off the roof (ground beside the building or the panel) and caption it, or hide it in the default view. | 08, 32, 33, 40 |
+| R4-B3 | B | Prove freezes the page for about five seconds after the switch (long task 4.7 and 5.4 s). | Move the codes and ratings work off the main thread or yield between rows. | 16, 21 |
+| R4-B4 | B | Compare sites draws the London plot as night at 15:00 next to a daytime Hyderabad plot. | Pass each plot's own time zone and theme to `CityCompare`, as the studio now does. | 30 |
+| R4-B5 | B and C | Choose thumbnails are tight, identical roof crops; the what-if cannot be seen. | Frame both at Building level with the changed facade in view (chajjas, glazing). | 14, 15 |
+
+Major
+
+| Id | Owner | Finding | Fix | Shot |
+|---|---|---|---|---|
+| R4-M1 | B and C | Make split: plan north up at 45°, 3D oblique from the south west showing the whole building, not the selected floor. | Same azimuth and floor in both halves, or a north mark and floors above lifted in 3D. | 13 |
+| R4-M2 | B | Ratings card markers and labels spill outside the band and card; row titles wrap next to a monospaced edition line. | Full width band, markers inside it, edition in the body face. | 22, 42 |
+| R4-M3 | A or B | Code baseline differs by screen: Look says 140 kWh/m²·yr, Tell says 130. | Read one baseline value in both. | 08, 18 |
+| R4-M4 | B and A | Design Place starts on top of an existing building in both cities ("unnamed", "The Lighterman"), and Save allows the overlap. | Start on free ground; warn or block Save while overlapping; "a neighbouring building" for unnamed. | 25, 29, 32 |
+| R4-M5 | B | Render loop on Place when switching to London: "Maximum update depth exceeded", 174 long tasks. | Find the effect that sets state on each render in the Place step. | 29 |
+| R4-M6 | B | Pounds in Indian digit grouping ("£5,65,000"). | Format by currency: lakh grouping only for rupees. | 31 |
+| R4-M7 | B | Phone top bar cuts Settings off ("Se"). | Menu for the links below about 480 px. | 37, 43 |
+| R4-M8 | B | First open still stalls: 5.6 s to the first frame at 1600, long tasks of 2.6 to 3.1 s on first open and on Floor. | Same approach as the lantern fix for stage start. | 07, 12, 35 |
+| R4-M9 | B | Shape to goals defaults to the last plot and lists "ECSBC Super, Not applicable" right after saying such goals are left out; the goal row says "Waiting for the results" beside finished cards. | Default to the plot that fits the brief; hide goals that do not apply; update goal status from the cards. | 31 |
+
+Minor (polish, not blocking)
+
+- B: place card menu scrolls the page when it opens (02); card action rows at different heights (01); search shows "Commerzone Raidurg" for "Qualcomm" without the matched name (03); room rows repeat the group header (04); New uses a black primary button and the browser's default disclosure triangle (06); "different resolutions" banner (14, 36); "Against code" set larger than the other figures (15); design editor lands scrolled to the bottom and the office template is a ring of lobbies (24); two sets of placing controls on Place (25, 29); "Show large" against "Main view" (30); phone progress text still cut (35); `?mode=choose` on the phone shows Look tabs (36); breadcrumb "My new building ... > My new building" (32).
+- C: radiation colours vanish at night while the legend stays (09); ambient occlusion smudges on the roof in Prove and Tell (16, 18); Building camera too high to show facade detail and chajjas (08); Daylight floor cells hard to read against the hatch (12); level tick reads as a minus sign (33).
+- A: refining roof values run past the legend top (10, 34); London bill looks about four times too low (30); Daylight lens says "Where: Every facade and the roof" and Shadows shows a Sun hours legend (12, 19).
+- Content: "Each was recomputed whole, never added up from parts." (18); "Shaded by Platform 37 3 h" (29).
+
+Note for the orchestrator: other agents were changing `apps/web` (Homes link, portfolio pages, Shell, DesignFlow, Niwa) during this pass, so findings in Design and the top bar reflect that moving build. Console across all 40 shots: no page errors; one React "Maximum update depth exceeded" (29); the Three.js `Clock` deprecation warning on every scene mount.
+
+Shots: `docs/qa/ux/V-P/studio/round7/` (01 to 43, 40 shots; 26 to 28 were lost to a page reload and are covered by 29 to 32; 17 is an early capture of the ratings card while it was still loading). Page text, frame times, long tasks and console lines: `pass-log.txt` in the same folder. Harness: `lib.mjs` and `a.mjs` to `g.mjs` there (dev server on port 5198).

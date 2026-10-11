@@ -1,0 +1,134 @@
+# Hayagriva bibliography for report/final_report.typ. Entries checked against Crossref or the source page.
+reda2004:
+  type: article
+  title: Solar position algorithm for solar radiation applications
+  author: ["Reda, Ibrahim", "Andreas, Afshin"]
+  date: 2004
+  parent:
+    type: periodical
+    title: Solar Energy
+    volume: 76
+    issue: 5
+  serial-number:
+    doi: "10.1016/j.solener.2003.12.003"
+perez1990:
+  type: article
+  title: Modeling daylight availability and irradiance components from direct and global irradiance
+  author: ["Perez, Richard", "Ineichen, Pierre", "Seals, Robert", "Michalsky, Joseph", "Stewart, Ronald"]
+  date: 1990
+  parent:
+    type: periodical
+    title: Solar Energy
+    volume: 44
+    issue: 5
+  serial-number:
+    doi: "10.1016/0038-092X(90)90055-H"
+perez1993:
+  type: article
+  title: "All-weather model for sky luminance distribution: preliminary configuration and validation"
+  author: ["Perez, Richard", "Seals, Robert", "Michalsky, Joseph"]
+  date: 1993
+  parent:
+    type: periodical
+    title: Solar Energy
+    volume: 50
+    issue: 3
+  serial-number:
+    doi: "10.1016/0038-092X(93)90017-I"
+tregenza1987:
+  type: article
+  title: Subdivision of the sky hemisphere for luminance measurements
+  author: "Tregenza, Peter R."
+  date: 1987
+  parent:
+    type: periodical
+    title: Lighting Research and Technology
+    volume: 19
+  serial-number:
+    doi: "10.1177/096032718701900103"
+tmyx:
+  type: web
+  title: "TMYx typical weather years 2011 to 2025, Hyderabad"
+  author: Climate.OneBuilding.Org
+  date: 2025
+  url: https://climate.onebuilding.org
+pvgis:
+  type: web
+  title: "Photovoltaic Geographical Information System (PVGIS) 5.2, typical meteorological year"
+  author: European Commission Joint Research Centre
+  url: https://joint-research-centre.ec.europa.eu/photovoltaic-geographical-information-system-pvgis_en
+lm83:
+  type: report
+  title: "IES LM-83-23, Approved method: IES spatial daylight autonomy (sDA) and annual sunlight exposure (ASE)"
+  author: Illuminating Engineering Society
+  date: 2023
+iso13790:
+  type: report
+  title: "ISO 13790:2008, Energy performance of buildings: calculation of energy use for space heating and cooling"
+  author: International Organization for Standardization
+  date: 2008
+sap102:
+  type: report
+  title: "The Government's Standard Assessment Procedure for energy rating of dwellings, SAP 10.2"
+  author: BRE
+  date: 2023
+  url: https://www.gov.uk/guidance/standard-assessment-procedure
+rdsap10:
+  type: report
+  title: RdSAP 10 specification
+  author: BRE
+  date: 2025
+  url: https://bregroup.com/documents/d/bre-group/rdsap-10-specification-10-06-2025
+osm:
+  type: web
+  title: OpenStreetMap
+  author: OpenStreetMap contributors
+  url: https://www.openstreetmap.org
+desnz2024:
+  type: report
+  title: "Greenhouse gas reporting: conversion factors 2024"
+  author: Department for Energy Security and Net Zero
+  date: 2024
+  url: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024
+need2025:
+  type: report
+  title: "National Energy Efficiency Data-Framework (NEED) report, June 2025"
+  author: Department for Energy Security and Net Zero
+  date: 2025
+  url: https://assets.publishing.service.gov.uk/media/685bf0d30433072fce0e1000/need-report-june-2025.pdf
+decc2013:
+  type: report
+  title: An investigation of the effect of EPC ratings on house prices
+  author: ["Fuerst, Franz", "McAllister, Pat", "Nanda, Anupam", "Wyatt, Peter"]
+  date: 2013
+  publisher: Department of Energy and Climate Change
+  url: https://www.gov.uk/government/publications/an-investigation-of-the-effect-of-epc-ratings-on-house-prices
+nationwide2026:
+  type: web
+  title: Energy efficiency ratings have limited impact on owner-occupied house prices
+  author: Nationwide Building Society
+  date: 2026
+  url: https://www.nationwide.co.uk/media/hpi/reports/energy-efficiency-ratings-have-limited-impact-on-owner-occupied-house-prices-despite-increased-interest-in-going-green
+spearman1904:
+  type: article
+  title: The proof and measurement of association between two things
+  author: "Spearman, Charles"
+  date: 1904
+  parent:
+    type: periodical
+    title: The American Journal of Psychology
+    volume: 15
+    issue: 1
+  serial-number:
+    doi: "10.2307/1412159"
+lean4:
+  type: article
+  title: The Lean 4 theorem prover and programming language
+  author: ["de Moura, Leonardo", "Ullrich, Sebastian"]
+  date: 2021
+  parent:
+    type: proceedings
+    title: "Automated Deduction, CADE 28, Lecture Notes in Computer Science 12699"
+    publisher: Springer
+  serial-number:
+    doi: "10.1007/978-3-030-79876-5_37"

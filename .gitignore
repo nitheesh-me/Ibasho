@@ -27,3 +27,9 @@ docs/LLOYDS-ps2.pdf
 
 # Build copy of scene stills (originals in packages/scene/dev/posters)
 apps/landing/public/posters/
+
+# Review harness scripts and logs (machine paths), scratch renders, private trailer sheets
+docs/qa/**/*.mjs
+docs/qa/**/*.log
+docs/qa/**/explore/
+docs/qa/trailer-*

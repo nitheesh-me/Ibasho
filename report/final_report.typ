@@ -1,6 +1,6 @@
 // Final report. Compile from the repo root:
 //   typst compile --root . report/final_report.typ deliverables/final_report.pdf
-// Main body: pages 1 to 3. Appendix (gallery and feature list) starts on page 4.
+// Main body: pages 1 to 3, references end on page 3, then the appendix (gallery and feature list).
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 
 #let accent = rgb("#1f6f5c")
@@ -30,7 +30,7 @@
     #counter(page).display("1 / 1", both: true)
   ],
 )
-#set text(font: "Libertinus Serif", size: 10pt, lang: "en", region: "gb")
+#set text(font: "Libertinus Serif", size: 10.4pt, lang: "en", region: "gb")
 #set par(leading: 0.55em, spacing: 0.75em, justify: true)
 #set list(indent: 0.3em, body-indent: 0.45em, spacing: 0.5em, marker: text(fill: accent)[▸])
 #set enum(indent: 0.3em, body-indent: 0.45em, spacing: 0.5em)
@@ -70,19 +70,31 @@
 #line(length: 100%, stroke: 1pt + accent)
 #v(2pt)
 
-= 1 · The brief, and why we widened it
+= The brief, and why we widened it
 
 Lloyds asked for a Green Home Score for a home, a way to spot poor homes, feasible retrofits ranked in order, energy savings for electricity and gas separately, carbon, and an indicative property value range. One rule binds it all: every number comes from a documented model, and the AI only explains.
 
 We kept that rule and widened the subject. A home's energy depends on more than the home. A flat on a top floor in Hyderabad cooks in May; the same flat beside a taller block does not. On the same floor plate, a lab uses about 1.6 times the energy of an office. A terrace in London and a block in Gachibowli need different physics, codes and tariffs. Sustainability starts at a desk and grows: desk, room, floor, building, community, area and city. A score for one house, cut off from its street, misses most of that.
 
-= 2 · What we deliver, and why this focus
+= What we deliver, and why this focus
 
-Ibasho is a local design and analysis studio. You pick a place, pick or draw a building, set it among its real neighbours, and see its sun and shade, daylight, energy by end use, bills, carbon, code standing and green rating path, then compare changes. It serves both sides of sustainability: *reactive*, for a building that exists and needs to improve (the brief's retrofit question), and *proactive*, for a building still on paper, where a change costs almost nothing. It covers eight building types (office, hotel, school, hospital, lab, apartments, rental and single family home) in a real city.
+Ibasho is a local design and analysis studio. You pick a place, pick or draw a building, set it among its real neighbours, and see its sun and shade, daylight, energy by end use, bills, carbon, code standing and green rating path, then compare changes. It serves both sides of sustainability: *reactive*, for a building that exists and needs to improve (the brief's retrofit question), and *proactive*, for a building still on paper, where a change costs almost nothing. It covers eight building types (office, hotel, school, hospital, lab, apartments, rental and single family home) in Hyderabad and London.
 
-We chose this focus for four reasons. A homeowner, an architect, a campus estates team and a business all ask the same question at different scales. A real city with real neighbours makes context visible. Documented models make every number traceable. And it all runs on the user's own machine, with no account and no data leaving the device.
+We chose this focus for four reasons. A homeowner, an architect, a campus estates team and a business all ask the same question at different scales. A real city with real neighbours makes context visible. Documented models make every number traceable, and an independent checker re-derives the sums. And it all runs on the user's own machine, with no account and no data leaving the device.
 
-= 3 · Approach
+Inside this frame, the brief is one case: a single UK home, judged on its own. We answer it in full with a calculation package that uses the brief's exact score weights, savings per fuel, carbon and value range, and test it on a 500 home synthetic portfolio with a held out split.
+
+#block(fill: tint, inset: 6pt, radius: 3pt, width: 100%)[
+  #set text(9.4pt)
+  *Headline results.* On 85 held out homes, the package ranks improvement potential with a rank correlation of 0.77, against 0.25 for a simple baseline, and picks feasible retrofits with an F1 score of 0.995, against 0.71. Home P10001, the brief's example, scores 38, Poor, as in the brief. These figures measure agreement with our own simulator, not accuracy on real homes.
+]
+
+#grid(columns: (1fr, 1fr), gutter: 8pt,
+  figure(box(stroke: 0.4pt + rule-c, image("final/img/poster-sun.jpg", width: 100%)), caption: text(7.5pt)[The sun across the IIIT Hyderabad campus on 21 March.], supplement: none, numbering: none, gap: 3pt),
+  figure(box(stroke: 0.4pt + rule-c, image("final/img/poster-lanterns.jpg", width: 100%)), caption: text(7.5pt)[At night, modelled buildings glow by their energy use.], supplement: none, numbering: none, gap: 3pt),
+)
+
+= How it works
 
 #figure(
   diagram(
@@ -95,10 +107,10 @@ We chose this focus for four reasons. A homeowner, an architect, a campus estate
     {
       let t(x) = text(font: "Inter", size: 7pt, x)
       node((0, 0), t[Place and city\ OpenStreetMap, weather], name: <p>)
-      node((1, 0), t[Building drawing\ storeys, rooms, windows], name: <b>)
-      node((2, 0), t[Seven stages\ geometry, sun, radiation,\ daylight, energy, codes, search], name: <s>)
+      node((1, 0), t[Building\ storeys, rooms, windows], name: <b>)
+      node((2, 0), t[Seven calculation steps\ geometry, sun, radiation,\ daylight, energy, codes, search], name: <s>)
       node((3, 0), t[Results with evidence\ ranges, sources, method], name: <r>)
-      node((4, -0.55), t[Lean checker\ re-derives the sums], name: <l>, stroke: 0.6pt + proof)
+      node((4, -0.55), t[Proof checker\ re-derives the sums], name: <l>, stroke: 0.6pt + proof)
       node((4, 0.55), t[Narrator and agent\ explain, never compute], name: <n>)
       edge(<p>, <b>, "-|>")
       edge(<b>, <s>, "-|>")
@@ -109,56 +121,49 @@ We chose this focus for four reasons. A homeowner, an architect, a campus estate
   ),
 )
 
-A building is a document of storeys, rooms, walls, windows and shades in whole millimetres. A plan kernel turns it into exact areas, shared walls and facades by true orientation. Seven stages then run in order, each giving a rough result in under a second, then a refined and a final one, and each can be cancelled. Unknown facts, such as a neighbour's height or a wall's insulation, travel as ranges and are never filled with a guess. A change reruns only the stages it touches, and a package of measures is always recomputed whole, never summed.
+A building is stored as storeys, rooms, walls, windows and shades in whole millimetres. Seven calculation steps run in order. Each gives a rough answer in under a second, then a refined and a final one. Facts we do not know, such as a neighbour's height or a wall's insulation, are carried as ranges and never guessed. A package of measures is always recomputed as a whole, never summed.
 
-Every number carries its source, method and a stamp. *Preview* means a plain model; *Modelled* means documented physics, not yet measured. A checker written and proved in Lean 4 re-derives the bookkeeping of each result: savings, carbon, bills, the score, the ranking and the rule that a measure the owner ruled out never returns. The narrator and the AI agent link receive numbers only as evidence. A sentence that writes a number of its own is rejected.
+The physics is standard and published. Sun position uses the NREL Solar Position Algorithm @reda2004. Sky brightness uses the Perez all weather models @perez1990 @perez1993 over the Tregenza sky patches @tregenza1987, with hourly weather from Climate.OneBuilding @tmyx for Hyderabad and PVGIS @pvgis for London. Daylight uses the IES metrics @lm83. Building energy uses the ISO 13790 hourly model @iso13790. UK homes use the SAP 10.2 heat balance @sap102 with RdSAP 10 wall and roof values @rdsap10. City buildings come from OpenStreetMap @osm.
 
-= 4 · How we meet the brief
+Every number carries its source and a label: *Preview* means a plain model; *Modelled* means documented physics, not yet measured. For each building result, a checker written in the Lean 4 proof assistant @lean4 re-derives the savings, carbon, bills, score and ranking. The narrator and the AI agent receive numbers only as evidence, and any sentence that writes its own number is rejected.
 
-#rows(columns: (1.15fr, 3.2fr, auto),
-  [Brief asks for], [Where Ibasho does it], [State],
-  [Green Home Score with fixed weights and bands],
-  [A 0 to 100 score from seven indicators with fixed weights, computed in exact fractions. Lean proves the weights sum to one, the score stays in 0 to 100, and a home at least as good on every measure never scores lower. Every component's contribution is shown in four groups. *But our indicators and weights differ from the brief*: fabric 20, carbon 20, energy intensity 15, running cost 15, heating 10, renewables and smart controls 10, comfort 10. The brief fixes energy rating 25, consumption intensity 20, insulation 15, heating 15, glazing 10, renewables 10, smart controls 5, with five bands. The fix is a second score plugin with the brief's weights and bands; the same Lean proofs rerun on the new constants. We have not built it.],
-  differs,
-  [Identify poor homes and improvement potential],
-  [Energy is judged per square metre against published bands (BEE, CBECS, CIBSE TM46, Eco Niwas Samhita), so a large building is not called poor for its size. Each result lists what is weak and what gets worse if nothing is done. We do not yet rank a portfolio by percentage improvement potential.],
-  part,
-  [Feasible, prioritised retrofits],
-  [Rules decide feasibility in three valued logic: a measure blocked only by an unknown fact becomes "possible after a check", never "yes". Out of every package, the best form a front on cost, return and carbon, each other package names one that beats it, and three picks follow stated tie breaks. Every measure ruled out has a plain reason.],
-  met,
-  [Savings per fuel, with interactions],
-  [kWh per fuel and per month against one baseline; a rise shows as a negative saving. Packages are recomputed whole: in the London terrace, draught proofing and loft insulation together are worth more than the two apart.],
-  met,
-  [Carbon from documented factors],
-  [Per fuel and per month: SAP 10.2 factors in the UK, the Central Electricity Authority average in India (marked as an estimate).],
-  met,
-  [Property value as a range],
-  [A low, central and high uplift per rating step from the Nationwide 2026 house price study sits in the engine and the checked result. It is not yet shown on screen, and it would be labelled indicative.],
-  part,
-  [The AI only explains; what-ifs rerun the models],
-  [A what-if is a typed change to the building; the engine reruns, then the narrator explains. A local model (Ollama) may polish wording, but eight grounding rules reject any sentence that writes a number, flips a sign or recommends a ruled out measure.],
-  met,
+= Meeting the brief, as one case
+
+For a single UK home, the calculation package answers every question in the brief, on the UK home model above. The Homes screens in the studio still run a simpler local model over 40 homes; moving them onto the package is the next step.
+
+#rows(columns: (1.05fr, 3.6fr, auto),
+  [Brief asks for], [What the package does], [State],
+  [Green Home Score], [The brief's seven weights (25, 20, 15, 15, 10, 10, 5) and five bands, each component's share shown. A better state never scores lower.], met,
+  [Poor homes, potential], [Poor and Very poor homes flagged with key issues; homes ranked by improvement potential. No meter data reads "unavailable", never zero.], met,
+  [Feasible retrofits], [Only retrofits that suit the home, in interaction order, each with High, Medium or Low suitability and a reason.], met,
+  [Savings, carbon], [Electricity and gas apart, in kWh a year, from one whole house run; a rise shows as negative. Carbon from DESNZ 2024 factors @desnz2024.], met,
+  [Value range], [Published price gaps between EPC bands @decc2013 @nationwide2026 on the current value. Labelled indicative, not causal.], met,
+  [AI explains], [A what-if reruns the whole assessment; the narrator only reads the results.], met,
+  [Data, evaluation], [500 synthetic homes, 24 months of meter data with gaps, split by customer (343, 72, 85), tested against simple baselines below.], met,
 )
 
-We did not train regression models. The brief suggests them, but there is no property level energy and sales data for the Hyderabad buildings we model, and a model trained on synthetic labels would only learn our own assumptions. We used documented physics and checked it against published benchmarks and analytic cases instead. A held out evaluation in the brief's sense is therefore not part of this submission.
+#v(2pt)
+#rows(columns: (2.1fr, 0.8fr, 0.8fr, 2.2fr),
+  [Test split, 85 homes], [Package], [Baseline], [Baseline used],
+  [Improvement potential, rank correlation @spearman1904], [0.77], [0.25], [Average train label per EPC band],
+  [Top 20% of homes found], [0.65], [0.41], [Same],
+  [Electricity package saving, mean error], [1,111 kWh], [4,632 kWh], [Median train saving share × meter use],
+  [Gas package saving, mean error], [173 kWh], [188 kWh], [Same],
+  [Feasible retrofits, F1], [0.995], [0.71], [All five headline retrofits for every home],
+  [Value range contains the label], [87%], [18%], [Fixed 2 to 5% (brief example)],
+)
 
-= 5 · Features
+Labels come from a simulator that knows each home's hidden true state, such as its real wall insulation. The package sees only the recorded fields and meter readings available at prediction time. The validation split gives similar results (rank correlation 0.83). Portfolio median use (gas 12,300 kWh, electricity 3,000 kWh a year) sits a little above the national medians in NEED @need2025 (10,100 and 2,600), as expected for a set weighted to older homes. Our value ranges are wider than the baseline (4.5 against 3 percentage points), which explains part of their higher coverage.
 
-- *City:* the IIIT Hyderabad campus and two kilometres of Gachibowli as 1,036 mapped buildings and 68 trees, plus a London street. Estimated heights cast a solid shadow and a hatched band; typing a real height closes it.
-- *Buildings:* a plan editor with rooms, windows by share of wall, chajja, fins and jaali, stacked storeys and undo. Eight building types with their own schedules.
-- *Analysis:* sun hours, radiation, a shading ledger of who takes whose sun, daylight per room, energy by end use, bills to the paisa on Telangana tariffs or at the UK price cap, carbon, and code and rating pre-checks on one ladder.
-- *Flows:* start a new place, come back to what changed, start over or branch, compare up to three what-ifs, edit and watch only touched stages rerun, and design a new building on a real plot.
-- *Trust:* every number opens to its evidence; Preview is stamped; codes say "pre-check, not a certificate"; Lean checks the sums. Everything works on phone, tablet and desktop, by day and by night.
+We did not use the suggested machine learning methods. The core rule asks for documented models, and physics plus written rules give numbers that can be traced and checked. A model trained on synthetic labels would mostly learn back our own generator. The suggested public datasets do not join at property level, so the portfolio is synthetic and its generation rules are documented.
 
-= 6 · Results
+= Results for buildings
 
-Eight sample buildings are modelled. Vindhya Bhavan at IIIT Hyderabad is rebuilt from the campus floor plans as 93 named rooms over a cellar and three floors. Beside it are Himalaya, a HITEC City office, a Gachibowli apartment block and the London terrace. The towers that house the Lloyds Technology Centre, Qualcomm and Vanguard are drawn from mapped outlines and public facts, with floors marked as estimates.
+Eight sample buildings are modelled, including Vindhya Bhavan at IIIT Hyderabad (93 named rooms from the campus floor plans), a HITEC City office, a Gachibowli apartment block and a London terrace. Every one lands inside its published benchmark range. Energy for one building runs in 0.2 s or less.
 
-*Real and Preview.* Geometry is exact. Real sun, radiation, daylight, hourly energy and code stages are built and tested as separate parts. The studio still serves all seven stages from the Preview model, and the real search is not built. Swapping each stage is one line, and is the next step.
-
-#grid(columns: (1fr, 1fr), gutter: 10pt,
-  rows(columns: (2.2fr, 1fr, 1.4fr),
-    [Building (real energy)], [EUI kWh/m²·yr], [Benchmark band],
+#grid(columns: (1.2fr, 0.8fr), gutter: 10pt,
+  rows(columns: (1.5fr, 0.9fr, 1.6fr),
+    [Building], [kWh per m² a year], [Benchmark range],
     [Vindhya Bhavan, labs], [182 to 231], [CBECS lab 150 to 400],
     [Himalaya, teaching], [110 to 140], [CBECS education 95 to 240],
     [HITEC City office], [130 to 166], [BEE office 110 to 230],
@@ -166,29 +171,50 @@ Eight sample buildings are modelled. Vindhya Bhavan at IIIT Hyderabad is rebuilt
     [London terrace], [125 to 159], [CIBSE TM46 dwelling],
   ),
   rows(columns: (2.3fr, 1.6fr),
-    [Accuracy check (site)], [Result],
+    [Site accuracy check], [Result],
     [Sun position against the NREL test case], [within 0.00001°],
-    [Open roof against weather file], [Hyderabad −0.7%, London −0.1%],
+    [Open roof against the weather file], [Hyderabad −0.7%, London −0.1%],
     [Street canyon sky view against theory], [within 0.03],
     [Ray tracer against brute force], [same on 2,000 rays],
-    [Shading ledger], [closes exactly],
+    [Who shades whom, in kWh], [balances exactly],
   ),
 )
 
-Every sample building lands inside its benchmark band. Each building's energy runs in 0.2 s or less and the first site result in under 0.6 s. On the code check, Vindhya's energy is 0.82 to 1.04 times its reference design, so Ibasho reports "unknown" rather than pass or fail; envelope lines stay unknown until U-values are entered. Daylight has not yet been compared with Radiance, so sDA is labelled simplified.
+*Built but not yet in the app.* The real site and daylight engine passes 34 tests, summarised above. The real hourly energy and code steps are tested too. The studio still shows the plain Preview model for all seven steps, and the real design search is not built. Daylight has not yet been compared with Radiance, so the share of floor with enough daylight (sDA) is labelled simplified.
 
-*Checks.* The Lean specification has 83 named theorems and 1,752 declarations, audited on every build for any gap or extra axiom; none exists. The checker caught all 34 errors we planted in results, and a second checker in TypeScript agrees with it on 52 cases. The narrator planted 0 numbers from 60 hostile notes, and 500 replayed sessions never offered a measure the owner had ruled out. The code base has about 970 automated tests in 115 files.
+*Checks.* The Lean specification has 83 named theorems and is audited on every build for gaps or added assumptions; none exists. The checker caught all 34 errors we planted in results, and a second checker in TypeScript agrees with it on 52 cases. Given 60 hostile notes, the narrator wrote no number of its own, and 500 replayed sessions never offered a measure the owner had ruled out. The code base has about 980 automated tests; the calculation package adds 8 more.
+
+= Responsible use and next steps
+
+*Privacy:* everything runs on the user's machine and results stay there. *Explainability:* every number opens to its inputs, method and source, and every unknown is a range. *No invented numbers:* the narrator and the agent cannot write their own, and hidden instructions in notes are caught. *Human oversight:* Ibasho proposes and the person decides; a measure they rule out never returns, and "forget" deletes for real.
+
+Next, we will move the Homes screens onto the package, swap the real site, energy and code steps into the studio and build the real design search, bring the Homes figures under the Lean checker, compare daylight with Radiance, and test the package on real EPC records and meter data.
 
 #block(fill: tint, inset: 6pt, radius: 3pt, width: 100%)[
-  #set text(8.8pt)
-  *Limits.* Lean proves the bookkeeping, not the physics. Daylight and energy are modelled, not measured. Code results are pre-checks, never compliance. The score uses our weights, not the brief's, until the second score plugin is built.
+  #set text(9pt)
+  *Limits.* The evaluation shows agreement with our own simulator, not accuracy on real homes. Lean proves the bookkeeping, not the physics. Daylight and energy are modelled, not measured. Code results are pre-checks, not certificates. Savings and value are estimates, not guarantees.
+]
+
+#v(2pt)
+#[
+  #set text(7pt)
+  #set par(justify: false, leading: 0.4em, spacing: 0.4em)
+  #show heading.where(level: 1): it => {
+    set text(font: "Inter", size: 9pt, weight: "bold", fill: accent)
+    block(above: 0.5em, below: 0.4em, it.body)
+  }
+  = References
+  // Fixed height balances the two columns (the list is about 360pt tall in one column).
+  #block(height: 200pt, columns(2, gutter: 12pt)[
+    #bibliography("refs.yml", title: none, style: "ieee")
+  ])
 ]
 
 #pagebreak()
 
 // ───────────────────────── Appendix ─────────────────────────
 #text(font: "Inter", 8pt, fill: muted, weight: "medium", tracking: 0.3pt)[APPENDIX]
-= A · Screenshot gallery
+= Screenshot gallery
 
 All shots are from the current build. Figures marked Preview in the product are from the plain model.
 
@@ -206,8 +232,12 @@ All shots are from the current build. Figures marked Preview in the product are 
   shot("landing-night.jpg")[Landing page by night: only the modelled building glows.],
 )
 #pair(
+  shot("homes-portfolio-1280.jpg")[Homes: ranked by improvement potential, electricity and gas shown apart, poor homes flagged.],
+  shot("homes-home-P10001-1280.jpg")[Home P10001: score 38, Poor, why this score, and retrofits in order.],
+)
+#pair(
   shot("places.jpg")[Your places: what changed since the last visit, old and new side by side.],
-  shot("new-find.jpg")[New place: find a building by name, here the Qualcomm office.],
+  shot("new-find.jpg")[New place: find a building by name, here the Lloyds office in Hyderabad.],
 )
 #pair(
   shot("new-type.jpg")[Pick one of eight building types, each with its own daily schedule.],
@@ -241,14 +271,14 @@ All shots are from the current build. Figures marked Preview in the product are 
   shot("city-day.jpg")[The campus at 10:30 on 21 March.],
   shot("city-night.jpg")[The same building at night as a lantern, brighter for higher energy use.],
 )
+#pair(
+  shot("city-floor.jpg")[Floor view: rooms labelled by function.],
+  shot("landing-codes-night.jpg")[Landing page, codes and ratings section, by night.],
+)
 #grid(columns: (1fr, 1fr, 1fr), gutter: 8pt,
   shot("phone.jpg")[Studio on a phone.],
   shot("landing-phone.jpg")[Landing page on a phone.],
   shot("tablet.jpg")[Studio on a tablet.],
-)
-#pair(
-  shot("poster-sun.jpg")[Still: the sun sweeps the campus.],
-  shot("poster-lanterns.jpg")[Still: the city of lanterns. Only modelled buildings glow.],
 )
 #pair(
   shot("poster-daylight.jpg")[Still: daylight on a floor.],
@@ -260,9 +290,10 @@ All shots are from the current build. Figures marked Preview in the product are 
 )
 #shot("poster-hero.jpg")[Still: Gachibowli at night, with Vindhya Bhavan lit.]
 
-= B · Full feature list
+= Full feature list
 
 #set text(9.4pt)
+#set par(justify: false)
 #let area(t, body) = block(breakable: true, below: 0.6em)[
   #text(font: "Inter", weight: "semibold", size: 8.6pt, fill: accent)[#t]
   #v(-0.3em)
@@ -318,6 +349,16 @@ All shots are from the current build. Figures marked Preview in the product are 
 - Search over design levers: a front of best options, a named better option for each one left out, and three picks.
 - Goals such as net zero ready, LEED Gold, ECSBC Super or lowest running cost.
 - Design before you build: brief, massing, plot, orientation, overlaps, side by side plots, save.
+]
+#area[Homes (the brief's questions)][
+- Studio screens: 40 homes, P10001 to P10040, on a simpler local model, ranked by improvement potential.
+- Calculation package: 500 synthetic homes, split by customer, with a held out evaluation.
+- Electricity and gas apart; "unavailable" when meter readings are missing.
+- Poor and Very poor homes flagged with key issues.
+- Green Home Score with the brief's seven weights and five bands, and a "why this score" table.
+- Retrofits in order with High, Medium or Low suitability, a reason and per fuel savings; a rise shows as negative.
+- Package total, carbon from UK Government 2024 factors, and an indicative value range.
+- A what-if reruns every figure; the narrator only explains.
 ]
 #area[Home retrofit (London terrace)][
 - Three futures: least upfront, best return, lowest running carbon.

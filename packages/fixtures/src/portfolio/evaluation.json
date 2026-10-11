@@ -1,0 +1,105 @@
+{
+  "generatedFrom": "packages/fixtures/src/portfolio (seed 10001)",
+  "validation": {
+    "split": "validation",
+    "homes": 72,
+    "potential": {
+      "evaluated": 69,
+      "unavailable": 3,
+      "spearman": 0.833,
+      "top20Overlap": 0.714,
+      "maePctPoints": 5.5,
+      "baseline": {
+        "name": "mean train label by recorded EPC band",
+        "spearman": 0.288,
+        "top20Overlap": 0.143,
+        "maePctPoints": 9.3
+      }
+    },
+    "savings": {
+      "evaluated": 69,
+      "electricityMaeKwh": 971,
+      "gasMaeKwh": 161,
+      "medianLabelElectricityKwh": -1979,
+      "medianLabelGasKwh": 10397,
+      "electricitySignAgreement": 1,
+      "baseline": {
+        "name": "median train saving fraction per fuel x metered use",
+        "electricityMaeKwh": 3452,
+        "gasMaeKwh": 170
+      }
+    },
+    "feasibility": {
+      "precision": 0.983,
+      "recall": 1,
+      "f1": 0.991,
+      "baseline": {
+        "name": "the five headline retrofits for every home",
+        "precision": 0.65,
+        "recall": 0.804,
+        "f1": 0.719
+      }
+    },
+    "value": {
+      "evaluated": 72,
+      "coverage": 0.806,
+      "meanWidthPctPoints": 4.6,
+      "baseline": {
+        "name": "fixed 2 to 5% range (brief example)",
+        "coverage": 0.222,
+        "meanWidthPctPoints": 3
+      }
+    }
+  },
+  "test": {
+    "split": "test",
+    "homes": 85,
+    "potential": {
+      "evaluated": 85,
+      "unavailable": 0,
+      "spearman": 0.771,
+      "top20Overlap": 0.647,
+      "maePctPoints": 6.5,
+      "baseline": {
+        "name": "mean train label by recorded EPC band",
+        "spearman": 0.251,
+        "top20Overlap": 0.412,
+        "maePctPoints": 10.1
+      }
+    },
+    "savings": {
+      "evaluated": 85,
+      "electricityMaeKwh": 1111,
+      "gasMaeKwh": 173,
+      "medianLabelElectricityKwh": -2058,
+      "medianLabelGasKwh": 9707,
+      "electricitySignAgreement": 1,
+      "baseline": {
+        "name": "median train saving fraction per fuel x metered use",
+        "electricityMaeKwh": 4632,
+        "gasMaeKwh": 188
+      }
+    },
+    "feasibility": {
+      "precision": 0.993,
+      "recall": 0.997,
+      "f1": 0.995,
+      "baseline": {
+        "name": "the five headline retrofits for every home",
+        "precision": 0.609,
+        "recall": 0.858,
+        "f1": 0.713
+      }
+    },
+    "value": {
+      "evaluated": 85,
+      "coverage": 0.871,
+      "meanWidthPctPoints": 4.5,
+      "baseline": {
+        "name": "fixed 2 to 5% range (brief example)",
+        "coverage": 0.176,
+        "meanWidthPctPoints": 3
+      }
+    }
+  }
+}

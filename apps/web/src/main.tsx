@@ -5,6 +5,7 @@ import '@ibasho/ui/andon.css';
 import '@ibasho/editor/editor.css';
 import './app.css';
 import './studio/studio.css';
+import './portfolio/portfolio.css';
 import { loadAndonFonts } from '@ibasho/ui';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

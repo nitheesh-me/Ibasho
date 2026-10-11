@@ -11,7 +11,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describeOps, END_USE_COPY, FUTURE_ROLE_COPY, rupees } from '@ibasho/content';
+import { describeOps, END_USE_COPY, FUTURE_ROLE_COPY, LANDING_PLATES, rupees } from '@ibasho/content';
 import { END_USES, type EndUse } from '@ibasho/core';
 
 interface Range {
@@ -44,11 +44,38 @@ export interface ExampleData {
   /** EUI as drawn and the code reference, in kWh/m² a year, for the range plate. */
   euiRange: Range;
   targetRange?: Range;
-  /** Rating rows for the codes plate. */
-  ratings: { scheme: string; level: string; status: 'likely' | 'possible' | 'unknown' }[];
+  /**
+   * Rating rows for the codes plate. `none` means the design is short of the first level: the row
+   * then says by how much in words, with no status stamp (landing review M9).
+   */
+  ratings: { scheme: string; level: string; status: 'likely' | 'possible' | 'unknown' | 'none' }[];
+  /** How the design compares with the code's reference, in words, for the codes plate. */
+  againstReference?: string;
+  /** Operational carbon, tonnes CO2e a year, rounded to three figures. */
+  carbonTonnes?: number;
   /** Linked values behind the energy result, for the evidence plate. */
   evidenceCount: number;
 }
+
+/**
+ * Saving on the reference design that each scheme's first level asks for, %. From the rating
+ * ladders in `packs/ratings/src/engine/schemes.ts` (GHMC one star, LEED v4.1 first point, IGBC
+ * energy credit, EDGE Certified energy part).
+ */
+const FIRST_LEVEL_PCT: Readonly<Record<string, number>> = {
+  'GHMC-stars': 5,
+  LEED: 5,
+  IGBC: 10,
+  EDGE: 20,
+};
+
+/** What a scheme's first level is called, for "not yet at one GHMC star". */
+const FIRST_LEVEL_NAME: Readonly<Record<string, string>> = {
+  'GHMC-stars': 'one GHMC star',
+  LEED: 'the first LEED energy point',
+  IGBC: 'the first IGBC energy points',
+  EDGE: 'EDGE Certified',
+};
 
 /** Money in the studio's bills is fixed point: 10^8 units to the rupee. */
 const MONEY_SCALE = 1e8;
@@ -59,24 +86,32 @@ function readJson(file: string): unknown {
   return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : undefined;
 }
 
+/** A savings range against the reference design, in words: "between 3% less and 34% more". */
+function savingsWords({ lo, hi }: Range): string {
+  const pct = (x: number) => `${Math.abs(Math.round(x))}%`;
+  const side = (x: number) => (x < 0 ? `${pct(x)} more` : `${pct(x)} less`);
+  // Lead with the better end, so the sentence reads from the hopeful case.
+  return `between ${side(Math.max(lo, hi))} and ${side(Math.min(lo, hi))}`;
+}
+
 function ratingLine(row: { scheme: string; value: Range | 'unknown'; level: { likely: string } }): {
   level: string;
   context: string;
 } {
   const scheme = row.scheme.replace(/-/g, ' ');
-  const level =
-    row.level.likely === 'none'
-      ? `${scheme}: no level likely yet`
-      : row.level.likely === 'unknown'
-        ? `${scheme}: not known yet`
-        : `${scheme}: ${row.level.likely} likely`;
+  const first = FIRST_LEVEL_PCT[row.scheme];
+  const none = row.level.likely === 'none';
+  const level = none
+    ? `Not yet at ${FIRST_LEVEL_NAME[row.scheme] ?? `the first ${scheme} level`}`
+    : row.level.likely === 'unknown'
+      ? `${scheme}: not known yet`
+      : `${scheme}: ${row.level.likely} likely`;
   if (row.value === 'unknown') return { level, context: 'Needs facts we do not have yet.' };
-  const pct = (x: number) => `${Math.abs(Math.round(x))}%`;
-  const { lo, hi } = row.value;
-  const side = (x: number) => (x < 0 ? `${pct(x)} more` : `${pct(x)} less`);
+  const drawn = `As drawn it uses ${savingsWords(row.value)} energy than the code’s reference design.`;
   return {
     level,
-    context: `As drawn it uses between ${side(lo)} and ${side(hi)} energy than the code’s reference design.`,
+    context:
+      none && first !== undefined ? `That needs ${first}% less than the reference. ${drawn}` : drawn,
   };
 }
 
@@ -91,11 +126,12 @@ export function readExample(repoRoot: string, buildingId = 'gb1'): ExampleData |
           bills?: { currency: string; total: string }[];
           endUses?: Partial<Record<string, string[]>>;
           evidence?: { nodes?: unknown[] };
+          carbon?: { op?: string | number };
         }
       | undefined;
     const codes = readJson(join(dir, 'codes.json')) as
       | {
-          ratings?: { scheme: string; value: Range | 'unknown'; level: { likely: string } }[];
+          ratings?: { scheme: string; metric?: string; value: Range | 'unknown'; level: { likely: string } }[];
           baselines?: { code: string; eui: Range }[];
         }
       | undefined;
@@ -157,16 +193,32 @@ export function readExample(repoRoot: string, buildingId = 'gb1'): ExampleData |
         : [];
     const ratings = (codes?.ratings ?? []).slice(0, 4).map((r) => {
       const lv = r.level.likely;
-      const status: 'likely' | 'possible' | 'unknown' = lv === 'unknown' ? 'unknown' : 'likely';
-      const level = lv === 'unknown' ? 'Not known yet' : lv === 'none' ? 'No level yet' : `${lv}`;
-      return { scheme: r.scheme.replace(/-/g, ' '), level, status };
+      const status = lv === 'unknown' ? 'unknown' : lv === 'none' ? 'none' : 'likely';
+      const first = FIRST_LEVEL_PCT[r.scheme];
+      const level =
+        lv === 'unknown'
+          ? 'Not known yet'
+          : lv === 'none'
+            ? first !== undefined
+              ? LANDING_PLATES.codes.notYet.replace('{first}', String(first))
+              : 'Not yet at the first level.'
+            : `${lv}`;
+      return { scheme: r.scheme.replace(/-/g, ' '), level, status } as const;
     });
+    const savingsRow = codes?.ratings?.find((r) => r.metric === 'savings.pct' && r.value !== 'unknown');
+    const carbonG = Number(energy.carbon?.op ?? Number.NaN);
+    const carbonTonnes =
+      Number.isFinite(carbonG) && carbonG > 0 ? Number((carbonG / 1e6).toPrecision(3)) : undefined;
 
     return {
       endUses,
       euiRange: energy.eui.site,
       ...(baseline ? { targetRange: baseline.eui } : {}),
       ratings,
+      ...(savingsRow && savingsRow.value !== 'unknown'
+        ? { againstReference: `As drawn it uses ${savingsWords(savingsRow.value)} energy than the code’s reference.` }
+        : {}),
+      ...(carbonTonnes !== undefined ? { carbonTonnes } : {}),
       evidenceCount: energy.evidence?.nodes?.length ?? 0,
       preview: energy.stamp.impl === 'preview' || opt.stamp.impl === 'preview',
       lat: place?.lat ?? 0,

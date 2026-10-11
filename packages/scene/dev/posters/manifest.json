@@ -43,7 +43,7 @@
       "id": "sun-day",
       "chapter": "sun",
       "theme": "hiru",
-      "alt": "Shade over a May day around the building: ground that stays in shadow longest is darkest, and at noon the sun stands in the north.",
+      "alt": "The sun crossing a May day over the campus: its path drawn as a thin arc, with the ground it reaches warming in colour around the building.",
       "preview": true,
       "files": {
         "large": {
@@ -62,7 +62,7 @@
       "id": "sun-night",
       "chapter": "sun",
       "theme": "yoru",
-      "alt": "The May shade study in the night palette.",
+      "alt": "The campus at dusk in May: a low sun throws long shadows across the building and its neighbours.",
       "preview": true,
       "files": {
         "large": {
@@ -81,7 +81,7 @@
       "id": "daylight-day",
       "chapter": "daylight",
       "theme": "hiru",
-      "alt": "One floor slid out like a drawer: daylight spreads in from the windows, rooms that fall short stay dark, and glare spots carry a warm hatch.",
+      "alt": "One floor of the building cut open: gold along the windows shows where daylight reaches, and the dark floor beyond is where it falls short.",
       "preview": true,
       "files": {
         "large": {
@@ -100,7 +100,7 @@
       "id": "daylight-night",
       "chapter": "daylight",
       "theme": "yoru",
-      "alt": "The daylight drawer in the night palette.",
+      "alt": "The same floor cut open at dusk, gold along the windows, long shadows outside.",
       "preview": true,
       "files": {
         "large": {
@@ -271,7 +271,7 @@
       "id": "trust-day",
       "chapter": "trust",
       "theme": "hiru",
-      "alt": "Yearly sunlight on the walls and roof, the kind of number you can open to see where it came from.",
+      "alt": "A floor of the building by day with its rooms named.",
       "preview": true,
       "files": {
         "large": {
@@ -306,35 +306,40 @@
       }
     },
     {
-      "id": "hero-wide",
-      "chapter": "hero",
-      "theme": "yoru",
-      "alt": "The real city around the IIIT Hyderabad campus at night: modelled buildings glow like lanterns, brighter for higher energy use, with Vindhya Bhavan lit at the centre.",
+      "id": "example-day",
+      "chapter": "example",
+      "theme": "hiru",
+      "alt": "Vindhya Bhavan from the north west as a paper model: three storeys around open courts.",
       "preview": true,
       "files": {
         "large": {
-          "file": "hero-wide-2400.webp",
-          "width": 2400,
-          "height": 1000
+          "file": "example-day-1200.webp",
+          "width": 1200,
+          "height": 900
         },
         "small": {
-          "file": "hero-wide-1200.webp",
-          "width": 1200,
-          "height": 500
+          "file": "example-day-600.webp",
+          "width": 600,
+          "height": 450
         }
       }
     },
     {
-      "id": "hero-phone",
-      "chapter": "hero",
+      "id": "example-night",
+      "chapter": "example",
       "theme": "yoru",
-      "alt": "Vindhya Bhavan glowing like a lantern among its dark neighbours at night.",
+      "alt": "Vindhya Bhavan at night from the north west, its windows lit around the courts.",
       "preview": true,
       "files": {
         "large": {
-          "file": "hero-phone-720.webp",
-          "width": 720,
+          "file": "example-night-1200.webp",
+          "width": 1200,
           "height": 900
+        },
+        "small": {
+          "file": "example-night-600.webp",
+          "width": 600,
+          "height": 450
         }
       }
     },

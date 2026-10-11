@@ -10,6 +10,7 @@ export * from './certificate.ts';
 // Primitives
 export * from './common.ts';
 export * from './engine.ts';
+export * from './greenhome.ts';
 export * from './events/bus.ts';
 export * from './evidence/graph.ts';
 // Evidence

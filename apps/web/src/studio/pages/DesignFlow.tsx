@@ -7,6 +7,7 @@
  * (AC-PD3). Moving or turning the building reruns its stages in the studio worker with the
  * progress bar, so the page never freezes (AC-PD2).
  */
+
 import type {
   BuildingDoc,
   BuildingTypeId,
@@ -48,6 +49,7 @@ import {
 } from '@ibasho/ui';
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useShell } from '../../shell/Shell.tsx';
 import { samplePlaces } from '../data.ts';
 import { CityStage } from '../niwa/Niwa.tsx';
 import { SavingsWords } from '../panels/Summary.tsx';
@@ -85,8 +87,11 @@ export interface DesignGap {
 
 const applies = (p: GoalPreset, region: 'IN' | 'GB') =>
   !p.regions || p.regions.some((r: string) => r.startsWith(region));
-const fmt = (v: number) =>
-  Math.abs(v) >= 100 ? Math.round(v).toLocaleString('en-IN') : v.toFixed(2).replace(/\.?0+$/, '');
+/** Lakh grouping only for rupees (round 4 M6); pounds and everything else group in thousands. */
+const fmt = (v: number, unit = '') =>
+  Math.abs(v) >= 100
+    ? Math.round(v).toLocaleString(/₹|INR|rupee/i.test(unit) ? 'en-IN' : 'en-GB')
+    : v.toFixed(2).replace(/\.?0+$/, '');
 
 /** Where a design stands against each goal (AC-PD3): met, not met or unknown, with its source; never "compliant". */
 export function designGaps(
@@ -123,11 +128,11 @@ export function designGaps(
       p.id,
     );
     const value = g.value
-      ? `${fmt(g.value.lo) === fmt(g.value.hi) ? fmt(g.value.lo) : `${fmt(g.value.lo)} to ${fmt(g.value.hi)}`}${g.unit ? ` ${g.unit}` : ''}`
+      ? `${fmt(g.value.lo, g.unit) === fmt(g.value.hi, g.unit) ? fmt(g.value.lo, g.unit) : `${fmt(g.value.lo, g.unit)} to ${fmt(g.value.hi, g.unit)}`}${g.unit ? ` ${g.unit}` : ''}`
       : undefined;
     const text = value
       ? g.target !== undefined
-        ? `${value}, against ${fmt(g.target)}${g.unit ? ` ${g.unit}` : ''}.`
+        ? `${value}, against ${fmt(g.target, g.unit)}${g.unit ? ` ${g.unit}` : ''}.`
         : `${value}.`
       : g.status === 'unknown'
         ? 'Not enough is known yet to judge this.'
@@ -198,6 +203,7 @@ function withRegion(label: string, regions: readonly string[] | undefined): stri
 }
 
 export function DesignFlow() {
+  const night = useShell().theme === 'yoru';
   const nav = useNavigate();
   const st = useStudio.getState();
   const areas = useStudio((s) => s.areas);
@@ -650,7 +656,7 @@ export function DesignFlow() {
             place={place}
             tiles={tiles}
             level="site"
-            night={false}
+            night={night}
             reducedMotion
             date="mar"
             minutes={15 * 60}
@@ -754,6 +760,7 @@ export function DesignFlow() {
           <div className="st-design__compare">
             <CityCompare
               base={{
+                theme: night ? 'yoru' : 'hiru',
                 hero: doc,
                 place: placeOf('hyderabad'),
                 tiles: tilesFor('hyderabad'),
@@ -794,7 +801,7 @@ export function DesignFlow() {
                         place={placeOf(s.city)}
                         tiles={tilesFor(s.city)}
                         level="building"
-                        night={false}
+                        night={night}
                         reducedMotion
                         date="mar"
                         minutes={15 * 60}

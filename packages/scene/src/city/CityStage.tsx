@@ -41,6 +41,7 @@ import {
 import { ACESFilmicToneMapping, PCFShadowMap, SRGBColorSpace } from 'three';
 import type { Theme } from '../colour/palette.ts';
 import { effectiveTier, initialLadder, type LadderEvent, stepLadder, TIERS } from '../quality/ladder.ts';
+import { quietClockWarning } from '../three/quiet.ts';
 import {
   CITY_CSS,
   CityLegend,
@@ -85,6 +86,8 @@ import type {
   ZoomLevel,
 } from './types.ts';
 import { levelView, resolveFocus } from './view.ts';
+
+quietClockWarning();
 
 export type CityStyle = 'washi' | 'yoru' | 'svg';
 

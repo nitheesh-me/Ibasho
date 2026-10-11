@@ -1,0 +1,86 @@
+propertyId,score,band,poorFlag,keyIssues,potentialPct,potentialStatus,recommended,packageElecSavingKwh,packageGasSavingKwh,packageCarbonKg,ratingBefore,ratingAfter,valueLoGBP,valueHiGBP,valueUpliftLoPct,valueUpliftHiPct
+P10005,51,Moderate,false,high-intensity no-renewables basic-controls,41.2,available,loft:High smart-thermostat:High heat-pump:Medium solar:High,-5644,12731,1159.9,D,C,218000,225500,0,3.5
+P10008,54,Moderate,false,high-intensity no-renewables basic-controls,73.2,available,loft:High smart-thermostat:High heat-pump:Medium solar:High,-4503,27015,4008.7,C,C,470000,470000,0,0
+P10009,54,Moderate,false,no-renewables,51,available,loft:High glazing:Low smart-thermostat:Medium heat-pump:High solar:Medium,-2454,8103,973.9,C,C,169000,169000,0,0
+P10010,28,Very poor,true,high-intensity poor-insulation old-heating single-glazing no-renewables,72.3,available,loft:High cavity-wall:High glazing:High smart-thermostat:Medium heat-pump:High solar:Medium,-2805,19631,3009.7,D,B,228500,247500,1.6,10
+P10014,60,Moderate,false,no-renewables,44.4,available,smart-thermostat:Medium heat-pump:Medium solar:High,-3699,9610,991.8,C,C,271000,271000,0,0
+P10023,51,Moderate,false,high-intensity no-renewables,38.4,available,glazing:Low smart-thermostat:Medium heat-pump:Low,-5074,10233,821,D,D,155000,155000,0,0
+P10035,81,Highly efficient,false,,62.5,available,smart-thermostat:Medium heat-pump:High,-1579,6521,865.8,B,B,208000,208000,0,0
+P10039,40,Poor,true,high-intensity old-heating no-renewables basic-controls,72.9,available,loft:Medium glazing:Low smart-thermostat:High heat-pump:High solar:Medium,-2951,21109,3249.8,D,C,219000,226500,0,3.5
+P10043,52,Moderate,false,high-intensity no-renewables basic-controls,74.5,available,cavity-wall:High smart-thermostat:High heat-pump:High solar:High,-3154,22604,3481.2,D,C,718000,743000,0,3.5
+P10044,44,Poor,true,high-intensity poor-insulation no-renewables basic-controls,61.7,available,cavity-wall:High glazing:Low smart-thermostat:High heat-pump:Medium,-2504,9635,1243.8,D,D,160000,160000,0,0
+P10049,30,Poor,true,high-intensity single-glazing no-renewables basic-controls,80.3,available,solid-wall:Medium floor:Medium glazing:High smart-thermostat:High heat-pump:Medium solar:High,-4877,43936,7026.1,D,C,333000,344500,0,3.5
+P10052,52,Moderate,false,high-intensity no-renewables,64.9,available,cavity-wall:High heat-pump:Medium solar:High,-3001,12722,1705.5,D,C,175000,181000,0,3.5
+P10053,60,Moderate,false,no-renewables,44.9,available,smart-thermostat:Medium heat-pump:Low,-2253,6014,633.5,D,D,117000,117000,0,0
+P10054,66,Good,false,no-renewables,61.3,available,heat-pump:Medium solar:High,-4570,18353,2410.5,C,C,469000,469000,0,0
+P10057,66,Good,false,no-renewables,18.1,available,loft:Medium glazing:Low smart-thermostat:Low solar:High,1927,0,399,D,C,1439000,1489500,0,3.5
+P10058,42,Poor,true,high-intensity old-heating no-renewables basic-controls,68,available,cavity-wall:High smart-thermostat:High heat-pump:High solar:Medium,-2069,11807,1731.1,D,C,157000,162500,0,3.5
+P10059,59,Moderate,false,no-renewables,46.1,available,smart-thermostat:Medium heat-pump:High solar:High,-3098,9052,1014.2,D,C,319000,330000,0,3.5
+P10090,31,Poor,true,high-intensity poor-insulation old-heating no-renewables,61,available,solid-wall:Medium glazing:Low heat-pump:Low,-5727,19792,2434.2,D,D,199000,199000,0,0
+P10091,28,Very poor,true,high-intensity low-rating poor-insulation old-heating no-renewables,62.9,available,solid-wall:Medium floor:Medium glazing:Low heat-pump:High,8894,0,1841.5,F,B,149500,181500,3,25
+P10092,57,Moderate,false,no-renewables,73.1,available,smart-thermostat:Medium heat-pump:High solar:High,-2752,18487,2811.5,D,D,887000,887000,0,0
+P10094,44,Poor,true,poor-insulation old-heating no-renewables basic-controls,65,available,cavity-wall:High smart-thermostat:High heat-pump:Low,-1357,7827,1150.6,D,D,451000,451000,0,0
+P10095,53,Moderate,false,no-renewables basic-controls,48.2,available,glazing:Low smart-thermostat:High heat-pump:High,-2436,6973,771,C,D,386500,400000,-3.4,0
+P10096,34,Poor,true,high-intensity low-rating poor-insulation old-heating no-renewables,61.7,available,solid-wall:Medium floor:Medium heat-pump:High,6705,0,1388.3,F,C,170500,197500,1.4,17.6
+P10109,52,Moderate,false,high-intensity no-renewables,72.8,available,loft:Medium glazing:Low heat-pump:Medium solar:High,-2226,14699,2227.6,D,C,169000,175000,0,3.5
+P10110,60,Moderate,false,no-renewables,52.9,available,loft:High smart-thermostat:Medium heat-pump:High solar:High,-2740,9561,1181.4,C,C,228000,228000,0,0
+P10111,36,Poor,true,high-intensity low-rating poor-insulation old-heating no-renewables,53.3,available,solid-wall:Medium heat-pump:Low,8385,0,1736.1,E,B,175000,197000,1.6,14.6
+P10120,52,Moderate,false,high-intensity no-renewables basic-controls,48,available,glazing:Low smart-thermostat:High heat-pump:Medium solar:High,-3530,9976,1093.7,C,C,165000,165000,0,0
+P10121,52,Moderate,false,high-intensity no-renewables,66.9,available,solid-wall:Medium floor:Medium heat-pump:High solar:High,-4024,21603,3118,D,C,314000,325000,0,3.5
+P10122,53,Moderate,false,high-intensity single-glazing,50.5,available,glazing:High smart-thermostat:Medium heat-pump:Medium,-4826,12861,1353.1,D,B,189000,204500,1.6,10
+P10123,70,Good,false,no-renewables,22.5,available,glazing:Low smart-thermostat:Low solar:Medium,1233,0,255.3,C,B,371000,388000,1.6,6.3
+P10129,39,Poor,true,low-rating old-heating no-renewables basic-controls,60,available,loft:High heat-pump:Medium solar:High,8461,0,1751.9,F,B,234000,284000,3,25
+P10130,67,Good,false,no-renewables,12.6,available,loft:Medium smart-thermostat:Low solar:High,2022,0,418.7,D,C,517000,535000,0,3.5
+P10131,52,Moderate,false,no-renewables basic-controls,53.8,available,loft:High glazing:Low smart-thermostat:High heat-pump:High solar:Medium,-2986,12112,1597,D,C,849000,878500,0,3.5
+P10140,61,Moderate,false,no-renewables basic-controls,58.7,available,smart-thermostat:High heat-pump:High solar:High,-4248,17127,2253,D,C,840000,869500,0,3.5
+P10162,62,Moderate,false,no-renewables,68.1,available,glazing:Low smart-thermostat:Medium heat-pump:Low solar:High,-1422,9193,1387,C,B,249000,260500,1.6,6.3
+P10163,52,Moderate,false,single-glazing no-renewables basic-controls,56.8,available,glazing:High smart-thermostat:High heat-pump:High solar:High,-2394,10413,1408.9,C,C,613000,613000,0,0
+P10164,54,Moderate,false,no-renewables basic-controls,70,available,glazing:Low smart-thermostat:High heat-pump:Medium solar:Medium,-3177,17248,2496.9,D,C,289000,299000,0,3.5
+P10185,50,Moderate,false,single-glazing no-renewables,50.9,available,glazing:High smart-thermostat:Medium heat-pump:Medium solar:High,-4178,12359,1395.4,D,C,319000,330000,0,3.5
+P10196,60,Moderate,false,old-heating no-renewables basic-controls,42.9,available,heat-pump:High,1760,0,364.4,D,C,183000,189500,0,3.5
+P10201,41,Poor,true,low-rating poor-insulation old-heating no-renewables basic-controls,53.8,available,cavity-wall:High glazing:Low heat-pump:Low,3149,0,652,E,C,143000,154000,0,7.8
+P10223,60,Moderate,false,no-renewables basic-controls,44.4,available,solid-wall:Medium floor:Medium smart-thermostat:High solar:High,8282,0,1714.8,D,B,484500,524500,1.6,10
+P10227,68,Good,false,no-renewables,21.5,available,loft:Medium glazing:Low smart-thermostat:Low solar:Medium,2194,0,454.3,C,B,298500,312500,1.6,6.3
+P10229,59,Moderate,false,poor-insulation single-glazing,60.9,available,loft:High solid-wall:Medium floor:Medium glazing:High heat-pump:High,-3005,11254,1436.2,B,B,370000,370000,0,0
+P10237,39,Poor,true,high-intensity old-heating no-renewables,67.2,available,glazing:Low smart-thermostat:Medium heat-pump:Medium solar:High,-3246,16134,2278.8,D,C,151000,156500,0,3.5
+P10272,68,Good,false,no-renewables,56.6,available,smart-thermostat:Medium heat-pump:High solar:High,-2022,8231,1086.8,C,C,266000,266000,0,0
+P10280,62,Moderate,false,no-renewables basic-controls,38,available,smart-thermostat:High heat-pump:Low,-2002,4873,476.8,C,C,121000,121000,0,0
+P10281,45,Poor,true,high-intensity poor-insulation no-renewables,70.3,available,loft:High solid-wall:Medium floor:Medium smart-thermostat:Medium heat-pump:High solar:High,-2839,17691,2647.9,D,C,303000,313500,0,3.5
+P10282,55,Moderate,false,old-heating no-renewables,52.6,available,glazing:Low heat-pump:Low,-1784,6563,831,C,C,173000,173000,0,0
+P10283,62,Moderate,false,no-renewables,48.1,available,smart-thermostat:Medium heat-pump:Low,-1434,4418,511.1,C,D,97500,101000,-3.4,0
+P10285,43,Poor,true,high-intensity old-heating single-glazing no-renewables,60.5,available,glazing:High heat-pump:High,-2217,8865,1162.4,C,C,259000,259000,0,0
+P10306,62,Moderate,false,no-renewables,60.4,available,glazing:Low smart-thermostat:Medium heat-pump:Low,-1562,6446,855.6,C,C,191000,191000,0,0
+P10322,25,Very poor,true,high-intensity low-rating poor-insulation old-heating no-renewables basic-controls,75.2,available,loft:Medium solid-wall:Medium floor:Medium glazing:Low heat-pump:Medium solar:Medium,27658,0,5726.6,G,B,473000,594000,3,29.4
+P10325,44,Poor,true,high-intensity poor-insulation no-renewables basic-controls,67.3,available,solid-wall:Medium smart-thermostat:High heat-pump:Low,-2004,10238,1457.6,C,C,133000,133000,0,0
+P10326,54,Moderate,false,high-intensity,72.5,available,cavity-wall:High glazing:Low smart-thermostat:Medium heat-pump:Medium,-4091,20541,2909.9,D,C,249000,257500,0,3.5
+P10343,47,Poor,true,high-intensity old-heating no-renewables basic-controls,78.1,available,smart-thermostat:High heat-pump:High solar:High,-2864,23277,3664.4,D,C,432000,447000,0,3.5
+P10351,58,Moderate,false,no-renewables,61.4,available,cavity-wall:Medium heat-pump:Medium solar:High,-6010,22883,2940.9,D,C,613000,634500,0,3.5
+P10352,49,Poor,true,old-heating no-renewables basic-controls,64.2,available,loft:Medium smart-thermostat:High heat-pump:High solar:Medium,-3395,16044,2231.5,D,C,341000,353000,0,3.5
+P10357,16,Very poor,true,high-intensity low-rating old-heating single-glazing no-renewables basic-controls,75.7,available,solid-wall:Medium floor:Medium glazing:High heat-pump:Medium solar:High,20134,0,4168.7,G,C,197500,237500,1.4,21.8
+P10358,50,Moderate,false,low-rating old-heating no-renewables,58.1,available,glazing:Low heat-pump:High solar:High,5097,0,1055.3,F,C,680500,789000,1.4,17.6
+P10361,38,Poor,true,high-intensity low-rating poor-insulation single-glazing no-renewables,76.5,available,loft:Medium solid-wall:Medium floor:Medium glazing:High heat-pump:Medium solar:High,-5345,37854,5816.8,E,C,552000,595000,0,7.8
+P10365,54,Moderate,false,no-renewables,58.2,available,loft:High glazing:Low smart-thermostat:Medium heat-pump:High solar:Medium,-1756,7832,1068.9,C,C,253000,253000,0,0
+P10370,25,Very poor,true,high-intensity low-rating poor-insulation old-heating no-renewables basic-controls,73.5,available,loft:High solid-wall:Medium floor:Medium heat-pump:Medium solar:High,15208,0,3148.8,G,C,183500,220500,1.4,21.8
+P10371,49,Poor,true,high-intensity no-renewables basic-controls,62.7,available,loft:High glazing:Low smart-thermostat:High heat-pump:Medium solar:High,-2781,12569,1723.1,D,C,362000,374500,0,3.5
+P10372,58,Moderate,false,high-intensity no-renewables,30.3,available,glazing:Low heat-pump:Medium solar:High,-16855,28745,1767.6,C,C,665000,665000,0,0
+P10373,41,Poor,true,high-intensity low-rating poor-insulation no-renewables,76.9,available,loft:High solid-wall:Medium floor:Medium glazing:Low smart-thermostat:Medium heat-pump:High solar:Medium,-1715,15380,2457.9,E,C,684000,737500,0,7.8
+P10377,49,Poor,true,single-glazing no-renewables,62.8,available,glazing:High smart-thermostat:Medium heat-pump:High solar:Medium,-2645,12487,1736.2,D,C,255000,264000,0,3.5
+P10386,44,Poor,true,high-intensity poor-insulation no-renewables,61.5,available,cavity-wall:High glazing:Low smart-thermostat:Medium heat-pump:Low,-2017,7874,1022.5,D,D,297000,297000,0,0
+P10387,49,Poor,true,high-intensity poor-insulation no-renewables,62.7,available,loft:Medium solid-wall:Low floor:Medium smart-thermostat:Medium heat-pump:Low solar:Low,-1795,9392,1346.1,D,C,401000,415000,0,3.5
+P10417,54,Moderate,false,high-intensity no-renewables basic-controls,68.5,available,smart-thermostat:High heat-pump:Medium solar:High,-2392,11461,1601,D,C,191000,197500,0,3.5
+P10418,62,Moderate,false,no-renewables basic-controls,38.3,available,smart-thermostat:High heat-pump:High solar:Medium,-3132,8002,815.1,C,B,184000,192500,1.6,6.3
+P10419,45,Poor,true,high-intensity no-renewables basic-controls,74.5,available,solid-wall:Low floor:Medium smart-thermostat:High heat-pump:Low solar:Low,-3550,25888,3999.9,D,B,277500,300500,1.6,10
+P10420,54,Moderate,false,no-renewables,55.9,available,glazing:Low smart-thermostat:Medium heat-pump:High solar:High,-2939,11478,1490.8,D,C,355000,367500,0,3.5
+P10426,65,Good,false,no-renewables,39,available,glazing:Low heat-pump:Low,-2201,5566,562.3,C,C,215000,215000,0,0
+P10439,45,Poor,true,high-intensity low-rating no-renewables,60.2,available,solid-wall:Medium floor:Medium glazing:Low smart-thermostat:Medium heat-pump:High solar:High,-7264,30686,4108.5,E,C,1382000,1490000,0,7.8
+P10441,60,Moderate,false,old-heating no-renewables,37.2,available,heat-pump:Low,1841,0,381.2,D,C,271000,280500,0,3.5
+P10442,68,Good,false,no-renewables,43.6,available,heat-pump:Low,-1525,4572,520.5,C,C,266000,266000,0,0
+P10455,33,Poor,true,high-intensity low-rating old-heating no-renewables basic-controls,63.4,available,cavity-wall:High glazing:Low heat-pump:High solar:High,10949,0,2267,F,B,525500,637500,3,25
+P10457,64,Moderate,false,no-renewables,56.6,available,smart-thermostat:Medium heat-pump:Medium solar:High,-4953,16582,2007.3,C,C,493000,493000,0,0
+P10462,55,Moderate,false,no-renewables basic-controls,45.1,available,smart-thermostat:High heat-pump:High,-2820,7367,763.5,C,C,442000,442000,0,0
+P10470,59,Moderate,false,high-intensity no-renewables,62.9,available,smart-thermostat:Medium heat-pump:High,-1636,6705,887.6,C,C,96000,96000,0,0
+P10471,57,Moderate,false,no-renewables basic-controls,38.8,available,loft:Medium smart-thermostat:High heat-pump:Medium solar:High,-4982,11309,1036.9,C,C,238000,238000,0,0
+P10482,53,Moderate,false,no-renewables basic-controls,59.1,available,glazing:Low smart-thermostat:High heat-pump:High solar:High,-2345,10371,1411.3,D,C,345000,357000,0,3.5
+P10483,68,Good,false,no-renewables,0,available,smart-thermostat:Low,0,0,0,D,D,164000,164000,0,0
+P10484,63,Moderate,false,no-renewables,17.5,available,smart-thermostat:Medium heat-pump:High,-3990,5727,221.3,C,C,214000,214000,0,0
+P10485,60,Moderate,false,low-rating old-heating no-renewables,52.8,available,heat-pump:High solar:Medium,3645,0,754.7,E,B,622000,701500,1.6,14.6

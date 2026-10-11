@@ -26,7 +26,13 @@ Object.assign(process.env, {
 const here = dirname(fileURLToPath(import.meta.url));
 const OUT = join(here, 'posters');
 const night = 'min=1230';
-/** id, harness query, large file, large size, small file (or null), small size. */
+/** Dusk grade for the night page: a little darker and warmer, so a dusk still sits in the Yoru palette. */
+const DUSK = ['-modulate', '78,96', '-fill', '#2a1d12', '-colorize', '14%'];
+/**
+ * id, harness query, large file, large size, small file (or null), small size, options.
+ * Options: `crop` renders k times larger and keeps the centre (a closer view with the same camera);
+ * `grade` adds ImageMagick arguments after the capture.
+ */
 const POSTERS = [
   ['city-day', 'level=site&min=630', 'city-day-1600', [1600, 1000], 'city-day-800', [800, 500]],
   [
@@ -37,21 +43,24 @@ const POSTERS = [
     'city-night-800',
     [800, 500],
   ],
+  // The sun crossing a May day: its path drawn as a thin arc while the shade builds up (review p5).
   [
     'sun-day',
-    'level=site&lens=shadows&date=2026-05-21&min=720',
+    'level=site&lens=shadows&sweep=1&settle=17000',
     'sun-day-1600',
     [1600, 1000],
     'sun-day-800',
     [800, 500],
   ],
+  // By night the sun chapter shows dusk: low sun, long shadows (review M10).
   [
     'sun-night',
-    'level=site&lens=shadows&date=2026-05-21&min=720&style=yoru',
+    'level=site&lens=shadows&date=2026-05-21&min=1070',
     'sun-night-1600',
     [1600, 1000],
     'sun-night-800',
     [800, 500],
+    { grade: DUSK },
   ],
   [
     'daylight-day',
@@ -60,14 +69,16 @@ const POSTERS = [
     [1600, 1000],
     'daylight-day-800',
     [800, 500],
+    { crop: 1.5 },
   ],
   [
     'daylight-night',
-    'level=floor&lens=daylight&style=yoru&settle=1500',
+    'level=floor&lens=daylight&min=1050&settle=1500',
     'daylight-night-1600',
     [1600, 1000],
     'daylight-night-800',
     [800, 500],
+    { crop: 1.5, grade: DUSK },
   ],
   ['energy-day', 'level=building&min=630', 'energy-day-1600', [1600, 1000], 'energy-day-800', [800, 500]],
   [
@@ -119,14 +130,8 @@ const POSTERS = [
     'design-night-800',
     [800, 500],
   ],
-  [
-    'trust-day',
-    'level=building&lens=radiation&settle=2600',
-    'trust-day-1600',
-    [1600, 1000],
-    'trust-day-800',
-    [800, 500],
-  ],
+  // A floor plan by day to pair with the night one; no radiation rose (review m10).
+  ['trust-day', 'level=floor&min=630', 'trust-day-1600', [1600, 1000], 'trust-day-800', [800, 500]],
   [
     'trust-night',
     `level=floor&style=yoru&${night}`,
@@ -135,15 +140,23 @@ const POSTERS = [
     'trust-night-800',
     [800, 500],
   ],
+  // The worked example: the whole building from the north west, paper by day, lit by night (review M12).
   [
-    'hero-wide',
-    `level=city&lens=lanterns&${night}`,
-    'hero-wide-2400',
-    [2400, 1000],
-    'hero-wide-1200',
-    [1200, 500],
+    'example-day',
+    'level=building&az=315&min=630',
+    'example-day-1200',
+    [1200, 900],
+    'example-day-600',
+    [600, 450],
   ],
-  ['hero-phone', `level=building&lens=lanterns&${night}`, 'hero-phone-720', [720, 900], null, null],
+  [
+    'example-night',
+    `level=building&az=315&lens=lanterns&${night}`,
+    'example-night-1200',
+    [1200, 900],
+    'example-night-600',
+    [600, 450],
+  ],
   ['invitation-dusk', 'level=site&min=1050', 'dusk-wide-2400', [2400, 1000], 'dusk-wide-1200', [1200, 500]],
 ];
 
@@ -188,10 +201,16 @@ const browser = await chromium.launch({
 });
 try {
   mkdirSync(OUT, { recursive: true });
-  for (const [id, query, large, size, small, smallSize] of POSTERS) {
+  for (const [id, query, large, size, small, smallSize, opts = {}] of POSTERS) {
     if (only && !only.has(id)) continue;
     const png = join(OUT, `${large}.png`);
-    await shoot(browser, `controls=0&${query}`, size, png);
+    const k = opts.crop ?? 1;
+    await shoot(browser, `controls=0&${query}`, [Math.round(size[0] * k), Math.round(size[1] * k)], png);
+    const post = [
+      ...(k !== 1 ? ['-gravity', 'center', '-crop', `${size[0]}x${size[1]}+0+0`, '+repage'] : []),
+      ...(opts.grade ?? []),
+    ];
+    if (post.length) execFileSync('magick', [png, ...post, png]);
     execFileSync('magick', [png, '-quality', '86', join(OUT, `${large}.webp`)]);
     if (small)
       execFileSync('magick', [

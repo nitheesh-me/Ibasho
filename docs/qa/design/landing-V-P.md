@@ -107,3 +107,105 @@ The page tells but never shows a result. One worked example with real (or clearl
 2. C bakes the stills (B1, M1, m6) from the city scene.
 3. D lays out the stills, trims chapters (M4), adds the Vindhya strip (M7), then the minors.
 4. One more screenshot pass at 1280 and 360, day and night.
+
+## Round 3
+
+Build: `pnpm --filter @ibasho/landing build`, served with `vite preview` on port 4174, headless Chromium through the guard (software GL, reduced motion), one browser per batch. Shots and raw measurements: `docs/qa/ux/V-P/landing/round4/` (fold and full at 360, 768, 1280 and 1600 by day, 1280 and 360 by night; `ch-<section>-<width>-<theme>.png` close-ups of every section at 1280 day and night and 360 day; `info-*.json` with heights, gold action position and every visible image). Script: `round4/shoot.mjs <batch>`.
+
+### Verdict: NOT YET (close)
+
+The page has turned a corner. The day hero is now handsome paper and ink, the gold action sits well above the fold everywhere, the worked example reads like a real result, and the stills finally show the product. No development artefacts, no dashes, no page errors, no sideways scroll. What holds it back is the night half and three stills that do not say what their chapter says. A trailer will cut between day and night, so the night hero and the night chapters must be as strong as the day ones. Fix the five majors below and this ships; none is more than a re-render or a few lines of copy.
+
+### Checks
+
+| Check | Result |
+|---|---|
+| Doubled stills (night under day) | Gone. Exactly one visible still per section at every width and theme; day loads only `*-day`, night only `*-night` (`info-*.json`). |
+| Height at 1280 | 6,963 px by day and by night. Under 7,000, but only by 37 px; any new line tips it over. 1600 is 7,173; 768 is 10,369; 360 is 10,953. |
+| Gold action above the fold | Bottom at 623 px on 1280 by 800 and 1600 by 900, 668 px on 360 by 740, 852 px on 768 by 1024. Pass. |
+| Page errors, console errors | None in any run. |
+| Horizontal scroll | None (scroll width equals viewport at all four widths). |
+| Development artefacts, dashes | None in the visible text (full text sweep at 1280). |
+| Preview marks | On the hero still, the example, every chapter still and the hero footnote. Correct and calm. |
+
+Note on the tall phone and tablet full page shots: Chromium's software capture wraps around after about 8,000 px, so `full-360-*.png` and `full-768-day.png` show the hero again near the bottom. This is the capture, not the page; the per section close-ups at 360 render correctly.
+
+### Round 1 and 2 findings
+
+| Id | Status |
+|---|---|
+| B1 no product imagery | Resolved. Nineteen stills placed by theme. Quality issues below (M10 to M13). |
+| M1 hero image | Partly. By day the paper city is strong. It still sits in a boxed frame at about 560 px instead of bleeding to the edge, and the night hero is weak (M8). |
+| M2 gold action below the fold | Resolved. |
+| M3 promises ahead of the product | Resolved: Preview line under the actions, invitation reworded. |
+| M4 too long | Resolved at 1280 (6,963 px). Fragile, see the table. |
+| M5 day and night switch | Resolved. The hero follows the theme. |
+| M6 ghosting | Resolved (fixed grain, no blend). No ghosting in any close-up. |
+| M7 no concrete proof | Resolved. "Vindhya Bhavan, in one page" carries real Preview figures and three futures. |
+| m1 kickers | Resolved ("01, In its city" with a rule). |
+| m2 brand three times | Resolved. |
+| m3 copy edits | Resolved. |
+| m4 Preview stamps | Resolved: hatch in the still corner, 28 px target. |
+| m5 hatched or dashed | Resolved on the page ("hatched" throughout). |
+| m6 flat invitation | Resolved. The dusk city behind "Start with a place." is lovely. |
+| m7 glyphs | Resolved (removed). |
+| p1 tagline spacing | Resolved (gothic face). |
+| p2 glossary | Resolved (folded "Words we use"). |
+| p3 font weight | Open. `fonts-*.css` is still 715 kB. |
+| Second opinion: day mode, monospace data, mobile hero | Resolved: real paper day mode, data set in a mono face, still directly under the headline on phones. |
+
+### Findings, round 3
+
+#### Blockers
+
+None.
+
+#### Majors
+
+**M8. The night hero does not carry the first screen.** Owner C and D.
+At 1280 the night still is a wide wireframe city with a lantern about 60 px across in a 560 px box; most of the frame is black, and a "Vindhya Bhavan" label is baked in at about 5 px (unreadable, and it looks like interface chrome). On phones the night hero is a tight top down crop of a lit roof that reads as an abstract pattern, not a building in a city. The caption under both still says "The hatched shadow marks a height we can only estimate", and no hatch or shadow is visible at night.
+Fix: C renders a night hero framed like the day one (same camera, Vindhya filling about a third of the frame, neighbours lit dimly by EUI), with no baked label; the phone crop keeps the whole building and a ring of neighbours. D gives the night hero its own caption, for example "Your building lit by how much energy it uses, among its neighbours." Shots: `round4/fold-1280-night.png`, `round4/crop-hero-1280-night.png`, `round4/fold-360-night.png`.
+
+**M9. "LIKELY, No level yet" reads as a contradiction.** Owner D.
+The codes plate shows four identical rows (GHMC stars, LEED, IGBC, EDGE), each a "LIKELY" stamp beside "No level yet". A reader takes it as "likely no level", which is both confusing and a poor advert. The example strip repeats it as "GHMC stars: no level likely yet".
+Fix: say what the design is short of, in words: "Not yet at the first level" with how far ("needs about 10% less energy for one star"), or show the nearest level as Possible. Drop the stamp when there is no level. In the example: "Green rating: not yet at one GHMC star, about 3% to 34% above the code's reference." Shots: `round4/ch-codes-1280-day.png`, `round4/ch-example-1280-day.png`.
+
+**M10. The night sun and daylight chapters show the same lantern.** Owner C.
+At night the city, sun and daylight stills are near copies: dark ground, one glowing block. "Follow the sun across the year" over a night picture has no sun and no shadow; the daylight night still shows a floating glow beside the building rather than daylight on a floor. Scrolling the night page, three chapters in a row look identical (`round4/full-1280-night.png`).
+Fix: sun and daylight are daytime ideas. By night use a dusk version of each (low warm sun, long shadows; the drawer floor with its daylight fill still visible), or reuse the day render with the night grade. Keep the lantern for the city and energy chapters only. Shots: `round4/ch-city-1280-night.png`, `round4/ch-sun-1280-night.png`, `round4/ch-daylight-1280-night.png`.
+
+**M11. The day daylight still shows no daylight.** Owner C.
+The chapter promises "Bright areas fill with colour and dim corners stay plain paper", but the drawer floor is plain pale paper with no fill, and the building beside it is a flat dark grey slab that looks like a rendering fault. Fix: paint the drawer with the daylight fill (gold to paper), add the glare hatch near one window, and render the parent building in the paper model style. Shot: `round4/ch-daylight-1280-day.png`.
+
+**M12. The example still by day is a night picture.** Owner C and D.
+"Vindhya Bhavan, in one page" uses `hero-phone` (a warm, lit, top down roof close-up) in both themes. On the paper day page it reads as an orange abstract and fights the figures beside it. Fix: C renders a day version (the energy or trust still framing, whole building, paper neighbours); D picks it by theme as the chapters do. Shot: `round4/ch-example-1280-day.png`.
+
+#### Minor
+
+**m8. Energy plate: an unlabelled black bar.** Below the end use legend there is a black bar with a hatched start and no label, and the legend lists four of six coloured segments. The copy promises "pumps, hot water and solar". Label the bar ("As drawn, against the reference") or remove it, and list every segment or say "and 2 more". The kicker says "Energy, bills and carbon" but carbon appears nowhere; drop "and carbon" or add one carbon figure. Owner D (plate) and C if the plate is baked. Shot: `round4/ch-energy-1280-day.png`.
+
+**m9. Trust plate shows "Linked values 149".** A count of linked values means nothing to a customer. Replace with something they can use: "Sources: 3 weather and tariff files, 1 code" or "Opens to 149 linked numbers". Owner D. Shot: `round4/ch-trust-1280-day.png`.
+
+**m10. A dark propeller shape on the trust still.** The phone crop of the trust still shows a black four bladed mark in the courtyard (the radiation rose or a sun dial) that reads as a glitch; the plate hides it at 1280. Remove it from the still or make it legible. Owner C. Shot: `round4/ch-trust-360-day.png`.
+
+**m11. Compare plate hides the three futures.** The compare still shows three panes, but the plate covers most of them and repeats the example's three cards, wrapped awkwardly ("Rs 24 / lakh"). Make the plate a single line strip along the bottom (three names and savings) so the panes show. Owner D. Shot: `round4/ch-compare-1280-day.png`.
+
+**m12. Height margin.** 1280 sits 37 px under the 7,000 px target. Trim 150 to 200 px of slack, for example the gap above "Who it is for" or below the example, so later copy does not tip it. Owner D. Shot: `round4/full-1280-day.png`.
+
+**m13. Location line twice in a row.** "IIIT Hyderabad · 17.45° N, 78.35° E" closes the hero and opens the example two screens later. Keep it on the example only, or shorten the hero one to "IIIT Hyderabad". Owner D.
+
+#### Polish
+
+**p4. Hero still frame.** By day the still could bleed to the right edge at 1280 and above, as M1 asked; the boxed frame with a hairline feels like a screenshot. Owner D.
+
+**p5. Day sun still.** The soft shadow blob is pleasant but does not say "sun"; a thin sun arc or a second shadow time faintly drawn would make the chapter instantly legible. Owner C. Shot: `round4/ch-sun-1280-day.png`.
+
+**p3 (carried). Font stylesheet 715 kB.** Owner D.
+
+### What works now
+
+- The day hero is the brand: ink on paper, real neighbours, Preview hatch, gold action, all in the first 640 px.
+- The worked example sells the product better than any paragraph: ranges against the code, bills in crore and lakh, three costed futures, each honest about being an example.
+- Copy is short, plain and sounds like a person. The trust chapter ("it never writes a number") and the footer privacy line are exactly right.
+- The dusk invitation and the design chapter's two orientation plan are the most beautiful frames on the page.
+- Day and night are now one design in two lights; the switch changes the first screen.

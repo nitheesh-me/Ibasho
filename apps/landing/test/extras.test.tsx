@@ -96,7 +96,7 @@ describe('stills', () => {
     expect(doc.querySelector('#sun .lp-panel')).not.toBeNull();
   });
 
-  it('show the day or the night still by theme, and the night hero as a picture', () => {
+  it('show the day or the night still by theme, the hero included', () => {
     const posters = fixture(
       [
         still('city-day', 'city', 'hiru', 'a'),
@@ -123,10 +123,9 @@ describe('stills', () => {
     const doc = parse(renderLanding(real, { posters }));
     expect(doc.querySelector('#city img.lp-still--hiru')).not.toBeNull();
     expect(doc.querySelector('#city img.lp-still--yoru')).not.toBeNull();
-    const pic = doc.querySelector('#hero picture.lp-still--yoru');
-    expect(pic?.querySelector('source')?.getAttribute('media')).toBe('(min-width: 48rem)');
-    expect(pic?.querySelector('img')?.getAttribute('src')).toBe('/posters/p-720.webp');
+    expect(doc.querySelector('#hero img.lp-still--yoru')?.getAttribute('src')).toBe('/posters/n-1600.webp');
     expect(doc.querySelector('#hero img.lp-still--hiru')).not.toBeNull();
+    expect(doc.querySelector('#hero .lp-in-yoru')).not.toBeNull();
     expect(doc.querySelector('#invitation .lp-invite__still')?.getAttribute('src')).toBe(
       '/posters/d-1600.webp',
     );

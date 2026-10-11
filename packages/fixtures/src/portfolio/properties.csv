@@ -1,0 +1,501 @@
+propertyId,customerId,propertyType,yearBuilt,floorAreaM2,bedrooms,storeys,flatLevel,energyRating,sapRating,epcDate,heating,heatingAgeYears,loftMm,wall,floorInsulated,glazing,solarKwp,smartControls,region,valueGBP,valueAsOf,conservationArea,listed,flatRoofAccess,tenure,split
+P10001,C0001,semi-detached,1950,120,3,2,,E,54,2019-03-14,gas-boiler-condensing,14,200,cavity-unfilled,false,single,0,programmer,North West,350000,2026-09-30,false,false,false,owner,train
+P10002,C0002,mid-terrace,1995,78,3,2,,,,,gas-boiler-condensing,3,200,cavity-filled,,double,2,programmer-thermostat,Yorkshire,181000,2026-09-30,false,false,false,owner,validation
+P10003,C0003,end-terrace,1889,82,3,2,,E,52,2010-03-10,heat-pump,2,270,solid-uninsulated,false,double,0,programmer,South East,373000,2026-09-30,false,false,false,owner,train
+P10004,C0004,flat,1979,42,1,1,top,F,35,2025-06-10,electric-storage,13,no-loft,cavity-filled,false,double,0,,Scotland,114000,2026-09-30,false,false,false,owner,validation
+P10005,C0005,bungalow,1960,86,3,1,,D,64,2020-06-10,gas-boiler-condensing,13,100,cavity-filled,false,double,0,programmer,Yorkshire,218000,2026-09-30,false,false,false,owner,test
+P10006,C0006,bungalow,1963,70,2,1,,D,61,2025-09-10,gas-boiler-condensing,0,270,,false,double,0,programmer,Yorkshire,183000,2026-09-30,false,false,false,owner,train
+P10007,C0007,end-terrace,1974,78,3,2,,D,68,2025-06-10,gas-boiler-condensing,11,270,cavity-filled,false,double,0,programmer,North West,178000,2026-09-30,false,false,false,owner,train
+P10008,C0008,detached,1949,153,5,2,,C,73,2013-05-10,gas-boiler-condensing,6,50,cavity-filled,false,triple,0,programmer,North West,470000,2026-09-30,false,false,false,landlord,test
+P10009,C0008,mid-terrace,1977,69,2,2,,,,,gas-boiler-condensing,11,100,cavity-filled,false,double-old,0,programmer-thermostat,Yorkshire,169000,2026-09-30,false,false,false,landlord,test
+P10010,C0008,mid-terrace,1957,94,3,2,,D,59,2025-11-10,gas-boiler-old,25,50,cavity-unfilled,false,single,0,programmer-thermostat,Yorkshire,225000,2026-09-30,false,false,false,landlord,test
+P10011,C0009,end-terrace,1999,82,3,2,,C,69,2017-09-10,gas-boiler-old,15,270,cavity-filled,false,double,0,programmer-thermostat,South East,374000,2026-09-30,false,false,false,owner,train
+P10012,C0010,bungalow,1943,65,2,1,,D,64,2024-05-10,gas-boiler-condensing,12,200,cavity-filled,false,double-old,0,programmer-thermostat,North West,192000,2026-09-30,false,false,false,owner,train
+P10013,C0011,end-terrace,2008,86,3,2,,C,73,2016-11-10,gas-boiler-condensing,,,cavity-filled,true,double,0,programmer,Yorkshire,216000,2026-09-30,false,false,false,owner,validation
+P10014,C0012,semi-detached,1982,92,3,2,,C,72,2018-08-10,gas-boiler-condensing,8,200,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,271000,2026-09-30,false,false,false,owner,test
+P10015,C0013,flat,1951,61,2,1,top,D,61,2021-12-10,gas-boiler-old,20,no-loft,cavity-filled,false,double-old,0,programmer,North West,177000,2026-09-30,false,false,false,owner,train
+P10016,C0014,semi-detached,1986,104,3,2,,,,,gas-boiler-condensing,6,150,cavity-filled,true,double,0,programmer,London,840000,2026-09-30,false,false,false,landlord,train
+P10017,C0014,end-terrace,1939,82,3,2,,D,62,2014-12-10,gas-boiler-condensing,8,100,cavity-unfilled,false,double-old,0,programmer-thermostat,London,598000,2026-09-30,false,false,false,landlord,train
+P10018,C0015,flat,1941,68,2,1,ground,D,,2012-01-10,gas-boiler-condensing,13,no-loft,cavity-unfilled,false,double-old,0,programmer,North West,160000,2026-09-30,false,false,false,owner,train
+P10019,C0016,flat,1964,57,2,1,ground,C,73,2012-11-10,gas-boiler-condensing,0,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,North West,142000,2026-09-30,false,false,false,landlord,validation
+P10020,C0016,semi-detached,1886,105,4,2,,,,,gas-boiler-condensing,12,270,solid-uninsulated,false,single,0,programmer,Scotland,278000,2026-09-30,false,false,false,landlord,validation
+P10021,C0016,mid-terrace,1972,63,2,2,,C,69,2018-01-10,gas-boiler-condensing,9,100,cavity-filled,false,triple,0,smart-thermostat,South East,328000,2026-09-30,false,false,false,landlord,validation
+P10022,C0016,bungalow,1965,75,3,1,,D,66,2023-03-10,gas-boiler-condensing,15,200,cavity-filled,false,double,0,programmer-thermostat,North West,151000,2026-09-30,false,false,false,landlord,validation
+P10023,C0017,flat,1975,50,2,1,top,D,66,2016-12-10,gas-boiler-condensing,11,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,Scotland,155000,2026-09-30,false,false,false,owner,test
+P10024,C0018,mid-terrace,1927,106,4,2,,D,63,2015-05-10,gas-boiler-condensing,,270,solid-uninsulated,false,double-old,0,smart-thermostat,Yorkshire,235000,2026-09-30,false,false,false,landlord,train
+P10025,C0018,detached,1942,90,3,2,,C,69,2022-12-10,gas-boiler-condensing,9,270,cavity-filled,false,double,0,programmer,North West,212000,2026-09-30,false,false,false,landlord,train
+P10026,C0019,end-terrace,1956,117,4,2,,D,64,2018-08-10,gas-boiler-old,17,270,cavity-filled,false,double-old,0,,Yorkshire,328000,2026-09-30,false,false,false,owner,train
+P10027,C0020,flat,1915,56,2,1,ground,E,39,2013-06-10,electric-storage,8,no-loft,solid-uninsulated,false,double-old,0,programmer-thermostat,South East,226000,2026-09-30,false,false,false,owner,train
+P10028,C0021,mid-terrace,1958,59,2,2,,C,,2025-02-10,gas-boiler-condensing,11,200,cavity-filled,false,double,0,programmer-thermostat,North West,134000,2026-09-30,false,false,false,owner,train
+P10029,C0022,mid-terrace,1962,57,2,2,,C,71,2020-04-10,gas-boiler-condensing,4,100,cavity-filled,false,double,3,programmer-thermostat,South East,220000,2026-09-30,false,false,false,owner,train
+P10030,C0023,semi-detached,1958,74,2,2,,D,63,2025-05-10,gas-boiler-condensing,0,100,cavity-unfilled,false,double-old,0,programmer-thermostat,North West,204000,2026-09-30,false,false,false,landlord,train
+P10031,C0023,mid-terrace,1886,70,2,2,,D,,2022-10-10,gas-boiler-old,18,100,solid-uninsulated,false,double,0,programmer-thermostat,London,373000,2026-09-30,false,false,false,landlord,train
+P10032,C0023,flat,1998,56,2,1,mid,D,60,2023-02-10,electric-storage,20,no-loft,cavity-filled,false,double-old,0,smart-thermostat,North West,157000,2026-09-30,false,false,false,landlord,train
+P10033,C0024,semi-detached,1976,90,3,2,,D,,2012-03-10,gas-boiler-condensing,,50,cavity-unfilled,false,double-old,0,programmer-thermostat,South East,451000,2026-09-30,false,false,false,owner,train
+P10034,C0025,flat,1947,118,4,1,top,D,59,2011-04-10,gas-boiler-condensing,11,no-loft,cavity-unfilled,false,triple,0,,North West,340000,2026-09-30,false,false,true,owner,train
+P10035,C0026,mid-terrace,2017,78,3,2,,B,88,2021-01-10,gas-boiler-condensing,7,270,cavity-filled,true,double,4,programmer-thermostat,North West,208000,2026-09-30,false,false,false,owner,test
+P10036,C0027,flat,1936,52,2,1,mid,D,66,2015-05-10,electric-storage,5,no-loft,cavity-filled,false,triple,0,programmer-thermostat,London,262000,2026-09-30,false,false,false,owner,train
+P10037,C0028,mid-terrace,2019,88,3,2,,D,65,2018-11-10,gas-boiler-old,19,,cavity-filled,true,double,4,none,Yorkshire,204000,2026-09-30,false,false,false,owner,train
+P10038,C0029,semi-detached,1950,83,3,2,,F,32,2020-09-10,electric-storage,27,270,cavity-unfilled,false,double-old,2,programmer-thermostat,North West,206000,2026-09-30,false,false,false,owner,validation
+P10039,C0030,mid-terrace,1952,107,4,2,,D,,2016-07-10,gas-boiler-old,26,150,cavity-filled,false,double-old,0,programmer,Yorkshire,219000,2026-09-30,false,false,false,owner,test
+P10040,C0031,detached,2006,209,6,3,,,,,gas-boiler-condensing,7,270,cavity-filled,true,double,0,programmer-thermostat,Scotland,622000,2026-09-30,false,false,false,owner,train
+P10041,C0032,detached,1969,202,6,3,,C,71,2011-01-10,gas-boiler-condensing,13,270,cavity-filled,false,double,0,programmer,London,1471000,2026-09-30,false,false,false,owner,train
+P10042,C0033,detached,1949,149,5,2,,,,,gas-boiler-condensing,12,,cavity-filled,false,double,0,programmer,Yorkshire,480000,2026-09-30,false,false,false,owner,train
+P10043,C0034,detached,1950,138,5,2,,D,67,2019-06-10,gas-boiler-condensing,9,270,cavity-unfilled,false,double,0,programmer,South East,718000,2026-09-30,false,false,false,landlord,test
+P10044,C0034,flat,1986,62,2,1,ground,D,68,2023-08-10,gas-boiler-condensing,9,no-loft,cavity-unfilled,false,double-old,0,none,Scotland,160000,2026-09-30,true,false,false,landlord,test
+P10045,C0035,end-terrace,1959,135,5,2,,D,67,2024-04-10,gas-boiler-condensing,11,150,cavity-unfilled,false,double-old,0,programmer,Yorkshire,371000,2026-09-30,false,false,false,owner,train
+P10046,C0036,detached,1937,131,4,2,,D,65,2021-06-10,gas-boiler-condensing,2,200,cavity-unfilled,false,double,0,programmer,North West,403000,2026-09-30,false,false,false,owner,train
+P10047,C0037,end-terrace,1977,69,2,2,,D,68,2025-03-10,gas-boiler-condensing,,150,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,190000,2026-09-30,false,false,false,owner,train
+P10048,C0038,semi-detached,1883,110,4,2,,D,63,2022-05-10,gas-boiler-condensing,8,270,solid-uninsulated,false,double-old,0,none,Scotland,297000,2026-09-30,false,false,false,owner,train
+P10049,C0039,semi-detached,1875,118,4,2,,D,55,2021-01-10,gas-boiler-condensing,4,270,solid-uninsulated,false,single,0,programmer,Scotland,333000,2026-09-30,false,false,false,owner,test
+P10050,C0040,flat,1959,59,2,1,mid,,,,gas-boiler-condensing,9,no-loft,,false,double-old,0,programmer-thermostat,Scotland,138000,2026-09-30,false,false,false,owner,validation
+P10051,C0041,semi-detached,1986,90,3,2,,D,66,2024-01-10,gas-boiler-condensing,13,150,cavity-unfilled,false,double,0,programmer,Scotland,247000,2026-09-30,false,false,false,owner,train
+P10052,C0042,bungalow,1994,69,2,1,,D,66,2014-07-10,gas-boiler-condensing,13,200,cavity-unfilled,false,double,0,smart-thermostat,North West,175000,2026-09-30,false,false,false,landlord,test
+P10053,C0042,flat,1980,49,2,1,top,D,68,2016-03-10,gas-boiler-condensing,5,no-loft,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,117000,2026-09-30,false,false,false,landlord,test
+P10054,C0042,detached,2004,141,5,2,,,,,gas-boiler-condensing,11,270,cavity-filled,true,double,0,smart-thermostat,Scotland,469000,2026-09-30,false,false,false,landlord,test
+P10055,C0043,flat,1899,57,2,1,ground,F,30,2015-07-10,electric-storage,7,no-loft,solid-uninsulated,false,single,0,programmer,Yorkshire,144000,2026-09-30,false,false,false,owner,train
+P10056,C0044,detached,1922,156,5,2,,,,,gas-boiler-condensing,6,200,solid-uninsulated,false,double,0,programmer-thermostat,Scotland,526000,2026-09-30,false,false,false,owner,train
+P10057,C0045,detached,1945,170,6,2,,D,59,2015-03-10,heat-pump,4,150,cavity-filled,false,double-old,0,programmer-thermostat,London,1439000,2026-09-30,false,false,false,landlord,test
+P10058,C0045,mid-terrace,1976,64,2,2,,D,64,2021-09-10,gas-boiler-old,27,270,cavity-unfilled,false,double,0,programmer,Yorkshire,157000,2026-09-30,false,false,false,landlord,test
+P10059,C0045,semi-detached,1972,84,3,2,,D,67,2019-11-10,gas-boiler-condensing,7,200,cavity-filled,false,double,0,programmer-thermostat,South East,319000,2026-09-30,false,false,false,landlord,test
+P10060,C0046,semi-detached,1961,94,3,2,,D,67,2010-05-10,gas-boiler-condensing,10,200,cavity-unfilled,false,double,3,smart-thermostat,Scotland,266000,2026-09-30,false,false,false,owner,validation
+P10061,C0047,semi-detached,1893,101,3,2,,E,44,2024-05-10,gas-boiler-old,,0,solid-uninsulated,false,single,0,none,London,612000,2026-09-30,false,false,false,owner,train
+P10062,C0048,bungalow,1929,64,2,1,,,,,gas-boiler-condensing,13,50,,false,double-old,0,programmer-thermostat,North West,143000,2026-09-30,false,false,false,owner,train
+P10063,C0049,mid-terrace,1904,85,3,2,,D,61,2016-07-10,gas-boiler-condensing,15,150,solid-uninsulated,false,single,0,programmer,North West,216000,2026-09-30,true,false,false,landlord,train
+P10064,C0049,end-terrace,1918,75,3,2,,,,,gas-boiler-condensing,10,300,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,160000,2026-09-30,false,false,false,landlord,train
+P10065,C0050,flat,1922,57,2,1,mid,C,72,2019-03-10,gas-boiler-condensing,,no-loft,solid-uninsulated,false,double,0,programmer,North West,146000,2026-09-30,false,false,false,owner,train
+P10066,C0051,mid-terrace,1920,84,3,2,,D,,2014-04-10,gas-boiler-condensing,0,100,solid-uninsulated,true,double-old,0,programmer-thermostat,Scotland,204000,2026-09-30,false,false,false,owner,validation
+P10067,C0052,end-terrace,1895,109,4,2,,D,60,2016-07-10,gas-boiler-condensing,13,270,solid-uninsulated,false,double-old,0,programmer-thermostat,London,653000,2026-09-30,false,true,false,owner,train
+P10068,C0053,end-terrace,1935,64,2,2,,D,59,2025-01-10,gas-boiler-old,22,270,cavity-unfilled,false,double-old,0,programmer,Scotland,148000,2026-09-30,false,false,false,owner,train
+P10069,C0054,semi-detached,1991,92,3,2,,D,67,2017-01-10,gas-boiler-condensing,7,200,cavity-filled,false,double-old,0,programmer,Scotland,257000,2026-09-30,false,false,false,owner,train
+P10070,C0055,end-terrace,1917,77,3,2,,D,,2024-05-10,gas-boiler-condensing,13,270,solid-uninsulated,false,,0,smart-thermostat,North West,214000,2026-09-30,true,false,false,landlord,train
+P10071,C0055,semi-detached,1989,118,4,2,,C,80,2011-02-10,gas-boiler-condensing,3,270,cavity-filled,false,double,0,programmer-thermostat,North West,311000,2026-09-30,false,false,false,landlord,train
+P10072,C0056,mid-terrace,1870,91,3,2,,D,,2016-10-10,gas-boiler-old,23,270,solid-uninsulated,false,,0,programmer-thermostat,South East,341000,2026-09-30,true,false,false,owner,train
+P10073,C0057,end-terrace,1978,81,3,2,,D,68,2019-12-10,gas-boiler-condensing,13,100,cavity-filled,false,double,0,smart-thermostat,Scotland,195000,2026-09-30,false,false,false,owner,train
+P10074,C0058,bungalow,1983,56,2,1,,D,64,2021-06-10,gas-boiler-condensing,10,0,cavity-filled,false,triple,0,programmer-thermostat,London,426000,2026-09-30,false,false,false,owner,validation
+P10075,C0059,bungalow,1974,79,3,1,,E,54,2010-01-10,gas-boiler-old,24,,cavity-filled,false,double,0,programmer,North West,237000,2026-09-30,false,false,false,owner,train
+P10076,C0060,flat,1949,73,2,1,ground,E,45,2011-07-10,electric-storage,24,no-loft,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,160000,2026-09-30,false,false,false,landlord,train
+P10077,C0060,flat,1951,62,2,1,mid,C,,2023-12-10,gas-boiler-old,16,no-loft,cavity-filled,false,double,0,programmer-thermostat,Scotland,168000,2026-09-30,false,false,false,landlord,train
+P10078,C0061,bungalow,1941,52,2,1,,D,63,2012-06-10,gas-boiler-condensing,0,200,,false,double,0,programmer,South East,244000,2026-09-30,false,false,false,owner,train
+P10079,C0062,mid-terrace,1936,83,3,2,,D,60,2011-06-10,gas-boiler-old,24,270,cavity-unfilled,false,double-old,0,programmer-thermostat,North West,188000,2026-09-30,false,false,false,owner,train
+P10080,C0063,mid-terrace,1975,102,3,2,,C,69,2011-08-10,gas-boiler-old,27,200,cavity-filled,false,double-old,0,smart-thermostat,Scotland,257000,2026-09-30,false,false,false,landlord,train
+P10081,C0063,detached,1953,112,4,2,,D,63,2011-12-10,gas-boiler-condensing,1,270,,false,single,0,programmer,Yorkshire,311000,2026-09-30,false,false,false,landlord,train
+P10082,C0063,bungalow,1978,83,3,1,,D,65,2012-02-10,gas-boiler-condensing,14,300,cavity-filled,,double-old,2,programmer-thermostat,North West,249000,2026-09-30,false,false,false,landlord,train
+P10083,C0064,end-terrace,1955,86,3,2,,C,70,2024-02-10,gas-boiler-condensing,0,270,cavity-filled,false,,0,programmer-thermostat,Scotland,240000,2026-09-30,false,false,false,owner,train
+P10084,C0065,flat,1887,53,2,1,mid,D,56,2015-05-10,gas-boiler-old,22,no-loft,solid-uninsulated,false,double-old,0,smart-thermostat,London,409000,2026-09-30,false,true,false,landlord,train
+P10085,C0065,bungalow,1988,103,3,1,,D,67,2019-12-10,gas-boiler-condensing,12,270,cavity-filled,false,double-old,0,programmer,Yorkshire,243000,2026-09-30,false,false,false,landlord,train
+P10086,C0065,bungalow,1984,86,3,1,,D,66,2017-08-10,gas-boiler-condensing,8,50,cavity-filled,false,triple,0,programmer,London,491000,2026-09-30,false,false,false,landlord,train
+P10087,C0065,bungalow,1943,83,3,1,,D,65,2020-12-10,gas-boiler-condensing,4,270,cavity-unfilled,false,double-old,0,smart-thermostat,North West,292000,2026-09-30,false,false,false,landlord,train
+P10088,C0066,mid-terrace,1935,108,4,2,,,,,gas-boiler-condensing,4,270,cavity-filled,false,double-old,0,programmer-thermostat,London,708000,2026-09-30,false,false,false,owner,train
+P10089,C0067,flat,1963,66,2,1,mid,C,70,2015-09-10,heat-pump,4,no-loft,cavity-filled,false,double,0,programmer-thermostat,South East,326000,2026-09-30,false,false,false,owner,train
+P10090,C0068,flat,1870,73,2,1,top,D,56,2021-03-10,gas-boiler-old,15,no-loft,solid-uninsulated,,double-old,0,smart-thermostat,North West,199000,2026-09-30,true,false,false,landlord,test
+P10091,C0068,flat,1887,56,2,1,ground,F,38,2010-01-10,electric-storage,25,no-loft,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,145000,2026-09-30,false,false,false,landlord,test
+P10092,C0068,detached,1976,125,4,2,,D,61,2024-12-10,gas-boiler-condensing,0,270,cavity-filled,,double,0,programmer-thermostat,London,887000,2026-09-30,false,false,false,landlord,test
+P10093,C0069,bungalow,1956,75,3,1,,,,,gas-boiler-condensing,,200,cavity-filled,false,double,0,programmer,South East,299000,2026-09-30,false,false,false,owner,train
+P10094,C0070,flat,1960,63,2,1,mid,D,65,2013-08-10,gas-boiler-old,,no-loft,cavity-unfilled,false,double,0,programmer,London,451000,2026-09-30,false,false,false,landlord,test
+P10095,C0070,flat,1977,55,2,1,ground,C,70,2021-01-10,gas-boiler-condensing,13,no-loft,cavity-filled,false,double-old,0,programmer,London,400000,2026-09-30,false,false,false,landlord,test
+P10096,C0070,flat,1921,59,2,1,ground,F,35,2015-04-10,electric-storage,34,no-loft,solid-uninsulated,false,double,0,programmer-thermostat,Scotland,168000,2026-09-30,false,false,false,landlord,test
+P10097,C0071,flat,1957,90,3,1,mid,B,,2011-03-10,gas-boiler-condensing,1,no-loft,cavity-filled,false,double,0,programmer,North West,247000,2026-09-30,false,false,false,landlord,train
+P10098,C0071,bungalow,1969,73,2,1,,D,65,2016-10-10,gas-boiler-condensing,15,,cavity-filled,false,double,0,programmer-thermostat,North West,176000,2026-09-30,false,false,false,landlord,train
+P10099,C0072,flat,1972,85,3,1,ground,C,,2020-05-10,gas-boiler-condensing,13,no-loft,cavity-filled,false,double,0,programmer-thermostat,North West,256000,2026-09-30,false,false,false,owner,train
+P10100,C0073,mid-terrace,2007,61,2,2,,C,73,2013-01-10,gas-boiler-condensing,5,270,cavity-filled,true,triple,0,,Scotland,179000,2026-09-30,false,false,false,landlord,validation
+P10101,C0073,mid-terrace,1898,72,2,2,,D,57,2012-03-10,gas-boiler-condensing,9,0,solid-uninsulated,false,single,0,smart-thermostat,North West,224000,2026-09-30,true,false,false,landlord,validation
+P10102,C0073,mid-terrace,1947,98,3,2,,D,66,2011-07-10,gas-boiler-old,21,100,cavity-filled,,,0,programmer,Scotland,263000,2026-09-30,false,false,false,landlord,validation
+P10103,C0073,detached,1931,228,6,3,,C,74,2010-10-10,gas-boiler-condensing,2,200,,false,double,0,programmer-thermostat,North West,825000,2026-09-30,false,false,false,landlord,validation
+P10104,C0074,flat,1963,56,2,1,ground,C,,2018-07-10,gas-boiler-condensing,,no-loft,cavity-filled,false,double-old,0,programmer,South East,187000,2026-09-30,false,false,false,owner,train
+P10105,C0075,mid-terrace,1945,78,3,2,,D,,2015-09-10,heat-pump,6,,cavity-filled,false,double,2,programmer,Scotland,203000,2026-09-30,false,false,false,owner,train
+P10106,C0076,detached,1965,144,5,2,,,,,gas-boiler-condensing,13,270,cavity-filled,false,double,0,programmer-thermostat,North West,379000,2026-09-30,false,false,false,landlord,train
+P10107,C0076,detached,2008,112,4,2,,D,64,2016-07-10,gas-boiler-condensing,10,270,cavity-filled,true,triple,0,smart-thermostat,South East,559000,2026-09-30,false,false,false,landlord,train
+P10108,C0076,flat,1970,42,1,1,ground,,,,gas-boiler-condensing,6,no-loft,cavity-filled,false,double,0,programmer-thermostat,London,299000,2026-09-30,false,false,false,landlord,train
+P10109,C0077,semi-detached,1955,84,3,2,,D,62,2018-11-10,gas-boiler-condensing,8,,cavity-filled,false,double-old,0,smart-thermostat,North West,169000,2026-09-30,false,false,false,owner,test
+P10110,C0078,semi-detached,2002,85,3,2,,,,,gas-boiler-condensing,1,100,cavity-filled,true,double,0,programmer-thermostat,Yorkshire,228000,2026-09-30,false,false,false,owner,test
+P10111,C0079,flat,1929,68,2,1,mid,E,53,2012-06-10,electric-storage,7,no-loft,solid-uninsulated,false,double,0,programmer-thermostat,Yorkshire,172000,2026-09-30,false,false,false,owner,test
+P10112,C0080,mid-terrace,1946,92,3,2,,C,71,2022-09-10,gas-boiler-condensing,2,100,cavity-unfilled,false,double,0,programmer-thermostat,North West,202000,2026-09-30,false,false,false,owner,train
+P10113,C0081,flat,1938,47,2,1,ground,D,68,2013-03-10,gas-boiler-condensing,14,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,London,347000,2026-09-30,false,false,false,owner,validation
+P10114,C0082,semi-detached,1966,90,3,2,,C,70,2021-09-10,gas-boiler-condensing,9,270,cavity-filled,,double-old,0,programmer-thermostat,South East,352000,2026-09-30,false,false,false,owner,train
+P10115,C0083,mid-terrace,1978,90,3,2,,D,,2015-12-10,gas-boiler-condensing,1,270,cavity-filled,false,double-old,0,none,Yorkshire,271000,2026-09-30,false,false,false,owner,train
+P10116,C0084,bungalow,1954,66,2,1,,D,60,2014-04-10,gas-boiler-condensing,2,270,,false,double-old,0,programmer,South East,309000,2026-09-30,false,false,false,owner,train
+P10117,C0085,semi-detached,2007,89,3,2,,C,73,2024-02-10,gas-boiler-condensing,15,270,cavity-filled,true,double,0,programmer-thermostat,Scotland,229000,2026-09-30,false,false,false,owner,train
+P10118,C0086,flat,1918,63,2,1,mid,D,65,2013-12-10,gas-boiler-condensing,7,no-loft,solid-uninsulated,false,single,0,programmer-thermostat,North West,163000,2026-09-30,false,false,false,owner,train
+P10119,C0087,bungalow,1971,64,2,1,,,,,gas-boiler-condensing,1,100,cavity-filled,false,,0,none,South East,298000,2026-09-30,false,false,false,owner,train
+P10120,C0088,semi-detached,1977,64,2,2,,,,,gas-boiler-condensing,5,200,cavity-filled,false,double-old,0,programmer,Yorkshire,165000,2026-09-30,false,false,false,landlord,test
+P10121,C0088,semi-detached,1879,126,4,2,,D,,2014-04-10,gas-boiler-condensing,11,270,solid-uninsulated,false,double,0,smart-thermostat,Yorkshire,314000,2026-09-30,false,false,false,landlord,test
+P10122,C0088,mid-terrace,1999,75,3,2,,D,,2011-10-10,gas-boiler-condensing,0,200,cavity-filled,false,single,3,programmer-thermostat,Scotland,186000,2026-09-30,false,false,false,landlord,test
+P10123,C0088,mid-terrace,1948,87,3,2,,,,,heat-pump,0,200,cavity-filled,false,double-old,0,programmer-thermostat,South East,365000,2026-09-30,false,false,false,landlord,test
+P10124,C0089,mid-terrace,1919,139,5,2,,D,67,2010-06-10,gas-boiler-condensing,3,270,solid-uninsulated,false,double-old,0,programmer-thermostat,South East,658000,2026-09-30,false,false,false,owner,train
+P10125,C0090,detached,2009,122,4,2,,D,68,2019-05-10,gas-boiler-condensing,13,270,cavity-filled,true,double,0,programmer-thermostat,North West,338000,2026-09-30,false,false,false,landlord,train
+P10126,C0090,semi-detached,1989,97,3,2,,D,68,2018-07-10,gas-boiler-condensing,10,50,cavity-unfilled,false,double-old,0,programmer,Yorkshire,217000,2026-09-30,false,false,false,landlord,train
+P10127,C0090,semi-detached,1922,86,3,2,,E,50,2010-06-10,gas-boiler-old,26,100,solid-uninsulated,false,double,0,programmer-thermostat,Yorkshire,203000,2026-09-30,false,false,false,landlord,train
+P10128,C0091,end-terrace,1878,58,2,2,,D,55,2017-09-10,gas-boiler-condensing,15,100,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,164000,2026-09-30,false,false,false,owner,train
+P10129,C0092,semi-detached,1987,83,3,2,,F,,2020-08-10,electric-storage,34,50,cavity-filled,false,double,0,programmer,Yorkshire,227000,2026-09-30,false,false,false,landlord,test
+P10130,C0092,detached,1958,191,6,3,,D,65,2011-06-10,heat-pump,7,,cavity-filled,false,double,0,programmer-thermostat,North West,517000,2026-09-30,false,false,false,landlord,test
+P10131,C0092,mid-terrace,1979,109,4,2,,D,67,2019-06-10,gas-boiler-condensing,4,100,cavity-filled,false,double-old,0,programmer,London,849000,2026-09-30,false,false,false,landlord,test
+P10132,C0093,semi-detached,1968,112,4,2,,D,62,2017-09-10,gas-boiler-condensing,9,100,cavity-unfilled,false,double,0,programmer-thermostat,London,674000,2026-09-30,false,false,false,owner,train
+P10133,C0094,semi-detached,1968,121,4,2,,C,,2020-01-10,gas-boiler-condensing,11,200,cavity-filled,false,double-old,0,programmer-thermostat,Scotland,323000,2026-09-30,false,false,false,owner,train
+P10134,C0095,flat,1930,69,2,1,top,F,,2020-11-10,electric-storage,,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,South East,406000,2026-09-30,false,false,false,owner,train
+P10135,C0096,mid-terrace,1877,99,3,2,,D,62,2017-07-10,gas-boiler-condensing,,270,solid-uninsulated,false,double,0,programmer,Yorkshire,227000,2026-09-30,false,false,false,landlord,train
+P10136,C0096,mid-terrace,1960,89,3,2,,,,,heat-pump,2,270,cavity-filled,false,double,0,programmer,North West,284000,2026-09-30,false,false,false,landlord,train
+P10137,C0097,semi-detached,1914,73,2,2,,,,,gas-boiler-condensing,3,150,solid-uninsulated,false,single,0,programmer-thermostat,South East,326000,2026-09-30,true,false,false,owner,train
+P10138,C0098,semi-detached,1971,60,2,2,,C,69,2023-05-10,gas-boiler-condensing,12,270,cavity-filled,false,double,0,programmer-thermostat,North West,160000,2026-09-30,false,false,false,owner,train
+P10139,C0099,semi-detached,1997,102,3,2,,D,63,2018-08-10,gas-boiler-old,15,150,cavity-filled,false,double,0,programmer,Yorkshire,280000,2026-09-30,false,false,false,owner,train
+P10140,C0100,detached,2002,161,5,2,,D,68,2011-04-10,gas-boiler-condensing,15,270,cavity-filled,true,double,0,programmer,South East,840000,2026-09-30,false,false,false,owner,test
+P10141,C0101,detached,1994,117,4,2,,D,68,2017-02-10,heat-pump,1,270,timber-frame,false,double,0,programmer,Scotland,391000,2026-09-30,false,false,false,owner,train
+P10142,C0102,detached,1917,133,4,2,,D,56,2024-07-10,gas-boiler-old,29,270,solid-uninsulated,true,double-old,0,,London,1234000,2026-09-30,true,false,false,owner,train
+P10143,C0103,semi-detached,2020,80,3,2,,,,,gas-boiler-old,26,270,cavity-filled,true,double,0,programmer,South East,416000,2026-09-30,false,false,false,owner,validation
+P10144,C0104,end-terrace,2017,70,2,2,,E,,2021-11-10,electric-storage,34,270,cavity-filled,true,double,0,smart-thermostat,North West,171000,2026-09-30,false,false,false,landlord,validation
+P10145,C0104,flat,1916,59,2,1,mid,D,65,2024-06-10,gas-boiler-old,24,no-loft,solid-uninsulated,false,double,0,smart-thermostat,Scotland,157000,2026-09-30,false,false,false,landlord,validation
+P10146,C0104,semi-detached,1940,159,5,2,,G,15,2014-02-10,electric-storage,7,0,cavity-unfilled,false,double-old,0,programmer-thermostat,Yorkshire,381000,2026-09-30,false,false,false,landlord,validation
+P10147,C0105,flat,1986,58,2,1,mid,,,,heat-pump,5,no-loft,timber-frame,false,double-old,0,none,North West,149000,2026-09-30,false,false,false,owner,train
+P10148,C0106,semi-detached,1899,60,2,2,,D,55,2014-03-10,gas-boiler-condensing,1,100,solid-uninsulated,false,double,0,programmer-thermostat,North West,169000,2026-09-30,false,true,false,owner,train
+P10149,C0107,mid-terrace,2010,83,3,2,,C,77,2019-07-10,gas-boiler-condensing,14,270,cavity-filled,true,double,0,programmer-thermostat,London,670000,2026-09-30,true,false,false,owner,train
+P10150,C0108,flat,1998,52,2,1,top,E,,2023-08-10,electric-storage,27,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,Scotland,139000,2026-09-30,false,false,false,landlord,train
+P10151,C0108,detached,1954,97,3,2,,D,63,2013-04-10,gas-boiler-condensing,3,200,cavity-filled,false,double-old,0,programmer,South East,584000,2026-09-30,false,false,false,landlord,train
+P10152,C0108,flat,1989,77,3,1,mid,D,63,2012-11-10,electric-storage,28,no-loft,cavity-filled,false,double,0,,North West,171000,2026-09-30,false,false,false,landlord,train
+P10153,C0109,flat,1900,58,2,1,ground,,,,gas-boiler-old,16,no-loft,solid-uninsulated,false,double,0,programmer-thermostat,Scotland,150000,2026-09-30,false,false,false,owner,train
+P10154,C0110,semi-detached,1980,97,3,2,,C,71,2012-04-10,gas-boiler-condensing,10,200,cavity-filled,false,double-old,0,,Scotland,259000,2026-09-30,false,false,false,owner,train
+P10155,C0111,bungalow,1967,97,3,1,,D,,2021-09-10,gas-boiler-condensing,6,270,cavity-filled,,double,0,smart-thermostat,North West,266000,2026-09-30,false,false,false,owner,train
+P10156,C0112,flat,2005,78,3,1,ground,C,71,2020-10-10,gas-boiler-old,21,no-loft,cavity-filled,true,double,0,smart-thermostat,London,616000,2026-09-30,false,false,false,landlord,train
+P10157,C0112,flat,2008,70,2,1,top,D,60,2012-11-10,electric-storage,22,no-loft,cavity-filled,,double,0,smart-thermostat,North West,170000,2026-09-30,false,false,true,landlord,train
+P10158,C0112,semi-detached,1878,91,3,2,,G,15,2018-01-10,electric-storage,22,150,solid-uninsulated,false,double-old,0,programmer,Scotland,212000,2026-09-30,true,false,false,landlord,train
+P10159,C0112,detached,2006,123,4,2,,C,69,2019-02-10,gas-boiler-condensing,10,270,cavity-filled,,triple,0,programmer-thermostat,North West,489000,2026-09-30,false,false,false,landlord,train
+P10160,C0113,mid-terrace,1967,66,2,2,,C,69,2014-06-10,gas-boiler-condensing,7,200,cavity-filled,false,double,0,programmer-thermostat,South East,226000,2026-09-30,false,false,false,owner,validation
+P10161,C0114,semi-detached,1929,71,2,2,,D,63,2014-04-10,gas-boiler-condensing,5,,solid-uninsulated,false,double-old,0,programmer-thermostat,London,469000,2026-09-30,false,false,false,owner,train
+P10162,C0115,flat,1985,94,3,1,top,C,76,2010-03-10,gas-boiler-condensing,3,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,North West,245000,2026-09-30,false,false,true,owner,test
+P10163,C0116,semi-detached,1976,84,3,2,,C,,2018-09-10,gas-boiler-condensing,4,270,cavity-filled,true,single,0,none,London,613000,2026-09-30,false,false,false,owner,test
+P10164,C0117,semi-detached,1968,117,4,2,,D,67,2022-03-10,gas-boiler-condensing,12,270,cavity-filled,false,double-old,0,programmer,North West,289000,2026-09-30,true,false,false,owner,test
+P10165,C0118,semi-detached,2022,134,4,2,,,,,gas-boiler-condensing,4,270,cavity-filled,true,double,0,none,North West,352000,2026-09-30,true,false,false,owner,validation
+P10166,C0119,semi-detached,1967,58,2,2,,D,59,2013-07-10,gas-boiler-condensing,4,150,cavity-filled,false,single,4,programmer,Scotland,141000,2026-09-30,false,false,false,owner,train
+P10167,C0120,mid-terrace,1954,107,4,2,,F,25,2020-08-10,electric-storage,6,0,cavity-filled,false,single,0,smart-thermostat,Scotland,244000,2026-09-30,false,false,false,owner,train
+P10168,C0121,flat,1903,51,2,1,ground,D,64,2019-05-10,gas-boiler-condensing,0,no-loft,solid-uninsulated,false,double,0,programmer,North West,151000,2026-09-30,false,false,false,owner,train
+P10169,C0122,bungalow,1985,85,3,1,,D,61,2013-12-10,gas-boiler-condensing,7,100,cavity-filled,true,double,0,programmer-thermostat,Scotland,214000,2026-09-30,false,false,false,landlord,train
+P10170,C0122,bungalow,1987,58,2,1,,C,71,2025-04-10,gas-boiler-old,20,200,cavity-unfilled,false,single,3,smart-thermostat,North West,154000,2026-09-30,false,false,false,landlord,train
+P10171,C0122,semi-detached,1903,67,2,2,,D,62,2023-07-10,gas-boiler-condensing,6,270,solid-uninsulated,false,double,0,programmer,Scotland,176000,2026-09-30,true,false,false,landlord,train
+P10172,C0122,mid-terrace,1971,75,3,2,,C,72,2010-11-10,gas-boiler-condensing,5,150,cavity-filled,false,double,0,programmer,South East,319000,2026-09-30,false,false,false,landlord,train
+P10173,C0123,semi-detached,2019,107,4,2,,E,45,2012-04-10,electric-storage,23,270,cavity-filled,true,double,0,programmer,North West,280000,2026-09-30,false,false,false,owner,train
+P10174,C0124,semi-detached,1928,89,3,2,,D,,2013-02-10,gas-boiler-condensing,3,270,solid-uninsulated,false,double,0,programmer-thermostat,North West,208000,2026-09-30,false,false,false,owner,train
+P10175,C0125,mid-terrace,2003,119,4,2,,C,71,2016-06-10,gas-boiler-old,15,270,cavity-filled,true,double,0,programmer,North West,350000,2026-09-30,false,false,false,owner,train
+P10176,C0126,end-terrace,1920,110,4,2,,D,,2014-12-10,gas-boiler-condensing,6,100,solid-uninsulated,false,double,0,programmer,South East,526000,2026-09-30,false,false,false,owner,validation
+P10177,C0127,flat,2008,54,2,1,mid,D,63,2016-09-10,electric-storage,9,no-loft,cavity-filled,true,double,0,programmer,South East,243000,2026-09-30,false,false,false,owner,train
+P10178,C0128,end-terrace,2021,71,2,2,,C,71,2020-09-10,gas-boiler-condensing,12,270,cavity-filled,true,double,0,programmer-thermostat,Yorkshire,233000,2026-09-30,false,false,false,owner,train
+P10179,C0129,mid-terrace,1946,63,2,2,,C,,2022-04-10,gas-boiler-condensing,12,200,cavity-filled,,double,0,programmer,South East,314000,2026-09-30,false,false,false,owner,train
+P10180,C0130,end-terrace,1893,90,3,2,,D,61,2025-02-10,gas-boiler-condensing,3,200,solid-uninsulated,false,single,0,programmer,South East,381000,2026-09-30,true,true,false,owner,train
+P10181,C0131,mid-terrace,1975,104,3,2,,C,,2014-11-10,gas-boiler-condensing,1,270,cavity-filled,false,double,3,programmer,Scotland,343000,2026-09-30,false,false,false,owner,train
+P10182,C0132,semi-detached,1941,64,2,2,,D,62,2024-09-10,gas-boiler-condensing,7,150,cavity-unfilled,false,double-old,0,programmer,London,374000,2026-09-30,false,false,false,owner,train
+P10183,C0133,detached,1947,146,5,2,,D,64,2014-01-10,gas-boiler-condensing,9,100,cavity-unfilled,false,double,0,programmer-thermostat,Scotland,523000,2026-09-30,false,false,false,owner,train
+P10184,C0134,flat,1966,67,2,1,top,C,70,2010-01-10,gas-boiler-condensing,13,no-loft,cavity-filled,false,double,0,none,North West,177000,2026-09-30,false,false,false,owner,train
+P10185,C0135,semi-detached,1978,108,4,2,,D,66,2013-10-10,gas-boiler-condensing,3,200,cavity-filled,false,single,0,programmer-thermostat,Scotland,319000,2026-09-30,false,false,false,owner,test
+P10186,C0136,detached,1929,217,6,3,,D,68,2020-11-10,gas-boiler-condensing,0,150,solid-insulated,false,double,0,programmer-thermostat,North West,731000,2026-09-30,false,false,false,owner,train
+P10187,C0137,mid-terrace,1992,53,2,2,,C,72,2024-02-10,gas-boiler-condensing,11,100,cavity-filled,false,double,0,smart-thermostat,London,360000,2026-09-30,false,false,false,owner,train
+P10188,C0138,end-terrace,1976,114,4,2,,C,69,2015-02-10,gas-boiler-condensing,10,150,timber-frame,false,double,0,none,North West,262000,2026-09-30,false,false,false,owner,train
+P10189,C0139,flat,1974,38,1,1,top,C,70,2013-08-10,gas-boiler-condensing,15,no-loft,timber-frame,false,double,0,programmer,South East,182000,2026-09-30,false,false,true,owner,train
+P10190,C0140,mid-terrace,1969,65,2,2,,,,,gas-boiler-condensing,10,270,cavity-filled,false,double,0,smart-thermostat,North West,167000,2026-09-30,false,false,false,owner,train
+P10191,C0141,semi-detached,1970,105,4,2,,F,35,2017-09-10,electric-storage,16,200,cavity-filled,false,double,0,programmer-thermostat,North West,265000,2026-09-30,false,false,false,landlord,train
+P10192,C0141,flat,1972,65,2,1,mid,C,71,2025-11-10,gas-boiler-condensing,9,no-loft,cavity-filled,false,,0,,Scotland,178000,2026-09-30,false,false,false,landlord,train
+P10193,C0141,mid-terrace,1945,58,2,2,,D,64,2011-11-10,gas-boiler-old,,200,cavity-filled,false,double,0,programmer-thermostat,London,351000,2026-09-30,false,false,false,landlord,train
+P10194,C0142,semi-detached,1937,113,4,2,,D,60,2016-01-10,gas-boiler-condensing,12,0,cavity-filled,false,double,0,programmer,South East,569000,2026-09-30,false,false,false,landlord,train
+P10195,C0142,semi-detached,1944,94,3,2,,D,68,2014-03-10,gas-boiler-condensing,1,,timber-frame,false,double,0,programmer,North West,259000,2026-09-30,false,false,false,landlord,train
+P10196,C0143,flat,2009,70,2,1,ground,D,56,2013-03-10,electric-storage,28,no-loft,cavity-filled,true,double,0,programmer,North West,183000,2026-09-30,false,false,false,owner,test
+P10197,C0144,flat,1919,46,2,1,mid,D,65,2023-03-10,gas-boiler-old,23,no-loft,solid-uninsulated,false,triple,0,smart-thermostat,North West,101000,2026-09-30,false,false,false,owner,train
+P10198,C0145,end-terrace,2021,90,3,2,,C,69,2025-08-10,gas-boiler-condensing,12,270,cavity-filled,true,double,0,programmer-thermostat,London,543000,2026-09-30,false,false,false,owner,train
+P10199,C0146,mid-terrace,1881,97,3,2,,D,61,2025-08-10,gas-boiler-condensing,14,270,solid-uninsulated,false,double,0,programmer-thermostat,London,592000,2026-09-30,false,false,false,owner,train
+P10200,C0147,flat,1967,38,1,1,mid,C,73,2012-08-10,gas-boiler-condensing,0,no-loft,cavity-unfilled,false,double-old,0,programmer-thermostat,London,239000,2026-09-30,false,false,false,owner,train
+P10201,C0148,flat,1972,52,2,1,mid,E,,2012-07-10,electric-storage,8,no-loft,cavity-unfilled,,double-old,0,programmer,Scotland,143000,2026-09-30,false,false,false,owner,test
+P10202,C0149,mid-terrace,1997,78,3,2,,D,67,2016-07-10,heat-pump,2,100,cavity-filled,false,single,0,,Yorkshire,205000,2026-09-30,false,false,false,owner,validation
+P10203,C0150,semi-detached,1884,91,3,2,,E,44,2024-01-10,gas-boiler-old,22,0,solid-uninsulated,false,double-old,0,programmer-thermostat,Scotland,210000,2026-09-30,true,false,false,owner,validation
+P10204,C0151,end-terrace,1948,66,2,2,,C,71,2011-02-10,gas-boiler-condensing,13,150,cavity-filled,false,double,0,programmer,Yorkshire,156000,2026-09-30,true,false,false,owner,train
+P10205,C0152,mid-terrace,1992,61,2,2,,C,74,2016-02-10,gas-boiler-condensing,13,150,cavity-unfilled,false,,4,smart-thermostat,London,414000,2026-09-30,false,false,false,landlord,train
+P10206,C0152,mid-terrace,1907,98,3,2,,F,38,2025-03-10,electric-storage,9,150,solid-insulated,false,double-old,0,programmer-thermostat,Yorkshire,259000,2026-09-30,true,false,false,landlord,train
+P10207,C0153,semi-detached,1995,93,3,2,,D,68,2019-06-10,heat-pump,,270,cavity-filled,false,double-old,0,programmer-thermostat,North West,260000,2026-09-30,false,false,false,landlord,train
+P10208,C0153,flat,1929,56,2,1,ground,D,,2010-05-10,gas-boiler-condensing,12,no-loft,solid-uninsulated,false,double-old,0,none,North West,129000,2026-09-30,false,false,false,landlord,train
+P10209,C0153,flat,1924,59,2,1,ground,F,29,2019-09-10,electric-storage,10,no-loft,solid-uninsulated,false,double,0,programmer-thermostat,South East,237000,2026-09-30,false,false,false,landlord,train
+P10210,C0153,semi-detached,1884,100,3,2,,D,58,2011-06-10,gas-boiler-condensing,0,,solid-uninsulated,false,double-old,0,programmer-thermostat,London,744000,2026-09-30,false,false,false,landlord,train
+P10211,C0154,bungalow,2000,133,4,1,,C,,2019-11-10,gas-boiler-condensing,15,150,cavity-filled,true,double,0,programmer,London,1035000,2026-09-30,false,false,false,owner,train
+P10212,C0155,semi-detached,1932,108,4,2,,,,,gas-boiler-condensing,5,100,cavity-filled,false,double-old,0,programmer,Scotland,305000,2026-09-30,false,false,false,owner,train
+P10213,C0156,semi-detached,1956,53,2,2,,D,64,2014-09-10,gas-boiler-condensing,,150,cavity-unfilled,true,double-old,0,programmer-thermostat,South East,230000,2026-09-30,true,false,false,landlord,train
+P10214,C0156,flat,1889,51,2,1,ground,C,69,2015-08-10,gas-boiler-condensing,7,no-loft,solid-uninsulated,false,single,0,programmer-thermostat,London,303000,2026-09-30,true,false,false,landlord,train
+P10215,C0157,end-terrace,1917,79,3,2,,D,,2023-05-10,gas-boiler-condensing,6,270,solid-uninsulated,false,single,0,programmer-thermostat,Yorkshire,190000,2026-09-30,true,false,false,owner,train
+P10216,C0158,end-terrace,2016,96,3,2,,C,78,2010-07-10,gas-boiler-condensing,11,270,cavity-filled,true,double,0,programmer-thermostat,London,519000,2026-09-30,false,false,false,landlord,train
+P10217,C0158,mid-terrace,1955,92,3,2,,D,59,2012-09-10,gas-boiler-condensing,3,100,cavity-unfilled,false,double,0,none,North West,220000,2026-09-30,false,false,false,landlord,train
+P10218,C0158,semi-detached,1936,79,3,2,,D,65,2020-01-10,gas-boiler-condensing,10,50,cavity-filled,false,double,0,,South East,299000,2026-09-30,false,false,false,landlord,train
+P10219,C0158,flat,1922,49,2,1,mid,,,,gas-boiler-condensing,15,no-loft,solid-uninsulated,true,double,0,programmer,Yorkshire,124000,2026-09-30,false,false,false,landlord,train
+P10220,C0159,semi-detached,1968,75,3,2,,D,65,2024-01-10,gas-boiler-condensing,3,150,cavity-unfilled,false,,0,programmer-thermostat,London,534000,2026-09-30,false,false,false,owner,validation
+P10221,C0160,semi-detached,2013,82,3,2,,C,72,2014-09-10,gas-boiler-condensing,,270,cavity-filled,true,double,0,programmer-thermostat,Yorkshire,191000,2026-09-30,false,false,false,owner,train
+P10222,C0161,semi-detached,1942,101,3,2,,D,61,2024-10-10,gas-boiler-condensing,2,270,cavity-filled,false,double-old,0,programmer,North West,286000,2026-09-30,false,false,false,owner,train
+P10223,C0162,detached,1919,165,6,2,,D,58,2014-12-10,heat-pump,7,270,solid-uninsulated,false,double,0,programmer,North West,477000,2026-09-30,false,false,false,owner,test
+P10224,C0163,semi-detached,1871,113,4,2,,E,,2020-12-10,gas-boiler-old,23,100,solid-uninsulated,,double-old,0,programmer,Yorkshire,329000,2026-09-30,true,false,false,owner,train
+P10225,C0164,flat,1958,56,2,1,mid,C,75,2015-11-10,gas-boiler-condensing,1,no-loft,cavity-filled,false,double,0,smart-thermostat,South East,223000,2026-09-30,false,false,false,owner,train
+P10226,C0165,flat,1898,57,2,1,ground,D,58,2015-10-10,gas-boiler-condensing,12,no-loft,solid-uninsulated,false,single,0,programmer-thermostat,London,333000,2026-09-30,false,false,false,owner,train
+P10227,C0166,mid-terrace,1971,117,4,2,,C,72,2015-11-10,heat-pump,3,150,cavity-filled,false,double-old,0,programmer-thermostat,North West,294000,2026-09-30,false,false,false,owner,test
+P10228,C0167,flat,1945,42,1,1,top,,,,gas-boiler-condensing,,no-loft,cavity-unfilled,false,double,0,smart-thermostat,North West,123000,2026-09-30,false,false,false,owner,train
+P10229,C0168,mid-terrace,1875,85,3,2,,B,82,2018-01-10,gas-boiler-condensing,8,100,solid-uninsulated,false,single,4,smart-thermostat,South East,370000,2026-09-30,true,false,false,owner,test
+P10230,C0169,mid-terrace,1905,101,3,2,,D,63,2015-12-10,gas-boiler-condensing,7,270,solid-uninsulated,false,double,0,smart-thermostat,North West,270000,2026-09-30,false,false,false,owner,validation
+P10231,C0170,mid-terrace,1975,79,3,2,,D,63,2011-01-10,heat-pump,3,100,cavity-unfilled,false,,0,programmer-thermostat,South East,303000,2026-09-30,false,false,false,owner,train
+P10232,C0171,bungalow,1970,65,2,1,,E,50,2013-07-10,gas-boiler-old,27,200,cavity-unfilled,false,double-old,0,,North West,173000,2026-09-30,true,false,false,owner,train
+P10233,C0172,semi-detached,1962,84,3,2,,C,,2013-02-10,gas-boiler-condensing,11,270,timber-frame,false,double,0,programmer,Scotland,233000,2026-09-30,false,false,false,owner,train
+P10234,C0173,bungalow,1988,78,3,1,,D,,2012-05-10,gas-boiler-condensing,7,200,cavity-filled,false,double-old,0,programmer-thermostat,London,479000,2026-09-30,false,false,false,owner,train
+P10235,C0174,semi-detached,1965,97,3,2,,D,66,2023-07-10,gas-boiler-condensing,9,150,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,279000,2026-09-30,false,false,false,owner,train
+P10236,C0175,end-terrace,1981,87,3,2,,D,67,2019-09-10,gas-boiler-condensing,10,270,cavity-filled,false,double,0,programmer,South East,420000,2026-09-30,false,false,false,owner,train
+P10237,C0176,semi-detached,1966,65,2,2,,D,61,2014-03-10,gas-boiler-old,21,200,timber-frame,false,double-old,0,programmer-thermostat,North West,151000,2026-09-30,false,false,false,owner,test
+P10238,C0177,flat,1880,73,2,1,ground,D,64,2022-06-10,gas-boiler-condensing,11,no-loft,solid-uninsulated,false,double-old,0,programmer,Yorkshire,197000,2026-09-30,false,false,false,owner,train
+P10239,C0178,detached,1945,134,4,2,,D,68,2021-12-10,gas-boiler-condensing,12,270,cavity-filled,false,double-old,0,smart-thermostat,London,1011000,2026-09-30,false,false,false,owner,train
+P10240,C0179,mid-terrace,2013,93,3,2,,,,,gas-boiler-condensing,10,270,cavity-filled,true,double,0,smart-thermostat,South East,437000,2026-09-30,false,false,false,landlord,train
+P10241,C0179,mid-terrace,1966,68,2,2,,C,70,2014-11-10,gas-boiler-condensing,11,270,cavity-filled,false,double,3,programmer-thermostat,Yorkshire,206000,2026-09-30,false,false,false,landlord,train
+P10242,C0180,mid-terrace,1904,53,2,2,,C,70,2010-02-10,gas-boiler-condensing,12,200,solid-uninsulated,false,,0,programmer,North West,130000,2026-09-30,false,false,false,owner,validation
+P10243,C0181,detached,1969,122,4,2,,C,72,2010-09-10,gas-boiler-condensing,13,270,cavity-filled,false,triple,0,programmer-thermostat,Yorkshire,327000,2026-09-30,false,false,false,owner,train
+P10244,C0182,flat,1973,75,3,1,mid,C,74,2021-06-10,heat-pump,2,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,Yorkshire,192000,2026-09-30,false,false,false,landlord,train
+P10245,C0182,end-terrace,1918,116,4,2,,D,64,2019-03-10,gas-boiler-condensing,3,100,solid-uninsulated,false,double-old,0,programmer,South East,467000,2026-09-30,false,false,false,landlord,train
+P10246,C0182,mid-terrace,1992,89,3,2,,D,66,2021-11-10,gas-boiler-old,28,200,cavity-filled,false,,0,programmer-thermostat,Yorkshire,230000,2026-09-30,false,false,false,landlord,train
+P10247,C0183,end-terrace,1963,88,3,2,,C,74,2024-06-10,gas-boiler-condensing,1,150,timber-frame,false,double,0,programmer,Scotland,189000,2026-09-30,false,false,false,owner,train
+P10248,C0184,semi-detached,1964,124,4,2,,E,,2020-11-10,electric-storage,8,270,timber-frame,false,double,0,programmer-thermostat,Scotland,367000,2026-09-30,false,false,false,owner,train
+P10249,C0185,flat,1926,66,2,1,top,D,,2012-12-10,gas-boiler-condensing,5,no-loft,solid-uninsulated,false,double,0,programmer,Scotland,193000,2026-09-30,false,false,false,owner,train
+P10250,C0186,flat,2015,98,3,1,mid,C,75,2022-12-10,gas-boiler-old,30,no-loft,cavity-filled,true,double,0,programmer,Scotland,280000,2026-09-30,false,false,false,landlord,train
+P10251,C0186,flat,1947,51,2,1,top,D,58,2015-04-10,heat-pump,4,no-loft,cavity-unfilled,false,double-old,0,programmer,Scotland,118000,2026-09-30,false,false,true,landlord,train
+P10252,C0186,detached,1905,174,6,3,,,,,gas-boiler-condensing,0,200,solid-insulated,false,single,0,programmer-thermostat,Scotland,497000,2026-09-30,false,false,false,landlord,train
+P10253,C0186,mid-terrace,1952,98,3,2,,C,72,2016-09-10,gas-boiler-condensing,0,100,cavity-filled,false,double-old,0,none,Yorkshire,236000,2026-09-30,false,false,false,landlord,train
+P10254,C0187,detached,1982,149,5,2,,D,62,2018-02-10,gas-boiler-condensing,8,270,cavity-unfilled,false,single,0,programmer-thermostat,North West,470000,2026-09-30,false,false,false,owner,validation
+P10255,C0188,semi-detached,1979,108,4,2,,,,,gas-boiler-condensing,2,200,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,280000,2026-09-30,false,false,false,landlord,train
+P10256,C0188,mid-terrace,1986,75,3,2,,C,69,2010-10-10,gas-boiler-condensing,2,150,cavity-filled,true,double,0,programmer,South East,353000,2026-09-30,false,false,false,landlord,train
+P10257,C0189,semi-detached,1911,90,3,2,,,,,gas-boiler-condensing,10,200,solid-uninsulated,,double-old,2,programmer,North West,223000,2026-09-30,true,false,false,owner,validation
+P10258,C0190,semi-detached,1971,60,2,2,,D,,2017-02-10,gas-boiler-condensing,0,150,cavity-filled,false,double,0,programmer-thermostat,North West,176000,2026-09-30,false,false,false,owner,train
+P10259,C0191,detached,1952,185,6,3,,C,71,2024-04-10,gas-boiler-condensing,6,150,cavity-filled,false,double-old,0,smart-thermostat,London,1726000,2026-09-30,false,false,false,landlord,train
+P10260,C0191,semi-detached,1978,84,3,2,,D,66,2019-05-10,gas-boiler-condensing,11,270,cavity-filled,false,double,0,programmer-thermostat,South East,395000,2026-09-30,false,false,false,landlord,train
+P10261,C0191,mid-terrace,2014,78,3,2,,C,72,2021-07-10,gas-boiler-condensing,10,270,cavity-filled,true,triple,0,programmer-thermostat,London,461000,2026-09-30,false,false,false,landlord,train
+P10262,C0191,mid-terrace,1922,48,2,2,,D,68,2021-03-10,gas-boiler-condensing,0,200,solid-uninsulated,false,double-old,0,smart-thermostat,North West,121000,2026-09-30,false,false,false,landlord,train
+P10263,C0192,end-terrace,1931,82,3,2,,D,62,2022-04-10,gas-boiler-condensing,15,200,cavity-filled,false,double-old,0,programmer,South East,378000,2026-09-30,false,false,false,owner,train
+P10264,C0193,mid-terrace,1955,63,2,2,,C,,2013-08-10,gas-boiler-condensing,3,50,cavity-filled,true,double-old,0,programmer,London,364000,2026-09-30,false,false,false,owner,train
+P10265,C0194,semi-detached,1978,107,4,2,,F,31,2010-05-10,electric-storage,13,200,timber-frame,false,single,0,programmer,North West,314000,2026-09-30,false,false,false,owner,validation
+P10266,C0195,end-terrace,1962,128,4,2,,C,71,2010-07-10,gas-boiler-condensing,4,200,timber-frame,false,double-old,0,programmer-thermostat,North West,262000,2026-09-30,false,false,false,owner,train
+P10267,C0196,flat,1984,53,2,1,mid,D,66,2025-09-10,electric-storage,17,no-loft,,false,double,0,programmer-thermostat,Yorkshire,152000,2026-09-30,false,false,false,owner,train
+P10268,C0197,detached,1904,207,6,3,,D,55,2021-09-10,heat-pump,5,270,solid-uninsulated,true,double-old,0,programmer,North West,622000,2026-09-30,true,false,false,landlord,train
+P10269,C0197,detached,1935,166,6,2,,C,69,2017-11-10,gas-boiler-condensing,9,100,cavity-filled,false,double-old,0,programmer-thermostat,Scotland,525000,2026-09-30,false,false,false,landlord,train
+P10270,C0197,semi-detached,1953,98,3,2,,C,75,2014-03-10,gas-boiler-condensing,0,200,timber-frame,false,double,0,smart-thermostat,Scotland,297000,2026-09-30,false,false,false,landlord,train
+P10271,C0197,flat,1939,51,2,1,top,D,68,2013-11-10,gas-boiler-condensing,15,no-loft,cavity-filled,false,double-old,0,smart-thermostat,North West,133000,2026-09-30,false,false,true,landlord,train
+P10272,C0198,semi-detached,2016,98,3,2,,C,71,2016-11-10,gas-boiler-condensing,11,270,cavity-filled,true,triple,0,programmer-thermostat,North West,266000,2026-09-30,false,false,false,owner,test
+P10273,C0199,mid-terrace,1961,88,3,2,,,,,heat-pump,4,200,cavity-filled,false,double-old,0,programmer-thermostat,Scotland,235000,2026-09-30,false,false,false,owner,train
+P10274,C0200,flat,1901,48,2,1,mid,,,,gas-boiler-condensing,2,no-loft,solid-uninsulated,,single,0,programmer,Scotland,125000,2026-09-30,false,false,false,owner,train
+P10275,C0201,mid-terrace,1989,73,2,2,,C,69,2010-12-10,gas-boiler-condensing,7,,cavity-filled,false,single,0,programmer,South East,370000,2026-09-30,false,false,false,owner,train
+P10276,C0202,mid-terrace,2013,56,2,2,,,,,gas-boiler-condensing,1,270,cavity-filled,true,double,0,programmer,North West,159000,2026-09-30,false,false,false,owner,train
+P10277,C0203,mid-terrace,1887,114,4,2,,,,,electric-storage,12,,solid-uninsulated,true,double-old,0,programmer,London,726000,2026-09-30,true,false,false,owner,train
+P10278,C0204,flat,1952,72,2,1,ground,D,66,2016-06-10,heat-pump,6,no-loft,cavity-unfilled,false,double,0,programmer-thermostat,South East,386000,2026-09-30,false,false,false,owner,validation
+P10279,C0205,semi-detached,1929,86,3,2,,D,58,2010-04-10,gas-boiler-condensing,3,200,solid-uninsulated,false,single,0,smart-thermostat,Scotland,254000,2026-09-30,false,false,false,owner,validation
+P10280,C0206,flat,1942,53,2,1,mid,,,,gas-boiler-condensing,,no-loft,cavity-filled,false,double,0,programmer,Yorkshire,121000,2026-09-30,false,false,false,landlord,test
+P10281,C0206,semi-detached,1878,93,3,2,,D,,2023-03-10,gas-boiler-condensing,13,100,solid-uninsulated,false,double,0,programmer-thermostat,Yorkshire,303000,2026-09-30,false,false,false,landlord,test
+P10282,C0206,flat,1981,58,2,1,mid,C,74,2020-10-10,gas-boiler-old,17,no-loft,cavity-filled,false,,0,smart-thermostat,North West,173000,2026-09-30,false,false,false,landlord,test
+P10283,C0206,flat,1930,52,2,1,mid,C,71,2015-04-10,gas-boiler-condensing,7,no-loft,timber-frame,false,double,0,programmer-thermostat,Yorkshire,101000,2026-09-30,false,false,false,landlord,test
+P10284,C0207,semi-detached,1941,116,4,2,,D,56,2018-02-10,gas-boiler-old,19,270,cavity-unfilled,false,double-old,0,programmer-thermostat,London,752000,2026-09-30,false,false,false,owner,validation
+P10285,C0208,flat,1943,53,2,1,ground,C,70,2025-07-10,gas-boiler-old,16,no-loft,cavity-filled,false,single,0,smart-thermostat,South East,259000,2026-09-30,true,false,false,owner,test
+P10286,C0209,flat,1963,52,2,1,mid,C,74,2016-08-10,gas-boiler-condensing,14,no-loft,cavity-filled,false,double,0,programmer,Scotland,129000,2026-09-30,false,false,false,owner,train
+P10287,C0210,mid-terrace,1964,82,3,2,,C,69,2022-08-10,gas-boiler-condensing,6,150,cavity-filled,false,double,0,programmer-thermostat,North West,185000,2026-09-30,false,false,false,owner,validation
+P10288,C0211,flat,2021,50,2,1,ground,D,55,2024-08-10,electric-storage,13,no-loft,cavity-filled,true,double,0,none,South East,230000,2026-09-30,false,false,false,owner,train
+P10289,C0212,semi-detached,2008,43,1,2,,,,,gas-boiler-condensing,10,270,cavity-filled,true,double,0,smart-thermostat,Scotland,144000,2026-09-30,false,false,false,landlord,validation
+P10290,C0212,semi-detached,1919,65,2,2,,E,53,2011-02-10,gas-boiler-old,26,200,solid-uninsulated,false,double,4,none,Scotland,157000,2026-09-30,false,false,false,landlord,validation
+P10291,C0212,detached,1926,117,4,2,,D,60,2014-07-10,gas-boiler-condensing,3,100,solid-uninsulated,false,,0,programmer-thermostat,South East,593000,2026-09-30,false,false,false,landlord,validation
+P10292,C0212,mid-terrace,1954,66,2,2,,,,,gas-boiler-condensing,6,50,,false,double-old,0,none,South East,342000,2026-09-30,false,false,false,landlord,validation
+P10293,C0213,semi-detached,2018,76,3,2,,C,69,2023-08-10,gas-boiler-condensing,3,270,cavity-filled,true,double,0,programmer-thermostat,Yorkshire,170000,2026-09-30,false,false,false,owner,train
+P10294,C0214,bungalow,1958,61,2,1,,F,34,2022-08-10,electric-storage,32,270,cavity-unfilled,false,double-old,0,programmer-thermostat,South East,302000,2026-09-30,false,false,false,owner,train
+P10295,C0215,flat,1944,78,3,1,ground,D,67,2020-07-10,gas-boiler-old,23,no-loft,cavity-filled,false,double-old,0,smart-thermostat,North West,251000,2026-09-30,false,false,false,owner,train
+P10296,C0216,semi-detached,1939,145,5,2,,C,71,2013-10-10,gas-boiler-condensing,14,270,cavity-filled,false,double-old,0,programmer-thermostat,South East,643000,2026-09-30,false,false,false,owner,train
+P10297,C0217,mid-terrace,1888,99,3,2,,D,67,2019-08-10,gas-boiler-condensing,10,200,solid-uninsulated,false,double,0,programmer-thermostat,London,648000,2026-09-30,false,false,false,owner,train
+P10298,C0218,mid-terrace,1888,80,3,2,,D,68,2025-07-10,gas-boiler-condensing,4,200,solid-uninsulated,false,triple,2,programmer,South East,383000,2026-09-30,false,false,false,owner,train
+P10299,C0219,semi-detached,1921,79,3,2,,D,57,2011-09-10,heat-pump,,100,solid-uninsulated,false,double,0,smart-thermostat,South East,430000,2026-09-30,false,false,false,owner,train
+P10300,C0220,end-terrace,2012,85,3,2,,C,70,2022-10-10,gas-boiler-condensing,10,270,cavity-filled,,double,0,programmer-thermostat,London,582000,2026-09-30,false,false,false,landlord,validation
+P10301,C0220,bungalow,1960,58,2,1,,D,62,2022-10-10,gas-boiler-condensing,4,270,cavity-unfilled,false,double-old,0,programmer-thermostat,Scotland,179000,2026-09-30,false,false,false,landlord,validation
+P10302,C0221,semi-detached,2014,67,2,2,,D,67,2018-11-10,gas-boiler-old,17,270,cavity-filled,true,double,0,programmer-thermostat,Yorkshire,147000,2026-09-30,false,false,false,owner,train
+P10303,C0222,end-terrace,2017,70,2,2,,C,78,2023-01-10,gas-boiler-condensing,6,,cavity-filled,true,double,0,programmer,South East,240000,2026-09-30,false,false,false,landlord,train
+P10304,C0222,bungalow,1970,73,2,1,,,,,gas-boiler-condensing,15,270,cavity-filled,true,double,3,programmer-thermostat,Yorkshire,191000,2026-09-30,true,false,false,landlord,train
+P10305,C0222,bungalow,2010,56,2,1,,C,70,2021-02-10,gas-boiler-condensing,7,270,cavity-filled,true,double,0,programmer-thermostat,South East,323000,2026-09-30,false,false,false,landlord,train
+P10306,C0223,flat,1985,67,2,1,top,,,,gas-boiler-condensing,9,no-loft,cavity-filled,false,double-old,0,programmer-thermostat,North West,191000,2026-09-30,false,false,false,owner,test
+P10307,C0224,detached,1950,141,5,2,,D,65,2023-04-10,gas-boiler-condensing,3,50,cavity-filled,false,,0,programmer,North West,493000,2026-09-30,false,false,false,landlord,validation
+P10308,C0224,semi-detached,1886,68,2,2,,D,66,2022-04-10,gas-boiler-condensing,10,270,solid-insulated,false,double,0,programmer,London,417000,2026-09-30,false,false,false,landlord,validation
+P10309,C0225,bungalow,2016,97,3,1,,C,79,2024-04-10,gas-boiler-condensing,8,270,,true,double,0,programmer,London,580000,2026-09-30,false,false,false,landlord,train
+P10310,C0225,detached,1969,143,5,2,,D,,2023-03-10,gas-boiler-condensing,7,150,cavity-unfilled,false,single,0,smart-thermostat,South East,927000,2026-09-30,false,false,false,landlord,train
+P10311,C0226,semi-detached,1902,71,2,2,,E,54,2020-05-10,gas-boiler-condensing,6,100,solid-uninsulated,false,double,0,programmer-thermostat,North West,137000,2026-09-30,false,false,false,owner,train
+P10312,C0227,flat,1993,91,3,1,mid,D,59,2016-04-10,electric-storage,10,no-loft,cavity-unfilled,false,double,0,smart-thermostat,South East,439000,2026-09-30,false,false,false,owner,train
+P10313,C0228,detached,1976,135,5,2,,C,71,2020-10-10,gas-boiler-condensing,5,150,timber-frame,false,double,0,programmer,North West,382000,2026-09-30,false,false,false,owner,train
+P10314,C0229,semi-detached,1875,77,3,2,,D,62,2023-07-10,gas-boiler-condensing,13,100,solid-uninsulated,false,single,0,smart-thermostat,North West,226000,2026-09-30,true,true,false,owner,train
+P10315,C0230,flat,1973,60,2,1,top,D,60,2012-08-10,gas-boiler-condensing,2,no-loft,cavity-filled,false,double,0,programmer,London,487000,2026-09-30,false,false,true,landlord,train
+P10316,C0230,detached,1930,212,6,3,,,,,gas-boiler-condensing,3,100,cavity-filled,false,double,0,,South East,1077000,2026-09-30,false,false,false,landlord,train
+P10317,C0230,semi-detached,1998,92,3,2,,,,,heat-pump,3,270,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,278000,2026-09-30,false,false,false,landlord,train
+P10318,C0231,bungalow,1968,92,3,1,,D,62,2019-09-10,gas-boiler-condensing,3,270,cavity-filled,,triple,0,programmer-thermostat,London,756000,2026-09-30,false,false,false,landlord,train
+P10319,C0231,flat,1953,64,2,1,mid,C,73,2020-06-10,gas-boiler-condensing,11,no-loft,cavity-unfilled,false,triple,0,programmer-thermostat,North West,158000,2026-09-30,false,false,false,landlord,train
+P10320,C0231,end-terrace,1949,99,3,2,,D,68,2016-10-10,gas-boiler-condensing,12,100,,false,single,0,programmer,Yorkshire,190000,2026-09-30,false,false,false,landlord,train
+P10321,C0231,flat,1993,64,2,1,mid,D,68,2021-03-10,gas-boiler-condensing,1,no-loft,cavity-filled,true,double-old,0,smart-thermostat,Yorkshire,187000,2026-09-30,false,false,false,landlord,train
+P10322,C0232,detached,1883,137,5,2,,G,18,2012-10-10,electric-storage,15,150,solid-uninsulated,false,double-old,0,,Scotland,459000,2026-09-30,true,false,false,owner,test
+P10323,C0233,semi-detached,1912,116,4,2,,D,59,2020-07-10,gas-boiler-condensing,8,100,,false,single,0,smart-thermostat,London,866000,2026-09-30,false,false,false,owner,validation
+P10324,C0234,flat,1919,62,2,1,ground,C,,2019-07-10,gas-boiler-condensing,6,no-loft,solid-uninsulated,true,double,0,programmer,Yorkshire,167000,2026-09-30,false,false,false,owner,train
+P10325,C0235,flat,1877,53,2,1,mid,C,,2013-04-10,gas-boiler-condensing,4,no-loft,solid-uninsulated,true,double,0,programmer,Scotland,133000,2026-09-30,false,false,false,landlord,test
+P10326,C0235,bungalow,1945,100,3,1,,,,,gas-boiler-condensing,12,270,cavity-unfilled,false,double-old,2,programmer-thermostat,North West,249000,2026-09-30,false,false,false,landlord,test
+P10327,C0236,detached,1976,198,6,3,,C,75,2019-09-10,gas-boiler-condensing,10,270,,false,double,0,programmer-thermostat,London,1685000,2026-09-30,false,false,false,owner,train
+P10328,C0237,end-terrace,1932,61,2,2,,D,61,2020-08-10,gas-boiler-old,26,150,cavity-filled,false,triple,4,programmer-thermostat,Scotland,140000,2026-09-30,false,false,false,owner,train
+P10329,C0238,mid-terrace,1953,92,3,2,,C,72,2019-03-10,gas-boiler-condensing,14,50,cavity-unfilled,false,double,0,programmer-thermostat,North West,231000,2026-09-30,false,false,false,owner,validation
+P10330,C0239,mid-terrace,1966,91,3,2,,C,70,2017-12-10,gas-boiler-condensing,1,270,cavity-unfilled,false,double,0,programmer-thermostat,North West,284000,2026-09-30,false,false,false,owner,validation
+P10331,C0240,detached,2021,136,5,2,,C,71,2013-06-10,gas-boiler-condensing,12,270,,true,double,0,programmer-thermostat,London,988000,2026-09-30,false,false,false,owner,train
+P10332,C0241,flat,1964,53,2,1,mid,,,,gas-boiler-condensing,3,no-loft,cavity-filled,false,double,0,programmer-thermostat,London,393000,2026-09-30,false,false,false,landlord,train
+P10333,C0241,detached,1946,165,6,2,,,,,gas-boiler-condensing,3,200,cavity-unfilled,false,double,0,programmer-thermostat,South East,989000,2026-09-30,false,false,false,landlord,train
+P10334,C0242,detached,1969,125,4,2,,B,,2021-01-10,gas-boiler-condensing,10,200,cavity-filled,false,double,3,programmer-thermostat,South East,762000,2026-09-30,false,false,false,owner,train
+P10335,C0243,bungalow,2019,55,2,1,,C,69,2023-11-10,heat-pump,3,270,cavity-filled,true,double,0,smart-thermostat,North West,147000,2026-09-30,false,false,false,owner,train
+P10336,C0244,flat,1890,59,2,1,ground,C,69,2016-06-10,gas-boiler-condensing,5,no-loft,solid-insulated,false,double,0,programmer,North West,129000,2026-09-30,true,false,false,landlord,train
+P10337,C0244,semi-detached,1871,81,3,2,,D,,2010-01-10,gas-boiler-condensing,12,100,solid-uninsulated,false,single,0,smart-thermostat,North West,170000,2026-09-30,false,false,false,landlord,train
+P10338,C0245,semi-detached,2012,60,2,2,,C,75,2025-11-10,gas-boiler-condensing,15,270,cavity-filled,true,double,0,programmer-thermostat,London,377000,2026-09-30,false,false,false,landlord,train
+P10339,C0245,detached,1926,146,5,2,,,,,heat-pump,0,270,solid-uninsulated,false,double,2,programmer,South East,695000,2026-09-30,false,false,false,landlord,train
+P10340,C0246,end-terrace,1911,67,2,2,,D,55,2011-07-10,gas-boiler-condensing,6,100,solid-uninsulated,false,single,0,programmer-thermostat,London,483000,2026-09-30,true,false,false,owner,validation
+P10341,C0247,flat,1897,59,2,1,top,E,51,2023-07-10,gas-boiler-old,24,no-loft,solid-uninsulated,false,double,0,programmer,London,516000,2026-09-30,false,false,true,owner,train
+P10342,C0248,flat,1893,50,2,1,mid,D,66,2018-12-10,gas-boiler-condensing,8,no-loft,solid-uninsulated,false,triple,0,programmer,North West,128000,2026-09-30,false,false,false,owner,validation
+P10343,C0249,detached,1988,138,5,2,,D,64,2017-03-10,gas-boiler-old,15,200,timber-frame,,double,0,programmer,North West,432000,2026-09-30,false,false,false,owner,test
+P10344,C0250,flat,1973,57,2,1,ground,,,,electric-storage,29,no-loft,cavity-filled,false,double,0,none,London,300000,2026-09-30,false,false,false,owner,train
+P10345,C0251,semi-detached,1954,113,4,2,,D,65,2013-10-10,gas-boiler-condensing,14,270,cavity-filled,false,double,0,programmer,Scotland,295000,2026-09-30,false,false,false,owner,train
+P10346,C0252,semi-detached,1935,94,3,2,,,,,gas-boiler-condensing,13,150,cavity-filled,false,double,0,none,North West,280000,2026-09-30,false,false,false,owner,train
+P10347,C0253,detached,1980,140,5,2,,D,61,2011-06-10,gas-boiler-old,24,270,cavity-filled,false,double-old,0,smart-thermostat,North West,404000,2026-09-30,false,false,false,owner,train
+P10348,C0254,mid-terrace,1900,74,2,2,,D,64,2011-09-10,gas-boiler-old,20,170,solid-insulated,false,double,0,programmer-thermostat,Yorkshire,160000,2026-09-30,true,false,false,owner,train
+P10349,C0255,detached,1981,118,4,2,,D,68,2012-09-10,gas-boiler-old,19,300,cavity-filled,false,triple,0,programmer-thermostat,Scotland,375000,2026-09-30,false,false,false,owner,train
+P10350,C0256,mid-terrace,1966,63,2,2,,D,68,2012-06-10,gas-boiler-condensing,13,270,cavity-filled,false,double,0,programmer,North West,152000,2026-09-30,false,false,false,owner,validation
+P10351,C0257,detached,1944,188,6,3,,,,,gas-boiler-condensing,2,270,,false,double,0,smart-thermostat,North West,613000,2026-09-30,false,false,false,owner,test
+P10352,C0258,mid-terrace,1970,116,4,2,,D,68,2016-09-10,gas-boiler-old,22,170,cavity-filled,false,double,0,programmer,Scotland,341000,2026-09-30,false,false,false,owner,test
+P10353,C0259,detached,1943,131,4,2,,F,35,2019-06-10,electric-storage,20,270,cavity-filled,false,double,0,smart-thermostat,Yorkshire,457000,2026-09-30,false,false,false,owner,train
+P10354,C0260,flat,1968,56,2,1,mid,C,78,2024-11-10,gas-boiler-condensing,6,no-loft,cavity-filled,false,double,0,smart-thermostat,South East,270000,2026-09-30,true,false,false,owner,train
+P10355,C0261,semi-detached,1999,131,4,2,,C,76,2018-01-10,gas-boiler-condensing,5,200,cavity-filled,false,double-old,0,none,London,965000,2026-09-30,false,false,false,owner,train
+P10356,C0262,detached,1979,183,6,3,,C,71,2019-04-10,gas-boiler-condensing,,300,cavity-filled,false,double-old,0,smart-thermostat,London,1352000,2026-09-30,false,false,false,owner,train
+P10357,C0263,semi-detached,1895,71,2,2,,G,11,2023-08-10,electric-storage,13,270,solid-uninsulated,false,single,0,programmer,North West,195000,2026-09-30,false,false,false,owner,test
+P10358,C0264,semi-detached,1955,91,3,2,,F,35,2023-03-10,electric-storage,31,200,cavity-filled,false,double-old,0,smart-thermostat,London,671000,2026-09-30,false,false,false,owner,test
+P10359,C0265,mid-terrace,1990,72,2,2,,D,67,2012-01-10,gas-boiler-condensing,9,100,cavity-filled,false,double-old,0,none,South East,267000,2026-09-30,false,false,false,owner,train
+P10360,C0266,bungalow,1969,82,3,1,,D,,2020-08-10,gas-boiler-condensing,9,150,cavity-unfilled,false,triple,0,programmer,North West,209000,2026-09-30,false,false,false,owner,train
+P10361,C0267,detached,1886,184,6,3,,E,50,2013-04-10,gas-boiler-condensing,6,150,solid-uninsulated,false,single,0,smart-thermostat,Yorkshire,552000,2026-09-30,false,false,false,owner,test
+P10362,C0268,mid-terrace,1898,105,4,2,,,,,gas-boiler-condensing,13,50,solid-uninsulated,false,single,0,programmer-thermostat,South East,453000,2026-09-30,true,false,false,owner,train
+P10363,C0269,detached,1920,134,4,2,,,,,gas-boiler-old,24,150,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,341000,2026-09-30,false,false,false,owner,train
+P10364,C0270,flat,1951,62,2,1,mid,D,55,2014-07-10,electric-storage,20,no-loft,cavity-unfilled,false,triple,0,programmer,North West,169000,2026-09-30,false,false,false,owner,train
+P10365,C0271,mid-terrace,1946,67,2,2,,C,70,2011-11-10,gas-boiler-condensing,4,100,cavity-filled,false,double-old,0,programmer-thermostat,South East,253000,2026-09-30,false,false,false,owner,test
+P10366,C0272,semi-detached,1914,92,3,2,,D,57,2025-11-10,gas-boiler-condensing,,100,solid-uninsulated,false,single,0,programmer-thermostat,South East,412000,2026-09-30,true,false,false,owner,train
+P10367,C0273,flat,1975,39,1,1,mid,,,,electric-storage,15,no-loft,cavity-unfilled,false,double,0,programmer-thermostat,South East,211000,2026-09-30,false,false,false,owner,train
+P10368,C0274,semi-detached,1928,105,4,2,,D,61,2024-06-10,gas-boiler-condensing,14,270,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,330000,2026-09-30,false,false,false,owner,train
+P10369,C0275,mid-terrace,1984,96,3,2,,C,72,2025-09-10,gas-boiler-old,20,150,cavity-filled,false,double-old,0,programmer-thermostat,North West,254000,2026-09-30,false,false,false,owner,validation
+P10370,C0276,semi-detached,1908,71,2,2,,G,16,2014-12-10,electric-storage,10,100,solid-uninsulated,false,double,0,programmer,Yorkshire,181000,2026-09-30,false,false,false,landlord,test
+P10371,C0276,bungalow,1985,79,3,1,,D,63,2013-03-10,gas-boiler-condensing,,100,cavity-filled,false,double-old,0,programmer,South East,362000,2026-09-30,false,false,false,landlord,test
+P10372,C0276,detached,1930,186,6,3,,C,73,2018-08-10,gas-boiler-condensing,3,270,cavity-filled,false,double-old,0,smart-thermostat,Scotland,665000,2026-09-30,false,false,false,landlord,test
+P10373,C0276,end-terrace,1924,93,3,2,,E,,2021-07-10,gas-boiler-condensing,1,100,solid-uninsulated,false,double-old,0,programmer-thermostat,London,684000,2026-09-30,true,false,false,landlord,test
+P10374,C0277,semi-detached,1951,89,3,2,,D,63,2013-11-10,gas-boiler-condensing,14,200,cavity-filled,false,double,0,programmer,North West,291000,2026-09-30,true,false,false,landlord,train
+P10375,C0277,end-terrace,1873,125,4,2,,D,60,2024-09-10,gas-boiler-condensing,7,200,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,273000,2026-09-30,false,false,false,landlord,train
+P10376,C0277,semi-detached,1906,76,3,2,,D,60,2021-07-10,gas-boiler-condensing,11,,solid-uninsulated,false,double-old,0,programmer,London,525000,2026-09-30,true,false,false,landlord,train
+P10377,C0278,mid-terrace,1930,97,3,2,,D,,2011-03-10,gas-boiler-condensing,4,200,cavity-filled,false,single,0,programmer-thermostat,North West,255000,2026-09-30,false,false,false,owner,test
+P10378,C0279,mid-terrace,2008,79,3,2,,C,74,2023-07-10,gas-boiler-condensing,14,270,cavity-filled,true,double,0,none,Yorkshire,190000,2026-09-30,false,false,false,owner,train
+P10379,C0280,mid-terrace,1880,73,2,2,,,,,heat-pump,3,270,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,225000,2026-09-30,true,true,false,owner,validation
+P10380,C0281,detached,1898,122,4,2,,D,67,2025-09-10,gas-boiler-condensing,1,270,solid-insulated,,single,0,programmer,North West,323000,2026-09-30,false,false,false,owner,train
+P10381,C0282,flat,1965,66,2,1,top,E,40,2013-04-10,electric-storage,24,no-loft,timber-frame,false,double,0,programmer-thermostat,North West,169000,2026-09-30,false,false,false,owner,train
+P10382,C0283,semi-detached,1903,99,3,2,,D,57,2022-12-10,gas-boiler-condensing,0,270,solid-uninsulated,false,single,0,programmer,Yorkshire,213000,2026-09-30,false,false,false,owner,validation
+P10383,C0284,detached,1899,133,4,2,,,,,gas-boiler-old,20,100,solid-uninsulated,false,double,0,programmer,Yorkshire,371000,2026-09-30,false,false,false,owner,train
+P10384,C0285,mid-terrace,1988,57,2,2,,C,71,2014-04-10,gas-boiler-condensing,4,200,cavity-filled,false,double-old,0,programmer-thermostat,Yorkshire,129000,2026-09-30,false,false,false,owner,train
+P10385,C0286,end-terrace,1966,110,4,2,,C,71,2021-11-10,heat-pump,1,270,cavity-filled,false,double-old,0,programmer-thermostat,North West,291000,2026-09-30,false,false,false,owner,train
+P10386,C0287,flat,1949,47,2,1,top,D,63,2013-06-10,gas-boiler-condensing,14,no-loft,cavity-unfilled,false,double-old,0,programmer-thermostat,London,297000,2026-09-30,false,false,false,owner,test
+P10387,C0288,mid-terrace,1891,67,2,2,,D,63,2023-11-10,gas-boiler-condensing,12,150,solid-uninsulated,false,double,0,programmer-thermostat,London,401000,2026-09-30,true,true,false,owner,test
+P10388,C0289,end-terrace,1947,71,2,2,,D,61,2025-10-10,heat-pump,1,200,cavity-unfilled,false,double-old,0,programmer-thermostat,North West,182000,2026-09-30,false,false,false,owner,train
+P10389,C0290,end-terrace,2007,108,4,2,,,,,gas-boiler-condensing,14,270,cavity-filled,true,double,0,programmer,Yorkshire,351000,2026-09-30,false,false,false,landlord,train
+P10390,C0290,mid-terrace,1893,81,3,2,,D,61,2019-06-10,gas-boiler-condensing,6,100,solid-insulated,false,single,0,programmer-thermostat,Yorkshire,210000,2026-09-30,true,false,false,landlord,train
+P10391,C0290,semi-detached,1969,70,2,2,,,,,heat-pump,7,300,cavity-filled,false,double,0,programmer-thermostat,Scotland,243000,2026-09-30,false,false,false,landlord,train
+P10392,C0290,semi-detached,1887,110,4,2,,D,55,2023-04-10,gas-boiler-old,30,170,solid-uninsulated,false,double-old,0,none,South East,566000,2026-09-30,false,false,false,landlord,train
+P10393,C0291,bungalow,1940,69,2,1,,D,65,2014-10-10,gas-boiler-condensing,5,270,timber-frame,false,double-old,0,smart-thermostat,London,467000,2026-09-30,false,false,false,owner,train
+P10394,C0292,end-terrace,1964,95,3,2,,,,,gas-boiler-condensing,15,100,cavity-filled,false,double-old,0,programmer-thermostat,North West,240000,2026-09-30,false,false,false,owner,train
+P10395,C0293,semi-detached,1888,129,4,2,,E,53,2022-01-10,gas-boiler-condensing,4,200,solid-uninsulated,false,double,0,,London,858000,2026-09-30,true,false,false,owner,train
+P10396,C0294,semi-detached,1980,102,3,2,,E,48,2017-09-10,electric-storage,13,100,cavity-filled,false,triple,0,smart-thermostat,North West,245000,2026-09-30,false,false,false,owner,train
+P10397,C0295,semi-detached,1879,106,4,2,,E,54,2025-04-10,heat-pump,0,270,solid-uninsulated,false,single,0,smart-thermostat,South East,400000,2026-09-30,false,false,false,owner,train
+P10398,C0296,mid-terrace,1994,82,3,2,,D,,2011-07-10,gas-boiler-condensing,9,270,cavity-unfilled,false,double-old,0,programmer-thermostat,Scotland,218000,2026-09-30,false,false,false,owner,train
+P10399,C0297,bungalow,1956,58,2,1,,B,89,2022-12-10,gas-boiler-condensing,3,270,cavity-filled,false,double-old,4,programmer,South East,246000,2026-09-30,false,false,false,owner,validation
+P10400,C0298,semi-detached,1995,91,3,2,,D,66,2018-12-10,gas-boiler-condensing,0,270,cavity-unfilled,false,double-old,0,programmer,Scotland,245000,2026-09-30,false,false,false,owner,train
+P10401,C0299,bungalow,1984,84,3,1,,D,57,2019-01-10,heat-pump,3,50,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,215000,2026-09-30,true,false,false,owner,train
+P10402,C0300,semi-detached,1959,95,3,2,,D,56,2017-03-10,gas-boiler-old,25,100,cavity-filled,false,double-old,0,programmer,South East,421000,2026-09-30,false,false,false,owner,train
+P10403,C0301,semi-detached,1877,65,2,2,,G,,2011-07-10,electric-storage,7,270,,false,double-old,3,programmer-thermostat,South East,269000,2026-09-30,false,false,false,owner,train
+P10404,C0302,flat,1946,42,1,1,mid,,,,electric-storage,28,no-loft,cavity-filled,false,double-old,0,programmer,South East,165000,2026-09-30,false,false,false,owner,validation
+P10405,C0303,mid-terrace,1893,74,2,2,,D,58,2011-07-10,gas-boiler-condensing,1,270,solid-uninsulated,false,single,0,programmer-thermostat,South East,345000,2026-09-30,false,false,false,owner,train
+P10406,C0304,semi-detached,1954,69,2,2,,D,57,2019-11-10,gas-boiler-condensing,2,100,cavity-unfilled,false,double,0,none,North West,156000,2026-09-30,false,false,false,landlord,train
+P10407,C0304,semi-detached,1941,73,2,2,,C,70,2022-04-10,gas-boiler-condensing,12,270,cavity-filled,false,double-old,0,programmer,Scotland,219000,2026-09-30,false,false,false,landlord,train
+P10408,C0305,detached,1985,90,3,2,,D,63,2012-09-10,gas-boiler-condensing,1,100,cavity-unfilled,false,double-old,0,programmer,London,996000,2026-09-30,false,false,false,owner,train
+P10409,C0306,end-terrace,1968,109,4,2,,D,65,2015-12-10,gas-boiler-condensing,5,270,cavity-filled,false,single,0,,London,845000,2026-09-30,false,false,false,owner,train
+P10410,C0307,detached,1883,173,6,3,,D,68,2020-04-10,gas-boiler-condensing,9,270,solid-insulated,false,double,0,programmer,South East,986000,2026-09-30,true,false,false,owner,train
+P10411,C0308,semi-detached,2000,81,3,2,,,,,gas-boiler-condensing,,200,cavity-filled,true,double-old,3,programmer-thermostat,London,619000,2026-09-30,false,false,false,landlord,train
+P10412,C0308,flat,2004,50,2,1,mid,,,,electric-storage,16,no-loft,cavity-filled,true,double,0,programmer-thermostat,Yorkshire,128000,2026-09-30,false,false,false,landlord,train
+P10413,C0308,semi-detached,1974,88,3,2,,D,60,2011-02-10,gas-boiler-condensing,10,150,cavity-unfilled,false,double-old,0,programmer-thermostat,South East,441000,2026-09-30,true,false,false,landlord,train
+P10414,C0308,detached,1930,153,5,2,,C,73,2024-07-10,gas-boiler-condensing,1,200,cavity-filled,false,double,0,programmer,North West,452000,2026-09-30,false,false,false,landlord,train
+P10415,C0309,mid-terrace,1977,93,3,2,,C,77,2020-09-10,gas-boiler-condensing,13,200,cavity-unfilled,false,double,0,programmer,Scotland,274000,2026-09-30,false,false,false,owner,train
+P10416,C0310,mid-terrace,1967,110,4,2,,D,68,2014-03-10,gas-boiler-condensing,10,,cavity-filled,false,double-old,0,none,South East,501000,2026-09-30,false,false,false,owner,validation
+P10417,C0311,bungalow,1945,60,2,1,,D,66,2019-12-10,gas-boiler-condensing,11,270,cavity-filled,false,double,0,programmer,Scotland,191000,2026-09-30,false,false,false,landlord,test
+P10418,C0311,mid-terrace,2010,86,3,2,,C,77,2024-06-10,gas-boiler-condensing,,270,,true,double,0,none,Scotland,181000,2026-09-30,false,false,false,landlord,test
+P10419,C0311,semi-detached,1894,113,4,2,,D,62,2018-07-10,gas-boiler-condensing,11,270,solid-uninsulated,,double,0,programmer,North West,273000,2026-09-30,false,true,false,landlord,test
+P10420,C0311,end-terrace,1933,86,3,2,,D,62,2023-08-10,gas-boiler-condensing,14,270,cavity-filled,false,double-old,0,programmer-thermostat,South East,355000,2026-09-30,false,false,false,landlord,test
+P10421,C0312,end-terrace,1941,84,3,2,,,,,gas-boiler-condensing,7,50,cavity-filled,false,double-old,0,programmer-thermostat,South East,468000,2026-09-30,false,false,false,owner,validation
+P10422,C0313,detached,1876,298,6,3,,C,70,2016-06-10,gas-boiler-condensing,14,150,solid-insulated,false,single,0,,North West,1029000,2026-09-30,true,false,false,owner,train
+P10423,C0314,semi-detached,1933,98,3,2,,,,,gas-boiler-condensing,8,0,cavity-unfilled,false,double,0,programmer-thermostat,London,600000,2026-09-30,false,false,false,owner,train
+P10424,C0315,flat,1922,56,2,1,mid,C,71,2021-10-10,gas-boiler-condensing,5,no-loft,solid-uninsulated,false,double,0,smart-thermostat,Yorkshire,163000,2026-09-30,false,false,false,owner,validation
+P10425,C0316,flat,2001,56,2,1,top,C,72,2016-08-10,gas-boiler-condensing,14,no-loft,cavity-filled,true,double-old,0,programmer,North West,146000,2026-09-30,false,false,true,owner,validation
+P10426,C0317,flat,2000,72,2,1,mid,,,,gas-boiler-condensing,8,no-loft,cavity-filled,true,double-old,0,smart-thermostat,North West,215000,2026-09-30,false,false,false,owner,test
+P10427,C0318,semi-detached,1954,67,2,2,,D,68,2020-02-10,gas-boiler-condensing,11,270,cavity-unfilled,false,double,0,programmer-thermostat,Yorkshire,198000,2026-09-30,false,false,false,owner,validation
+P10428,C0319,end-terrace,1885,100,3,2,,D,55,2023-01-10,gas-boiler-condensing,,200,solid-uninsulated,false,double-old,0,programmer,North West,227000,2026-09-30,false,false,false,owner,train
+P10429,C0320,flat,1978,78,3,1,ground,C,76,2024-12-10,gas-boiler-condensing,8,no-loft,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,178000,2026-09-30,false,false,false,owner,train
+P10430,C0321,semi-detached,1929,85,3,2,,F,23,2012-12-10,electric-storage,33,270,solid-uninsulated,false,double,2,programmer,South East,369000,2026-09-30,false,false,false,owner,validation
+P10431,C0322,detached,1988,116,4,2,,C,70,2025-02-10,gas-boiler-condensing,12,,cavity-filled,false,double-old,0,programmer-thermostat,North West,394000,2026-09-30,false,false,false,owner,train
+P10432,C0323,flat,1950,61,2,1,top,D,65,2011-11-10,gas-boiler-condensing,,no-loft,cavity-unfilled,,double-old,0,programmer,London,479000,2026-09-30,false,false,false,owner,train
+P10433,C0324,flat,1955,68,2,1,mid,D,64,2010-04-10,electric-storage,22,no-loft,cavity-unfilled,false,double,0,programmer,North West,138000,2026-09-30,false,false,false,owner,train
+P10434,C0325,semi-detached,1892,76,3,2,,E,51,2019-10-10,gas-boiler-condensing,5,200,solid-uninsulated,false,single,0,programmer-thermostat,London,573000,2026-09-30,false,false,false,owner,train
+P10435,C0326,flat,1940,40,1,1,top,D,62,2014-03-10,gas-boiler-condensing,10,no-loft,cavity-unfilled,false,double,0,programmer,Yorkshire,85000,2026-09-30,false,false,false,owner,train
+P10436,C0327,flat,1926,49,2,1,ground,D,,2015-10-10,gas-boiler-condensing,12,no-loft,solid-uninsulated,false,double-old,0,smart-thermostat,London,289000,2026-09-30,false,false,false,owner,validation
+P10437,C0328,flat,1968,79,3,1,mid,C,,2013-03-10,gas-boiler-condensing,8,no-loft,cavity-filled,false,double,0,programmer,South East,349000,2026-09-30,true,false,false,owner,train
+P10438,C0329,mid-terrace,1965,74,2,2,,,,,gas-boiler-condensing,,200,cavity-filled,false,double,0,programmer,Yorkshire,164000,2026-09-30,false,false,false,owner,train
+P10439,C0330,detached,1921,201,6,3,,E,51,2019-10-10,gas-boiler-condensing,11,270,solid-uninsulated,false,double-old,0,programmer-thermostat,London,1382000,2026-09-30,false,false,false,owner,test
+P10440,C0331,bungalow,1992,88,3,1,,C,73,2022-10-10,gas-boiler-condensing,8,270,cavity-filled,false,double,0,programmer,London,761000,2026-09-30,false,false,false,owner,validation
+P10441,C0332,flat,2008,54,2,1,mid,D,64,2013-04-10,electric-storage,26,no-loft,cavity-filled,true,double,0,programmer-thermostat,South East,271000,2026-09-30,false,false,false,owner,test
+P10442,C0333,flat,2007,63,2,1,mid,C,76,2014-08-10,gas-boiler-condensing,13,no-loft,cavity-filled,true,double,0,smart-thermostat,South East,266000,2026-09-30,false,false,false,owner,test
+P10443,C0334,bungalow,1970,73,2,1,,E,51,2019-11-10,heat-pump,3,270,cavity-unfilled,false,double,0,none,London,480000,2026-09-30,false,false,false,owner,train
+P10444,C0335,mid-terrace,1870,125,4,2,,D,65,2011-06-10,gas-boiler-condensing,10,,solid-uninsulated,false,double-old,0,programmer,South East,530000,2026-09-30,true,true,false,owner,train
+P10445,C0336,flat,1990,71,2,1,ground,C,,2020-04-10,gas-boiler-condensing,14,no-loft,cavity-unfilled,false,double,0,programmer-thermostat,Yorkshire,174000,2026-09-30,false,false,false,owner,train
+P10446,C0337,flat,1919,60,2,1,top,D,63,2022-06-10,gas-boiler-condensing,15,no-loft,solid-uninsulated,false,triple,0,programmer-thermostat,London,339000,2026-09-30,false,false,false,owner,validation
+P10447,C0338,detached,1987,146,5,2,,,,,gas-boiler-old,25,150,cavity-unfilled,false,double,0,programmer,Yorkshire,334000,2026-09-30,false,false,false,owner,train
+P10448,C0339,semi-detached,1898,97,3,2,,D,61,2020-08-10,gas-boiler-condensing,15,270,solid-uninsulated,false,single,0,programmer-thermostat,South East,479000,2026-09-30,true,false,false,owner,train
+P10449,C0340,flat,2013,73,2,1,ground,C,76,2020-06-10,gas-boiler-condensing,8,no-loft,,true,double,0,smart-thermostat,London,379000,2026-09-30,false,false,false,owner,train
+P10450,C0341,semi-detached,1931,109,4,2,,D,64,2025-01-10,gas-boiler-condensing,,100,cavity-filled,false,double-old,0,programmer,North West,288000,2026-09-30,false,false,false,owner,validation
+P10451,C0342,mid-terrace,1936,92,3,2,,C,70,2019-05-10,gas-boiler-condensing,10,200,cavity-filled,false,triple,0,programmer-thermostat,North West,213000,2026-09-30,false,false,false,owner,train
+P10452,C0343,flat,1966,48,2,1,mid,C,75,2013-06-10,gas-boiler-condensing,13,no-loft,cavity-unfilled,false,double,0,programmer,Yorkshire,158000,2026-09-30,false,false,false,owner,train
+P10453,C0344,end-terrace,2001,144,5,2,,C,75,2019-03-10,gas-boiler-condensing,12,0,cavity-filled,true,double,0,smart-thermostat,London,881000,2026-09-30,false,false,false,owner,train
+P10454,C0345,flat,2022,71,2,1,mid,C,79,2021-07-10,gas-boiler-condensing,11,no-loft,cavity-filled,true,triple,0,programmer-thermostat,North West,199000,2026-09-30,false,false,false,owner,train
+P10455,C0346,semi-detached,1991,78,3,2,,F,,2024-11-10,electric-storage,24,200,cavity-unfilled,false,double-old,0,programmer,London,510000,2026-09-30,false,false,false,owner,test
+P10456,C0347,flat,1873,64,2,1,ground,D,67,2011-06-10,gas-boiler-condensing,12,no-loft,solid-uninsulated,false,double-old,0,smart-thermostat,Scotland,179000,2026-09-30,false,false,false,owner,validation
+P10457,C0348,detached,1953,156,5,2,,,,,gas-boiler-condensing,11,270,timber-frame,false,triple,0,programmer-thermostat,Yorkshire,493000,2026-09-30,false,false,false,owner,test
+P10458,C0349,semi-detached,1990,100,3,2,,D,64,2017-10-10,gas-boiler-condensing,,100,cavity-filled,false,single,0,programmer,Scotland,350000,2026-09-30,false,false,false,landlord,train
+P10459,C0349,end-terrace,1908,73,2,2,,D,58,2021-05-10,gas-boiler-condensing,15,270,solid-uninsulated,false,double,0,programmer-thermostat,North West,187000,2026-09-30,true,false,false,landlord,train
+P10460,C0349,flat,1935,46,2,1,top,D,,2011-05-10,gas-boiler-old,15,no-loft,,false,double,0,smart-thermostat,Yorkshire,116000,2026-09-30,false,false,false,landlord,train
+P10461,C0349,end-terrace,1950,76,3,2,,D,,2017-12-10,gas-boiler-condensing,3,50,cavity-unfilled,,double,0,smart-thermostat,London,572000,2026-09-30,false,false,false,landlord,train
+P10462,C0350,flat,1960,60,2,1,ground,C,73,2018-12-10,gas-boiler-condensing,2,no-loft,cavity-filled,false,double,0,none,London,442000,2026-09-30,false,false,false,owner,test
+P10463,C0351,semi-detached,1915,50,2,2,,D,56,2024-09-10,gas-boiler-condensing,11,,solid-uninsulated,false,double,0,programmer,Scotland,131000,2026-09-30,true,false,false,owner,validation
+P10464,C0352,semi-detached,1971,88,3,2,,,,,gas-boiler-condensing,14,150,cavity-filled,false,double-old,3,programmer,London,719000,2026-09-30,false,false,false,landlord,train
+P10465,C0352,end-terrace,1997,80,3,2,,C,,2017-12-10,gas-boiler-condensing,,50,cavity-filled,false,double,0,programmer,South East,271000,2026-09-30,false,false,false,landlord,train
+P10466,C0352,flat,1976,58,2,1,mid,,,,electric-storage,11,no-loft,cavity-filled,false,double-old,0,none,South East,227000,2026-09-30,false,false,false,landlord,train
+P10467,C0352,flat,1906,69,2,1,ground,F,34,2018-07-10,electric-storage,,no-loft,solid-uninsulated,false,double,0,none,North West,163000,2026-09-30,false,false,false,landlord,train
+P10468,C0353,mid-terrace,1951,66,2,2,,B,86,2025-12-10,gas-boiler-condensing,7,100,cavity-filled,false,double,4,programmer-thermostat,North West,190000,2026-09-30,false,false,false,owner,train
+P10469,C0354,mid-terrace,1959,69,2,2,,D,65,2015-10-10,gas-boiler-condensing,3,100,cavity-filled,false,single,0,programmer,North West,208000,2026-09-30,false,false,false,owner,train
+P10470,C0355,flat,1960,42,1,1,ground,C,75,2023-08-10,gas-boiler-condensing,,no-loft,cavity-filled,false,triple,0,programmer-thermostat,Scotland,96000,2026-09-30,false,false,false,owner,test
+P10471,C0356,semi-detached,1967,91,3,2,,,,,gas-boiler-condensing,,150,cavity-filled,false,triple,0,programmer,Yorkshire,238000,2026-09-30,false,false,false,owner,test
+P10472,C0357,flat,1979,89,3,1,mid,C,79,2025-06-10,gas-boiler-condensing,8,no-loft,cavity-filled,false,double,0,programmer,Scotland,215000,2026-09-30,false,false,false,owner,train
+P10473,C0358,semi-detached,1928,113,4,2,,,,,gas-boiler-condensing,11,150,solid-uninsulated,false,double-old,0,programmer,South East,629000,2026-09-30,false,false,false,owner,train
+P10474,C0359,mid-terrace,2017,109,4,2,,,,,gas-boiler-old,30,270,cavity-filled,true,triple,0,programmer,South East,531000,2026-09-30,false,false,false,landlord,validation
+P10475,C0359,flat,1983,50,2,1,ground,C,71,2022-12-10,gas-boiler-condensing,12,no-loft,cavity-filled,false,double-old,0,programmer,Scotland,111000,2026-09-30,false,false,false,landlord,validation
+P10476,C0359,mid-terrace,1956,57,2,2,,D,,2013-05-10,heat-pump,1,300,cavity-filled,false,double-old,0,programmer-thermostat,London,381000,2026-09-30,false,false,false,landlord,validation
+P10477,C0359,detached,1874,160,5,2,,E,,2012-06-10,gas-boiler-old,16,100,solid-uninsulated,false,double-old,0,programmer-thermostat,London,1244000,2026-09-30,false,false,false,landlord,validation
+P10478,C0360,flat,1963,52,2,1,top,,,,gas-boiler-old,15,no-loft,cavity-filled,false,double-old,0,none,South East,247000,2026-09-30,false,false,false,owner,train
+P10479,C0361,detached,1918,144,5,2,,D,62,2011-07-10,gas-boiler-condensing,6,270,solid-uninsulated,false,double,0,programmer-thermostat,London,905000,2026-09-30,false,false,false,owner,train
+P10480,C0362,mid-terrace,1973,70,2,2,,,,,electric-storage,26,,cavity-filled,false,double,0,programmer-thermostat,Yorkshire,151000,2026-09-30,false,false,false,owner,train
+P10481,C0363,flat,1951,77,3,1,mid,C,77,2024-12-10,gas-boiler-condensing,13,no-loft,cavity-filled,,double-old,0,programmer,South East,440000,2026-09-30,false,false,false,owner,train
+P10482,C0364,end-terrace,1989,83,3,2,,D,64,2023-05-10,gas-boiler-condensing,11,200,cavity-filled,false,double-old,0,,South East,345000,2026-09-30,false,false,false,landlord,test
+P10483,C0364,flat,1971,67,2,1,ground,D,65,2017-10-10,heat-pump,2,no-loft,cavity-filled,false,double,0,programmer-thermostat,North West,164000,2026-09-30,false,false,false,landlord,test
+P10484,C0364,flat,2016,65,2,1,ground,C,74,2022-08-10,gas-boiler-condensing,5,no-loft,cavity-filled,true,double,0,programmer-thermostat,Scotland,214000,2026-09-30,false,false,false,landlord,test
+P10485,C0364,mid-terrace,2010,91,3,2,,E,52,2024-01-10,electric-storage,8,270,cavity-filled,true,double,0,programmer-thermostat,London,612000,2026-09-30,false,false,false,landlord,test
+P10486,C0365,detached,1976,126,4,2,,D,57,2010-08-10,gas-boiler-old,30,270,cavity-unfilled,false,double,0,programmer-thermostat,Yorkshire,421000,2026-09-30,false,false,false,owner,train
+P10487,C0366,flat,1972,48,2,1,top,,,,gas-boiler-condensing,4,no-loft,cavity-filled,false,double,0,programmer,London,349000,2026-09-30,true,false,true,landlord,train
+P10488,C0366,end-terrace,1977,91,3,2,,D,68,2017-11-10,gas-boiler-condensing,11,100,cavity-filled,false,double,0,programmer-thermostat,South East,336000,2026-09-30,false,false,false,landlord,train
+P10489,C0366,mid-terrace,1878,113,4,2,,D,,2019-12-10,gas-boiler-condensing,4,200,solid-uninsulated,false,double,0,programmer-thermostat,Yorkshire,287000,2026-09-30,false,false,false,landlord,train
+P10490,C0367,detached,1941,134,4,2,,D,57,2013-04-10,gas-boiler-condensing,7,50,cavity-unfilled,false,double,0,programmer,London,1028000,2026-09-30,false,false,false,landlord,train
+P10491,C0367,semi-detached,1987,107,4,2,,D,65,2016-08-10,gas-boiler-condensing,3,270,cavity-unfilled,true,double,0,smart-thermostat,London,728000,2026-09-30,false,false,false,landlord,train
+P10492,C0368,flat,1872,56,2,1,top,D,61,2021-09-10,gas-boiler-condensing,8,no-loft,solid-uninsulated,false,double-old,0,programmer-thermostat,North West,149000,2026-09-30,true,true,true,owner,train
+P10493,C0369,bungalow,1972,82,3,1,,E,53,2013-09-10,gas-boiler-condensing,3,0,cavity-filled,false,double-old,0,programmer-thermostat,London,766000,2026-09-30,false,false,false,owner,train
+P10494,C0370,detached,1958,233,6,3,,C,76,2010-07-10,gas-boiler-condensing,10,200,cavity-filled,false,double-old,0,smart-thermostat,Yorkshire,742000,2026-09-30,false,false,false,owner,train
+P10495,C0371,mid-terrace,1987,92,3,2,,C,71,2023-05-10,heat-pump,5,270,cavity-filled,false,,0,programmer-thermostat,Yorkshire,223000,2026-09-30,false,false,false,owner,train
+P10496,C0372,mid-terrace,1978,62,2,2,,C,71,2016-09-10,gas-boiler-condensing,14,200,cavity-filled,false,double,0,programmer-thermostat,Scotland,151000,2026-09-30,false,false,false,owner,train
+P10497,C0373,bungalow,1945,132,4,1,,D,59,2016-09-10,gas-boiler-old,22,270,cavity-filled,false,double,4,programmer-thermostat,South East,615000,2026-09-30,false,false,false,owner,train
+P10498,C0374,detached,1880,209,6,3,,D,55,2019-02-10,gas-boiler-condensing,5,200,solid-uninsulated,false,double,0,programmer,South East,1023000,2026-09-30,true,false,false,owner,validation
+P10499,C0375,flat,1877,83,3,1,ground,D,64,2012-02-10,gas-boiler-condensing,10,no-loft,solid-uninsulated,false,,0,programmer-thermostat,London,472000,2026-09-30,true,false,false,owner,train
+P10500,C0376,flat,2016,71,2,1,ground,C,76,2011-10-10,gas-boiler-condensing,7,no-loft,cavity-filled,true,double,0,programmer,London,520000,2026-09-30,false,false,false,landlord,train

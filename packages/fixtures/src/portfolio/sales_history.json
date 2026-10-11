@@ -1,0 +1,3266 @@
+[
+ {
+  "propertyId": "P10001",
+  "date": "2015-01-01",
+  "priceGBP": 220250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10002",
+  "date": "2002-10-01",
+  "priceGBP": 67500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10002",
+  "date": "2023-11-01",
+  "priceGBP": 169750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10004",
+  "date": "2001-02-01",
+  "priceGBP": 34750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10004",
+  "date": "2007-01-01",
+  "priceGBP": 68250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10004",
+  "date": "2011-08-01",
+  "priceGBP": 65500,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10005",
+  "date": "2012-07-01",
+  "priceGBP": 135750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10005",
+  "date": "2013-07-01",
+  "priceGBP": 113250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10005",
+  "date": "2023-11-01",
+  "priceGBP": 201250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10006",
+  "date": "2022-05-01",
+  "priceGBP": 169000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10008",
+  "date": "2006-04-01",
+  "priceGBP": 254000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10008",
+  "date": "2011-12-01",
+  "priceGBP": 250000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10008",
+  "date": "2015-07-01",
+  "priceGBP": 325000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10009",
+  "date": "2007-08-01",
+  "priceGBP": 95250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10010",
+  "date": "2005-07-01",
+  "priceGBP": 118250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10011",
+  "date": "2017-08-01",
+  "priceGBP": 256250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10012",
+  "date": "2003-10-01",
+  "priceGBP": 61500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10014",
+  "date": "2005-05-01",
+  "priceGBP": 134250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10014",
+  "date": "2014-09-01",
+  "priceGBP": 162750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10015",
+  "date": "2009-12-01",
+  "priceGBP": 104750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10015",
+  "date": "2016-01-01",
+  "priceGBP": 122250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10016",
+  "date": "2016-07-01",
+  "priceGBP": 592750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10017",
+  "date": "2001-01-01",
+  "priceGBP": 183250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10018",
+  "date": "2007-07-01",
+  "priceGBP": 88250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10019",
+  "date": "2008-06-01",
+  "priceGBP": 83000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10021",
+  "date": "2008-01-01",
+  "priceGBP": 206500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10023",
+  "date": "2023-04-01",
+  "priceGBP": 154750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10023",
+  "date": "2024-05-01",
+  "priceGBP": 153500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10024",
+  "date": "2012-09-01",
+  "priceGBP": 124500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10025",
+  "date": "2012-07-01",
+  "priceGBP": 118000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10025",
+  "date": "2014-11-01",
+  "priceGBP": 126000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10026",
+  "date": "2001-04-01",
+  "priceGBP": 97000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10026",
+  "date": "2018-04-01",
+  "priceGBP": 246250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10027",
+  "date": "2001-11-01",
+  "priceGBP": 66250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10027",
+  "date": "2002-12-01",
+  "priceGBP": 92750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10029",
+  "date": "2003-07-01",
+  "priceGBP": 80000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10030",
+  "date": "2007-07-01",
+  "priceGBP": 106000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10031",
+  "date": "2006-02-01",
+  "priceGBP": 209000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10031",
+  "date": "2011-06-01",
+  "priceGBP": 204750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10032",
+  "date": "2024-06-01",
+  "priceGBP": 153000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10033",
+  "date": "2000-01-01",
+  "priceGBP": 140000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10033",
+  "date": "2019-07-01",
+  "priceGBP": 352000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10035",
+  "date": "2021-07-01",
+  "priceGBP": 185750,
+  "energyRatingAtSale": "B"
+ },
+ {
+  "propertyId": "P10036",
+  "date": "2025-11-01",
+  "priceGBP": 242750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10039",
+  "date": "2023-08-01",
+  "priceGBP": 193750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10040",
+  "date": "2012-10-01",
+  "priceGBP": 362500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10040",
+  "date": "2020-08-01",
+  "priceGBP": 447250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10041",
+  "date": "2019-03-01",
+  "priceGBP": 1071500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10043",
+  "date": "2001-11-01",
+  "priceGBP": 198750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10044",
+  "date": "2002-11-01",
+  "priceGBP": 58500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10045",
+  "date": "2003-02-01",
+  "priceGBP": 135750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10047",
+  "date": "2003-10-01",
+  "priceGBP": 69000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10048",
+  "date": "2001-05-01",
+  "priceGBP": 96000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10048",
+  "date": "2021-06-01",
+  "priceGBP": 240750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10049",
+  "date": "2004-08-01",
+  "priceGBP": 168000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10049",
+  "date": "2007-08-01",
+  "priceGBP": 206500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10051",
+  "date": "2007-11-01",
+  "priceGBP": 129000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10051",
+  "date": "2013-03-01",
+  "priceGBP": 153000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10051",
+  "date": "2016-12-01",
+  "priceGBP": 172250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10052",
+  "date": "2005-06-01",
+  "priceGBP": 90000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10053",
+  "date": "2016-09-01",
+  "priceGBP": 79500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10054",
+  "date": "2003-02-01",
+  "priceGBP": 160250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10056",
+  "date": "2001-08-01",
+  "priceGBP": 145250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10056",
+  "date": "2006-06-01",
+  "priceGBP": 283750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10056",
+  "date": "2016-08-01",
+  "priceGBP": 347000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10057",
+  "date": "2001-02-01",
+  "priceGBP": 379250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10057",
+  "date": "2006-11-01",
+  "priceGBP": 775750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10059",
+  "date": "2000-07-01",
+  "priceGBP": 88750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10059",
+  "date": "2016-08-01",
+  "priceGBP": 248750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10059",
+  "date": "2017-08-01",
+  "priceGBP": 189500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10062",
+  "date": "2012-06-01",
+  "priceGBP": 74250,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10062",
+  "date": "2017-06-01",
+  "priceGBP": 97750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10063",
+  "date": "2022-03-01",
+  "priceGBP": 216250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10064",
+  "date": "2016-02-01",
+  "priceGBP": 112000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10066",
+  "date": "2015-03-01",
+  "priceGBP": 123750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10068",
+  "date": "2017-08-01",
+  "priceGBP": 113750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10068",
+  "date": "2024-06-01",
+  "priceGBP": 126250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10069",
+  "date": "2016-02-01",
+  "priceGBP": 166000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10069",
+  "date": "2017-05-01",
+  "priceGBP": 178750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10070",
+  "date": "2018-08-01",
+  "priceGBP": 167250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10072",
+  "date": "2016-09-01",
+  "priceGBP": 269500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10073",
+  "date": "2004-10-01",
+  "priceGBP": 100500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10074",
+  "date": "2003-08-01",
+  "priceGBP": 153000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10074",
+  "date": "2006-01-01",
+  "priceGBP": 247500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10074",
+  "date": "2016-06-01",
+  "priceGBP": 291750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10075",
+  "date": "2014-03-01",
+  "priceGBP": 152500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10076",
+  "date": "2004-02-01",
+  "priceGBP": 80750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10076",
+  "date": "2025-06-01",
+  "priceGBP": 152000,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10079",
+  "date": "2004-03-01",
+  "priceGBP": 97500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10079",
+  "date": "2023-05-01",
+  "priceGBP": 163000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10080",
+  "date": "2020-02-01",
+  "priceGBP": 181000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10081",
+  "date": "2008-03-01",
+  "priceGBP": 196250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10082",
+  "date": "2006-04-01",
+  "priceGBP": 128500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10082",
+  "date": "2022-09-01",
+  "priceGBP": 229750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10083",
+  "date": "2018-05-01",
+  "priceGBP": 192000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10084",
+  "date": "2025-03-01",
+  "priceGBP": 374750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10085",
+  "date": "2009-02-01",
+  "priceGBP": 143250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10087",
+  "date": "2008-04-01",
+  "priceGBP": 167750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10088",
+  "date": "2011-05-01",
+  "priceGBP": 377500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10090",
+  "date": "2009-01-01",
+  "priceGBP": 122500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10091",
+  "date": "2005-12-01",
+  "priceGBP": 70000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10092",
+  "date": "2022-09-01",
+  "priceGBP": 771500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10093",
+  "date": "2014-02-01",
+  "priceGBP": 174500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10094",
+  "date": "2012-12-01",
+  "priceGBP": 245250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10095",
+  "date": "2010-06-01",
+  "priceGBP": 238750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10096",
+  "date": "2014-08-01",
+  "priceGBP": 97750,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10096",
+  "date": "2025-08-01",
+  "priceGBP": 151000,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10097",
+  "date": "2021-07-01",
+  "priceGBP": 187250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10098",
+  "date": "2011-03-01",
+  "priceGBP": 112250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10098",
+  "date": "2012-10-01",
+  "priceGBP": 93750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10099",
+  "date": "2000-10-01",
+  "priceGBP": 79750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10099",
+  "date": "2006-09-01",
+  "priceGBP": 147750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10099",
+  "date": "2024-11-01",
+  "priceGBP": 217500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10101",
+  "date": "2016-08-01",
+  "priceGBP": 161500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10101",
+  "date": "2019-09-01",
+  "priceGBP": 178000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10103",
+  "date": "2008-07-01",
+  "priceGBP": 473000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10103",
+  "date": "2020-11-01",
+  "priceGBP": 678000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10103",
+  "date": "2021-07-01",
+  "priceGBP": 622750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10104",
+  "date": "2005-01-01",
+  "priceGBP": 88000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10106",
+  "date": "2019-03-01",
+  "priceGBP": 249000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10107",
+  "date": "2002-05-01",
+  "priceGBP": 210250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10108",
+  "date": "2003-01-01",
+  "priceGBP": 106000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10109",
+  "date": "2009-07-01",
+  "priceGBP": 105750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10109",
+  "date": "2017-12-01",
+  "priceGBP": 98750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10110",
+  "date": "2013-12-01",
+  "priceGBP": 125750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10111",
+  "date": "2000-02-01",
+  "priceGBP": 44250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10112",
+  "date": "2002-09-01",
+  "priceGBP": 66250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10113",
+  "date": "2013-03-01",
+  "priceGBP": 192250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10114",
+  "date": "2011-10-01",
+  "priceGBP": 203500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10115",
+  "date": "2016-02-01",
+  "priceGBP": 185250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10115",
+  "date": "2023-11-01",
+  "priceGBP": 250250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10116",
+  "date": "2017-09-01",
+  "priceGBP": 225250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10116",
+  "date": "2022-02-01",
+  "priceGBP": 285500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10117",
+  "date": "2024-06-01",
+  "priceGBP": 218250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10120",
+  "date": "2009-07-01",
+  "priceGBP": 98750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10122",
+  "date": "2011-02-01",
+  "priceGBP": 111000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10122",
+  "date": "2021-11-01",
+  "priceGBP": 138000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10123",
+  "date": "2011-01-01",
+  "priceGBP": 181750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10124",
+  "date": "2013-11-01",
+  "priceGBP": 348000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10124",
+  "date": "2015-11-01",
+  "priceGBP": 432750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10124",
+  "date": "2025-08-01",
+  "priceGBP": 636000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10125",
+  "date": "2006-04-01",
+  "priceGBP": 186500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10125",
+  "date": "2007-09-01",
+  "priceGBP": 174000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10127",
+  "date": "2007-06-01",
+  "priceGBP": 110750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10127",
+  "date": "2014-11-01",
+  "priceGBP": 126500,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10129",
+  "date": "2016-06-01",
+  "priceGBP": 153250,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10131",
+  "date": "2002-06-01",
+  "priceGBP": 319750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10132",
+  "date": "2001-02-01",
+  "priceGBP": 199250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10133",
+  "date": "2015-05-01",
+  "priceGBP": 210500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10134",
+  "date": "2024-10-01",
+  "priceGBP": 391000,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10136",
+  "date": "2016-10-01",
+  "priceGBP": 165500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10137",
+  "date": "2006-07-01",
+  "priceGBP": 196250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10137",
+  "date": "2019-04-01",
+  "priceGBP": 234500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10137",
+  "date": "2024-06-01",
+  "priceGBP": 317000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10138",
+  "date": "2000-03-01",
+  "priceGBP": 49750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10140",
+  "date": "2009-10-01",
+  "priceGBP": 495000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10141",
+  "date": "2016-06-01",
+  "priceGBP": 275500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10142",
+  "date": "2007-08-01",
+  "priceGBP": 696500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10143",
+  "date": "2009-06-01",
+  "priceGBP": 260750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10143",
+  "date": "2025-01-01",
+  "priceGBP": 387750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10144",
+  "date": "2007-09-01",
+  "priceGBP": 105000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10145",
+  "date": "2013-03-01",
+  "priceGBP": 91750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10146",
+  "date": "2025-01-01",
+  "priceGBP": 357500,
+  "energyRatingAtSale": "G"
+ },
+ {
+  "propertyId": "P10149",
+  "date": "2020-11-01",
+  "priceGBP": 547000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10150",
+  "date": "2001-05-01",
+  "priceGBP": 39500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10151",
+  "date": "2012-02-01",
+  "priceGBP": 319000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10151",
+  "date": "2020-04-01",
+  "priceGBP": 463000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10152",
+  "date": "2006-12-01",
+  "priceGBP": 93000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10154",
+  "date": "2000-07-01",
+  "priceGBP": 72250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10154",
+  "date": "2002-09-01",
+  "priceGBP": 107500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10156",
+  "date": "2017-10-01",
+  "priceGBP": 418250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10156",
+  "date": "2019-05-01",
+  "priceGBP": 482250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10157",
+  "date": "2010-06-01",
+  "priceGBP": 88750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10157",
+  "date": "2020-11-01",
+  "priceGBP": 140750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10157",
+  "date": "2024-01-01",
+  "priceGBP": 164750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10160",
+  "date": "2000-09-01",
+  "priceGBP": 68000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10163",
+  "date": "2001-09-01",
+  "priceGBP": 179750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10163",
+  "date": "2002-03-01",
+  "priceGBP": 206000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10164",
+  "date": "2025-06-01",
+  "priceGBP": 242750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10166",
+  "date": "2007-10-01",
+  "priceGBP": 73000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10169",
+  "date": "2013-04-01",
+  "priceGBP": 116000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10169",
+  "date": "2014-09-01",
+  "priceGBP": 130500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10171",
+  "date": "2015-07-01",
+  "priceGBP": 99500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10172",
+  "date": "2000-02-01",
+  "priceGBP": 89250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10175",
+  "date": "2000-05-01",
+  "priceGBP": 106500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10176",
+  "date": "2001-01-01",
+  "priceGBP": 152750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10176",
+  "date": "2018-04-01",
+  "priceGBP": 416500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10177",
+  "date": "2009-04-01",
+  "priceGBP": 145000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10178",
+  "date": "2007-09-01",
+  "priceGBP": 135500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10178",
+  "date": "2008-09-01",
+  "priceGBP": 140250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10180",
+  "date": "2002-02-01",
+  "priceGBP": 134250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10180",
+  "date": "2009-03-01",
+  "priceGBP": 257250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10180",
+  "date": "2013-12-01",
+  "priceGBP": 236500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10182",
+  "date": "2003-07-01",
+  "priceGBP": 117750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10183",
+  "date": "2012-05-01",
+  "priceGBP": 301500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10185",
+  "date": "2000-11-01",
+  "priceGBP": 90000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10185",
+  "date": "2022-10-01",
+  "priceGBP": 311250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10187",
+  "date": "2004-02-01",
+  "priceGBP": 183250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10187",
+  "date": "2015-10-01",
+  "priceGBP": 227750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10187",
+  "date": "2025-03-01",
+  "priceGBP": 329750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10188",
+  "date": "2004-02-01",
+  "priceGBP": 131750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10189",
+  "date": "2004-10-01",
+  "priceGBP": 91000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10189",
+  "date": "2020-11-01",
+  "priceGBP": 146000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10190",
+  "date": "2019-01-01",
+  "priceGBP": 148500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10190",
+  "date": "2020-12-01",
+  "priceGBP": 119750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10191",
+  "date": "2002-10-01",
+  "priceGBP": 94250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10191",
+  "date": "2014-04-01",
+  "priceGBP": 165250,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10192",
+  "date": "2013-12-01",
+  "priceGBP": 97750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10193",
+  "date": "2013-09-01",
+  "priceGBP": 200500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10195",
+  "date": "2016-02-01",
+  "priceGBP": 195750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10195",
+  "date": "2023-03-01",
+  "priceGBP": 252500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10196",
+  "date": "2017-02-01",
+  "priceGBP": 121000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10197",
+  "date": "2011-06-01",
+  "priceGBP": 59500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10198",
+  "date": "2006-11-01",
+  "priceGBP": 283500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10200",
+  "date": "2014-01-01",
+  "priceGBP": 141500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10201",
+  "date": "2011-11-01",
+  "priceGBP": 78500,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10202",
+  "date": "2005-06-01",
+  "priceGBP": 100750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10202",
+  "date": "2013-12-01",
+  "priceGBP": 114000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10203",
+  "date": "2023-03-01",
+  "priceGBP": 209250,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10206",
+  "date": "2006-12-01",
+  "priceGBP": 131750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10207",
+  "date": "2020-10-01",
+  "priceGBP": 208250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10209",
+  "date": "2012-05-01",
+  "priceGBP": 131250,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10211",
+  "date": "2000-08-01",
+  "priceGBP": 302000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10212",
+  "date": "2020-07-01",
+  "priceGBP": 237250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10214",
+  "date": "2015-10-01",
+  "priceGBP": 186750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10215",
+  "date": "2011-04-01",
+  "priceGBP": 104500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10217",
+  "date": "2004-05-01",
+  "priceGBP": 122750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10217",
+  "date": "2008-02-01",
+  "priceGBP": 117250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10218",
+  "date": "2012-07-01",
+  "priceGBP": 175000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10219",
+  "date": "2020-11-01",
+  "priceGBP": 109000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10220",
+  "date": "2009-04-01",
+  "priceGBP": 291250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10221",
+  "date": "2002-10-01",
+  "priceGBP": 76250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10221",
+  "date": "2012-07-01",
+  "priceGBP": 105250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10221",
+  "date": "2022-12-01",
+  "priceGBP": 156750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10223",
+  "date": "2000-04-01",
+  "priceGBP": 137000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10223",
+  "date": "2007-09-01",
+  "priceGBP": 265000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10225",
+  "date": "2012-12-01",
+  "priceGBP": 129500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10226",
+  "date": "2003-01-01",
+  "priceGBP": 120250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10226",
+  "date": "2014-03-01",
+  "priceGBP": 174500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10227",
+  "date": "2011-12-01",
+  "priceGBP": 154750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10228",
+  "date": "2006-02-01",
+  "priceGBP": 71000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10229",
+  "date": "2017-07-01",
+  "priceGBP": 242000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10230",
+  "date": "2011-10-01",
+  "priceGBP": 156250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10230",
+  "date": "2020-06-01",
+  "priceGBP": 219750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10230",
+  "date": "2021-02-01",
+  "priceGBP": 233250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10231",
+  "date": "2020-06-01",
+  "priceGBP": 267250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10232",
+  "date": "2023-11-01",
+  "priceGBP": 156500,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10233",
+  "date": "2021-12-01",
+  "priceGBP": 189250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10234",
+  "date": "2022-07-01",
+  "priceGBP": 449250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10235",
+  "date": "2016-12-01",
+  "priceGBP": 198000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10236",
+  "date": "2005-03-01",
+  "priceGBP": 224250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10236",
+  "date": "2017-10-01",
+  "priceGBP": 300500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10237",
+  "date": "2003-03-01",
+  "priceGBP": 52500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10238",
+  "date": "2004-05-01",
+  "priceGBP": 99500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10238",
+  "date": "2016-03-01",
+  "priceGBP": 126250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10239",
+  "date": "2020-11-01",
+  "priceGBP": 863000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10240",
+  "date": "2007-11-01",
+  "priceGBP": 264250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10242",
+  "date": "2018-09-01",
+  "priceGBP": 97250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10243",
+  "date": "2021-09-01",
+  "priceGBP": 262000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10244",
+  "date": "2006-06-01",
+  "priceGBP": 110250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10244",
+  "date": "2018-02-01",
+  "priceGBP": 133750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10246",
+  "date": "2006-02-01",
+  "priceGBP": 134250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10247",
+  "date": "2012-01-01",
+  "priceGBP": 107750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10248",
+  "date": "2024-07-01",
+  "priceGBP": 355750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10250",
+  "date": "2001-01-01",
+  "priceGBP": 85250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10250",
+  "date": "2010-04-01",
+  "priceGBP": 168000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10252",
+  "date": "2012-07-01",
+  "priceGBP": 271500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10252",
+  "date": "2022-04-01",
+  "priceGBP": 444750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10253",
+  "date": "2005-06-01",
+  "priceGBP": 118500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10255",
+  "date": "2008-12-01",
+  "priceGBP": 148250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10256",
+  "date": "2010-05-01",
+  "priceGBP": 187750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10259",
+  "date": "2008-08-01",
+  "priceGBP": 1097000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10259",
+  "date": "2023-04-01",
+  "priceGBP": 1495500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10260",
+  "date": "2008-01-01",
+  "priceGBP": 234750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10260",
+  "date": "2020-04-01",
+  "priceGBP": 282000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10261",
+  "date": "2006-12-01",
+  "priceGBP": 258250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10263",
+  "date": "2017-09-01",
+  "priceGBP": 285250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10263",
+  "date": "2019-09-01",
+  "priceGBP": 270000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10264",
+  "date": "2015-12-01",
+  "priceGBP": 216000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10265",
+  "date": "2011-04-01",
+  "priceGBP": 183750,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10266",
+  "date": "2025-04-01",
+  "priceGBP": 242750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10267",
+  "date": "2012-10-01",
+  "priceGBP": 91500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10269",
+  "date": "2008-02-01",
+  "priceGBP": 349000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10270",
+  "date": "2005-05-01",
+  "priceGBP": 127750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10270",
+  "date": "2010-10-01",
+  "priceGBP": 156000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10270",
+  "date": "2018-06-01",
+  "priceGBP": 200000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10272",
+  "date": "2004-01-01",
+  "priceGBP": 141750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10273",
+  "date": "2021-10-01",
+  "priceGBP": 202500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10274",
+  "date": "2006-07-01",
+  "priceGBP": 83500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10274",
+  "date": "2024-11-01",
+  "priceGBP": 121500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10275",
+  "date": "2004-01-01",
+  "priceGBP": 174000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10276",
+  "date": "2001-01-01",
+  "priceGBP": 46000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10276",
+  "date": "2013-03-01",
+  "priceGBP": 97500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10277",
+  "date": "2020-12-01",
+  "priceGBP": 534750,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10279",
+  "date": "2009-08-01",
+  "priceGBP": 161000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10280",
+  "date": "2006-07-01",
+  "priceGBP": 62750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10280",
+  "date": "2014-09-01",
+  "priceGBP": 73750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10281",
+  "date": "2019-10-01",
+  "priceGBP": 212500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10281",
+  "date": "2020-03-01",
+  "priceGBP": 252500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10283",
+  "date": "2001-09-01",
+  "priceGBP": 30000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10283",
+  "date": "2002-09-01",
+  "priceGBP": 39500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10285",
+  "date": "2016-05-01",
+  "priceGBP": 197500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10285",
+  "date": "2025-02-01",
+  "priceGBP": 238250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10287",
+  "date": "2020-08-01",
+  "priceGBP": 139500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10287",
+  "date": "2024-11-01",
+  "priceGBP": 168250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10288",
+  "date": "2000-01-01",
+  "priceGBP": 69250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10288",
+  "date": "2007-03-01",
+  "priceGBP": 115500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10291",
+  "date": "2000-07-01",
+  "priceGBP": 191000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10291",
+  "date": "2005-10-01",
+  "priceGBP": 307250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10291",
+  "date": "2020-05-01",
+  "priceGBP": 541250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10294",
+  "date": "2017-11-01",
+  "priceGBP": 227500,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10295",
+  "date": "2002-11-01",
+  "priceGBP": 89000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10296",
+  "date": "2000-05-01",
+  "priceGBP": 181750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10298",
+  "date": "2024-11-01",
+  "priceGBP": 369500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10299",
+  "date": "2008-10-01",
+  "priceGBP": 234000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10299",
+  "date": "2023-07-01",
+  "priceGBP": 382250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10301",
+  "date": "2004-08-01",
+  "priceGBP": 93750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10301",
+  "date": "2021-10-01",
+  "priceGBP": 148750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10302",
+  "date": "2009-02-01",
+  "priceGBP": 88750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10302",
+  "date": "2011-12-01",
+  "priceGBP": 78750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10303",
+  "date": "2001-09-01",
+  "priceGBP": 74500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10303",
+  "date": "2022-06-01",
+  "priceGBP": 242250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10304",
+  "date": "2024-10-01",
+  "priceGBP": 196500,
+  "energyRatingAtSale": "B"
+ },
+ {
+  "propertyId": "P10304",
+  "date": "2025-03-01",
+  "priceGBP": 189500,
+  "energyRatingAtSale": "B"
+ },
+ {
+  "propertyId": "P10305",
+  "date": "2007-07-01",
+  "priceGBP": 175750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10306",
+  "date": "2004-03-01",
+  "priceGBP": 101250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10309",
+  "date": "2009-08-01",
+  "priceGBP": 306000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10310",
+  "date": "2001-02-01",
+  "priceGBP": 249250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10311",
+  "date": "2019-11-01",
+  "priceGBP": 106750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10312",
+  "date": "2008-03-01",
+  "priceGBP": 240250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10313",
+  "date": "2013-02-01",
+  "priceGBP": 195750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10313",
+  "date": "2015-09-01",
+  "priceGBP": 257000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10314",
+  "date": "2022-04-01",
+  "priceGBP": 205250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10315",
+  "date": "2023-06-01",
+  "priceGBP": 432750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10317",
+  "date": "2013-10-01",
+  "priceGBP": 161000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10318",
+  "date": "2003-04-01",
+  "priceGBP": 222250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10320",
+  "date": "2024-10-01",
+  "priceGBP": 181250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10321",
+  "date": "2007-06-01",
+  "priceGBP": 106500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10321",
+  "date": "2013-07-01",
+  "priceGBP": 108250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10322",
+  "date": "2006-03-01",
+  "priceGBP": 257000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10323",
+  "date": "2015-03-01",
+  "priceGBP": 529750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10323",
+  "date": "2025-06-01",
+  "priceGBP": 917500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10324",
+  "date": "2025-03-01",
+  "priceGBP": 154000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10325",
+  "date": "2005-05-01",
+  "priceGBP": 67000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10326",
+  "date": "2003-05-01",
+  "priceGBP": 85500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10327",
+  "date": "2007-08-01",
+  "priceGBP": 913000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10327",
+  "date": "2020-10-01",
+  "priceGBP": 1261500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10329",
+  "date": "2007-02-01",
+  "priceGBP": 127750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10330",
+  "date": "2000-12-01",
+  "priceGBP": 84250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10330",
+  "date": "2007-08-01",
+  "priceGBP": 153500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10332",
+  "date": "2021-05-01",
+  "priceGBP": 319250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10333",
+  "date": "2004-06-01",
+  "priceGBP": 495000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10334",
+  "date": "2002-11-01",
+  "priceGBP": 296250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10334",
+  "date": "2009-10-01",
+  "priceGBP": 450500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10335",
+  "date": "2010-08-01",
+  "priceGBP": 85000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10336",
+  "date": "2013-05-01",
+  "priceGBP": 73250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10339",
+  "date": "2004-08-01",
+  "priceGBP": 310750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10340",
+  "date": "2018-07-01",
+  "priceGBP": 356000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10343",
+  "date": "2009-06-01",
+  "priceGBP": 269750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10345",
+  "date": "2003-05-01",
+  "priceGBP": 103250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10348",
+  "date": "2018-11-01",
+  "priceGBP": 123000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10350",
+  "date": "2013-07-01",
+  "priceGBP": 90250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10351",
+  "date": "2020-12-01",
+  "priceGBP": 485750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10353",
+  "date": "2004-11-01",
+  "priceGBP": 233250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10353",
+  "date": "2006-03-01",
+  "priceGBP": 245250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10354",
+  "date": "2022-08-01",
+  "priceGBP": 241250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10355",
+  "date": "2003-09-01",
+  "priceGBP": 352500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10355",
+  "date": "2020-10-01",
+  "priceGBP": 757750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10356",
+  "date": "2003-04-01",
+  "priceGBP": 493250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10356",
+  "date": "2010-07-01",
+  "priceGBP": 657750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10357",
+  "date": "2011-04-01",
+  "priceGBP": 103750,
+  "energyRatingAtSale": "G"
+ },
+ {
+  "propertyId": "P10358",
+  "date": "2004-10-01",
+  "priceGBP": 359750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10358",
+  "date": "2024-06-01",
+  "priceGBP": 637750,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10359",
+  "date": "2021-06-01",
+  "priceGBP": 232000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10360",
+  "date": "2004-06-01",
+  "priceGBP": 103750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10362",
+  "date": "2010-06-01",
+  "priceGBP": 243500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10363",
+  "date": "2016-06-01",
+  "priceGBP": 235000,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10364",
+  "date": "2003-01-01",
+  "priceGBP": 72500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10365",
+  "date": "2018-10-01",
+  "priceGBP": 208750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10366",
+  "date": "2021-02-01",
+  "priceGBP": 297500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10367",
+  "date": "2004-08-01",
+  "priceGBP": 107250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10367",
+  "date": "2020-02-01",
+  "priceGBP": 163250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10368",
+  "date": "2005-06-01",
+  "priceGBP": 182750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10368",
+  "date": "2010-12-01",
+  "priceGBP": 184750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10369",
+  "date": "2004-11-01",
+  "priceGBP": 144000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10369",
+  "date": "2012-03-01",
+  "priceGBP": 141750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10371",
+  "date": "2001-04-01",
+  "priceGBP": 97000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10371",
+  "date": "2004-06-01",
+  "priceGBP": 202250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10371",
+  "date": "2017-08-01",
+  "priceGBP": 265500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10372",
+  "date": "2009-05-01",
+  "priceGBP": 384500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10372",
+  "date": "2022-05-01",
+  "priceGBP": 572500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10373",
+  "date": "2008-01-01",
+  "priceGBP": 401500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10375",
+  "date": "2019-06-01",
+  "priceGBP": 205750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10376",
+  "date": "2013-09-01",
+  "priceGBP": 301250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10377",
+  "date": "2005-12-01",
+  "priceGBP": 135500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10378",
+  "date": "2005-08-01",
+  "priceGBP": 87250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10379",
+  "date": "2005-03-01",
+  "priceGBP": 112750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10380",
+  "date": "2012-06-01",
+  "priceGBP": 177500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10381",
+  "date": "2016-02-01",
+  "priceGBP": 117500,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10382",
+  "date": "2001-10-01",
+  "priceGBP": 63000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10382",
+  "date": "2018-07-01",
+  "priceGBP": 175250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10382",
+  "date": "2020-12-01",
+  "priceGBP": 169000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10383",
+  "date": "2011-05-01",
+  "priceGBP": 216750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10383",
+  "date": "2016-09-01",
+  "priceGBP": 249500,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10383",
+  "date": "2021-04-01",
+  "priceGBP": 296750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10384",
+  "date": "2006-07-01",
+  "priceGBP": 70500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10384",
+  "date": "2022-07-01",
+  "priceGBP": 123000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10385",
+  "date": "2010-12-01",
+  "priceGBP": 150250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10386",
+  "date": "2004-02-01",
+  "priceGBP": 151750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10387",
+  "date": "2025-09-01",
+  "priceGBP": 400500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10389",
+  "date": "2017-01-01",
+  "priceGBP": 248250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10391",
+  "date": "2002-07-01",
+  "priceGBP": 93250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10392",
+  "date": "2023-04-01",
+  "priceGBP": 562500,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10393",
+  "date": "2003-12-01",
+  "priceGBP": 170250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10394",
+  "date": "2005-03-01",
+  "priceGBP": 129500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10394",
+  "date": "2008-09-01",
+  "priceGBP": 148750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10395",
+  "date": "2007-08-01",
+  "priceGBP": 507000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10396",
+  "date": "2003-01-01",
+  "priceGBP": 87000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10396",
+  "date": "2006-01-01",
+  "priceGBP": 138500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10396",
+  "date": "2020-11-01",
+  "priceGBP": 188250,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10397",
+  "date": "2022-10-01",
+  "priceGBP": 332750,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10398",
+  "date": "2007-08-01",
+  "priceGBP": 125750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10399",
+  "date": "2020-04-01",
+  "priceGBP": 202500,
+  "energyRatingAtSale": "B"
+ },
+ {
+  "propertyId": "P10400",
+  "date": "2020-08-01",
+  "priceGBP": 185250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10401",
+  "date": "2008-10-01",
+  "priceGBP": 120000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10402",
+  "date": "2007-09-01",
+  "priceGBP": 227000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10402",
+  "date": "2025-04-01",
+  "priceGBP": 370000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10404",
+  "date": "2012-06-01",
+  "priceGBP": 94000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10404",
+  "date": "2013-06-01",
+  "priceGBP": 84250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10404",
+  "date": "2016-03-01",
+  "priceGBP": 115250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10405",
+  "date": "2009-05-01",
+  "priceGBP": 202250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10406",
+  "date": "2021-09-01",
+  "priceGBP": 124500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10407",
+  "date": "2006-04-01",
+  "priceGBP": 114000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10409",
+  "date": "2008-03-01",
+  "priceGBP": 530750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10409",
+  "date": "2018-10-01",
+  "priceGBP": 669250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10409",
+  "date": "2022-11-01",
+  "priceGBP": 827000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10410",
+  "date": "2004-02-01",
+  "priceGBP": 542750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10410",
+  "date": "2020-10-01",
+  "priceGBP": 741750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10412",
+  "date": "2002-04-01",
+  "priceGBP": 45750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10412",
+  "date": "2018-03-01",
+  "priceGBP": 103750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10413",
+  "date": "2006-12-01",
+  "priceGBP": 253750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10413",
+  "date": "2014-08-01",
+  "priceGBP": 270500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10414",
+  "date": "2007-12-01",
+  "priceGBP": 256250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10414",
+  "date": "2024-01-01",
+  "priceGBP": 450750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10417",
+  "date": "2010-05-01",
+  "priceGBP": 105500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10417",
+  "date": "2024-05-01",
+  "priceGBP": 183750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10418",
+  "date": "2008-05-01",
+  "priceGBP": 104500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10420",
+  "date": "2023-05-01",
+  "priceGBP": 320000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10421",
+  "date": "2008-07-01",
+  "priceGBP": 300000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10423",
+  "date": "2005-05-01",
+  "priceGBP": 294750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10423",
+  "date": "2007-06-01",
+  "priceGBP": 360000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10424",
+  "date": "2021-10-01",
+  "priceGBP": 143500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10425",
+  "date": "2005-11-01",
+  "priceGBP": 76000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10425",
+  "date": "2008-08-01",
+  "priceGBP": 79750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10427",
+  "date": "2012-08-01",
+  "priceGBP": 111750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10427",
+  "date": "2022-11-01",
+  "priceGBP": 160750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10428",
+  "date": "2000-02-01",
+  "priceGBP": 63500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10428",
+  "date": "2004-06-01",
+  "priceGBP": 124500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10429",
+  "date": "2007-02-01",
+  "priceGBP": 104000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10429",
+  "date": "2022-10-01",
+  "priceGBP": 159000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10430",
+  "date": "2020-10-01",
+  "priceGBP": 305500,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10431",
+  "date": "2010-06-01",
+  "priceGBP": 210000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10431",
+  "date": "2020-06-01",
+  "priceGBP": 346500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10432",
+  "date": "2009-03-01",
+  "priceGBP": 285750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10432",
+  "date": "2012-11-01",
+  "priceGBP": 268250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10433",
+  "date": "2015-09-01",
+  "priceGBP": 84000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10437",
+  "date": "2008-11-01",
+  "priceGBP": 192000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10439",
+  "date": "2000-01-01",
+  "priceGBP": 360250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10442",
+  "date": "2022-09-01",
+  "priceGBP": 244750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10443",
+  "date": "2020-10-01",
+  "priceGBP": 404250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10443",
+  "date": "2023-12-01",
+  "priceGBP": 464500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10444",
+  "date": "2022-06-01",
+  "priceGBP": 441000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10445",
+  "date": "2011-02-01",
+  "priceGBP": 98750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10446",
+  "date": "2000-07-01",
+  "priceGBP": 104250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10446",
+  "date": "2002-01-01",
+  "priceGBP": 117000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10446",
+  "date": "2003-06-01",
+  "priceGBP": 133750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10449",
+  "date": "2003-12-01",
+  "priceGBP": 132500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10449",
+  "date": "2023-05-01",
+  "priceGBP": 308500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10450",
+  "date": "2012-03-01",
+  "priceGBP": 184500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10451",
+  "date": "2009-10-01",
+  "priceGBP": 135250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10452",
+  "date": "2004-04-01",
+  "priceGBP": 83250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10452",
+  "date": "2007-06-01",
+  "priceGBP": 90500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10454",
+  "date": "2008-09-01",
+  "priceGBP": 116750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10455",
+  "date": "2010-08-01",
+  "priceGBP": 275250,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10455",
+  "date": "2023-09-01",
+  "priceGBP": 456000,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10456",
+  "date": "2025-06-01",
+  "priceGBP": 166000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10457",
+  "date": "2003-06-01",
+  "priceGBP": 185250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10458",
+  "date": "2005-01-01",
+  "priceGBP": 180000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10460",
+  "date": "2005-11-01",
+  "priceGBP": 60250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10460",
+  "date": "2025-09-01",
+  "priceGBP": 108500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10461",
+  "date": "2008-12-01",
+  "priceGBP": 359500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10461",
+  "date": "2020-11-01",
+  "priceGBP": 474500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10462",
+  "date": "2024-07-01",
+  "priceGBP": 436750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10463",
+  "date": "2019-05-01",
+  "priceGBP": 96000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10464",
+  "date": "2004-07-01",
+  "priceGBP": 359750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10465",
+  "date": "2002-05-01",
+  "priceGBP": 103500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10465",
+  "date": "2004-03-01",
+  "priceGBP": 130250,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10465",
+  "date": "2017-10-01",
+  "priceGBP": 194250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10467",
+  "date": "2005-12-01",
+  "priceGBP": 83000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10467",
+  "date": "2015-11-01",
+  "priceGBP": 103000,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10467",
+  "date": "2021-06-01",
+  "priceGBP": 123500,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10468",
+  "date": "2020-03-01",
+  "priceGBP": 148500,
+  "energyRatingAtSale": "B"
+ },
+ {
+  "propertyId": "P10469",
+  "date": "2006-11-01",
+  "priceGBP": 103750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10469",
+  "date": "2023-07-01",
+  "priceGBP": 190000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10471",
+  "date": "2018-06-01",
+  "priceGBP": 168500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10471",
+  "date": "2019-02-01",
+  "priceGBP": 173000,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10472",
+  "date": "2011-03-01",
+  "priceGBP": 127250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10473",
+  "date": "2000-09-01",
+  "priceGBP": 202500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10475",
+  "date": "2006-02-01",
+  "priceGBP": 65500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10476",
+  "date": "2001-06-01",
+  "priceGBP": 119500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10477",
+  "date": "2013-09-01",
+  "priceGBP": 792250,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10477",
+  "date": "2018-06-01",
+  "priceGBP": 977250,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10478",
+  "date": "2011-02-01",
+  "priceGBP": 141000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10480",
+  "date": "2002-08-01",
+  "priceGBP": 54000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10480",
+  "date": "2010-05-01",
+  "priceGBP": 91250,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10480",
+  "date": "2022-11-01",
+  "priceGBP": 139750,
+  "energyRatingAtSale": "F"
+ },
+ {
+  "propertyId": "P10481",
+  "date": "2005-04-01",
+  "priceGBP": 211500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10481",
+  "date": "2019-11-01",
+  "priceGBP": 332500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10481",
+  "date": "2024-11-01",
+  "priceGBP": 395250,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10483",
+  "date": "2021-11-01",
+  "priceGBP": 136500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10484",
+  "date": "2009-01-01",
+  "priceGBP": 126750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10485",
+  "date": "2002-01-01",
+  "priceGBP": 227000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10485",
+  "date": "2013-08-01",
+  "priceGBP": 341250,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10485",
+  "date": "2019-09-01",
+  "priceGBP": 551500,
+  "energyRatingAtSale": "E"
+ },
+ {
+  "propertyId": "P10486",
+  "date": "2005-08-01",
+  "priceGBP": 203750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10486",
+  "date": "2008-07-01",
+  "priceGBP": 271750,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10486",
+  "date": "2018-12-01",
+  "priceGBP": 319250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10487",
+  "date": "2017-11-01",
+  "priceGBP": 261500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10489",
+  "date": "2006-08-01",
+  "priceGBP": 177000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10490",
+  "date": "2001-02-01",
+  "priceGBP": 341500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10490",
+  "date": "2024-03-01",
+  "priceGBP": 1071500,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10491",
+  "date": "2019-05-01",
+  "priceGBP": 542500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10492",
+  "date": "2004-05-01",
+  "priceGBP": 71750,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10492",
+  "date": "2024-10-01",
+  "priceGBP": 145000,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10494",
+  "date": "2005-04-01",
+  "priceGBP": 380000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10494",
+  "date": "2008-03-01",
+  "priceGBP": 453750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10494",
+  "date": "2015-01-01",
+  "priceGBP": 436500,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10495",
+  "date": "2006-01-01",
+  "priceGBP": 117500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10496",
+  "date": "2014-06-01",
+  "priceGBP": 87750,
+  "energyRatingAtSale": "C"
+ },
+ {
+  "propertyId": "P10497",
+  "date": "2003-09-01",
+  "priceGBP": 213500,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10497",
+  "date": "2004-05-01",
+  "priceGBP": 316000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10498",
+  "date": "2010-08-01",
+  "priceGBP": 649250,
+  "energyRatingAtSale": "D"
+ },
+ {
+  "propertyId": "P10499",
+  "date": "2003-09-01",
+  "priceGBP": 181000,
+  "energyRatingAtSale": null
+ },
+ {
+  "propertyId": "P10500",
+  "date": "2004-10-01",
+  "priceGBP": 259000,
+  "energyRatingAtSale": null
+ }
+]

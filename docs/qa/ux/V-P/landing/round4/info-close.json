@@ -1,0 +1,921 @@
+[
+ {
+  "sw": 1280,
+  "cw": 1280,
+  "h": 6963,
+  "cta": 623,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     636,
+     240,
+     559,
+     348
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "example",
+    "r": [
+     85,
+     1758,
+     576,
+     432
+    ]
+   },
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     636,
+     2696,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     85,
+     3181,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     636,
+     3588,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     85,
+     4054,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     636,
+     4462,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     85,
+     4949,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     636,
+     5382,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     85,
+     5841,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "dusk-wide-2400.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     6186,
+     1280,
+     508
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    829
+   ],
+   [
+    "for",
+    661
+   ],
+   [
+    "example",
+    1134
+   ],
+   [
+    "city",
+    493
+   ],
+   [
+    "sun",
+    418
+   ],
+   [
+    "daylight",
+    455
+   ],
+   [
+    "energy",
+    418
+   ],
+   [
+    "codes",
+    455
+   ],
+   [
+    "compare",
+    462
+   ],
+   [
+    "design",
+    462
+   ],
+   [
+    "trust",
+    397
+   ],
+   [
+    "invitation",
+    509
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 1280,
+  "themeReq": "day",
+  "errs": [],
+  "text": "Skip to the story\nIbasho\nWho it is for\nStudio\nNight\n\nA design and analysis studio\n\nSee how a building will live in its city.\nPREVIEW\nYour building in ink among its neighbours. The hatched shadow marks a height we can only estimate.\n\nSet it among its real neighbours and follow the sun across it, room by room, through a whole year.\n\nFor homes, offices, schools, hotels, hospitals, labs and apartments. Available for Hyderabad and London today.\n\nOpen the studio\n→\nWalk through Vindhya Bhavan\nIIIT Hyderabad · 17.45° N, 78.35° E\n\nSome results are examples for now and are marked Preview.\n\nWho it is for\n\nOne studio with two depths. Plain words first, and the detail a professional needs one tap away.\n\nHomeowners\n\nSee where the warmth leaks from a London terrace, or where the May sun lands on a Hyderabad flat, and what to change first.\n\nOpen the London terrace\nArchitects\n\nTest massing, glass and shading against the code and a green rating before the client meeting, with costs in rupees or pounds.\n\nStart a design\nCampus estates teams\n\nCompare blocks under one budget and decide which to fix first. Vindhya Bhavan at IIIT Hyderabad is the worked example.\n\nWalk through Vindhya Bhavan\nDevelopers\n\nTry a plot in two orientations, see early where you stand against the energy code, and find which green measures pay for themselves.\n\nOpen Knowledge City\nBusinesses and tenants\n\nUnderstand the bills on a rented office floor, how it feels with fans on, and a fair split between landlord and tenant.\n\nOpen the HITEC City office\n\nIIIT Hyderabad · 17.45° N, 78.35° E\nPREVIEW\n\nVindhya Bhavan, in one page\n\nA courtyard research block on the IIIT Hyderabad campus, three storeys around open courts.\n\nExample figures. They become this building’s own numbers as each step is calculated.\n\nPREVIEW\nENERGY PER SQUARE METRE\n128 to 177 kWh/m² a year\nECSBC reference design: 126 to 139 kWh/m² a year\nELECTRICITY BILL\nAbout Rs 2.8 crore a year\nGREEN RATING\nGHMC stars: no level likely yet\nAs drawn it uses between 34% more and 3% less energy than the code’s reference design.\nThree futures\n\nBundles of changes the search found, each worked out whole.\n\nLeast upfront\n\nCooling set a little warmer\n\nUpfront\nNo cost\nBill\nRs 2.7 crore a year\nSaves\nRs 17 lakh a year\nBest return\n\nOverhangs over the windows, cooling set a little warmer\n\nUpfront\nRs 24 lakh\nBill\nRs 2.6 crore a year\nSaves\nRs 21 lakh a year\nLowest running cost\n\nOverhangs over the windows, low-E double glazing, a cool white roof and 5 more\n\nUpfront\nRs 9.9 crore\nBill\nRs 1.1 crore a year\nSaves\nRs 1.7 crore a year\nWalk through Vindhya Bhavan\n\n01\nIn its city\n\nYour building, among its real neighbours.\n\nPick a place and your building takes its spot in a paper model of the city.\n\nWhere a neighbour’s height is a guess, its top and its shadow are hatched. Type its real floor count and the hatch closes.\n\nOffice\nHotel\nSchool or college\nHospital\nLaboratory\nApartments\nRented home\nHouse\nMore detail\nPREVIEW\n\n02\nSun and shade\n\nFollow the sun across the year.\n\nSweep a day from dawn to dusk and watch the shadows swing across the roofs.\n\nIn Hyderabad, from mid May to early August, the noon sun stands in the north. North glass needs shading too, and the model shows where.\n\nMore detail\nPREVIEW\n\n03\nDaylight\n\nLight in every room.\n\nSlide a floor out of the building like a drawer and see how far the daylight reaches.\n\nBright areas fill with colour and dim corners stay plain paper. Where low sun falls hard on desks or beds, a warm hatch marks the glare.\n\nMore detail\nPREVIEW\n\n04\nEnergy, bills and carbon\n\nWhere the energy goes, and what it costs.\n\nOne bar splits the year into cooling, lighting, equipment, fans, pumps, hot water and solar.\n\nThe total shows as a range beside a target, so you can see how sure we are. Bills follow the local tariff, month by month.\n\nMore detail\nPREVIEW\n\nWhere the energy goes\n\nEquipment\n33%\nCooling\n31%\nLighting\n24%\nFans\n7%\nAs drawn\n128 to 177 kWh/m² a year\nECSBC reference\n126 to 139 kWh/m² a year\n\n05\nCodes and green ratings\n\nKnow where you stand before anyone asks.\n\nOne early pass against the energy codes and green ratings that apply to your plot.\n\nEach line says where the design stands and how sure we are. Rating points show as likely, possible or unknown. A certificate still comes from an assessor.\n\nMore detail\nPREVIEW\n\nGreen ratings, as a pre-check\n\nGHMC stars\nLIKELY No level yet\nLEED\nLIKELY No level yet\nIGBC\nLIKELY No level yet\nEDGE\nLIKELY No level yet\n\nAn estimate, not a certification.\n\n06\nCompare futures\n\nChange one thing. Watch the rest move.\n\nKeep the building as it is beside its variants, and every result updates together.\n\nSet a goal, such as the lowest bills or ECSBC Super, and Ibasho searches bundles of changes for the cheapest way there.\n\nMore detail\nWalk through Vindhya Bhavan\nPREVIEW\n\nThree futures\n\nLeast upfront\nUpfront No cost\nSaves Rs 17 lakh a year\nBest return\nUpfront Rs 24 lakh\nSaves Rs 21 lakh a year\nLowest running cost\nUpfront Rs 9.9 crore\nSaves Rs 1.7 crore a year\n\n07\nDesign before you build\n\nTest a building before it exists.\n\nChanges cost least while a building is still a drawing.\n\nWrite a short brief, draw the floors and set the building on a free plot. Try it on two plots, or turned another way, side by side.\n\nMore detail\nStart a design\nPREVIEW\n\n08\nWhat you can trust\n\nPlain about what we know.\n\nEvery number opens to show its inputs, its method and its sources.\n\nResults come from documented physics and published data. The AI helps you explore and explains the choices, but it never writes a number.\n\nMore detail\nPREVIEW\n\nEnergy per square metre\n\n128 to 177 kWh/m² a year\n\nHow it is worked out\nEnergy used over the year, divided by the cooled floor area.\nLinked values\n149\nStanding\nExample result, not yet checked\nStart with a place.\n\nChoose Hyderabad or London, pick a building or draw your own, and explore it in a few minutes. No account needed.\n\nOpen the studio\nOr walk through Vindhya Bhavan\nWords we use\n\nYour places and drawings stay on your device. Prices, tariffs and code rules carry their source and date.\n\nIbasho: improving the place where you belong."
+ },
+ {
+  "sw": 1280,
+  "cw": 1280,
+  "h": 6963,
+  "cta": 623,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "hero-wide-1200.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     636,
+     240,
+     559,
+     348
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "example",
+    "r": [
+     85,
+     1758,
+     576,
+     432
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "city-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     636,
+     2696,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     85,
+     3181,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     636,
+     3588,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     85,
+     4054,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     636,
+     4462,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     85,
+     4949,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     636,
+     5382,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     85,
+     5841,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "dusk-wide-2400.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     6186,
+     1280,
+     508
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    829
+   ],
+   [
+    "for",
+    661
+   ],
+   [
+    "example",
+    1134
+   ],
+   [
+    "city",
+    493
+   ],
+   [
+    "sun",
+    418
+   ],
+   [
+    "daylight",
+    455
+   ],
+   [
+    "energy",
+    418
+   ],
+   [
+    "codes",
+    455
+   ],
+   [
+    "compare",
+    462
+   ],
+   [
+    "design",
+    462
+   ],
+   [
+    "trust",
+    397
+   ],
+   [
+    "invitation",
+    509
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 1280,
+  "themeReq": "night",
+  "errs": []
+ },
+ {
+  "sw": 360,
+  "cw": 360,
+  "h": 10953,
+  "cta": 668,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     0,
+     200,
+     360,
+     223
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "example",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     17,
+     4238,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     17,
+     4920,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     17,
+     5568,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     17,
+     6250,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     17,
+     7131,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     17,
+     8037,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     17,
+     8942,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     17,
+     9624,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "dusk-wide-1200.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     10091,
+     360,
+     574
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    937
+   ],
+   [
+    "for",
+    1194
+   ],
+   [
+    "example",
+    1550
+   ],
+   [
+    "city",
+    814
+   ],
+   [
+    "sun",
+    682
+   ],
+   [
+    "daylight",
+    649
+   ],
+   [
+    "energy",
+    881
+   ],
+   [
+    "codes",
+    862
+   ],
+   [
+    "compare",
+    934
+   ],
+   [
+    "design",
+    697
+   ],
+   [
+    "trust",
+    891
+   ],
+   [
+    "invitation",
+    575
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 360,
+  "themeReq": "day",
+  "errs": []
+ }
+]

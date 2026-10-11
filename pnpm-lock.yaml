@@ -596,6 +596,27 @@ importers:
         specifier: workspace:*
         version: link:../types-in
 
+  packs/green-home:
+    dependencies:
+      '@ibasho/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@ibasho/dmath':
+        specifier: workspace:*
+        version: link:../../packages/dmath
+      '@ibasho/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@ibasho/pack-climate':
+        specifier: workspace:*
+        version: link:../climate
+      '@ibasho/pack-home-uk':
+        specifier: workspace:*
+        version: link:../home-uk
+      '@ibasho/pack-money-uk':
+        specifier: workspace:*
+        version: link:../money-uk
+
   packs/home-in:
     dependencies:
       '@ibasho/core':

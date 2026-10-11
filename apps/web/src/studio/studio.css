@@ -1686,3 +1686,47 @@ fieldset.st-nudge {
   border-color: var(--warm);
   color: var(--paper);
 }
+
+/* Round 4 M7: below 480 px the studio links fold into a menu so nothing is cut at the edge. */
+.ib-top__menu {
+  display: none;
+}
+@media (max-width: 479.98px) {
+  .ib-top {
+    position: relative;
+  }
+  .ib-top__menu {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    margin-inline-start: auto;
+    padding: 0 var(--ma-3);
+    border: 1px solid var(--line);
+    background: var(--surface-raised);
+    color: var(--text);
+    font: inherit;
+    font-size: var(--fs-ui);
+    cursor: pointer;
+  }
+  .ib-top__nav {
+    display: none;
+  }
+  .ib-top__nav[data-open] {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline: 0;
+    z-index: 50;
+    display: grid;
+    gap: 0;
+    padding: var(--ma-2) var(--ma-3);
+    border-block-end: 1px solid var(--line);
+    background: var(--surface-raised);
+    box-shadow: var(--kage-1);
+    overflow: visible;
+  }
+  .ib-top__nav[data-open] .ib-top__link,
+  .ib-top__nav[data-open] .ib-top__link--minor {
+    display: flex;
+  }
+}

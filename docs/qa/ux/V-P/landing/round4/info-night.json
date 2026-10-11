@@ -1,0 +1,614 @@
+[
+ {
+  "sw": 1280,
+  "cw": 1280,
+  "h": 6963,
+  "cta": 623,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "hero-wide-1200.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     636,
+     240,
+     559,
+     348
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "example",
+    "r": [
+     85,
+     1758,
+     576,
+     432
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "city-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     636,
+     2696,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     85,
+     3181,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     636,
+     3588,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     85,
+     4054,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     636,
+     4462,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     85,
+     4949,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     636,
+     5382,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     85,
+     5841,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "dusk-wide-2400.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     6186,
+     1280,
+     508
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    829
+   ],
+   [
+    "for",
+    661
+   ],
+   [
+    "example",
+    1134
+   ],
+   [
+    "city",
+    493
+   ],
+   [
+    "sun",
+    418
+   ],
+   [
+    "daylight",
+    455
+   ],
+   [
+    "energy",
+    418
+   ],
+   [
+    "codes",
+    455
+   ],
+   [
+    "compare",
+    462
+   ],
+   [
+    "design",
+    462
+   ],
+   [
+    "trust",
+    397
+   ],
+   [
+    "invitation",
+    509
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 1280,
+  "themeReq": "night",
+  "errs": []
+ },
+ {
+  "sw": 360,
+  "cw": 360,
+  "h": 10953,
+  "cta": 668,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     0,
+     200,
+     360,
+     223
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": false,
+    "loaded": false,
+    "sec": "example",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "city-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     17,
+     4238,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     17,
+     4920,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     17,
+     5568,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     17,
+     6250,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     17,
+     7131,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     17,
+     8037,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     17,
+     8942,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-night-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     17,
+     9624,
+     326,
+     204
+    ]
+   },
+   {
+    "src": "dusk-wide-1200.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     10091,
+     360,
+     574
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    937
+   ],
+   [
+    "for",
+    1194
+   ],
+   [
+    "example",
+    1550
+   ],
+   [
+    "city",
+    814
+   ],
+   [
+    "sun",
+    682
+   ],
+   [
+    "daylight",
+    649
+   ],
+   [
+    "energy",
+    881
+   ],
+   [
+    "codes",
+    862
+   ],
+   [
+    "compare",
+    934
+   ],
+   [
+    "design",
+    697
+   ],
+   [
+    "trust",
+    891
+   ],
+   [
+    "invitation",
+    575
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 360,
+  "themeReq": "night",
+  "errs": []
+ }
+]

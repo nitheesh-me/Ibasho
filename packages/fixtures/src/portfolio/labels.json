@@ -1,0 +1,8391 @@
+[
+ {
+  "propertyId": "P10001",
+  "split": "train",
+  "improvementPotentialPct": 71.2,
+  "potentialRank": 65,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4173,
+   "gas": 28234
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10002",
+  "split": "validation",
+  "improvementPotentialPct": 51.6,
+  "potentialRank": 63,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2755,
+   "gas": 8449
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10003",
+  "split": "train",
+  "improvementPotentialPct": 39,
+  "potentialRank": 317,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3070,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10004",
+  "split": "validation",
+  "improvementPotentialPct": 45.2,
+  "potentialRank": 65,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4337,
+   "gas": 0
+  },
+  "valueImpactPct": 4.1
+ },
+ {
+  "propertyId": "P10005",
+  "split": "test",
+  "improvementPotentialPct": 59,
+  "potentialRank": 50,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2703,
+   "gas": 13113
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10006",
+  "split": "train",
+  "improvementPotentialPct": 67.2,
+  "potentialRank": 109,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2657,
+   "gas": 11694
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10007",
+  "split": "train",
+  "improvementPotentialPct": 62.7,
+  "potentialRank": 171,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2416,
+   "gas": 10626
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10008",
+  "split": "test",
+  "improvementPotentialPct": 67.9,
+  "potentialRank": 19,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -5969,
+   "gas": 26433
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10009",
+  "split": "test",
+  "improvementPotentialPct": 58,
+  "potentialRank": 55,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1687,
+   "gas": 8188
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10010",
+  "split": "test",
+  "improvementPotentialPct": 76.1,
+  "potentialRank": 5,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2057,
+   "gas": 19928
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10011",
+  "split": "train",
+  "improvementPotentialPct": 68,
+  "potentialRank": 103,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1779,
+   "gas": 10721
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10012",
+  "split": "train",
+  "improvementPotentialPct": 58.6,
+  "potentialRank": 225,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2423,
+   "gas": 9832
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10013",
+  "split": "validation",
+  "improvementPotentialPct": 58.9,
+  "potentialRank": 46,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2200,
+   "gas": 10189
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10014",
+  "split": "test",
+  "improvementPotentialPct": 55.3,
+  "potentialRank": 60,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2335,
+   "gas": 9959
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10015",
+  "split": "train",
+  "improvementPotentialPct": 66.4,
+  "potentialRank": 123,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3232,
+   "gas": 14048
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10016",
+  "split": "train",
+  "improvementPotentialPct": 64.9,
+  "potentialRank": 135,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1901,
+   "gas": 9479
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10017",
+  "split": "train",
+  "improvementPotentialPct": 64.4,
+  "potentialRank": 144,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1989,
+   "gas": 12828
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10018",
+  "split": "train",
+  "improvementPotentialPct": 60.6,
+  "potentialRank": 201,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2635,
+   "gas": 10290
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10019",
+  "split": "validation",
+  "improvementPotentialPct": 41.9,
+  "potentialRank": 67,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2565,
+   "gas": 8050
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10020",
+  "split": "validation",
+  "improvementPotentialPct": 78,
+  "potentialRank": 6,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2431,
+   "gas": 20371
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10021",
+  "split": "validation",
+  "improvementPotentialPct": 62.4,
+  "potentialRank": 38,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1453,
+   "gas": 6933
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10022",
+  "split": "validation",
+  "improvementPotentialPct": 62,
+  "potentialRank": 41,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2671,
+   "gas": 11206
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10023",
+  "split": "test",
+  "improvementPotentialPct": 52.7,
+  "potentialRank": 66,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3187,
+   "gas": 10283
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10024",
+  "split": "train",
+  "improvementPotentialPct": 66,
+  "potentialRank": 128,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2205,
+   "gas": 15119
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10025",
+  "split": "train",
+  "improvementPotentialPct": 64.7,
+  "potentialRank": 139,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2428,
+   "gas": 10748
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10026",
+  "split": "train",
+  "improvementPotentialPct": 70.4,
+  "potentialRank": 80,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3873,
+   "gas": 22829
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10027",
+  "split": "train",
+  "improvementPotentialPct": 52.8,
+  "potentialRank": 274,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4265,
+   "gas": 0
+  },
+  "valueImpactPct": 3.7
+ },
+ {
+  "propertyId": "P10028",
+  "split": "train",
+  "improvementPotentialPct": 51.6,
+  "potentialRank": 281,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1934,
+   "gas": 7860
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10029",
+  "split": "train",
+  "improvementPotentialPct": 61.9,
+  "potentialRank": 182,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2056,
+   "gas": 7093
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10030",
+  "split": "train",
+  "improvementPotentialPct": 70.9,
+  "potentialRank": 69,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1666,
+   "gas": 11879
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10031",
+  "split": "train",
+  "improvementPotentialPct": 78.5,
+  "potentialRank": 15,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1342,
+   "gas": 14928
+  },
+  "valueImpactPct": 2.1
+ },
+ {
+  "propertyId": "P10032",
+  "split": "train",
+  "improvementPotentialPct": 71.2,
+  "potentialRank": 66,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2843,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10033",
+  "split": "train",
+  "improvementPotentialPct": 76.2,
+  "potentialRank": 24,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2471,
+   "gas": 18078
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10034",
+  "split": "train",
+  "improvementPotentialPct": 61.8,
+  "potentialRank": 186,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3324,
+   "gas": 14641
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10035",
+  "split": "test",
+  "improvementPotentialPct": 56.5,
+  "potentialRank": 58,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2036,
+   "gas": 6522
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10036",
+  "split": "train",
+  "improvementPotentialPct": 42.6,
+  "potentialRank": 309,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1860,
+   "gas": 0
+  },
+  "valueImpactPct": 2.1
+ },
+ {
+  "propertyId": "P10037",
+  "split": "train",
+  "improvementPotentialPct": 68,
+  "potentialRank": 104,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2512,
+   "gas": 11615
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10038",
+  "split": "validation",
+  "improvementPotentialPct": 57.6,
+  "potentialRank": 50,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 7506,
+   "gas": 0
+  },
+  "valueImpactPct": 5
+ },
+ {
+  "propertyId": "P10039",
+  "split": "test",
+  "improvementPotentialPct": 73.3,
+  "potentialRank": 8,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2956,
+   "gas": 21409
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10040",
+  "split": "train",
+  "improvementPotentialPct": 57.6,
+  "potentialRank": 238,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -5643,
+   "gas": 21483
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10041",
+  "split": "train",
+  "improvementPotentialPct": 56.6,
+  "potentialRank": 246,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4379,
+   "gas": 18000
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10042",
+  "split": "train",
+  "improvementPotentialPct": 64.1,
+  "potentialRank": 151,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -6918,
+   "gas": 29033
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10043",
+  "split": "test",
+  "improvementPotentialPct": 71.8,
+  "potentialRank": 10,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3968,
+   "gas": 23247
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10044",
+  "split": "test",
+  "improvementPotentialPct": 58.7,
+  "potentialRank": 51,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2850,
+   "gas": 9707
+  },
+  "valueImpactPct": -1
+ },
+ {
+  "propertyId": "P10045",
+  "split": "train",
+  "improvementPotentialPct": 71.7,
+  "potentialRank": 61,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2711,
+   "gas": 18279
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10046",
+  "split": "train",
+  "improvementPotentialPct": 68.7,
+  "potentialRank": 95,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3836,
+   "gas": 23368
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10047",
+  "split": "train",
+  "improvementPotentialPct": 61.9,
+  "potentialRank": 183,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2383,
+   "gas": 9691
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10048",
+  "split": "train",
+  "improvementPotentialPct": 75,
+  "potentialRank": 33,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2603,
+   "gas": 20742
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10049",
+  "split": "test",
+  "improvementPotentialPct": 80.7,
+  "potentialRank": 1,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4813,
+   "gas": 44383
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10050",
+  "split": "validation",
+  "improvementPotentialPct": 45.2,
+  "potentialRank": 66,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1746,
+   "gas": 5640
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10051",
+  "split": "train",
+  "improvementPotentialPct": 66.5,
+  "potentialRank": 120,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2753,
+   "gas": 15322
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10052",
+  "split": "test",
+  "improvementPotentialPct": 65.2,
+  "potentialRank": 28,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2958,
+   "gas": 12692
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10053",
+  "split": "test",
+  "improvementPotentialPct": 47.2,
+  "potentialRank": 70,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2165,
+   "gas": 6209
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10054",
+  "split": "test",
+  "improvementPotentialPct": 60.9,
+  "potentialRank": 42,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4545,
+   "gas": 17967
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10055",
+  "split": "train",
+  "improvementPotentialPct": 63.9,
+  "potentialRank": 155,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6806,
+   "gas": 0
+  },
+  "valueImpactPct": 5.4
+ },
+ {
+  "propertyId": "P10056",
+  "split": "train",
+  "improvementPotentialPct": 75.4,
+  "potentialRank": 29,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4147,
+   "gas": 30347
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10057",
+  "split": "test",
+  "improvementPotentialPct": 17.1,
+  "potentialRank": 84,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1872,
+   "gas": 0
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10058",
+  "split": "test",
+  "improvementPotentialPct": 70.1,
+  "potentialRank": 14,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1732,
+   "gas": 11698
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10059",
+  "split": "test",
+  "improvementPotentialPct": 54.8,
+  "potentialRank": 64,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2028,
+   "gas": 9278
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10060",
+  "split": "validation",
+  "improvementPotentialPct": 67.9,
+  "potentialRank": 21,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3138,
+   "gas": 14031
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10061",
+  "split": "train",
+  "improvementPotentialPct": 84.9,
+  "potentialRank": 4,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1767,
+   "gas": 26738
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10062",
+  "split": "train",
+  "improvementPotentialPct": 77.3,
+  "potentialRank": 19,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2302,
+   "gas": 18611
+  },
+  "valueImpactPct": 2.4
+ },
+ {
+  "propertyId": "P10063",
+  "split": "train",
+  "improvementPotentialPct": 75.7,
+  "potentialRank": 27,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1530,
+   "gas": 13820
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10064",
+  "split": "train",
+  "improvementPotentialPct": 72.3,
+  "potentialRank": 55,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1665,
+   "gas": 13020
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10065",
+  "split": "train",
+  "improvementPotentialPct": 58.6,
+  "potentialRank": 226,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1967,
+   "gas": 7533
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10066",
+  "split": "validation",
+  "improvementPotentialPct": 68.3,
+  "potentialRank": 20,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1979,
+   "gas": 12555
+  },
+  "valueImpactPct": 3.5
+ },
+ {
+  "propertyId": "P10067",
+  "split": "train",
+  "improvementPotentialPct": 74.5,
+  "potentialRank": 39,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2395,
+   "gas": 20435
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10068",
+  "split": "train",
+  "improvementPotentialPct": 77.7,
+  "potentialRank": 17,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2631,
+   "gas": 20156
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10069",
+  "split": "train",
+  "improvementPotentialPct": 68.8,
+  "potentialRank": 94,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3903,
+   "gas": 18227
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10070",
+  "split": "train",
+  "improvementPotentialPct": 72.9,
+  "potentialRank": 49,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1733,
+   "gas": 12369
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10071",
+  "split": "train",
+  "improvementPotentialPct": 58.1,
+  "potentialRank": 235,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2821,
+   "gas": 11557
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10072",
+  "split": "train",
+  "improvementPotentialPct": 79.1,
+  "potentialRank": 14,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1594,
+   "gas": 15432
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10073",
+  "split": "train",
+  "improvementPotentialPct": 63.6,
+  "potentialRank": 160,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2699,
+   "gas": 12263
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10074",
+  "split": "validation",
+  "improvementPotentialPct": 63.3,
+  "potentialRank": 35,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2257,
+   "gas": 9838
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10075",
+  "split": "train",
+  "improvementPotentialPct": 71.7,
+  "potentialRank": 62,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2443,
+   "gas": 15336
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10076",
+  "split": "train",
+  "improvementPotentialPct": 36.6,
+  "potentialRank": 320,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4356,
+   "gas": 0
+  },
+  "valueImpactPct": 2.6
+ },
+ {
+  "propertyId": "P10077",
+  "split": "train",
+  "improvementPotentialPct": 54.3,
+  "potentialRank": 266,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1804,
+   "gas": 6947
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10078",
+  "split": "train",
+  "improvementPotentialPct": 61.9,
+  "potentialRank": 184,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1601,
+   "gas": 9116
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10079",
+  "split": "train",
+  "improvementPotentialPct": 73.3,
+  "potentialRank": 47,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1755,
+   "gas": 14676
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10080",
+  "split": "train",
+  "improvementPotentialPct": 72.7,
+  "potentialRank": 52,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2692,
+   "gas": 17857
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10081",
+  "split": "train",
+  "improvementPotentialPct": 67.2,
+  "potentialRank": 110,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3121,
+   "gas": 15329
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10082",
+  "split": "train",
+  "improvementPotentialPct": 56,
+  "potentialRank": 256,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4183,
+   "gas": 14002
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10083",
+  "split": "train",
+  "improvementPotentialPct": 69.3,
+  "potentialRank": 89,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2861,
+   "gas": 13036
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10084",
+  "split": "train",
+  "improvementPotentialPct": 61.7,
+  "potentialRank": 189,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2032,
+   "gas": 9861
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10085",
+  "split": "train",
+  "improvementPotentialPct": 64.3,
+  "potentialRank": 147,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3650,
+   "gas": 16462
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10086",
+  "split": "train",
+  "improvementPotentialPct": 66.7,
+  "potentialRank": 116,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2540,
+   "gas": 13614
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10087",
+  "split": "train",
+  "improvementPotentialPct": 68.6,
+  "potentialRank": 98,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4080,
+   "gas": 22420
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10088",
+  "split": "train",
+  "improvementPotentialPct": 64.1,
+  "potentialRank": 152,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2015,
+   "gas": 10169
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10089",
+  "split": "train",
+  "improvementPotentialPct": 0,
+  "potentialRank": 343,
+  "feasible": [
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 0,
+   "gas": 0
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10090",
+  "split": "test",
+  "improvementPotentialPct": 67.7,
+  "potentialRank": 21,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4534,
+   "gas": 20829
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10091",
+  "split": "test",
+  "improvementPotentialPct": 36.2,
+  "potentialRank": 79,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 5194,
+   "gas": 0
+  },
+  "valueImpactPct": 5
+ },
+ {
+  "propertyId": "P10092",
+  "split": "test",
+  "improvementPotentialPct": 63.8,
+  "potentialRank": 34,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -5007,
+   "gas": 19040
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10093",
+  "split": "train",
+  "improvementPotentialPct": 65.2,
+  "potentialRank": 131,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2842,
+   "gas": 12687
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10094",
+  "split": "test",
+  "improvementPotentialPct": 63.8,
+  "potentialRank": 35,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1529,
+   "gas": 7935
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10095",
+  "split": "test",
+  "improvementPotentialPct": 50.8,
+  "potentialRank": 67,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2149,
+   "gas": 6918
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10096",
+  "split": "test",
+  "improvementPotentialPct": 61.5,
+  "potentialRank": 39,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6832,
+   "gas": 0
+  },
+  "valueImpactPct": 4.1
+ },
+ {
+  "propertyId": "P10097",
+  "split": "train",
+  "improvementPotentialPct": 47.7,
+  "potentialRank": 296,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2061,
+   "gas": 5944
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10098",
+  "split": "train",
+  "improvementPotentialPct": 64.4,
+  "potentialRank": 145,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2254,
+   "gas": 9961
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10099",
+  "split": "train",
+  "improvementPotentialPct": 50,
+  "potentialRank": 287,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2995,
+   "gas": 8768
+  },
+  "valueImpactPct": -1.2
+ },
+ {
+  "propertyId": "P10100",
+  "split": "validation",
+  "improvementPotentialPct": 52.3,
+  "potentialRank": 59,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1319,
+   "gas": 6066
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10101",
+  "split": "validation",
+  "improvementPotentialPct": 71.9,
+  "potentialRank": 12,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1926,
+   "gas": 16987
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10102",
+  "split": "validation",
+  "improvementPotentialPct": 63.9,
+  "potentialRank": 34,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2195,
+   "gas": 16427
+  },
+  "valueImpactPct": 3.5
+ },
+ {
+  "propertyId": "P10103",
+  "split": "validation",
+  "improvementPotentialPct": 61,
+  "potentialRank": 43,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -7322,
+   "gas": 25843
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10104",
+  "split": "train",
+  "improvementPotentialPct": 55.1,
+  "potentialRank": 259,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2600,
+   "gas": 8829
+  },
+  "valueImpactPct": -0.9
+ },
+ {
+  "propertyId": "P10105",
+  "split": "train",
+  "improvementPotentialPct": 4.5,
+  "potentialRank": 342,
+  "feasible": [
+   "loft",
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 209,
+   "gas": 0
+  },
+  "valueImpactPct": 2.5
+ },
+ {
+  "propertyId": "P10106",
+  "split": "train",
+  "improvementPotentialPct": 56.1,
+  "potentialRank": 254,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -6418,
+   "gas": 23967
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10107",
+  "split": "train",
+  "improvementPotentialPct": 52.4,
+  "potentialRank": 277,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1707,
+   "gas": 8343
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10108",
+  "split": "train",
+  "improvementPotentialPct": 42.8,
+  "potentialRank": 307,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1651,
+   "gas": 4502
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10109",
+  "split": "test",
+  "improvementPotentialPct": 72.7,
+  "potentialRank": 9,
+  "feasible": [
+   "loft",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2257,
+   "gas": 14636
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10110",
+  "split": "test",
+  "improvementPotentialPct": 58.6,
+  "potentialRank": 52,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2058,
+   "gas": 9657
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10111",
+  "split": "test",
+  "improvementPotentialPct": 31.6,
+  "potentialRank": 80,
+  "feasible": [
+   "solid-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 5062,
+   "gas": 0
+  },
+  "valueImpactPct": 2.6
+ },
+ {
+  "propertyId": "P10112",
+  "split": "train",
+  "improvementPotentialPct": 67.2,
+  "potentialRank": 111,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2184,
+   "gas": 11616
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10113",
+  "split": "validation",
+  "improvementPotentialPct": 50.1,
+  "potentialRank": 64,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1952,
+   "gas": 5960
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10114",
+  "split": "train",
+  "improvementPotentialPct": 58.4,
+  "potentialRank": 228,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1904,
+   "gas": 9669
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10115",
+  "split": "train",
+  "improvementPotentialPct": 64.8,
+  "potentialRank": 138,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2215,
+   "gas": 11341
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10116",
+  "split": "train",
+  "improvementPotentialPct": 64.9,
+  "potentialRank": 136,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2760,
+   "gas": 11831
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10117",
+  "split": "train",
+  "improvementPotentialPct": 56.6,
+  "potentialRank": 247,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2675,
+   "gas": 11949
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10118",
+  "split": "train",
+  "improvementPotentialPct": 63.4,
+  "potentialRank": 163,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2161,
+   "gas": 9463
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10119",
+  "split": "train",
+  "improvementPotentialPct": 59.3,
+  "potentialRank": 219,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2152,
+   "gas": 10287
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10120",
+  "split": "test",
+  "improvementPotentialPct": 57.9,
+  "potentialRank": 56,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2286,
+   "gas": 10208
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10121",
+  "split": "test",
+  "improvementPotentialPct": 71.7,
+  "potentialRank": 11,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2573,
+   "gas": 21189
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10122",
+  "split": "test",
+  "improvementPotentialPct": 59.2,
+  "potentialRank": 49,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3174,
+   "gas": 12337
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10123",
+  "split": "test",
+  "improvementPotentialPct": 25,
+  "potentialRank": 82,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1371,
+   "gas": 0
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10124",
+  "split": "train",
+  "improvementPotentialPct": 71.1,
+  "potentialRank": 68,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1992,
+   "gas": 15130
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10125",
+  "split": "train",
+  "improvementPotentialPct": 54.3,
+  "potentialRank": 267,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3019,
+   "gas": 12326
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10126",
+  "split": "train",
+  "improvementPotentialPct": 61.8,
+  "potentialRank": 187,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2184,
+   "gas": 11898
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10127",
+  "split": "train",
+  "improvementPotentialPct": 83,
+  "potentialRank": 5,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1829,
+   "gas": 20360
+  },
+  "valueImpactPct": 2.6
+ },
+ {
+  "propertyId": "P10128",
+  "split": "train",
+  "improvementPotentialPct": 79.8,
+  "potentialRank": 11,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1749,
+   "gas": 14935
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10129",
+  "split": "test",
+  "improvementPotentialPct": 70.7,
+  "potentialRank": 13,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 10026,
+   "gas": 0
+  },
+  "valueImpactPct": 5.4
+ },
+ {
+  "propertyId": "P10130",
+  "split": "test",
+  "improvementPotentialPct": 29.7,
+  "potentialRank": 81,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4713,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10131",
+  "split": "test",
+  "improvementPotentialPct": 57.9,
+  "potentialRank": 57,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1997,
+   "gas": 11710
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10132",
+  "split": "train",
+  "improvementPotentialPct": 70.9,
+  "potentialRank": 70,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2184,
+   "gas": 15859
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10133",
+  "split": "train",
+  "improvementPotentialPct": 58.4,
+  "potentialRank": 229,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3130,
+   "gas": 14220
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10134",
+  "split": "train",
+  "improvementPotentialPct": 95.2,
+  "potentialRank": 1,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4604,
+   "gas": 0
+  },
+  "valueImpactPct": 3.7
+ },
+ {
+  "propertyId": "P10135",
+  "split": "train",
+  "improvementPotentialPct": 74.3,
+  "potentialRank": 41,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1978,
+   "gas": 15186
+  },
+  "valueImpactPct": 4.6
+ },
+ {
+  "propertyId": "P10136",
+  "split": "train",
+  "improvementPotentialPct": 10.6,
+  "potentialRank": 338,
+  "feasible": [
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1248,
+   "gas": 0
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10137",
+  "split": "train",
+  "improvementPotentialPct": 77.4,
+  "potentialRank": 18,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1861,
+   "gas": 15802
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10138",
+  "split": "train",
+  "improvementPotentialPct": 60.5,
+  "potentialRank": 204,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1966,
+   "gas": 7930
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10139",
+  "split": "train",
+  "improvementPotentialPct": 67.7,
+  "potentialRank": 106,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2498,
+   "gas": 14296
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10140",
+  "split": "test",
+  "improvementPotentialPct": 59.8,
+  "potentialRank": 44,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3785,
+   "gas": 16721
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10141",
+  "split": "train",
+  "improvementPotentialPct": 16.7,
+  "potentialRank": 335,
+  "feasible": [
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1366,
+   "gas": 0
+  },
+  "valueImpactPct": 2.5
+ },
+ {
+  "propertyId": "P10142",
+  "split": "train",
+  "improvementPotentialPct": 80.8,
+  "potentialRank": 8,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2957,
+   "gas": 30036
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10143",
+  "split": "validation",
+  "improvementPotentialPct": 66.5,
+  "potentialRank": 29,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1434,
+   "gas": 10830
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10144",
+  "split": "validation",
+  "improvementPotentialPct": 53.2,
+  "potentialRank": 58,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4970,
+   "gas": 0
+  },
+  "valueImpactPct": 5.5
+ },
+ {
+  "propertyId": "P10145",
+  "split": "validation",
+  "improvementPotentialPct": 67.5,
+  "potentialRank": 24,
+  "feasible": [
+   "solid-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2191,
+   "gas": 11581
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10146",
+  "split": "validation",
+  "improvementPotentialPct": 51.8,
+  "potentialRank": 62,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 22393,
+   "gas": 0
+  },
+  "valueImpactPct": 11.8
+ },
+ {
+  "propertyId": "P10147",
+  "split": "train",
+  "improvementPotentialPct": 6.2,
+  "potentialRank": 340,
+  "feasible": [
+   "glazing",
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 201,
+   "gas": 0
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10148",
+  "split": "train",
+  "improvementPotentialPct": 78.2,
+  "potentialRank": 16,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2841,
+   "gas": 22473
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10149",
+  "split": "train",
+  "improvementPotentialPct": 49.1,
+  "potentialRank": 290,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -857,
+   "gas": 5520
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10150",
+  "split": "train",
+  "improvementPotentialPct": 43,
+  "potentialRank": 305,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3879,
+   "gas": 0
+  },
+  "valueImpactPct": 2
+ },
+ {
+  "propertyId": "P10151",
+  "split": "train",
+  "improvementPotentialPct": 67.9,
+  "potentialRank": 105,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3465,
+   "gas": 15918
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10152",
+  "split": "train",
+  "improvementPotentialPct": 40.4,
+  "potentialRank": 313,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3347,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10153",
+  "split": "train",
+  "improvementPotentialPct": 68.5,
+  "potentialRank": 100,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2344,
+   "gas": 12762
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10154",
+  "split": "train",
+  "improvementPotentialPct": 66.8,
+  "potentialRank": 114,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3013,
+   "gas": 14689
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10155",
+  "split": "train",
+  "improvementPotentialPct": 63.4,
+  "potentialRank": 164,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4293,
+   "gas": 16223
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10156",
+  "split": "train",
+  "improvementPotentialPct": 58.8,
+  "potentialRank": 224,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2127,
+   "gas": 8364
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10157",
+  "split": "train",
+  "improvementPotentialPct": 89,
+  "potentialRank": 2,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3885,
+   "gas": 0
+  },
+  "valueImpactPct": 5.5
+ },
+ {
+  "propertyId": "P10158",
+  "split": "train",
+  "improvementPotentialPct": 51.6,
+  "potentialRank": 282,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 14118,
+   "gas": 0
+  },
+  "valueImpactPct": 8.9
+ },
+ {
+  "propertyId": "P10159",
+  "split": "train",
+  "improvementPotentialPct": 54.4,
+  "potentialRank": 265,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2855,
+   "gas": 11794
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10160",
+  "split": "validation",
+  "improvementPotentialPct": 62.6,
+  "potentialRank": 37,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1878,
+   "gas": 7785
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10161",
+  "split": "train",
+  "improvementPotentialPct": 72.4,
+  "potentialRank": 54,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1254,
+   "gas": 10118
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10162",
+  "split": "test",
+  "improvementPotentialPct": 64,
+  "potentialRank": 33,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1762,
+   "gas": 8901
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10163",
+  "split": "test",
+  "improvementPotentialPct": 61.1,
+  "potentialRank": 41,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1663,
+   "gas": 10151
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10164",
+  "split": "test",
+  "improvementPotentialPct": 64.6,
+  "potentialRank": 31,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4220,
+   "gas": 17286
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10165",
+  "split": "validation",
+  "improvementPotentialPct": 52.1,
+  "potentialRank": 61,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3647,
+   "gas": 15015
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10166",
+  "split": "train",
+  "improvementPotentialPct": 66.2,
+  "potentialRank": 124,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2224,
+   "gas": 9287
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10167",
+  "split": "train",
+  "improvementPotentialPct": 61.9,
+  "potentialRank": 185,
+  "feasible": [
+   "loft",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 12935,
+   "gas": 0
+  },
+  "valueImpactPct": 6.7
+ },
+ {
+  "propertyId": "P10168",
+  "split": "train",
+  "improvementPotentialPct": 67.7,
+  "potentialRank": 107,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2332,
+   "gas": 11330
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10169",
+  "split": "train",
+  "improvementPotentialPct": 63.4,
+  "potentialRank": 165,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2616,
+   "gas": 13114
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10170",
+  "split": "train",
+  "improvementPotentialPct": 74.7,
+  "potentialRank": 36,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3274,
+   "gas": 17619
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10171",
+  "split": "train",
+  "improvementPotentialPct": 72.9,
+  "potentialRank": 50,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2818,
+   "gas": 18400
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10172",
+  "split": "train",
+  "improvementPotentialPct": 58.6,
+  "potentialRank": 227,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1441,
+   "gas": 7901
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10173",
+  "split": "train",
+  "improvementPotentialPct": 42.3,
+  "potentialRank": 310,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6983,
+   "gas": 0
+  },
+  "valueImpactPct": 5.5
+ },
+ {
+  "propertyId": "P10174",
+  "split": "train",
+  "improvementPotentialPct": 72.9,
+  "potentialRank": 51,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1946,
+   "gas": 14175
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10175",
+  "split": "train",
+  "improvementPotentialPct": 68.7,
+  "potentialRank": 96,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2492,
+   "gas": 13759
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10176",
+  "split": "validation",
+  "improvementPotentialPct": 70.8,
+  "potentialRank": 16,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2098,
+   "gas": 18791
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10177",
+  "split": "train",
+  "improvementPotentialPct": 43,
+  "potentialRank": 306,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2082,
+   "gas": 0
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10178",
+  "split": "train",
+  "improvementPotentialPct": 59.7,
+  "potentialRank": 215,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1991,
+   "gas": 9017
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10179",
+  "split": "train",
+  "improvementPotentialPct": 56.2,
+  "potentialRank": 251,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1506,
+   "gas": 7010
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10180",
+  "split": "train",
+  "improvementPotentialPct": 76.3,
+  "potentialRank": 23,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1582,
+   "gas": 14628
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10181",
+  "split": "train",
+  "improvementPotentialPct": 61.2,
+  "potentialRank": 197,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4142,
+   "gas": 14424
+  },
+  "valueImpactPct": -2.4
+ },
+ {
+  "propertyId": "P10182",
+  "split": "train",
+  "improvementPotentialPct": 69.7,
+  "potentialRank": 86,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1879,
+   "gas": 11572
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10183",
+  "split": "train",
+  "improvementPotentialPct": 70.2,
+  "potentialRank": 84,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3445,
+   "gas": 19287
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10184",
+  "split": "train",
+  "improvementPotentialPct": 54.8,
+  "potentialRank": 263,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3531,
+   "gas": 10998
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10185",
+  "split": "test",
+  "improvementPotentialPct": 61.7,
+  "potentialRank": 37,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2277,
+   "gas": 12164
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10186",
+  "split": "train",
+  "improvementPotentialPct": 65.5,
+  "potentialRank": 129,
+  "feasible": [
+   "loft",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -6057,
+   "gas": 25818
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10187",
+  "split": "train",
+  "improvementPotentialPct": 49,
+  "potentialRank": 291,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -963,
+   "gas": 4832
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10188",
+  "split": "train",
+  "improvementPotentialPct": 64.3,
+  "potentialRank": 148,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3644,
+   "gas": 15535
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10189",
+  "split": "train",
+  "improvementPotentialPct": 60.2,
+  "potentialRank": 209,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1464,
+   "gas": 6438
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10190",
+  "split": "train",
+  "improvementPotentialPct": 57.1,
+  "potentialRank": 244,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2104,
+   "gas": 8382
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10191",
+  "split": "train",
+  "improvementPotentialPct": 68.2,
+  "potentialRank": 102,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 8919,
+   "gas": 0
+  },
+  "valueImpactPct": 5
+ },
+ {
+  "propertyId": "P10192",
+  "split": "train",
+  "improvementPotentialPct": 55,
+  "potentialRank": 261,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1706,
+   "gas": 5864
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10193",
+  "split": "train",
+  "improvementPotentialPct": 66.2,
+  "potentialRank": 125,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1214,
+   "gas": 7261
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10194",
+  "split": "train",
+  "improvementPotentialPct": 64.6,
+  "potentialRank": 141,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1960,
+   "gas": 14707
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10195",
+  "split": "train",
+  "improvementPotentialPct": 66.1,
+  "potentialRank": 126,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3232,
+   "gas": 14349
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10196",
+  "split": "test",
+  "improvementPotentialPct": 65.7,
+  "potentialRank": 25,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2707,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10197",
+  "split": "train",
+  "improvementPotentialPct": 61.6,
+  "potentialRank": 191,
+  "feasible": [
+   "solid-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1738,
+   "gas": 8514
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10198",
+  "split": "train",
+  "improvementPotentialPct": 58,
+  "potentialRank": 237,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1359,
+   "gas": 7276
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10199",
+  "split": "train",
+  "improvementPotentialPct": 72.1,
+  "potentialRank": 57,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1707,
+   "gas": 15612
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10200",
+  "split": "train",
+  "improvementPotentialPct": 53.4,
+  "potentialRank": 273,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1313,
+   "gas": 4378
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10201",
+  "split": "test",
+  "improvementPotentialPct": 64.8,
+  "potentialRank": 30,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3829,
+   "gas": 0
+  },
+  "valueImpactPct": 2
+ },
+ {
+  "propertyId": "P10202",
+  "split": "validation",
+  "improvementPotentialPct": 21.2,
+  "potentialRank": 71,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2433,
+   "gas": 0
+  },
+  "valueImpactPct": 4.6
+ },
+ {
+  "propertyId": "P10203",
+  "split": "validation",
+  "improvementPotentialPct": 78.1,
+  "potentialRank": 5,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2467,
+   "gas": 30939
+  },
+  "valueImpactPct": 2
+ },
+ {
+  "propertyId": "P10204",
+  "split": "train",
+  "improvementPotentialPct": 63.7,
+  "potentialRank": 157,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2671,
+   "gas": 11447
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10205",
+  "split": "train",
+  "improvementPotentialPct": 59,
+  "potentialRank": 221,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1911,
+   "gas": 7739
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10206",
+  "split": "train",
+  "improvementPotentialPct": 53.6,
+  "potentialRank": 272,
+  "feasible": [
+   "loft",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 7865,
+   "gas": 0
+  },
+  "valueImpactPct": 8.8
+ },
+ {
+  "propertyId": "P10207",
+  "split": "train",
+  "improvementPotentialPct": 14.9,
+  "potentialRank": 336,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1504,
+   "gas": 0
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10208",
+  "split": "train",
+  "improvementPotentialPct": 62.7,
+  "potentialRank": 172,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2062,
+   "gas": 10072
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10209",
+  "split": "train",
+  "improvementPotentialPct": 79.6,
+  "potentialRank": 12,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 5154,
+   "gas": 0
+  },
+  "valueImpactPct": 3.7
+ },
+ {
+  "propertyId": "P10210",
+  "split": "train",
+  "improvementPotentialPct": 79.6,
+  "potentialRank": 13,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1589,
+   "gas": 15605
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10211",
+  "split": "train",
+  "improvementPotentialPct": 64.6,
+  "potentialRank": 142,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3030,
+   "gas": 14487
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10212",
+  "split": "train",
+  "improvementPotentialPct": 57.3,
+  "potentialRank": 240,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3067,
+   "gas": 15614
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10213",
+  "split": "train",
+  "improvementPotentialPct": 55.5,
+  "potentialRank": 257,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1452,
+   "gas": 6550
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10214",
+  "split": "train",
+  "improvementPotentialPct": 70.1,
+  "potentialRank": 85,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2490,
+   "gas": 11883
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10215",
+  "split": "train",
+  "improvementPotentialPct": 71.2,
+  "potentialRank": 67,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2717,
+   "gas": 20304
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10216",
+  "split": "train",
+  "improvementPotentialPct": 57.2,
+  "potentialRank": 241,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1883,
+   "gas": 8670
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10217",
+  "split": "train",
+  "improvementPotentialPct": 70.8,
+  "potentialRank": 73,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1801,
+   "gas": 11291
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10218",
+  "split": "train",
+  "improvementPotentialPct": 61.7,
+  "potentialRank": 190,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2385,
+   "gas": 12507
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10219",
+  "split": "train",
+  "improvementPotentialPct": 57.5,
+  "potentialRank": 239,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1640,
+   "gas": 6513
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10220",
+  "split": "validation",
+  "improvementPotentialPct": 64.5,
+  "potentialRank": 31,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1781,
+   "gas": 11843
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10221",
+  "split": "train",
+  "improvementPotentialPct": 58.9,
+  "potentialRank": 223,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1724,
+   "gas": 8218
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10222",
+  "split": "train",
+  "improvementPotentialPct": 62.1,
+  "potentialRank": 179,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3292,
+   "gas": 14969
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10223",
+  "split": "test",
+  "improvementPotentialPct": 42.7,
+  "potentialRank": 74,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 7805,
+   "gas": 0
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10224",
+  "split": "train",
+  "improvementPotentialPct": 80.9,
+  "potentialRank": 7,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3570,
+   "gas": 41712
+  },
+  "valueImpactPct": 2.6
+ },
+ {
+  "propertyId": "P10225",
+  "split": "train",
+  "improvementPotentialPct": 38.8,
+  "potentialRank": 319,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1438,
+   "gas": 3928
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10226",
+  "split": "train",
+  "improvementPotentialPct": 70.8,
+  "potentialRank": 74,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2092,
+   "gas": 10913
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10227",
+  "split": "test",
+  "improvementPotentialPct": 17.3,
+  "potentialRank": 83,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1828,
+   "gas": 0
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10228",
+  "split": "train",
+  "improvementPotentialPct": 55.1,
+  "potentialRank": 260,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2022,
+   "gas": 6323
+  },
+  "valueImpactPct": -1.2
+ },
+ {
+  "propertyId": "P10229",
+  "split": "test",
+  "improvementPotentialPct": 67.5,
+  "potentialRank": 23,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2145,
+   "gas": 11334
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10230",
+  "split": "validation",
+  "improvementPotentialPct": 69.6,
+  "potentialRank": 17,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2304,
+   "gas": 15270
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10231",
+  "split": "train",
+  "improvementPotentialPct": 44.3,
+  "potentialRank": 301,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1971,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10232",
+  "split": "train",
+  "improvementPotentialPct": 74.4,
+  "potentialRank": 40,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2900,
+   "gas": 20045
+  },
+  "valueImpactPct": 2.4
+ },
+ {
+  "propertyId": "P10233",
+  "split": "train",
+  "improvementPotentialPct": 61.5,
+  "potentialRank": 192,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2486,
+   "gas": 11430
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10234",
+  "split": "train",
+  "improvementPotentialPct": 61.1,
+  "potentialRank": 199,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2456,
+   "gas": 11357
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10235",
+  "split": "train",
+  "improvementPotentialPct": 64.2,
+  "potentialRank": 149,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3153,
+   "gas": 13181
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10236",
+  "split": "train",
+  "improvementPotentialPct": 61.4,
+  "potentialRank": 194,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2411,
+   "gas": 11060
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10237",
+  "split": "test",
+  "improvementPotentialPct": 68.7,
+  "potentialRank": 17,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2931,
+   "gas": 16022
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10238",
+  "split": "train",
+  "improvementPotentialPct": 68.7,
+  "potentialRank": 97,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2580,
+   "gas": 13329
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10239",
+  "split": "train",
+  "improvementPotentialPct": 61.5,
+  "potentialRank": 193,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4266,
+   "gas": 18283
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10240",
+  "split": "train",
+  "improvementPotentialPct": 56.2,
+  "potentialRank": 252,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -789,
+   "gas": 4922
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10241",
+  "split": "train",
+  "improvementPotentialPct": 60.3,
+  "potentialRank": 208,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2694,
+   "gas": 8636
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10242",
+  "split": "validation",
+  "improvementPotentialPct": 65.9,
+  "potentialRank": 30,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1252,
+   "gas": 8505
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10243",
+  "split": "train",
+  "improvementPotentialPct": 58.4,
+  "potentialRank": 230,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3523,
+   "gas": 14182
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10244",
+  "split": "train",
+  "improvementPotentialPct": 5.6,
+  "potentialRank": 341,
+  "feasible": [
+   "glazing",
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 200,
+   "gas": 0
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10245",
+  "split": "train",
+  "improvementPotentialPct": 63.7,
+  "potentialRank": 158,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1781,
+   "gas": 15870
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10246",
+  "split": "train",
+  "improvementPotentialPct": 72.3,
+  "potentialRank": 56,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2546,
+   "gas": 17187
+  },
+  "valueImpactPct": 4.6
+ },
+ {
+  "propertyId": "P10247",
+  "split": "train",
+  "improvementPotentialPct": 60.7,
+  "potentialRank": 200,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2558,
+   "gas": 11946
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10248",
+  "split": "train",
+  "improvementPotentialPct": 46.5,
+  "potentialRank": 298,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 9766,
+   "gas": 0
+  },
+  "valueImpactPct": 2
+ },
+ {
+  "propertyId": "P10249",
+  "split": "train",
+  "improvementPotentialPct": 62,
+  "potentialRank": 181,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4218,
+   "gas": 15721
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10250",
+  "split": "train",
+  "improvementPotentialPct": 57.2,
+  "potentialRank": 242,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2189,
+   "gas": 9752
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10251",
+  "split": "train",
+  "improvementPotentialPct": 23.6,
+  "potentialRank": 329,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1162,
+   "gas": 0
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10252",
+  "split": "train",
+  "improvementPotentialPct": 70.4,
+  "potentialRank": 81,
+  "feasible": [
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -7317,
+   "gas": 36523
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10253",
+  "split": "train",
+  "improvementPotentialPct": 58.1,
+  "potentialRank": 236,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2272,
+   "gas": 12398
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10254",
+  "split": "validation",
+  "improvementPotentialPct": 67.3,
+  "potentialRank": 26,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4708,
+   "gas": 24062
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10255",
+  "split": "train",
+  "improvementPotentialPct": 55.4,
+  "potentialRank": 258,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3794,
+   "gas": 14837
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10256",
+  "split": "train",
+  "improvementPotentialPct": 56.4,
+  "potentialRank": 250,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1125,
+   "gas": 6839
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10257",
+  "split": "validation",
+  "improvementPotentialPct": 61.7,
+  "potentialRank": 42,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3565,
+   "gas": 17613
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10258",
+  "split": "train",
+  "improvementPotentialPct": 62.3,
+  "potentialRank": 178,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2231,
+   "gas": 8859
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10259",
+  "split": "train",
+  "improvementPotentialPct": 59.7,
+  "potentialRank": 216,
+  "feasible": [
+   "loft",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3753,
+   "gas": 16365
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10260",
+  "split": "train",
+  "improvementPotentialPct": 53.9,
+  "potentialRank": 269,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2273,
+   "gas": 10103
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10261",
+  "split": "train",
+  "improvementPotentialPct": 49.4,
+  "potentialRank": 288,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -893,
+   "gas": 5285
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10262",
+  "split": "train",
+  "improvementPotentialPct": 71.5,
+  "potentialRank": 63,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1354,
+   "gas": 8244
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10263",
+  "split": "train",
+  "improvementPotentialPct": 69.3,
+  "potentialRank": 90,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2288,
+   "gas": 11660
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10264",
+  "split": "train",
+  "improvementPotentialPct": 65.2,
+  "potentialRank": 132,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1241,
+   "gas": 7230
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10265",
+  "split": "validation",
+  "improvementPotentialPct": 73.8,
+  "potentialRank": 11,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 12764,
+   "gas": 0
+  },
+  "valueImpactPct": 5
+ },
+ {
+  "propertyId": "P10266",
+  "split": "train",
+  "improvementPotentialPct": 62.6,
+  "potentialRank": 173,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3271,
+   "gas": 14044
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10267",
+  "split": "train",
+  "improvementPotentialPct": 36.5,
+  "potentialRank": 321,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1887,
+   "gas": 0
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10268",
+  "split": "train",
+  "improvementPotentialPct": 53.8,
+  "potentialRank": 271,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 8924,
+   "gas": 0
+  },
+  "valueImpactPct": 5.5
+ },
+ {
+  "propertyId": "P10269",
+  "split": "train",
+  "improvementPotentialPct": 69.2,
+  "potentialRank": 92,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4445,
+   "gas": 19700
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10270",
+  "split": "train",
+  "improvementPotentialPct": 54.2,
+  "potentialRank": 268,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2575,
+   "gas": 11150
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10271",
+  "split": "train",
+  "improvementPotentialPct": 60.4,
+  "potentialRank": 207,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2295,
+   "gas": 9605
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10272",
+  "split": "test",
+  "improvementPotentialPct": 58.6,
+  "potentialRank": 53,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1879,
+   "gas": 8419
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10273",
+  "split": "train",
+  "improvementPotentialPct": 21.1,
+  "potentialRank": 331,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1264,
+   "gas": 0
+  },
+  "valueImpactPct": 2.5
+ },
+ {
+  "propertyId": "P10274",
+  "split": "train",
+  "improvementPotentialPct": 66.7,
+  "potentialRank": 117,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2423,
+   "gas": 11125
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10275",
+  "split": "train",
+  "improvementPotentialPct": 61.2,
+  "potentialRank": 198,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -987,
+   "gas": 6852
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10276",
+  "split": "train",
+  "improvementPotentialPct": 50.3,
+  "potentialRank": 286,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1572,
+   "gas": 7006
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10277",
+  "split": "train",
+  "improvementPotentialPct": 57.1,
+  "potentialRank": 245,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 7614,
+   "gas": 0
+  },
+  "valueImpactPct": 4
+ },
+ {
+  "propertyId": "P10278",
+  "split": "validation",
+  "improvementPotentialPct": 6.9,
+  "potentialRank": 72,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 434,
+   "gas": 0
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10279",
+  "split": "validation",
+  "improvementPotentialPct": 78.3,
+  "potentialRank": 4,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2158,
+   "gas": 17826
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10280",
+  "split": "test",
+  "improvementPotentialPct": 42.2,
+  "potentialRank": 75,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1717,
+   "gas": 4964
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10281",
+  "split": "test",
+  "improvementPotentialPct": 74.8,
+  "potentialRank": 7,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1843,
+   "gas": 17479
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10282",
+  "split": "test",
+  "improvementPotentialPct": 54.9,
+  "potentialRank": 62,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1530,
+   "gas": 6511
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10283",
+  "split": "test",
+  "improvementPotentialPct": 45.2,
+  "potentialRank": 72,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1610,
+   "gas": 4406
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10284",
+  "split": "validation",
+  "improvementPotentialPct": 74.6,
+  "potentialRank": 8,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2061,
+   "gas": 17500
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10285",
+  "split": "test",
+  "improvementPotentialPct": 61.6,
+  "potentialRank": 38,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2116,
+   "gas": 8953
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10286",
+  "split": "train",
+  "improvementPotentialPct": 45.9,
+  "potentialRank": 300,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1648,
+   "gas": 4917
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10287",
+  "split": "validation",
+  "improvementPotentialPct": 54.7,
+  "potentialRank": 57,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2483,
+   "gas": 11279
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10288",
+  "split": "train",
+  "improvementPotentialPct": 34,
+  "potentialRank": 324,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2326,
+   "gas": 0
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10289",
+  "split": "validation",
+  "improvementPotentialPct": 55.2,
+  "potentialRank": 56,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1538,
+   "gas": 6543
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10290",
+  "split": "validation",
+  "improvementPotentialPct": 80.9,
+  "potentialRank": 3,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3191,
+   "gas": 27261
+  },
+  "valueImpactPct": 3.5
+ },
+ {
+  "propertyId": "P10291",
+  "split": "validation",
+  "improvementPotentialPct": 74.5,
+  "potentialRank": 9,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1855,
+   "gas": 16418
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10292",
+  "split": "validation",
+  "improvementPotentialPct": 64,
+  "potentialRank": 33,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1688,
+   "gas": 9024
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10293",
+  "split": "train",
+  "improvementPotentialPct": 56.5,
+  "potentialRank": 249,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2216,
+   "gas": 9748
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10294",
+  "split": "train",
+  "improvementPotentialPct": 51.4,
+  "potentialRank": 284,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4979,
+   "gas": 0
+  },
+  "valueImpactPct": 3.7
+ },
+ {
+  "propertyId": "P10295",
+  "split": "train",
+  "improvementPotentialPct": 56.2,
+  "potentialRank": 253,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2855,
+   "gas": 12460
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10296",
+  "split": "train",
+  "improvementPotentialPct": 62.1,
+  "potentialRank": 180,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3423,
+   "gas": 15702
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10297",
+  "split": "train",
+  "improvementPotentialPct": 60.5,
+  "potentialRank": 205,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1650,
+   "gas": 11873
+  },
+  "valueImpactPct": 2.1
+ },
+ {
+  "propertyId": "P10298",
+  "split": "train",
+  "improvementPotentialPct": 72.5,
+  "potentialRank": 53,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2187,
+   "gas": 11753
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10299",
+  "split": "train",
+  "improvementPotentialPct": 46.5,
+  "potentialRank": 299,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2897,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10300",
+  "split": "validation",
+  "improvementPotentialPct": 57.1,
+  "potentialRank": 53,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1702,
+   "gas": 8093
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10301",
+  "split": "validation",
+  "improvementPotentialPct": 67.8,
+  "potentialRank": 22,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2587,
+   "gas": 13252
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10302",
+  "split": "train",
+  "improvementPotentialPct": 66.6,
+  "potentialRank": 119,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1968,
+   "gas": 10791
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10303",
+  "split": "train",
+  "improvementPotentialPct": 54.5,
+  "potentialRank": 264,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1136,
+   "gas": 6442
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10304",
+  "split": "train",
+  "improvementPotentialPct": 59.8,
+  "potentialRank": 213,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2859,
+   "gas": 9422
+  },
+  "valueImpactPct": -3.1
+ },
+ {
+  "propertyId": "P10305",
+  "split": "train",
+  "improvementPotentialPct": 58.3,
+  "potentialRank": 233,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1580,
+   "gas": 6876
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10306",
+  "split": "test",
+  "improvementPotentialPct": 53.9,
+  "potentialRank": 65,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2032,
+   "gas": 6371
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10307",
+  "split": "validation",
+  "improvementPotentialPct": 67.5,
+  "potentialRank": 25,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4437,
+   "gas": 21646
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10308",
+  "split": "validation",
+  "improvementPotentialPct": 64.1,
+  "potentialRank": 32,
+  "feasible": [
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1995,
+   "gas": 9777
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10309",
+  "split": "train",
+  "improvementPotentialPct": 63.3,
+  "potentialRank": 167,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2230,
+   "gas": 10262
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10310",
+  "split": "train",
+  "improvementPotentialPct": 68.9,
+  "potentialRank": 93,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3552,
+   "gas": 23925
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10311",
+  "split": "train",
+  "improvementPotentialPct": 75.8,
+  "potentialRank": 26,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2564,
+   "gas": 19633
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10312",
+  "split": "train",
+  "improvementPotentialPct": 52.3,
+  "potentialRank": 278,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3635,
+   "gas": 0
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10313",
+  "split": "train",
+  "improvementPotentialPct": 59.4,
+  "potentialRank": 218,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4505,
+   "gas": 18368
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10314",
+  "split": "train",
+  "improvementPotentialPct": 74,
+  "potentialRank": 42,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1890,
+   "gas": 15288
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10315",
+  "split": "train",
+  "improvementPotentialPct": 46.8,
+  "potentialRank": 297,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1948,
+   "gas": 8199
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10316",
+  "split": "train",
+  "improvementPotentialPct": 51.9,
+  "potentialRank": 280,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4590,
+   "gas": 19775
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10317",
+  "split": "train",
+  "improvementPotentialPct": 10.3,
+  "potentialRank": 339,
+  "feasible": [
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1125,
+   "gas": 0
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10318",
+  "split": "train",
+  "improvementPotentialPct": 62.6,
+  "potentialRank": 174,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2890,
+   "gas": 11773
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10319",
+  "split": "train",
+  "improvementPotentialPct": 48.3,
+  "potentialRank": 293,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1650,
+   "gas": 6069
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10320",
+  "split": "train",
+  "improvementPotentialPct": 70.7,
+  "potentialRank": 78,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2560,
+   "gas": 14342
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10321",
+  "split": "train",
+  "improvementPotentialPct": 52.1,
+  "potentialRank": 279,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1770,
+   "gas": 5871
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10322",
+  "split": "test",
+  "improvementPotentialPct": 59.5,
+  "potentialRank": 48,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 21804,
+   "gas": 0
+  },
+  "valueImpactPct": 6.3
+ },
+ {
+  "propertyId": "P10323",
+  "split": "validation",
+  "improvementPotentialPct": 81.8,
+  "potentialRank": 2,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2733,
+   "gas": 29486
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10324",
+  "split": "train",
+  "improvementPotentialPct": 61.8,
+  "potentialRank": 188,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2032,
+   "gas": 7826
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10325",
+  "split": "test",
+  "improvementPotentialPct": 65.1,
+  "potentialRank": 29,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2324,
+   "gas": 10369
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10326",
+  "split": "test",
+  "improvementPotentialPct": 69,
+  "potentialRank": 16,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4722,
+   "gas": 19943
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10327",
+  "split": "train",
+  "improvementPotentialPct": 59.8,
+  "potentialRank": 214,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -5118,
+   "gas": 19385
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10328",
+  "split": "train",
+  "improvementPotentialPct": 69.3,
+  "potentialRank": 91,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2973,
+   "gas": 14721
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10329",
+  "split": "validation",
+  "improvementPotentialPct": 62.2,
+  "potentialRank": 40,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1802,
+   "gas": 10910
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10330",
+  "split": "validation",
+  "improvementPotentialPct": 66.6,
+  "potentialRank": 28,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1856,
+   "gas": 10239
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10331",
+  "split": "train",
+  "improvementPotentialPct": 61.3,
+  "potentialRank": 195,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3309,
+   "gas": 13650
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10332",
+  "split": "train",
+  "improvementPotentialPct": 40.7,
+  "potentialRank": 312,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1466,
+   "gas": 3961
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10333",
+  "split": "train",
+  "improvementPotentialPct": 59.1,
+  "potentialRank": 220,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4141,
+   "gas": 20895
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10334",
+  "split": "train",
+  "improvementPotentialPct": 60.6,
+  "potentialRank": 202,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4574,
+   "gas": 14541
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10335",
+  "split": "train",
+  "improvementPotentialPct": 18.3,
+  "potentialRank": 334,
+  "feasible": [
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 762,
+   "gas": 0
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10336",
+  "split": "train",
+  "improvementPotentialPct": 60.2,
+  "potentialRank": 210,
+  "feasible": [
+   "floor",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2262,
+   "gas": 8265
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10337",
+  "split": "train",
+  "improvementPotentialPct": 76,
+  "potentialRank": 25,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1650,
+   "gas": 13584
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10338",
+  "split": "train",
+  "improvementPotentialPct": 64.1,
+  "potentialRank": 153,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1342,
+   "gas": 6232
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10339",
+  "split": "train",
+  "improvementPotentialPct": 25.8,
+  "potentialRank": 328,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2700,
+   "gas": 0
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10340",
+  "split": "validation",
+  "improvementPotentialPct": 71.1,
+  "potentialRank": 14,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2222,
+   "gas": 16248
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10341",
+  "split": "train",
+  "improvementPotentialPct": 76.4,
+  "potentialRank": 22,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2556,
+   "gas": 16914
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10342",
+  "split": "validation",
+  "improvementPotentialPct": 58.9,
+  "potentialRank": 47,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2021,
+   "gas": 9598
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10343",
+  "split": "test",
+  "improvementPotentialPct": 71.3,
+  "potentialRank": 12,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4695,
+   "gas": 23298
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10344",
+  "split": "train",
+  "improvementPotentialPct": 39.2,
+  "potentialRank": 316,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3634,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10345",
+  "split": "train",
+  "improvementPotentialPct": 63.2,
+  "potentialRank": 168,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3942,
+   "gas": 17051
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10346",
+  "split": "train",
+  "improvementPotentialPct": 63.4,
+  "potentialRank": 166,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3563,
+   "gas": 15698
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10347",
+  "split": "train",
+  "improvementPotentialPct": 70.8,
+  "potentialRank": 75,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -5109,
+   "gas": 28314
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10348",
+  "split": "train",
+  "improvementPotentialPct": 66.5,
+  "potentialRank": 121,
+  "feasible": [
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1929,
+   "gas": 13328
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10349",
+  "split": "train",
+  "improvementPotentialPct": 68.5,
+  "potentialRank": 101,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3955,
+   "gas": 20980
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10350",
+  "split": "validation",
+  "improvementPotentialPct": 57.5,
+  "potentialRank": 51,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1771,
+   "gas": 7659
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10351",
+  "split": "test",
+  "improvementPotentialPct": 60.2,
+  "potentialRank": 43,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -6468,
+   "gas": 23271
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10352",
+  "split": "test",
+  "improvementPotentialPct": 68.2,
+  "potentialRank": 18,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2602,
+   "gas": 16120
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10353",
+  "split": "train",
+  "improvementPotentialPct": 69.5,
+  "potentialRank": 87,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 13588,
+   "gas": 0
+  },
+  "valueImpactPct": 5.4
+ },
+ {
+  "propertyId": "P10354",
+  "split": "train",
+  "improvementPotentialPct": 41.8,
+  "potentialRank": 311,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1568,
+   "gas": 4349
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10355",
+  "split": "train",
+  "improvementPotentialPct": 60,
+  "potentialRank": 211,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3130,
+   "gas": 14944
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10356",
+  "split": "train",
+  "improvementPotentialPct": 64.5,
+  "potentialRank": 143,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4014,
+   "gas": 17452
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10357",
+  "split": "test",
+  "improvementPotentialPct": 67.7,
+  "potentialRank": 22,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 17541,
+   "gas": 0
+  },
+  "valueImpactPct": 10.9
+ },
+ {
+  "propertyId": "P10358",
+  "split": "test",
+  "improvementPotentialPct": 78.1,
+  "potentialRank": 3,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 7108,
+   "gas": 0
+  },
+  "valueImpactPct": 2.4
+ },
+ {
+  "propertyId": "P10359",
+  "split": "train",
+  "improvementPotentialPct": 58.4,
+  "potentialRank": 231,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1451,
+   "gas": 9215
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10360",
+  "split": "train",
+  "improvementPotentialPct": 66.5,
+  "potentialRank": 122,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2928,
+   "gas": 17132
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10361",
+  "split": "test",
+  "improvementPotentialPct": 78.7,
+  "potentialRank": 2,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4299,
+   "gas": 37860
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10362",
+  "split": "train",
+  "improvementPotentialPct": 69.5,
+  "potentialRank": 88,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1394,
+   "gas": 12523
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10363",
+  "split": "train",
+  "improvementPotentialPct": 82.2,
+  "potentialRank": 6,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2789,
+   "gas": 33002
+  },
+  "valueImpactPct": 2.4
+ },
+ {
+  "propertyId": "P10364",
+  "split": "train",
+  "improvementPotentialPct": 59,
+  "potentialRank": 222,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3403,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10365",
+  "split": "test",
+  "improvementPotentialPct": 59.7,
+  "potentialRank": 46,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1528,
+   "gas": 7665
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10366",
+  "split": "train",
+  "improvementPotentialPct": 73.8,
+  "potentialRank": 43,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2314,
+   "gas": 20064
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10367",
+  "split": "train",
+  "improvementPotentialPct": 63.2,
+  "potentialRank": 169,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2545,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10368",
+  "split": "train",
+  "improvementPotentialPct": 71.9,
+  "potentialRank": 59,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2748,
+   "gas": 21288
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10369",
+  "split": "validation",
+  "improvementPotentialPct": 68.4,
+  "potentialRank": 19,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1845,
+   "gas": 12784
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10370",
+  "split": "test",
+  "improvementPotentialPct": 61.8,
+  "potentialRank": 36,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 11649,
+   "gas": 0
+  },
+  "valueImpactPct": 11.8
+ },
+ {
+  "propertyId": "P10371",
+  "split": "test",
+  "improvementPotentialPct": 65.7,
+  "potentialRank": 26,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2462,
+   "gas": 12949
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10372",
+  "split": "test",
+  "improvementPotentialPct": 55.1,
+  "potentialRank": 61,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -6878,
+   "gas": 28257
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10373",
+  "split": "test",
+  "improvementPotentialPct": 75.5,
+  "potentialRank": 6,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2036,
+   "gas": 15498
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10374",
+  "split": "train",
+  "improvementPotentialPct": 62.6,
+  "potentialRank": 175,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2421,
+   "gas": 11042
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10375",
+  "split": "train",
+  "improvementPotentialPct": 74.7,
+  "potentialRank": 37,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2571,
+   "gas": 19962
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10376",
+  "split": "train",
+  "improvementPotentialPct": 71.3,
+  "potentialRank": 64,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1471,
+   "gas": 11556
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10377",
+  "split": "test",
+  "improvementPotentialPct": 64.3,
+  "potentialRank": 32,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2423,
+   "gas": 12460
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10378",
+  "split": "train",
+  "improvementPotentialPct": 59.5,
+  "potentialRank": 217,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1220,
+   "gas": 6541
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10379",
+  "split": "validation",
+  "improvementPotentialPct": 32.3,
+  "potentialRank": 69,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3134,
+   "gas": 0
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10380",
+  "split": "train",
+  "improvementPotentialPct": 68.6,
+  "potentialRank": 99,
+  "feasible": [
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3467,
+   "gas": 18650
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10381",
+  "split": "train",
+  "improvementPotentialPct": 39.8,
+  "potentialRank": 315,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4847,
+   "gas": 0
+  },
+  "valueImpactPct": 3.7
+ },
+ {
+  "propertyId": "P10382",
+  "split": "validation",
+  "improvementPotentialPct": 77.5,
+  "potentialRank": 7,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1963,
+   "gas": 17235
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10383",
+  "split": "train",
+  "improvementPotentialPct": 85.9,
+  "potentialRank": 3,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3616,
+   "gas": 53747
+  },
+  "valueImpactPct": 2.6
+ },
+ {
+  "propertyId": "P10384",
+  "split": "train",
+  "improvementPotentialPct": 58.2,
+  "potentialRank": 234,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1577,
+   "gas": 7342
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10385",
+  "split": "train",
+  "improvementPotentialPct": 13.3,
+  "potentialRank": 337,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1429,
+   "gas": 0
+  },
+  "valueImpactPct": 3
+ },
+ {
+  "propertyId": "P10386",
+  "split": "test",
+  "improvementPotentialPct": 58.1,
+  "potentialRank": 54,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2350,
+   "gas": 7930
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10387",
+  "split": "test",
+  "improvementPotentialPct": 66.5,
+  "potentialRank": 24,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1217,
+   "gas": 9182
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10388",
+  "split": "train",
+  "improvementPotentialPct": 34.8,
+  "potentialRank": 322,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2136,
+   "gas": 0
+  },
+  "valueImpactPct": 4.2
+ },
+ {
+  "propertyId": "P10389",
+  "split": "train",
+  "improvementPotentialPct": 63.6,
+  "potentialRank": 161,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3166,
+   "gas": 13910
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10390",
+  "split": "train",
+  "improvementPotentialPct": 62.5,
+  "potentialRank": 176,
+  "feasible": [
+   "loft",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1917,
+   "gas": 11509
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10391",
+  "split": "train",
+  "improvementPotentialPct": 22.4,
+  "potentialRank": 330,
+  "feasible": [
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1071,
+   "gas": 0
+  },
+  "valueImpactPct": 2.5
+ },
+ {
+  "propertyId": "P10392",
+  "split": "train",
+  "improvementPotentialPct": 79.9,
+  "potentialRank": 10,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1892,
+   "gas": 24732
+  },
+  "valueImpactPct": 1.8
+ },
+ {
+  "propertyId": "P10393",
+  "split": "train",
+  "improvementPotentialPct": 56.6,
+  "potentialRank": 248,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2536,
+   "gas": 10348
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10394",
+  "split": "train",
+  "improvementPotentialPct": 70.4,
+  "potentialRank": 82,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4048,
+   "gas": 18650
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10395",
+  "split": "train",
+  "improvementPotentialPct": 80.1,
+  "potentialRank": 9,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2608,
+   "gas": 24504
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10396",
+  "split": "train",
+  "improvementPotentialPct": 43.5,
+  "potentialRank": 304,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6759,
+   "gas": 0
+  },
+  "valueImpactPct": 5.5
+ },
+ {
+  "propertyId": "P10397",
+  "split": "train",
+  "improvementPotentialPct": 29,
+  "potentialRank": 327,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3692,
+   "gas": 0
+  },
+  "valueImpactPct": 4.1
+ },
+ {
+  "propertyId": "P10398",
+  "split": "train",
+  "improvementPotentialPct": 62.5,
+  "potentialRank": 177,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2239,
+   "gas": 12331
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10399",
+  "split": "validation",
+  "improvementPotentialPct": 62.3,
+  "potentialRank": 39,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2374,
+   "gas": 8821
+  },
+  "valueImpactPct": -2.2
+ },
+ {
+  "propertyId": "P10400",
+  "split": "train",
+  "improvementPotentialPct": 57.2,
+  "potentialRank": 243,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2842,
+   "gas": 14794
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10401",
+  "split": "train",
+  "improvementPotentialPct": 18.6,
+  "potentialRank": 333,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1432,
+   "gas": 0
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10402",
+  "split": "train",
+  "improvementPotentialPct": 75.1,
+  "potentialRank": 32,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2376,
+   "gas": 17155
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10403",
+  "split": "train",
+  "improvementPotentialPct": 44.2,
+  "potentialRank": 302,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6961,
+   "gas": 0
+  },
+  "valueImpactPct": 6
+ },
+ {
+  "propertyId": "P10404",
+  "split": "validation",
+  "improvementPotentialPct": 28.2,
+  "potentialRank": 70,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1921,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10405",
+  "split": "train",
+  "improvementPotentialPct": 77,
+  "potentialRank": 20,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1192,
+   "gas": 10472
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10406",
+  "split": "train",
+  "improvementPotentialPct": 73.7,
+  "potentialRank": 45,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2341,
+   "gas": 14541
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10407",
+  "split": "train",
+  "improvementPotentialPct": 58.4,
+  "potentialRank": 232,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2593,
+   "gas": 12962
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10408",
+  "split": "train",
+  "improvementPotentialPct": 70.8,
+  "potentialRank": 76,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2076,
+   "gas": 13360
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10409",
+  "split": "train",
+  "improvementPotentialPct": 66.8,
+  "potentialRank": 115,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3342,
+   "gas": 17452
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10410",
+  "split": "train",
+  "improvementPotentialPct": 67,
+  "potentialRank": 112,
+  "feasible": [
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3889,
+   "gas": 18167
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10411",
+  "split": "train",
+  "improvementPotentialPct": 54.9,
+  "potentialRank": 262,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2392,
+   "gas": 8198
+  },
+  "valueImpactPct": -1.5
+ },
+ {
+  "propertyId": "P10412",
+  "split": "train",
+  "improvementPotentialPct": 29.5,
+  "potentialRank": 326,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2184,
+   "gas": 0
+  },
+  "valueImpactPct": 4.6
+ },
+ {
+  "propertyId": "P10413",
+  "split": "train",
+  "improvementPotentialPct": 72,
+  "potentialRank": 58,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1891,
+   "gas": 12816
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10414",
+  "split": "train",
+  "improvementPotentialPct": 64.1,
+  "potentialRank": 154,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -5605,
+   "gas": 21665
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10415",
+  "split": "train",
+  "improvementPotentialPct": 66.7,
+  "potentialRank": 118,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2852,
+   "gas": 14158
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10416",
+  "split": "validation",
+  "improvementPotentialPct": 62.8,
+  "potentialRank": 36,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1971,
+   "gas": 10815
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10417",
+  "split": "test",
+  "improvementPotentialPct": 65.5,
+  "potentialRank": 27,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2745,
+   "gas": 11346
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10418",
+  "split": "test",
+  "improvementPotentialPct": 50.3,
+  "potentialRank": 68,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1438,
+   "gas": 7800
+  },
+  "valueImpactPct": 2.5
+ },
+ {
+  "propertyId": "P10419",
+  "split": "test",
+  "improvementPotentialPct": 76.6,
+  "potentialRank": 4,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2849,
+   "gas": 25769
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10420",
+  "split": "test",
+  "improvementPotentialPct": 59.7,
+  "potentialRank": 47,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2281,
+   "gas": 11197
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10421",
+  "split": "validation",
+  "improvementPotentialPct": 58.7,
+  "potentialRank": 49,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1834,
+   "gas": 10270
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10422",
+  "split": "train",
+  "improvementPotentialPct": 70.5,
+  "potentialRank": 79,
+  "feasible": [
+   "loft",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -7883,
+   "gas": 41179
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10423",
+  "split": "train",
+  "improvementPotentialPct": 70.8,
+  "potentialRank": 77,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1667,
+   "gas": 14981
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10424",
+  "split": "validation",
+  "improvementPotentialPct": 52.2,
+  "potentialRank": 60,
+  "feasible": [
+   "solid-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1764,
+   "gas": 6671
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10425",
+  "split": "validation",
+  "improvementPotentialPct": 59.4,
+  "potentialRank": 45,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1256,
+   "gas": 6324
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10426",
+  "split": "test",
+  "improvementPotentialPct": 43.8,
+  "potentialRank": 73,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1703,
+   "gas": 5427
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10427",
+  "split": "validation",
+  "improvementPotentialPct": 67.3,
+  "potentialRank": 27,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2073,
+   "gas": 11712
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10428",
+  "split": "train",
+  "improvementPotentialPct": 73.3,
+  "potentialRank": 48,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2117,
+   "gas": 18411
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10429",
+  "split": "train",
+  "improvementPotentialPct": 51.6,
+  "potentialRank": 283,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2625,
+   "gas": 7530
+  },
+  "valueImpactPct": -1.3
+ },
+ {
+  "propertyId": "P10430",
+  "split": "validation",
+  "improvementPotentialPct": 57.5,
+  "potentialRank": 52,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 9234,
+   "gas": 0
+  },
+  "valueImpactPct": 3.7
+ },
+ {
+  "propertyId": "P10431",
+  "split": "train",
+  "improvementPotentialPct": 64.9,
+  "potentialRank": 137,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3378,
+   "gas": 16381
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10432",
+  "split": "train",
+  "improvementPotentialPct": 56.1,
+  "potentialRank": 255,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2740,
+   "gas": 9824
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10433",
+  "split": "train",
+  "improvementPotentialPct": 44.1,
+  "potentialRank": 303,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 3329,
+   "gas": 0
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10434",
+  "split": "train",
+  "improvementPotentialPct": 70.9,
+  "potentialRank": 71,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1441,
+   "gas": 13815
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10435",
+  "split": "train",
+  "improvementPotentialPct": 52.7,
+  "potentialRank": 275,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2445,
+   "gas": 8316
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10436",
+  "split": "validation",
+  "improvementPotentialPct": 56.2,
+  "potentialRank": 55,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1594,
+   "gas": 6707
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10437",
+  "split": "train",
+  "improvementPotentialPct": 33.1,
+  "potentialRank": 325,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1782,
+   "gas": 5121
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10438",
+  "split": "train",
+  "improvementPotentialPct": 63.8,
+  "potentialRank": 156,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1521,
+   "gas": 7594
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10439",
+  "split": "test",
+  "improvementPotentialPct": 69.8,
+  "potentialRank": 15,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3258,
+   "gas": 30300
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10440",
+  "split": "validation",
+  "improvementPotentialPct": 60.7,
+  "potentialRank": 44,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2117,
+   "gas": 9932
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10441",
+  "split": "test",
+  "improvementPotentialPct": 38.8,
+  "potentialRank": 77,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1945,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10442",
+  "split": "test",
+  "improvementPotentialPct": 42.2,
+  "potentialRank": 76,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1592,
+   "gas": 4525
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10443",
+  "split": "train",
+  "improvementPotentialPct": 19.1,
+  "potentialRank": 332,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2354,
+   "gas": 0
+  },
+  "valueImpactPct": 2.1
+ },
+ {
+  "propertyId": "P10444",
+  "split": "train",
+  "improvementPotentialPct": 65.1,
+  "potentialRank": 133,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1892,
+   "gas": 14302
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10445",
+  "split": "train",
+  "improvementPotentialPct": 49.4,
+  "potentialRank": 289,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2544,
+   "gas": 8134
+  },
+  "valueImpactPct": -1.3
+ },
+ {
+  "propertyId": "P10446",
+  "split": "validation",
+  "improvementPotentialPct": 58.9,
+  "potentialRank": 48,
+  "feasible": [
+   "solid-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3032,
+   "gas": 10397
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10447",
+  "split": "train",
+  "improvementPotentialPct": 75.4,
+  "potentialRank": 30,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3907,
+   "gas": 27807
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10448",
+  "split": "train",
+  "improvementPotentialPct": 75.6,
+  "potentialRank": 28,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1584,
+   "gas": 13861
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10449",
+  "split": "train",
+  "improvementPotentialPct": 39,
+  "potentialRank": 318,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2047,
+   "gas": 5789
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10450",
+  "split": "validation",
+  "improvementPotentialPct": 67.7,
+  "potentialRank": 23,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3111,
+   "gas": 15620
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10451",
+  "split": "train",
+  "improvementPotentialPct": 52.7,
+  "potentialRank": 276,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2106,
+   "gas": 9383
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10452",
+  "split": "train",
+  "improvementPotentialPct": 50.4,
+  "potentialRank": 285,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1648,
+   "gas": 6161
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10453",
+  "split": "train",
+  "improvementPotentialPct": 74.8,
+  "potentialRank": 35,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2578,
+   "gas": 17771
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10454",
+  "split": "train",
+  "improvementPotentialPct": 42.7,
+  "potentialRank": 308,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1613,
+   "gas": 4424
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10455",
+  "split": "test",
+  "improvementPotentialPct": 46.3,
+  "potentialRank": 71,
+  "feasible": [
+   "cavity-wall",
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 7909,
+   "gas": 0
+  },
+  "valueImpactPct": 4
+ },
+ {
+  "propertyId": "P10456",
+  "split": "validation",
+  "improvementPotentialPct": 74.5,
+  "potentialRank": 10,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2656,
+   "gas": 15883
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10457",
+  "split": "test",
+  "improvementPotentialPct": 59.8,
+  "potentialRank": 45,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4221,
+   "gas": 16281
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10458",
+  "split": "train",
+  "improvementPotentialPct": 66.9,
+  "potentialRank": 113,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2950,
+   "gas": 16616
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10459",
+  "split": "train",
+  "improvementPotentialPct": 76.8,
+  "potentialRank": 21,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2445,
+   "gas": 17361
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10460",
+  "split": "train",
+  "improvementPotentialPct": 64.7,
+  "potentialRank": 140,
+  "feasible": [
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3139,
+   "gas": 11884
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10461",
+  "split": "train",
+  "improvementPotentialPct": 67.7,
+  "potentialRank": 108,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1532,
+   "gas": 11336
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10462",
+  "split": "test",
+  "improvementPotentialPct": 48.2,
+  "potentialRank": 69,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2421,
+   "gas": 7208
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10463",
+  "split": "validation",
+  "improvementPotentialPct": 71.9,
+  "potentialRank": 13,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1659,
+   "gas": 11192
+  },
+  "valueImpactPct": 1
+ },
+ {
+  "propertyId": "P10464",
+  "split": "train",
+  "improvementPotentialPct": 59.9,
+  "potentialRank": 212,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2834,
+   "gas": 10506
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10465",
+  "split": "train",
+  "improvementPotentialPct": 64.2,
+  "potentialRank": 150,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2016,
+   "gas": 11114
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10466",
+  "split": "train",
+  "improvementPotentialPct": 48.4,
+  "potentialRank": 292,
+  "feasible": [
+   "glazing",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 2965,
+   "gas": 0
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10467",
+  "split": "train",
+  "improvementPotentialPct": 71.8,
+  "potentialRank": 60,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6934,
+   "gas": 0
+  },
+  "valueImpactPct": 5
+ },
+ {
+  "propertyId": "P10468",
+  "split": "train",
+  "improvementPotentialPct": 53.9,
+  "potentialRank": 270,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1985,
+   "gas": 6894
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10469",
+  "split": "train",
+  "improvementPotentialPct": 66.1,
+  "potentialRank": 127,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1804,
+   "gas": 10071
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10470",
+  "split": "test",
+  "improvementPotentialPct": 55.7,
+  "potentialRank": 59,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2301,
+   "gas": 6907
+  },
+  "valueImpactPct": -1
+ },
+ {
+  "propertyId": "P10471",
+  "split": "test",
+  "improvementPotentialPct": 54.9,
+  "potentialRank": 63,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2416,
+   "gas": 11494
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10472",
+  "split": "train",
+  "improvementPotentialPct": 48,
+  "potentialRank": 295,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2082,
+   "gas": 6236
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10473",
+  "split": "train",
+  "improvementPotentialPct": 75,
+  "potentialRank": 34,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1836,
+   "gas": 15988
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10474",
+  "split": "validation",
+  "improvementPotentialPct": 69.1,
+  "potentialRank": 18,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1854,
+   "gas": 13388
+  },
+  "valueImpactPct": 2.2
+ },
+ {
+  "propertyId": "P10475",
+  "split": "validation",
+  "improvementPotentialPct": 57,
+  "potentialRank": 54,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2172,
+   "gas": 7373
+  },
+  "valueImpactPct": -1
+ },
+ {
+  "propertyId": "P10476",
+  "split": "validation",
+  "improvementPotentialPct": 35.8,
+  "potentialRank": 68,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 898,
+   "gas": 0
+  },
+  "valueImpactPct": 1.5
+ },
+ {
+  "propertyId": "P10477",
+  "split": "validation",
+  "improvementPotentialPct": 84.1,
+  "potentialRank": 1,
+  "feasible": [
+   "loft",
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2826,
+   "gas": 31420
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10478",
+  "split": "train",
+  "improvementPotentialPct": 65.5,
+  "potentialRank": 130,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3291,
+   "gas": 13866
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10479",
+  "split": "train",
+  "improvementPotentialPct": 73.8,
+  "potentialRank": 44,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2949,
+   "gas": 25142
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10480",
+  "split": "train",
+  "improvementPotentialPct": 74.6,
+  "potentialRank": 38,
+  "feasible": [
+   "loft",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 6025,
+   "gas": 0
+  },
+  "valueImpactPct": 8.8
+ },
+ {
+  "propertyId": "P10481",
+  "split": "train",
+  "improvementPotentialPct": 48.2,
+  "potentialRank": 294,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1755,
+   "gas": 5873
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10482",
+  "split": "test",
+  "improvementPotentialPct": 61.4,
+  "potentialRank": 40,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2027,
+   "gas": 10425
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10483",
+  "split": "test",
+  "improvementPotentialPct": 0,
+  "potentialRank": 85,
+  "feasible": [
+   "smart-thermostat"
+  ],
+  "packageSavingKwh": {
+   "electricity": 0,
+   "gas": 0
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10484",
+  "split": "test",
+  "improvementPotentialPct": 38.4,
+  "potentialRank": 78,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2017,
+   "gas": 5866
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10485",
+  "split": "test",
+  "improvementPotentialPct": 67.9,
+  "potentialRank": 20,
+  "feasible": [
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 4682,
+   "gas": 0
+  },
+  "valueImpactPct": 2.7
+ },
+ {
+  "propertyId": "P10486",
+  "split": "train",
+  "improvementPotentialPct": 75.3,
+  "potentialRank": 31,
+  "feasible": [
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3771,
+   "gas": 24828
+  },
+  "valueImpactPct": 1.3
+ },
+ {
+  "propertyId": "P10487",
+  "split": "train",
+  "improvementPotentialPct": 60.6,
+  "potentialRank": 203,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1612,
+   "gas": 6749
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10488",
+  "split": "train",
+  "improvementPotentialPct": 64.4,
+  "potentialRank": 146,
+  "feasible": [
+   "loft",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1962,
+   "gas": 9465
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10489",
+  "split": "train",
+  "improvementPotentialPct": 63.7,
+  "potentialRank": 159,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2132,
+   "gas": 14392
+  },
+  "valueImpactPct": 4.6
+ },
+ {
+  "propertyId": "P10490",
+  "split": "train",
+  "improvementPotentialPct": 73.7,
+  "potentialRank": 46,
+  "feasible": [
+   "loft",
+   "cavity-wall",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3878,
+   "gas": 24835
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10491",
+  "split": "train",
+  "improvementPotentialPct": 60.5,
+  "potentialRank": 206,
+  "feasible": [
+   "cavity-wall",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2038,
+   "gas": 10838
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10492",
+  "split": "train",
+  "improvementPotentialPct": 63.6,
+  "potentialRank": 162,
+  "feasible": [
+   "solid-wall",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2188,
+   "gas": 10135
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10493",
+  "split": "train",
+  "improvementPotentialPct": 70.9,
+  "potentialRank": 72,
+  "feasible": [
+   "loft",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1422,
+   "gas": 11400
+  },
+  "valueImpactPct": 1.2
+ },
+ {
+  "propertyId": "P10494",
+  "split": "train",
+  "improvementPotentialPct": 63.1,
+  "potentialRank": 170,
+  "feasible": [
+   "glazing",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -7063,
+   "gas": 27742
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10495",
+  "split": "train",
+  "improvementPotentialPct": 34.6,
+  "potentialRank": 323,
+  "feasible": [
+   "glazing",
+   "smart-thermostat",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": 1279,
+   "gas": 0
+  },
+  "valueImpactPct": 3.2
+ },
+ {
+  "propertyId": "P10496",
+  "split": "train",
+  "improvementPotentialPct": 65,
+  "potentialRank": 134,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2323,
+   "gas": 9545
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10497",
+  "split": "train",
+  "improvementPotentialPct": 70.4,
+  "potentialRank": 83,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -4969,
+   "gas": 21563
+  },
+  "valueImpactPct": 0
+ },
+ {
+  "propertyId": "P10498",
+  "split": "validation",
+  "improvementPotentialPct": 71,
+  "potentialRank": 15,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "smart-thermostat",
+   "heat-pump",
+   "solar"
+  ],
+  "packageSavingKwh": {
+   "electricity": -3612,
+   "gas": 32404
+  },
+  "valueImpactPct": 0.9
+ },
+ {
+  "propertyId": "P10499",
+  "split": "train",
+  "improvementPotentialPct": 61.3,
+  "potentialRank": 196,
+  "feasible": [
+   "solid-wall",
+   "floor",
+   "glazing",
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -2177,
+   "gas": 9254
+  },
+  "valueImpactPct": 0.6
+ },
+ {
+  "propertyId": "P10500",
+  "split": "train",
+  "improvementPotentialPct": 40.4,
+  "potentialRank": 314,
+  "feasible": [
+   "smart-thermostat",
+   "heat-pump"
+  ],
+  "packageSavingKwh": {
+   "electricity": -1758,
+   "gas": 5005
+  },
+  "valueImpactPct": 0
+ }
+]

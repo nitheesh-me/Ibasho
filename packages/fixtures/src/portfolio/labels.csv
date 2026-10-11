@@ -1,0 +1,501 @@
+propertyId,split,improvementPotentialPct,potentialRank,feasible,packageSavingElecKwh,packageSavingGasKwh,valueImpactPct
+P10001,train,71.2,65,cavity-wall glazing smart-thermostat heat-pump solar,-4173,28234,1.2
+P10002,validation,51.6,63,smart-thermostat heat-pump,-2755,8449,0
+P10003,train,39,317,solid-wall floor smart-thermostat solar,3070,0,3.2
+P10004,validation,45.2,65,heat-pump,4337,0,4.1
+P10005,test,59,50,loft smart-thermostat heat-pump solar,-2703,13113,1.3
+P10006,train,67.2,109,smart-thermostat heat-pump solar,-2657,11694,1.3
+P10007,train,62.7,171,smart-thermostat heat-pump solar,-2416,10626,0
+P10008,test,67.9,19,loft smart-thermostat heat-pump solar,-5969,26433,0
+P10009,test,58,55,loft glazing smart-thermostat heat-pump solar,-1687,8188,0
+P10010,test,76.1,5,loft cavity-wall glazing smart-thermostat heat-pump solar,-2057,19928,1.3
+P10011,train,68,103,smart-thermostat heat-pump solar,-1779,10721,0.9
+P10012,train,58.6,225,glazing smart-thermostat heat-pump solar,-2423,9832,1.2
+P10013,validation,58.9,46,smart-thermostat heat-pump solar,-2200,10189,0
+P10014,test,55.3,60,smart-thermostat heat-pump solar,-2335,9959,0
+P10015,train,66.4,123,glazing smart-thermostat heat-pump,-3232,14048,0
+P10016,train,64.9,135,loft smart-thermostat heat-pump solar,-1901,9479,0
+P10017,train,64.4,144,loft cavity-wall glazing smart-thermostat heat-pump solar,-1989,12828,0.6
+P10018,train,60.6,201,cavity-wall glazing smart-thermostat heat-pump,-2635,10290,1.2
+P10019,validation,41.9,67,glazing smart-thermostat heat-pump,-2565,8050,0
+P10020,validation,78,6,solid-wall floor glazing smart-thermostat heat-pump solar,-2431,20371,1
+P10021,validation,62.4,38,loft heat-pump solar,-1453,6933,0
+P10022,validation,62,41,smart-thermostat heat-pump solar,-2671,11206,1.2
+P10023,test,52.7,66,glazing smart-thermostat heat-pump,-3187,10283,0
+P10024,train,66,128,solid-wall floor glazing heat-pump solar,-2205,15119,3.2
+P10025,train,64.7,139,smart-thermostat heat-pump solar,-2428,10748,1.2
+P10026,train,70.4,80,glazing smart-thermostat heat-pump solar,-3873,22829,1.3
+P10027,train,52.8,274,solid-wall floor glazing heat-pump,4265,0,3.7
+P10028,train,51.6,281,smart-thermostat heat-pump solar,-1934,7860,0
+P10029,train,61.9,182,loft smart-thermostat heat-pump,-2056,7093,0
+P10030,train,70.9,69,loft cavity-wall glazing smart-thermostat heat-pump solar,-1666,11879,1.2
+P10031,train,78.5,15,loft solid-wall floor smart-thermostat heat-pump solar,-1342,14928,2.1
+P10032,train,71.2,66,glazing heat-pump,2843,0,1.2
+P10033,train,76.2,24,loft cavity-wall glazing smart-thermostat heat-pump solar,-2471,18078,0.9
+P10034,train,61.8,186,cavity-wall smart-thermostat heat-pump solar,-3324,14641,1.2
+P10035,test,56.5,58,smart-thermostat heat-pump,-2036,6522,0
+P10036,train,42.6,309,heat-pump,1860,0,2.1
+P10037,train,68,104,smart-thermostat heat-pump,-2512,11615,0
+P10038,validation,57.6,50,cavity-wall glazing heat-pump,7506,0,5
+P10039,test,73.3,8,loft glazing smart-thermostat heat-pump solar,-2956,21409,1.3
+P10040,train,57.6,238,smart-thermostat heat-pump solar,-5643,21483,0
+P10041,train,56.6,246,smart-thermostat heat-pump solar,-4379,18000,0
+P10042,train,64.1,151,loft smart-thermostat heat-pump solar,-6918,29033,1.3
+P10043,test,71.8,10,cavity-wall smart-thermostat heat-pump solar,-3968,23247,0.9
+P10044,test,58.7,51,cavity-wall glazing smart-thermostat heat-pump,-2850,9707,-1
+P10045,train,71.7,61,loft cavity-wall glazing smart-thermostat heat-pump solar,-2711,18279,1.3
+P10046,train,68.7,95,cavity-wall smart-thermostat heat-pump solar,-3836,23368,1.2
+P10047,train,61.9,183,loft smart-thermostat heat-pump solar,-2383,9691,0
+P10048,train,75,33,solid-wall floor glazing smart-thermostat heat-pump solar,-2603,20742,1
+P10049,test,80.7,1,solid-wall floor glazing smart-thermostat heat-pump solar,-4813,44383,1
+P10050,validation,45.2,66,glazing smart-thermostat heat-pump,-1746,5640,0
+P10051,train,66.5,120,loft cavity-wall smart-thermostat heat-pump solar,-2753,15322,1
+P10052,test,65.2,28,cavity-wall heat-pump solar,-2958,12692,1.2
+P10053,test,47.2,70,smart-thermostat heat-pump,-2165,6209,0
+P10054,test,60.9,42,heat-pump solar,-4545,17967,0
+P10055,train,63.9,155,solid-wall floor glazing heat-pump,6806,0,5.4
+P10056,train,75.4,29,solid-wall floor smart-thermostat heat-pump solar,-4147,30347,1
+P10057,test,17.1,84,loft glazing smart-thermostat solar,1872,0,0.6
+P10058,test,70.1,14,cavity-wall smart-thermostat heat-pump solar,-1732,11698,1.3
+P10059,test,54.8,64,smart-thermostat heat-pump solar,-2028,9278,0
+P10060,validation,67.9,21,cavity-wall heat-pump,-3138,14031,0
+P10061,train,84.9,4,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1767,26738,1.2
+P10062,train,77.3,19,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2302,18611,2.4
+P10063,train,75.7,27,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1530,13820,4.2
+P10064,train,72.3,55,solid-wall floor glazing smart-thermostat heat-pump solar,-1665,13020,1.2
+P10065,train,58.6,226,solid-wall smart-thermostat heat-pump,-1967,7533,0
+P10066,validation,68.3,20,loft solid-wall glazing smart-thermostat heat-pump solar,-1979,12555,3.5
+P10067,train,74.5,39,solid-wall floor glazing smart-thermostat heat-pump solar,-2395,20435,0.6
+P10068,train,77.7,17,cavity-wall glazing smart-thermostat heat-pump solar,-2631,20156,1
+P10069,train,68.8,94,glazing smart-thermostat heat-pump solar,-3903,18227,1
+P10070,train,72.9,49,solid-wall floor glazing heat-pump solar,-1733,12369,1.2
+P10071,train,58.1,235,smart-thermostat heat-pump solar,-2821,11557,0
+P10072,train,79.1,14,solid-wall floor glazing smart-thermostat heat-pump solar,-1594,15432,0.9
+P10073,train,63.6,160,loft heat-pump solar,-2699,12263,0
+P10074,validation,63.3,35,loft smart-thermostat heat-pump solar,-2257,9838,0.6
+P10075,train,71.7,62,loft smart-thermostat heat-pump solar,-2443,15336,1.2
+P10076,train,36.6,320,heat-pump,4356,0,2.6
+P10077,train,54.3,266,smart-thermostat heat-pump,-1804,6947,0
+P10078,train,61.9,184,cavity-wall smart-thermostat heat-pump solar,-1601,9116,0.9
+P10079,train,73.3,47,cavity-wall glazing smart-thermostat heat-pump solar,-1755,14676,4.2
+P10080,train,72.7,52,glazing heat-pump solar,-2692,17857,1
+P10081,train,67.2,110,glazing smart-thermostat heat-pump solar,-3121,15329,1.3
+P10082,train,56,256,glazing smart-thermostat heat-pump,-4183,14002,0
+P10083,train,69.3,89,glazing smart-thermostat heat-pump solar,-2861,13036,0
+P10084,train,61.7,189,solid-wall glazing heat-pump,-2032,9861,0.6
+P10085,train,64.3,147,glazing smart-thermostat heat-pump solar,-3650,16462,1.3
+P10086,train,66.7,116,loft smart-thermostat heat-pump solar,-2540,13614,0.6
+P10087,train,68.6,98,cavity-wall glazing heat-pump solar,-4080,22420,1.2
+P10088,train,64.1,152,glazing smart-thermostat heat-pump solar,-2015,10169,0
+P10089,train,0,343,smart-thermostat,0,0,0
+P10090,test,67.7,21,solid-wall glazing heat-pump,-4534,20829,0
+P10091,test,36.2,79,solid-wall floor glazing heat-pump,5194,0,5
+P10092,test,63.8,34,smart-thermostat heat-pump solar,-5007,19040,0.6
+P10093,train,65.2,131,smart-thermostat heat-pump solar,-2842,12687,0.9
+P10094,test,63.8,35,cavity-wall smart-thermostat heat-pump,-1529,7935,0
+P10095,test,50.8,67,glazing smart-thermostat heat-pump,-2149,6918,0
+P10096,test,61.5,39,solid-wall floor heat-pump,6832,0,4.1
+P10097,train,47.7,296,smart-thermostat heat-pump,-2061,5944,0
+P10098,train,64.4,145,loft smart-thermostat heat-pump solar,-2254,9961,1.2
+P10099,train,50,287,smart-thermostat heat-pump,-2995,8768,-1.2
+P10100,validation,52.3,59,smart-thermostat heat-pump solar,-1319,6066,0
+P10101,validation,71.9,12,loft solid-wall floor glazing heat-pump solar,-1926,16987,4.2
+P10102,validation,63.9,34,loft glazing smart-thermostat heat-pump solar,-2195,16427,3.5
+P10103,validation,61,43,smart-thermostat heat-pump solar,-7322,25843,0
+P10104,train,55.1,259,glazing smart-thermostat heat-pump,-2600,8829,-0.9
+P10105,train,4.5,342,loft smart-thermostat,209,0,2.5
+P10106,train,56.1,254,smart-thermostat heat-pump solar,-6418,23967,0
+P10107,train,52.4,277,heat-pump solar,-1707,8343,0
+P10108,train,42.8,307,smart-thermostat heat-pump,-1651,4502,0
+P10109,test,72.7,9,loft glazing heat-pump solar,-2257,14636,1.2
+P10110,test,58.6,52,loft smart-thermostat heat-pump solar,-2058,9657,0
+P10111,test,31.6,80,solid-wall heat-pump,5062,0,2.6
+P10112,train,67.2,111,cavity-wall smart-thermostat heat-pump solar,-2184,11616,0
+P10113,validation,50.1,64,glazing smart-thermostat heat-pump,-1952,5960,0
+P10114,train,58.4,228,glazing smart-thermostat heat-pump solar,-1904,9669,0
+P10115,train,64.8,138,glazing smart-thermostat heat-pump solar,-2215,11341,0
+P10116,train,64.9,136,glazing smart-thermostat heat-pump solar,-2760,11831,0.9
+P10117,train,56.6,247,smart-thermostat heat-pump solar,-2675,11949,0
+P10118,train,63.4,163,solid-wall glazing smart-thermostat heat-pump,-2161,9463,1.2
+P10119,train,59.3,219,loft glazing smart-thermostat heat-pump solar,-2152,10287,0.9
+P10120,test,57.9,56,glazing smart-thermostat heat-pump solar,-2286,10208,1.3
+P10121,test,71.7,11,solid-wall floor heat-pump solar,-2573,21189,1.3
+P10122,test,59.2,49,glazing smart-thermostat heat-pump,-3174,12337,0
+P10123,test,25,82,glazing smart-thermostat solar,1371,0,2.2
+P10124,train,71.1,68,solid-wall floor glazing smart-thermostat heat-pump solar,-1992,15130,2.2
+P10125,train,54.3,267,smart-thermostat heat-pump solar,-3019,12326,0
+P10126,train,61.8,187,loft glazing smart-thermostat heat-pump solar,-2184,11898,1.3
+P10127,train,83,5,loft solid-wall floor smart-thermostat heat-pump solar,-1829,20360,2.6
+P10128,train,79.8,11,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1749,14935,1.2
+P10129,test,70.7,13,loft heat-pump solar,10026,0,5.4
+P10130,test,29.7,81,loft smart-thermostat solar,4713,0,1.2
+P10131,test,57.9,57,loft glazing smart-thermostat heat-pump solar,-1997,11710,0
+P10132,train,70.9,70,loft cavity-wall smart-thermostat heat-pump solar,-2184,15859,0.6
+P10133,train,58.4,229,glazing smart-thermostat heat-pump solar,-3130,14220,0
+P10134,train,95.2,1,glazing heat-pump,4604,0,3.7
+P10135,train,74.3,41,solid-wall floor smart-thermostat heat-pump solar,-1978,15186,4.6
+P10136,train,10.6,338,smart-thermostat solar,1248,0,3
+P10137,train,77.4,18,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1861,15802,0.9
+P10138,train,60.5,204,smart-thermostat heat-pump solar,-1966,7930,0
+P10139,train,67.7,106,loft smart-thermostat heat-pump solar,-2498,14296,1.3
+P10140,test,59.8,44,smart-thermostat heat-pump solar,-3785,16721,0
+P10141,train,16.7,335,smart-thermostat solar,1366,0,2.5
+P10142,train,80.8,8,solid-wall glazing smart-thermostat heat-pump solar,-2957,30036,1.2
+P10143,validation,66.5,29,smart-thermostat heat-pump solar,-1434,10830,3.2
+P10144,validation,53.2,58,heat-pump solar,4970,0,5.5
+P10145,validation,67.5,24,solid-wall heat-pump,-2191,11581,1
+P10146,validation,51.8,62,loft cavity-wall glazing heat-pump solar,22393,0,11.8
+P10147,train,6.2,340,glazing smart-thermostat,201,0,3
+P10148,train,78.2,16,loft solid-wall floor smart-thermostat heat-pump solar,-2841,22473,1.2
+P10149,train,49.1,290,smart-thermostat heat-pump solar,-857,5520,1.5
+P10150,train,43,305,glazing heat-pump,3879,0,2
+P10151,train,67.9,105,glazing smart-thermostat heat-pump solar,-3465,15918,0.9
+P10152,train,40.4,313,heat-pump,3347,0,1.2
+P10153,train,68.5,100,solid-wall floor smart-thermostat heat-pump,-2344,12762,1
+P10154,train,66.8,114,glazing smart-thermostat heat-pump solar,-3013,14689,0
+P10155,train,63.4,164,heat-pump solar,-4293,16223,1.2
+P10156,train,58.8,224,heat-pump,-2127,8364,0
+P10157,train,89,2,heat-pump solar,3885,0,5.5
+P10158,train,51.6,282,loft solid-wall floor glazing heat-pump solar,14118,0,8.9
+P10159,train,54.4,265,smart-thermostat heat-pump solar,-2855,11794,0
+P10160,validation,62.6,37,smart-thermostat heat-pump solar,-1878,7785,0
+P10161,train,72.4,54,solid-wall floor glazing smart-thermostat heat-pump solar,-1254,10118,0.6
+P10162,test,64,33,glazing smart-thermostat heat-pump solar,-1762,8901,3
+P10163,test,61.1,41,glazing smart-thermostat heat-pump solar,-1663,10151,0.6
+P10164,test,64.6,31,glazing smart-thermostat heat-pump solar,-4220,17286,0
+P10165,validation,52.1,61,smart-thermostat heat-pump solar,-3647,15015,0
+P10166,train,66.2,124,loft glazing smart-thermostat heat-pump,-2224,9287,0
+P10167,train,61.9,185,loft glazing heat-pump solar,12935,0,6.7
+P10168,train,67.7,107,solid-wall floor smart-thermostat heat-pump,-2332,11330,1.2
+P10169,train,63.4,165,loft smart-thermostat heat-pump solar,-2616,13114,1
+P10170,train,74.7,36,cavity-wall glazing heat-pump,-3274,17619,0
+P10171,train,72.9,50,solid-wall floor smart-thermostat heat-pump solar,-2818,18400,1
+P10172,train,58.6,227,loft smart-thermostat heat-pump solar,-1441,7901,0
+P10173,train,42.3,310,heat-pump solar,6983,0,5.5
+P10174,train,72.9,51,solid-wall floor smart-thermostat heat-pump solar,-1946,14175,1.2
+P10175,train,68.7,96,smart-thermostat heat-pump solar,-2492,13759,3
+P10176,validation,70.8,16,loft solid-wall floor smart-thermostat heat-pump solar,-2098,18791,0.9
+P10177,train,43,306,heat-pump,2082,0,0.9
+P10178,train,59.7,215,smart-thermostat heat-pump solar,-1991,9017,3.2
+P10179,train,56.2,251,smart-thermostat heat-pump solar,-1506,7010,0
+P10180,train,76.3,23,solid-wall floor glazing smart-thermostat heat-pump solar,-1582,14628,0.9
+P10181,train,61.2,197,smart-thermostat heat-pump,-4142,14424,-2.4
+P10182,train,69.7,86,loft cavity-wall glazing smart-thermostat heat-pump solar,-1879,11572,0.6
+P10183,train,70.2,84,loft cavity-wall smart-thermostat heat-pump solar,-3445,19287,1
+P10184,train,54.8,263,smart-thermostat heat-pump,-3531,10998,0
+P10185,test,61.7,37,loft glazing smart-thermostat heat-pump solar,-2277,12164,1
+P10186,train,65.5,129,loft floor smart-thermostat heat-pump solar,-6057,25818,0
+P10187,train,49,291,loft heat-pump solar,-963,4832,0
+P10188,train,64.3,148,loft smart-thermostat heat-pump solar,-3644,15535,0
+P10189,train,60.2,209,smart-thermostat heat-pump solar,-1464,6438,0
+P10190,train,57.1,244,heat-pump solar,-2104,8382,0
+P10191,train,68.2,102,heat-pump solar,8919,0,5
+P10192,train,55,261,glazing smart-thermostat heat-pump,-1706,5864,0
+P10193,train,66.2,125,smart-thermostat heat-pump solar,-1214,7261,0
+P10194,train,64.6,141,loft smart-thermostat heat-pump solar,-1960,14707,0.9
+P10195,train,66.1,126,loft smart-thermostat heat-pump solar,-3232,14349,0
+P10196,test,65.7,25,heat-pump,2707,0,1.2
+P10197,train,61.6,191,solid-wall heat-pump,-1738,8514,1.2
+P10198,train,58,237,smart-thermostat heat-pump solar,-1359,7276,1.5
+P10199,train,72.1,57,solid-wall floor smart-thermostat heat-pump solar,-1707,15612,0.6
+P10200,train,53.4,273,cavity-wall glazing smart-thermostat heat-pump,-1313,4378,0
+P10201,test,64.8,30,cavity-wall glazing heat-pump,3829,0,2
+P10202,validation,21.2,71,loft glazing smart-thermostat solar,2433,0,4.6
+P10203,validation,78.1,5,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2467,30939,2
+P10204,train,63.7,157,loft smart-thermostat heat-pump solar,-2671,11447,1.3
+P10205,train,59,221,loft cavity-wall glazing heat-pump,-1911,7739,0
+P10206,train,53.6,272,loft floor glazing heat-pump solar,7865,0,8.8
+P10207,train,14.9,336,glazing smart-thermostat solar,1504,0,3
+P10208,train,62.7,172,solid-wall floor glazing smart-thermostat heat-pump,-2062,10072,1.2
+P10209,train,79.6,12,solid-wall floor heat-pump,5154,0,3.7
+P10210,train,79.6,13,solid-wall floor glazing smart-thermostat heat-pump solar,-1589,15605,0.6
+P10211,train,64.6,142,loft smart-thermostat heat-pump solar,-3030,14487,0
+P10212,train,57.3,240,loft glazing smart-thermostat heat-pump solar,-3067,15614,1
+P10213,train,55.5,257,loft glazing smart-thermostat heat-pump solar,-1452,6550,0
+P10214,train,70.1,85,solid-wall floor glazing smart-thermostat heat-pump,-2490,11883,0.6
+P10215,train,71.2,67,solid-wall floor glazing smart-thermostat heat-pump solar,-2717,20304,1.3
+P10216,train,57.2,241,smart-thermostat heat-pump solar,-1883,8670,1.5
+P10217,train,70.8,73,loft cavity-wall smart-thermostat heat-pump solar,-1801,11291,0
+P10218,train,61.7,190,loft smart-thermostat heat-pump solar,-2385,12507,0.9
+P10219,train,57.5,239,solid-wall smart-thermostat heat-pump,-1640,6513,0
+P10220,validation,64.5,31,loft cavity-wall glazing smart-thermostat heat-pump solar,-1781,11843,0.6
+P10221,train,58.9,223,smart-thermostat heat-pump solar,-1724,8218,3.2
+P10222,train,62.1,179,glazing smart-thermostat heat-pump solar,-3292,14969,0
+P10223,test,42.7,74,solid-wall floor smart-thermostat solar,7805,0,4.2
+P10224,train,80.9,7,loft solid-wall floor glazing smart-thermostat heat-pump solar,-3570,41712,2.6
+P10225,train,38.8,319,heat-pump,-1438,3928,0
+P10226,train,70.8,74,solid-wall floor glazing smart-thermostat heat-pump,-2092,10913,0.6
+P10227,test,17.3,83,loft glazing smart-thermostat solar,1828,0,3
+P10228,train,55.1,260,cavity-wall heat-pump,-2022,6323,-1.2
+P10229,test,67.5,23,loft solid-wall floor glazing heat-pump,-2145,11334,2.2
+P10230,validation,69.6,17,solid-wall floor heat-pump solar,-2304,15270,3
+P10231,train,44.3,301,loft cavity-wall glazing smart-thermostat solar,1971,0,3.2
+P10232,train,74.4,40,loft cavity-wall glazing smart-thermostat heat-pump solar,-2900,20045,2.4
+P10233,train,61.5,192,smart-thermostat heat-pump solar,-2486,11430,0
+P10234,train,61.1,199,glazing smart-thermostat heat-pump solar,-2456,11357,0.6
+P10235,train,64.2,149,loft smart-thermostat heat-pump solar,-3153,13181,0
+P10236,train,61.4,194,smart-thermostat heat-pump solar,-2411,11060,0
+P10237,test,68.7,17,glazing smart-thermostat heat-pump solar,-2931,16022,1.2
+P10238,train,68.7,97,solid-wall floor glazing smart-thermostat heat-pump,-2580,13329,1.3
+P10239,train,61.5,193,glazing heat-pump solar,-4266,18283,0
+P10240,train,56.2,252,heat-pump solar,-789,4922,2.2
+P10241,train,60.3,208,smart-thermostat heat-pump,-2694,8636,0
+P10242,validation,65.9,30,solid-wall floor glazing smart-thermostat heat-pump solar,-1252,8505,1.2
+P10243,train,58.4,230,smart-thermostat heat-pump solar,-3523,14182,0
+P10244,train,5.6,341,glazing smart-thermostat,200,0,0
+P10245,train,63.7,158,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1781,15870,0.9
+P10246,train,72.3,56,glazing smart-thermostat heat-pump solar,-2546,17187,4.6
+P10247,train,60.7,200,loft smart-thermostat heat-pump solar,-2558,11946,0
+P10248,train,46.5,298,heat-pump solar,9766,0,2
+P10249,train,62,181,solid-wall smart-thermostat heat-pump,-4218,15721,0
+P10250,train,57.2,242,smart-thermostat heat-pump,-2189,9752,0
+P10251,train,23.6,329,cavity-wall glazing smart-thermostat solar,1162,0,1
+P10252,train,70.4,81,floor glazing smart-thermostat heat-pump solar,-7317,36523,1
+P10253,train,58.1,236,loft glazing smart-thermostat heat-pump solar,-2272,12398,0
+P10254,validation,67.3,26,cavity-wall glazing smart-thermostat heat-pump solar,-4708,24062,1.2
+P10255,train,55.4,258,smart-thermostat heat-pump solar,-3794,14837,0
+P10256,train,56.4,250,loft smart-thermostat heat-pump solar,-1125,6839,2.2
+P10257,validation,61.7,42,solid-wall floor glazing smart-thermostat heat-pump,-3565,17613,1.2
+P10258,train,62.3,178,loft smart-thermostat heat-pump solar,-2231,8859,1.2
+P10259,train,59.7,216,loft glazing heat-pump solar,-3753,16365,0
+P10260,train,53.9,269,smart-thermostat heat-pump solar,-2273,10103,0
+P10261,train,49.4,288,smart-thermostat heat-pump solar,-893,5285,1.5
+P10262,train,71.5,63,solid-wall floor glazing heat-pump solar,-1354,8244,1.2
+P10263,train,69.3,90,glazing smart-thermostat heat-pump solar,-2288,11660,0.9
+P10264,train,65.2,132,loft glazing smart-thermostat heat-pump solar,-1241,7230,0
+P10265,validation,73.8,11,glazing heat-pump solar,12764,0,5
+P10266,train,62.6,173,glazing smart-thermostat heat-pump solar,-3271,14044,0
+P10267,train,36.5,321,heat-pump,1887,0,1.3
+P10268,train,53.8,271,solid-wall glazing smart-thermostat solar,8924,0,5.5
+P10269,train,69.2,92,loft glazing smart-thermostat heat-pump solar,-4445,19700,0
+P10270,train,54.2,268,heat-pump solar,-2575,11150,0
+P10271,train,60.4,207,glazing heat-pump solar,-2295,9605,0
+P10272,test,58.6,53,smart-thermostat heat-pump solar,-1879,8419,3
+P10273,train,21.1,331,glazing smart-thermostat solar,1264,0,2.5
+P10274,train,66.7,117,solid-wall glazing smart-thermostat heat-pump,-2423,11125,1
+P10275,train,61.2,198,glazing smart-thermostat heat-pump solar,-987,6852,2.2
+P10276,train,50.3,286,smart-thermostat heat-pump solar,-1572,7006,0
+P10277,train,57.1,245,solid-wall glazing heat-pump solar,7614,0,4
+P10278,validation,6.9,72,cavity-wall smart-thermostat,434,0,0
+P10279,validation,78.3,4,solid-wall floor glazing heat-pump solar,-2158,17826,1
+P10280,test,42.2,75,smart-thermostat heat-pump,-1717,4964,0
+P10281,test,74.8,7,loft solid-wall floor smart-thermostat heat-pump solar,-1843,17479,1.3
+P10282,test,54.9,62,glazing heat-pump,-1530,6511,0
+P10283,test,45.2,72,smart-thermostat heat-pump,-1610,4406,0
+P10284,validation,74.6,8,cavity-wall glazing smart-thermostat heat-pump solar,-2061,17500,0.6
+P10285,test,61.6,38,glazing heat-pump,-2116,8953,0.9
+P10286,train,45.9,300,smart-thermostat heat-pump,-1648,4917,0
+P10287,validation,54.7,57,loft smart-thermostat heat-pump solar,-2483,11279,0
+P10288,train,34,324,heat-pump,2326,0,0.9
+P10289,validation,55.2,56,heat-pump solar,-1538,6543,0
+P10290,validation,80.9,3,solid-wall floor smart-thermostat heat-pump,-3191,27261,3.5
+P10291,validation,74.5,9,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1855,16418,0.9
+P10292,validation,64,33,loft glazing smart-thermostat heat-pump solar,-1688,9024,0
+P10293,train,56.5,249,smart-thermostat heat-pump solar,-2216,9748,3.2
+P10294,train,51.4,284,glazing heat-pump solar,4979,0,3.7
+P10295,train,56.2,253,glazing heat-pump,-2855,12460,1.2
+P10296,train,62.1,180,glazing smart-thermostat heat-pump solar,-3423,15702,0
+P10297,train,60.5,205,solid-wall floor smart-thermostat heat-pump solar,-1650,11873,2.1
+P10298,train,72.5,53,solid-wall floor smart-thermostat heat-pump,-2187,11753,0
+P10299,train,46.5,299,loft solid-wall floor solar,2897,0,3.2
+P10300,validation,57.1,53,smart-thermostat heat-pump solar,-1702,8093,1.5
+P10301,validation,67.8,22,cavity-wall glazing smart-thermostat heat-pump solar,-2587,13252,1
+P10302,train,66.6,119,smart-thermostat heat-pump solar,-1968,10791,1.3
+P10303,train,54.5,264,smart-thermostat heat-pump solar,-1136,6442,2.2
+P10304,train,59.8,213,smart-thermostat heat-pump,-2859,9422,-3.1
+P10305,train,58.3,233,smart-thermostat heat-pump solar,-1580,6876,0
+P10306,test,53.9,65,glazing smart-thermostat heat-pump,-2032,6371,0
+P10307,validation,67.5,25,loft glazing smart-thermostat heat-pump solar,-4437,21646,1.2
+P10308,validation,64.1,32,floor smart-thermostat heat-pump solar,-1995,9777,0.6
+P10309,train,63.3,167,smart-thermostat heat-pump solar,-2230,10262,0
+P10310,train,68.9,93,loft cavity-wall glazing heat-pump solar,-3552,23925,0.9
+P10311,train,75.8,26,loft solid-wall floor smart-thermostat heat-pump solar,-2564,19633,1.2
+P10312,train,52.3,278,cavity-wall heat-pump,3635,0,0.9
+P10313,train,59.4,218,loft smart-thermostat heat-pump solar,-4505,18368,0
+P10314,train,74,42,loft solid-wall floor glazing heat-pump solar,-1890,15288,1.2
+P10315,train,46.8,297,smart-thermostat heat-pump solar,-1948,8199,0
+P10316,train,51.9,280,loft smart-thermostat heat-pump solar,-4590,19775,0
+P10317,train,10.3,339,smart-thermostat solar,1125,0,0
+P10318,train,62.6,174,smart-thermostat heat-pump solar,-2890,11773,0.6
+P10319,train,48.3,293,cavity-wall smart-thermostat heat-pump,-1650,6069,0
+P10320,train,70.7,78,loft glazing smart-thermostat heat-pump solar,-2560,14342,1.3
+P10321,train,52.1,279,glazing heat-pump,-1770,5871,0
+P10322,test,59.5,48,loft solid-wall floor glazing heat-pump solar,21804,0,6.3
+P10323,validation,81.8,2,loft solid-wall floor glazing heat-pump solar,-2733,29486,0.6
+P10324,train,61.8,188,solid-wall smart-thermostat heat-pump,-2032,7826,1.3
+P10325,test,65.1,29,solid-wall smart-thermostat heat-pump,-2324,10369,0
+P10326,test,69,16,cavity-wall glazing smart-thermostat heat-pump,-4722,19943,0
+P10327,train,59.8,214,smart-thermostat heat-pump solar,-5118,19385,0
+P10328,train,69.3,91,loft smart-thermostat heat-pump,-2973,14721,0
+P10329,validation,62.2,40,loft cavity-wall smart-thermostat heat-pump solar,-1802,10910,1.2
+P10330,validation,66.6,28,cavity-wall smart-thermostat heat-pump solar,-1856,10239,0
+P10331,train,61.3,195,smart-thermostat heat-pump solar,-3309,13650,0
+P10332,train,40.7,312,smart-thermostat heat-pump,-1466,3961,0
+P10333,train,59.1,220,cavity-wall smart-thermostat heat-pump solar,-4141,20895,0
+P10334,train,60.6,202,smart-thermostat heat-pump,-4574,14541,0
+P10335,train,18.3,334,solar,762,0,3
+P10336,train,60.2,210,floor smart-thermostat heat-pump,-2262,8265,0
+P10337,train,76,25,loft solid-wall floor glazing heat-pump solar,-1650,13584,1.2
+P10338,train,64.1,153,smart-thermostat heat-pump solar,-1342,6232,0
+P10339,train,25.8,328,solid-wall floor smart-thermostat,2700,0,0.9
+P10340,validation,71.1,14,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2222,16248,0.6
+P10341,train,76.4,22,solid-wall smart-thermostat heat-pump solar,-2556,16914,1.2
+P10342,validation,58.9,47,solid-wall smart-thermostat heat-pump,-2021,9598,1.2
+P10343,test,71.3,12,smart-thermostat heat-pump solar,-4695,23298,0
+P10344,train,39.2,316,heat-pump,3634,0,1.2
+P10345,train,63.2,168,smart-thermostat heat-pump solar,-3942,17051,0
+P10346,train,63.4,166,loft smart-thermostat heat-pump solar,-3563,15698,1.2
+P10347,train,70.8,75,glazing heat-pump solar,-5109,28314,1.2
+P10348,train,66.5,121,floor smart-thermostat heat-pump solar,-1929,13328,1.3
+P10349,train,68.5,101,smart-thermostat heat-pump solar,-3955,20980,1
+P10350,validation,57.5,51,smart-thermostat heat-pump solar,-1771,7659,0
+P10351,test,60.2,43,heat-pump solar,-6468,23271,0
+P10352,test,68.2,18,smart-thermostat heat-pump solar,-2602,16120,0
+P10353,train,69.5,87,heat-pump solar,13588,0,5.4
+P10354,train,41.8,311,heat-pump,-1568,4349,0
+P10355,train,60,211,glazing smart-thermostat heat-pump solar,-3130,14944,0
+P10356,train,64.5,143,glazing heat-pump solar,-4014,17452,0
+P10357,test,67.7,22,solid-wall floor glazing heat-pump solar,17541,0,10.9
+P10358,test,78.1,3,glazing heat-pump solar,7108,0,2.4
+P10359,train,58.4,231,loft glazing smart-thermostat heat-pump solar,-1451,9215,2.2
+P10360,train,66.5,122,loft cavity-wall smart-thermostat heat-pump solar,-2928,17132,1.2
+P10361,test,78.7,2,loft solid-wall floor glazing heat-pump solar,-4299,37860,1.3
+P10362,train,69.5,88,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1394,12523,3.2
+P10363,train,82.2,6,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2789,33002,2.4
+P10364,train,59,222,cavity-wall heat-pump,3403,0,1.2
+P10365,test,59.7,46,loft glazing smart-thermostat heat-pump solar,-1528,7665,0
+P10366,train,73.8,43,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2314,20064,0.9
+P10367,train,63.2,169,cavity-wall heat-pump,2545,0,3.2
+P10368,train,71.9,59,solid-wall floor glazing smart-thermostat heat-pump solar,-2748,21288,1.2
+P10369,validation,68.4,19,loft glazing smart-thermostat heat-pump solar,-1845,12784,4.2
+P10370,test,61.8,36,loft solid-wall floor heat-pump solar,11649,0,11.8
+P10371,test,65.7,26,loft glazing smart-thermostat heat-pump solar,-2462,12949,0.9
+P10372,test,55.1,61,glazing heat-pump solar,-6878,28257,0
+P10373,test,75.5,6,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2036,15498,0.6
+P10374,train,62.6,175,smart-thermostat heat-pump solar,-2421,11042,0
+P10375,train,74.7,37,solid-wall floor glazing smart-thermostat heat-pump solar,-2571,19962,1.2
+P10376,train,71.3,64,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1471,11556,0.6
+P10377,test,64.3,32,glazing smart-thermostat heat-pump solar,-2423,12460,0
+P10378,train,59.5,217,smart-thermostat heat-pump solar,-1220,6541,3.2
+P10379,validation,32.3,69,solid-wall floor glazing smart-thermostat solar,3134,0,4.2
+P10380,train,68.6,99,floor glazing smart-thermostat heat-pump solar,-3467,18650,1.2
+P10381,train,39.8,315,heat-pump,4847,0,3.7
+P10382,validation,77.5,7,solid-wall floor glazing smart-thermostat heat-pump solar,-1963,17235,1.3
+P10383,train,85.9,3,loft solid-wall floor smart-thermostat heat-pump solar,-3616,53747,2.6
+P10384,train,58.2,234,glazing smart-thermostat heat-pump solar,-1577,7342,0
+P10385,train,13.3,337,glazing smart-thermostat solar,1429,0,3
+P10386,test,58.1,54,cavity-wall glazing smart-thermostat heat-pump,-2350,7930,0
+P10387,test,66.5,24,loft solid-wall floor smart-thermostat heat-pump solar,-1217,9182,0.6
+P10388,train,34.8,322,cavity-wall glazing smart-thermostat solar,2136,0,4.2
+P10389,train,63.6,161,smart-thermostat heat-pump solar,-3166,13910,0
+P10390,train,62.5,176,loft floor glazing smart-thermostat heat-pump solar,-1917,11509,1.3
+P10391,train,22.4,330,smart-thermostat solar,1071,0,2.5
+P10392,train,79.9,10,solid-wall floor glazing smart-thermostat heat-pump solar,-1892,24732,1.8
+P10393,train,56.6,248,glazing heat-pump solar,-2536,10348,0.6
+P10394,train,70.4,82,loft glazing smart-thermostat heat-pump solar,-4048,18650,1.2
+P10395,train,80.1,9,solid-wall floor smart-thermostat heat-pump solar,-2608,24504,0.6
+P10396,train,43.5,304,loft heat-pump solar,6759,0,5.5
+P10397,train,29,327,solid-wall floor glazing solar,3692,0,4.1
+P10398,train,62.5,177,cavity-wall glazing smart-thermostat heat-pump solar,-2239,12331,0
+P10399,validation,62.3,39,glazing smart-thermostat heat-pump,-2374,8821,-2.2
+P10400,train,57.2,243,cavity-wall glazing smart-thermostat heat-pump solar,-2842,14794,1
+P10401,train,18.6,333,loft smart-thermostat solar,1432,0,1.3
+P10402,train,75.1,32,loft glazing smart-thermostat heat-pump solar,-2376,17155,0.9
+P10403,train,44.2,302,solid-wall floor glazing heat-pump,6961,0,6
+P10404,validation,28.2,70,glazing heat-pump,1921,0,3.2
+P10405,train,77,20,solid-wall floor glazing smart-thermostat heat-pump solar,-1192,10472,3.2
+P10406,train,73.7,45,loft cavity-wall smart-thermostat heat-pump solar,-2341,14541,1.2
+P10407,train,58.4,232,glazing smart-thermostat heat-pump solar,-2593,12962,1
+P10408,train,70.8,76,loft cavity-wall glazing smart-thermostat heat-pump solar,-2076,13360,0.6
+P10409,train,66.8,115,glazing smart-thermostat heat-pump solar,-3342,17452,0.6
+P10410,train,67,112,floor smart-thermostat heat-pump solar,-3889,18167,0
+P10411,train,54.9,262,glazing smart-thermostat heat-pump,-2392,8198,-1.5
+P10412,train,29.5,326,heat-pump,2184,0,4.6
+P10413,train,72,58,loft cavity-wall glazing smart-thermostat heat-pump solar,-1891,12816,0.9
+P10414,train,64.1,154,smart-thermostat heat-pump solar,-5605,21665,0
+P10415,train,66.7,118,cavity-wall smart-thermostat heat-pump solar,-2852,14158,0
+P10416,validation,62.8,36,glazing smart-thermostat heat-pump solar,-1971,10815,0
+P10417,test,65.5,27,smart-thermostat heat-pump solar,-2745,11346,1
+P10418,test,50.3,68,smart-thermostat heat-pump solar,-1438,7800,2.5
+P10419,test,76.6,4,solid-wall floor smart-thermostat heat-pump solar,-2849,25769,1.2
+P10420,test,59.7,47,glazing smart-thermostat heat-pump solar,-2281,11197,0.9
+P10421,validation,58.7,49,loft glazing smart-thermostat heat-pump solar,-1834,10270,0.9
+P10422,train,70.5,79,loft floor glazing smart-thermostat heat-pump solar,-7883,41179,0
+P10423,train,70.8,77,loft cavity-wall smart-thermostat heat-pump solar,-1667,14981,0.6
+P10424,validation,52.2,60,solid-wall heat-pump,-1764,6671,0
+P10425,validation,59.4,45,glazing smart-thermostat heat-pump solar,-1256,6324,0
+P10426,test,43.8,73,glazing heat-pump,-1703,5427,0
+P10427,validation,67.3,27,cavity-wall smart-thermostat heat-pump solar,-2073,11712,1.3
+P10428,train,73.3,48,solid-wall floor glazing smart-thermostat heat-pump solar,-2117,18411,1.2
+P10429,train,51.6,283,smart-thermostat heat-pump,-2625,7530,-1.3
+P10430,validation,57.5,52,solid-wall floor heat-pump,9234,0,3.7
+P10431,train,64.9,137,loft glazing smart-thermostat heat-pump solar,-3378,16381,1.2
+P10432,train,56.1,255,cavity-wall glazing smart-thermostat heat-pump,-2740,9824,0
+P10433,train,44.1,303,cavity-wall heat-pump,3329,0,1.2
+P10434,train,70.9,71,solid-wall floor glazing smart-thermostat heat-pump solar,-1441,13815,0.6
+P10435,train,52.7,275,cavity-wall smart-thermostat heat-pump,-2445,8316,0
+P10436,validation,56.2,55,solid-wall floor glazing heat-pump,-1594,6707,0.6
+P10437,train,33.1,325,smart-thermostat heat-pump,-1782,5121,0
+P10438,train,63.8,156,smart-thermostat heat-pump solar,-1521,7594,0
+P10439,test,69.8,15,solid-wall floor glazing smart-thermostat heat-pump solar,-3258,30300,0.6
+P10440,validation,60.7,44,smart-thermostat heat-pump solar,-2117,9932,0.6
+P10441,test,38.8,77,heat-pump,1945,0,3.2
+P10442,test,42.2,76,heat-pump,-1592,4525,0
+P10443,train,19.1,332,cavity-wall smart-thermostat solar,2354,0,2.1
+P10444,train,65.1,133,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1892,14302,3.2
+P10445,train,49.4,289,cavity-wall smart-thermostat heat-pump,-2544,8134,-1.3
+P10446,validation,58.9,48,solid-wall smart-thermostat heat-pump,-3032,10397,0
+P10447,train,75.4,30,loft cavity-wall smart-thermostat heat-pump solar,-3907,27807,1.3
+P10448,train,75.6,28,solid-wall floor glazing smart-thermostat heat-pump solar,-1584,13861,0.9
+P10449,train,39,318,heat-pump,-2047,5789,0
+P10450,validation,67.7,23,loft glazing smart-thermostat heat-pump solar,-3111,15620,1.2
+P10451,train,52.7,276,smart-thermostat heat-pump solar,-2106,9383,0
+P10452,train,50.4,285,cavity-wall smart-thermostat heat-pump,-1648,6161,0
+P10453,train,74.8,35,loft heat-pump solar,-2578,17771,1.5
+P10454,train,42.7,308,smart-thermostat heat-pump,-1613,4424,0
+P10455,test,46.3,71,cavity-wall glazing heat-pump solar,7909,0,4
+P10456,validation,74.5,10,solid-wall floor glazing heat-pump,-2656,15883,1
+P10457,test,59.8,45,smart-thermostat heat-pump solar,-4221,16281,0
+P10458,train,66.9,113,loft glazing smart-thermostat heat-pump solar,-2950,16616,1
+P10459,train,76.8,21,solid-wall floor smart-thermostat heat-pump solar,-2445,17361,1.2
+P10460,train,64.7,140,heat-pump,-3139,11884,0
+P10461,train,67.7,108,loft cavity-wall heat-pump solar,-1532,11336,0.6
+P10462,test,48.2,69,smart-thermostat heat-pump,-2421,7208,0
+P10463,validation,71.9,13,loft solid-wall floor smart-thermostat heat-pump solar,-1659,11192,1
+P10464,train,59.9,212,loft glazing smart-thermostat heat-pump,-2834,10506,0
+P10465,train,64.2,150,loft smart-thermostat heat-pump solar,-2016,11114,0.9
+P10466,train,48.4,292,glazing heat-pump,2965,0,0.9
+P10467,train,71.8,60,solid-wall floor heat-pump,6934,0,5
+P10468,train,53.9,270,loft smart-thermostat heat-pump,-1985,6894,0
+P10469,train,66.1,127,loft glazing smart-thermostat heat-pump solar,-1804,10071,1.2
+P10470,test,55.7,59,smart-thermostat heat-pump,-2301,6907,-1
+P10471,test,54.9,63,loft smart-thermostat heat-pump solar,-2416,11494,0
+P10472,train,48,295,smart-thermostat heat-pump,-2082,6236,0
+P10473,train,75,34,loft solid-wall floor glazing smart-thermostat heat-pump solar,-1836,15988,0.9
+P10474,validation,69.1,18,smart-thermostat heat-pump solar,-1854,13388,2.2
+P10475,validation,57,54,glazing smart-thermostat heat-pump,-2172,7373,-1
+P10476,validation,35.8,68,glazing smart-thermostat solar,898,0,1.5
+P10477,validation,84.1,1,loft solid-wall floor glazing smart-thermostat heat-pump solar,-2826,31420,1.2
+P10478,train,65.5,130,glazing smart-thermostat heat-pump,-3291,13866,0
+P10479,train,73.8,44,solid-wall floor smart-thermostat heat-pump solar,-2949,25142,0.6
+P10480,train,74.6,38,loft heat-pump solar,6025,0,8.8
+P10481,train,48.2,294,glazing smart-thermostat heat-pump,-1755,5873,0
+P10482,test,61.4,40,glazing smart-thermostat heat-pump solar,-2027,10425,0
+P10483,test,0,85,smart-thermostat,0,0,0
+P10484,test,38.4,78,smart-thermostat heat-pump,-2017,5866,0
+P10485,test,67.9,20,heat-pump solar,4682,0,2.7
+P10486,train,75.3,31,cavity-wall smart-thermostat heat-pump solar,-3771,24828,1.3
+P10487,train,60.6,203,smart-thermostat heat-pump solar,-1612,6749,0.6
+P10488,train,64.4,146,loft smart-thermostat heat-pump solar,-1962,9465,0
+P10489,train,63.7,159,solid-wall floor smart-thermostat heat-pump solar,-2132,14392,4.6
+P10490,train,73.7,46,loft cavity-wall smart-thermostat heat-pump solar,-3878,24835,0.6
+P10491,train,60.5,206,cavity-wall heat-pump solar,-2038,10838,0
+P10492,train,63.6,162,solid-wall glazing smart-thermostat heat-pump solar,-2188,10135,1.2
+P10493,train,70.9,72,loft glazing smart-thermostat heat-pump solar,-1422,11400,1.2
+P10494,train,63.1,170,glazing heat-pump solar,-7063,27742,0
+P10495,train,34.6,323,glazing smart-thermostat solar,1279,0,3.2
+P10496,train,65,134,smart-thermostat heat-pump solar,-2323,9545,0
+P10497,train,70.4,83,smart-thermostat heat-pump,-4969,21563,0
+P10498,validation,71,15,solid-wall floor smart-thermostat heat-pump solar,-3612,32404,0.9
+P10499,train,61.3,196,solid-wall floor glazing smart-thermostat heat-pump,-2177,9254,0.6
+P10500,train,40.4,314,smart-thermostat heat-pump,-1758,5005,0

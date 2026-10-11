@@ -78,7 +78,7 @@ The first rough result is under 0.6 s for every golden building (AC-PG2 asks for
 ## PLACEHOLDER and open items
 
 - Room outlines: the compiled building has none for middle storeys, so daylight rooms are strips behind windowed walls sized to the room's floor area (requested `SurfaceSet.rooms`).
-- `@ibasho/dmath` is copied in `src/dmath` (requested as a dependency, with the new inverse functions moved there). three-mesh-bvh is not imported (no install); the kernel is behind `Bvh.cast`, so it can swap.
+- `@ibasho/dmath` is now a dependency and supplies `atan`, `atan2`, `asin`, `acos`; `exp`, `log`, `sin`, `cos` are still local copies in `src/dmath` and can switch to it the same way. three-mesh-bvh is not imported (no install); the kernel is behind `Bvh.cast`, so it can swap.
 - Not modelled: trees, terrain, inter-building reflections (flag "reflected sun not included"), glare (DGP).
 - `parseEpw` checks its input itself until `EpwSchema` exists in `@ibasho/core/schemas`.
 

@@ -1,0 +1,24 @@
+{
+  "name": "@ibasho/pack-green-home",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Green Home Score, poor-home detection, retrofit recommendations, per-fuel savings, carbon and value range for UK homes (Lloyds brief), on the Ibasho home physics.",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run",
+    "gen:portfolio": "node scripts/gen-portfolio.ts",
+    "evaluate": "node scripts/evaluate.ts"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/dmath": "workspace:*",
+    "@ibasho/engine": "workspace:*",
+    "@ibasho/pack-climate": "workspace:*",
+    "@ibasho/pack-home-uk": "workspace:*",
+    "@ibasho/pack-money-uk": "workspace:*"
+  }
+}

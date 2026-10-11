@@ -28,6 +28,10 @@ Routes (SPEC 17): `/app/` studio home (your places, Welcome back with what chang
 - Find: header search and the Ctrl or Cmd K palette (search button on phones) over `@ibasho/plan` `searchPlaces`; a pick sets the building, the zoom level and the scene focus.
 - State: `src/studio/state/studio.ts` (zustand), persisted through `@ibasho/store` v2 (`persist.ts`).
 
+## Homes (Lloyds brief)
+
+`/app/portfolio` ranks a home portfolio by improvement potential (100 x (baseline minus after) / baseline purchased energy, grid electricity plus gas), flags Poor and Very poor homes with their key issues, and reports electricity and gas changes separately, or "unavailable" without meter readings. `/app/portfolio/:id` shows the Green Home Score (seven brief weights, bands, each component's weight, sub-score and contribution), the prioritised feasible retrofits (suitability, reason, per-fuel saving net of the ones above it, increases negative), the package, carbon from per-fuel factors (DESNZ 2024), the value change as an indicative range, and a what-if that reruns everything; the narrator only reads computed values. Code: `src/portfolio/`. PLACEHOLDER: `model.ts` is a local documented model with a synthetic portfolio (P10001 to P10040) until Agent A's data and calculations land; then the page imports theirs.
+
 ## Layout
 
 `src/manifest.ts` (module manifest, Node importable; packs imported by package name, `ui` has `pack-home-uk/ui`), `src/worker/` (engine and mirror), `src/engine/client.ts` (main thread client), `src/home/` (homes lookup, view model, page, `HomeHouse` stage mount, SVG fallback), `src/start/` (onboarding), `src/shell/` (shell, zones, services), `src/routes.tsx`.

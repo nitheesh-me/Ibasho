@@ -1733,78 +1733,6 @@ export function CityScene(p: CitySceneProps) {
     [emphasisLines],
   );
 
-  // ---------------------------------------------------------------- moment 3: the radiation rose
-  // biome-ignore lint/correctness/useExhaustiveDependencies: `track` reads the current size only
-  const rose = useMemo(() => {
-    if (lens !== 'radiation' || !hero || !p.site) return null;
-    const bins = new Array<number>(16).fill(0);
-    const area = new Array<number>(16).fill(0);
-    for (const s of hero.surfaces) {
-      if (s.kind !== 'wall') continue;
-      const d = siteById.get(s.id) ?? siteById.get(surfaceKey(s.id));
-      const k = d ? annualKwh(d) : null;
-      if (k === null) continue;
-      const b = Math.round(s.bearingDeg / 22.5) % 16;
-      bins[b]! += k * s.area;
-      area[b]! += s.area;
-    }
-    const v = bins.map((x, i) => (area[i] ? x / area[i]! : 0));
-    const max = Math.max(...v);
-    if (!max) return null;
-    const { c, span } = ringCentre(hero.prisms.flatMap((x) => x.ring));
-    const R = Math.max(10, span * 0.22);
-    const pos: number[] = [];
-    const col: number[] = [];
-    const edge: number[] = [];
-    const y = hero.height + 2.5;
-    v.forEach((val, i) => {
-      if (!val) return;
-      const r = (R * val) / max;
-      const a0 = ((i - 0.42) * 22.5 * Math.PI) / 180;
-      const a1 = ((i + 0.42) * 22.5 * Math.PI) / 180;
-      const P = (a: number, rr: number): number[] => [c[0] + Math.sin(a) * rr, y, -(c[1] + Math.cos(a) * rr)];
-      const cc = rampLinear('hinata', (val - d0) / Math.max(1, d1 - d0));
-      const tri = [...P(0, 0), ...P(a0, r), ...P(a1, r)];
-      pos.push(...tri);
-      for (let k = 0; k < 3; k++) col.push(cc[0], cc[1], cc[2]);
-      edge.push(...P(0, 0), ...P(a0, r), ...P(a0, r), ...P(a1, r), ...P(a1, r), ...P(0, 0));
-    });
-    const g = new BufferGeometry();
-    g.setAttribute('position', new BufferAttribute(new Float32Array(pos), 3));
-    g.setAttribute('color', new BufferAttribute(new Float32Array(col), 3));
-    return {
-      g,
-      lines: track(fatLines(edge, look.ink, 1, { opacity: 0.8 })),
-      centre: [c[0], y, -c[1]] as [number, number, number],
-    };
-  }, [lens, hero, p.site, siteById, d0, d1, look.ink]);
-  useEffect(
-    () => () => {
-      if (rose) {
-        rose.g.dispose();
-        lineMats.current.delete(rose.lines.material);
-        rose.lines.geometry.dispose();
-        rose.lines.material.dispose();
-      }
-    },
-    [rose],
-  );
-  const roseMat = useMemo(
-    () => new MeshBasicMaterial({ vertexColors: true, side: DoubleSide, transparent: true, opacity: 0.92 }),
-    [],
-  );
-  useEffect(() => () => roseMat.dispose(), [roseMat]);
-  const roseRef = useRef<Object3D>(null);
-  useFrame(() => {
-    // The rose unfolds with the wick (moment 3): petals scale from the centre as colour rises.
-    const g = roseRef.current;
-    if (!g || !rose) return;
-    const k = wick.current.on ? Math.min(1, (performance.now() - wick.current.start) / 1600) : 1;
-    const e = easeOri(k);
-    g.position.set(rose.centre[0] * (1 - e), 0, rose.centre[2] * (1 - e));
-    g.scale.set(e, 1, e);
-  });
-
   const heroGroupY = PLINTH_M;
 
   return (
@@ -2022,12 +1950,6 @@ export function CityScene(p: CitySceneProps) {
               : null}
             {ghostLines ? <primitive object={ghostLines} /> : null}
             {emphasisLines ? <primitive object={emphasisLines} /> : null}
-            {rose ? (
-              <group ref={roseRef as unknown as MutableRefObject<never>}>
-                <mesh geometry={rose.g} material={roseMat} raycast={noRaycast} renderOrder={5} />
-                <primitive object={rose.lines} />
-              </group>
-            ) : null}
             {photo ? (
               <>
                 <mesh

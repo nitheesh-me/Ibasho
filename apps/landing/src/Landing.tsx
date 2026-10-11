@@ -20,6 +20,7 @@ import {
   LANDING_EXAMPLE,
   LANDING_FOOTER,
   LANDING_HERO_CAPTION,
+  LANDING_HERO_CAPTION_NIGHT,
   LANDING_INVITATION,
   LANDING_PLATES,
   LANDING_PREVIEW_NOTE,
@@ -126,46 +127,22 @@ function ThemedStill({
   return one ? <Still poster={one} className="lp-still" {...(sizes ? { sizes } : {})} /> : null;
 }
 
-/** The hero at night: the wide lantern city on larger screens, the tall crop on phones. */
-function HeroNight({ wide, phone }: { wide?: Poster | undefined; phone?: Poster | undefined }) {
-  const main = phone ?? wide;
-  if (!main) return null;
-  return (
-    <picture className="lp-still lp-still--yoru">
-      {wide && phone ? (
-        <source media="(min-width: 48rem)" srcSet={srcSetOf(wide)} sizes="(min-width: 80rem) 55vw, 100vw" />
-      ) : null}
-      <img
-        src={main.large.src}
-        srcSet={srcSetOf(main)}
-        sizes="100vw"
-        alt={main.alt}
-        width={main.large.width}
-        height={main.large.height}
-        loading="lazy"
-        decoding="async"
-      />
-    </picture>
-  );
-}
-
+/**
+ * The hero: the city still of the theme in force, the same camera by day and by night, so the
+ * switch changes the light and not the picture (landing review M8). Each light has its caption.
+ */
 function Hero({
   chapter,
   posters,
   anyPreview,
-  example,
 }: {
   chapter: LandingChapter;
   posters: ReadonlyMap<string, Poster>;
   anyPreview: boolean;
-  example?: ExampleData | undefined;
 }) {
   const titleId = `${chapter.id}-title`;
-  const day = stillsFor(posters, 'city').day;
-  const wide = posters.get('hero-wide');
-  const phone = posters.get('hero-phone');
-  const stillPreview = [day, wide, phone].some((p) => p?.preview);
-  const coords = example ? `${example.lat.toFixed(2)}° N, ${example.lon.toFixed(2)}° E` : undefined;
+  const { day, night } = stillsFor(posters, 'city');
+  const stillPreview = [day, night].some((p) => p?.preview);
   return (
     <section id={chapter.id} className="lp-hero" data-chapter={chapter.id} aria-labelledby={titleId}>
       <div className="lp-hero__inner">
@@ -181,20 +158,24 @@ function Hero({
           {chapter.title}
         </h1>
         <figure className="lp-hero__art">
-          {day && (wide || phone) ? (
+          {day || night ? (
             <div className="lp-stills lp-hero__frame">
-              <Still
-                poster={day}
-                className="lp-still lp-still--hiru"
-                sizes="(min-width: 80rem) 55vw, 100vw"
-              />
-              <HeroNight wide={wide} phone={phone} />
+              <ThemedStill day={day} night={night} sizes="(min-width: 80rem) 60vw, 100vw" />
               {stillPreview ? <PreviewMark corner /> : null}
             </div>
           ) : (
             <CityArt />
           )}
-          <figcaption className="lp-hero__caption">{LANDING_HERO_CAPTION}</figcaption>
+          <figcaption className="lp-hero__caption">
+            {night ? (
+              <>
+                <span className="lp-in-hiru">{LANDING_HERO_CAPTION}</span>
+                <span className="lp-in-yoru">{LANDING_HERO_CAPTION_NIGHT}</span>
+              </>
+            ) : (
+              LANDING_HERO_CAPTION
+            )}
+          </figcaption>
         </figure>
         <p className="lp-hero__line">
           <Copy text={chapter.line} />
@@ -213,7 +194,7 @@ function Hero({
           </a>
           <a className="lp-specimen" href={LANDING_EXAMPLE.link.href}>
             <span className="lp-specimen__label">{LANDING_EXAMPLE.link.label}</span>
-            <span className="lp-specimen__meta">IIIT Hyderabad{coords ? ` · ${coords}` : ''}</span>
+            <span className="lp-specimen__meta">IIIT Hyderabad</span>
           </a>
         </div>
         {anyPreview ? <p className="lp-hero__note">{LANDING_PREVIEW_NOTE}</p> : null}
@@ -247,7 +228,13 @@ function Audiences() {
 }
 
 /** "Vindhya Bhavan, in one page": three figures and three futures from the studio's results. */
-function Example({ data, poster }: { data: ExampleData; poster?: Poster | undefined }) {
+function Example({
+  data,
+  stills,
+}: {
+  data: ExampleData;
+  stills: { day?: Poster | undefined; night?: Poster | undefined };
+}) {
   const ex = LANDING_EXAMPLE;
   const n = (v: string) => (
     <span className="lp-num" data-preview={data.preview ? '' : undefined}>
@@ -272,10 +259,10 @@ function Example({ data, poster }: { data: ExampleData; poster?: Poster | undefi
         <p className="lp-ex__line">{ex.line}</p>
         {data.preview ? <p className="lp-ex__note">{ex.previewNote}</p> : null}
       </div>
-      {poster ? (
+      {stills.day || stills.night ? (
         <figure className="lp-ex__still">
-          <Still poster={poster} sizes="(min-width: 80rem) 30vw, 50vw" />
-          {poster.preview ? <PreviewMark corner /> : null}
+          <ThemedStill day={stills.day} night={stills.night} sizes="(min-width: 80rem) 40vw, 50vw" />
+          {stills.day?.preview || stills.night?.preview ? <PreviewMark corner /> : null}
         </figure>
       ) : null}
       <dl className="lp-ex__figures">
@@ -385,7 +372,7 @@ function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
           ))}
         </div>
         <ul className="lp-enduse__key">
-          {data.endUses.slice(0, 4).map((u) => (
+          {data.endUses.map((u) => (
             <li key={u.id}>
               <span
                 className="lp-enduse__sw"
@@ -396,6 +383,7 @@ function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
             </li>
           ))}
         </ul>
+        <p className="lp-range__label">{P.energy.bar}</p>
         <div className="lp-range" aria-hidden="true">
           {t ? <span className="lp-range__band lp-range__band--target" style={band(t)} /> : null}
           <span className="lp-range__band" style={band(data.euiRange)} />
@@ -415,6 +403,14 @@ function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
               </dd>
             </div>
           ) : null}
+          {data.carbonTonnes !== undefined ? (
+            <div>
+              <dt>{P.energy.carbon}</dt>
+              <dd className="lp-data">
+                {data.carbonTonnes.toLocaleString('en-GB')} {P.energy.carbonUnit}
+              </dd>
+            </div>
+          ) : null}
         </dl>
       </div>
     );
@@ -428,15 +424,22 @@ function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
             <div key={r.scheme}>
               <dt>{r.scheme}</dt>
               <dd>
-                <span className="lp-chip" data-status={r.status}>
-                  {RATING_COPY[r.status]}
-                </span>{' '}
+                {r.status === 'none' ? null : (
+                  <>
+                    <span className="lp-chip" data-status={r.status}>
+                      {RATING_COPY[r.status]}
+                    </span>{' '}
+                  </>
+                )}
                 {r.level}
               </dd>
             </div>
           ))}
         </dl>
-        <p className="lp-plate__note">{P.codes.note}</p>
+        <p className="lp-plate__note">
+          {data.againstReference ? `${data.againstReference} ` : ''}
+          {P.codes.note}
+        </p>
       </div>
     );
   }
@@ -448,12 +451,9 @@ function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
           {data.futures.map((f) => (
             <li key={f.role}>
               <span className="lp-plate__card-name">{f.name}</span>
-              <span className="lp-data">
-                {P.compare.upfront} {f.upfront}
-              </span>
               {f.saves ? (
-                <span className="lp-data">
-                  {P.compare.saves} {f.saves}
+                <span className="lp-plate__card-num">
+                  {P.compare.saves} <span className="lp-data">{f.saves}</span>
                 </span>
               ) : null}
             </li>
@@ -477,7 +477,7 @@ function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
           {data.evidenceCount > 0 ? (
             <div>
               <dt>{P.trust.inputs}</dt>
-              <dd className="lp-data">{data.evidenceCount}</dd>
+              <dd>{P.trust.inputsValue.replace('{n}', String(data.evidenceCount))}</dd>
             </div>
           ) : null}
           <div>
@@ -695,9 +695,9 @@ export function LandingPage({
         </nav>
       </header>
       <main data-andon="landing" id="story">
-        {hero ? <Hero chapter={hero} posters={posters} anyPreview={anyPreview} example={example} /> : null}
+        {hero ? <Hero chapter={hero} posters={posters} anyPreview={anyPreview} /> : null}
         <Audiences />
-        {example ? <Example data={example} poster={posters.get(LANDING_EXAMPLE.posterId)} /> : null}
+        {example ? <Example data={example} stills={stillsFor(posters, LANDING_EXAMPLE.posterId)} /> : null}
         {others.map((c, i) => (
           <Chapter
             key={c.id}

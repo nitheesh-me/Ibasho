@@ -364,7 +364,10 @@ robinson-stone-2004:
   type: Article
   title: "Irradiation modelling made simple: the cumulative sky approach and its applications"
   author: ["Robinson, Darren", "Stone, Andrew"]
-  url: https://doi.org/10.1016/j.solener.2004.04.016
+  date: 2004
+  parent:
+    type: Proceedings
+    title: "PLEA 2004, 21st Conference on Passive and Low Energy Architecture, Eindhoven"
 ies-lm-83:
   type: Web
   title: "IES LM-83-23: Approved Method: IES Spatial Daylight Autonomy (sDA) and Annual Sunlight Exposure (ASE)"
@@ -385,3 +388,10 @@ leed-v41-eac:
   title: "LEED v4.1 BD+C Optimize Energy Performance"
   author: "LEEDuser, BuildingGreen"
   url: https://leeduser.buildinggreen.com/taxonomy/term/4929
+
+desnz-ghg-2024:
+  type: Web
+  title: "Greenhouse gas reporting: conversion factors 2024"
+  author: Department for Energy Security and Net Zero
+  url: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024
+  date: 2024

@@ -37,6 +37,8 @@ export type Owner =
   | 'WP-22'
   | 'WP-23'
   | 'WP-24'
+  /** Lloyds brief: Green Home Score, synthetic portfolio, retrofit engine. */
+  | 'WP-25'
   | 'orchestrator'
   /** Append-only coordination files every agent may add entries to. */
   | 'shared-append';
@@ -62,7 +64,7 @@ const FIX_WP04 = FIX(['certs']);
 const FIX_WP05 = FIX(['injection', 'utterances', 'narration']);
 const FIX_WP12 = FIX(['agent']);
 // v3 (BUILD_PLAN 10)
-const FIX_V3 = FIX(['preview', 'buildings', 'site', 'energy', 'codes', 'optimise', 'interop']);
+const FIX_V3 = FIX(['preview', 'buildings', 'site', 'energy', 'codes', 'optimise', 'interop', 'portfolio']);
 const ENGINE_WP18 = ['zones', 'systems', 'enduse'].map((d) => `packages/engine/src/${d}/**`);
 const ENGINE_WP19 = ['packages/engine/src/codes/**'];
 const ENGINE_WP20 = ['packages/engine/src/optimise/**'];
@@ -165,6 +167,7 @@ export const OWNERSHIP: readonly OwnershipRule[] = [
   { owner: 'WP-22', include: ['docs/qa/product/**'] },
   { owner: 'WP-23', include: ['docs/qa/ux/**'] },
   { owner: 'WP-24', include: ['docs/qa/content/**'] },
+  { owner: 'WP-25', include: ['packs/green-home/**', 'packages/fixtures/src/portfolio/**'] },
   {
     owner: 'shared-append',
     include: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml', 'ACKNOWLEDGEMENTS.md'],

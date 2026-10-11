@@ -1,0 +1,3 @@
+fuel,kgCo2ePerKwh,source,url,year
+electricity,0.20705,"UK Government GHG Conversion Factors for Company Reporting 2024 (DESNZ), UK electricity",https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024,2024
+gas,0.1829,"UK Government GHG Conversion Factors for Company Reporting 2024 (DESNZ), natural gas, gross CV",https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024,2024

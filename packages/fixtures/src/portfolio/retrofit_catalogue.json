@@ -1,0 +1,178 @@
+[
+ {
+  "id": "loft",
+  "name": "Loft insulation top-up to 270 mm",
+  "measureId": "loft",
+  "optionId": "loft-270",
+  "applicability": "House or bungalow with an accessible loft and less than 200 mm of insulation (or depth unknown).",
+  "costGBP": {
+   "lo": 400,
+   "hi": 1200
+  },
+  "typicalImpact": "Cuts space-heating demand; the most from an empty loft (illustrative 12 to 18%).",
+  "sources": [
+   {
+    "id": "bp-6-1",
+    "title": "Ibasho Building Physics brief 6.1, UK retrofit measure catalogue"
+   },
+   {
+    "id": "est",
+    "title": "Energy Saving Trust home insulation and heating guides",
+    "url": "https://energysavingtrust.org.uk"
+   },
+   {
+    "id": "rdsap-10",
+    "title": "RdSAP 10 specification (BRE, 2025), fabric U-values",
+    "url": "https://bregroup.com/documents/d/bre-group/rdsap-10-specification-10-06-2025"
+   }
+  ]
+ },
+ {
+  "id": "cavity-wall",
+  "name": "Cavity wall insulation",
+  "measureId": "cavity-fill",
+  "optionId": "cavity-fill",
+  "applicability": "Cavity walls recorded as unfilled (or unknown on a 1930 to 1995 home, after a borescope check).",
+  "costGBP": {
+   "lo": 1100,
+   "hi": 2700
+  },
+  "typicalImpact": "Wall U-value from about 1.5 to 0.55 W/m²K; large cut in space heating.",
+  "sources": [
+   {
+    "id": "est",
+    "title": "Energy Saving Trust home insulation and heating guides",
+    "url": "https://energysavingtrust.org.uk"
+   },
+   {
+    "id": "rdsap-10",
+    "title": "RdSAP 10 specification (BRE, 2025), fabric U-values",
+    "url": "https://bregroup.com/documents/d/bre-group/rdsap-10-specification-10-06-2025"
+   }
+  ]
+ },
+ {
+  "id": "solid-wall",
+  "name": "Solid wall insulation (external, or internal in a conservation area)",
+  "measureId": "wall-ewi",
+  "optionId": "wall-ewi-100",
+  "applicability": "Uninsulated solid walls; internal insulation where the outside cannot change.",
+  "costGBP": {
+   "lo": 8000,
+   "hi": 22000
+  },
+  "typicalImpact": "Wall U-value from about 1.7 to 0.3 W/m²K; disruptive and costly.",
+  "sources": [
+   {
+    "id": "bp-6-1",
+    "title": "Ibasho Building Physics brief 6.1, UK retrofit measure catalogue"
+   },
+   {
+    "id": "est",
+    "title": "Energy Saving Trust home insulation and heating guides",
+    "url": "https://energysavingtrust.org.uk"
+   }
+  ]
+ },
+ {
+  "id": "floor",
+  "name": "Suspended timber floor insulation",
+  "measureId": "floor",
+  "optionId": "floor-suspended-insulation",
+  "applicability": "Ground floor of suspended timber (homes before 1930), not yet insulated.",
+  "costGBP": {
+   "lo": 1500,
+   "hi": 3500
+  },
+  "typicalImpact": "Cuts floor heat loss and draughts.",
+  "sources": [
+   {
+    "id": "bp-6-1",
+    "title": "Ibasho Building Physics brief 6.1, UK retrofit measure catalogue"
+   }
+  ]
+ },
+ {
+  "id": "glazing",
+  "name": "Double glazing (secondary glazing where listed or in a conservation area)",
+  "measureId": "glazing-double",
+  "optionId": "glazing-double-a",
+  "applicability": "Single glazing, or old double glazing (low benefit).",
+  "costGBP": {
+   "lo": 4000,
+   "hi": 12000
+  },
+  "typicalImpact": "Cuts space-heating demand (illustrative 8 to 12% from single glazing).",
+  "sources": [
+   {
+    "id": "bp-6-1",
+    "title": "Ibasho Building Physics brief 6.1, UK retrofit measure catalogue"
+   },
+   {
+    "id": "est",
+    "title": "Energy Saving Trust home insulation and heating guides",
+    "url": "https://energysavingtrust.org.uk"
+   }
+  ]
+ },
+ {
+  "id": "smart-thermostat",
+  "name": "Smart heating controls (smart thermostat with TRVs)",
+  "measureId": "controls",
+  "optionId": "controls-trv-weather-comp",
+  "applicability": "Wet heating (boiler or heat pump) without smart controls.",
+  "costGBP": {
+   "lo": 250,
+   "hi": 700
+  },
+  "typicalImpact": "Heats only when and where needed (illustrative 5 to 10% of heating energy).",
+  "sources": [
+   {
+    "id": "bp-6-1",
+    "title": "Ibasho Building Physics brief 6.1, UK retrofit measure catalogue"
+   }
+  ]
+ },
+ {
+  "id": "heat-pump",
+  "name": "Air source heat pump",
+  "measureId": "ashp",
+  "optionId": "heat-ashp",
+  "applicability": "Any home not already on a heat pump with outdoor space for the unit; best after insulation.",
+  "costGBP": {
+   "lo": 8000,
+   "hi": 14000
+  },
+  "typicalImpact": "Gas use falls to the hob; electricity rises (illustrative 15 to 25% less purchased energy).",
+  "sources": [
+   {
+    "id": "bp-6-1",
+    "title": "Ibasho Building Physics brief 6.1, UK retrofit measure catalogue"
+   },
+   {
+    "id": "desnz-bus",
+    "title": "Boiler Upgrade Scheme statistics (DESNZ), heat pump installed costs",
+    "url": "https://www.gov.uk/government/statistics/boiler-upgrade-scheme-statistics"
+   }
+  ]
+ },
+ {
+  "id": "solar",
+  "name": "Solar panels (2 to 3 kWp)",
+  "measureId": "pv",
+  "optionId": "pv-3kwp",
+  "applicability": "Own roof facing east, south or west without existing panels; flats only with roof access.",
+  "costGBP": {
+   "lo": 4500,
+   "hi": 8000
+  },
+  "typicalImpact": "Cuts grid imports, not the home’s demand (illustrative 20 to 35% of imports).",
+  "sources": [
+   {
+    "id": "desnz-pv",
+    "title": "Solar PV cost data (DESNZ)",
+    "url": "https://www.gov.uk/government/statistics/solar-pv-cost-data"
+   }
+  ]
+ }
+]

@@ -41,6 +41,19 @@ pnpm --filter @ibasho/web preview          # http://localhost:4173/app/
 pnpm --filter @ibasho/landing preview      # http://localhost:4174/
 ```
 
+## Demo walkthrough
+
+With the studio running at http://localhost:5173/app/, a ten minute tour:
+
+1. **Find a building.** On "Your places", open search and type `Vindhya`. Pick Vindhya Bhavan; the camera flies to it in the Hyderabad city model.
+2. **Look.** Switch the lens to Sun, Radiation or Daylight. Drag the sun scrubber to watch shadows move. Use the day and night switch in the top bar.
+3. **Go inside.** Step down the scale ladder (City, Site, Building, Floor, Room) and open a floor to see its daylight map.
+4. **Ask what if.** In Choose, move a lever (glazing, overhang, rooftop solar). The progress bar runs the stages again; compare current and what if side by side.
+5. **Prove and tell.** Open Prove for the energy use, the codes and ratings, then Tell for the narrator. Click any number to open where it came from.
+6. **Design before you build.** Choose Design in the top bar: write a short brief, draw rooms in the plan editor, place the plot in Hyderabad or London, compare sites and save.
+7. **Homes.** Open Homes in the top bar: homes ranked by improvement potential. Open P10001 to see its Green Home Score, why it scored that way, suitable retrofits with electricity and gas savings, carbon and an indicative value range. Tick a retrofit to rerun every figure.
+8. **Come back.** Reload the page and reopen the place: the studio greets you with what changed since your last visit.
+
 ## Tests and checks
 
 ```

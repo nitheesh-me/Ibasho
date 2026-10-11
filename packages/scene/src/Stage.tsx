@@ -55,8 +55,11 @@ import { House } from './three/House.tsx';
 import { createMaterials, type HouseMaterials, loadTextures, type TextureBundle } from './three/materials.ts';
 import { Plinth } from './three/Plinth.tsx';
 import { Props } from './three/Props.tsx';
+import { quietClockWarning } from './three/quiet.ts';
 import { StillLife, type StillStats } from './three/StillLife.tsx';
 import { buildHouse, type HouseModel } from './twin/house.ts';
+
+quietClockWarning();
 
 export type StageStyle = 'washi' | 'yoru' | 'svg';
 

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
 import { HomePage } from './home/HomePage.tsx';
 import { landingPath } from './home/homes.ts';
+import { HomeScorePage, PortfolioPage } from './portfolio/PortfolioPages.tsx';
 import { Shell } from './shell/Shell.tsx';
 import { useServices } from './shell/services.ts';
 import { StartPage } from './start/StartPage.tsx';
@@ -129,6 +130,8 @@ export const routes: RouteObject[] = [
           </Studio>
         ),
       },
+      { path: 'portfolio', element: <PortfolioPage /> },
+      { path: 'portfolio/:id', element: <HomeScorePage /> },
       { path: 'homes', element: <Landing /> },
       { path: 'start', element: <StartPage /> },
       { path: 'home/:id', element: <HomePage /> },

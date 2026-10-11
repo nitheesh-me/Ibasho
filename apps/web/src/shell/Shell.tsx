@@ -61,6 +61,7 @@ function useReducedMotion(): boolean {
 export function Shell({ children }: { children?: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const [slot, setSlot] = useState<ReactNode | null>(null);
+  const [menu, setMenu] = useState(false);
   const reducedMotion = useReducedMotion();
   useEffect(() => {
     const root = document.documentElement;
@@ -90,23 +91,44 @@ export function Shell({ children }: { children?: ReactNode }) {
             {slot ? (
               <div className="ib-top__slot">{slot}</div>
             ) : (
-              <nav className="ib-top__nav" aria-label="Studio">
-                <NavLink to="/" end className="ib-top__link">
-                  Places
-                </NavLink>
-                <NavLink to="/new" className="ib-top__link">
-                  New
-                </NavLink>
-                <NavLink to="/design" className="ib-top__link">
-                  Design
-                </NavLink>
-                <NavLink to="/settings" className="ib-top__link">
-                  Settings
-                </NavLink>
-                <NavLink to="/home/gh1" className="ib-top__link ib-top__link--minor">
-                  London home
-                </NavLink>
-              </nav>
+              <>
+                <button
+                  type="button"
+                  className="ib-top__menu"
+                  aria-expanded={menu}
+                  aria-controls="ib-top-nav"
+                  onClick={() => setMenu((m) => !m)}
+                >
+                  Menu
+                </button>
+                <nav
+                  id="ib-top-nav"
+                  className="ib-top__nav"
+                  aria-label="Studio"
+                  data-open={menu ? '' : undefined}
+                  onClick={() => setMenu(false)}
+                  onKeyDown={(e) => e.key === 'Escape' && setMenu(false)}
+                >
+                  <NavLink to="/" end className="ib-top__link">
+                    Places
+                  </NavLink>
+                  <NavLink to="/new" className="ib-top__link">
+                    New
+                  </NavLink>
+                  <NavLink to="/design" className="ib-top__link">
+                    Design
+                  </NavLink>
+                  <NavLink to="/portfolio" className="ib-top__link">
+                    Homes
+                  </NavLink>
+                  <NavLink to="/settings" className="ib-top__link">
+                    Settings
+                  </NavLink>
+                  <NavLink to="/home/gh1" className="ib-top__link ib-top__link--minor">
+                    London home
+                  </NavLink>
+                </nav>
+              </>
             )}
             <div className="ib-top__search">
               <SearchBox compact />

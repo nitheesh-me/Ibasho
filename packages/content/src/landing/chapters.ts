@@ -114,7 +114,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     title: 'Light in every room.',
     line: 'Slide a floor out of the building like a drawer and see how far the daylight reaches.',
     body: [
-      'Bright areas fill with colour and dim corners stay plain paper. Where low sun falls hard on desks or beds, a warm hatch marks the glare.',
+      'Gold spreads in from the windows as far as daylight reaches. Where low sun falls hard on desks or beds, a warm hatch marks the glare.',
     ],
     more: ['Professionals get the usual measures, [[g:sda]] and [[g:ase]], room by room and floor by floor.'],
     glyph: '居',
@@ -278,7 +278,7 @@ export const LANDING_EXAMPLE = {
   futuresLine: 'Bundles of changes the search found, each worked out whole.',
   link: { label: 'Walk through Vindhya Bhavan', href: STUDIO_LINKS.vindhya },
   previewNote: 'Example figures. They become this building’s own numbers as each step is calculated.',
-  posterId: 'hero-phone',
+  posterId: 'example',
 } as const;
 
 /**
@@ -288,24 +288,28 @@ export const LANDING_EXAMPLE = {
 export const LANDING_PLATES = {
   energy: {
     title: 'Where the energy goes',
+    bar: 'This design, solid, against the code’s reference, hatched',
     range: 'As drawn',
     target: 'ECSBC reference',
     unit: 'kWh/m² a year',
+    carbon: 'Carbon',
+    carbonUnit: 'tonnes CO₂e a year',
   },
   codes: {
     title: 'Green ratings, as a pre-check',
+    notYet: 'Not yet. The first level asks for {first}% less energy.',
     note: 'An estimate, not a certification.',
   },
   compare: {
     title: 'Three futures',
-    upfront: 'Upfront',
-    saves: 'Saves',
+    saves: 'saves',
   },
   trust: {
     title: 'Energy per square metre',
     method: 'How it is worked out',
     methodValue: 'Energy used over the year, divided by the cooled floor area.',
-    inputs: 'Linked values',
+    inputs: 'Opens to',
+    inputsValue: '{n} linked numbers, each with its source',
     grade: 'Standing',
     gradePreview: 'Example result, not yet checked',
     gradeReal: 'Modelled, not measured',
@@ -335,6 +339,10 @@ export const LANDING_META = {
 /** Caption under the hero drawing of a paper city. */
 export const LANDING_HERO_CAPTION =
   'Your building in ink among its neighbours. The hatched shadow marks a height we can only estimate.';
+
+/** Caption under the hero by night, when the city is lit by how much energy each building uses. */
+export const LANDING_HERO_CAPTION_NIGHT =
+  'Your building lit by how much energy it uses, among its neighbours.';
 
 /** The product's tagline, Ibasho no kōjō in English. */
 export const LANDING_TAGLINE = 'Ibasho: improving the place where you belong.';

@@ -207,6 +207,7 @@ export function CityStage(p: CityStageProps) {
           style={
             p.compact || !gl.ok || (gl.software && p.level === 'city') ? 'svg' : night ? 'yoru' : 'washi'
           }
+          theme={night ? 'yoru' : 'hiru'}
           tierCap={gl.software ? 1 : 2}
           reducedMotion={p.reducedMotion}
           controls={false}

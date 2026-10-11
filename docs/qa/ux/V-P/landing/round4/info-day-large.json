@@ -1,0 +1,614 @@
+[
+ {
+  "sw": 1280,
+  "cw": 1280,
+  "h": 6963,
+  "cta": 623,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     636,
+     240,
+     559,
+     348
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "example",
+    "r": [
+     85,
+     1758,
+     576,
+     432
+    ]
+   },
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     636,
+     2696,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     85,
+     3181,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     636,
+     3588,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     85,
+     4054,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     636,
+     4462,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     85,
+     4949,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     636,
+     5382,
+     559,
+     349
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     85,
+     5841,
+     465,
+     291
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "dusk-wide-2400.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     6186,
+     1280,
+     508
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    829
+   ],
+   [
+    "for",
+    661
+   ],
+   [
+    "example",
+    1134
+   ],
+   [
+    "city",
+    493
+   ],
+   [
+    "sun",
+    418
+   ],
+   [
+    "daylight",
+    455
+   ],
+   [
+    "energy",
+    418
+   ],
+   [
+    "codes",
+    455
+   ],
+   [
+    "compare",
+    462
+   ],
+   [
+    "design",
+    462
+   ],
+   [
+    "trust",
+    397
+   ],
+   [
+    "invitation",
+    509
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 1280,
+  "themeReq": "day",
+  "errs": []
+ },
+ {
+  "sw": 1600,
+  "cw": 1600,
+  "h": 7173,
+  "cta": 623,
+  "ctaText": "Open the studio→",
+  "imgs": [
+   {
+    "src": "city-day-1600.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "hero",
+    "r": [
+     788,
+     176,
+     663,
+     414
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "hero",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "hero-phone-720.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "example",
+    "r": [
+     149,
+     1551,
+     681,
+     511
+    ]
+   },
+   {
+    "src": "city-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "city",
+    "r": [
+     788,
+     2548,
+     663,
+     415
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "city",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "sun-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "sun",
+    "r": [
+     149,
+     3069,
+     553,
+     345
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "sun",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "daylight-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "daylight",
+    "r": [
+     788,
+     3520,
+     663,
+     415
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "daylight",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "energy-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "energy",
+    "r": [
+     149,
+     4041,
+     553,
+     345
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "energy",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "codes-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "codes",
+    "r": [
+     788,
+     4492,
+     663,
+     415
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "codes",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "compare-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "compare",
+    "r": [
+     149,
+     5018,
+     553,
+     345
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "compare",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "design-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "design",
+    "r": [
+     788,
+     5475,
+     663,
+     415
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "design",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "trust-day-800.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "trust",
+    "r": [
+     149,
+     5996,
+     553,
+     345
+    ]
+   },
+   {
+    "src": "",
+    "vis": false,
+    "loaded": false,
+    "sec": "trust",
+    "r": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "src": "dusk-wide-2400.webp",
+    "vis": true,
+    "loaded": true,
+    "sec": "invitation",
+    "r": [
+     0,
+     6395,
+     1600,
+     508
+    ]
+   }
+  ],
+  "sections": [
+   [
+    "hero",
+    765
+   ],
+   [
+    "for",
+    518
+   ],
+   [
+    "example",
+    1212
+   ],
+   [
+    "city",
+    521
+   ],
+   [
+    "sun",
+    451
+   ],
+   [
+    "daylight",
+    521
+   ],
+   [
+    "energy",
+    451
+   ],
+   [
+    "codes",
+    521
+   ],
+   [
+    "compare",
+    462
+   ],
+   [
+    "design",
+    521
+   ],
+   [
+    "trust",
+    451
+   ],
+   [
+    "invitation",
+    509
+   ],
+   [
+    "words",
+    109
+   ]
+  ],
+  "w": 1600,
+  "themeReq": "day",
+  "errs": []
+ }
+]

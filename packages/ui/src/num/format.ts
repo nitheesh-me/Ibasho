@@ -203,7 +203,14 @@ function catText(node: EvidenceNode, cat: string): string {
 
 /** Format an evidence node's value for display. */
 export function formatEvidence(node: EvidenceNode, opts: FormatOptions = {}): Formatted {
-  const locale = opts.locale ?? 'en-GB';
+  // Round 4 M6: digit grouping follows the currency, not the page (lakh grouping only for rupees).
+  const u0 = 'fixed' in node.value ? node.value.unit : node.unit;
+  const locale =
+    u0.startsWith('GBP') || u0.startsWith('micro-pence')
+      ? 'en-GB'
+      : u0 === 'INR' || u0.startsWith('INR') || u0.startsWith('micro-paise')
+        ? 'en-IN'
+        : (opts.locale ?? 'en-GB');
   const vals = values(node);
   if (typeof vals === 'string') {
     const text = catText(node, vals);

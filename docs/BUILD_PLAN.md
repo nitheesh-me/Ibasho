@@ -2,6 +2,8 @@
 
 Status: director synthesis v2, 2026-10-10. v2 applies `review/DECISIONS.md`, TE-7 in particular. Read with `SPEC.md` (what), `ARCHITECTURE.md` (how) and `DESIGN_SYSTEM.md` (look).
 
+**v3 (2026-10-11).** §9 to §12 add the v3 work: waves, ownership for WP-13 to WP-24, v3 scopes for existing WPs, and the light testing policy (`PLAN-V3.md`). The owner direction (prototype first, outside in) overrides any v2 sequencing it conflicts with. §1 to §8 still govern the home track (M-A to M-C).
+
 Coordination happens on `docs/BLACKBOARD.typ` under its protocol:
 - append only
 - claim directories before editing them
@@ -508,3 +510,180 @@ Each later gate passes only if T1's acceptance suite is still green.
 - Determinism holds across Node, Chromium and Firefox.
 - No em or en dashes in copy or docs.
 - README, STATUS and the blackboard are updated.
+
+---
+
+# Part II: v3
+
+## 9. Shape of the v3 work
+
+```
+V-0  Contracts v3       WP-00 core v3 types and schemas, layer rules, installs; WP-10 ownership map. Short and serial.
+V-P  Prototype          WAVE 1, parallel. Every flow at full fidelity on Preview data.
+                          Design:     WP-06 UI kit v3
+                          Developers: WP-08 studio shell and five flows, WP-15 editor, WP-07 city scene,
+                                      WP-13 Preview data and staged progress, WP-14 plan helpers and building fixtures,
+                                      WP-17 city pack v0
+                          QA:         WP-22 product, WP-23 UX, WP-24 content (review based)
+V-1..V-6  Real stages   WAVE 2, in progress-bar order. Each swaps one stage from preview to real:
+                          V-1 geometry (WP-14, WP-21 PDF trace)   V-2 sun and radiation (WP-16, WP-17, WP-01 dmath)
+                          V-3 daylight (WP-16)                    V-4 energy (WP-18, WP-02 money-in)
+                          V-5 codes and ratings (WP-19, WP-03)    V-6 optimisation (WP-20, WP-04 proofs)
+V-7  Partner, memory    WAVE 3: WP-05 scoped memory, RecSet, why it changed, partner; WP-12 DesignOp tools
+V-H  Hyderabad hero     WAVE 3: the Vindhya demo end to end; WP-09 content and landing; WP-11 Hyderabad assets
+```
+
+The M-A to M-C home work in flight finishes in parallel; it is the base WP-18 and WP-20 extend.
+
+Rules of the road:
+- Every stage keeps the same contract in Preview and real; swapping is one line in `apps/web/src/manifest.ts`.
+- No flow may break during a swap. A Preview stamp disappears only when its stage is real.
+- Need a contract change? INTERFACES entry on the blackboard, local adapter, WP-00 applies it.
+
+## 10. Ownership (v3)
+
+New work packages. Paths are disjoint from each other and from §2; WP-10 encodes them in `tools/lint/ownership.ts` at V-0, including the exclusions noted.
+
+| WP | Role | Owns |
+|---|---|---|
+| WP-13 | Preview data and stage providers | `packages/preview/**`, `packages/fixtures/src/preview/**` |
+| WP-14 | Building model and plan kernel | `packages/plan/**`, `packages/fixtures/src/buildings/**` |
+| WP-15 | Editor (Make) | `packages/editor/**` |
+| WP-16 | Site and daylight | `packages/site/**`, `packages/fixtures/src/site/**` |
+| WP-17 | City data | `packs/city-hyderabad/**`, `packs/city-london/**`, `tools/city/**` |
+| WP-18 | Multi-zone energy and building types | `packages/engine/src/{zones,systems,enduse}/**`, `packs/types-global/**` and `packs/types-in/**` except `src/ui/**`, `packs/benchmarks/**`, `packages/fixtures/src/energy/**` |
+| WP-19 | Codes, baselines and ratings | `packages/engine/src/codes/**`, `packs/codes-in/**`, `packs/codes-global/**`, `packs/ratings/**`, `packages/fixtures/src/codes/**` |
+| WP-20 | Optimiser | `packages/engine/src/optimise/**`, `packages/fixtures/src/optimise/**` |
+| WP-21 | Interop and reference runners | `packages/interop/**`, `apps/companion/src/runners/**`, `packages/fixtures/src/interop/**` |
+| WP-22 | Product QA | `docs/qa/product/**` |
+| WP-23 | UX QA | `docs/qa/ux/**` |
+| WP-24 | Content QA | `docs/qa/content/**` |
+
+Changes to §2 ownership:
+- WP-02 keeps `packages/engine/**` minus the WP-01, WP-03, WP-18, WP-19 and WP-20 directories.
+- WP-05 keeps `apps/companion/**` minus `src/runners/**`.
+- WP-07 also owns `packs/types-global/src/ui/**` and `packs/types-in/src/ui/**` (type mons, thumbnails, preset drawings), as it does for the home packs.
+
+v3 scope of existing WPs (same paths as §2):
+
+| WP | v3 scope | Gate |
+|---|---|---|
+| WP-00 | Core v3 contracts (ARCH §15.4), schemas, layer rules (ARCH §15.2), installs (ARCH §15.9) | V-0 |
+| WP-01 | dmath `atan2`, `asin`, `acos`, `tan` for the SPA port; `climate` EPW for Hyderabad TMYx with monthly tables derived from it | V-2 |
+| WP-02 | `money-in`: TGSPDCL FY 2026-27 (LT-I, LT-II, HT-II, ToD, kVA demand, cliffs, Gruha Jyothi), HMWSSB water, diesel, CEA factors, India cost table with source rows; fair split | V-4 |
+| WP-03 | `rules-in`: roof rights (association consent for rooftop PV), tenure rules for rentals and apartments | V-5 |
+| WP-04 | Lean v3: N-axis Pareto, geometry sums, ledger identity, rating monotone and nesting, Shapley sum, memory scopes; `cert/3`; mirror | V-1 to V-6 |
+| WP-05 | Scoped bi-temporal memory, typed goals, `RecSet` tiers, why it changed, offline and Ollama partner, narrator slots and G9, G10 | V-7 |
+| WP-06 | UI kit v3 (§11.1) | V-P |
+| WP-07 | City scene, lenses, editor 3D view (§11.2) | V-P, then each real stage |
+| WP-08 | Studio shell, five flows, settings ledger, store v2 (§11.3) | V-P |
+| WP-09 | Copy for types, codes, ratings, lenses, settings; glossary; landing v3 chapters | V-P (copy), V-H |
+| WP-10 | Ownership map, layer rules tests, stage-provider contract tests | V-0, then each swap |
+| WP-11 | Hyderabad materials (RCC, plaster, laterite, jaali), trees, a Hyderabad sky set | V-H |
+| WP-12 | MCP tools for places, buildings and `DesignOp`s | V-7 |
+
+## 11. Work packages (v3)
+
+Format as §4. Acceptance in wave 1 is light and review based (§12).
+
+### 11.0 WP-00 Contracts v3 (V-0)
+
+- **Outputs:** `packages/core/src/v3/**` per ARCH §15.4 with zod schemas; `comply` effect, metric registry, `b.*` and `z.*` facts; `preview` seal level and provenance; new plugin kinds (ARCH §15.3); dependency-cruiser rules (ARCH §15.2); skeletons for the new packages and packs with READMEs naming their owners; installs (ARCH §15.9, V-0 rows).
+- **Acceptance:** `pnpm -r typecheck` green; schema round-trip tests for every v3 contract; a fixture importing `three` from `plan` is reported; the GH1 twin still validates.
+
+### 11.1 WP-06 UI kit v3 (design, wave 1)
+
+- **Goal:** Andon for the studio, city, editor and analysis (DESIGN_SYSTEM §13).
+- **Outputs:** tokens for the new ramps and states; components `StageBar`, `PreviewStamp`, `ScaleLadder`, `ModeTabs`, `LensPanel`, `AnalysisLegend`, `Histogram`, `TypeCard` (mon and schedule strip), `PlaceCard`, `EuiGauge`, `EndUseBar`, `RatingLadder`, `CodeRow`, `GoalChip`, `SettingRow`, `DiffCard`, `WelcomeBack`, `FilmStrip`, `CompareGrid`, `ParallelCoords`, `ProposalCard`, `ToolRail`, `DimensionTag`, `PropertiesSheet`, `Breadcrumb`; eight building-type mons; stories in Hiru and Yoru at 360, 768, 1280 and 1600 px.
+- **Acceptance:** U1 new ramps pass AC-14; U2 text pairs ≥ 4.5:1; U3 `PreviewStamp` and stale states never use `--seal` or `--gold` (F5 lint extended); U4 every chart has `TableAlt`; U5 every story renders at the four widths without horizontal scroll (UX QA review).
+
+### 11.2 WP-07 City scene (developer, wave 1)
+
+- **Goal:** the paper city and the building in it (UV §2, §10; DESIGN_SYSTEM §13).
+- **Outputs:** context layer from city tiles (instanced LoD1, estimated tops hatched, honesty chip on hover); building meshes from `SurfaceSet`; scale ladder camera moves; time strip binding and sun from the place; lens painting from `SiteResult` and daylight results; the eight signature moments as layers with reduced-motion variants; the daylight drawer and exploded floor stack; night lanterns; compare (scissor 2 and 4); editor 3D view; device quality tiers.
+- **Acceptance:** S1 city level on the Hyderabad preview pack within ARCH budgets (≤ 150 draw calls, ≤ 400k triangles) from `renderer.info` in a unit test; S2 every analysis layer has a legend and `evidenceAt` (AC-15); S3 penumbra drawn for every estimated height; S4 each moment has a reduced-motion variant.
+
+### 11.3 WP-08 Studio shell and five flows (developer, wave 1)
+
+- **Goal:** the five flows end to end (SPEC §17 to §19, §24).
+- **Outputs:** routes; top bar (place, building, scenario, modes); zones per breakpoint; engawa with narrator strip and `StageBar`; `StudioClient` (jobs, generations, cancel, stale marking); manifest stage mapping; New, Revisit, Restart, Current plus what-if, Update; settings ledger; Prove and Tell screens on preview results; store v2 with the v1 migration.
+- **Acceptance:** H7 each flow reaches its end state on GB1 and GB3 with Preview providers at 360, 768, 1280 and 1600 px (product QA review); H8 changing a setting marks its `affects` stale before recompute (unit test); H9 a newer generation always wins (unit test); H10 migration from a v1 fixture DB.
+
+### 11.4 WP-13 Preview data and stage providers (developer, wave 1)
+
+- **Goal:** realistic results, shaped exactly like real outputs, with honest timings.
+- **Outputs:** seven preview stage providers; a deterministic generator (`packages/preview/scripts/`) that builds fixtures for GB1 to GB4 and GH1 from the briefs' benchmarks and plant data, so totals add up exactly (EUI equals the end-use sum over area, bills follow the slab tables); recorded stage timings scaled by a device factor; rough, refined and final tiers.
+- **Acceptance:** P1 every fixture validates against the core schemas; P2 arithmetic identities hold in every fixture (sums, ratios, ladder lookups); P3 every value has `provenance.kind = 'preview'`; P4 a stage-provider contract test passes for all seven.
+
+### 11.5 WP-14 Building model and plan kernel (developer, wave 1 support, then V-1)
+
+- **Goal:** the building document and its geometry (BE §2).
+- **Outputs (wave 1):** pure helpers for the editor (polygon area in bigint mm², point in polygon, snapping, rectangle and polygon room ops, split, massing auto-zoning to core plus four perimeter zones); `BuildingDoc` fixtures for GB1 to GB4 (from RB tables, unknowns as ranges) and GH1. **(V-1):** `compile()` with Clipper2, adjacency, quantities, plan checks, PF, daylight extent, RETV, the phototropic massing operator.
+- **Acceptance:** B12 AC-ED1 (PF 0.345); B13 AC-ED2 (exact areas, zero overlap); B14 adjacency symmetric on all fixtures; B15 GH1 compiles to within 1% of the hand twin per element area (R27); B16 `compile()` is byte-deterministic across Node and Chromium.
+
+### 11.6 WP-15 Editor (developer, wave 1)
+
+- **Goal:** Make mode (SPEC §20, BE §3, UV §5).
+- **Outputs:** tool rail and tools; SVG plan with architectural drawing conventions (DESIGN_SYSTEM §13.4); snapping and typed dimensions; storeys; room function painter; window and shading rules with presets; inspector and properties sheet; command history with film strip; keyboard map; touch and pen; PDF underlay display; plan outline as a non-visual editor.
+- **Acceptance:** E8 every tool has a key and an outline path (AC-ED3); E9 phone has a button for every drag (AC-ED4); E10 undo then redo restores the document byte for byte (unit test); E11 a three minute New-flow build of GB3 is possible on desktop and tablet (UX QA review).
+
+### 11.7 WP-17 City data (developer, wave 1 slice, then V-2)
+
+- **Outputs:** `tools/city` with cached Overpass fetches; `city-hyderabad` v0 (IIIT campus and 2 km of Gachibowli: footprints, OSM levels, height ranges with sources, unknown flagged); v1 adds Overture, Open Buildings 2.5D heights, trees and terrain; `city-london` around GH1.
+- **Acceptance:** Y1 every building has a height source and range; Y2 pack ≤ 5 MB; Y3 the pack rebuilds byte-identically from the cached sources.
+
+### 11.8 WP-16 Site and daylight (V-2, V-3)
+
+- **Outputs:** SPA port on dmath; EPW parse and hash; Perez sky and patch matrices; CPU visibility kernel; sun hours, radiation, SVF, ASE, ECBC manual daylight method, sDA tier T1, views, shading ledger, monthly shading factors for the engine; the real `sun`, `radiation` and `daylight` stage providers.
+- **Acceptance:** AC-LK1, AC-LK3, AC-LK4; SD §7 tests V1 to V12 recorded with their error bands; determinism across Node and Chromium.
+
+### 11.9 WP-18 Multi-zone energy and building types (V-4)
+
+- **Outputs:** N-zone 5R1C with cooling, latent and capacity; monthly ISO 52016-1 rung fitted to hourly; systems (VRF, split, chiller with total system efficiency, DOAS with ERV, fans, pumps, DHW, PV with site shading, diesel); end uses and EUI; fan-first comfort; `types-global`, `types-in`, `benchmarks`; the real `energy` stage provider.
+- **Acceptance:** AC-X3 (BESTEST 600 and 900); AC-BR1; end-use sums close exactly after quantisation; GB1 EUI lies inside the benchmark range or the result says why.
+
+### 11.10 WP-19 Codes, baselines and ratings (V-5)
+
+- **Outputs:** `comply` evaluation with margins; applicability ladder; baseline builder (ECSBC standard design, Appendix G); `codes-in`, `codes-global`, `ratings` packs per EC §5; rating ladder data; the real `codes` stage provider; a manual task list to upgrade `estimate` rows from the code PDFs.
+- **Acceptance:** AC-CD1 to AC-CD4; one golden test per rule; GHMC star bands from GHMC FAQ Q7 reproduced.
+
+### 11.11 WP-20 Optimiser (V-6)
+
+- **Outputs:** Morris screening; factorised exhaustive search over v3 groups; deterministic NSGA-II on the core PRNG with exact light completion; N-axis front, witnesses and picks per R37; sweeps; phototropic search driver; certificate inputs for `objectives`; the real `optimise` stage provider.
+- **Acceptance:** AC-OP1, AC-OP2; the front on GB1 within the 1 s budget below the cap; the seal text lists the options tried.
+
+### 11.12 WP-21 Interop and reference runners (V-1, then later)
+
+- **Outputs:** PDF underlay and trace assist (scale from dimension labels by least squares, walls from paired lines, rooms from loops, storeys from sheet titles; person confirms each room); OSM and GeoJSON footprint import; gbXML, epJSON and Dragonfly export; companion EnergyPlus runner adding a "reference agrees within x%" evidence row; IFC later.
+- **Acceptance:** I6 Vindhya first floor traces to rooms the person can confirm, with scale error ≤ 1%; I7 the epJSON of GB3 runs in EnergyPlus when installed (manual).
+
+### 11.13 QA agents WP-22, WP-23, WP-24 (wave 1 onward, review based)
+
+| WP | Reviews | Method | Output |
+|---|---|---|---|
+| WP-22 Product | Each flow against PLAN-V3 and SPEC §17 to §25: reaches its end state, nothing missing, Preview honestly labelled, a normal person and a professional can each finish | Code reading plus one screenshot pass per breakpoint (360, 768, 1280, 1600) with one guarded headless browser | `docs/qa/product/<gate>.md`: findings with severity, flow, step, file |
+| WP-23 UX | Heuristics, responsiveness, Andon rules (seal and gold scarcity, one ramp, every mark a measurement), WCAG 2.2 AA spot checks, reduced motion, touch targets, keyboard paths | Same pass, plus axe on each route once per gate | `docs/qa/ux/<gate>.md` |
+| WP-24 Content | Voice, plain English, units, en-IN numbers, banned words ("compliant", "certified", "guaranteed", "save up to"), no dashes, Preview and pre-check wording, glossary coverage | Copy lint plus reading every screen's strings | `docs/qa/content/<gate>.md` |
+
+Each QA WP posts a short HANDOFF with its top five findings, and the owning WPs fix them. QA never edits product code.
+
+## 12. Gates and testing policy (v3)
+
+**Testing is light for now** (owner direction):
+- Each WP runs only its own package tests (Vitest `--maxWorkers=2`), following any machine rules in `CLAUDE.local.md`.
+- No repo-wide suite except at a gate the owner calls. Never run a full suite and a Lean build together.
+- Browsers: only the QA WPs, one guarded headless browser at a time, closed in `finally`.
+- Wave 1 acceptance is review based: QA sign-off plus each WP's own unit tests for pure logic.
+
+| Gate | Definition of done | Must be green |
+|---|---|---|
+| V-0 | Contracts v3 | §11.0 acceptance, ownership map updated, installs done |
+| V-P | **Prototype.** All five flows at full fidelity on four widths, Preview labelled, staged progress with cancel | U1 to U5, S1 to S4, H7 to H10, P1 to P4, E8 to E11, Y1 to Y2, B14; QA sign-off from WP-22, WP-23 and WP-24 with no open severity-1 finding |
+| V-1 | Real geometry | B12 to B16, I6, geometry stage swapped |
+| V-2 | Real sun and radiation | AC-LK1, AC-LK3, Y3, sun and radiation stages swapped |
+| V-3 | Real daylight | AC-LK4, tier bands recorded, daylight stage swapped |
+| V-4 | Real energy | §11.9 acceptance, energy stage swapped |
+| V-5 | Real codes and ratings | §11.10 acceptance, codes stage swapped |
+| V-6 | Real optimisation | §11.11 acceptance, optimise stage swapped, Lean v3 theorems proved with no `sorry` |
+| V-7 | Partner and memory | AC-OP3 to AC-OP5 |
+| V-H | Hyderabad hero | AC-X5, AC-X6, QA sign-off, STATUS walkthrough written |

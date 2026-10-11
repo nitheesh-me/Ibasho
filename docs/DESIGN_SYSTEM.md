@@ -2,6 +2,8 @@
 
 Status: director synthesis v2, 2026-10-10. v2 applies `review/DECISIONS.md` (PR-3, PR-4, PR-5, PR-7, SC-4, TE-8). Source brief: `research/storytelling-visual.md` (SV). Owner: WP-06 (`packages/ui`), with WP-07 (`packages/scene`) for §10. Tokens below are normative; colours were checked for gamut and contrast with an OKLCH to sRGB script on 2026-10-10. Items marked **T5** are specified but not built in T1.
 
+**v3 (2026-10-11).** §13 extends Andon to the city scale, the editor, the analysis heat maps, Preview data and responsiveness (`PLAN-V3.md`, UV). Every rule in §1 to §12 still holds.
+
 ---
 
 ## 1. Concept
@@ -357,3 +359,116 @@ Rough.js variants are allowed only for hand-drawn narrative diagrams in the enga
 - Seals expose their claim and "Not proved" line to screen readers.
 - Charts require `TableAlt` and a one-sentence summary.
 - A polite live region announces recompute results as one debounced sentence.
+
+## 13. v3: city, editor, analysis and responsiveness
+
+Owner: WP-06 for tokens and components, WP-07 for the scene, WP-15 for the plan drawing. Source brief: `research/v3/ux-visual.md` (UV).
+
+### 13.1 The city is a model on a table
+
+The city is not a map with buildings on it. It is an architect's paper model on a table, lit by the real sun (UV §2.1).
+
+| Element | Hiru 昼 | Yoru 夜 |
+|---|---|---|
+| Ground and terrain | `--paper`, terrain as stacked contour sheets (1 or 2 m), cut edges | Sumi ground, contours in faint `--line` |
+| Context buildings | Uncoated paper massing (`--paper-raised`), soft AO, real sun shadows | Dark, dashed `--line` outline, no glow: their energy is unknown |
+| Estimated height | Pencil hatch over the uncertain top band; hover shows the honesty chip (source, date, method, range) | Same hatch, dimmer |
+| Your buildings | 1.5 px `--ink` screen-space outline, real materials desaturated 15% towards paper | Lit from within, window glow ∝ modelled lighting and equipment W/m² per zone |
+| Roads | Debossed paper, no colour | Absent or faint |
+| Trees | Paper cones or spheres in `--good-soft`, porosity stated | Silhouettes |
+| Water | `--cold` at low chroma, flat | Sky colour only |
+
+**Honesty outline.** Any geometry the person did not supply carries a provenance chip on hover. Imagined neighbours are labelled "imagined".
+
+**Penumbra.** A context building with a height range casts a solid shadow at its likely height and a 45° pencil-hatched band out to its plausible height (`--ink-3` at 35%). Entering a real floor count closes the band with a `--t-ori` crease.
+
+**Night lanterns.** In Yoru at City level, a modelled building's emissive strength is proportional to its EUI on a stated scale (the legend shows kWh/m²·yr), and its hue follows the dominant end use (cooling `--deep`, lighting `--glow`, equipment `--ember`). Unmodelled buildings never glow.
+
+### 13.2 Analysis ramps
+
+One continuous ramp on screen at a time. Every ramp is lightness-monotone (greyscale-safe), interpolated in OKLab, and has the Shiro greyscale alternative. Values below were computed with an OKLCH to sRGB script on 2026-10-11 and are in sRGB gamut; WP-06 runs AC-14 on each before release.
+
+| Ramp | Quantity | Stops (OKLCH, low to high) | Hex |
+|---|---|---|---|
+| **Hinata 日向** | Incident radiation, kWh/m²·yr | `oklch(22% 0.035 255)`, `oklch(38% 0.075 230)`, `oklch(56% 0.045 95)`, `oklch(70% 0.135 55)`, `oklch(84% 0.130 78)` | #0F1B2B, #024962, #7D7556, #DE8543, #F9BF60 |
+| **Hidamari 陽だまり** | Sun hours | `oklch(20% 0.010 60)`, `oklch(40% 0.015 62)`, `oklch(66% 0.045 84)`, `oklch(82% 0.155 75)` | #1A1512, #4E4640, #9F9073, #FEB43A |
+| **Akari 明かり** | Illuminance, daylight | `oklch(18% 0.010 60)`, `oklch(34% 0.050 215)`, `oklch(55% 0.080 205)`, `oklch(78% 0.045 85)`, `oklch(96% 0.035 86)` | #15110D, #123E48, #2A7F88, #C5B697, #FCF1D8 |
+| **Sora 空** | Sky view, views | `oklch(20% 0.010 60)`, `oklch(42% 0.080 227)`, `oklch(64% 0.080 206)`, `oklch(94% 0.016 83)` | #1A1512, #03556F, #499AA4, #F0EADF |
+| **Netsu 熱** | Temperature, heat flow | §2.4 | |
+| **Kōtai 交代** (diverging) | Difference B minus A | `--good`, `--paper`, `--warm`, centred on zero; increases also carry the 45° hatch | |
+
+- **ASE and glare risk** are not a ramp: a `--warm` 45° hatch overlay on top of Akari, marking points over 1,000 lux for more than 250 hours.
+- **Pass and fail** on a daylight grid: passing points take the ramp colour; failing points stay paper with a fine dot. Never green and red.
+- **Legend** (`AnalysisLegend`): ramp bar, unit, min and max, resolution, period, method in one line, tier, "Modelled, not measured", and an "Open method" thread. A difference legend refuses two results of different resolution and says why.
+
+### 13.3 Preview and stale states
+
+| State | Treatment | Never |
+|---|---|---|
+| **Preview** (fixture data, SPEC R26) | `PreviewStamp`: the word "Preview" in `--ink-2` on a Shita-e pencil hatch, beside the number or the panel title; `Num` shows a dashed underline and no seal glyph | Vermilion, gold, a Checked or Proved seal |
+| **Rough** (first tier of a running stage) | Number in `--ink-2` with a small "rough" caption; maps drawn at coarse resolution with soft cell edges | Final-looking precision: rough numbers round to 2 significant figures |
+| **Stale** (an input changed) | Pencil hatch over the number and the word "updating"; old value never shown as current | Hiding the number |
+| **Unknown** | §2.2 dashed stroke, breathing 5 s | Zero |
+
+### 13.4 The plan drawing (Make)
+
+The plan is an architect's drawing on washi, crisp SVG at every zoom.
+
+- **Walls**: cut walls as solid `--ink` poché; walls below the cut plane as a 0.5 px `--ink-2` line. Estimated geometry (traced or from OSM) is a dashed pencil line until confirmed.
+- **Openings**: standard window symbol (three lines in the wall) and door swing arcs in `--ink`; shading in plan as a dashed outline beyond the wall with its depth tag.
+- **Rooms**: name and area in Zen Kaku Gothic New 500 at `--fs-cap`; function shown by a small mon and a hatch pattern, never by fill colour, so colour stays free for analysis.
+- **Annotation**: dimension tags in M PLUS 1 Code with tick ends; north arrow showing true north; scale bar; storey name in the corner.
+- **Errors drawn on the model**: unclosed room as a torn paper edge; overlap as a `--warm` hatch; a window larger than its wall as a dashed `--warm` outline. One-click fix where possible.
+- **Live code meters** (WWR, PF, SRR, daylight extent, RETV): quiet chips in the properties sheet that open the clause and inputs; a failing meter uses `--warm` text with a sign glyph, never vermilion.
+- **3D in Make**: floors rise with the `--t-ori` crease; a new floor unfolds from the one below.
+
+Building-type mons follow §7 rules:
+
+| Type | Motif |
+|---|---|
+| Single-family home | Roof chevron over one square |
+| Apartments | Three stacked squares |
+| Rental | Square with a key line |
+| Office | Four-pane grid |
+| Hotel | Crescent over a bar |
+| Education | Open book of two arcs |
+| Hospital | Cross of straight lines |
+| Lab | Flask of straight lines and one arc |
+
+### 13.5 Progress (`StageBar`)
+
+`StageBar` extends `Inkstone`. Seven beads in the engawa (geometry, sun and shadows, radiation, daylight, energy, codes, optimisation), each a small ink circle that fills as its stage runs: hollow (waiting), filling (running, with the stage's own sentence: "Sun hours: rough now, final in about 8 s"), solid (final), split (failed, with `MendedError`). Skipped stages show as a short line. Cancel appears after 1 s. Under reduced motion beads change state without animation. Results appear rough first and sharpen in place like an accumulating sample; numbers never wait for pictures.
+
+### 13.6 Motion additions
+
+| Token | Value | Use |
+|---|---|---|
+| `--t-extrude` | 400 ms, staggered nearest first | City blocks rise from footprints as tiles arrive |
+| `--t-drawer` | 700 ms, `--t-shoji` curve | The daylight floor slides out of the building |
+| `--t-sweep` | 12 s per day, pausable | Moment 1 sun sweep |
+| `--t-wick` | per sky patch batch, 160 ms each | Radiation colour rises from the ground up |
+| `--t-explode` | 900 ms, `--t-ori` curve | Exploded floor stack |
+
+Every signature moment has a reduced-motion form (stills or a final map, UV §9). Autoplay over 5 s is pausable.
+
+### 13.7 Responsive layouts
+
+Breakpoints 360, 768, 1280, 1600 px. Jō 48 (phone), 64 (tablet), 72 (desktop). The Shūgi rule (§4.2) applies at every width.
+
+| Width | Layout |
+|---|---|
+| **Desktop ≥ 1280** | Top bar 56 px (Place, Building, Scenario selectors; Make, Look, Choose, Prove, Tell); scale ladder on the left edge; Niwa about 62%; Zashiki on the right; time strip under the Niwa; engawa strip 44 px with narrator and `StageBar`. Make adds a tool rail inside the Niwa and swaps the Zashiki for the properties sheet |
+| **Wide ≥ 1600** | Floor level splits the Niwa into plan and 3D with synced selection; compare shows up to four views in a 1 + 3 layout |
+| **Tablet 768 to 1279** | Niwa full width; Zashiki as a right Shoji sheet (open, peek 72 px, closed), a bottom sheet in portrait; ladder as a breadcrumb chip row; floating tool rail with 48 px targets; pen draws, fingers navigate |
+| **Phone 360 to 767** | Niwa top 45%; bottom sheet with peek, half and full, each with a visible button; one lens at a time from a chip row; tabs Look, Choose, Tell, More; light edits only (room function, window size, shading toggles), with "Drawing a building needs a bigger screen" for the rest; the sun compass card for renters (device orientation, no camera) |
+
+Rules: no horizontal scroll; 44 px touch targets (48 px for drawing tools); every gesture has a button; text on the 3D stage sits on a `--paper-raised` plate at 7:1; the phone defaults to the Low render tier and Sketch analysis, desktop to High and Standard.
+
+### 13.8 Budgets and quality at city scale
+
+- Context: merged, instanced LoD1 per 250 m tile, ≤ 30 draw calls; City level ≤ 150 draw calls and ≤ 400k triangles in total.
+- Analysis paint uses vertex or texture attributes on existing meshes: no new draw calls.
+- Shadows: cascaded maps while moving; the still-life bake (§10) when resting, ≤ 1.5 s.
+- Paper pass adds Sobel ink edges on normals and depth for the model-shop look.
+- Photo context (opt-in) is desaturated to paper, multiplied by the washi pass, and never appears under an analysis lens.
+- Render quality settings never change a number.

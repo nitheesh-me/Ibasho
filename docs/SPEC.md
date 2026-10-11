@@ -2,6 +2,8 @@
 
 Status: director synthesis v2, 2026-10-10. Normative for all builder agents. Where a research brief and this spec disagree, this spec wins. To change it, raise a BLOCKER on `docs/BLACKBOARD.typ`. v2 applies `review/DECISIONS.md`. Rulings changed in v2 are marked **(v2)**.
 
+**v3 (2026-10-11).** Sections §15 to §26 add the v3 studio: many building types in a real 3D city, energy codes, site and daylight analysis, EUI and end uses, ratings, optimisation and the design partner (`PLAN-V3.md`). Sections §0 to §14 stay in force and now specify the `single-family` and `rental` building types; where §15 onward and §0 to §14 overlap for those types, §0 to §14 win. v3 briefs are cited as EC, TE, SD, BE, RB, SO, BI, AR, UV and SC (`research/v3/`, key in `PLAN-V3.md`).
+
 References use the form `BP §3.7` for the research briefs in `docs/research/`:
 
 | Prefix | Brief |
@@ -503,3 +505,216 @@ Acceptance:
 - **AC-B1** The "If nothing is done" line exists for GH1 and every value in it has evidence and a decay source.
 - **AC-B2** 30 custom requests from a gold set map to the expected ops or to the "can't model that yet" answer; none produces a number not computed by the engine.
 - **AC-B3** For every package shown, each indicator that worsens appears in its negatives list (property test).
+
+---
+
+# Part II: v3 studio
+
+## 15. v3 director rulings
+
+Builders treat these as fixed. They add to R1 to R24.
+
+| # | Topic | Ruling |
+|---|---|---|
+| R25 | Building types | Eight types: `office`, `hotel`, `education`, `hospital`, `lab`, `apartments`, `rental`, `single-family`. Each is a `building-type` plugin: a mix of space types, schedules, system archetypes, benchmarks and code classes (TE §4, EC §6). `rental` is tenure layered on a type (who owns, who pays, who decides), not a geometry. `lab` loads stay PLACEHOLDER until a sourced profile lands (SC §4.3). |
+| R26 | Prototype first | Every flow (§18) ships first on **Preview** data: fixtures shaped exactly like real outputs (same contracts, evidence ids, units). Preview values carry provenance kind `preview` and seal level `preview`, show a "Preview" stamp, and never carry Checked or Proved. A stage turns real by changing its stage provider (§19); no flow may break during a swap. |
+| R27 | Building model | The editable source is `ibasho.building/1` (BE §2): Site > Building > Storey > Room2D, with per-segment boundary, window rule and shading rule, plus Room3D for non-extruded rooms and a massing mode. Plan coordinates and heights are integer millimetres. A pure `compile()` produces the engine twin, quantities and plan checks. The engine never reads the document. GH1 compiles from a document to within 1% of today's hand twin on every element area. |
+| R28 | Location and weather | A place has latitude, longitude, elevation, true north, a climate pack and an ordered list of code packs. Hyderabad (17.45 N, 78.35 E for the IIIT campus) uses the TMYx 2011 to 2025 EPW for Shamshabad (station 431285) as the typical year; the climate pack's monthly tables are derived from the same EPW (SD §2). London keeps its pack. Weather files pass `@ibasho/core/schemas` and are hashed. |
+| R29 | City context | Context buildings come from a local city pack (Overture or OSM footprints; heights fused from user entry, OSM `height`, OSM levels times type floor-to-floor, then Google Open Buildings 2.5D). Every height carries its source and a range. Unknown heights are drawn hatched and analysed as a low to high range, never as a default treated as fact (SD §3, UV §2). Photo tiles are opt-in, off by default and never used in analysis. |
+| R30 | Site analysis | One visibility kernel per sensor grid (sky patches and sun directions) serves shadows, sun hours, radiation, sky view, ASE, the direct part of sDA and views (SD §1.3). The CPU kernel (three-mesh-bvh in a worker) is canonical and the only path into a certificate. The GPU path is labelled "preview" in the legend. Every result states its method, resolution, period and "Modelled". |
+| R31 | Daylight tiers | T0 instant: ECBC manual daylight extent method and ASE. T1 fast: sky component plus split flux. T2 browser: path-traced daylight coefficients. T3 reference: Radiance via the companion. A value is labelled "sDA" only from a tier whose error band against the SD §7 reference rooms is measured; until then it is "sDA (simplified)". ASE may be called ASE from T0. |
+| R32 | Energy | The 5R1C kernel generalises to N zones with cooling capacity, latent load, inter-zone coupling and per-window solar with monthly shading factors from the site result (SO §2). Search runs on the ISO 52016-1 monthly method fitted per building to the hourly model, with the fit recorded; fronts and picks re-run hourly. EnergyPlus through the companion is an optional reference row and never turns a number Checked. Without a site result, shading is `unknown` and the pack default applies with a visible note. |
+| R33 | End uses and EUI | End uses: cooling, heating, lighting, equipment, fans, pumps, hot water, other, and PV generation as a negative bar. EUI is reported as site and source energy per m² of conditioned area per year, with its range. If any end use is unknown, EUI is labelled "partial" and shows the missing use; it is never summed as zero. |
+| R34 | Codes | Code rules use the existing `Rule` and `Expr` grammar plus a `comply` effect (pass, fail or unknown, with margin) and a metric registry (EC §5, §7). Every code result carries an **applicability status**: "Reference identified", "Partial check available", "Local adoption must be confirmed", "Professional assessment required", "Not a certificate" (SC §4.1). The edition in force is chosen by permit date; an unknown date gives "Local adoption must be confirmed". The word "compliant" never appears; results read "pre-check: passes" or "pre-check: fails by X". |
+| R35 | Baselines and targets | A `baseline-builder` clones the proposed building into each code's reference design (ECSBC standard design, ASHRAE 90.1 Appendix G baseline) and runs it on the same engine and rung. Targets and points read from the ratio, not from absolute kWh. The EUI target line names its source (code baseline, BEE band, benchmark median). |
+| R36 | Ratings | LEED v4.1 and v5, IGBC, GRIHA, EDGE, BEE Star and GHMC stars are `rating-scheme` plugins with step tables. Points show as likely, possible or unknown, labelled "estimate, not a certification". Rating points never enter the home score. |
+| R37 | Objectives and picks | The Pareto outcome generalises R8 to a list of 2 to 4 integer axes, each with a direction, chosen from capex, operating cost, EUI, lifetime carbon, comfort hours, sDA, ASE and NPV. Defaults: homes keep R7 and R8; other types use capex, operating cost and EUI with picks **Least upfront**, **Lowest running cost** and **Lowest energy**, each inside the goal set (§25). |
+| R38 | Optimisation | Screen (Morris, recorded as Modelled), factorise (heavy and light as R9), exhaustive below the R9 cap, deterministic NSGA-II on the core PRNG above it, with each heavy candidate's light completion solved exactly. Surrogates choose what to simulate next and never supply a displayed number. Every seal says "nothing better among the options we tried" and links the list. |
+| R39 | India money and carbon | Tariffs are dated slab tables with fixed charges, demand charges per kVA, time-of-day deltas and category cliffs (TE §7). Bills are computed per month so cliffs and free-unit schemes are exact; results report months over a cliff. Diesel generation has its own cost and carbon. Carbon uses the CEA weighted average for a building's footprint and the combined margin for savings, both labelled (TE §8). Water uses HMWSSB slabs and the free 20 kL rule. |
+| R40 | Comfort | Homes keep R5. Other types and Indian homes add IMAC adaptive comfort (mixed mode and naturally ventilated lines) with a stated fan air-speed credit; the headline is "hours comfortable with fans alone", then hours with AC at each set point, with monsoon humidity limits (TE §4.2, BI §5). |
+| R41 | Settings | Every rate and level is a `Setting` with value, unit, range, source, grade, scope (app, place, building, scenario), depth (plain or pro) and `affects`. Resolution: scenario over building over place over app over pack default. Changing a setting marks every dependent number stale before recompute (UV §7). Render quality never changes a number; analysis resolution does and stamps every result. |
+| R42 | Memory and recommendations | Memory events gain a scope (owner, portfolio, project, building, variant) and two dates (valid in the world, recorded). Goals are typed with a unit and a strength (must, prefer, nice). Recommendations are a derived `RecSet` keyed by an inputs hash and never stored as truth; a new leader replaces the old only outside the uncertainty band (AR §3, §4). "Why it changed" is computed by exact Shapley over at most four change groups (AR §5). |
+| R43 | Design partner | The partner (offline proposer first, Ollama `qwen3:8b` optional) proposes typed `DesignOp`s whose values are indices into pack-declared grids. It never writes a number. Each round is capped at 64 engine evaluations, and options tried that were not better are listed (AR §6). |
+| R44 | Score by type | The seven-part Green Home Score (R2) applies to `single-family`, `rental` and individual flats in `apartments` only. Other types show EUI against their target, code status and the rating ladder. |
+| R45 | Reference buildings | Fixtures from the IIIT drawings store room functions, never personal names. The source PDFs stay in `docs/research/v3/sources/` as reference and never ship in an app bundle. |
+
+## 16. Personas and golden buildings (v3)
+
+Personas are in `PLAN-V3.md` §4. Golden buildings live in `packages/fixtures/src/buildings/` as `ibasho.building/1` documents; Preview results for each live in `packages/fixtures/src/preview/`.
+
+| Id | Building | Type | Why |
+|---|---|---|---|
+| GB1 | **Vindhya Bhavan**, IIIT Hyderabad: courtyard ring, 3 storeys plus partial cellar, about 165 × 81 m, facades at 40, 130, 220 and 310° | education with lab, office and a data centre | Hero (`PLAN-V3.md` §8) |
+| GB2 | **Himalaya**, IIIT Hyderabad: four blocks of 3, 4, 3 and 6 storeys, about 158 m long | education and office | Neighbour context, self-shading, second fixture |
+| GB3 | **HITEC City office**: 15 storeys, 59 × 37 m plate, long facades ESE and WNW (modelled on a public listing, RB §6) | office (coworking) | Large office, MoP 2026 draft threshold, fair split |
+| GB4 | **Gachibowli apartment block** with GH2 as its top-floor unit | apartments, rental | Ravi; unit position; roof rights rule |
+| GH1 | 1905 London terrace (§2) | single-family | Regression; London context |
+
+Unknowns are carried, not filled (RB §8): glazing specs, wall and roof build-ups, external shading and many neighbour heights stay ranges.
+
+## 17. Information architecture (v3)
+
+```
+/app/                                  Studio home: places and samples; no place -> /app/new
+/app/new                               New flow (§18.1)
+/app/p/:placeId                        City and Site levels (?level=city|site&lens=&t=)
+/app/p/:placeId/b/:buildingId          Building, Floor, Room levels
+                                       ?level=building|floor|room&floor=&room=&mode=make|look|choose|prove|tell
+                                       &lens=&variant=&compare=a,b
+/app/p/:placeId/b/:buildingId/evidence Evidence ledger
+/app/settings                          Settings ledger (§24)
+/app/proofs                            What we prove (unchanged)
+/app/home/:id                          Kept; redirects to the single-family building view
+```
+
+Keyboard: `[` and `]` move down and up the scale ladder; `M`, `L`, `C`, `P`, `T` switch modes; `I` inspects a point; `/` or `Ctrl K` opens the palette.
+
+## 18. The five flows
+
+Every flow runs on desktop (1280 px and up), tablet (768 to 1279 px) and phone (360 to 767 px). Drawing a building from scratch needs tablet or desktop; the phone offers looking, choosing, telling and light edits (room function, window size, shading toggles).
+
+### 18.1 New
+
+| Step | Plain prompt | Behind the scenes | Target |
+|---|---|---|---|
+| Place | "Where is it?" Search a place, drop a pin, or pick a sample (IIIT campus, London terrace, HITEC City office) | Place created with climate and code packs; city pack loads nearest first | 20 s |
+| Type | Eight type cards, each with its mon and a 24 hour schedule strip | Type plugin seeds space mix, schedules, systems | 10 s |
+| Building | Draw a footprint, trace a PDF, take an OSM outline, or start from a template; stack floors | Building document created; massing mode until rooms exist | 60 s |
+| Rooms, windows, shading | Auto-zone by type, or paint room functions; window ratio per facade; overhang, fins, chajja, jaali presets | Compile on release; live plan checks | 60 s |
+| See | First results: rough within 2 s, refining through the staged bar | Stages §19 | 30 s |
+
+**AC-NW1** A scripted New flow on GB3 from an empty studio to first results takes ≤ 3 minutes. **AC-NW2** Every defaulted field is visibly an estimate, and an untyped room widens the EUI range.
+
+### 18.2 Revisit
+
+Welcome back reads IndexedDB in under 100 ms and shows: the days since the last visit; what changed (tariff, code edition, weather file, data pack, engine version), each as a before and after with its source; plan progress; one next action. Old results keep their certificates; a recompute shows a diff, never a silent change. **AC-RV1** A tariff pack bump on GB1 shows a diff card listing every changed headline number.
+
+### 18.3 Restart
+
+Two actions: **Start over** (a new empty place; the old one stays in the studio) and **Branch** (copy a place or building into a new project with a lineage link). Nothing is deleted unless the person asks. **AC-RS1** Branching GB1 then editing the branch leaves the original's document and results byte-identical.
+
+### 18.4 Current plus what-if
+
+The building as it is (baseline) beside up to three variants: side by side (2 or 4 views), swipe, or a difference lens. Levers per type (WWR per facade, overhang depth, glazing, roof finish, set point, LPD, HVAC, PV, tariff). Every lever recomputes the whole variant. **AC-W5** Variants differ from the baseline only by their listed changes (diff equals command log). **AC-W6** The difference lens refuses two results of different resolution and says why.
+
+### 18.5 Update
+
+Edit geometry or a setting; dependent numbers take the stale hatch at once; the staged bar runs only the stages the change touches (a tariff change skips geometry, site and energy). **AC-U1** A setting change marks exactly its `affects` set stale before any recompute. **AC-U2** A geometry edit invalidates only the zones it touches.
+
+## 19. Progress, Preview and stage providers
+
+**Stages, in order**: `geometry`, `sun` (sun and shadows), `radiation`, `daylight`, `energy`, `codes`, `optimise`. Narration follows and never blocks a number.
+
+- Each stage is served by a `stage-provider` plugin, `preview` or `real`, chosen in the app manifest. Both return the same contract and emit the same progress events.
+- Progress events carry stage, stage index, fraction, tier (`rough`, `refined`, `final`), an optional estimate of time left and a partial result. The bar shows the seven stages as beads, the current one filling, and names what it is doing.
+- Rough results appear first and sharpen in place. Every number shows its tier until final.
+- Cancel is always visible after 1 s and returns within one slice (≤ 50 ms). An edit cancels stale jobs; a result from an older generation is dropped.
+- Preview providers replay recorded timings scaled to the device so the prototype feels like the real thing.
+
+| Latency | Indicator |
+|---|---|
+| < 100 ms | none |
+| 100 ms to 1 s | ink-wash shimmer on changed numbers |
+| 1 to 10 s | staged bar with stage names and rough results |
+| > 10 s | percent, time left and cancel |
+
+**AC-PG1** No main-thread task over 50 ms during any job (long-task observer). **AC-PG2** First rough result within 2 s on GB1 at Standard resolution (real providers, reference laptop). **AC-PG3** Every Preview number shows the Preview stamp and no Checked seal (DOM audit). **AC-PG4** Swapping one stage from preview to real is a one-line manifest change and the contract test for that stage passes for both.
+
+## 20. Make: the editor
+
+Specified in BE §3 and UV §5. Required behaviour:
+
+- Tools: select, footprint, wall, room (rectangle and polygon), split, merge, opening, shading, measure, underlay. Depths: Massing, Plan, Detail.
+- Snapping to grid (100 mm default), 15° angles, existing edges, context edges and plot edges; typing a number while dragging sets it.
+- Storeys: add, copy up with linked windows, set floor-to-floor, setbacks per edge.
+- Room function painter from the type's space types; an untyped room is unknown.
+- Openings by rule (ratio, repeating, single, detailed) per segment; shading by rule (overhang, fins, louvres, light shelf, balcony, screen) with presets chajja, jaali, verandah, courtyard, cool roof.
+- Live plan checks drawn on the model: unclosed room (torn edge), overlap (warm hatch), window larger than its wall, and code meters that need no simulation: WWR, SRR, projection factor, ECBC daylight extent, RETV and openable area for homes (EC §3.3).
+- Every change is a command of Immer patches: undo, redo, named versions and a film strip of past versions with their EUI. Agent and partner edits carry their origin and undo the same way.
+- Underlay: a PDF page scaled by two points and a distance; trace assist proposes walls and rooms from vector paths and dimension labels for the person to confirm (BE §4.1).
+
+**AC-ED1** ECBC Note 4-2 worked example gives PF = 0.345. **AC-ED2** Room areas sum to the storey's floor area with exactly 0 mm² overlap. **AC-ED3** Every tool is reachable by keyboard and through the plan outline. **AC-ED4** Phone: every drag has a button alternative at 360 px.
+
+## 21. Look: lenses
+
+Every lens shares one panel: What, When, Where, How fine (Sketch, Standard, Fine), Result (legend, three key numbers, histogram, table), Inspect. One continuous ramp on screen at a time.
+
+| Lens | Model | Unit |
+|---|---|---|
+| Shadows | Sun position (NREL SPA port on dmath), shadow per step | time |
+| Sun hours | Ray cast per grid point every 6, 15 or 60 min | h/day, h/yr |
+| Radiation | Cumulative sky (Perez, Tregenza 145 or Reinhart 577 patches) from the EPW, BVH occlusion | kWh/m²·yr |
+| Daylight | Tiers R31 on a 0.8 m work plane (ECBC) or 0.75 m (LM-83), at least one point per m² | % area, lux |
+| Glare risk | ASE1000,250 and sun in view | % area |
+| Views and sky | Sky view factor and view rays (LEED v5 quality views rules) | % |
+| Thermal and comfort | Zone temperatures, fan-first hours | °C, h |
+| Impact on neighbours | Difference of neighbour sun hours with and without the building; shading ledger | h, kWh |
+
+**AC-LK1** NREL SPA golden vector within 0.001°. **AC-LK2** Every legend shows unit, resolution, period, method and "Modelled". **AC-LK3** The shading ledger closes exactly in fixed point for every receiver. **AC-LK4** ASE on the SD §7 reference room within 3 points of the Radiance reference.
+
+## 22. Building results and quantities
+
+Evidence ids extend §7. Seal: **C** Checked, **M** Modelled, **E** estimate badge (R17).
+
+| Quantity id | Meaning | Unit | Seal |
+|---|---|---|---|
+| `geom.gfa`, `geom.nca`, `geom.facade.<bin>`, `geom.wwr.<facade>`, `geom.pf.<opening>` | Gross and conditioned area, facade areas, WWR, projection factor | m², 1 | C |
+| `site.sunhours.<sensor set>`, `site.irr.<surface>.m`, `site.svf.<sensor set>`, `site.shade.<window>.m` | Sun hours, monthly irradiation, sky view, shading factor | h, Wh/m², 1 | M |
+| `site.ledger.<receiver>.<blocker>` | Sun lost to each blocker | Wh | C (identity) |
+| `day.sda.<room>`, `day.ase.<room>`, `day.ecbc_share.<floor>`, `day.views.<floor>` | Daylight metrics with tier | % | M |
+| `enduse.<use>.m`, `pv.gen.m`, `dg.kwh.m` | End uses, PV, diesel | Wh | M |
+| `eui.site`, `eui.source`, `eui.target.<source>` | EUI and its target | kWh/m²·yr | C (arithmetic), M (inputs) |
+| `bill.<carrier>.m`, `bill.cliff_months`, `water.kl.m`, `water.bill.m` | Bills, cliff months, water | paise, kL | C |
+| `carbon.op`, `carbon.saved` | Operational carbon (footprint and margin factors named) | gCO2e | C |
+| `comfort.fan_hours.<room>`, `comfort.ac_hours.<room>.<setpoint>` | Fan-first and AC comfort hours | h | M |
+| `code.<ruleId>.status`, `code.<ruleId>.margin` | Pre-check result and margin, applicability status | enum, metric unit | C |
+| `base.<code>.eui`, `base.<code>.ratio` | Baseline EUI and ratio | kWh/m²·yr, 1 | C (ratio) |
+| `rating.<scheme>.points`, `rating.<scheme>.level` | Points and level as likely, possible, unknown | points | C (lookup) |
+| `split.<party>.<carrier>` | Landlord, tenant or member share | paise | C |
+
+**AC-BR1** EUI is "partial" whenever any end use is unknown (property test). **AC-BR2** Bills on a slab fixture are exact, and crossing 200 units flags a cliff month. **AC-BR3** A split sums exactly to the bill with nothing counted twice (checker row).
+
+## 23. Prove: codes and ratings
+
+- The Prove mode lists every code and rating relevant to the place, building type and size, each with its applicability status (R34), edition, clause references, grade and result.
+- India first: TSECBC 2014 (Telangana non-residential with plot over 1,000 m² or built-up area over 2,000 m²), ECBC 2017, ECSBC 2024 tiers and renewables shares, Eco Niwas Samhita (RETV ≤ 15 W/m², roof U ≤ 1.2, openable area ≥ 12.5% in composite climate), NBC 2016 openings, the MoP 2026 draft rating rule at 20,000 m². Global: ASHRAE 90.1-2022 Appendix G, IECC. EPBD appears as policy context only. All thresholds read from memory stay `estimate` until checked against the code PDFs (EC §7.8).
+- The rating ladder (Moment 5) puts GHMC stars (5 to 30% savings for 1 to 6 stars), BEE Star, ECSBC tiers, LEED v4.1 and v5 energy points, IGBC and EDGE (20% each in energy, water and embodied carbon; 40% energy for Advanced) on one savings axis.
+- Water credits (LEED indoor and outdoor) and EDGE water need no simulation: fixtures, room function and occupancy.
+- Optimisation can take a code or rating step as a goal: "cheapest bundle that reaches GHMC 3 stars".
+
+**AC-CD1** Every rule has a source URL, a clause and a grade; `estimate` rules show the badge. **AC-CD2** No screen contains the words "compliant" or "certified" (copy lint). **AC-CD3** Rating step tables pass the Lean monotone and nesting predicates. **AC-CD4** A building with an unknown permit date shows "Local adoption must be confirmed" for every edition-dependent rule.
+
+## 24. Settings ledger
+
+Groups: Money, Carbon, Comfort, Codes and targets, Weather, Analysis resolution, Render quality, Display, Privacy and data (UV §7.2). Each row shows its value, unit, origin chip ("Your value", "TGSPDCL FY 2026-27", "Pack default"), grade and "changes N numbers". Changing a value previews the impact before Apply. "How much does this matter?" runs a tornado chart from the engine. Presets are packs ("Hyderabad 2026 defaults", "UK 2026 defaults").
+
+**AC-SET1** Every setting has unit, source, scope and `affects` (registry check). **AC-SET2** The "changes N numbers" count equals the stale set size.
+
+## 25. Choose: goals, optimisation and the partner
+
+- **Goals** are typed (R42): EUI target, code step, rating level, budget cap in rupees or pounds, maximum payback, carbon cap, comfort hours, daylight. Each has a unit, a scope and a strength. The goal set filters the candidates as R7's target set does. An LLM may only suggest a goal for the owner to confirm.
+- **Design space** per type: envelope (WWR per facade, glazing, wall and roof U, roof finish), shading per facade, massing (orientation, setbacks, phototropic generator), internal (LPD, daylight controls), systems (VRF, split, chiller with DOAS, set point), supply (PV, battery, diesel strategy, tariff category) (SO §7.1).
+- **Output**: the three picks, the front as ink dots with a brushstroke, a parallel-coordinates view, sweeps as design curves, why-not reasons and the "possible after a check" lane.
+- **Live update** in four tiers (instant re-score under 50 ms, re-rank under 1.5 s, full search with certificate, narration). Leaders change only outside the band; otherwise "tied within what we know".
+- **Partner**: proposals appear as ghosted cards with their ops and the engine's result; Accept, Tweak or Dismiss with a short reason. Two dismissals with the same reason suggest a rule for the owner to accept.
+
+**AC-OP1** N-axis certificate checks pass on GB1 and GH1. **AC-OP2** NSGA-II with the same seed gives byte-identical results in Node and Chromium. **AC-OP3** The partner writes 0 numbers across the gold set; a raw number in a proposal is rejected. **AC-OP4** Shapley contributions sum exactly to the total change (checker row). **AC-OP5** No leader flip inside the uncertainty band over 500 random slider sessions.
+
+## 26. v3 non-functional requirements and global acceptance
+
+| Area | Requirement |
+|---|---|
+| Responsiveness | Breakpoints 360, 768, 1280, 1600. No horizontal scroll. Touch targets 44 px, drawing tools 48 px. Every gesture has a button |
+| Performance | City level ≤ 150 draw calls and ≤ 400k triangles on the Hyderabad pack. Any lens shows something within 500 ms. Sun hours for one building plus 300 m context at Standard within 10 s in a worker. At most two workers by default |
+| Offline | City packs, weather and data packs cache locally; everything computes offline once loaded |
+| Determinism | CPU site results, energy, codes and the front are byte-identical across Node and Chromium (AC-D1 extends) |
+| Copy | No em or en dashes; no "compliant", "certified", "guaranteed"; Indian number grouping (lakh, crore) in en-IN |
+
+| Id | Criterion | Test |
+|---|---|---|
+| AC-X1 | All five flows complete at 360, 768, 1280 and 1600 px | Review pass by the QA agents (BUILD_PLAN §11), one capped browser |
+| AC-X2 | Every context building has a height source; unknown heights render hatched with a penumbra | Scene test |
+| AC-X3 | BESTEST 600 and 900 annual loads inside the ASHRAE 140 ranges (hourly kernel) | Engine validation |
+| AC-X4 | Guideline 14 on a calibrated building: monthly NMBE ≤ 5% and CV(RMSE) ≤ 15% | Engine validation (when bills exist) |
+| AC-X5 | The Vindhya demo (`PLAN-V3.md` §8) runs offline with no Preview stamp on its path | Manual, recorded on the blackboard |
+| AC-X6 | Fixtures from the IIIT drawings contain no personal names | Fixture lint |

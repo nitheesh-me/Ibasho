@@ -15,3 +15,6 @@ proofs/.lake/
 # Local, machine-specific agent rules and agent working state
 CLAUDE.local.md
 docs/progress/
+
+# Downloaded third-party sources (kept locally, not versioned)
+docs/research/v3/sources/

@@ -2,6 +2,8 @@
 
 Status: director synthesis v2, 2026-10-10. Normative. v2 applies `review/DECISIONS.md` (TE-1 to TE-8 and the science rulings that change contracts). WP-00 turns the contracts in §4 and §5 into `packages/core/src/**` before M-0 (`BUILD_PLAN.md`). After M-0, contract changes go through `docs/BLACKBOARD.typ` (INTERFACES).
 
+**v3 (2026-10-11).** §15 adds the v3 studio architecture: the building model, editor, city and site analysis, daylight, building-type packs, codes and ratings, the optimiser, stage providers for Preview data, and the dependencies to install (`PLAN-V3.md`, SPEC §15 to §26). §1 to §14 stay in force.
+
 ---
 
 ## 1. Principles
@@ -773,3 +775,213 @@ Resources: `ibasho://docs/{vision,spec}`, `ibasho://schema/twin`, `ibasho://sche
 **Installer.** `plugin` mode registers `integrations/claude-code` as a local marketplace and installs it (`claude plugin marketplace add`, `claude plugin install ibasho@ibasho`). `direct` mode mirrors tldraw: copies the skill to `~/.claude/skills/ibasho`, the agent to `~/.claude/agents/ibasho-explorer.md`, runs `claude mcp add ibasho -- node <repo>/apps/mcp/dist/index.js`, and merges the SubagentStart hook into `~/.claude/settings.json` with a timestamped backup. Every installed file carries `installed-by:ibasho`; `--uninstall` removes only marked files and entries.
 
 **Dependencies (T1, WP-12):** `@modelcontextprotocol/sdk` 1.32.1, `ws` 8.22.0 (Node side of the bridge tests).
+
+## 15. v3 additions: the studio
+
+Normative for v3. WP-00 turns §15.4 into `packages/core/src/v3/**` at gate V-0 (BUILD_PLAN §9). Contracts are additive: every v2 type keeps its shape, and `HomeTwin` stays the engine's input for homes.
+
+### 15.1 Layout additions
+
+```
+packages/
+  plan/            L1  integer-mm geometry kernel (Clipper2), BuildingDoc compile(), quantities, adjacency, plan checks,
+                       massing auto-zoning, PF, daylight extent, RETV, phototropic massing operator
+  site/            L1  site worker: NREL SPA port, EPW parse, Perez sky, Tregenza and Reinhart patches, CPU visibility kernel
+                       (three-mesh-bvh), sun hours, radiation, SVF, ASE, daylight tiers T0 and T1, views, shading ledger,
+                       city pack loader and height fusion
+  preview/         L1  Preview stage providers: replay fixture results with staged progress, same contracts as real
+  editor/          L3  Make mode: tools, snapping, SVG plan, inspector, command history (Immer patches), trace assist UI
+  interop/         L2  importers and exporters as plugins: PDF underlay and trace, OSM, GeoJSON, gbXML, epJSON, Dragonfly JSON,
+                       IFC (later, lazy)
+packages/engine/src/
+  zones/ systems/ enduse/   N-zone thermal, system models, end uses (WP-18)
+  codes/                    comply evaluation, baseline builder, rating ladder (WP-19)
+  optimise/                 screening, N-axis Pareto, NSGA-II, sweeps, phototropic search driver (WP-20)
+packs/
+  types-global/  types-in/  building types, space types, schedules, constructions, window products, shade presets, systems
+  benchmarks/               EUI benchmarks and end-use priors (ENERGY STAR, CIBSE TM46, BEE bands)
+  codes-in/  codes-global/  code rule packs (TSECBC, ECBC 2017, ECSBC 2024, ENS, NBC, MoP 2026; ASHRAE 90.1, IECC, EPBD context)
+  ratings/                  LEED v4.1 and v5, IGBC, GRIHA, EDGE, BEE Star, GHMC stars
+  city-hyderabad/  city-london/   offline city context packs (§15.7)
+tools/city/                 builds city packs from OSM, Overture, Open Buildings 2.5D and Copernicus GLO-30
+apps/companion/src/runners/ optional EnergyPlus (epJSON in, CSV or SQL out) and Radiance runners
+```
+
+### 15.2 Layers
+
+| Layer | Adds | May import |
+|---|---|---|
+| L1 | `plan`, `site`, `preview`, new packs' `src/engine` | L0. `site` alone may also import `three` maths classes and `three-mesh-bvh` (no renderer, no DOM); a scoped dependency-cruiser rule allows exactly that |
+| L2 | `interop` | L0, `plan` |
+| L3 | `editor`, new packs' `src/ui` | L0, `ui`, `plan` (pure functions for snapping and live previews), result types |
+| L4 | `apps/*` | anything |
+
+Determinism: `plan` and `site` follow the `Math.*` ban except exact operations (`Math.min`, `max`, `abs`, `sign`, `floor`, `ceil`, `round`, `trunc`, `sqrt`, `fround`), which IEEE 754 rounds identically everywhere. three-mesh-bvh's ray tests use only these; a determinism test pins site results across Node and Chromium.
+
+### 15.3 New plugin kinds
+
+| Kind | Side | Purpose |
+|---|---|---|
+| `building-type` | both | Space mix, schedules, system archetypes, code classes, benchmarks, default floor-to-floor, mon |
+| `space-type` | both | Loads (people, LPD, EPD, outdoor air), set points, schedules, hot water, daylight target, each value sourced with low, typical, high |
+| `schedule` | both | 24 h × (weekday, Saturday, Sunday or holiday) fractions |
+| `window-product`, `shade-preset` | both | U, g, VLT, frame factor, cost; shade geometry presets (chajja, jaali, verandah, courtyard, cool roof) |
+| `benchmark` | both | EUI benchmark or band with basis (site or source) |
+| `rating-scheme` | engine | Step tables from a ratio or metric to points or levels |
+| `baseline-builder` | engine | Clone a building into a code's reference design |
+| `stage-provider` | engine | `preview` or `real` implementation of one analysis stage (§15.5) |
+| `site-method` | engine | Sky model, daylight tier or visibility kernel variant, with its validated error band |
+| `city-pack` | both | Context tiles for a city (§15.7) |
+| `massing-generator` | engine | Parametric massing operators (phototropic) |
+| `design-proposer` | ui | Offline or LLM proposer of `DesignOp`s |
+| `analysis-lens` | ui | A `visual-layer` with a lens panel, ramp, legend and inspect |
+| `editor-tool` | ui | A Make tool (keyboard key, pointer handlers, a11y outline entry) |
+
+`climate` gains `epw(): Promise<Epw>`; `rule-pack` rules may use the `comply` effect; `importer` and `exporter` gain building formats.
+
+### 15.4 Contracts (sketch; field comments normative)
+
+```ts
+// packages/core/src/v3/building.ts
+export type Mm = number;                                   // safe integer millimetres
+export interface BuildingDoc {
+  schema: 'ibasho.building/1'; id: string; version: number; placeId: string; name: string;
+  typeId: string; tenure?: TenureSplit;                    // rental: who owns, pays, decides
+  permitDate?: IsoDate;                                    // drives code edition (SPEC R34); absent = unknown
+  origin: { x: Mm; y: Mm }; rotationMdeg: number;          // millidegrees from place true north
+  storeys: Storey[]; roofs: RoofSpec[]; shades: FreeShade[]; zones: ThermalZone[]; systems: SystemRef[];
+  massing?: MassingSpec;                                   // used while storeys have no rooms
+}
+export interface Storey { id: string; name: string; elevation: Mm; floorToFloor: Mm; multiplier: number; belowGrade: boolean;
+  rooms: Room2D[]; rooms3d: Room3D[]; cores: Core[]; underlay?: Underlay }
+export interface Room2D { id: string; floor: { outer: [Mm, Mm][]; holes: [Mm, Mm][][] }; ceiling: Mm;
+  spaceTypeId?: string;                                    // absent = unknown, widens EUI (SPEC R33)
+  segments: Segment[]; floorBoundary: 'ground' | 'adjacent' | 'exposed'; ceilingBoundary: 'roof' | 'adjacent' | 'exposed' }
+export interface Segment { id: string; boundary: { kind: 'outdoors' | 'ground' | 'adiabatic' | 'air' } | { kind: 'adjacent'; roomId: string; segId: string };
+  constructionId?: string; window: WindowRule; shading: ShadeRule[] }
+export type WindowRule = { kind: 'none' } | { kind: 'ratio'; wwrPm: number; sill: Mm; productId?: string }   // wwrPm: per mille
+  | { kind: 'repeating'; wwrPm: number; width: Mm; spacing: Mm; sill: Mm; head: Mm; productId?: string }
+  | { kind: 'single'; width: Mm; height: Mm; sill: Mm; offset: Mm; productId?: string }
+  | { kind: 'detailed'; openings: Opening[] };
+export type ShadeRule = { kind: 'overhang'; depth: Mm; aboveHead: Mm; extension: Mm }
+  | { kind: 'fins'; depth: Mm; spacing?: Mm; sides: 'both' | 'left' | 'right' }
+  | { kind: 'louvres'; spacing: Mm; depth: Mm; angleMdeg: number; axis: 'h' | 'v' }
+  | { kind: 'light-shelf'; inside: Mm; outside: Mm; height: Mm } | { kind: 'balcony'; depth: Mm; parapet: Mm }
+  | { kind: 'screen'; porosityPm: number; offset: Mm; presetId?: string };          // jaali
+export interface CompiledBuilding { docHash: string; twin: HomeTwin | ZoneTwin; quantities: Quantities; adjacency: Adjacency[];
+  checks: PlanCheck[]; meshes: SurfaceSet }                // SurfaceSet: triangulated surfaces with ids, for site and scene
+
+// packages/core/src/v3/place.ts
+export interface Place { id: string; name: string; lat: number; lon: number; elevationM: number; trueNorthMdeg: number;
+  climatePackId: string; codePackIds: string[]; moneyPackIds: string[]; cityPackId?: string; buildingIds: string[];
+  lineage?: { from: string; at: IsoDate } }                // Restart > Branch
+export interface ContextBuilding { id: string; footprint: [Mm, Mm][]; height: { lo: Mm; likely: Mm; hi: Mm;
+  source: 'user' | 'osm-height' | 'osm-levels' | 'open-buildings' | 'overture' | 'unknown' }; levels?: number; roof?: string }
+
+// packages/core/src/v3/site.ts  (SD §4)
+export interface SiteResult { inputsHash: string; weatherHash: string; sceneHash: string;
+  method: 'T0' | 'T1' | 'T2' | 'T3'; kernel: 'cpu' | 'gpu-preview'; resolution: Resolution;
+  surfaces: { id: string; irrWhm2: readonly bigint[] | 'unknown'; sunHours?: SunHours; svf?: Q }[];
+  windows: { id: string; shadingFactor: readonly Q[] }[];                  // monthly F_sh,obst for the engine
+  rooms: { id: string; sda?: Ival; ase?: Ival; ecbcShare?: Ival; views?: Ival; tier: DaylightTier }[];
+  ledger: { receiver: string; blocker: string; lostWh: bigint }[] }       // identity checked (SPEC AC-LK3)
+
+// packages/core/src/v3/result.ts
+export type EndUse = 'cooling' | 'heating' | 'lighting' | 'equipment' | 'fans' | 'pumps' | 'hot-water' | 'other' | 'pv';
+export interface BuildingResult { inputsHash: string; endUses: Record<EndUse, readonly (bigint | 'unknown')[]>;  // Wh by month
+  eui: { site: Ival; source: Ival; partial: boolean; target?: { value: Ival; source: string } };
+  bills: TariffBill[]; water?: WaterBalance; carbon: { op: bigint; factorIds: string[] }; comfort: ComfortHours[];
+  codes: CodeRow[]; ratings: RatingRow[]; evidence: EvidenceGraph }
+export type Applicability = 'reference' | 'partial' | 'adoption-unconfirmed' | 'professional' | 'not-a-certificate';
+export interface CodeRow { ruleId: string; edition: string; status: Tri; margin?: { value: number; unit: Unit };
+  applicability: Applicability; grade: Grade }
+
+// packages/core/src/v3/stage.ts
+export type StageId = 'geometry' | 'sun' | 'radiation' | 'daylight' | 'energy' | 'codes' | 'optimise';
+export type Tier = 'rough' | 'refined' | 'final';
+export interface StageEvent<S extends StageId> { jobId: string; generation: number; stage: S; fraction: number; tier: Tier;
+  etaMs?: number; message: MessageKey; partial?: StageOut[S]; final?: StageOut[S] }
+export interface StageProvider<S extends StageId> extends PluginBase<'stage-provider'> {
+  stage: S; impl: 'preview' | 'real'; run(input: StageIn[S], ctx: JobCtx): AsyncIterable<StageEvent<S>> }
+export interface StudioApi {                                 // worker, via Comlink; extends EngineApi
+  runJob(req: JobRequest, onEvent: (e: StageEvent<StageId>) => void): Promise<{ jobId: string }>;
+  cancel(jobId: string): void;                               // ≤ 50 ms
+}
+export interface JobRequest { jobId: string; generation: number; placeId: string; buildingId: string; variantId?: string;
+  stages: StageId[]; resolution: 'sketch' | 'standard' | 'fine'; asOf: IsoDate }
+
+// packages/core/src/v3/settings.ts and goals.ts (UV §7, AR §3)
+export interface Setting<T = unknown> { id: SettingId; value: T; unit?: Unit; range?: Ival; source: SourceRef; grade: Grade;
+  scope: 'app' | 'place' | 'building' | 'scenario'; depth: 'plain' | 'pro'; affects: QuantityId[] }
+export type Goal = { kind: 'eui'; max: number } | { kind: 'code'; ruleStem: string; tier?: 1 | 2 | 3 }
+  | { kind: 'rating'; scheme: string; level: string } | { kind: 'budget'; max: bigint } | { kind: 'payback'; maxYears: number }
+  | { kind: 'carbon'; max: bigint } | { kind: 'comfort'; minHours: number } | { kind: 'daylight'; sdaMin?: number; aseMax?: number };
+export interface ScopedGoal { goal: Goal; scope: MemoryScope; strength: 'must' | 'prefer' | 'nice' }
+export interface Objective { id: 'capex' | 'opex' | 'eui' | 'carbon' | 'comfort' | 'sda' | 'ase' | 'npv'; dir: 'min' | 'max' }
+```
+
+Also in core: `Effect` gains `{ kind: 'comply'; metric: MetricId; op: CmpOp; limit: number; tier?: 1 | 2 | 3 }`; `MetricId` registry (EC §7.2); facts `b.*` and `z.*`; `SealLevel` gains `'preview'` and evidence provenance kind gains `'preview'`; units gain EUI, lux, hours, litres and W/m²; `RegionCode` gains `IN-TG` uses already present plus `US`, `EU`; memory scope, bi-temporal fields, `RecSet`, `DesignOp` and `ChangeExplanation` as AR §8.
+
+### 15.5 Data flow and stage providers
+
+```
+ editor command ─► store.docs.append ─► bus 'doc.changed' ─► StudioClient (main) cancels stale jobs, starts a job
+                                                                     ▼
+ engine worker:  geometry ─► (site worker: sun ─► radiation ─► daylight) ─► energy ─► codes ─► optimise
+                 each stage = registry.get('stage-provider', manifest[stage]) ; events stream back with tier and partial
+                                                                     ▼
+ main: results by inputsHash ─► mirror check (real stages only) ─► seals ─► scene lenses, panels, narrator
+```
+
+- `apps/web/src/manifest.ts` maps each stage to a provider id. Swapping `preview` for `real` is one line (SPEC AC-PG4).
+- Stages run only when their inputs hash changed. A tariff edit starts at `codes` with energy reused; a window edit starts at `geometry` but `site` reuses unchanged sensor grids.
+- Preview providers read `packages/fixtures/src/preview/<building>/<stage>.json` and replay recorded timings scaled by a device factor. They set `provenance.kind = 'preview'`, so `verify` never seals them.
+- Two workers by default: engine and site. The GPU preview kernel lives in `scene` and never feeds a certificate.
+
+### 15.6 Certificate `ibasho.cert/3`
+
+Adds columnar sections, each re-derived by the checker: `geometry` (integer area sums, zero overlap, adjacency symmetry, opening ≤ wall), `ledger` (unobstructed = received + Σ losses), `enduse` (EUI arithmetic, partial flag), `codes` (facts, limits, margins, applicability inputs), `ratings` (table lookups), `objectives` (axes with directions; N-axis front and witnesses), `attribution` (Shapley sum), `split` (party shares sum to the bill). Physics, site and daylight values remain trusted inputs. `cert/2` certificates keep checking under their spec hash.
+
+### 15.7 City packs (`ibasho.city/1`)
+
+- Tiles of 250 m in a local metric frame around the pack origin. Per building: footprint in integer mm, height range with source, levels, roof shape; trees (crown radius, height range, leaf-on months); terrain as a 10 m heightfield from Copernicus GLO-30. Tile files are gzip JSON, decompressed with the native `DecompressionStream`.
+- `city-hyderabad` v1 covers a 2 km box around the IIIT campus (17.4453 N, 78.3490 E) and Gachibowli, ≤ 5 MB. Built offline by `tools/city` (Overpass with caching, Overture GeoParquet via hyparquet, Open Buildings 2.5D and canopy rasters via geotiff); every building lists its sources.
+- The scene merges context per tile into instanced LoD1 extrusions (≤ 30 draw calls); the site worker builds its BVH from the same tiles, so analysis and picture share one source.
+
+### 15.8 Store (Dexie `ibasho` v2)
+
+| Table | Key | Content |
+|---|---|---|
+| `places` | `id` | `Place` |
+| `buildings` | `id` | name, type, place, active version |
+| `docs` | `[buildingId+version]` | append-only `BuildingDoc` versions |
+| `commands` | `id` | Immer patch commands with origin (person, agent, partner) and inverse patches |
+| `variants` | `id` | named command lists over a baseline version |
+| `results` | `inputsHash` | stage outputs, `BuildingResult`, certificate |
+| `siteResults` | `inputsHash` | `SiteResult` |
+| `settings` | `[scope+scopeId+id]` | scoped `Setting` values |
+| `memory` | `id` | `MemoryEvent` with scope and two dates |
+| `recsets` | `id` | cached `RecSet` (derived, droppable) |
+| `cityTiles` | `[packId+tile]` | cached tiles |
+
+A forward migration copies v1 homes into places with one `single-family` building each.
+
+### 15.9 Dependencies (v3)
+
+Checked with `npm view` on 2026-10-11; each version is at least two weeks old and its peers are satisfied by ARCH 13. Install at V-0 (WP-00), or when the named gate starts.
+
+| Package | Version | Licence | For | Install |
+|---|---|---|---|---|
+| clipper2-ts | 2.0.1 | BSL-1.0 | `plan`: integer polygon booleans and offsets | V-0 |
+| immer | 11.1.18 | MIT | `editor`, `store`: commands as patches | V-0 |
+| react-resizable-panels | 4.14.0 | MIT | `apps/web`, `editor`: plan and 3D split, compare views | V-0 |
+| d3-scale, d3-shape | 4.0.2, 3.2.0 | ISC | `ui`: lens histograms, parallel coordinates, end-use bars | V-0 |
+| @types/d3-scale, @types/d3-shape | 4.0.9, 3.2.0 | MIT | dev | V-0 |
+| pdfjs-dist | 6.3.289 | Apache-2.0 | `interop`: PDF underlay and vector trace (lazy chunk) | V-1 |
+| hyparquet | 1.31.1 | MIT | `tools/city`: Overture GeoParquet | V-2 |
+| geotiff | 3.0.5 | MIT | `tools/city`: terrain and canopy rasters | V-2 |
+| three-gpu-pathtracer, xatlas-web | 0.0.24, 0.1.0 | MIT | `scene`: daylight tier T2 (peers three ≥ 0.180, three-mesh-bvh) | V-3 or later |
+| 3d-tiles-renderer | 0.5.3 | Apache-2.0 | `scene`: opt-in photo context | later |
+| web-ifc | 0.0.78 | MPL-2.0 | `interop`: IFC import (lazy) | later |
+
+Already installed and reused: three-mesh-bvh 0.9.16 (site kernel), suncalc 2.1.1 (preview only; the SPA port is canonical), dexie, zustand, comlink, motion, @use-gesture/react. Optional system tools for the companion: EnergyPlus and Radiance, versions recorded in the companion README when installed. Not used: manifold-3d (its strict peers pull esbuild-wasm and gltf-transform; wall openings are built as shapes with holes instead), polygon-clipping (Clipper2 covers it), a map library (the city is our own paper model).

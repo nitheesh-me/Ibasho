@@ -39,11 +39,21 @@
   [M-C · Sealed], state("active"), [Checker now also covers bills, score and completed measures. Proofs page still to build.],
   [M-D · Story], state("todo"), [Five chapters, calibration from bills, custom what-if requests, welcome back.],
   [M-E · Release], state("todo"), [Landing posters, accessibility and performance passes. Testing stays light until then.],
+  [v3 plan], state("done"), [A studio for eight building types in a real 3D city, Hyderabad first. Plan in `docs/PLAN-V3.md`.],
+  [V-0 · Contracts v3], state("todo"), [Shared types for the building model, results, stages, settings and goals; new packages; installs.],
+  [V-P · Prototype], state("todo"), [Every flow (new, revisit, restart, what-if, update) on phone, tablet and desktop, on preview data with an honest staged progress bar.],
+  [V-1 to V-6 · Real stages], state("todo"), [Geometry, sun and radiation, daylight, energy, codes and ratings, optimisation, each replacing its preview in turn.],
+  [V-7 · Partner and memory], state("todo"), [Memory across buildings, typed goals, live recommendations, a design partner that proposes and never computes.],
+  [V-H · Hyderabad hero], state("todo"), [Vindhya Bhavan at IIIT Hyderabad, in its city, end to end and offline.],
 )
 
 = What Ibasho is
 
 Ibasho is a digital twin of a home that you can edit. Change the house and the model recomputes it, using a documented reduced-order heat balance @iso-52016 @sap-10-2. It searches the retrofit packages you can actually build and shows the best few. Lean 4 @lean4 proves the bookkeeping. An AI narrator explains results but cannot change a number. The visual language takes cues from architectural storytelling @dami-lee.
+
+= Direction v3
+
+From October 2026 Ibasho grows from one home into a studio for many kinds of building: offices, hotels, schools, hospitals, labs, apartments, rentals and single family homes. You place a building in its real city, draw it floor by floor, and see its sun, shadows, daylight, energy by end use, carbon, bills, code standing and green rating path, with the cheapest bundle of changes that meets a goal. Hyderabad comes first, with a building on the IIIT campus as the hero; the London terrace stays. The same principles hold: numbers come from documented models, unknown is not zero, and Lean checks the bookkeeping. Work runs outside in: a full prototype of every flow on clearly labelled preview data first, then each stage made real in turn.
 
 = Features
 

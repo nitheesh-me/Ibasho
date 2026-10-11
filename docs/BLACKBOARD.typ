@@ -52,6 +52,10 @@
 - Testing is light for now: each WP runs only its own package tests. No gates until the owner asks.
 ]
 
+#entry("orchestrator", "decision", status: "final")[Owner direction (2026-10-11): prototype first, outside in. A high-fidelity, responsive prototype of every user flow (new, revisit, restart, current plus what-if, update) with an honest staged progress bar for rendering and computing, on fixture data shaped like real engine output and labelled Preview. Then replace fixtures with real computation stage by stage. See `docs/research/v3/00-owner-direction.md`.]
+
+#entry("director", "decision", status: "final")[v3 plan of record (2026-10-11): `docs/PLAN-V3.md`, with SPEC 15 to 26 (rulings R25 to R45), ARCH 15, BUILD_PLAN 9 to 12 and DESIGN_SYSTEM 13. A studio for eight building types in a real 3D city, Hyderabad first (hero: Vindhya Bhavan, IIIT). Order: V-0 contracts (WP-00, WP-10), then wave 1 V-P prototype on Preview data (design WP-06; developers WP-08, WP-15, WP-07, WP-13, WP-14, WP-17; QA WP-22 product, WP-23 UX, WP-24 content, review based), then real stages V-1 to V-6 in progress-bar order, then V-7 partner and V-H hero. New WPs WP-13 to WP-24 own disjoint paths (BUILD_PLAN 10). Testing stays light.]
+
 == Claims
 #entry("steward:WP-00", "claim", status: "done")[SPEC 14 contracts in `packages/core/**`: the `maintenance` plugin kind, the "If nothing is done" run, per-package negatives, and the deferred WP-02 `OwnerCtx` fields.]
 #entry("builder:WP-08", "claim", status: "active")[Gate M-A (app shell and store): `apps/web/**` except `apps/web/public/assets/**`, `packages/store/**`. Shell layout zones (left rail, top bar with home switcher and lantern, mobile tab bar), `/app/start` onboarding in 5 typed steps with no budget question, Reveal on the home stage with WP-07 `Stage` (SVG fallback without WebGL), packs imported by package name.]

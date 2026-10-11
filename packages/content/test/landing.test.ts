@@ -82,7 +82,13 @@ describe('landing chapters', () => {
   });
 
   it('speaks to five kinds of customer', () => {
-    expect(LANDING_AUDIENCES.map((a) => a.id)).toEqual(['homeowner', 'architect', 'campus', 'developer', 'business']);
+    expect(LANDING_AUDIENCES.map((a) => a.id)).toEqual([
+      'homeowner',
+      'architect',
+      'campus',
+      'developer',
+      'business',
+    ]);
   });
 });
 

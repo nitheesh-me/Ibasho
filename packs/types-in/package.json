@@ -5,13 +5,16 @@
   "type": "module",
   "description": "Indian building types, space types, schedules, constructions and shade presets (chajja, jaali, verandah).",
   "exports": {
-    "./engine": "./src/engine/index.ts"
+    "./engine": "./src/engine/index.ts",
+    "./real-energy": "./src/engine/real-energy.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@ibasho/core": "workspace:*"
+    "@ibasho/core": "workspace:*",
+    "@ibasho/engine": "workspace:*",
+    "@ibasho/pack-types-global": "workspace:*"
   }
 }

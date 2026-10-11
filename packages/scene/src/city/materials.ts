@@ -24,6 +24,8 @@ export interface LensUniforms {
   /** minE, minN, sizeE, sizeN of the grid (m). */
   uGridBox: { value: [number, number, number, number] };
   uGridOn: { value: number };
+  /** 0 while a lens paints only the building (roof radiation): the ground keeps its paper. */
+  uGridGround: { value: number };
   uRamp: { value: Texture | null };
   /** Wick front height (m): above it, painted surfaces stay paper (moment 3). */
   uWick: { value: number };
@@ -44,6 +46,7 @@ export function createLensUniforms(): LensUniforms {
     uGrid: { value: null },
     uGridBox: { value: [0, 0, 1, 1] },
     uGridOn: { value: 0 },
+    uGridGround: { value: 1 },
     uRamp: { value: null },
     uWick: { value: 1e6 },
     uPaper: { value: new Color('#f4eee3') },
@@ -91,6 +94,8 @@ export function writeGrid(t: DataTexture, values: Float32Array, max: number, mas
 export interface LensFlags {
   /** Sample the grid lens by world position (ground and roofs). */
   grid?: boolean;
+  /** This material is the ground (honours `uGridGround`). */
+  ground?: boolean;
   /** Honour the wick front. */
   wick?: boolean;
   /**
@@ -114,7 +119,7 @@ export function lensMaterial(
   flags: LensFlags,
 ): MeshStandardMaterial {
   const m = new MeshStandardMaterial(params);
-  const key = `city-lens-${flags.grid ? 'g' : ''}${flags.wick ? 'w' : ''}${flags.vertexEmissive ? 'e' : ''}${flags.lantern ? `l${flags.lantern}` : ''}${flags.hatch ? `h${flags.hatch.pitch}${flags.hatch.duty}${flags.hatch.vertical ? 'v' : ''}${flags.hatch.screen ? 's' : ''}` : ''}`;
+  const key = `city-lens-${flags.grid ? 'g' : ''}${flags.ground ? 'G' : ''}${flags.wick ? 'w' : ''}${flags.vertexEmissive ? 'e' : ''}${flags.lantern ? `l${flags.lantern}` : ''}${flags.hatch ? `h${flags.hatch.pitch}${flags.hatch.duty}${flags.hatch.vertical ? 'v' : ''}${flags.hatch.screen ? 's' : ''}` : ''}`;
   m.customProgramCacheKey = () => key;
   m.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, u);
@@ -135,6 +140,7 @@ uniform float uBase;
 uniform sampler2D uGrid;
 uniform vec4 uGridBox;
 uniform float uGridOn;
+uniform float uGridGround;
 uniform sampler2D uRamp;
 uniform float uWick;
 uniform vec3 uPaper;
@@ -153,12 +159,12 @@ uniform float uPixelRatio;
     }
     if (flags.grid)
       paint += `
-if (uGridOn > 0.5) {
+if (uGridOn > 0.5${flags.ground ? ' && uGridGround > 0.5' : ''}) {
   vec2 guv = (vec2(vCityWorld.x, -vCityWorld.z) - uGridBox.xy) / uGridBox.zw;
   if (guv.x > 0.0 && guv.x < 1.0 && guv.y > 0.0 && guv.y < 1.0) {
     float gv = texture2D(uGrid, guv).r;
     // Radial soft edge over the outer 12%, so the compute domain never shows as a square.
-    float edge = 1.0 - smoothstep(0.76, 1.0, length(guv - 0.5) * 2.0);
+    float edge = uGridGround > 0.5 ? 1.0 - smoothstep(0.76, 1.0, length(guv - 0.5) * 2.0) : 1.0;
     diffuseColor.rgb = mix(diffuseColor.rgb, texture2D(uRamp, vec2(gv, 0.5)).rgb, edge);
   }
 }

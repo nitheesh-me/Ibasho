@@ -54,7 +54,9 @@ describe('static landing', () => {
     expect(doc.querySelectorAll('.lp-preview')).toHaveLength(0);
     const p = parse(renderLanding(previewAll));
     const marked = [...p.querySelectorAll('section[data-preview]')].map((s) => s.id);
-    expect(marked).toEqual(LANDING_CHAPTERS.filter((c) => c.requires.some((r) => r.startsWith('stage:'))).map((c) => c.id));
+    expect(marked).toEqual(
+      LANDING_CHAPTERS.filter((c) => c.requires.some((r) => r.startsWith('stage:'))).map((c) => c.id),
+    );
     expect(p.getElementById('g-preview')).not.toBeNull();
   });
 

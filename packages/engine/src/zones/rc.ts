@@ -68,10 +68,12 @@ export function simulateRc(z: RcZone, x: RcHourly, warmupHours = 720): RcResult 
       const phiM = (am / at) * (0.5 * pi + ps);
       const phiSt = (1 - am / at - z.htrW / (9.1 * at)) * (0.5 * pi + ps);
       const solve = (phiHC: number) => {
-        const phiMTot = phiM + htrEm * te + (h3 * (phiSt + z.htrW * te + h1 * ((phiIa + phiHC) / hve + te))) / h2;
+        const phiMTot =
+          phiM + htrEm * te + (h3 * (phiSt + z.htrW * te + h1 * ((phiIa + phiHC) / hve + te))) / h2;
         const mNew = (thetaM * (cm - 0.5 * (h3 + htrEm)) + phiMTot) / (cm + 0.5 * (h3 + htrEm));
         const mAvg = 0.5 * (mNew + thetaM);
-        const s = (htrMs * mAvg + phiSt + z.htrW * te + h1 * (te + (phiIa + phiHC) / hve)) / (htrMs + z.htrW + h1);
+        const s =
+          (htrMs * mAvg + phiSt + z.htrW * te + h1 * (te + (phiIa + phiHC) / hve)) / (htrMs + z.htrW + h1);
         const a = (htrIs * s + hve * te + phiIa + phiHC) / (htrIs + hve);
         return { mNew, a };
       };

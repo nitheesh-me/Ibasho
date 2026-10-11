@@ -83,6 +83,13 @@ Proofs:
 - Spotlighting, Hines et al. (2024): marking untrusted notes before they reach a model.
 - Proof-carrying numbers: the idea that every shown number carries its evidence.
 
+- NREL Solar Position Algorithm, Reda and Andreas (2004, rev. 2008), NREL/TP-560-34302, https://midcdmz.nrel.gov/spa/: ported in `packages/site/src/spa.ts` (sun position for site analysis).
+- fdlibm 5.3 `s_atan.c`, `e_atan2.c`, `e_asin.c`, Sun Microsystems (1993), freely distributable: ported in `packages/site/src/dmath/atan.ts`.
+- Perez, Seals and Michalsky (1993) all-weather sky, coefficients as tabulated in Radiance `gendaylit.c` (G. Ward, J. Mardaljevic; Radiance licence): sky luminance and radiance per patch in `packages/site`.
+- Perez et al. (1990) luminous efficacy model; Tregenza (1987) sky patches and the Reinhart subdivision (Radiance `reinhart.cal`); Robinson and Stone (2004) cumulative sky: site radiation and daylight.
+- Binned SAH BVH (Wald 2007; Pharr, Jakob and Humphreys, Physically Based Rendering) and Moller and Trumbore (1997) ray and triangle test: the site visibility kernel, written after three-mesh-bvh (Garrett Johnson, MIT) without importing it.
+- BRE split-flux method (Hopkinson, Longmore and Petherbridge 1954): inter-reflected daylight in the site T1 tier. Fresnel and Bouguer glazing transmittance after Duffie and Beckman.
+
 ## Data and standards
 
 - SAP 10.2 and RdSAP 10 (BRE for DESNZ): monthly energy method, occupancy, lights and appliances, Table 12 and 12d carbon factors.
@@ -110,6 +117,18 @@ Proofs:
 - Public sources for the on-demand office examples in Hyderabad (Lloyds Technology Centre corporate details, K Raheja Corp and Mindspace REIT releases, World-Architects on KRC Commerzone, Sattva Group project pages, press reports on the Qualcomm and Vanguard centres): building facts only, recorded per building in its notes.
 - UK building regulations and plans (Approved Documents L and O, the Future Homes and Buildings Standard consultation, the London Plan 2021 Policy SI 2, the UK Net Zero Carbon Buildings Standard pilot): thresholds for the Preview pre-checks of designed buildings.
 - Overpass API mirrors (maps.mail.ru, overpass-api.de, overpass.kumi.systems): OpenStreetMap extracts for the city areas.
+
+- ISO 13790:2008 Annex C (5R1C simple hourly method, kept by ISO 52016-1): the real energy stage's zone model.
+- ASHRAE 62.1-2022 and NBC 2016 Part 4 and Part 8: outdoor air rates and occupant densities in the type packs.
+- Manu et al. 2016, India Model for Adaptive Comfort (IMAC): fan-first comfort band.
+- Duffie and Beckman, Solar Engineering of Thermal Processes: sun position and surface irradiance.
+- US EIA CBECS 2018, CIBSE TM46, BEE star bands and the UK NCM activity database: benchmarks and UK space types.
+- PVGIS TMY (European Commission JRC): London mean-day weather for the energy stage.
+
+- Climate.OneBuilding.Org TMYx 2011-2025, Hyderabad (431285), CC BY 4.0, and PVGIS 5.2 TMY London (JRC): hourly weather shipped with `packages/site` (`src/weather/*.gen.ts`).
+- IES LM-83 (sDA and ASE definitions), ECBC 2017 section 4.2.3 (useful daylight share, interior reflectances) and LEED v5 views (7.5 m rule): daylight metrics in `packages/site`.
+
+- ASHRAE 90.1-2022 Appendix G, Approved Documents L and O 2021, the Future Homes and Buildings Standard, the London Plan 2021 (SI 2), LEED v4.1 and v5, IGBC, GRIHA, IFC EDGE and BEE star labels: thresholds, baselines and rating ladders in the real codes stage (estimates where marked).
 
 ## Assets (fonts, textures, HDRIs, models, sounds)
 

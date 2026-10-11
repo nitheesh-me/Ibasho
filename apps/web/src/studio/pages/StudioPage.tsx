@@ -133,11 +133,14 @@ export function StudioPage() {
   }, [b, storeyId]);
 
   // First results: run every variant once when the building opens.
+  // Pack places wait for the city tiles (a second or so) so the stages run once, never restart.
+  const tilesReady = useStudio((s) => s.tilesReady);
+  const needsTiles = placeEntry?.place.cityPackId === 'city-hyderabad';
   useEffect(() => {
-    if (!b) return;
+    if (!b || (needsTiles && !tilesReady)) return;
     const s = useStudio.getState();
     if (!s.jobs[jobKey(b.id, BASE_VARIANT)]) s.runBuilding(b.id);
-  }, [b]);
+  }, [b, needsTiles, tilesReady]);
 
   // Revisit: what changed since the last visit to this place.
   const hasPlace = Boolean(placeEntry);
@@ -361,6 +364,7 @@ export function StudioPage() {
               lens={lens}
               onLens={(l) => setParam('lens', l)}
               typeId={b.typeId}
+              place={placeEntry.place}
               job={job}
               resolution={resolution}
               onResolution={(r) => st.setSetting('analysis.resolution', r)}

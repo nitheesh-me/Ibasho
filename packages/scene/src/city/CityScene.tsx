@@ -7,8 +7,7 @@
  * Frame cost: `frameloop="demand"` means nothing renders while the city rests (still life). A
  * frame is asked for only when an input changes or while a move, sweep, wick, lift or drawer plays.
  */
-import type { SiteResult } from '@ibasho/core';
-import { Html } from '@react-three/drei';
+import { facadeBin, type SiteResult } from '@ibasho/core';
 import { type ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import {
   type MutableRefObject,
@@ -21,6 +20,7 @@ import {
   useState,
 } from 'react';
 import {
+  BoxGeometry,
   BufferAttribute,
   BufferGeometry,
   CircleGeometry,
@@ -32,17 +32,20 @@ import {
   LineBasicMaterial,
   LineDashedMaterial,
   type LineSegments,
+  type Matrix4,
   type Mesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
   Object3D,
   type OrthographicCamera,
+  PlaneGeometry,
   Vector3,
 } from 'three';
 import { acceleratedRaycast, MeshBVH } from 'three-mesh-bvh';
 import { type Theme, token } from '../colour/palette.ts';
 import type { TierSettings } from '../quality/ladder.ts';
 import { paperBake } from './bake.ts';
+import { type FacadeStorey, facadeOf } from './facade.ts';
 import { type EN, ringArea } from './frame.ts';
 import {
   contextGeometry,
@@ -67,7 +70,7 @@ import {
 import { type CityModel, lanternStrength } from './model.ts';
 import { phototropicGeometry } from './phototropic.ts';
 import type { PlacementCheck } from './placement.ts';
-import { annualKwh } from './preview.ts';
+import { annualKwh, surfaceKey } from './preview.ts';
 import { rampLinear } from './ramps.ts';
 import {
   applyView,
@@ -83,7 +86,7 @@ import {
   type SafeArea,
   sunPathSegments,
 } from './sceneParts.ts';
-import { penumbraPolygons, type SunHoursGrid, shadowHours, sunHoursUpTo } from './shadow.ts';
+import { type Grid, penumbraPolygons, type SunHoursGrid, shadowHours, sunHoursUpTo } from './shadow.ts';
 import { type CitySun, type CityTime, dayWindow, sunOf } from './sun.ts';
 import type {
   CityLensId,
@@ -95,6 +98,18 @@ import type {
 } from './types.ts';
 import { blendView, type CityView, easeOri, LEVEL_MOVE_MS } from './view.ts';
 
+/** A DOM label the stage draws over the canvas at a projected point (no drei Html roots). */
+export interface SceneOverlayItem {
+  key: string;
+  kind: 'room' | 'locator';
+  x: number;
+  y: number;
+  title: string;
+  sub?: string;
+  area?: number;
+  full?: boolean;
+}
+
 export interface CityStats {
   phase: 'loading' | 'moving' | 'resting';
   frames: number;
@@ -104,6 +119,8 @@ export interface CityStats {
 }
 
 export interface CitySceneProps {
+  /** Room labels and the City locator, placed when the camera rests. */
+  onOverlay?: (items: SceneOverlayItem[]) => void;
   model: CityModel;
   theme: Theme;
   lens: CityLensId;
@@ -114,6 +131,8 @@ export interface CitySceneProps {
   roomId: string | undefined;
   time: CityTime;
   sun: CitySun;
+  /** Roof radiation at grid resolution (worker kernel), kWh/m² a year, NaN off the roof. */
+  roofRad?: { grid: Grid; kwh: Float32Array } | null;
   /** Sun hours over the day (worker kernel), or null while it computes. */
   sunGrid: SunHoursGrid | null;
   /** Sun hours accumulate up to this local minute (the sweep builds it up; 1440 = whole day). */
@@ -135,6 +154,8 @@ export interface CitySceneProps {
   /** Moment 7: floors added on top of the hero (m), and neighbours that lose winter sun. */
   addedFloorsM?: number;
   castLosers?: readonly string[];
+  /** Compare: outline these facade bins (Kotai warm for more, green for less). */
+  emphasis?: { bins: readonly string[]; tone: 'more' | 'less' } | null;
   /** Find: what to outline or light; the rest of the city dims. */
   highlight?: {
     contextId?: string;
@@ -235,7 +256,7 @@ function lookOf(theme: Theme): Look {
         contextLine: t('ink'),
         contextLineOpacity: 0.16,
         // Warm RCC render, desaturated towards paper (QA B4: about oklch 86% 0.03 75).
-        wall: '#dccdb6',
+        wall: '#e4d8c4',
         roof: t('paper-sunk'),
         glass: '#6f8387',
         floor: '#ece4d6',
@@ -268,11 +289,13 @@ function lookOf(theme: Theme): Look {
         outline: t('ink-3'),
         outlineOpacity: 0.6,
         hatch: t('ink-3'),
-        tree: '#0f1310',
+        // Dim discs, a step above the night ground (round 4: no white rings).
+        tree: '#060705',
         pv: '#1c252c',
         fin: '#2b2520',
         paper: t('paper'),
-        plinth: '#221d18',
+        // The site board at night sits close to the ground value, so no dark slab under the lantern.
+        plinth: '#2b251f',
         warm: t('warm'),
         deep: t('deep'),
         lamp,
@@ -346,7 +369,7 @@ export function CityScene(p: CitySceneProps) {
       emissive: new Color(0),
     });
     return {
-      ground: lensMaterial({ color: look.ground, roughness: 1 }, uniforms, { grid: true }),
+      ground: lensMaterial({ color: look.ground, roughness: 1 }, uniforms, { grid: true, ground: true }),
       road: new MeshStandardMaterial({ color: look.road, roughness: 1 }),
       context: new MeshStandardMaterial({ color: look.context, roughness: 0.95, vertexColors: true }),
       guess: new MeshStandardMaterial({
@@ -393,6 +416,12 @@ export function CityScene(p: CitySceneProps) {
       wall,
       roof,
       glass,
+      facadeFrame: new MeshStandardMaterial({ color: yoru ? '#3a3229' : look.fin, roughness: 0.95 }),
+      facadeShade: new MeshStandardMaterial({
+        color: yoru ? '#332c25' : look.plinth,
+        roughness: 0.95,
+        side: DoubleSide,
+      }),
       ghostWall: ghost(wall),
       ghostRoof: ghost(roof),
       ghostGlass: ghost(glass),
@@ -677,6 +706,13 @@ export function CityScene(p: CitySceneProps) {
     },
     [storeyMeshes],
   );
+  // Facade detail from the document: openings, heads, sills, jambs and shading (round 6).
+  const facadeBy = useMemo(() => {
+    const m = new Map<string, FacadeStorey>();
+    if (model.heroDoc) for (const f of facadeOf(model.heroDoc)) m.set(f.storeyId, f);
+    return m;
+  }, [model.heroDoc]);
+
   // 1.5 px ink outline per storey (DS 13.1), lantern rim colour at night.
   const outlines = useMemo(
     () =>
@@ -737,7 +773,11 @@ export function CityScene(p: CitySceneProps) {
   // Lens paint (vertex colours): radiation and sun hours from the site result, use tints on floors.
   const siteById = useMemo(() => {
     const m = new Map<string, SiteResult['surfaces'][number]>();
-    for (const s of p.site?.surfaces ?? []) m.set(s.id, s);
+    for (const s of p.site?.surfaces ?? []) {
+      m.set(s.id, s);
+      const k = surfaceKey(s.id);
+      if (!m.has(k)) m.set(k, s);
+    }
     return m;
   }, [p.site]);
   const [d0, d1] = p.radiationDomain;
@@ -752,7 +792,7 @@ export function CityScene(p: CitySceneProps) {
         const use = hero?.rooms.find((r) => r.id === s.roomId)?.use;
         return theme === 'hiru' && use ? (tint.get(use) ?? base) : base;
       }
-      const d = siteById.get(s.id) ?? siteById.get(s.ownerId);
+      const d = siteById.get(s.id) ?? siteById.get(surfaceKey(s.id)) ?? siteById.get(s.ownerId);
       if (lens === 'radiation' && d) {
         const k = annualKwh(d);
         if (k !== null) return rampLinear('hinata', (k - d0) / Math.max(1, d1 - d0));
@@ -779,7 +819,25 @@ export function CityScene(p: CitySceneProps) {
     () => (sunGrid && lens === 'shadows' ? shadowHours(sunGrid) : null),
     [sunGrid, lens],
   );
+  // Roof radiation (round 6): the roof shows where taller neighbours take its sun.
+  const roofRad = lens === 'radiation' ? (p.roofRad ?? null) : null;
+  const roofTex = useMemo(() => (roofRad ? gridTexture(roofRad.grid) : null), [roofRad]);
+  useEffect(() => () => roofTex?.dispose(), [roofTex]);
   useLayoutEffect(() => {
+    if (roofRad && roofTex) {
+      uniforms.uGrid.value = roofTex;
+      const g = roofRad.grid;
+      uniforms.uGridBox.value = [g.minE, g.minN, g.cols * g.cell, g.rows * g.cell];
+      uniforms.uRamp.value = rampTexture('hinata');
+      const v = fillNaN(roofRad.kwh, g.cols, g.rows);
+      for (let i = 0; i < v.length; i++) v[i] = Math.min(1, Math.max(0, (v[i]! - d0) / Math.max(1, d1 - d0)));
+      writeGrid(roofTex, v, 1);
+      uniforms.uGridGround.value = 0;
+      uniforms.uGridOn.value = 1;
+      invalidate();
+      return;
+    }
+    uniforms.uGridGround.value = 1;
     if (!gridSpec || !gridTex || !sunGrid) {
       uniforms.uGridOn.value = 0;
       invalidate();
@@ -811,7 +869,21 @@ export function CityScene(p: CitySceneProps) {
     }
     uniforms.uGridOn.value = 1;
     invalidate();
-  }, [gridSpec, gridTex, sunGrid, shadowH, lens, p.gridMinutes, p.sweeping, uniforms, invalidate]);
+  }, [
+    gridSpec,
+    gridTex,
+    sunGrid,
+    shadowH,
+    lens,
+    p.gridMinutes,
+    p.sweeping,
+    uniforms,
+    invalidate,
+    roofRad,
+    roofTex,
+    d0,
+    d1,
+  ]);
 
   // ---------------------------------------------------------------- sun path (moment 1)
   const sunPath = useMemo(() => {
@@ -987,7 +1059,8 @@ export function CityScene(p: CitySceneProps) {
     const list =
       heroLantern && !lanternIds.has(heroLantern.buildingId) ? [heroLantern, ...p.lanterns] : p.lanterns;
     for (const l of list) {
-      const colour = token(DOMINANT_TOKEN[l.dominant], 'yoru');
+      // Warm lamplight by default with only a quarter of the end use hue (round 4: no teal wash).
+      const colour = mix(look.lamp, token(DOMINANT_TOKEN[l.dominant], 'yoru'), 0.25);
       if (hero && l.buildingId === hero.id) {
         const { c, span } = ringCentre(hero.prisms.flatMap((x) => x.ring));
         // The hero's halo never shrinks below a readable size, so it marks the building at City level.
@@ -997,7 +1070,7 @@ export function CityScene(p: CitySceneProps) {
           span: Math.max(span, p.view.halfH * 0.18),
           h: hero.height,
           colour,
-          k: heroK * 1.4,
+          k: heroK * 0.9,
         });
         continue;
       }
@@ -1229,14 +1302,16 @@ export function CityScene(p: CitySceneProps) {
         moving = true;
       }
     }
-    if (moving) invalidate();
-    else placeRef.current();
+    if (moving) {
+      invalidate();
+      report([]);
+    } else placeRef.current();
   });
   // Paper model bake (QA M1): AO and ink edges on the resting frame, tier 1 and up.
   const bake = useMemo(
     () =>
       p.settings.ao || p.settings.shadows
-        ? paperBake(gl, scene, camera, { ink: look.ink, night: yoru, far: 6000 })
+        ? paperBake(gl, scene, camera, { ink: yoru ? '#070605' : look.ink, night: yoru, far: 6000 })
         : null,
     [gl, scene, camera, look.ink, yoru, p.settings.ao, p.settings.shadows],
   );
@@ -1333,22 +1408,33 @@ export function CityScene(p: CitySceneProps) {
       })
       .sort((a, b) => b.area - a.area);
   }, [hero, cut, selStorey, drawer, level, p.roomId]);
-  const [labels, setLabels] = useState<{ id: string; full: boolean }[]>([]);
   const labelKey = useRef('');
+  const locatorAt = level === 'city' && hero ? ringCentre(hero.prisms.flatMap((x) => x.ring)) : null;
+  const report = (items: SceneOverlayItem[]): void => {
+    const key = items
+      .map((o) => `${o.key}:${Math.round(o.x)},${Math.round(o.y)}${o.full ? '+' : ''}`)
+      .join(';');
+    if (key === labelKey.current) return;
+    labelKey.current = key;
+    p.onOverlay?.(items);
+  };
   const placeLabels = (): void => {
-    if (!candidates.length) {
-      if (labelKey.current !== '') {
-        labelKey.current = '';
-        setLabels([]);
-      }
-      return;
-    }
     camera.updateMatrixWorld();
     const W = size.width;
     const H = size.height;
     const v = new Vector3();
     const taken: [number, number, number, number][] = [];
-    const out: { id: string; full: boolean }[] = [];
+    const out: SceneOverlayItem[] = [];
+    if (locatorAt && hero) {
+      v.set(locatorAt.c[0], hero.height + PLINTH_M, -locatorAt.c[1]).project(camera);
+      out.push({
+        key: 'locator',
+        kind: 'locator',
+        x: ((v.x + 1) / 2) * W,
+        y: ((1 - v.y) / 2) * H,
+        title: hero.name,
+      });
+    }
     for (const c of candidates) {
       let x0 = Infinity;
       let x1 = -Infinity;
@@ -1380,18 +1466,22 @@ export function CityScene(p: CitySceneProps) {
       const box: [number, number, number, number] = [cx - lw, cy - lh, cx + lw, cy + lh];
       if (taken.some((t) => box[0] < t[2] && box[2] > t[0] && box[1] < t[3] && box[3] > t[1])) continue;
       taken.push(box);
-      out.push({ id: c.r.id, full });
+      out.push({
+        key: c.r.id,
+        kind: 'room',
+        x: cx,
+        y: cy,
+        full,
+        title: c.fn,
+        ...(c.name ? { sub: c.name } : {}),
+        area: Math.round(c.area),
+      });
       if (out.length >= 40) break;
     }
-    const key = out.map((o) => `${o.id}${o.full ? '+' : ''}`).join(',');
-    if (key !== labelKey.current) {
-      labelKey.current = key;
-      setLabels(out);
-    }
+    report(out);
   };
   const placeRef = useRef(placeLabels);
   placeRef.current = placeLabels;
-  const byId = useMemo(() => new Map(candidates.map((c) => [c.r.id, c])), [candidates]);
 
   // ---------------------------------------------------------------- placing (SPEC 27)
   const pivot = useMemo<EN>(() => (hero ? ringCentre(hero.prisms.flatMap((x) => x.ring)).c : [0, 0]), [hero]);
@@ -1566,6 +1656,29 @@ export function CityScene(p: CitySceneProps) {
     }
   });
 
+  // ---------------------------------------------------------------- compare emphasis
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `track` reads the current size only
+  const emphasisLines = useMemo(() => {
+    const em = p.emphasis;
+    if (!em?.bins.length || !hero) return null;
+    const walls = hero.surfaces.filter(
+      (s) => s.kind === 'wall' && em.bins.includes(facadeBin(Math.round(s.bearingDeg * 1000))),
+    );
+    if (!walls.length) return null;
+    const pos = Array.from(heroOutline(walls).getAttribute('position').array as Float32Array);
+    return track(fatLines(pos, em.tone === 'more' ? '#D7644D' : '#306C45', 2.5));
+  }, [p.emphasis, hero]);
+  useEffect(
+    () => () => {
+      if (emphasisLines) {
+        lineMats.current.delete(emphasisLines.material);
+        emphasisLines.geometry.dispose();
+        emphasisLines.material.dispose();
+      }
+    },
+    [emphasisLines],
+  );
+
   // ---------------------------------------------------------------- moment 3: the radiation rose
   // biome-ignore lint/correctness/useExhaustiveDependencies: `track` reads the current size only
   const rose = useMemo(() => {
@@ -1574,7 +1687,7 @@ export function CityScene(p: CitySceneProps) {
     const area = new Array<number>(16).fill(0);
     for (const s of hero.surfaces) {
       if (s.kind !== 'wall') continue;
-      const d = siteById.get(s.id);
+      const d = siteById.get(s.id) ?? siteById.get(surfaceKey(s.id));
       const k = d ? annualKwh(d) : null;
       if (k === null) continue;
       const b = Math.round(s.bearingDeg / 22.5) % 16;
@@ -1639,7 +1752,6 @@ export function CityScene(p: CitySceneProps) {
   });
 
   const heroGroupY = PLINTH_M;
-  const locator = level === 'city' && hero ? ringCentre(hero.prisms.flatMap((x) => x.ring)) : null;
 
   return (
     <>
@@ -1716,9 +1828,9 @@ export function CityScene(p: CitySceneProps) {
           <mesh
             geometry={circle}
             material={o.pool}
-            position={[o.c[0], 0.08, -o.c[1]]}
+            position={[o.c[0], PLINTH_M + 0.03, -o.c[1]]}
             rotation-x={-Math.PI / 2}
-            scale={[o.span * 1.6, o.span * 1.6, 1]}
+            scale={[o.span * 1.2, o.span * 1.2, 1]}
             raycast={noRaycast}
             renderOrder={3}
           />
@@ -1786,11 +1898,24 @@ export function CityScene(p: CitySceneProps) {
                       }}
                     />
                   ) : null}
-                  <mesh
-                    geometry={glassGeo}
-                    material={ghost ? mats.ghostGlass : mats.glass}
-                    raycast={noRaycast}
-                  />
+                  {facadeBy.has(sm.st.id) ? (
+                    ghost ? null : (
+                      <FacadeMeshes
+                        f={facadeBy.get(sm.st.id)!}
+                        cut={isSel}
+                        glass={mats.glass}
+                        frame={mats.facadeFrame}
+                        shade={mats.facadeShade}
+                        cast={shadowOn}
+                      />
+                    )
+                  ) : (
+                    <mesh
+                      geometry={glassGeo}
+                      material={ghost ? mats.ghostGlass : mats.glass}
+                      raycast={noRaycast}
+                    />
+                  )}
                   {isSel ? (
                     <>
                       <HeroMesh
@@ -1842,6 +1967,7 @@ export function CityScene(p: CitySceneProps) {
                 ))
               : null}
             {ghostLines ? <primitive object={ghostLines} /> : null}
+            {emphasisLines ? <primitive object={emphasisLines} /> : null}
             {rose ? (
               <group ref={roseRef as unknown as MutableRefObject<never>}>
                 <mesh geometry={rose.g} material={roseMat} raycast={noRaycast} renderOrder={5} />
@@ -1863,25 +1989,6 @@ export function CityScene(p: CitySceneProps) {
             {hlFill ? (
               <mesh geometry={hlFill} material={hlFillMat} raycast={noRaycast} renderOrder={4} />
             ) : null}
-            {labels.map(({ id, full }) => {
-              const c = byId.get(id);
-              if (!c) return null;
-              return (
-                <Html
-                  key={id}
-                  position={[c.c[0], c.r.z0 + 1.6, -c.c[1]]}
-                  center
-                  zIndexRange={[20, 10]}
-                  style={{ pointerEvents: 'none' }}
-                >
-                  <span className="ib-city-label" title={c.name ? `${c.fn}, ${c.name}` : c.fn}>
-                    <b>{c.fn}</b>
-                    {full && c.name ? <span>{c.name}</span> : null}
-                    {full ? <span className="ib-city-num">{Math.round(c.area)} m²</span> : null}
-                  </span>
-                </Html>
-              );
-            })}
           </group>
         </group>
         {p.placeMode && hero ? (
@@ -1931,19 +2038,6 @@ export function CityScene(p: CitySceneProps) {
           ) : null}
         </>
       ) : null}
-
-      {locator ? (
-        <Html
-          position={[locator.c[0], (hero?.height ?? 0) + PLINTH_M, -locator.c[1]]}
-          zIndexRange={[20, 10]}
-          style={{ pointerEvents: 'none' }}
-        >
-          <span className="ib-city-locator">
-            <span className="ib-city-locator__plate">{model.hero?.name}</span>
-            <span className="ib-city-locator__leader" aria-hidden="true" />
-          </span>
-        </Html>
-      ) : null}
     </>
   );
 }
@@ -1990,4 +2084,104 @@ function HeroMesh(props: {
       }}
     />
   );
+}
+
+const UNIT_PLANE = new PlaneGeometry(1, 1);
+const UNIT_BOX = new BoxGeometry(1, 1, 1);
+
+/** One storey's facade detail as up to three instanced draws (glass, card frames, shading). */
+function FacadeMeshes(props: {
+  f: FacadeStorey;
+  cut: boolean;
+  glass: MeshStandardMaterial;
+  frame: MeshStandardMaterial;
+  shade: MeshStandardMaterial;
+  cast: boolean;
+}) {
+  const { f, cut } = props;
+  // At a cut storey only pieces starting below the 1.5 m cut plane stay (sills, balconies).
+  const pick = (ms: readonly Matrix4[], tops: readonly number[]): Matrix4[] =>
+    cut ? ms.filter((_, i) => tops[i]! < 0.85) : [...ms];
+  const glass = useMemo(() => (cut ? [] : [...f.glass]), [f, cut]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `pick` only reads f and cut
+  const frame = useMemo(() => pick(f.frame, f.frameTop), [f, cut]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `pick` only reads f and cut
+  const shade = useMemo(() => pick(f.shade, f.shadeTop), [f, cut]);
+  return (
+    <>
+      {glass.length ? (
+        <Instances geometry={UNIT_PLANE} material={props.glass} items={glass} cast={false} />
+      ) : null}
+      {frame.length ? (
+        <Instances geometry={UNIT_BOX} material={props.frame} items={frame} cast={props.cast} />
+      ) : null}
+      {shade.length ? (
+        <Instances geometry={UNIT_BOX} material={props.shade} items={shade} cast={props.cast} />
+      ) : null}
+    </>
+  );
+}
+
+function Instances(props: {
+  geometry: BufferGeometry;
+  material: MeshStandardMaterial;
+  items: readonly Matrix4[];
+  cast: boolean;
+}) {
+  const ref = useRef<InstancedMesh>(null);
+  const invalidate = useThree((s) => s.invalidate);
+  useLayoutEffect(() => {
+    const m = ref.current;
+    if (!m) return;
+    props.items.forEach((x, i) => {
+      m.setMatrixAt(i, x);
+    });
+    m.instanceMatrix.needsUpdate = true;
+    m.computeBoundingSphere();
+    invalidate();
+  }, [props.items, invalidate]);
+  return (
+    <instancedMesh
+      key={props.items.length}
+      ref={ref}
+      args={[props.geometry, props.material, props.items.length]}
+      castShadow={props.cast}
+      receiveShadow
+      raycast={noRaycast}
+    />
+  );
+}
+
+/** Fill NaN cells from their nearest filled neighbours (a few dilation passes), so roof rims never read dark. */
+function fillNaN(src: Float32Array, cols: number, rows: number): Float32Array {
+  let a = Float32Array.from(src);
+  for (let pass = 0; pass < 3; pass++) {
+    const b = Float32Array.from(a);
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < cols; c++) {
+        const i = r * cols + c;
+        if (!Number.isNaN(a[i]!)) continue;
+        let sum = 0;
+        let n = 0;
+        for (const [dr, dc] of [
+          [0, 1],
+          [0, -1],
+          [1, 0],
+          [-1, 0],
+        ] as const) {
+          const rr = r + dr;
+          const cc = c + dc;
+          if (rr < 0 || cc < 0 || rr >= rows || cc >= cols) continue;
+          const v = a[rr * cols + cc]!;
+          if (!Number.isNaN(v)) {
+            sum += v;
+            n++;
+          }
+        }
+        if (n) b[i] = sum / n;
+      }
+    a = b;
+  }
+  for (let i = 0; i < a.length; i++) if (Number.isNaN(a[i]!)) a[i] = 0;
+  return a;
 }

@@ -10,7 +10,8 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
     "test": "vitest run",
-    "gen:buildings": "node scripts/gen-buildings.ts"
+    "gen:buildings": "node scripts/gen-buildings.ts",
+    "gen:reference-doc": "node scripts/gen-reference-doc.ts"
   },
   "dependencies": {
     "@ibasho/core": "workspace:*",

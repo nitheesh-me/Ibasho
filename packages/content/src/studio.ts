@@ -6,14 +6,7 @@
  * it has words. Copy may carry glossary marks (`[[g:<id>]]`); render with `segments`, or strip with
  * `plainText` for labels and aria text.
  */
-import type {
-  Applicability,
-  GapStatus,
-  ObjectiveId,
-  StageId,
-  StageStatus,
-  Tier,
-} from '@ibasho/core';
+import type { Applicability, GapStatus, ObjectiveId, StageId, StageStatus, Tier } from '@ibasho/core';
 
 export interface StageCopy {
   /** Short bead label. */
@@ -91,11 +84,13 @@ export const APPLICABILITY_COPY: Readonly<Record<Applicability, { label: string;
   },
   'adoption-unconfirmed': {
     label: 'Check the local edition',
-    means: 'Which edition your council or state enforces depends on the permit date. Please confirm it locally.',
+    means:
+      'Which edition your council or state enforces depends on the permit date. Please confirm it locally.',
   },
   professional: {
     label: 'Needs an assessor',
-    means: 'This part needs a professional to inspect or calculate it. We show where you are likely to stand.',
+    means:
+      'This part needs a professional to inspect or calculate it. We show where you are likely to stand.',
   },
   'not-a-certificate': {
     label: 'Not a certificate',
@@ -187,7 +182,8 @@ export const STUDIO_COPY = {
   failed: 'This step could not finish. Your drawing is safe, and the other results still stand.',
   savedLocally: 'Saved on this device.',
   noAccount: 'No account needed. Your places and drawings stay on this device.',
-  phoneDraw: 'Drawing a building needs a bigger screen. You can still change room uses, windows and shading here.',
+  phoneDraw:
+    'Drawing a building needs a bigger screen. You can still change room uses, windows and shading here.',
   emptyPlaces: 'No places yet. Start with a city, or open one of the sample buildings.',
   emptyVariants: 'Only the building as drawn so far. Change something to make a first variant.',
   unknownHeight: 'Height not known. The hatched band shows how far its shadow could reach.',

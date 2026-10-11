@@ -383,7 +383,9 @@ export function energyView(c: ViewCtx, res: BuildingResult, bag: EvBag): EnergyV
     uses.reduce((s, u) => s + (res.endUses[u][m] === 'unknown' ? 0 : Number(res.endUses[u][m])) / 1000, 0),
   );
   // One bill on every screen (review A-M3): agent A's headline over every carrier.
-  const bill = headlineBill(res).total;
+  const hb = headlineBill(res);
+  const bill = hb.total;
+  const gbp = hb.currency === 'GBP';
   const lo = res.eui.site.lo;
   const hi = res.eui.site.hi;
   const target = res.eui.target ? (res.eui.target.value.lo + res.eui.target.value.hi) / 2 : 140;
@@ -411,7 +413,10 @@ export function energyView(c: ViewCtx, res: BuildingResult, bag: EvBag): EnergyV
     ],
     endUses,
     monthlyKwh,
-    bill: bag.fixed('bill.electricity', bill, 'micro-paise/yr', c.tier === 'rough' ? 1e13 : 1e12),
+    // The plot's own currency (pence in London, paise in India); rounding to a sensible step for each.
+    bill: gbp
+      ? bag.fixed('bill.electricity', bill, 'micro-pence/yr', c.tier === 'rough' ? 1e11 : 1e10)
+      : bag.fixed('bill.electricity', bill, 'micro-paise/yr', c.tier === 'rough' ? 1e13 : 1e12),
     billRs: Number(bill) / 1e8,
     carbon: bag.fixed('carbon.op', res.carbon.op, 'gCO2e/yr', c.tier === 'rough' ? 1e7 : 1e6),
     fanHours: bag.range(
@@ -547,7 +552,7 @@ const OP_LEVER: Record<string, [string, number | string, string]> = {
   setWallAssembly: ['wall', 'insulated', 'insulated walls'],
 };
 
-export function optimiseView(_c: ViewCtx, out: OptimiseResult, bag: EvBag): OptimiseView {
+export function optimiseView(c: ViewCtx, out: OptimiseResult, bag: EvBag): OptimiseView {
   const idx = (id: string) => out.objectives.findIndex((o) => o.id === id);
   const [ic, io, ie] = [idx('capex'), idx('opex'), idx('eui')];
   const front = new Set(out.front);
@@ -581,6 +586,10 @@ export function optimiseView(_c: ViewCtx, out: OptimiseResult, bag: EvBag): Opti
     'lowest-running': 'Lowest running cost',
   };
   const picks: OptimiseView['picks'] = [];
+  const gbpOpt = c.outputs.energy?.bills[0]?.currency === 'GBP';
+  const money = gbpOpt ? ('micro-pence' as const) : ('micro-paise' as const);
+  const moneyYr = gbpOpt ? ('micro-pence/yr' as const) : ('micro-paise/yr' as const);
+  const step = gbpOpt ? 1e11 : 1e13;
   for (const p of out.picks) {
     const cand = p.id === 'none' ? undefined : byId.get(p.id);
     if (!cand) continue;
@@ -591,14 +600,14 @@ export function optimiseView(_c: ViewCtx, out: OptimiseResult, bag: EvBag): Opti
       capex: bag.fixed(
         `opt.${p.role}.capex`,
         BigInt(Math.round(cand.capexRs)) * 100_000_000n,
-        'micro-paise',
-        1e13,
+        money,
+        step,
       ),
       opex: bag.fixed(
         `opt.${p.role}.opex`,
         BigInt(Math.round(cand.opexRs)) * 100_000_000n,
-        'micro-paise/yr',
-        1e13,
+        moneyYr,
+        step,
       ),
       eui: bag.num(`opt.${p.role}.eui`, cand.eui, 'kWh/m2.yr', 2),
     });

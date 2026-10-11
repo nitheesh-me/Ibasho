@@ -76,23 +76,41 @@ export const VOICE: VoiceGuide = {
     { do: 'About £310 to £420 a year.', dont: 'Save up to £420!' },
     { do: 'Gas goes down. Electricity goes up a little.', dont: 'Reduce your energy by 40%.' },
     { do: 'You can ask your landlord for this. Here is a letter.', dont: 'Not available for tenants.' },
-    { do: 'We are not sure how tall the tower next door is. One floor count fixes that.', dont: 'Data missing.' },
+    {
+      do: 'We are not sure how tall the tower next door is. One floor count fixes that.',
+      dont: 'Data missing.',
+    },
     { do: 'This number is proved to add up.', dont: 'AI-verified!' },
     { do: 'Estimated from buildings like yours.', dont: 'Showing a default as if it were fact.' },
     { do: 'Possible after a moisture check.', dont: 'Error: measure blocked.' },
-    { do: 'Pre-check: passes the ECSBC energy target, with two facts still unknown.', dont: 'ECSBC compliant.' },
+    {
+      do: 'Pre-check: passes the ECSBC energy target, with two facts still unknown.',
+      dont: 'ECSBC compliant.',
+    },
     { do: 'Likely 6 LEED points, possibly 9.', dont: 'LEED Gold achieved.' },
     { do: 'About 140 to 175 kWh per square metre a year.', dont: 'EUI: 157.3 kWh/m²/yr.' },
-    { do: 'Preview. These numbers show the shape of the result, not your building yet.', dont: 'Results ready.' },
-    { do: 'Classrooms stay comfortable with fans alone for most of March.', dont: 'Thermal comfort compliance 78%.' },
+    {
+      do: 'Preview. These numbers show the shape of the result, not your building yet.',
+      dont: 'Results ready.',
+    },
+    {
+      do: 'Classrooms stay comfortable with fans alone for most of March.',
+      dont: 'Thermal comfort compliance 78%.',
+    },
   ],
   proofWords: [
     { word: 'Proved', use: 'Only on a claim backed by a Lean theorem. Never on a single number.' },
     { word: 'Checked', use: 'A number whose arithmetic the certificate re-derived. Name the checker.' },
     { word: 'Modelled', use: 'Every physics result. Tested against published data, not proved.' },
     { word: 'Estimated', use: 'A value filled in from buildings like yours, until you tell us.' },
-    { word: 'Preview', use: 'An example result in the real shape, shown before that step is calculated. Never sealed.' },
-    { word: 'Pre-check', use: 'Where a design stands against a code or rating. Never a pass that an assessor would sign.' },
+    {
+      word: 'Preview',
+      use: 'An example result in the real shape, shown before that step is calculated. Never sealed.',
+    },
+    {
+      word: 'Pre-check',
+      use: 'Where a design stands against a code or rating. Never a pass that an assessor would sign.',
+    },
   ],
 };
 
@@ -108,7 +126,8 @@ export const BANNED: readonly { pattern: RegExp; why: string }[] = [
   { pattern: /\b100% accurate\b/i, why: 'Physics is a model.' },
   { pattern: /\bcompliant\b/i, why: 'Never "compliant": say "pre-check: passes" and name the code.' },
   {
-    pattern: /\b(LEED|IGBC|GRIHA|EDGE|ECSBC|ECBC|green)[- ]certified\b|\bcertified (building|design|green|result)s?\b/i,
+    pattern:
+      /\b(LEED|IGBC|GRIHA|EDGE|ECSBC|ECBC|green)[- ]certified\b|\bcertified (building|design|green|result)s?\b/i,
     why: 'Only an assessor certifies. We show a pre-check.',
   },
   { pattern: /\brisk[- ]free\b/i, why: 'Every change has some risk; say which.' },
@@ -123,11 +142,17 @@ export const BANNED: readonly { pattern: RegExp; why: string }[] = [
 export const DEV_ARTEFACTS: readonly { pattern: RegExp; why: string }[] = [
   { pattern: /\b(WP|AC|BP|UX|SV)-[A-Z0-9]+\b/, why: 'Work package or acceptance id.' },
   { pattern: /\b(M|V)-(0|[A-I]|P|H|[1-7])\b/, why: 'Milestone name.' },
-  { pattern: /\bplace ?holders?\b|\bstand[- ]ins?\b|\bstubs?\b|\bTODO\b|\bFIXME\b/i, why: 'Unfinished work note.' },
+  {
+    pattern: /\bplace ?holders?\b|\bstand[- ]ins?\b|\bstubs?\b|\bTODO\b|\bFIXME\b/i,
+    why: 'Unfinished work note.',
+  },
   { pattern: /\bfixtures?\b|\bmock(ed)?\b|\bdummy\b|\blorem\b/i, why: 'Test data word.' },
   { pattern: /\btiers?\b/i, why: 'Internal word. Say "level", "rough" or "detailed".' },
   { pattern: /\bSPEC\b|\bR\d{1,2}\b|\bI\d\b/, why: 'Spec or requirement reference.' },
-  { pattern: /\b(to be sourced|not yet wired|wire (it|this) up|ask (agent|WP))\b/i, why: 'Note to the team.' },
+  {
+    pattern: /\b(to be sourced|not yet wired|wire (it|this) up|ask (agent|WP))\b/i,
+    why: 'Note to the team.',
+  },
   { pattern: /\b[a-z]+[A-Z][a-zA-Z]*\(|\b[a-z_]+\.(ts|tsx|json)\b/, why: 'Code or file name.' },
 ];
 

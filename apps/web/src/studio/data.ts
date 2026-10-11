@@ -50,3 +50,21 @@ export const contextOf = (tiles: readonly CityTile[]): ContextBuilding[] => tile
 /** The city a place belongs to, for search and the scene. */
 export const cityOf = (place: Pick<Place, 'cityPackId'> | undefined): string =>
   place?.cityPackId ?? 'city-hyderabad';
+
+/** Local standard time offset of a place, in hours (IST 5.5 for India, GMT for the UK). */
+export function tzHoursOf(place: Pick<Place, 'lat' | 'lon'> | undefined): number {
+  if (!place) return 5.5;
+  if (place.lon > 68 && place.lon < 98 && place.lat > 6 && place.lat < 37) return 5.5;
+  return Math.round(place.lon / 15);
+}
+
+/** The city a weather year belongs to, in words. */
+export function weatherCity(place: Pick<Place, 'climatePackId' | 'name'> | undefined): string {
+  const id = place?.climatePackId ?? '';
+  if (id.includes('london')) return 'London';
+  if (id.includes('hyderabad')) return 'Hyderabad';
+  return place?.name ?? 'this place';
+}
+
+/** True between the tropics, where the noon sun stands in the north for part of the year. */
+export const inTropics = (place: Pick<Place, 'lat'> | undefined): boolean => Math.abs(place?.lat ?? 17) < 23.44;

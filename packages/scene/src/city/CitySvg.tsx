@@ -9,7 +9,7 @@ import { type Theme, token } from '../colour/palette.ts';
 import { boxOf, type EN } from './frame.ts';
 import { drawnHeight, roadPolys } from './geometry.ts';
 import type { CityModel } from './model.ts';
-import { annualKwh, sdaShare } from './preview.ts';
+import { annualKwh, sdaShare, surfaceKey } from './preview.ts';
 import { rampHex } from './ramps.ts';
 import { shadowPolygons } from './shadow.ts';
 import type { CitySun } from './sun.ts';
@@ -62,7 +62,11 @@ export function CitySvg(p: CitySvgProps) {
   const storey =
     p.level === 'floor' || p.level === 'room' ? (hero?.storeys.find((s) => s.id === p.storeyId) ?? top) : top;
   const rooms = hero?.rooms.filter((r) => r.storeyId === storey?.id) ?? [];
-  const siteBy = useMemo(() => new Map((p.site?.surfaces ?? []).map((s) => [s.id, s])), [p.site]);
+  const siteBy = useMemo(
+    () =>
+      new Map((p.site?.surfaces ?? []).flatMap((s) => [[s.id, s] as const, [surfaceKey(s.id), s] as const])),
+    [p.site],
+  );
   const grid = p.daylight?.find((g) => g.storeyId === storey?.id);
 
   const roomFill = (id: string): string => {

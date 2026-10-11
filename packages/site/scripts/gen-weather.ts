@@ -39,7 +39,15 @@ const csv = (a: readonly number[]) => a.map((v) => String(Math.round(v))).join('
   const loc = (lines[0] ?? '').split(',');
   const rows = lines.slice(8).filter((l) => l.trim());
   if (rows.length !== 8760) throw new Error(`Hyderabad EPW has ${rows.length} rows`);
-  const s = { ghi: [] as number[], dni: [] as number[], dhi: [] as number[], tdb: [] as number[], tdp: [] as number[], evdn: [] as number[], evdh: [] as number[] };
+  const s = {
+    ghi: [] as number[],
+    dni: [] as number[],
+    dhi: [] as number[],
+    tdb: [] as number[],
+    tdp: [] as number[],
+    evdn: [] as number[],
+    evdh: [] as number[],
+  };
   let albedo = 0;
   for (const r of rows) {
     const c = r.split(',');
@@ -105,7 +113,13 @@ export const HYDERABAD_TMYX: CompactWeather = {
   const RH = grab('RH');
   const lat = 51.51;
   const lon = -0.13;
-  const s = { ghi: [] as number[], dni: [] as number[], dhi: [] as number[], tdb: [] as number[], tdp: [] as number[] };
+  const s = {
+    ghi: [] as number[],
+    dni: [] as number[],
+    dhi: [] as number[],
+    tdb: [] as number[],
+    tdp: [] as number[],
+  };
   for (let h = 0; h < 8760; h++) {
     const doy = Math.floor(h / 24);
     const date = new Date(Date.UTC(2025, 0, 1 + doy));
@@ -127,9 +141,7 @@ export const HYDERABAD_TMYX: CompactWeather = {
     s.tdb.push(T[h] ?? 0);
     s.tdp.push(td * 10);
   }
-  const hash = createHash('sha256')
-    .update(JSON.stringify(s))
-    .digest('hex');
+  const hash = createHash('sha256').update(JSON.stringify(s)).digest('hex');
   write(
     join(out, 'london.gen.ts'),
     `/**

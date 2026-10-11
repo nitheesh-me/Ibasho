@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Site worker: SPA sun position, EPW, Perez sky, visibility kernel, sun hours, radiation, SVF, daylight tiers, shading ledger.",
+  "description": "Site worker: SPA sun position, EPW weather, Perez sky, CPU visibility kernel, sun hours, radiation, SVF, shading ledger, ASE and sDA (simplified).",
   "exports": {
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests"
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run",
+    "gen:weather": "node scripts/gen-weather.ts",
+    "gen:compare": "node scripts/gen-compare.ts"
   },
   "dependencies": {
     "@ibasho/core": "workspace:*"

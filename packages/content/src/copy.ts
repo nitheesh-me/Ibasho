@@ -2,8 +2,9 @@
  * Every piece of user-facing copy in this package, with a path, so tests (and WP-10's voice and
  * glossary audits) can check all of it at once. Owner: WP-09.
  */
-import { GLOSSARY } from './glossary.ts';
+
 import { BUILDING_TYPE_COPY } from './building-types.ts';
+import { GLOSSARY } from './glossary.ts';
 import {
   LANDING_AUDIENCE_INTRO,
   LANDING_AUDIENCES,
@@ -75,7 +76,15 @@ function studioCopy(): CopyItem[] {
     ...flat('studio.goal', GOAL_PRESET_COPY),
     ...flat('studio', STUDIO_COPY),
     ...Object.values(BUILDING_TYPE_COPY).flatMap((t) =>
-      flat(`types.${t.id}`, { label: t.label, one: t.one, plural: t.plural, blurb: t.blurb, people: t.people, watch: t.watch, usualGoals: t.usualGoals }),
+      flat(`types.${t.id}`, {
+        label: t.label,
+        one: t.one,
+        plural: t.plural,
+        blurb: t.blurb,
+        people: t.people,
+        watch: t.watch,
+        usualGoals: t.usualGoals,
+      }),
     ),
   ];
 }

@@ -1,0 +1,66 @@
+{
+  "building": "gb2",
+  "resolution": "standard",
+  "surfaces": 211,
+  "unknownHeight": 16,
+  "rows": {
+    "irr.wall kWh/m2.yr": {
+      "real": 733.7,
+      "preview": 922.8
+    },
+    "irr.window kWh/m2.yr": {
+      "real": 723.9,
+      "preview": 922.1
+    },
+    "irr.roof kWh/m2.yr": {
+      "real": 1862,
+      "preview": 1699.4
+    },
+    "sun hours per year (mean surface)": {
+      "real": 1687,
+      "preview": 1899
+    },
+    "sky view factor (mean surface)": {
+      "real": 0.398,
+      "preview": 0.525
+    },
+    "ledger rows": {
+      "real": 307,
+      "preview": 450
+    },
+    "ledger lost MWh.yr": {
+      "real": 2206.2,
+      "preview": 304.4
+    },
+    "sDA % (mean room mid)": {
+      "real": 33.4,
+      "preview": 38.5
+    },
+    "ASE % (mean room mid)": {
+      "real": 15.2,
+      "preview": 7
+    },
+    "daylight rooms": {
+      "real": 85,
+      "preview": 85
+    }
+  },
+  "runtimeMs": {
+    "sun": {
+      "rough": 206,
+      "refined": 649,
+      "final": 2341
+    },
+    "radiation": {
+      "rough": 1,
+      "refined": 3,
+      "final": 7
+    },
+    "daylight": {
+      "rough": 492,
+      "refined": 3466,
+      "final": 10493
+    }
+  },
+  "note": "Node 26, one core under the CPU cap (taskset 0-3, nice 10); runtimes are indicative."
+}

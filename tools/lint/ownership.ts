@@ -172,7 +172,7 @@ export const OWNERSHIP: readonly OwnershipRule[] = [
   },
   {
     owner: 'orchestrator',
-    include: ['docs/**', 'report/**', 'deliverables/**'],
+    include: ['docs/**', 'report/**', 'deliverables/**', 'README.md'],
     exclude: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml', 'docs/qa/{product,ux,content}/**'],
   },
 ];

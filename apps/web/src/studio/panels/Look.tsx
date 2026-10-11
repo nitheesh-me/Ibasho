@@ -5,10 +5,11 @@
  * Result, Inspect) with a legend that names unit, resolution, period, method, tier, "Modelled"
  * and the Preview stamp.
  */
-import type { ResolutionLevel } from '@ibasho/core';
+import type { ResolutionLevel, Place } from '@ibasho/core';
 import { AnalysisLegend, Histogram, LensPanel, Num, type RampName, Stale } from '@ibasho/ui';
 import type { ReactNode } from 'react';
 import type { Job } from '../state/studio.ts';
+import { inTropics, weatherCity } from '../data.ts';
 import { Waiting } from './Summary.tsx';
 
 export type LensId = 'shadows' | 'sun-hours' | 'radiation' | 'daylight' | 'glare' | 'thermal' | 'neighbours';
@@ -62,6 +63,8 @@ export interface LookPanelProps {
   where: string;
   inspect?: ReactNode;
   typeId?: string;
+  /** The plot: its weather year and latitude set the copy. */
+  place?: Place | undefined;
 }
 
 export function LookPanel(p: LookPanelProps) {
@@ -145,7 +148,7 @@ export function LookPanel(p: LookPanelProps) {
         <LensPanel
           title="Radiation"
           what="Sunlight energy falling on each facade and the roof over a typical year."
-          when="Typical weather year for Hyderabad"
+          when={`Typical weather year for ${weatherCity(p.place)}`}
           where={p.where}
           resolution={p.resolution}
           onResolution={p.onResolution}
@@ -163,10 +166,14 @@ export function LookPanel(p: LookPanelProps) {
           ]}
           inspect={p.inspect}
         >
-          <p className="st-note">
-            From 10 May to 2 August the noon sun stands in the north here, so north glass needs short fins
-            too.
-          </p>
+          {inTropics(p.place) ? (
+            <p className="st-note">
+              Here the noon sun stands in the north from about May to early August, so north glass needs short fins
+              too.
+            </p>
+          ) : (
+            <p className="st-note">The sun stays in the south here; south and west glass take the most.</p>
+          )}
         </LensPanel>
       );
     }

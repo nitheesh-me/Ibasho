@@ -5,13 +5,19 @@
   "type": "module",
   "description": "Indian code rule packs: TSECBC, ECBC 2017, ECSBC 2024, ENS, NBC.",
   "exports": {
-    "./engine": "./src/engine/index.ts"
+    "./engine": "./src/engine/index.ts",
+    "./real-codes": "./src/engine/real-codes.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@ibasho/core": "workspace:*"
+    "@ibasho/core": "workspace:*",
+    "@ibasho/engine": "workspace:*",
+    "@ibasho/pack-codes-global": "workspace:*",
+    "@ibasho/pack-ratings": "workspace:*",
+    "@ibasho/pack-types-global": "workspace:*",
+    "@ibasho/pack-types-in": "workspace:*"
   }
 }

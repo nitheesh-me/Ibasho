@@ -163,7 +163,7 @@ a {
   font-size: clamp(2.125rem, 6.4vw, var(--fs-d2));
   line-height: var(--lh-d2);
   margin: var(--ma-4) 0 var(--ma-4);
-  max-width: 16ch;
+  max-width: 18ch;
   text-wrap: balance;
 }
 .lp-hero__line {
@@ -474,6 +474,7 @@ a {
 .lp-ch__link::after,
 .lp-for__link::after {
   content: "\2192";
+  display: inline-block;
   margin-left: var(--ma-2);
   transition: transform var(--t-fade) var(--ease-fade);
 }
@@ -557,7 +558,6 @@ a {
   line-height: var(--lh-body-mincho);
   max-width: var(--lp-measure);
 }
-
 
 @media (min-width: 48rem) {
   :root {

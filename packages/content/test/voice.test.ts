@@ -34,7 +34,11 @@ describe('checkVoice', () => {
       'See SPEC 27.',
       'Set by runner.ts.',
     ];
-    for (const b of bad) expect(checkCustomerCopy(b).map((f) => f.rule), b).toContain('dev-artefact');
+    for (const b of bad)
+      expect(
+        checkCustomerCopy(b).map((f) => f.rule),
+        b,
+      ).toContain('dev-artefact');
     expect(checkCustomerCopy('Preview. These numbers show the shape of the result.')).toEqual([]);
   });
 

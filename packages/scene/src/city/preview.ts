@@ -8,7 +8,7 @@
 import type { BuildingDoc, ResultStamp, SiteResult } from '@ibasho/core';
 import type { EN } from './frame.ts';
 import { type HeroModel, windowRects } from './hero.ts';
-import type { Caster } from './shadow.ts';
+import { type Caster, type Grid, rasterise, shadowPolygons } from './shadow.ts';
 import { sunOf } from './sun.ts';
 import type { DaylightGrid } from './types.ts';
 
@@ -159,9 +159,26 @@ export function previewSite(
 /** Annual kWh/m² of a site surface (sum of its monthly Wh/m²), or null when unknown. */
 export function annualKwh(s: SiteResult['surfaces'][number]): number | null {
   if (s.irrWhm2 === 'unknown') return null;
-  let t = 0n;
-  for (const v of s.irrWhm2) t += v;
-  return Number(t) / 1000;
+  // Results that crossed JSON or a worker may carry the monthly bigints as strings or numbers.
+  let t = 0;
+  for (const v of s.irrWhm2 as readonly (bigint | string | number)[]) {
+    const n = typeof v === 'bigint' ? Number(v) : Number(v);
+    if (!Number.isFinite(n)) return null;
+    t += n;
+  }
+  return t / 1000;
+}
+
+/**
+ * One key per physical surface for matching site results to the hero: compiled mesh ids
+ * (`<seg>_wall`, `<room>_roof`, `@k` per repeated storey) and document ids (`<seg>`,
+ * `<room>:roof`) meet on the same key.
+ */
+export function surfaceKey(id: string): string {
+  const base = id.replace(/@\d+$/, '');
+  const m = base.match(/^(.*)_(wall|roof|floor|win)$/);
+  if (!m) return base;
+  return m[2] === 'wall' ? m[1]! : `${m[1]}:${m[2]}`;
 }
 
 function inside(x: number, y: number, ring: readonly [number, number][]): boolean {
@@ -289,4 +306,44 @@ export function sdaShare(g: DaylightGrid): number {
     pass += mask[i]!;
   });
   return n ? (100 * pass) / n : 0;
+}
+
+/**
+ * Roof radiation at grid resolution (round 6): annual kWh/m² on each roof cell, with the shade of
+ * taller neighbours, so the roof shows where it loses sun instead of one band. Ground cells are
+ * NaN (the radiation lens paints the building, not the site). Same sky as `previewSite`.
+ */
+export function previewRoofRadiation(
+  hero: HeroModel,
+  casters: readonly Caster[],
+  place: { lat: number; lon: number; tzHours?: number },
+  grid: Grid,
+  year = 2026,
+): Float32Array {
+  const cells = grid.cols * grid.rows;
+  const roof = new Uint8Array(cells);
+  const top = hero.storeys.filter((s) => !s.belowGrade).at(-1);
+  for (const r of hero.rooms) if (r.storeyId === top?.id) rasterise(r.ring, grid, roof);
+  const out = new Float32Array(cells).fill(Number.NaN);
+  const acc = new Float64Array(cells);
+  const mask = new Uint8Array(cells);
+  const h = hero.height;
+  const tall = casters.filter((c) => c.z1 > h + 0.3);
+  for (let m = 0; m < 12; m++) {
+    const date = `${year}-${String(m + 1).padStart(2, '0')}-21`;
+    for (let hr = 5; hr < 20; hr++) {
+      const s = sunOf({ date, minutes: hr * 60 + 30 }, place.lat, place.lon, place.tzHours);
+      if (s.altitudeDeg <= 1) continue;
+      const sinAlt = Math.sin((s.altitudeDeg * Math.PI) / 180);
+      const am = 1 / Math.max(sinAlt, 0.05);
+      const dni = 1353 * 0.7 ** (am ** 0.678) * CLEAR[m]!;
+      const dhi = (90 + 160 * (1 - CLEAR[m]!)) * Math.sqrt(sinAlt);
+      mask.fill(0);
+      for (const c of tall)
+        for (const poly of shadowPolygons(c.ring, c.z1 - h, s)) rasterise(poly, grid, mask);
+      for (let i = 0; i < cells; i++) if (roof[i]) acc[i]! += ((mask[i] ? 0 : dni * sinAlt) + dhi) * DAYS[m]!;
+    }
+  }
+  for (let i = 0; i < cells; i++) if (roof[i]) out[i] = acc[i]! / 1000;
+  return out;
 }

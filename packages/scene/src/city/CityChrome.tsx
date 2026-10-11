@@ -44,6 +44,8 @@ export const CITY_CSS = `
 .ib-city-chip[aria-checked="true"], .ib-city-chip[aria-pressed="true"] { background: var(--paper-sunk); color: var(--ink);
   box-shadow: inset 0 -2px 0 var(--ink); }
 .ib-city[data-theme="yoru"] .ib-city-chip[aria-checked="true"] { box-shadow: inset 0 -2px 0 var(--glow), var(--tomoshibi); }
+.ib-city-chips--wrap { flex-wrap: wrap; justify-content: flex-end; overflow: visible; -webkit-mask-image: none; mask-image: none; padding-inline: 0; }
+.ib-city-chips--wrap .ib-city-chip { padding: 0 10px; gap: 5px; }
 .ib-city-swatch { inline-size: 14px; block-size: 6px; border: 1px solid var(--line); }
 .ib-city-num, .ib-city code { font-family: var(--font-code); font-variant-numeric: tabular-nums; }
 .ib-city-unit { color: var(--text-2); font-size: var(--fs-cap); }
@@ -68,7 +70,7 @@ export const CITY_CSS = `
 .ib-city-compass { display: grid; grid-template-columns: 44px 44px 44px; gap: 2px; }
 .ib-city-compass button { inline-size: 44px; block-size: 44px; display: grid; place-items: center; border: 1px solid var(--line);
   background: color-mix(in oklch, var(--paper-raised) 86%, transparent); color: var(--ink); cursor: pointer; padding: 0; border-radius: 0; }
-.ib-city-scale { display: flex; align-items: end; gap: 8px; font: 400 var(--fs-cap)/1 var(--font-code); color: var(--ink); }
+.ib-city-scale { display: flex; flex: none; align-items: end; gap: 8px; white-space: nowrap; font: 400 var(--fs-cap)/1 var(--font-code); color: var(--ink); }
 .ib-city-scale__bar { block-size: 4px; border: 1px solid var(--ink); border-block-start: 0; }
 .ib-city-legend { display: grid; gap: 6px; }
 .ib-city-legend .ib-legend__ends { font-family: var(--font-code); font-variant-numeric: tabular-nums; color: var(--text-2); }
@@ -116,7 +118,8 @@ const LENS_RAMP: Partial<Record<CityLensId, CityRampId>> = {
 const LENSES = Object.keys(LENS_LABEL) as CityLensId[];
 
 /** Lens chips as a radio group with roving focus and a ramp swatch in each (QA B3, M11). */
-export function LensChips(p: { lens: CityLensId; onLens: (l: CityLensId) => void }) {
+/** `wrap`: every chip stays visible (tablet and up), wrapping to a second row when needed. */
+export function LensChips(p: { lens: CityLensId; onLens: (l: CityLensId) => void; wrap?: boolean }) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const onKey = (e: KeyboardEvent<HTMLDivElement>): void => {
     const i = LENSES.indexOf(p.lens);
@@ -133,7 +136,12 @@ export function LensChips(p: { lens: CityLensId; onLens: (l: CityLensId) => void
     refs.current[LENSES.indexOf(n)]?.focus();
   };
   return (
-    <div role="radiogroup" aria-label="Lens" className="ib-city-chips" onKeyDown={onKey}>
+    <div
+      role="radiogroup"
+      aria-label="Lens"
+      className={p.wrap ? 'ib-city-chips ib-city-chips--wrap' : 'ib-city-chips'}
+      onKeyDown={onKey}
+    >
       {LENSES.map((l, i) => {
         const ramp = LENS_RAMP[l];
         return (

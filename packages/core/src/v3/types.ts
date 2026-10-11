@@ -37,6 +37,11 @@ export interface SpaceTypePlugin extends PluginBase<'space-type'> {
   /** Outdoor air per person (L/s) and per area (L/s·m²), ASHRAE 62.1 style. */
   rpLsPerPerson: Sourced;
   raLsPerM2: Sourced;
+  /**
+   * Minimum outdoor air changes per hour while the space runs (laboratories: ANSI/AIHA Z9.5 and
+   * ASHRAE lab design guidance, fume hoods once through). Absent: Rp and Ra alone.
+   */
+  minAirChangesPerHour?: Sourced;
   densityPer100m2: Sourced;
   lpdWm2: Sourced;
   epdWm2: Sourced;
@@ -115,9 +120,21 @@ export function mergeTypeLibraries(...libs: TypeLibrary[]): TypeLibrary {
     return [...m.values()];
   };
   return {
-    spaceTypes: by((x: SpaceTypePlugin) => x.spaceTypeId, libs.map((l) => l.spaceTypes)),
-    schedules: by((x: SchedulePlugin) => x.scheduleId, libs.map((l) => l.schedules)),
-    buildingTypes: by((x: BuildingTypePlugin) => x.typeId, libs.map((l) => l.buildingTypes)),
-    benchmarks: by((x: BenchmarkPlugin) => x.benchmarkId, libs.map((l) => l.benchmarks ?? [])),
+    spaceTypes: by(
+      (x: SpaceTypePlugin) => x.spaceTypeId,
+      libs.map((l) => l.spaceTypes),
+    ),
+    schedules: by(
+      (x: SchedulePlugin) => x.scheduleId,
+      libs.map((l) => l.schedules),
+    ),
+    buildingTypes: by(
+      (x: BuildingTypePlugin) => x.typeId,
+      libs.map((l) => l.buildingTypes),
+    ),
+    benchmarks: by(
+      (x: BenchmarkPlugin) => x.benchmarkId,
+      libs.map((l) => l.benchmarks ?? []),
+    ),
   };
 }

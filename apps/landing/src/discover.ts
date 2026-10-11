@@ -116,7 +116,8 @@ async function readManifest(repoRoot: string): Promise<ManifestFile | undefined>
 /** Only string provider ids, so a malformed manifest cannot show a chapter. */
 function stagesOf(m: ManifestFile | undefined): Partial<Record<StageId, string>> {
   const out: Partial<Record<StageId, string>> = {};
-  for (const [k, v] of Object.entries(m?.STAGE_PROVIDERS ?? {})) if (typeof v === 'string') out[k as StageId] = v;
+  for (const [k, v] of Object.entries(m?.STAGE_PROVIDERS ?? {}))
+    if (typeof v === 'string') out[k as StageId] = v;
   return out;
 }
 

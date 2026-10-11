@@ -185,3 +185,84 @@ Shots in `docs/qa/ux/V-P/studio/round2/`: 01 to 08, 10 to 24, 26 to 34, 36, 38, 
 - 38, 39, 41: phone layout follows DS 13.7 broadly but scrolls sideways; mode tabs and lens chips use the same chip style in two stacked rows; the stage bar label truncates to "Add..."; the "Drawing a building needs a bigger screen" note sits over the plan; "Fan-first (IMAC adaptive)" is an orphan caption.
 - Accessible text of every PreviewStamp reads ". PREVIEW DATA: RECORDED TO SHOW..." (leading full stop, all capitals).
 - Console: "Attempted to synchronously unmount a root while React was already rendering" when moving between Make and Look.
+
+## Round 3
+
+Reviewers: senior product designer, product QA lead, content editor. Date: 2026-10-11. Scope: the studio after the agent B, A and C round 2 handoffs, plus the new Design before you build flow (SPEC 27). Shots: `docs/qa/ux/V-P/studio/round4/` (one guarded headless Chromium, software GL, CPU capped; a machine reset interrupted the pass after shot 09, and the rest was retaken). Scene items that match agent C's open list are marked "in progress with C".
+
+### Verdict: at the end of this section
+
+### Working notes (pass 1: home, not found, New at 1280)
+
+- 01, 03: home by day and night is calm and on token. The revisit card is still the best screen. "Plan progress: one what-if in progress." reads like a status log. The EUI row shows "130 to 180 → 130 to 180", a change that is no change. Tracking on the gold button splits "St art a new place".
+- 01: the template tile reads "London terrace, The 1905 home from v2": "v2" is a development artefact.
+- 01: there is no way into Design before you build. The top bar has Places, New, Settings and London home; `/app/design` exists but nothing links to it (the round 2 handoff says the top bar has a Design link; it does not).
+- 02: unknown address now shows "Nothing here" with one action. Fixed (B-m2).
+- 04: New, step 1: "Qualcomm" finds nothing ("Nothing called "Qualcomm" in the places loaded here"). The place cards list HITEC City but not the three offices of interest. A-M4 is not reachable by a customer.
+- 05: Lab card says "Profile still to be sourced." This is a note to ourselves, not customer copy.
+- 07: Place it reads "Neighbours with estimated heights are hatched; their shadows carry a penumbra out to the plausible height." Jargon, and now untrue: agent C moved to dashed tops with hatch only near the hero. No drag to place in New (only the turn stepper), unlike the Design flow.
+- 08, 09: after "See the first results" the screenshot call itself took 4.3 s and 5.7 s to get a frame: the page still stalls for seconds while stages start. Better than round 2 (no 30 s freeze) but not "no frozen screens".
+- 09: Radiation is the active lens with numbers in the panel, yet the facades are unpainted paper (B-M2 still open; agent B flagged it to C). Roof reads "1,700 to 1,700 kWh/m²", a range of zero width. The rough roof value at 1 s (1,500 to 1,900) still exceeds the legend top (1,700).
+- 09: a building created seconds ago gets the engawa line "Since your last visit: new tariff, ECSBC tiers, new weather file, city ...", truncated with an ellipsis. It is not a revisit.
+
+### Working notes (pass 2: studio at 1600, after a second reset)
+
+- 10: Radiation on Vindhya Bhavan. The panel has numbers and a colour bar, but every facade and the roof are unpainted paper (B-M2 still open; in progress with C). "Most on a facade (SE) 1,100 to 1,100 kWh/m²" is again a zero-width range. The screenshot took 10.5 s to get a frame, so the page still stalls while stages run. The Energy card says "on its way" while the top bar already shows an EUI.
+- 10: a fresh browser with no history gets "Since your last visit: new tariff, ECSBC tiers, new weather file, city heights." This is a first visit, not a revisit, and "ECSBC tiers" is jargon.
+- 11 (major): Floor, Daylight. The first floor plate is drawn to the right of the building, not inside it: the ghost of Vindhya Bhavan sits at the left and the dark floor plate floats beside it. No cells are painted; the panel says "The daylight result is on its way" for over 8 s.
+- 12 (major): Make, split view. The plan on the left is turned about 45° from the 3D view on the right, although both claim north up (the plan shows a north arrow). The room layouts do not visibly match (plan has Data, Lab+, Library; the 3D view does not). A designer cannot trust that the two halves show the same floor.
+- 12: plan labels "Corr", "Lab+" and "Open" are abbreviations a customer must guess.
+- 15: Choose at 1280. The screenshot call took 24 s: the worst stall in this pass. The two thumbnails are tight crops of the roof and look identical, so the what-if (chajjas, cool roof, glazing) cannot be seen. "Below baseline −34 to 3.2%" mixes a sign and a direction: a range that runs from 34% above to 3.2% below reads as nonsense. The search chart has "less energy" and "more upfront" but no axis numbers.
+- 17 (blocker): Prove at 1280 rendered a blank white page with no text and no console error after 6 s. Rechecked separately below.
+- 18: Tell is calm. "The story is on its way." is fine while stages run. The memory list reads well.
+- 17 recheck: opened directly, Prove renders after 12 s. Opened from the Prove tab after Look (17b), the page is blank white with no text and no console error 6 s after the click. So the blank page is real and comes from switching mode while the search stage runs (the footer shows "Trying bundles of changes 87%"). Blocker: a customer sees a white screen.
+- 17: the ratings card has a yellow dashed box laid over all five rating rows, like a debug highlight. GHMC star labels overlap ("One starTwo starsThree s..."), and LEED "All points" spills past the card edge. "Three gates, one pass" says nothing to a customer. The codes line "Our estimate until a source is found." is a note to ourselves.
+- 21, 22: search finds rooms and floors well ("lab" lists every lab with floor and building; "floor 2" finds floors and rooms). It finds nothing for "Qualcomm", "Lloyds" or "Vanguard": the offices of interest are still not reachable by a customer, from search or from New.
+- 21 (major): reopening search with Ctrl K keeps the previous text, and Escape did not clear it, so typed queries run together ("LloydsQualcommVindhya floor 2"). Typing in the studio also logs React duplicate key errors four times.
+- 22: the results list touches the right edge of the window with no gutter, and "Hyderabad" in every row repeats what the building already says.
+- 23: Settings is the clearest page in the app: each value has a source, a status and how many numbers it changes. Two notes: the row status line "Our estimate until a source is found." (read by screen readers on every Estimate chip) is a note to ourselves; and the Plain and Pro toggle defaults to Pro.
+
+### Working notes (pass 3: Design before you build, 1280)
+
+- 26: the brief page is handsome: type cards with a day profile strip, name, area, storeys, budget and goals, and a clear step rail. Copy fixes: "Start from a office template" (an office); "Goals (each becomes a typed target)" is our word, not the customer's; Lab still says "Profile still to be sourced."; "Net zero ready (UK standard) (UK)" says UK twice.
+- 27: after "Start from a office template" the window lands scrolled to the bottom, so the plan is half off screen and the tool rail is cut ("Undo" label clipped). The office template is a ring of four Lobby rooms around a 622.6 m² Corridor: that is not an office plan a designer would start from.
+- 28: Place it on the map works and says "No overlap with mapped buildings." The camera is far and low, so the new building is a small box among many. "More cities arrive as city packs land." is a note to ourselves.
+- 29: "Add this plot to compare" gives no feedback: the page text does not change and nothing counts the plots. It did add the plot (Compare shows two).
+- 30 (major): Compare, Hyderabad plot against London plot. The London stage is black with "Sun below the horizon" at 21 Mar 10:30: London is drawn on Hyderabad time. Plot 1 says "Overlaps 1" although Place said "No overlap with mapped buildings". The London bill is "₹30,000 a year" for a 2,400 m² office: wrong currency and about 60 times too low next to Hyderabad's ₹19,00,000. "Below code baseline −150 to −77%" means 77 to 150% worse than code, said backwards. Both cards are "turned 0°" yet the plans are drawn at 45°, and the two thumbnails are near identical crops. The lens strip is cut at the right edge.
+- 31 (major): Shape to goals uses plot 2 (London) without the customer choosing it, so "ECSBC Super: Not applicable, does not apply in the UK" for a brief that picked an Indian goal. "Lowest running cost" and "Lowest energy" are the same bundle. ₹4,00,000 for roof PV, insulated walls and low-e glass on 2,400 m² is far too low. "Source: Ibasho optimiser: the lowest running cost option on the front" is our jargon.
+- 31b: the Commit summary is clear and honest ("Every number is a Preview estimate until it is calculated for this building").
+- 32 (major): the saved London design opens in the studio with "Typical weather year for Hyderabad", sunrise 11:31 and sunset 23:45, and "From 10 May to 2 August the noon sun stands in the north here", all Hyderabad facts on a London building. Good news: radiation is painted on the facades here (south band warm), so the paint works on a new building but not on Vindhya Bhavan. The breadcrumb reads "My new building ... > My new building". An unexplained four point mark sits on the roof.
+
+### Working notes (pass 4: city, phone)
+
+- 14 (blocker): City level at night, 1600: blank white page with no text and no console error after 8 s. By day (14b) the page's text grows and then shrinks again (787, 1,466, 703 characters at 4, 10 and 18 s), and at 18 s the stages are back at "Tracing the sun past the neighbours". So the stages restart, and the page can go fully white while they run. This is the same white screen as Prove (17, 17b): three sightings in this pass.
+- 14b: "City" shows the campus at site scale; nothing says which city or shows more than a few blocks. Radiation is selected although the address asked for none, and the panel waits with "The radiation result is on its way."
+- 34: phone, 360 wide. The studio stacks well: level tabs on top, scene, day picker, then the mode tabs and lenses. No sideways scroll. The progress footer squeezes to "Day..." and the Cancel button.
+- 37: Design at 360 is clean; type cards stack one per row. The step rail is hidden on the phone, so there is no sense of the six steps.
+
+### Verdict
+
+Not ready to show customers. Better than round 2: unknown addresses are handled, Settings is excellent, search finds rooms, the phone layout holds, Tell and the revisit card are calm, and a new design can go from brief to a saved building with painted radiation in one sitting.
+
+Blockers
+1. White page: Prove opened from its tab, and City at night, render as an empty white page for 6 s or more with no error (17b, 14). The stages also restart on their own (14b).
+2. The offices of interest (Qualcomm, Lloyds, Vanguard) cannot be found, from search or from New (04, 21).
+
+Major
+3. Design flow mixes cities: London is drawn on Hyderabad time (night at 10:30, sunrise 11:31), with Hyderabad weather and the Hyderabad north sun note, and a London bill in rupees about 60 times too low (30, 32).
+4. Shape to goals uses the last plot without asking, so the brief's Indian goal shows "Not applicable" (31). "Lowest running cost" and "Lowest energy" are the same bundle; upfront costs look far too low.
+5. Floor view draws the floor plate beside the building, not inside it (11).
+6. Make split view: plan and 3D are turned about 45° from each other and show different rooms (12).
+7. Radiation is still unpainted on Vindhya Bhavan while it paints on a new design (10 against 32): in progress with C.
+8. Long stalls: frames took 10 to 24 s to arrive during stage work (10, 15).
+9. Search keeps the old query when reopened and logs duplicate key errors (21).
+10. No link to Design before you build anywhere in the top bar (01).
+
+Copy and polish (content editor)
+- Remove notes to ourselves: "v2" on the template tile, "Profile still to be sourced.", "Our estimate until a source is found.", "More cities arrive as city packs land.", "the option on the front", "each becomes a typed target", "Three gates, one pass".
+- Ranges of zero width ("1,100 to 1,100") should show one number; ranges across zero ("−34 to 3.2%" below baseline) need plain words ("between 3% better and 34% worse than code").
+- "Since your last visit" shows on a first visit and on a building made seconds ago.
+- "a office", "(UK standard) (UK)", plan abbreviations "Corr" and "Lab+".
+- Prove: yellow dashed box over the ratings, overlapping star labels, LEED label past the card edge.
+
+Shots: `docs/qa/ux/V-P/studio/round4/` (01 to 37; 13, 16, 19, 20, 24, 25, 33, 35, 36 and 38 were not retaken after the resets). Page text and console errors for each shot: `pass-log.txt` in the same folder.

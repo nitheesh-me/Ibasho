@@ -19,6 +19,6 @@ Integer-millimetre plan kernel (ARCH 15.1, BE 2).
 
 ## Fixtures
 
-`pnpm --filter @ibasho/plan gen:buildings` writes `packages/fixtures/src/buildings/` (GB1 Vindhya, GB2 Himalaya, GB3 HITEC office, GB4 Gachibowli apartments, GH1 London terrace, `places.json`, and `<id>.notes.json` with sources, status and unknowns). Space type ids used: office, office-open, lab, lab-heavy, data-centre, library, classroom, assembly, lobby, bank, circulation, stair, toilet-core, plant, parking, living, bedroom, kitchen.
+`pnpm --filter @ibasho/plan gen:buildings` writes `packages/fixtures/src/buildings/` (GB1 Vindhya, GB2 Himalaya, GB3 HITEC office, GB4 Gachibowli apartments, GH1 London terrace, `places.json`, and `<id>.notes.json` with sources, status and unknowns). After changing any notes, run `pnpm --filter @ibasho/plan gen:reference-doc` to rewrite `docs/sources/REFERENCE-BUILDINGS.md` from them. Space type ids used: office, office-open, lab, lab-heavy, data-centre, library, classroom, assembly, lobby, bank, circulation, stair, toilet-core, plant, parking, living, bedroom, kitchen.
 
 Commands: `pnpm --filter @ibasho/plan typecheck`, `pnpm --filter @ibasho/plan test`.

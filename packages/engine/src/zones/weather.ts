@@ -12,7 +12,7 @@ import { MEAN_DAY_WEATHER, type MeanDayWeather } from './weather.gen.ts';
 export const HOURS = 8760;
 export const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 /** First hour of each month. */
-export const MONTH_START: readonly number[] = DAYS_IN_MONTH.reduce<number[]>((acc, d, i) => {
+export const MONTH_START: readonly number[] = DAYS_IN_MONTH.reduce<number[]>((acc, _d, i) => {
   acc.push(i === 0 ? 0 : (acc[i - 1] as number) + (DAYS_IN_MONTH[i - 1] as number) * 24);
   return acc;
 }, []);
@@ -50,7 +50,18 @@ function fromMeanDay(w: MeanDayWeather): HourlyWeather {
     dhi[h] = w.dhi[k] as number;
     rh[h] = w.rh[k] as number;
   }
-  return { id: w.id, lat: w.lat, lon: w.lon, tzHours: w.tzHours, tC, ghi, dhi, rh, monthlyTC: monthlyMeans(tC), source: 'mean-day' };
+  return {
+    id: w.id,
+    lat: w.lat,
+    lon: w.lon,
+    tzHours: w.tzHours,
+    tC,
+    ghi,
+    dhi,
+    rh,
+    monthlyTC: monthlyMeans(tC),
+    source: 'mean-day',
+  };
 }
 
 function monthlyMeans(t: Float64Array): number[] {
@@ -81,7 +92,9 @@ export function hourlyWeather(site?: SiteContext): HourlyWeather {
     };
   }
   const id = site?.place.climatePackId ?? 'climate.hyderabad';
-  const w = MEAN_DAY_WEATHER[id] ?? (id.includes('london') ? MEAN_DAY_WEATHER['climate.london'] : MEAN_DAY_WEATHER['climate.hyderabad']);
+  const w =
+    MEAN_DAY_WEATHER[id] ??
+    (id.includes('london') ? MEAN_DAY_WEATHER['climate.london'] : MEAN_DAY_WEATHER['climate.hyderabad']);
   return fromMeanDay(w as MeanDayWeather);
 }
 
@@ -117,7 +130,12 @@ export function sunPath(w: HourlyWeather): SunPath {
 }
 
 /** Hourly irradiance (W/m², equal to Wh/m² in the hour) on a surface: isotropic sky, ground 0.2. */
-export function surfaceIrradiance(w: HourlyWeather, sun: SunPath, azimuthDeg: number, tiltDeg: number): Float64Array {
+export function surfaceIrradiance(
+  w: HourlyWeather,
+  sun: SunPath,
+  azimuthDeg: number,
+  tiltDeg: number,
+): Float64Array {
   const az = (azimuthDeg * PI) / 180;
   const tl = (tiltDeg * PI) / 180;
   const st = sin(tl);

@@ -132,7 +132,6 @@ export function NewFlow() {
       name || (start === 'sample' ? 'Vindhya Bhavan (copy)' : `New ${t}`),
       { ...doc, rotationMdeg: Math.round(rot * 1000) + (start === 'sample' ? doc.rotationMdeg : 0) },
     );
-    st.runBuilding(bid);
     nav(`/p/${placeId}/b/${bid}?level=building&mode=look&lens=radiation`);
   };
 

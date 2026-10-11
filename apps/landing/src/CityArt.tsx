@@ -35,12 +35,14 @@ function hull(points: Pt[]): Pt[] {
   const cross = (o: Pt, a: Pt, b: Pt) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
   const lower: Pt[] = [];
   for (const q of p) {
-    while (lower.length >= 2 && cross(lower[lower.length - 2]!, lower[lower.length - 1]!, q) <= 0) lower.pop();
+    while (lower.length >= 2 && cross(lower[lower.length - 2]!, lower[lower.length - 1]!, q) <= 0)
+      lower.pop();
     lower.push(q);
   }
   const upper: Pt[] = [];
   for (const q of p.reverse()) {
-    while (upper.length >= 2 && cross(upper[upper.length - 2]!, upper[upper.length - 1]!, q) <= 0) upper.pop();
+    while (upper.length >= 2 && cross(upper[upper.length - 2]!, upper[upper.length - 1]!, q) <= 0)
+      upper.pop();
     upper.push(q);
   }
   return [...lower.slice(0, -1), ...upper.slice(0, -1)];
@@ -107,15 +109,30 @@ function Block({ b }: { b: Box }) {
           {/* The estimated top band: pencil hatch between the likely and the plausible height. */}
           <polygon
             className="lp-city__guess"
-            points={pts([iso(x, y + d, h), iso(x + w, y + d, h), iso(x + w, y + d, b.hMax), iso(x, y + d, b.hMax)])}
+            points={pts([
+              iso(x, y + d, h),
+              iso(x + w, y + d, h),
+              iso(x + w, y + d, b.hMax),
+              iso(x, y + d, b.hMax),
+            ])}
           />
           <polygon
             className="lp-city__guess"
-            points={pts([iso(x + w, y, h), iso(x + w, y + d, h), iso(x + w, y + d, b.hMax), iso(x + w, y, b.hMax)])}
+            points={pts([
+              iso(x + w, y, h),
+              iso(x + w, y + d, h),
+              iso(x + w, y + d, b.hMax),
+              iso(x + w, y, b.hMax),
+            ])}
           />
           <polygon
             className="lp-city__guess-top"
-            points={pts([iso(x, y, b.hMax), iso(x + w, y, b.hMax), iso(x + w, y + d, b.hMax), iso(x, y + d, b.hMax)])}
+            points={pts([
+              iso(x, y, b.hMax),
+              iso(x + w, y, b.hMax),
+              iso(x + w, y + d, b.hMax),
+              iso(x, y + d, b.hMax),
+            ])}
           />
         </>
       ) : null}
@@ -131,7 +148,13 @@ export function CityArt() {
   return (
     <svg className="lp-city" viewBox="0 0 480 360" aria-hidden="true" focusable="false">
       <defs>
-        <pattern id="lp-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <pattern
+          id="lp-hatch"
+          width="5"
+          height="5"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(45)"
+        >
           <path d="M0 0V5" className="lp-city__hatch-line" />
         </pattern>
         <radialGradient id="lp-sun-glow" cx="50%" cy="50%" r="50%">

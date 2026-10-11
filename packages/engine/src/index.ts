@@ -6,6 +6,22 @@
  * `@ibasho/core`). Node callers (tests, the CI proxy, `pnpm m0`) use `createEngine` directly.
  */
 export { createEngine, type Engine, EngineNotReady, type EngineOptions, NotImplementedYet } from './api.ts';
+// Real codes stage (WP-19, V-5): swap `codes: 'preview.codes'` for `'real.codes'` in the manifest.
+export {
+  type CodesCatalogue,
+  computeRealCodes,
+  createRealCodesProvider,
+  evaluateCodes,
+  REAL_CODES_VERSION,
+} from './codes/index.ts';
+// Real energy stage (WP-18, V-4): swap `energy: 'preview.energy'` for `'real.energy'` in the manifest.
+export {
+  coarseBuilding,
+  computeRealEnergy,
+  createRealEnergyProvider,
+  REAL_ENERGY_VERSION,
+  runEnergyModel,
+} from './enduse/index.ts';
 export { addBookkeeping, bookkeepingDrafts } from './evidence/index.ts';
 export { addOutcomes, negativesOf, outcomeDrafts } from './evidence/outcomes.ts';
 export * from './finance/index.ts';

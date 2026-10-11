@@ -1,0 +1,54 @@
+{
+  "about": "Landing page stills rendered from the city stage. Each poster has a 1600x1000 and an 800x500 file.",
+  "posters": [
+    {
+      "id": "city-day",
+      "chapter": "place",
+      "theme": "hiru",
+      "files": { "large": "city-day-1600.png", "small": "city-day-800.png" },
+      "alt": "Vindhya Bhavan, a courtyard building on the IIIT Hyderabad campus, shown as a paper model among its real neighbours on a March morning."
+    },
+    {
+      "id": "city-dusk",
+      "chapter": "place",
+      "theme": "hiru",
+      "files": { "large": "city-dusk-1600.png", "small": "city-dusk-800.png" },
+      "alt": "The same campus just before sunset, with long shadows stretching east across the paper city."
+    },
+    {
+      "id": "sun-sweep",
+      "chapter": "sun",
+      "theme": "hiru",
+      "files": { "large": "sun-sweep-1600.png", "small": "sun-sweep-800.png" },
+      "alt": "Sun hours building up around the building during the day: ground that has had sun turns gold, shaded ground stays paper."
+    },
+    {
+      "id": "daylight-drawer",
+      "chapter": "daylight",
+      "theme": "hiru",
+      "files": { "large": "daylight-drawer-1600.png", "small": "daylight-drawer-800.png" },
+      "alt": "One floor slid out like a drawer, showing how far daylight reaches into each room from the windows."
+    },
+    {
+      "id": "radiation",
+      "chapter": "radiation",
+      "theme": "hiru",
+      "files": { "large": "radiation-1600.png", "small": "radiation-800.png" },
+      "alt": "Yearly sunlight falling on the walls and roof, from deep blue on shaded walls to gold on the open roof."
+    },
+    {
+      "id": "lanterns",
+      "chapter": "night",
+      "theme": "yoru",
+      "files": { "large": "lanterns-1600.png", "small": "lanterns-800.png" },
+      "alt": "The campus at night: the modelled building glows like a lantern, brighter for more energy use, while unmodelled neighbours stay dark."
+    },
+    {
+      "id": "compare",
+      "chapter": "compare",
+      "theme": "hiru",
+      "files": { "large": "compare-1600.png", "small": "compare-800.png" },
+      "alt": "Three placements of the same building side by side: as drawn, turned a quarter, and on a plot further east."
+    }
+  ]
+}

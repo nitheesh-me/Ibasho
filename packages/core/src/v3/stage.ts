@@ -97,6 +97,11 @@ export interface StageIn {
     codePackIds: string[];
     /** Targets from the brief: the stage reports a gap for each (SPEC 27, AC-PD3). */
     goals?: ScopedGoal[];
+    /**
+     * Declared design values (the same levers the energy stage read). Prescriptive rows test them;
+     * a value left out is unknown, never the model's assumed default.
+     */
+    params?: EnergyParams;
     asOf: IsoDate;
   };
   optimise: {

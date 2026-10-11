@@ -5,7 +5,7 @@
  * URL parameters drive captures:
  *   ?level=city|site|building|floor|room&lens=none|shadows|sun-hours|radiation|daylight|lanterns
  *   &style=washi|yoru|svg&date=2026-03-21&min=630&az=135&photo=0..1&tier=0..3&reduced=1
- *   &floors=<n> (moment 7)&controls=0&sweep=1&close=<context id>:<mm>&focus=building|storey:<id>|room:<id>|<context id>
+ *   &floors=<n> (moment 7)&plots=2|3 (compare)&controls=0&sweep=1&close=<context id>:<mm>&focus=building|storey:<id>|room:<id>|<context id>
  */
 import type { BuildingDoc, CityTile, CompiledBuilding, Mm, QualityTier } from '@ibasho/core';
 import '@ibasho/ui/andon.css';
@@ -71,26 +71,38 @@ function App() {
   });
   const [focus, setFocus] = useState<CityFocus | null>(q.get('focus') ? focusOf(q.get('focus')!) : null);
   if (tiles !== null && q.get('compare') === '1') {
-    const base = standIn
-      ? {}
-      : { tiles, hero: doc, hideContextIds: HERO_CONTEXT_IDS.gb1 ?? [], ...(compiled ? { compiled } : {}) };
+    const base = {
+      style,
+      ...(standIn
+        ? {}
+        : {
+            tiles,
+            hero: doc,
+            hideContextIds: HERO_CONTEXT_IDS.gb1 ?? [],
+            ...(compiled ? { compiled } : {}),
+          }),
+    };
     const o = doc.origin;
     const r = doc.rotationMdeg;
     return (
       <div style={{ height: '100vh' }}>
         <CityCompare
           base={base}
-          options={[
-            { id: 'a', label: 'As drawn', placement: { origin: o, rotationMdeg: r } },
-            { id: 'b', label: 'Turned 90°', placement: { origin: o, rotationMdeg: r + 90_000 } },
-            {
-              id: 'c',
-              label: 'Plot 250 m east',
-              placement: { origin: { x: o.x + 250_000, y: o.y }, rotationMdeg: r },
-            },
-          ]}
+          options={(
+            [
+              { id: 'a', label: 'As drawn', placement: { origin: o, rotationMdeg: r } },
+              { id: 'b', label: 'Turned 90°', placement: { origin: o, rotationMdeg: r + 90_000 } },
+              {
+                id: 'c',
+                label: 'Plot 250 m east',
+                placement: { origin: { x: o.x + 250_000, y: o.y }, rotationMdeg: r },
+              },
+            ] as const
+          ).slice(0, Number(q.get('plots') ?? 3))}
           level={(q.get('level') as ZoomLevel) ?? 'site'}
           lens={(q.get('lens') as CityLensId) ?? 'none'}
+          time={time}
+          bare={q.get('controls') === '0'}
         />
       </div>
     );
@@ -115,7 +127,10 @@ function App() {
               phototropic: {
                 t: Number(photo),
                 preview: true,
-                steps: [0, 0.2, 0.4, 0.6, 0.8, 1].map((t, i) => ({ t, euiKwhM2: [172, 166, 158, 151, 146, 141][i]! })),
+                steps: [0, 0.2, 0.4, 0.6, 0.8, 1].map((t, i) => ({
+                  t,
+                  euiKwhM2: [172, 166, 158, 151, 146, 141][i]!,
+                })),
               },
             }
           : {})}

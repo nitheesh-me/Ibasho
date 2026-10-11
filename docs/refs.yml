@@ -330,3 +330,58 @@ uk-nzcbs:
   title: "UK Net Zero Carbon Buildings Standard (pilot)"
   author: "UK NZCBS"
   url: https://www.nzcbuildings.co.uk
+iso-13790:
+  type: Report
+  title: "ISO 13790:2008 Energy performance of buildings, calculation of energy use for space heating and cooling (Annex C, simple hourly method)"
+  author: "ISO"
+  url: https://www.iso.org/standard/41974.html
+ashrae-62-1:
+  type: Report
+  title: "ASHRAE 62.1-2022 Ventilation and Acceptable Indoor Air Quality"
+  author: "ASHRAE"
+  url: https://www.ashrae.org
+imac-2016:
+  type: Article
+  title: "Field studies of thermal comfort across multiple climate zones for the subcontinent: India Model for Adaptive Comfort (IMAC)"
+  author: "Manu, Sanyogita and others"
+  url: https://doi.org/10.1016/j.buildenv.2016.02.018
+cbecs-2018:
+  type: Web
+  title: "Commercial Buildings Energy Consumption Survey 2018"
+  author: "US Energy Information Administration"
+  url: https://www.eia.gov/consumption/commercial/
+nrel-spa:
+  type: Report
+  title: "Solar Position Algorithm for Solar Radiation Applications"
+  author: "Reda, Ibrahim and Andreas, Afshin"
+  url: https://www.nrel.gov/docs/fy08osti/34302.pdf
+perez-1993:
+  type: Article
+  title: "All-weather model for sky luminance distribution: preliminary configuration and validation"
+  author: "Perez, Richard and Seals, R. and Michalsky, Joseph"
+  url: https://doi.org/10.1016/0038-092X(93)90017-I
+robinson-stone-2004:
+  type: Article
+  title: "Irradiation modelling made simple: the cumulative sky approach and its applications"
+  author: "Robinson, Darren and Stone, Andrew"
+  url: https://doi.org/10.1016/j.solener.2004.04.016
+ies-lm-83:
+  type: Web
+  title: "IES LM-83-23: Approved Method: IES Spatial Daylight Autonomy (sDA) and Annual Sunlight Exposure (ASE)"
+  author: "Illuminating Engineering Society"
+  url: https://store.ies.org/product/lm-83-23-approved-method-ies-spatial-daylight-autonomy-sda-and-annual-sunlight-exposure-ase/
+ashrae-90-1-2022:
+  type: Report
+  title: "ANSI/ASHRAE/IES Standard 90.1-2022, Appendix G Performance Rating Method"
+  author: "ASHRAE"
+  url: https://www.ashrae.org/technical-resources/bookstore/standard-90-1
+ghmc-tsecbc-faq:
+  type: Report
+  title: "FAQs: Online compliance system for ECBC, Hyderabad"
+  author: "GHMC and NRDC"
+  url: https://www.ghmc.gov.in/Townplanning_Reports/TSECBCFAQs.pdf
+leed-v41-eac:
+  type: Web
+  title: "LEED v4.1 BD+C Optimize Energy Performance"
+  author: "LEEDuser, BuildingGreen"
+  url: https://leeduser.buildinggreen.com/taxonomy/term/4929

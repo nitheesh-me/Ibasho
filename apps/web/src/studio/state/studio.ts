@@ -105,6 +105,8 @@ export interface Job {
   resolution: ResolutionLevel;
   /** Final stage outputs in the core contracts (reused when a later change skips a stage). */
   outputs: Partial<StageOut>;
+  /** True when the site stages saw the city context (so tiles arriving later need no rerun). */
+  withTiles?: boolean;
   /** Latest output of any tier, for painting rough results at once (review B-M2). */
   latest: Partial<StageOut>;
 }
@@ -146,6 +148,8 @@ export interface StudioState {
   deviceFactor: number;
   /** Hyderabad city pack tiles (loaded once). */
   tiles: CityTile[];
+  /** The city tiles finished loading (or failed): first runs wait for this so stages never restart. */
+  tilesReady: boolean;
 
   hydrate(snapshot?: Partial<Pick<StudioState, 'places' | 'buildings' | 'settings' | 'userSet'>>): void;
   seedSample(): void;
@@ -260,6 +264,7 @@ export const useStudio = create<StudioState>()((set, get) => {
     jobs: {},
     deviceFactor: 1,
     tiles: [],
+    tilesReady: false,
 
     hydrate(snapshot) {
       set({
@@ -271,11 +276,14 @@ export const useStudio = create<StudioState>()((set, get) => {
       });
       if (!snapshot?.places || Object.keys(snapshot.places).length === 0) get().seedSample();
       void cityTiles().then((tiles) => {
+        set({ tiles, tilesReady: true });
         if (!tiles.length) return;
-        set({ tiles });
-        // Context arrived: site stages and everything after them see the neighbours now.
-        for (const b of Object.values(get().buildings))
-          if (get().jobs[jobKey(b.id, BASE_VARIANT)]) get().runBuilding(b.id, ['sun']);
+        // Context arrived: only jobs that ran without it rerun from the sun (never a running job with tiles).
+        for (const b of Object.values(get().buildings)) {
+          const j = get().jobs[jobKey(b.id, BASE_VARIANT)];
+          const place = get().places[b.placeId]?.place;
+          if (j && !j.withTiles && place?.cityPackId === 'city-hyderabad') get().runBuilding(b.id, ['sun']);
+        }
       });
     },
 
@@ -726,11 +734,13 @@ export const useStudio = create<StudioState>()((set, get) => {
         latest: old?.latest ?? old?.outputs ?? {},
       };
       const factor = variantId === b.focus ? s.deviceFactor : s.deviceFactor * 0.5;
+      const inputs = inputsFor(s, b, v, old?.outputs ?? {});
+      job.withTiles = inputs.tiles.length > 0 || old?.withTiles === true;
       job.handle = startJob(
         jobId,
         generation,
         stages,
-        inputsFor(s, b, v, old?.outputs ?? {}),
+        inputs,
         onEvent(key),
         factor,
       );

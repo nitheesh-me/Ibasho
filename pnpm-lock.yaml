@@ -571,6 +571,21 @@ importers:
       '@ibasho/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ibasho/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@ibasho/pack-codes-global':
+        specifier: workspace:*
+        version: link:../codes-global
+      '@ibasho/pack-ratings':
+        specifier: workspace:*
+        version: link:../ratings
+      '@ibasho/pack-types-global':
+        specifier: workspace:*
+        version: link:../types-global
+      '@ibasho/pack-types-in':
+        specifier: workspace:*
+        version: link:../types-in
 
   packs/home-in:
     dependencies:
@@ -663,6 +678,12 @@ importers:
       '@ibasho/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ibasho/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@ibasho/pack-types-global':
+        specifier: workspace:*
+        version: link:../types-global
 
   tests:
     dependencies:

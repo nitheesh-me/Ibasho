@@ -63,8 +63,8 @@ export {
   RATING_COPY,
   STAGE_COPY,
   STAGE_STATUS_WORD,
-  type StageCopy,
   STUDIO_COPY,
+  type StageCopy,
   TIER_WORD,
 } from './studio.ts';
 export type {

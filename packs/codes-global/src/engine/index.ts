@@ -1,5 +1,5 @@
 /**
- * SKELETON (V-0). Owner: WP-19. Global code context packs: ASHRAE 90.1, IECC, EPBD.
- * Intentionally empty: the owner fills this in at gate V-5.
+ * Global and UK code pack (WP-19): Part L 2021, Future Homes and Buildings Standard, Part O, the
+ * London Plan energy hierarchy and the ASHRAE 90.1-2022 Appendix G baseline rules.
  */
-export {};
+export { ASHRAE_APPG, CODES_UK, type Limit, SOURCES_GLOBAL } from './data.ts';

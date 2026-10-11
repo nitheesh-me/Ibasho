@@ -23,7 +23,7 @@ import {
 } from '@ibasho/scene';
 import { AnalysisLegend, rampColor, SunScrubber } from '@ibasho/ui';
 import { Component, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { contextIdsFor } from '../data.ts';
+import { contextIdsFor, tzHoursOf } from '../data.ts';
 import type { LensId } from '../panels/Look.tsx';
 import type { Job } from '../state/studio.ts';
 
@@ -149,7 +149,7 @@ export function CityStage(p: CityStageProps) {
     <div className="st-scene" data-compact={p.compact ? '' : undefined}>
       <SceneGuard>
         <SceneCity
-          place={{ lat: p.place.lat, lon: p.place.lon, name: p.place.name }}
+          place={{ lat: p.place.lat, lon: p.place.lon, name: p.place.name, tzHours: tzHoursOf(p.place) }}
           tiles={
             hide.length
               ? p.tiles.map((t) => ({ ...t, buildings: t.buildings.filter((b) => !hide.includes(b.id)) }))
@@ -231,7 +231,8 @@ export function TimeStrip({ date, onDate, minutes, onMinutes, reducedMotion, lat
   const raf = useRef(0);
   const at = useRef(minutes);
   at.current = minutes;
-  const win = useMemo(() => dayWindow(isoOf(date), lat, lon), [date, lat, lon]);
+  const tz = tzHoursOf({ lat, lon });
+  const win = useMemo(() => dayWindow(isoOf(date), lat, lon, tz), [date, lat, lon, tz]);
   useEffect(() => {
     if (!playing) return;
     let last = performance.now();
@@ -268,7 +269,7 @@ export function TimeStrip({ date, onDate, minutes, onMinutes, reducedMotion, lat
         onChange={onMinutes}
         sunriseMin={win.rise}
         sunsetMin={win.set}
-        altitude={(m) => sunOf({ date: iso, minutes: m }, lat, lon).altitudeDeg}
+        altitude={(m) => sunOf({ date: iso, minutes: m }, lat, lon, tz).altitudeDeg}
       >
         <button
           type="button"

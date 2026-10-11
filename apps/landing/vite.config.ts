@@ -18,7 +18,9 @@ function prerender(): Plugin {
     name: 'ibasho-landing-prerender',
     async transformIndexHtml(html) {
       const { source, plugins, skipped, stages } = await discoverPlugins(repoRoot);
-      console.info(`landing: ${plugins.length} plugins from ${source}, ${Object.keys(stages).length} studio stages`);
+      console.info(
+        `landing: ${plugins.length} plugins from ${source}, ${Object.keys(stages).length} studio stages`,
+      );
       for (const s of skipped) console.warn(`landing: skipped ${s.file}: ${s.reason}`);
       const { module } = await runnerImport<Prerender>(
         fileURLToPath(new URL('./src/prerender.tsx', import.meta.url)),

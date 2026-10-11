@@ -1,16 +1,11 @@
 # @ibasho/pack-types-global
 
-Building types, space types, schedules, constructions, window products, shade presets, systems (global).
+UK space types (living, bedroom, kitchen, office) and schedules for the energy stage, with sources (NCM activity database, SAP 10.2, CIBSE Guide A). Merge with the Indian library: `mergeTypeLibraries(typesInLibrary, typesGlobalLibrary)`.
 
-- **Owner:** WP-18. Skeleton created by WP-00 at V-0.
-- **Layer:** engine half L1 (L0 only, no react/three/DOM, no `Math.*`). See ARCHITECTURE 15.2 and `.dependency-cruiser.cjs`.
+- **Owner:** WP-18 (`src/ui/**` is WP-07). **Layer:** engine half L1 (data only).
 
-## Public API
+## Public API (`./engine`)
 
-`./engine`
+`typesGlobalLibrary`, `SPACE_TYPES_GLOBAL`, `SCHEDULES_GLOBAL`, `typesGlobalEngineModule`.
 
-## Status
-
-SKELETON: filled at gate V-4 (BUILD_PLAN 11). Nothing is registered yet.
-
-Commands: `pnpm --filter @ibasho/pack-types-global typecheck`, `pnpm --filter @ibasho/pack-types-global test`.
+Commands: `pnpm --filter @ibasho/pack-types-global typecheck`.

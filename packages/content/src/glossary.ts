@@ -266,9 +266,9 @@ const ENTRIES: readonly GlossaryEntry[] = [
   },
   {
     id: 'height-range',
-    term: 'height range',
+    term: 'estimated height',
     plain:
-      'When we do not know how tall a neighbour is, we use a likely height and a highest plausible one. Its shadow shows both.',
+      'A neighbour’s height we could not look up, so we use a likely height and a highest plausible one. Its top and its shadow are hatched.',
   },
   {
     id: 'sda',
@@ -370,8 +370,7 @@ const ENTRIES: readonly GlossaryEntry[] = [
   {
     id: 'baseline',
     term: 'baseline',
-    plain:
-      'The reference building a code compares yours with: the same shape, built to the code’s minimum.',
+    plain: 'The reference building a code compares yours with: the same shape, built to the code’s minimum.',
   },
   {
     id: 'variant',

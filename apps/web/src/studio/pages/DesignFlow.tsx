@@ -445,7 +445,6 @@ export function DesignFlow() {
     });
     if (Object.keys(chosenSite.levers).length) st.addVariant(bid, 'Shaped to the goals', chosenSite.levers);
     st.saveVersion(bid, 'Designed before building');
-    st.runBuilding(bid);
     nav(`/p/${pid}/b/${bid}?level=building&mode=look`);
   };
 

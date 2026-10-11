@@ -151,7 +151,7 @@ varying vec2 vUv;
 void main() {
   float r = length(vUv - 0.5) * 2.0;
   float a = (1.0 - smoothstep(0.0, 1.0, r));
-  gl_FragColor = vec4(uColour * a * a * 0.55 * uStrength, 1.0);
+  gl_FragColor = vec4(uColour * a * a * 0.4 * uStrength, 1.0);
 }
 `,
   });
@@ -181,6 +181,8 @@ export function haloMaterial(colour: string, strength: number): SpriteMaterial {
     transparent: true,
     opacity: Math.min(0.85, 0.3 * strength),
     depthWrite: false,
+    // A glow is light in the air: never cut by the ground plane (round 4 night city).
+    depthTest: false,
     blending: AdditiveBlending,
   });
 }

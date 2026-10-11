@@ -9,7 +9,7 @@
  * Colour discipline (DESIGN_SYSTEM 1): gold only on the one hero action; no vermilion, because no
  * seal is pressed on this page; the hero is lit like a lantern (Yoru), the rest is washi (Hiru).
  */
-import type { BuildingTypeId } from '@ibasho/core';
+
 import {
   BUILDING_TYPE_COPY,
   definitionOf,
@@ -25,6 +25,7 @@ import {
   segments,
   termOf,
 } from '@ibasho/content';
+import type { BuildingTypeId } from '@ibasho/core';
 import { Glyph, Mon } from '@ibasho/ui';
 import type { ReactNode } from 'react';
 import { CityArt } from './CityArt.tsx';

@@ -19,6 +19,7 @@ import type {
   ResultStamp,
   SiteResult,
 } from '@ibasho/core';
+import { type FacadeBin, facadeBin } from '@ibasho/core';
 import { PreviewStamp, Stepper, SunScrubber } from '@ibasho/ui';
 import { PerformanceMonitor } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
@@ -56,7 +57,7 @@ import {
   StoreyStack,
   SunBentStrip,
 } from './CityChrome.tsx';
-import { CityScene, type CityStats, HOURS_DOMAIN, USE_LABEL } from './CityScene.tsx';
+import { CityScene, type CityStats, HOURS_DOMAIN, type SceneOverlayItem, USE_LABEL } from './CityScene.tsx';
 import { CitySvg } from './CitySvg.tsx';
 import type { CastLoss } from './cast.ts';
 import { type EN, ringArea } from './frame.ts';
@@ -70,9 +71,9 @@ import {
   placementCheck,
   placementOf,
 } from './placement.ts';
-import { annualKwh, previewDaylight, sdaShare } from './preview.ts';
+import { annualKwh, previewDaylight, sdaShare, surfaceKey } from './preview.ts';
 import { ringCentre, type SafeArea } from './sceneParts.ts';
-import type { SunHoursGrid } from './shadow.ts';
+import { type Grid, type SunHoursGrid, sunHoursUpTo } from './shadow.ts';
 import { type CityTime, clockLabel, dateLabel, dayWindow, SWEEP_MS, sunOf, sweepMinutes } from './sun.ts';
 import type {
   CityFocus,
@@ -173,11 +174,27 @@ export interface CityStageProps {
   placeMode?: boolean;
   /** The site check for the current placement: overlaps and the neighbours that shade it. */
   onSiteCheck?: (check: PlacementCheck) => void;
+  /** One number per lens for comparing options (compare tiles caption the difference). */
+  onLensSummary?: (s: LensSummary) => void;
+  /** Facade bins to mark (compare: where this option differs most from the first). */
+  emphasis?: { bins: readonly FacadeBin[]; tone: 'more' | 'less' } | null;
   onFocusChange?: (focus: CityFocus | null) => void;
   /** `ref.current.flyTo(focus)` for programmatic moves (calls `onFocusChange` when controlled). */
   ref?: Ref<CityStageHandle>;
   className?: string;
   style_?: CSSProperties;
+}
+
+/** A lens reduced to one comparable number, plus per facade bin values for radiation. */
+export interface LensSummary {
+  lens: CityLensId;
+  value: number | null;
+  unit: string;
+  /** Plain words for the value, e.g. "Radiation on the walls". */
+  label: string;
+  bins?: Partial<Record<FacadeBin, number>>;
+  /** Lower is better for this number (cooling led sites: less wall radiation, fewer shadow hours on neighbours). */
+  lowerIsBetter?: boolean;
 }
 
 export interface CityStageHandle {
@@ -202,7 +219,7 @@ export function chromeInsets(layout: CityLayout, height: number, legend: boolean
     case 'phone':
       return { left: 8, top: 8, right: 8, bottom: Math.round(height * 0.55) + 8 };
     case 'tablet':
-      return { left: 16, top: 72, right: legend ? 300 : 16, bottom: 132 };
+      return { left: 16, top: 124, right: legend ? 300 : 16, bottom: 132 };
     case 'desktop':
       return { left: 132, top: 72, right: legend ? 312 : 72, bottom: 132 };
   }
@@ -255,11 +272,11 @@ const COMPASS_WORDS = [
 const compass = (deg: number): string => COMPASS_WORDS[Math.round((((deg % 360) + 360) % 360) / 45) % 8]!;
 
 /** 2nd and 98th percentile of annual radiation over the painted surfaces, rounded to 50 (QA M7). */
-export function radiationDomain(site: SiteResult | null): [number, number] {
-  const v = (site?.surfaces ?? [])
-    .map((s) => annualKwh(s))
-    .filter((x): x is number => x !== null)
-    .sort((a, b) => a - b);
+export function radiationDomain(site: SiteResult | null, roof?: Float32Array): [number, number] {
+  const v = (site?.surfaces ?? []).map((s) => annualKwh(s)).filter((x): x is number => x !== null);
+  // Roof cells join walls; a uniform sunny roof then sits at the top and its shaded cells show below.
+  if (roof) for (let i = 0; i < roof.length; i += 7) if (!Number.isNaN(roof[i]!)) v.push(roof[i]!);
+  v.sort((a, b) => a - b);
   if (v.length < 4) return [200, 2000];
   const q = (f: number): number => v[Math.min(v.length - 1, Math.max(0, Math.round(f * (v.length - 1))))]!;
   const lo = Math.floor(q(0.02) / 50) * 50;
@@ -524,6 +541,22 @@ export function CityStage(props: CityStageProps) {
     };
   }, [props.site, needSite, model, siteEst]);
   const site = props.site !== undefined ? props.site : siteEst?.model === model ? siteEst.site : null;
+  // Roof radiation at grid resolution goes with the scene estimate only (never mixed with real data).
+  const [roofEst, setRoofEst] = useState<{ model: CityModel; grid: Grid; kwh: Float32Array } | null>(null);
+  useEffect(() => {
+    if (props.site !== undefined || lens !== 'radiation' || !model.hero) return;
+    if (roofEst?.model === model) return;
+    let live = true;
+    runKernel({ kind: 'roof-rad', hero: model.hero, casters: model.casters, place: model.place }).then(
+      (r) => {
+        if (live && r.kind === 'roof-rad') setRoofEst({ model, grid: r.grid, kwh: r.kwh });
+      },
+    );
+    return () => {
+      live = false;
+    };
+  }, [props.site, lens, model, roofEst]);
+  const roofRad = props.site === undefined && roofEst?.model === model ? roofEst : null;
   const needGrid = lens === 'sun-hours' || lens === 'shadows';
   const [gridEst, setGridEst] = useState<{ model: CityModel; date: string; grid: SunHoursGrid } | null>(null);
   useEffect(() => {
@@ -549,7 +582,7 @@ export function CityStage(props: CityStageProps) {
     return lens === 'daylight' && model.heroDoc ? previewDaylight(model.heroDoc) : null;
   }, [props.daylight, lens, model.heroDoc]);
   const lanterns = useMemo(() => props.lanterns ?? defaultLanterns(model), [props.lanterns, model]);
-  const radDomain = useMemo(() => radiationDomain(site), [site]);
+  const radDomain = useMemo(() => radiationDomain(site, roofRad?.kwh), [site, roofRad]);
 
   const storeys = useMemo(
     () => (model.hero?.storeys ?? []).map((s) => ({ id: s.id, name: s.name, below: s.belowGrade })),
@@ -579,13 +612,19 @@ export function CityStage(props: CityStageProps) {
       ? chromeInsets(layout, size.height, legendShown)
       : { left: 12, top: 12, right: 12, bottom: 12 };
     const extra = props.insets ?? {};
+    // The sun bent strip sits above the stage: reserve its height so it never covers the building,
+    // keeping at least 40% of the height for the model.
+    const strip = props.phototropic
+      ? Math.max(0, Math.min(260, size.height - own.top - own.bottom - size.height * 0.4))
+      : 0;
     return {
       left: own.left + (extra.left ?? 0),
-      top: own.top + (extra.top ?? 0),
+      top: own.top + (extra.top ?? 0) + strip,
+      strip,
       right: own.right + (extra.right ?? 0),
       bottom: own.bottom + (extra.bottom ?? 0),
     };
-  }, [controls, layout, size.height, legendShown, props.insets]);
+  }, [controls, layout, size.height, legendShown, props.insets, props.phototropic]);
   const safeW = Math.max(80, size.width - insets.left - insets.right);
   const safeH = Math.max(80, size.height - insets.top - insets.bottom);
   const aspect = safeW / safeH;
@@ -924,6 +963,65 @@ export function CityStage(props: CityStageProps) {
         ? props.daylight === undefined
         : true;
   const dayGrid = daylight?.find((g) => g.storeyId === storeyId);
+
+  // Compare: one summary number per lens (wall radiation by facade, roof sun hours, daylight share).
+  const summary = useMemo<LensSummary | null>(() => {
+    if (!model.hero) return null;
+    if (lens === 'radiation' && site) {
+      const by = new Map<string, SiteResult['surfaces'][number]>();
+      for (const x of site.surfaces) {
+        by.set(x.id, x);
+        by.set(surfaceKey(x.id), x);
+      }
+      const acc: Partial<Record<FacadeBin, { w: number; a: number }>> = {};
+      let w = 0;
+      let a = 0;
+      for (const s of model.hero.surfaces) {
+        if (s.kind !== 'wall') continue;
+        const d = by.get(s.id) ?? by.get(surfaceKey(s.id));
+        const k = d ? annualKwh(d) : null;
+        if (k === null) continue;
+        const b = facadeBin(Math.round(s.bearingDeg * 1000));
+        const e = acc[b] ?? { w: 0, a: 0 };
+        acc[b] = e;
+        e.w += k * s.area;
+        e.a += s.area;
+        w += k * s.area;
+        a += s.area;
+      }
+      const bins: Partial<Record<FacadeBin, number>> = {};
+      for (const [b, e] of Object.entries(acc)) if (e?.a) bins[b as FacadeBin] = e.w / e.a;
+      return {
+        lens,
+        value: a ? w / a : null,
+        unit: 'kWh/m²·yr',
+        label: 'Radiation on the walls',
+        bins,
+        lowerIsBetter: true,
+      };
+    }
+    if ((lens === 'sun-hours' || lens === 'shadows') && sunGrid) {
+      const h = sunHoursUpTo(sunGrid, 1440);
+      const day = (sunGrid.steps * sunGrid.stepMin) / 60;
+      let n = 0;
+      let t = 0;
+      for (let i = 0; i < h.length; i++)
+        if (!sunGrid.covered[i]) {
+          n++;
+          t += lens === 'shadows' ? day - h[i]! : h[i]!;
+        }
+      return lens === 'shadows'
+        ? { lens, value: n ? t / n : null, unit: 'h a day', label: 'Shadow on the site', lowerIsBetter: true }
+        : { lens, value: n ? t / n : null, unit: 'h a day', label: 'Sun on the site' };
+    }
+    if (lens === 'daylight' && dayGrid)
+      return { lens, value: sdaShare(dayGrid), unit: '%', label: 'Floor area with daylight' };
+    return null;
+  }, [model.hero, lens, site, sunGrid, dayGrid]);
+  const onSummary = props.onLensSummary;
+  useEffect(() => {
+    if (summary) onSummary?.(summary);
+  }, [summary, onSummary]);
   const legend = legendFor({
     lens,
     date: timeNow.date,
@@ -975,6 +1073,8 @@ export function CityStage(props: CityStageProps) {
   );
   // ------------------------------------------------------------------ moment 7: the shadow you cast
   const addedFloors = props.addedFloors ?? addedOwn;
+  const [castOpen, setCastOpen] = useState(false);
+  const [overlay, setOverlay] = useState<SceneOverlayItem[]>([]);
   const setAdded = (n: number): void => {
     setAddedOwn(n);
     props.onAddedFloorsChange?.(n);
@@ -1011,25 +1111,58 @@ export function CityStage(props: CityStageProps) {
       ? cast.losses.filter((l) => l.lostHours >= 0.05)
       : [];
   const castLosers = useMemo(() => losses.map((l) => l.id), [losses]);
+  // The cast moment is opened on purpose: a quiet button by day, the stepper only once asked for.
+  const castShown = castOpen || addedFloors > 0;
   const whatIf =
-    model.hero && (level === 'site' || level === 'building') ? (
-      <div
-        className="ib-city-panel ib-city-panel--pad"
-        style={{ display: 'grid', gap: 6, maxInlineSize: 220 }}
-      >
-        <b style={{ fontSize: 'var(--fs-ui)' }}>Your new floors</b>
-        <Stepper
-          id="city-added-floors"
-          value={addedFloors}
-          step={1}
-          min={0}
-          max={12}
-          onChange={setAdded}
-          label="floors"
-        />
-        <span className="ib-city-unit">Shows the winter sun it takes from neighbours</span>
-      </div>
+    model.hero && (level === 'site' || level === 'building') && (castShown || theme === 'hiru') ? (
+      castShown ? (
+        <div
+          className="ib-city-panel ib-city-panel--pad"
+          style={{ display: 'grid', gap: 6, maxInlineSize: 220 }}
+        >
+          <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <b style={{ fontSize: 'var(--fs-ui)' }}>Your new floors</b>
+            <button
+              type="button"
+              className="ib-city-x"
+              aria-label="Close"
+              onClick={() => {
+                setCastOpen(false);
+                setAdded(0);
+              }}
+            >
+              ×
+            </button>
+          </span>
+          <Stepper
+            id="city-added-floors"
+            value={addedFloors}
+            step={1}
+            min={0}
+            max={12}
+            onChange={setAdded}
+            label="floors"
+          />
+          <span className="ib-city-unit">Shows the winter sun it takes from neighbours</span>
+        </div>
+      ) : (
+        <button type="button" className="ib-city-btn" onClick={() => setCastOpen(true)}>
+          Shadow you cast
+        </button>
+      )
     ) : null;
+  /** A neighbour without a name, described by where it stands and how tall it is. */
+  const describe = (id: string, name?: string): string => {
+    if (name) return name;
+    const m = model.masses.find((x) => x.id === id);
+    if (!m || !model.hero) return 'A neighbour';
+    const b = model.hero.box;
+    const c = m.ring.reduce((a, q) => [a[0] + q[0] / m.ring.length, a[1] + q[1] / m.ring.length], [0, 0]);
+    const bearing =
+      (Math.atan2(c[0]! - (b.minE + b.maxE) / 2, c[1]! - (b.minN + b.maxN) / 2) * 180) / Math.PI;
+    const floors = m.levels ?? Math.max(1, Math.round((m.user ?? m.likely) / 3.5));
+    return `Building ${compass(bearing)} of you, ${floors} ${floors === 1 ? 'floor' : 'floors'}`;
+  };
   const ribbon =
     addedM > 0 && model.hero ? (
       <div
@@ -1050,7 +1183,7 @@ export function CityStage(props: CityStageProps) {
                   style={{ minBlockSize: 32 }}
                   onClick={() => setFocus({ kind: 'building', buildingId: l.id })}
                 >
-                  {l.name ?? 'Neighbour'} <span className="ib-city-num">{l.lostHours.toFixed(1)} h</span>
+                  {describe(l.id, l.name)} <span className="ib-city-num">{l.lostHours.toFixed(1)} h</span>
                 </button>
               ))}
               <span className="ib-city-unit">a day on their facades</span>
@@ -1118,7 +1251,10 @@ export function CityStage(props: CityStageProps) {
         />
       ) : null}
       {hasEstimated ? (
-        <span className="ib-city-unit" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+        <span
+          className="ib-city-unit"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flex: 'none', whiteSpace: 'nowrap' }}
+        >
           <span className="ib-city-dashed" aria-hidden="true" /> Dashed tops: estimated heights
         </span>
       ) : null}
@@ -1205,6 +1341,7 @@ export function CityStage(props: CityStageProps) {
             sweeping={sweeping}
             site={site}
             radiationDomain={radDomain}
+            roofRad={roofRad}
             daylight={daylight}
             lanterns={lanterns}
             phototropic={photoSpec}
@@ -1214,9 +1351,11 @@ export function CityStage(props: CityStageProps) {
             reducedMotion={reducedMotion}
             onHover={onHover}
             onPick={onPick}
+            onOverlay={setOverlay}
             highlight={highlight}
             addedFloorsM={addedM}
             castLosers={castLosers}
+            emphasis={props.emphasis ?? null}
             attentionIds={attentionIds}
             placeMode={!!props.placeMode}
             groundM={(placement?.groundMm ?? 0) / 1000}
@@ -1299,7 +1438,7 @@ export function CityStage(props: CityStageProps) {
           {storeyStack ? <div style={{ position: 'absolute', left: 124, top: 16 }}>{storeyStack}</div> : null}
           {whatIf ? <div style={{ position: 'absolute', left: 16, top: 340 }}>{whatIf}</div> : null}
           <div style={{ position: 'absolute', right: 16, top: 16, maxWidth: 'calc(100% - 180px)' }}>
-            <LensChips lens={lens} onLens={setLens} />
+            <LensChips lens={lens} onLens={setLens} wrap />
           </div>
           <div
             className="ib-city-panel"
@@ -1345,8 +1484,15 @@ export function CityStage(props: CityStageProps) {
           </div>
           {storeyStack ? <div style={{ position: 'absolute', left: 12, top: 72 }}>{storeyStack}</div> : null}
           {whatIf ? <div style={{ position: 'absolute', left: 12, top: 72 }}>{whatIf}</div> : null}
-          <div style={{ position: 'absolute', right: 12, top: 12, maxWidth: '52%' }}>
-            <LensChips lens={lens} onLens={setLens} />
+          <div
+            style={{
+              position: 'absolute',
+              right: 12,
+              top: 12,
+              maxWidth: 'calc(100% - min(46%, 360px) - 36px)',
+            }}
+          >
+            <LensChips lens={lens} onLens={setLens} wrap />
           </div>
           <div className="ib-city-panel" style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
             {timeStrip}
@@ -1357,7 +1503,7 @@ export function CityStage(props: CityStageProps) {
               style={{
                 position: 'absolute',
                 right: 12,
-                top: 72,
+                top: 124,
                 width: 276,
                 maxHeight: 'calc(100% - 220px)',
                 overflow: 'auto',
@@ -1470,8 +1616,10 @@ export function CityStage(props: CityStageProps) {
           style={{
             position: 'absolute',
             left: insets.left,
-            top: insets.top,
+            top: insets.top - insets.strip,
             maxWidth: `calc(100% - ${insets.left + 16}px)`,
+            maxHeight: Math.max(120, insets.strip - 8),
+            overflow: 'auto',
           }}
         >
           <SunBentStrip
@@ -1541,6 +1689,37 @@ export function CityStage(props: CityStageProps) {
           {toast}
         </div>
       ) : null}
+      {!useSvg
+        ? overlay.map((o) =>
+            o.kind === 'locator' ? (
+              <span
+                key={o.key}
+                className="ib-city-locator"
+                style={{ position: 'absolute', left: o.x, top: o.y, pointerEvents: 'none' }}
+              >
+                <span className="ib-city-locator__plate">{o.title}</span>
+                <span className="ib-city-locator__leader" aria-hidden="true" />
+              </span>
+            ) : (
+              <span
+                key={o.key}
+                className="ib-city-label"
+                title={o.sub ? `${o.title}, ${o.sub}` : o.title}
+                style={{
+                  position: 'absolute',
+                  left: o.x,
+                  top: o.y,
+                  transform: 'translate(-50%, -50%)',
+                  pointerEvents: 'none',
+                }}
+              >
+                <b>{o.title}</b>
+                {o.full && o.sub ? <span>{o.sub}</span> : null}
+                {o.full && o.area !== undefined ? <span className="ib-city-num">{o.area} m²</span> : null}
+              </span>
+            ),
+          )
+        : null}
       <div
         aria-live="polite"
         style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }}

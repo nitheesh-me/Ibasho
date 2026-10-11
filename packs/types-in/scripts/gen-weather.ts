@@ -47,7 +47,10 @@ function meanDays(h: Hourly) {
   return out;
 }
 
-const epw = readFileSync(join(root, 'docs/research/v3/sources/epw/IND_TG_Hyderabad-Gandhi.Intl.AP.431285_TMYx.2011-2025.epw'), 'utf8')
+const epw = readFileSync(
+  join(root, 'docs/research/v3/sources/epw/IND_TG_Hyderabad-Gandhi.Intl.AP.431285_TMYx.2011-2025.epw'),
+  'utf8',
+)
   .split(/\r?\n/)
   .slice(8)
   .filter((l) => l.trim())
@@ -59,7 +62,12 @@ const hyd = meanDays({
   rh: epw.map((c) => Number(c[8])),
 });
 const num = (s: string, k: number) => s.split(',').map((x) => Number(x) / k);
-const lon = meanDays({ t: num(LONDON_TMY.T, 10), ghi: num(LONDON_TMY.GHI, 1), dhi: num(LONDON_TMY.DHI, 1), rh: num(LONDON_TMY.RH, 1) });
+const lon = meanDays({
+  t: num(LONDON_TMY.T, 10),
+  ghi: num(LONDON_TMY.GHI, 1),
+  dhi: num(LONDON_TMY.DHI, 1),
+  rh: num(LONDON_TMY.RH, 1),
+});
 
 const block = (name: string, meta: string, d: ReturnType<typeof meanDays>) => `  '${name}': {
 ${meta}

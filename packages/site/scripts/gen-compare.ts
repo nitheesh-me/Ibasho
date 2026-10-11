@@ -1,7 +1,7 @@
 /**
  * Real site stages versus the Preview's recorded outputs, with runtimes. Owner: WP-16.
  * Run from the repo root under the CPU cap:
- *   ~/.local/share/ibasho-browser-guard/cap.sh taskset -c 0-3 nice -n 10 node packages/site/scripts/gen-compare.ts gb1 gh1
+ *   node packages/site/scripts/gen-compare.ts gb1 gh1
  * Writes `packages/fixtures/src/site/compare-<id>.json` and prints a Markdown table for the README.
  */
 import { renameSync, writeFileSync } from 'node:fs';

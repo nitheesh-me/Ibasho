@@ -218,3 +218,23 @@ describe('sin and cos (FreeBSD msun k_sin.c, k_cos.c, e_rem_pio2.c)', () => {
     }
   });
 });
+
+describe('inverse trig (fdlibm ports, moved from packages/site)', () => {
+  it('atan, atan2, asin, acos stay within 1e-15 of the platform', async () => {
+    const { acos, asin, atan, atan2 } = await import('../src/index.ts');
+    for (const x of [-0.99, -0.5, -1e-9, 0, 0.3, 0.7071, 0.999]) {
+      expect(Math.abs(asin(x) - Math.asin(x))).toBeLessThan(1e-15);
+      expect(Math.abs(acos(x) - Math.acos(x))).toBeLessThan(2e-15);
+    }
+    for (const x of [-1e6, -3, -0.2, 0, 0.5, 2, 1e9])
+      expect(Math.abs(atan(x) - Math.atan(x))).toBeLessThan(1e-15);
+    for (const [y, x] of [
+      [1, 1],
+      [-3, 2],
+      [5, -7],
+      [0, -2],
+      [-1, -1e-9],
+    ] as const)
+      expect(Math.abs(atan2(y, x) - Math.atan2(y, x))).toBeLessThan(1e-15);
+  });
+});

@@ -54,7 +54,7 @@ export const TYPE_INFO: Record<BuildingTypeId, TypeInfo> = {
     id: 'lab',
     label: 'Lab',
     mon: 'type-lab',
-    blurb: 'Fume hoods and high air change. Profile still to be sourced.',
+    blurb: 'Fume cupboards and lots of fresh air, often with equipment running late.',
     schedule: day(8, 20, 0.9, 0.25),
   },
   apartments: {

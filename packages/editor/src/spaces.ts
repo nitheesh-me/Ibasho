@@ -31,7 +31,7 @@ export interface SpaceFunction {
 export const SPACE_FUNCTIONS: readonly SpaceFunction[] = [
   { id: 'classroom', label: 'Classroom', short: 'Class', hatch: 'diag', conditioned: true },
   { id: 'lab', label: 'Lab', short: 'Lab', hatch: 'cross', conditioned: true },
-  { id: 'lab-heavy', label: 'Heavy lab (fume hoods)', short: 'Lab+', hatch: 'grid', conditioned: true },
+  { id: 'lab-heavy', label: 'Heavy lab (fume hoods)', short: 'Heavy lab', hatch: 'grid', conditioned: true },
   { id: 'library', label: 'Library', short: 'Library', hatch: 'vert', conditioned: true },
   { id: 'office', label: 'Office', short: 'Office', hatch: 'horiz', conditioned: true },
   { id: 'office-open', label: 'Open office', short: 'Open', hatch: 'wave', conditioned: true },
@@ -39,7 +39,7 @@ export const SPACE_FUNCTIONS: readonly SpaceFunction[] = [
   { id: 'data-centre', label: 'Data centre', short: 'Data', hatch: 'grid', conditioned: true },
   { id: 'bank', label: 'Bank or shop', short: 'Shop', hatch: 'diag-back', conditioned: true },
   { id: 'lobby', label: 'Lobby', short: 'Lobby', hatch: 'sparse', conditioned: true },
-  { id: 'circulation', label: 'Corridor', short: 'Corr', hatch: 'sparse', conditioned: false },
+  { id: 'circulation', label: 'Corridor', short: 'Corridor', hatch: 'sparse', conditioned: false },
   { id: 'stair', label: 'Stair', short: 'Stair', hatch: 'steps', conditioned: false },
   { id: 'toilet-core', label: 'Toilets and core', short: 'WC', hatch: 'dots', conditioned: false },
   { id: 'plant', label: 'Plant room', short: 'Plant', hatch: 'none', conditioned: false },

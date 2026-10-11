@@ -3,6 +3,8 @@ import { presenceFromList } from '@ibasho/content';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin, runnerImport } from 'vite';
 import { discoverPlugins } from './src/discover.ts';
+import { readExample } from './src/example.ts';
+import { syncPosters } from './src/posters.ts';
 
 // Owner: WP-09 (Content and landing).
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -30,7 +32,11 @@ function prerender(): Plugin {
       const presence = all
         ? { has: () => true, hasKind: () => true, stage: () => 'preview' as const }
         : presenceFromList(plugins, stages);
-      return module.fillTemplate(html, presence);
+      // Stills from the city scene, copied into public/ when rendered; the worked example's figures.
+      const posters = syncPosters(repoRoot, fileURLToPath(new URL('./public', import.meta.url)));
+      const example = readExample(repoRoot);
+      console.info(`landing: ${posters.size} stills, worked example ${example ? 'found' : 'absent'}`);
+      return module.fillTemplate(html, presence, { posters, example });
     },
   };
 }

@@ -62,8 +62,12 @@ export function surfaceSun(c: MonthlyClimate, azimuthDeg: number, tiltDeg: numbe
     beam.push(b);
     irr.push(b + diffuse + ground);
     // Hours per day in front of the surface, scaled by how clear the month is (DNI over its clear-sky value).
-    const clear = Math.min(1, dni / Math.max(1, ghi * 1.1));
-    sunHours.push((front / 4) * clear);
+    // Sunshine fraction: the month's beam energy over what a clear sky would bring in the sun-up
+    // hours (about 0.75 kW/m² of beam on average); Hyderabad January about 0.8, London December 0.1.
+    const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m] as number;
+    const clearBeam = (up / 4) * days * 750;
+    const sunny = Math.min(1, dni / Math.max(1, clearBeam));
+    sunHours.push((front / 4) * sunny);
   }
   return { irr, beam, sunHours };
 }

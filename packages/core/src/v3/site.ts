@@ -2,7 +2,7 @@
  * Weather, analysis resolution and site results (ARCH 15.4, SD 4, SPEC R30, R31).
  * Owner: WP-00 (contract); WP-16 computes, WP-07 paints lenses, WP-13 records Preview fixtures.
  */
-import type { Grade, SourceRef } from '../common.ts';
+import type { Grade, IsoDate, SourceRef } from '../common.ts';
 import type { Q } from '../exact/q.ts';
 import type { Ival } from '../ival.ts';
 import type { PluginBase } from '../plugin/types.ts';
@@ -74,6 +74,10 @@ export interface SiteResult {
     irrWhm2: readonly bigint[] | 'unknown';
     sunHours?: SunHours;
     svf?: Q;
+    /** Surface area, m², and the year's received and unobstructed irradiation, Wh (AC-LK3 from the stored result). */
+    areaM2?: number;
+    receivedWh?: bigint;
+    unobstructedWh?: bigint;
   }[];
   /** Monthly obstruction shading factor F_sh,obst for the engine. */
   windows: { id: string; shadingFactor: readonly Q[] }[];
@@ -92,6 +96,18 @@ export interface SiteResult {
    * they cast no shade, so shade may be understated. Sorted ids; absent means none were checked.
    */
   unknownHeightIds?: string[];
+  /** Context buildings the modelled building overlaps, treated as replaced. Sorted ids. */
+  overlappedIds?: string[];
+  /** Ground sun-hours grid around the building (place frame, metres), row major from (x0, y0). */
+  ground?: {
+    x0: number;
+    y0: number;
+    cellM: number;
+    cols: number;
+    rows: number;
+    hours: number[];
+    date: IsoDate;
+  };
 }
 
 /** A sky model, daylight tier or visibility kernel variant with its validated error band (R31). */

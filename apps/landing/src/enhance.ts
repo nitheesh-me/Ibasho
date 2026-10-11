@@ -89,3 +89,22 @@ export function setupReveal(doc: Document, win: Window & typeof globalThis): voi
     io.observe(s);
   }
 }
+
+/**
+ * "Words we use" is folded. A glossary link, or arriving with `#g-<term>` in the address, opens
+ * the fold first so the definition is visible. With JavaScript off each link still carries its
+ * definition as a tooltip.
+ */
+export function setupWords(doc: Document, win: Window): void {
+  const fold = doc.querySelector<HTMLDetailsElement>('[data-words]');
+  if (!fold) return;
+  const openFor = (hash: string) => {
+    if (hash.startsWith('#g-')) fold.open = true;
+  };
+  openFor(win.location.hash);
+  doc.addEventListener('click', (e) => {
+    const a = (e.target as Element | null)?.closest?.('a[href^="#g-"]');
+    if (a) openFor(a.getAttribute('href') ?? '');
+  });
+  win.addEventListener('hashchange', () => openFor(win.location.hash));
+}

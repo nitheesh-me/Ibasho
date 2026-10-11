@@ -163,6 +163,9 @@ importers:
       '@ibasho/pack-city-hyderabad':
         specifier: workspace:*
         version: link:../../packs/city-hyderabad
+      '@ibasho/pack-city-london':
+        specifier: workspace:*
+        version: link:../../packs/city-london
       '@ibasho/pack-climate':
         specifier: workspace:*
         version: link:../../packs/climate
@@ -184,6 +187,9 @@ importers:
       '@ibasho/scene':
         specifier: workspace:*
         version: link:../../packages/scene
+      '@ibasho/site':
+        specifier: workspace:*
+        version: link:../../packages/site
       '@ibasho/spec-gen':
         specifier: workspace:*
         version: link:../../packages/spec-gen
@@ -444,6 +450,9 @@ importers:
       '@ibasho/core':
         specifier: workspace:*
         version: link:../core
+      '@ibasho/dmath':
+        specifier: workspace:*
+        version: link:../dmath
 
   packages/spec-gen: {}
 

@@ -9,10 +9,12 @@ import {
   LANDING_AUDIENCE_INTRO,
   LANDING_AUDIENCES,
   LANDING_CHAPTERS,
+  LANDING_EXAMPLE,
   LANDING_FOOTER,
   LANDING_HERO_CAPTION,
   LANDING_INVITATION,
   LANDING_META,
+  LANDING_PREVIEW_NOTE,
   LANDING_TAGLINE,
 } from './landing/chapters.ts';
 import { ACCREDITATIONS } from './measures/accreditations.ts';
@@ -21,9 +23,11 @@ import { MEASURE_GUIDANCE } from './measures/guidance.ts';
 import { PROOFS_INTRO } from './proofs.ts';
 import {
   APPLICABILITY_COPY,
+  FUTURE_ROLE_COPY,
   GAP_COPY,
   GOAL_PRESET_COPY,
   OBJECTIVE_COPY,
+  OP_COPY,
   PRECHECK_WORD,
   RATING_COPY,
   STAGE_COPY,
@@ -75,6 +79,8 @@ function studioCopy(): CopyItem[] {
     ...flat('studio.objective', OBJECTIVE_COPY),
     ...flat('studio.goal', GOAL_PRESET_COPY),
     ...flat('studio', STUDIO_COPY),
+    ...flat('studio.future', FUTURE_ROLE_COPY),
+    ...flat('studio.op', OP_COPY),
     ...Object.values(BUILDING_TYPE_COPY).flatMap((t) =>
       flat(`types.${t.id}`, {
         label: t.label,
@@ -116,6 +122,7 @@ export function collectCopy(): CopyItem[] {
     );
     if (c.poster) out.push({ path: `${p}.poster.alt`, text: c.poster.alt });
     if (c.link) out.push({ path: `${p}.link`, text: c.link.label });
+    for (const [i, text] of (c.more ?? []).entries()) out.push({ path: `${p}.more.${i}`, text });
   }
   out.push(
     { path: 'landing.audience.title', text: LANDING_AUDIENCE_INTRO.title },
@@ -123,6 +130,8 @@ export function collectCopy(): CopyItem[] {
     { path: 'landing.footer', text: LANDING_FOOTER },
     { path: 'landing.hero.caption', text: LANDING_HERO_CAPTION },
     { path: 'landing.tagline', text: LANDING_TAGLINE },
+    { path: 'landing.previewNote', text: LANDING_PREVIEW_NOTE },
+    ...flat('landing.example', { ...LANDING_EXAMPLE, posterId: undefined, link: LANDING_EXAMPLE.link.label }),
   );
   for (const a of LANDING_AUDIENCES) {
     out.push(

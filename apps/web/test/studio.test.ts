@@ -124,7 +124,7 @@ describe('flows', () => {
 describe('find by name (owner request)', () => {
   const doc = sampleDoc('gb1');
   const state = {
-    tiles: [],
+    areas: {},
     places: { [IIIT_PLACE_ID]: { place, updatedAt: 0, area: 'Gachibowli, Hyderabad' } },
     buildings: {
       gb1: {
@@ -165,6 +165,13 @@ describe('find by name (owner request)', () => {
     const part = findPlaces(s2, 'Shodh').find((h) => h.id.startsWith('gb2#'));
     expect(part).toBeTruthy();
     expect(hitPath(s2, part as never)).toMatch(/^\/p\/pl_iiit\/b\/gb2\?level=building&focus=gb2%23\w+&bbox=/);
+  });
+  it('finds the offices of interest before their area loads (round 3, on demand)', () => {
+    for (const q of ['Lloyds', 'Qualcomm', 'Vanguard']) {
+      const h = findPlaces(state, q)[0];
+      expect(h, q).toBeTruthy();
+      expect(hitPath(state, h as never), q).toMatch(/^\/p\/pl_knowledge_city\/b\/gb[567]\?/);
+    }
   });
 });
 

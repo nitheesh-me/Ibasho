@@ -8,8 +8,9 @@
  */
 import '@ibasho/ui/tokens.css';
 import './landing.css';
-import { setupLantern, setupReveal } from './enhance.ts';
+import { setupLantern, setupReveal, setupWords } from './enhance.ts';
 
 setupLantern(document, window);
 setupReveal(document, window);
+setupWords(document, window);
 void import('./fonts.ts');

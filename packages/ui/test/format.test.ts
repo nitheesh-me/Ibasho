@@ -138,3 +138,12 @@ describe('formatEvidence', () => {
     ).toBe('7.2%');
   });
 });
+
+describe('ranges that round to one value', () => {
+  it('read as one number', async () => {
+    const { formatEvidence } = await import('../src/num/format.ts');
+    const { node } = await import('./helpers.ts');
+    const f = formatEvidence(node('r', { interval: { lo: 1101, hi: 1099 } }, 'kWh', { mode: 'sig', value: 2 }), { locale: 'en-GB' });
+    expect(f.text).toBe('1,100 kWh');
+  });
+});

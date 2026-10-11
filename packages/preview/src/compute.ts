@@ -60,16 +60,41 @@ export const DEFAULT_PLACE: Place = {
   buildingIds: [],
 };
 
+/** Where a place is: India or the UK by its coordinates, else unknown (then its pack ids decide). */
+export function regionOf(place: Pick<Place, 'lat' | 'lon'> | undefined): 'in' | 'uk' | undefined {
+  if (!place) return undefined;
+  if (place.lat >= 6 && place.lat <= 37.5 && place.lon >= 68 && place.lon <= 97.5) return 'in';
+  if (place.lat >= 49.8 && place.lat <= 60.9 && place.lon >= -8.7 && place.lon <= 1.8) return 'uk';
+  return undefined;
+}
+
+/**
+ * The plot's climate: its location decides (a London plot gets London weather and sun even when
+ * the place record still carries another city's pack id), then its pack id, then latitude.
+ */
 export function climateOf(site: SiteContext | undefined): MonthlyClimate {
-  return (
-    CLIMATES[site?.place.climatePackId ?? 'climate.hyderabad'] ??
-    (CLIMATES['climate.hyderabad'] as MonthlyClimate)
-  );
+  const p = site?.place;
+  const region = regionOf(p);
+  const id =
+    region === 'uk'
+      ? 'climate.london'
+      : region === 'in'
+        ? 'climate.hyderabad'
+        : p && CLIMATES[p.climatePackId]
+          ? p.climatePackId
+          : p && p.lat > 35
+            ? 'climate.london'
+            : 'climate.hyderabad';
+  return CLIMATES[id] ?? (CLIMATES['climate.hyderabad'] as MonthlyClimate);
 }
 
 export function moneyOf(site: SiteContext | undefined, compiled: CompiledBuilding): MoneyCtx {
   const place = site?.place ?? DEFAULT_PLACE;
-  const gbp = place.moneyPackIds.some((m) => m.endsWith('-uk'));
+  // Tariffs and currency follow the plot's location first, then its money packs.
+  const region = regionOf(place);
+  const gbp =
+    region === 'uk' ||
+    (region === undefined && (place.moneyPackIds.some((m) => m.endsWith('-uk')) || place.lat > 35));
   if (gbp) return { currency: 'GBP' };
   const t = compiled.twin;
   if (isZoneTwin(t) && (t.typeId === 'apartments' || t.typeId === 'rental')) {
@@ -244,7 +269,10 @@ export function computeEnergy(input: StageIn['energy'], tier: Tier): BuildingRes
     endUses,
     eui: {
       ...res.eui,
-      site: { lo: res.eui.site.lo * 0.85, hi: res.eui.site.hi * 1.05 },
+      site: {
+        lo: Math.min(res.eui.site.lo * 0.85, res.eui.site.hi * 1.05),
+        hi: Math.max(res.eui.site.lo * 0.85, res.eui.site.hi * 1.05),
+      },
       partial: true,
       missing,
     },
@@ -293,12 +321,13 @@ export const FHS_NOTIONAL: EnergyParams = {
  * gets `codes-in`; elsewhere no code pack until one exists).
  */
 export function codePacksFor(codePackIds: readonly string[], site: SiteContext | undefined): string[] {
-  if (codePackIds.length > 0) return [...codePackIds];
-  const p = site?.place;
-  if (!p) return [];
-  const inIndia = p.lat >= 6 && p.lat <= 37.5 && p.lon >= 68 && p.lon <= 97.5;
-  const inUk = p.lat >= 49.8 && p.lat <= 60.9 && p.lon >= -8.7 && p.lon <= 1.8;
-  return inIndia ? ['codes-in'] : inUk ? ['codes-uk'] : [];
+  // Codes follow the plot's location: a regional pack from another country never applies.
+  const region = regionOf(site?.place);
+  if (region === 'in')
+    return ['codes-in', ...codePackIds.filter((c) => !c.endsWith('-in') && !c.endsWith('-uk'))];
+  if (region === 'uk')
+    return ['codes-uk', ...codePackIds.filter((c) => !c.endsWith('-in') && !c.endsWith('-uk'))];
+  return [...codePackIds];
 }
 
 export function computeCodes(input: StageIn['codes'], tier: Tier): CodesOut {

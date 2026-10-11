@@ -80,6 +80,9 @@ export function StudioHome() {
           <Link to="/new" className="ib-btn ib-btn--hero">
             Start a new place
           </Link>
+          <Link to="/design" className="ib-btn ib-btn--quiet">
+            Design before you build
+          </Link>
           <button
             type="button"
             className="ib-btn ib-btn--quiet"
@@ -125,13 +128,15 @@ export function StudioHome() {
                     <Num ev={diff.after.bill} size="ui" />
                   </dd>
                 </div>
-                <div>
-                  <dt>EUI</dt>
-                  <dd>
-                    <Num ev={diff.before.eui} size="ui" /> <span aria-hidden="true">→</span>{' '}
-                    <Num ev={diff.after.eui} size="ui" />
-                  </dd>
-                </div>
+                {Math.abs(diff.before.euiMid - diff.after.euiMid) > 0.5 ? (
+                  <div>
+                    <dt>Energy use intensity</dt>
+                    <dd>
+                      <Num ev={diff.before.eui} size="ui" /> <span aria-hidden="true">→</span>{' '}
+                      <Num ev={diff.after.eui} size="ui" />
+                    </dd>
+                  </div>
+                ) : null}
               </dl>
               <p className="st-note">
                 Old results keep their record; these are recomputed with the new tariff, shown side by side.
@@ -140,11 +145,9 @@ export function StudioHome() {
           </EvidenceProvider>
           <div className="st-welcome__next">
             <span>
-              Plan progress:{' '}
               {diff.b.variants.length - 1
-                ? `${diff.b.variants.length - 1 === 1 ? 'one what-if' : 'what-ifs'} in progress`
-                : 'no what-ifs yet'}
-              .
+                ? `You were weighing ${diff.b.variants.length - 1 === 1 ? 'one change' : 'some changes'} against the building as it is.`
+                : 'You have not tried any changes yet.'}
             </span>
             <Link to={`/p/${revisit.placeId}/b/${diff.b.id}?level=building&mode=choose`} className="ib-btn">
               See what the new tariff changes
@@ -241,7 +244,7 @@ export function StudioHome() {
               <Mon id="type-single-family" size={48} />
             </span>
             <span className="st-place__name">London terrace</span>
-            <span className="st-place__area">The 1905 home from v2</span>
+            <span className="st-place__area">A 1905 terrace house, ready to explore</span>
           </Link>
           <div className="st-place__meta">
             <span className="st-tag">Sample</span>

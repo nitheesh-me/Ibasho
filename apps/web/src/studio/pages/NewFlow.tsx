@@ -8,9 +8,9 @@
  */
 import type { BuildingTypeId, Place } from '@ibasho/core';
 import { ChoiceChips, Stepper, TypeCards } from '@ibasho/ui';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
-import { IIIT_PLACE_ID, sampleDoc } from '../data.ts';
+import { IIIT_PLACE_ID, packsFor, sampleDoc, samplePlaces } from '../data.ts';
 import { useBreakpoint } from '../hooks.ts';
 import { CityStage } from '../niwa/Niwa.tsx';
 import { TYPE_DEFAULTS, templateDoc } from '../preview/template.ts';
@@ -25,13 +25,39 @@ const PLACES = [
   { id: 'london', name: 'A London street', area: 'London', lat: 51.5072, lon: -0.1276 },
 ] as const;
 
+interface PlaceChoice {
+  id: string;
+  name: string;
+  area: string;
+  lat: number;
+  lon: number;
+  /** An on-demand place shipped with the app (its map area loads when picked). */
+  sample?: true;
+}
+
+/** Places that load on demand: offices of interest in HITEC City, King's Cross in London. */
+const MORE_PLACES: PlaceChoice[] = samplePlaces()
+  .filter((p) => p.onDemand)
+  .map((p) => ({
+    id: p.id,
+    name: p.name,
+    area: p.lat > 40 ? 'London' : 'HITEC City, Hyderabad',
+    lat: p.lat,
+    lon: p.lon,
+    sample: true as const,
+  }));
+const ALL_PLACES: PlaceChoice[] = [...PLACES, ...MORE_PLACES];
+
 const STEPS = ['Place', 'Type', 'Building', 'Rooms and windows', 'Place it', 'See'] as const;
 
 // Pack frame origin is the IIIT campus centre; a new building stands near its place, on open ground.
-const originFor = (lat: number, lon: number) => ({
-  x: Math.round((lon - 78.349) * 111_320 * Math.cos((17.4453 * Math.PI) / 180) * 1000) + 260_000,
-  y: Math.round((lat - 17.4453) * 110_540 * 1000) - 220_000,
-});
+const originFor = (lat: number, lon: number, sample?: boolean) =>
+  sample
+    ? { x: 120_000, y: -90_000 }
+    : {
+        x: Math.round((lon - 78.349) * 111_320 * Math.cos((17.4453 * Math.PI) / 180) * 1000) + 260_000,
+        y: Math.round((lat - 17.4453) * 110_540 * 1000) - 220_000,
+      };
 
 export function NewFlow() {
   const [q] = useSearchParams();
@@ -68,22 +94,25 @@ export function NewFlow() {
     setTouched({});
   };
 
-  const tiles = useStudio((s) => s.tiles);
-  const pick = PLACES.find((x) => x.id === placePick) ?? PLACES[0];
+  const areas = useStudio((s) => s.areas);
+  const pick: PlaceChoice = ALL_PLACES.find((x) => x.id === placePick) ?? (PLACES[0] as PlaceChoice);
   const placeFor = (): Place =>
-    existingPlace?.place ?? {
+    existingPlace?.place ??
+    (pick.sample ? samplePlaces().find((p) => p.id === pick.id) : undefined) ?? {
       id: 'preview',
       name: pick.name,
       lat: pick.lat,
       lon: pick.lon,
       elevationM: 0,
       trueNorthMdeg: 0,
-      climatePackId: pick.lat > 40 ? 'climate.london' : 'climate.hyderabad',
-      codePackIds: [],
-      moneyPackIds: [],
-      cityPackId: 'city-hyderabad',
+      ...packsFor(pick.lat, pick.lon),
       buildingIds: [],
     };
+  const pickPack = placeFor().cityPackId;
+  useEffect(() => {
+    useStudio.getState().ensureArea(pickPack);
+  }, [pickPack]);
+  const tiles = pickPack ? (areas[pickPack] ?? []) : [];
   const preview = useMemo(
     () =>
       start === 'sample'
@@ -108,16 +137,17 @@ export function NewFlow() {
   const placeLat = existingPlace?.place.lat ?? pick.lat;
   const placeLon = existingPlace?.place.lon ?? pick.lon;
   const placed = useMemo(
-    () => (start === 'sample' ? preview : { ...preview, origin: originFor(placeLat, placeLon) }),
-    [preview, start, placeLat, placeLon],
+    () => (start === 'sample' ? preview : { ...preview, origin: originFor(placeLat, placeLon, pick.sample) }),
+    [preview, start, placeLat, placeLon, pick.sample],
   );
 
   const finish = () => {
     let placeId = existingPlace?.place.id;
     if (!placeId) {
       const p = pick;
-      placeId =
-        p.id === 'iiit' && useStudio.getState().places[IIIT_PLACE_ID]
+      placeId = p.sample
+        ? (st.addSamplePlace(p.id), p.id)
+        : p.id === 'iiit' && useStudio.getState().places[IIIT_PLACE_ID]
           ? IIIT_PLACE_ID
           : st.createPlace({ name: p.name, lat: p.lat, lon: p.lon, area: p.area });
     }
@@ -188,6 +218,23 @@ export function NewFlow() {
                 </button>
               ))}
             </fieldset>
+            <details className="st-more" open={MORE_PLACES.some((m) => m.id === placePick)}>
+              <summary>More places</summary>
+              <fieldset className="st-places-pick" aria-label="More places">
+                {MORE_PLACES.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    aria-pressed={placePick === p.id}
+                    className="st-placecard"
+                    onClick={() => setPlacePick(p.id)}
+                  >
+                    <span className="st-placecard__name">{p.name}</span>
+                    <span className="st-placecard__area">{p.area}</span>
+                  </button>
+                ))}
+              </fieldset>
+            </details>
             <div className="st-new__nav">
               <Link to="/" className="ib-link">
                 Cancel

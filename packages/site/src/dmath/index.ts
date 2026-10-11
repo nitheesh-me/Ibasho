@@ -1,13 +1,13 @@
 /**
  * Deterministic maths for the site worker (ARCH 15.2, SPEC R20). Owner: WP-16.
  *
- * LOCAL ADAPTER: `exp`, `log`, `sin`, `cos` are copies of `@ibasho/dmath` (WP-01); `atan`,
- * `atan2`, `asin`, `acos` are new fdlibm ports (`atan.ts`). When `@ibasho/dmath` is a declared
- * dependency of this package and exports the inverse functions, this file re-exports it instead.
+ * The inverse functions (`atan`, `atan2`, `asin`, `acos`) now come from `@ibasho/dmath`, where
+ * they moved; `exp`, `log`, `sin` and `cos` are still local copies of `@ibasho/dmath` (WP-01) and
+ * can switch to it the same way.
  */
 import { cos, sin } from './trig.ts';
 
-export { acos, asin, atan, atan2 } from './atan.ts';
+export { acos, asin, atan, atan2 } from '@ibasho/dmath';
 export { exp } from './exp.ts';
 export { log } from './log.ts';
 export { cos, sin } from './trig.ts';

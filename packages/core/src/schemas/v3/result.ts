@@ -136,6 +136,9 @@ export const SiteResultSchema: z.ZodType<SiteResult> = z.object({
         z.object({ dailyMean: IvalSchemaV3, annual: Finite, monthly: opt(z.array(Finite).length(12)) }),
       ),
       svf: opt(QSchema),
+      areaM2: opt(Finite),
+      receivedWh: opt(BigNonNegSchema),
+      unobstructedWh: opt(BigNonNegSchema),
     }),
   ),
   windows: z.array(z.object({ id: Id, shadingFactor: monthly(QSchema) })),
@@ -151,6 +154,20 @@ export const SiteResultSchema: z.ZodType<SiteResult> = z.object({
   ),
   ledger: z.array(z.object({ receiver: Id, blocker: Id, lostWh: BigNonNegSchema })),
   unknownHeightIds: opt(z.array(Id)),
+  overlappedIds: opt(z.array(Id)),
+  ground: opt(
+    z
+      .object({
+        x0: Finite,
+        y0: Finite,
+        cellM: Finite.refine((v) => v > 0, 'cell size must be positive'),
+        cols: z.int().min(1),
+        rows: z.int().min(1),
+        hours: z.array(Finite),
+        date: IsoDateSchema,
+      })
+      .refine((g) => g.hours.length === g.cols * g.rows, 'hours must be cols x rows'),
+  ),
 });
 
 const MonthSchema = z.int().min(0).max(11);
@@ -284,7 +301,14 @@ export const OptimiseResultSchema: z.ZodType<OptimiseResult> = z.object({
   ),
   front: z.array(Id),
   witnesses: z.array(z.object({ dominated: Id, by: Id })),
-  picks: z.array(z.object({ role: RecRoleSchema, id: z.union([Id, z.literal('none')]), label: z.string() })),
+  picks: z.array(
+    z.object({
+      role: RecRoleSchema,
+      id: z.union([Id, z.literal('none')]),
+      label: z.string(),
+      euiBeforeGeneration: opt(Finite),
+    }),
+  ),
   sweeps: z.array(
     z.object({
       target: z.string(),

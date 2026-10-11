@@ -20,6 +20,7 @@ export {
   type PlacementChange,
   placementChange,
   providerId,
+  regionOf,
   stagesForPlacementChange,
   stampFor,
   UK_NOTIONAL_DWELLING,

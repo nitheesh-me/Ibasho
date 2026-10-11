@@ -39,7 +39,7 @@ import {
 } from '@ibasho/editor';
 import { create } from 'zustand';
 import { STAGE_PROVIDERS } from '../../manifest.ts';
-import { cityTiles, contextIdsFor, IIIT_PLACE_ID, sampleDoc, samplePlaces } from '../data.ts';
+import { areaTiles, contextIdsFor, packsFor, hasSampleDoc, IIIT_PLACE_ID, sampleDoc, samplePlaces } from '../data.ts';
 import { startJob } from '../preview/jobs.ts';
 import type { JobHandle, RunEvent, StageInputs } from '../preview/runner.ts';
 import {
@@ -150,6 +150,12 @@ export interface StudioState {
   tiles: CityTile[];
   /** The city tiles finished loading (or failed): first runs wait for this so stages never restart. */
   tilesReady: boolean;
+  /** Tiles per city area (pack id), loaded on first use; absent while loading. */
+  areas: Record<string, CityTile[]>;
+  /** Load a city area's tiles once; jobs at places in it that ran without context rerun from the sun. */
+  ensureArea(packId: string | undefined): void;
+  /** Add an on-demand sample place (and its buildings) when someone searches for or picks it. */
+  addSamplePlace(placeId: string): boolean;
 
   hydrate(snapshot?: Partial<Pick<StudioState, 'places' | 'buildings' | 'settings' | 'userSet'>>): void;
   seedSample(): void;
@@ -189,7 +195,7 @@ function inputsFor(s: StudioState, b: BuildingEntry, v: Variant, previous: Parti
     variantId: v.id,
     doc: variantDoc(b.doc, v.changes),
     place,
-    tiles: place.cityPackId === 'city-hyderabad' ? s.tiles : [],
+    tiles: place.cityPackId ? (s.areas[place.cityPackId] ?? []) : [],
     previous,
     replacedIds: contextIdsFor(b.id),
     levers: { ...BASE_LEVERS, ...v.changes },
@@ -198,6 +204,8 @@ function inputsFor(s: StudioState, b: BuildingEntry, v: Variant, previous: Parti
     asOf: new Date().toISOString(),
   };
 }
+
+const loadingAreas = new Set<string>();
 
 export const useStudio = create<StudioState>()((set, get) => {
   const patchJob = (key: string, f: (j: Job) => Job) =>
@@ -265,6 +273,55 @@ export const useStudio = create<StudioState>()((set, get) => {
     deviceFactor: 1,
     tiles: [],
     tilesReady: false,
+    areas: {},
+
+    ensureArea(packId) {
+      if (!packId || get().areas[packId] || loadingAreas.has(packId)) return;
+      loadingAreas.add(packId);
+      void areaTiles(packId).then((tiles) => {
+        set((st) => ({
+          areas: { ...st.areas, [packId]: tiles },
+          ...(packId === 'city-hyderabad' ? { tiles, tilesReady: true } : {}),
+        }));
+        if (!tiles.length) return;
+        // Context arrived: only jobs that ran without it rerun from the sun (never a running job with tiles).
+        for (const b of Object.values(get().buildings)) {
+          const j = get().jobs[jobKey(b.id, BASE_VARIANT)];
+          const place = get().places[b.placeId]?.place;
+          if (j && !j.withTiles && place?.cityPackId === packId) get().runBuilding(b.id, ['sun']);
+        }
+      });
+    },
+
+    addSamplePlace(placeId) {
+      if (get().places[placeId]) return true;
+      const p = samplePlaces().find((x) => x.id === placeId);
+      if (!p) return false;
+      const now = Date.now();
+      const buildings: Record<string, BuildingEntry> = {};
+      for (const id of p.buildingIds) {
+        if (!hasSampleDoc(id) || get().buildings[id]) continue;
+        const doc = sampleDoc(id);
+        buildings[id] = {
+          id,
+          placeId: p.id,
+          name: doc.name,
+          typeId: doc.typeId,
+          doc,
+          history: emptyHistory(),
+          versions: [{ id: newId('v'), label: 'From the map and public listings', at: now, doc, origin: 'import' }],
+          variants: [{ id: BASE_VARIANT, name: 'As it is', changes: {} }],
+          focus: BASE_VARIANT,
+          sample: true,
+        };
+      }
+      set((st) => ({
+        places: { ...st.places, [p.id]: { place: p, updatedAt: now, visitedAt: now, area: p.name } },
+        buildings: { ...st.buildings, ...buildings },
+      }));
+      get().ensureArea(p.cityPackId);
+      return true;
+    },
 
     hydrate(snapshot) {
       set({
@@ -275,16 +332,7 @@ export const useStudio = create<StudioState>()((set, get) => {
         ...(snapshot?.userSet ? { userSet: snapshot.userSet } : {}),
       });
       if (!snapshot?.places || Object.keys(snapshot.places).length === 0) get().seedSample();
-      void cityTiles().then((tiles) => {
-        set({ tiles, tilesReady: true });
-        if (!tiles.length) return;
-        // Context arrived: only jobs that ran without it rerun from the sun (never a running job with tiles).
-        for (const b of Object.values(get().buildings)) {
-          const j = get().jobs[jobKey(b.id, BASE_VARIANT)];
-          const place = get().places[b.placeId]?.place;
-          if (j && !j.withTiles && place?.cityPackId === 'city-hyderabad') get().runBuilding(b.id, ['sun']);
-        }
-      });
+      get().ensureArea('city-hyderabad');
     },
 
     seedSample() {
@@ -340,7 +388,7 @@ export const useStudio = create<StudioState>()((set, get) => {
               {
                 place: p,
                 updatedAt: p.id === IIIT_PLACE_ID ? ago + 1 : ago,
-                visitedAt: ago,
+                // No visit yet: "Since your last visit" appears only on a real return (round 3).
                 area: area[p.id] ?? 'Hyderabad',
               },
             ]),
@@ -359,10 +407,7 @@ export const useStudio = create<StudioState>()((set, get) => {
         lon,
         elevationM: 0,
         trueNorthMdeg: 0,
-        climatePackId: lat > 40 ? 'climate.london' : 'climate.hyderabad',
-        codePackIds: lat > 40 ? ['rules-uk'] : ['codes-in'],
-        moneyPackIds: lat > 40 ? ['money-uk'] : ['money-in'],
-        cityPackId: lat > 40 ? 'city-london' : 'city-hyderabad',
+        ...packsFor(lat, lon),
         buildingIds: [],
         ...(sample ? { sample: true as const } : {}),
       };
@@ -531,7 +576,7 @@ export const useStudio = create<StudioState>()((set, get) => {
             before: 'ECBC 2017',
             after: 'ECSBC 2024 tiers added',
             source: 'BEE notification',
-            short: 'ECSBC tiers',
+            short: 'energy code tiers',
           },
           {
             kind: 'weather',

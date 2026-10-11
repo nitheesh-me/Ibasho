@@ -104,13 +104,28 @@ export interface CityStageProps {
   label?: ReactNode;
 }
 
-function hasWebGL(): boolean {
+/**
+ * Probe WebGL once per page and release the probe context at once (round 3 R3-1: a probe per
+ * mount leaked a context each time the stage remounted, and software GL ran out of contexts and
+ * memory). Also notes a software renderer, where the stage starts one quality step lower.
+ */
+let glProbe: { ok: boolean; software: boolean } | undefined;
+export function webglInfo(): { ok: boolean; software: boolean } {
+  if (glProbe) return glProbe;
+  glProbe = { ok: false, software: false };
   try {
     const c = document.createElement('canvas');
-    return Boolean(c.getContext('webgl2') ?? c.getContext('webgl'));
+    const gl = (c.getContext('webgl2') ?? c.getContext('webgl')) as WebGLRenderingContext | null;
+    if (gl) {
+      const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+      const renderer = String(dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+      glProbe = { ok: true, software: /swiftshader|llvmpipe|software/i.test(renderer) };
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+    }
   } catch {
-    return false;
+    glProbe = { ok: false, software: false };
   }
+  return glProbe;
 }
 
 /** Keeps the studio alive if the city view throws: panels and numbers still work (MendedError spirit). */
@@ -133,8 +148,13 @@ class SceneGuard extends Component<{ children: ReactNode }, { failed: boolean }>
 
 /** The one place the scene component is mounted. */
 export function CityStage(p: CityStageProps) {
-  const gl = useMemo(hasWebGL, []);
-  const out = p.job ? { ...p.job.outputs, ...p.job.latest } : undefined;
+  const gl = webglInfo();
+  const jobOutputs = p.job?.outputs;
+  const jobLatest = p.job?.latest;
+  const out = useMemo(
+    () => (jobOutputs || jobLatest ? { ...jobOutputs, ...jobLatest } : undefined),
+    [jobOutputs, jobLatest],
+  );
   const lens = sceneLens(p.lens);
   const site = lens === 'radiation' ? out?.radiation : lens === 'sun-hours' ? out?.sun : undefined;
   const stamp: ResultStamp | null =
@@ -144,17 +164,30 @@ export function CityStage(p: CityStageProps) {
         ? out?.sun?.stamp
         : out?.energy?.stamp) ?? null;
   const focus = useMemo(() => focusFor(p.focus, p.doc, p.focusBox), [p.focus, p.doc, p.focusBox]);
-  const hide = contextIdsFor(p.doc.id);
+  // Stable props (round 3 R3-8): a new tiles array, place or time object on every progress tick made
+  // the scene rebuild the city model many times a second while stages ran.
+  const docId = p.doc.id;
+  const tiles = useMemo(() => {
+    const hide = contextIdsFor(docId);
+    return hide.length
+      ? p.tiles.map((t) => ({ ...t, buildings: t.buildings.filter((b) => !hide.includes(b.id)) }))
+      : p.tiles;
+  }, [p.tiles, docId]);
+  const { lat, lon, name } = p.place;
+  const place = useMemo(() => ({ lat, lon, name, tzHours: tzHoursOf({ lat, lon }) }), [lat, lon, name]);
+  const iso = isoOf(p.date);
+  const time = useMemo(() => ({ date: iso, minutes: p.minutes }), [iso, p.minutes]);
+  const onMinutes = p.onMinutes;
+  const onTimeChange = useMemo(
+    () => (onMinutes ? (t: { minutes: number }) => onMinutes(t.minutes) : undefined),
+    [onMinutes],
+  );
   return (
     <div className="st-scene" data-compact={p.compact ? '' : undefined}>
       <SceneGuard>
         <SceneCity
-          place={{ lat: p.place.lat, lon: p.place.lon, name: p.place.name, tzHours: tzHoursOf(p.place) }}
-          tiles={
-            hide.length
-              ? p.tiles.map((t) => ({ ...t, buildings: t.buildings.filter((b) => !hide.includes(b.id)) }))
-              : p.tiles
-          }
+          place={place}
+          tiles={tiles}
           hero={p.doc}
           compiled={out?.geometry ?? null}
           level={p.level}
@@ -162,12 +195,15 @@ export function CityStage(p: CityStageProps) {
           {...(p.storeyId ? { storeyId: p.storeyId } : {})}
           {...(p.roomId ? { roomId: p.roomId } : {})}
           {...(p.onSelect ? { onSelect: p.onSelect } : {})}
-          time={{ date: isoOf(p.date), minutes: p.minutes }}
-          {...(p.onMinutes ? { onTimeChange: (t: { minutes: number }) => p.onMinutes?.(t.minutes) } : {})}
+          time={time}
+          {...(onTimeChange ? { onTimeChange } : {})}
           lens={p.night && lens === 'none' ? 'lanterns' : lens}
           site={site ?? null}
           stamp={stamp}
-          style={p.compact || !gl ? 'svg' : p.night ? 'yoru' : 'washi'}
+          // Software GL (no graphics card) draws the whole city as the plan drawing: the 3D city at that
+          // scale is too heavy there (round 3: white page at City by night). Buildings stay in 3D.
+          style={p.compact || !gl.ok || (gl.software && p.level === 'city') ? 'svg' : p.night ? 'yoru' : 'washi'}
+          tierCap={gl.software ? 1 : 2}
           reducedMotion={p.reducedMotion}
           controls={false}
           legend={false}

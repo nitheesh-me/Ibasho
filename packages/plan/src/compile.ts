@@ -120,6 +120,7 @@ export function compile(doc: BuildingDoc, opts: CompileOptions = {}): CompiledBu
   const wantMeshes = opts.meshes ?? true;
   const storeys = effectiveStoreys(doc);
   const surfaces: Surface[] = [];
+  const roomOutlines: NonNullable<SurfaceSet['rooms']> = [];
   const zt: ZoneTwin = {
     schema: 'ibasho.zonetwin/1',
     buildingId: doc.id,
@@ -169,6 +170,18 @@ export function compile(doc: BuildingDoc, opts: CompileOptions = {}): CompiledBu
       allRooms.push(room);
       const area = polygonAreaMm2(room.floor);
       const zoneId = room.zoneId ?? zoneOfRoom.get(room.id) ?? `z_${room.id.replace(/^rm_/, '')}`;
+      if (wantMeshes)
+        roomOutlines.push({
+          id: room.id,
+          zoneId,
+          storeyId: st.id,
+          outer: room.floor.outer.map((p): PointMm => [p[0], p[1]]),
+          ...(room.floor.holes.length
+            ? { holes: room.floor.holes.map((h) => h.map((p): PointMm => [p[0], p[1]])) }
+            : {}),
+          elevations: Array.from({ length: st.multiplier }, (_, k) => st.elevation + k * st.floorToFloor),
+          ceiling: room.ceiling,
+        });
       const conditioned =
         conditionedZone.get(zoneId) ??
         (room.spaceTypeId !== undefined &&
@@ -371,7 +384,7 @@ export function compile(doc: BuildingDoc, opts: CompileOptions = {}): CompiledBu
     quantities,
     adjacency: adjacencyOf(allRooms),
     checks,
-    meshes: { surfaces },
+    meshes: { surfaces, ...(roomOutlines.length ? { rooms: roomOutlines } : {}) },
     placement: { origin: { ...doc.origin }, rotationMdeg: doc.rotationMdeg },
   };
 }

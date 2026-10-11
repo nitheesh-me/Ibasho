@@ -81,6 +81,13 @@ describe('landing chapters', () => {
     for (const h of hrefs) expect(h).toMatch(/^\/app\//);
   });
 
+  it('stay short: one line and at most one short paragraph, with detail behind a disclosure', () => {
+    for (const c of LANDING_CHAPTERS) {
+      expect(c.body.length, c.id).toBeLessThanOrEqual(1);
+      for (const p of c.body) expect(p.split(/\s+/).length, c.id).toBeLessThanOrEqual(32);
+    }
+  });
+
   it('speaks to five kinds of customer', () => {
     expect(LANDING_AUDIENCES.map((a) => a.id)).toEqual([
       'homeowner',

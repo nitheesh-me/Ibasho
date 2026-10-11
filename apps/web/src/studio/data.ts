@@ -11,13 +11,28 @@ import gb1Json from '@ibasho/fixtures/buildings/gb1.building.json';
 import gb2Json from '@ibasho/fixtures/buildings/gb2.building.json';
 import gb3Json from '@ibasho/fixtures/buildings/gb3.building.json';
 import gb4Json from '@ibasho/fixtures/buildings/gb4.building.json';
+import gb5Json from '@ibasho/fixtures/buildings/gb5.building.json';
+import gb6Json from '@ibasho/fixtures/buildings/gb6.building.json';
+import gb7Json from '@ibasho/fixtures/buildings/gb7.building.json';
 import placesJson from '@ibasho/fixtures/buildings/places.json';
-import { HERO_CONTEXT_IDS } from '@ibasho/pack-city-hyderabad/engine';
+import { HERO_CONTEXT_IDS as HERO_LONDON } from '@ibasho/pack-city-london/engine';
+import { HERO_CONTEXT_IDS as HERO_HYDERABAD } from '@ibasho/pack-city-hyderabad/engine';
 
 export const HERO_ID = 'gb1';
 export const IIIT_PLACE_ID = 'pl_iiit';
 
-const DOCS: Record<string, unknown> = { gb1: gb1Json, gb2: gb2Json, gb3: gb3Json, gb4: gb4Json };
+const DOCS: Record<string, unknown> = {
+  gb1: gb1Json,
+  gb2: gb2Json,
+  gb3: gb3Json,
+  gb4: gb4Json,
+  gb5: gb5Json,
+  gb6: gb6Json,
+  gb7: gb7Json,
+};
+
+/** True when a golden document exists for this id. */
+export const hasSampleDoc = (id: string): boolean => id in DOCS;
 
 /** A fresh copy of a golden document (documents are values; callers may edit the copy). */
 export function sampleDoc(id: string): BuildingDoc {
@@ -31,18 +46,32 @@ export function samplePlaces(): Place[] {
 }
 
 /** OSM ids a modelled building replaces (hide them in the scene, merge them in search). */
-export const contextIdsFor = (buildingId: string): readonly string[] => HERO_CONTEXT_IDS[buildingId] ?? [];
+export const contextIdsFor = (buildingId: string): readonly string[] =>
+  HERO_HYDERABAD[buildingId] ?? HERO_LONDON[buildingId] ?? [];
 
-let tilesPromise: Promise<CityTile[]> | undefined;
-/** Hyderabad tiles, loaded once (lazy chunk). Empty on failure: everything still works without context. */
-export function cityTiles(): Promise<CityTile[]> {
-  if (!tilesPromise) {
-    tilesPromise = import('@ibasho/pack-city-hyderabad/engine')
-      .then((m) => m.loadCityTiles())
-      .catch(() => []);
+const areaPromises = new Map<string, Promise<CityTile[]>>();
+/**
+ * Tiles of one city area by pack id (`Place.cityPackId`), loaded once, lazily. Default areas
+ * (central Hyderabad, the London terrace) and on-demand ones (Raidurg and Knowledge City, King's
+ * Cross) come from each pack's `CITY_AREAS`; on-demand areas load only when a place there is
+ * searched for or picked. Empty on failure: everything still works without context.
+ */
+export function areaTiles(packId: string | undefined): Promise<CityTile[]> {
+  const id = packId ?? 'city-hyderabad';
+  let p = areaPromises.get(id);
+  if (!p) {
+    p = (
+      id.startsWith('city-london')
+        ? import('@ibasho/pack-city-london/engine').then((m) => m.CITY_AREAS[id]?.loadTiles() ?? [])
+        : import('@ibasho/pack-city-hyderabad/engine').then((m) => m.CITY_AREAS[id]?.loadTiles() ?? [])
+    ).catch(() => []);
+    areaPromises.set(id, p);
   }
-  return tilesPromise;
+  return p;
 }
+
+/** Central Hyderabad tiles (the default area). */
+export const cityTiles = (): Promise<CityTile[]> => areaTiles('city-hyderabad');
 
 /** Every context building across tiles (pack frame, mm). */
 export const contextOf = (tiles: readonly CityTile[]): ContextBuilding[] => tiles.flatMap((t) => t.buildings);
@@ -68,3 +97,11 @@ export function weatherCity(place: Pick<Place, 'climatePackId' | 'name'> | undef
 
 /** True between the tropics, where the noon sun stands in the north for part of the year. */
 export const inTropics = (place: Pick<Place, 'lat'> | undefined): boolean => Math.abs(place?.lat ?? 17) < 23.44;
+
+/** Climate, code, money and city packs for a plot, from where it is (UK or India for now). */
+export function packsFor(lat: number, lon: number): Pick<Place, 'climatePackId' | 'codePackIds' | 'moneyPackIds' | 'cityPackId'> {
+  const uk = lat > 49 && lat < 61 && lon > -9 && lon < 2;
+  return uk
+    ? { climatePackId: 'climate.london', codePackIds: ['codes-uk'], moneyPackIds: ['money-uk'], cityPackId: 'city-london' }
+    : { climatePackId: 'climate.hyderabad', codePackIds: ['codes-in'], moneyPackIds: ['money-in'], cityPackId: 'city-hyderabad' };
+}

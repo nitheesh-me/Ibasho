@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, it } from 'vitest';
-import { currentTheme, readTheme, setupLantern, writeTheme } from '../src/enhance.ts';
+import { currentTheme, readTheme, setupLantern, setupWords, writeTheme } from '../src/enhance.ts';
 
 describe('theme storage', () => {
   it('survives a storage that throws', () => {
@@ -49,5 +49,17 @@ describe('lantern', () => {
     expect(readTheme(window.localStorage)).toBe(first);
     b.click();
     expect(document.documentElement.dataset.theme).not.toBe(first);
+  });
+});
+
+describe('words we use', () => {
+  it('opens the fold when a glossary link is followed', () => {
+    document.body.innerHTML =
+      '<a class="lp-term" href="#g-eui">EUI</a><details data-words><summary>Words</summary><dl><div id="g-eui"></div></dl></details>';
+    setupWords(document, window);
+    const fold = document.querySelector<HTMLDetailsElement>('[data-words]')!;
+    expect(fold.open).toBe(false);
+    document.querySelector<HTMLAnchorElement>('a.lp-term')!.click();
+    expect(fold.open).toBe(true);
   });
 });

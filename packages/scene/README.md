@@ -22,6 +22,8 @@ Underneath: `Stage` (one `<Canvas frameloop="demand">` with the still-life Bake/
 - Pack ui halves: `packs/home-uk/src/ui` has `measure-ui` for all 16 measure ids and archetype thumbnails for every built form. `packs/home-in/src/ui` is PLACEHOLDER (T3, M-G).
 - City (V-P): `CityStage` with merged context (one draw call), instanced trees, BVH picking with a provenance chip, penumbra bands and uncertain top bands, a preview sun hours kernel (`shadow.ts`, 10 min steps, ground and roof on one grid), Hinata, Hidamari, Akari and Sora ramps, the lens shader injection (`materials.ts`), the phototropic canopy and fins, Yoru lanterns and the SVG plan fallback (`CitySvg`). About 28 draw calls and 80k triangles at Site level. Tests: `test/city.test.ts` and `test/city-real.test.ts` (the pack tiles and compiled GB1).
 - Round 3 (city): the hero is the night lantern (lit window grid), paper bake (N8AO and depth ink edges on rest, `bake.ts`), sun bent film strip with EUI chart and seal only for real results, radiation rose, moment 7 (`addedFloors`: ghost floors, neighbour flash, ribbon; `cast.ts` in the kernel worker), pinch zoom and two finger pan, ladder short name.
+- Facades (round 6): `src/city/facade.ts` builds openings, heads, sills, jambs and the document's shading rules as instanced card per storey. Roof radiation is painted at 1.5 m from a worker kernel.
+- Landing stills: `dev/posters/` (WebP plus `manifest.json` with chapter, theme, alt text and sizes), rendered from the harness with `controls=0`.
 - Not yet built (M-B and later): ghost, noise rings, fold assembly, split, miniatures, people.
 - SwiftShader (the only renderer the browser guard allows) cannot bake tier 3 in reasonable time; screenshots use `tier=0` or `tier=1`.
 

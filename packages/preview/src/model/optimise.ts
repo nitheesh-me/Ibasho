@@ -57,32 +57,32 @@ export const LEVERS: readonly Lever[] = [
       c.sunnyBins.map(
         (facade) => ({ op: 'addOverhang', facade, depth: { grid: 'overhang.depth', index: 2 } }) as DesignOp,
       ),
-    cost: (c) => c.sunnyWindowM2 * fx(c.inr, 2400, 180),
+    cost: (c) => c.sunnyWindowM2 * fx(c.inr, 4500, 300),
   },
   {
     id: 'glazing',
     params: (b) => ({ ...b, shgc: 0.3, uWin: 2.8 }),
     ops: (c) =>
       c.bins.map((facade) => ({ op: 'setGlazing', target: { facade }, productId: 'low-e-dgu' }) as DesignOp),
-    cost: (c) => c.windowM2 * fx(c.inr, 5000, 420),
+    cost: (c) => c.windowM2 * fx(c.inr, 9000, 550),
   },
   {
     id: 'cool-roof',
     params: (b) => ({ ...b, roofAbsorptance: 0.3, uRoof: Math.min(b.uRoof ?? 1.8, 1.2) }),
     ops: () => [{ op: 'setRoofFinish', presetId: 'cool-roof-white' }],
-    cost: (c) => c.roofM2 * fx(c.inr, 350, 30),
+    cost: (c) => c.roofM2 * fx(c.inr, 450, 40),
   },
   {
     id: 'led',
     params: (b) => ({ ...b, lpdScale: 0.65 }),
     ops: () => [{ op: 'setLPD', value: { grid: 'lpd.scale', index: 1 } }],
-    cost: (c) => c.floorM2 * fx(c.inr, 220, 12),
+    cost: (c) => c.floorM2 * fx(c.inr, 450, 35),
   },
   {
     id: 'daylight',
     params: (b) => ({ ...b, daylightControls: true }),
     ops: () => [{ op: 'addDaylightControls' }],
-    cost: (c) => c.floorM2 * fx(c.inr, 120, 10),
+    cost: (c) => c.floorM2 * fx(c.inr, 250, 20),
   },
   {
     id: 'setpoint',
@@ -94,14 +94,14 @@ export const LEVERS: readonly Lever[] = [
     id: 'pv',
     params: (b, c) => ({ ...b, pvKwp: Math.floor((c.roofM2 * 0.5) / 6.5) }),
     ops: (c) => [{ op: 'addPV', roofId: c.roofId, coverage: { grid: 'pv.coverage', index: 2 } }],
-    cost: (c) => Math.floor((c.roofM2 * 0.5) / 6.5) * fx(c.inr, 42_000, 1_400),
+    cost: (c) => Math.floor((c.roofM2 * 0.5) / 6.5) * fx(c.inr, 50_000, 1_500),
     needsCheck: (c) => c.sharedRoof,
   },
   {
     id: 'wall',
     params: (b) => ({ ...b, uWall: 0.6 }),
     ops: () => [{ op: 'setWallAssembly', constructionId: 'aac-200-insulated' }],
-    cost: (c) => c.wallM2 * fx(c.inr, 1800, 110),
+    cost: (c) => c.wallM2 * fx(c.inr, 2800, 180),
   },
 ];
 
@@ -150,6 +150,8 @@ export function optimiseModel(
     capex: number;
     opex: number;
     eui: number;
+    /** Energy use before rooftop generation, kWh/m²·yr (what "lowest energy" ranks). */
+    euiGross: number;
     ops: DesignOp[];
     needsCheck: boolean;
   }[] = [];
@@ -176,7 +178,9 @@ export function optimiseModel(
     const capexInt = BigInt(Math.round(capex));
     const all = { capex: capexInt, opex: bill, eui: euiMilli, carbon: carbonKg } as Record<string, bigint>;
     const axes = objectives.map((o) => all[o.id] ?? 0n);
-    evals.push({ mask, axes, capex, opex: Number(bill), eui: Q.toNumber(eui), ops, needsCheck });
+    const pvWh = res.endUses.pv.reduce<bigint>((t, v) => t + (v === 'unknown' ? 0n : v), 0n);
+    const euiGross = Q.toNumber(euiExact(wh - pvWh, nca));
+    evals.push({ mask, axes, capex, opex: Number(bill), eui: Q.toNumber(eui), euiGross, ops, needsCheck });
   }
   const budget = goals.find((g) => g.goal.kind === 'budget' && g.strength === 'must')?.goal;
   const budgetMax =
@@ -207,25 +211,49 @@ export function optimiseModel(
     }));
   const byId = new Map(evals.map((e, i) => [candidates[i]?.id as string, e]));
   const base = evals[0] as (typeof evals)[number];
-  const pick = (role: RecRole, score: (e: (typeof evals)[number]) => number) => {
-    const pool = front.filter((c) => c.id !== candidates[0]?.id);
+  /**
+   * Picks (R37): each role ranks the front by its own measure, ties to the cheaper bundle. Roles
+   * mean different things, so they rarely agree: running cost counts rooftop generation, energy
+   * counts use before generation (efficiency), best return needs some outlay to return on.
+   */
+  const pick = (
+    role: RecRole,
+    score: (e: (typeof evals)[number]) => number,
+    among: readonly Candidate[] = front,
+  ) => {
+    const pool = among.filter((c) => c.id !== candidates[0]?.id);
     let best: Candidate | undefined;
     let bestS = Number.POSITIVE_INFINITY;
+    let bestCap = Number.POSITIVE_INFINITY;
     for (const c of pool) {
-      const s = score(byId.get(c.id) as (typeof evals)[number]);
-      if (s < bestS) {
-        bestS = s;
+      const e = byId.get(c.id) as (typeof evals)[number];
+      const sc = score(e);
+      if (sc < bestS - 1e-9 || (Math.abs(sc - bestS) <= 1e-9 && e.capex < bestCap)) {
+        bestS = sc;
+        bestCap = e.capex;
         best = c;
       }
     }
-    return { role, id: best?.id ?? ('none' as const), label: `optimise.pick.${role}` };
+    const e = best && Number.isFinite(bestS) ? byId.get(best.id) : undefined;
+    return {
+      role,
+      id: best && e ? best.id : ('none' as const),
+      label: `optimise.pick.${role}`,
+      ...(role === 'lowest-energy' && e ? { euiBeforeGeneration: Math.round(e.euiGross * 10) / 10 } : {}),
+    };
   };
   const picks = [
     pick('least-upfront', (e) => (e.eui < base.eui ? e.capex : Number.POSITIVE_INFINITY)),
     pick('lowest-running', (e) => e.opex),
-    pick('lowest-energy', (e) => e.eui),
+    // Efficiency before generation: rooftop PV makes the net front favour PV, so this role looks
+    // across every feasible bundle (it may sit just off the cost front, by design).
+    pick(
+      'lowest-energy',
+      (e) => e.euiGross,
+      candidates.filter((c) => c.feasible),
+    ),
     pick('best-return', (e) =>
-      base.opex - e.opex > 0 ? e.capex / (base.opex - e.opex) : Number.POSITIVE_INFINITY,
+      e.capex > 0 && base.opex - e.opex > 0 ? e.capex / (base.opex - e.opex) : Number.POSITIVE_INFINITY,
     ),
   ];
   // Morris style screening on EUI from the exhaustive runs.
@@ -259,7 +287,7 @@ export function optimiseModel(
             const res = buildEnergyResult(compiled, core, money, settings, '', stamp, '2026-01-01');
             const euiMilli = BigInt(Math.round(Q.toNumber(euiExact(totalWh(res.endUses), nca)) * 1000));
             const all = {
-              capex: BigInt(Math.round(index * 0.2 * ctx.sunnyWindowM2 * fx(inr, 2400, 180))),
+              capex: BigInt(Math.round(index * 0.2 * ctx.sunnyWindowM2 * fx(inr, 4500, 300))),
               opex: res.bills.reduce((s, b) => s + b.total, 0n) / 100_000_000n,
               eui: euiMilli,
               carbon: res.carbon.op / 1000n,

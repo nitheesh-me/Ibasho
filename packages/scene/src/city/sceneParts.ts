@@ -167,9 +167,17 @@ export function haloMaterial(colour: string, strength: number): SpriteMaterial {
     const ctx = c.getContext('2d');
     if (ctx) {
       const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-      g.addColorStop(0, 'rgba(255,255,255,1)');
-      g.addColorStop(0.35, 'rgba(255,255,255,0.35)');
-      g.addColorStop(1, 'rgba(255,255,255,0)');
+      // A near gaussian falloff: no visible rim on a dark ground.
+      for (const [t, a] of [
+        [0, 1],
+        [0.15, 0.62],
+        [0.32, 0.28],
+        [0.5, 0.1],
+        [0.7, 0.03],
+        [0.88, 0.008],
+        [1, 0],
+      ] as const)
+        g.addColorStop(t, `rgba(255,255,255,${a})`);
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, 128, 128);
     }

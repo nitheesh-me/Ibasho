@@ -97,6 +97,9 @@ export function Shell({ children }: { children?: ReactNode }) {
                 <NavLink to="/new" className="ib-top__link">
                   New
                 </NavLink>
+                <NavLink to="/design" className="ib-top__link">
+                  Design
+                </NavLink>
                 <NavLink to="/settings" className="ib-top__link">
                   Settings
                 </NavLink>

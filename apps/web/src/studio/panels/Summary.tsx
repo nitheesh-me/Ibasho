@@ -7,6 +7,7 @@
  */
 import { EndUseBar, EuiGauge, Num, PreviewStamp, Stale, TierCaption } from '@ibasho/ui';
 import type { ReactNode } from 'react';
+import type { CodesView } from '../preview/views.ts';
 import type { Job } from '../state/studio.ts';
 
 export function Waiting({ what }: { what: string }) {
@@ -110,12 +111,40 @@ export function BuildingSummary({ job, typeId }: { job: Job | undefined; typeId?
               { label: 'Operational carbon', ev: e?.carbon },
               { label: comfortLabel(typeId), ev: e?.fanHours, note: IMAC_NOTE },
               { label: 'Daylit floor area', ev: d?.ecbc },
-              { label: 'Savings against the code baseline', ev: c?.savings },
               { label: 'Conditioned area', ev: g?.nca },
             ]}
           />
+          {c ? (
+            <p className="st-note">
+              Against the code baseline: <SavingsWords c={c} />.
+            </p>
+          ) : null}
         </Stale>
       </Card>
     </div>
+  );
+}
+
+/**
+ * Savings against the code baseline in plain words (round 3). Better and worse are never mixed with a
+ * sign: "12 to 24% better than code", "5 to 9% worse than code", or "between 3% better and 34% worse".
+ */
+export function SavingsWords({ c }: { c: CodesView }) {
+  if (c.savingsLo >= 0)
+    return (
+      <span>
+        <Num ev={c.savings} size="ui" /> better than code
+      </span>
+    );
+  if (c.savingsHi <= 0)
+    return (
+      <span>
+        <Num ev={c.savingsBest} size="ui" /> to <Num ev={c.savingsWorst} size="ui" /> worse than code
+      </span>
+    );
+  return (
+    <span>
+      between <Num ev={c.savingsBest} size="ui" /> better and <Num ev={c.savingsWorst} size="ui" /> worse than code
+    </span>
   );
 }

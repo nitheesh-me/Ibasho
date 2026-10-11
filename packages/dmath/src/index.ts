@@ -11,9 +11,10 @@
  * `pow` (deterministic; exact for small integer powers, else about (2 + 2|y ln x|) ulp;
  * full fdlibm port at M-A).
  * M-A: `sin` and `cos` (FreeBSD msun ports, error < 1 ulp, |x| < 2^20 pi/2).
- * PLACEHOLDER: `atan2` and `acos` are not exported yet (ARCH 4.3 lists them;
- * nothing in the engine needs them yet; the Collares-Pereira-Rabl transposition will).
+ * v3: `atan`, `atan2`, `asin`, `acos` (fdlibm ports by WP-16 for the SPA, within 1e-15 of the
+ * platform; `acos` is pi/2 minus `asin` in two parts).
  */
+export { acos, asin, atan, atan2 } from './atan.ts';
 export { exp } from './exp.ts';
 export { log, log10 } from './log.ts';
 export { pow } from './pow.ts';

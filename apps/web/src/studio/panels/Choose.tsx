@@ -9,10 +9,10 @@
 import { CompareGrid, Num, PreviewStamp, Range, Stale, TierCaption } from '@ibasho/ui';
 import type { ReactNode } from 'react';
 import { BASE_LEVERS, LEVERS } from '../preview/settings.ts';
-import type { Cand } from '../preview/views.ts';
+import { type Cand, mergePicks } from '../preview/views.ts';
 import { BASE_VARIANT, type BuildingEntry, jobKey, useStudio } from '../state/studio.ts';
 import { changeList } from './ProveTell.tsx';
-import { Card, Waiting } from './Summary.tsx';
+import { Card, SavingsWords, Waiting } from './Summary.tsx';
 
 export function ChoosePanel({ b }: { b: BuildingEntry }) {
   const jobs = useStudio((s) => s.jobs);
@@ -112,12 +112,12 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
             <p className="st-goal">Goal: {opt.goalLabel}</p>
             <p className="st-note">
               Tried <Num ev={opt.tried} size="ui" plain /> bundles;{' '}
-              <Num ev={opt.frontCount} size="ui" plain /> sit on the front.{' '}
+              <Num ev={opt.frontCount} size="ui" plain /> are the best trade-offs between cost and energy.{' '}
               <TierCaption tier={base?.tiers.optimise} />
             </p>
             <FrontPlot candidates={opt.candidates} picks={opt.picks.map((p) => p.cand.id)} />
             <ul className="st-picks">
-              {opt.picks.map((p) => (
+              {mergePicks(opt.picks).map((p) => (
                 <li key={p.role} className="st-pick">
                   <span className="st-pick__role">{p.label}</span>
                   <span className="st-pick__what">{p.cand.label}</span>
@@ -135,11 +135,19 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
                       </dd>
                     </div>
                     <div>
-                      <dt>EUI</dt>
+                      <dt>{p.euiBefore ? 'EUI after solar' : 'EUI'}</dt>
                       <dd>
                         <Num ev={p.eui} size="ui" />
                       </dd>
                     </div>
+                    {p.euiBefore ? (
+                      <div>
+                        <dt>Energy use before solar</dt>
+                        <dd>
+                          <Num ev={p.euiBefore} size="ui" />
+                        </dd>
+                      </div>
+                    ) : null}
                   </dl>
                   <button
                     type="button"
@@ -268,9 +276,9 @@ export function CompareView({ b, render }: { b: BuildingEntry; render: (variantI
                       </dd>
                     </div>
                     <div>
-                      <dt>Below baseline</dt>
+                      <dt>Against code</dt>
                       <dd>
-                        {c ? <Num ev={c.savings} size="ui" /> : <span className="st-dash">computing</span>}
+                        {c ? <SavingsWords c={c} /> : <span className="st-dash">computing</span>}
                       </dd>
                     </div>
                   </dl>

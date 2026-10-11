@@ -9,13 +9,14 @@ import type { CityTile, JobEnd, StageId } from '@ibasho/core';
 import { type JobHandle, type RunEvent, runPreviewJob, type StageInputs } from '../preview/runner.ts';
 
 export type WorkerIn =
-  | { type: 'tiles'; tiles: CityTile[] }
+  | { type: 'tiles'; area: string; tiles: CityTile[] }
   | {
       type: 'run';
       jobId: string;
       generation: number;
       stages: StageId[];
-      inputs: Omit<StageInputs, 'tiles'> & { useTiles: boolean };
+      /** City area whose tiles this job reads (sent once per area), or absent for none. */
+      inputs: Omit<StageInputs, 'tiles'> & { area?: string };
       deviceFactor: number;
     }
   | { type: 'cancel'; jobId: string };
@@ -26,25 +27,26 @@ const scope = self as unknown as {
   postMessage(m: WorkerOut): void;
   onmessage: ((e: MessageEvent<WorkerIn>) => void) | null;
 };
-let tiles: CityTile[] = [];
+/** Tiles per city area: two plots in two cities can run side by side. */
+const areas = new Map<string, CityTile[]>();
 const jobs = new Map<string, JobHandle>();
 
 scope.onmessage = (e) => {
   const m = e.data;
   if (m.type === 'tiles') {
-    tiles = m.tiles;
+    areas.set(m.area, m.tiles);
     return;
   }
   if (m.type === 'cancel') {
     jobs.get(m.jobId)?.cancel();
     return;
   }
-  const { useTiles, ...rest } = m.inputs;
+  const { area, ...rest } = m.inputs;
   const handle = runPreviewJob(
     m.jobId,
     m.generation,
     m.stages,
-    { ...rest, tiles: useTiles ? tiles : [] },
+    { ...rest, tiles: area ? (areas.get(area) ?? []) : [] },
     (event) => scope.postMessage({ type: 'event', event }),
     m.deviceFactor,
   );

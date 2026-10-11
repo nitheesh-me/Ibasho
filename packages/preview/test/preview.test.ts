@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { AnyStageEvent, BuildingResult, EvidenceGraph, JobRequest, StageId } from '@ibasho/core';
+import type { AnyStageEvent, BuildingResult, EvidenceGraph, JobRequest, Place, StageId } from '@ibasho/core';
 import {
   createRegistry,
   dominates,
@@ -463,5 +463,57 @@ describe('SPEC 27 design before you build', () => {
     const c = computeGeometry({ doc: turned, packsFingerprint: 'p' }, 'final');
     expect(c.quantities).not.toBe(a.quantities);
     expect(stagesForPlacementChange('move')).toContain('sun');
+  });
+});
+
+describe('Preview follows the plot (studio review round 3)', () => {
+  it('a London plot gets London weather, pounds and UK codes even with Indian pack ids', async () => {
+    const inputs = fixtureInputs('gb3');
+    const { cityPackId: _c, ...rest } = inputs.place;
+    const london: Place = {
+      ...rest,
+      id: 'pl_test_london',
+      lat: 51.5352,
+      lon: -0.125,
+      climatePackId: 'climate.hyderabad',
+      moneyPackIds: [],
+      codePackIds: ['codes-in'],
+    };
+    const hyd = await runPreviewJob(
+      req('gb3', ['geometry', 'sun', 'radiation', 'energy', 'codes']),
+      { ...inputs, tiles: [] },
+      () => {},
+      { deviceFactor: 0 },
+    );
+    const ldn = await runPreviewJob(
+      req('gb3', ['geometry', 'sun', 'radiation', 'energy', 'codes']),
+      { ...inputs, place: london, tiles: [] },
+      () => {},
+      { deviceFactor: 0 },
+    );
+    expect(ldn.outputs.energy?.bills[0]?.currency).toBe('GBP');
+    expect(hyd.outputs.energy?.bills[0]?.currency).toBe('INR');
+    expect(
+      ldn.outputs.codes?.codes.some((r) => r.ruleId.startsWith('ECSBC') || r.ruleId.startsWith('ECBC')),
+    ).toBe(false);
+    const roofHours = (o: typeof ldn) =>
+      Math.max(...(o.outputs.sun?.surfaces.map((s) => s.sunHours?.annual ?? 0) ?? [0]));
+    expect(roofHours(ldn)).toBeLessThan(roofHours(hyd));
+    expect(roofHours(ldn) / 365).toBeLessThan(6);
+  });
+
+  it('picks mean different things and do not all name one bundle', () => {
+    const o = OptimiseResultSchema.parse(read('gb1', 'optimise'));
+    const id = (r: string) => o.picks.find((p) => p.role === r)?.id;
+    expect(id('lowest-running')).not.toBe(id('lowest-energy'));
+    expect(id('least-upfront')).not.toBe(id('best-return'));
+  });
+
+  it('ranges read low to high', () => {
+    for (const b of FIXTURE_BUILDINGS) {
+      const e = BuildingResultSchema.parse(read(b, 'energy'));
+      expect(e.eui.site.lo).toBeLessThan(e.eui.site.hi);
+      expect(e.eui.source.lo).toBeLessThan(e.eui.source.hi);
+    }
   });
 });

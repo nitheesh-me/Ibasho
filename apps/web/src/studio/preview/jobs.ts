@@ -9,7 +9,7 @@ import type { WorkerIn, WorkerOut } from '../worker/studio.worker.ts';
 import { type JobHandle, type RunEvent, runPreviewJob, type StageInputs } from './runner.ts';
 
 let worker: Worker | null | undefined;
-let sentTiles: readonly CityTile[] | undefined;
+const sentTiles = new Map<string, readonly CityTile[]>();
 const listeners = new Map<string, { onEvent: (e: RunEvent) => void; resolve: (e: JobEnd) => void }>();
 
 function getWorker(): Worker | null {
@@ -53,9 +53,10 @@ export function startJob(
 ): JobHandle {
   const w = getWorker();
   if (!w) return runPreviewJob(jobId, generation, stages, inputs, onEvent, deviceFactor);
-  if (inputs.tiles.length && sentTiles !== inputs.tiles) {
-    sentTiles = inputs.tiles;
-    w.postMessage({ type: 'tiles', tiles: [...inputs.tiles] } satisfies WorkerIn);
+  const area = inputs.tiles.length ? (inputs.place.cityPackId ?? 'city') : undefined;
+  if (area && sentTiles.get(area) !== inputs.tiles) {
+    sentTiles.set(area, inputs.tiles);
+    w.postMessage({ type: 'tiles', area, tiles: [...inputs.tiles] } satisfies WorkerIn);
   }
   const { tiles, ...rest } = inputs;
   const done = new Promise<JobEnd>((resolve) => listeners.set(jobId, { onEvent, resolve }));
@@ -64,7 +65,7 @@ export function startJob(
     jobId,
     generation,
     stages: [...stages],
-    inputs: { ...rest, useTiles: tiles.length > 0 },
+    inputs: { ...rest, ...(area ? { area } : {}) },
     deviceFactor,
   } satisfies WorkerIn);
   return {

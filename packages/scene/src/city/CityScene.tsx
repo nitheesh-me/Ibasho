@@ -357,6 +357,10 @@ export function CityScene(p: CitySceneProps) {
       wick: true,
       lantern: 'wall',
     });
+    // Walls sit a hair behind their ink outline so storey lines never break into dashes.
+    wall.polygonOffset = true;
+    wall.polygonOffsetFactor = 1;
+    wall.polygonOffsetUnits = 2;
     const roof = lensMaterial({ vertexColors: true, roughness: 0.95, emissive: new Color(0) }, uniforms, {
       grid: true,
       wick: true,
@@ -486,6 +490,7 @@ export function CityScene(p: CitySceneProps) {
     () => model.masses.filter((m) => lanternIds.has(m.id)),
     [model.masses, lanternIds],
   );
+  const cityWide = level === 'city';
   const lanternGeo = useMemo(() => {
     const g = contextGeometry(lanternMasses, (m) => drawnHeight(m) + 0.05);
     const bid = g.getAttribute('aBid');
@@ -494,15 +499,18 @@ export function CityScene(p: CitySceneProps) {
     for (let v = 0; v < bid.count; v++) {
       const m = lanternMasses[bid.getX(v)]!;
       const l = lanternIds.get(m.id)!;
-      // Neighbours glow well below the hero (S-B1): a dim warm wash, never cream.
-      const k = Math.min(lanternStrength(l, hour) * 0.08, heroK * 0.05);
+      // Neighbours glow well below the hero (S-B1): a dim warm wash, never cream. Over the whole
+      // city they lift a little so the lanterns read as a field around the brightest one.
+      const k = cityWide
+        ? Math.min(lanternStrength(l, hour) * 0.3, heroK * 0.28)
+        : Math.min(lanternStrength(l, hour) * 0.08, heroK * 0.05);
       col[v * 3] = lamp.r * k;
       col[v * 3 + 1] = lamp.g * k;
       col[v * 3 + 2] = lamp.b * k;
     }
     g.setAttribute('color', new BufferAttribute(col, 3));
     return g;
-  }, [lanternMasses, lanternIds, hour, look.lamp, heroK]);
+  }, [lanternMasses, lanternIds, hour, look.lamp, heroK, cityWide]);
   useEffect(() => () => lanternGeo.dispose(), [lanternGeo]);
   const outlineGeo = useMemo(
     () =>
@@ -1770,7 +1778,7 @@ export function CityScene(p: CitySceneProps) {
 
       {/* biome-ignore lint/a11y/noStaticElementInteractions: three.js mesh, not DOM; keyboard users use the ladder and outline */}
       <mesh rotation-x={-Math.PI / 2} receiveShadow material={mats.ground} onClick={pickGround}>
-        <planeGeometry args={[3200, 3200]} />
+        <planeGeometry args={[20000, 20000]} />
       </mesh>
       <mesh geometry={roadGeo} material={mats.road} receiveShadow raycast={noRaycast} />
 
@@ -1843,7 +1851,7 @@ export function CityScene(p: CitySceneProps) {
             <sprite
               material={o.bloom}
               position={[o.c[0], o.h * 0.5, -o.c[1]]}
-              scale={[o.span * 2.4, o.span * 2.4, 1]}
+              scale={[o.span * 2, o.span * 2, 1]}
             />
           ) : null}
         </group>

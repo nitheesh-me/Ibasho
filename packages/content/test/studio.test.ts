@@ -5,9 +5,11 @@ import {
   APPLICABILITY_COPY,
   BUILDING_TYPE_COPY,
   countOf,
+  describeOps,
   GOAL_PRESET_COPY,
   OBJECTIVE_COPY,
   roomLabel,
+  rupees,
   STAGE_COPY,
   typeLabel,
 } from '../src/index.ts';
@@ -22,6 +24,25 @@ describe('studio copy', () => {
 
   it('never says compliant, even on the applicability ladder', () => {
     expect(JSON.stringify(APPLICABILITY_COPY)).not.toMatch(/compliant/i);
+  });
+});
+
+describe('money and changes in words', () => {
+  it('writes rupees in lakh and crore, two significant figures', () => {
+    expect(rupees(28403678.26)).toBe('Rs 2.8 crore');
+    expect(rupees(1717598)).toBe('Rs 17 lakh');
+    expect(rupees(46250)).toBe('Rs 46,000');
+    expect(rupees(0)).toBe('Nothing');
+  });
+
+  it('summarises a bundle of changes', () => {
+    expect(describeOps([])).toBe('The building as drawn');
+    const ops = ['addOverhang', 'addOverhang', 'setGlazing', 'setRoofFinish', 'setLPD', 'addPV'].map(
+      (op) => ({ op }),
+    );
+    expect(describeOps(ops)).toBe(
+      'Overhangs over the windows, low-E double glazing, a cool white roof and 2 more',
+    );
   });
 });
 

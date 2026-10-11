@@ -9,7 +9,7 @@
 import { ApplicabilityChip, GradeBadge, Num, PreviewStamp, RatingLadder, Stale } from '@ibasho/ui';
 import { Link } from 'react-router';
 import { BASE_VARIANT, type BuildingEntry, type Job, jobKey, useStudio } from '../state/studio.ts';
-import { Card, Waiting } from './Summary.tsx';
+import { Card, SavingsWords, Waiting } from './Summary.tsx';
 
 const LEVER_PHRASE: Record<string, (v: string | number) => string> = {
   wwr: (v) => `windows at ${v}% of the wall`,
@@ -67,7 +67,7 @@ export function ProvePanel({ job, b }: { job: Job | undefined; b: BuildingEntry 
           ? null
           : 'The permit date is not set, so local adoption must be confirmed for every edition.'}
       </p>
-      <Card title="Three gates, one pass" kicker="Ratings" aside={c ? <PreviewStamp compact /> : null}>
+      <Card title="Code and green ratings on one scale" kicker="Ratings" aside={c ? <PreviewStamp compact /> : null}>
         {c ? (
           <Stale stale={Boolean(job?.stale.codes)}>
             <RatingLadder savings={c.savings} rows={c.ladder} axisMax={45} />
@@ -147,9 +147,8 @@ export function TellPanel({ b }: { b: BuildingEntry }) {
               {hot?.bin ?? 'west'} facades take the most sun.
             </p>
             <p>
-              Daylight reaches <Num ev={d.ecbc} plain /> of the floor. On one savings axis the building sits{' '}
-              <Num ev={c.savings} plain /> below the baseline, which is where the GHMC stars and the ECSBC
-              tiers read from.
+              Daylight reaches <Num ev={d.ecbc} plain /> of the floor. Against the code baseline it is{' '}
+              <SavingsWords c={c} />; the star and tier ratings read from that one figure.
             </p>
             <p>
               {best.length

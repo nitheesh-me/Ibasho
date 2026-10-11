@@ -20,7 +20,7 @@ export const GRADE_MEANING: Record<Grade, string> = {
   primary: 'From the original publisher of the figure.',
   secondary: 'From a reputable source that quotes the original.',
   announced: 'Announced but not yet in force or published in full.',
-  estimate: 'Our estimate until a source is found.',
+  estimate: 'Our estimate: no published source yet, so treat it as a guide.',
 };
 
 /** R17: grades that must always show a visible badge. */

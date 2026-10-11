@@ -1,5 +1,5 @@
 /**
- * atan, atan2, asin and acos for the site worker. Owner: WP-16.
+ * atan, atan2, asin and acos. Owner: WP-01 (moved here from `packages/site`, written by WP-16).
  *
  * Ported from Sun fdlibm 5.3 (`s_atan.c`, `e_atan2.c`, `e_asin.c`):
  *   Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
@@ -9,8 +9,7 @@
  *
  * Only IEEE basic operations and the exactly rounded `Math.sqrt` are used, so every engine gets
  * the same bits. `acos(x)` is `pi/2 - asin(x)` computed in two parts (a few ulp, deterministic);
- * the full `e_acos.c` port can replace it without changing the signature. These belong in
- * `@ibasho/dmath` (ARCH 4.3 lists atan2 and acos); see the WP-16 INTERFACES entry.
+ * the full `e_acos.c` port can replace it without changing the signature.
  */
 import { fromWords, hiWord, loWord } from './bits.ts';
 

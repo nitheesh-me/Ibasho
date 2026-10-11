@@ -105,6 +105,8 @@ export interface CodesView {
   savings: EvidenceId;
   savingsLo: number;
   savingsHi: number;
+  savingsBest: EvidenceId;
+  savingsWorst: EvidenceId;
   baseline: EvidenceId;
   out: CodesOut;
 }
@@ -120,7 +122,16 @@ export interface Cand {
 }
 export interface OptimiseView {
   candidates: Cand[];
-  picks: { role: string; label: string; cand: Cand; capex: EvidenceId; opex: EvidenceId; eui: EvidenceId }[];
+  picks: {
+    role: string;
+    label: string;
+    cand: Cand;
+    capex: EvidenceId;
+    opex: EvidenceId;
+    eui: EvidenceId;
+    /** Energy use before solar generation (lowest-energy picks with PV), so net EUI is never misread. */
+    euiBefore?: EvidenceId;
+  }[];
   tried: EvidenceId;
   frontCount: EvidenceId;
   goalLabel: string;
@@ -527,6 +538,9 @@ export function codesView(_c: ViewCtx, out: CodesOut, bag: EvBag): CodesView {
     rows,
     ladder,
     savings: bag.range('base.savings', sLo, sHi, '%', 2, 'One minus proposed over baseline EUI'),
+    // Plain-words parts of the same range (round 3: a range across zero reads in words, never "-34 to 3.2").
+    savingsBest: bag.num('base.savings.best', Math.abs(sHi), '%', 2, 'Best end of the savings range'),
+    savingsWorst: bag.num('base.savings.worst', Math.abs(sLo), '%', 2, 'Worst end of the savings range'),
     savingsLo: sLo,
     savingsHi: sHi,
     baseline: bag.num(
@@ -610,6 +624,9 @@ export function optimiseView(c: ViewCtx, out: OptimiseResult, bag: EvBag): Optim
         step,
       ),
       eui: bag.num(`opt.${p.role}.eui`, cand.eui, 'kWh/m2.yr', 2),
+      ...(p.euiBeforeGeneration !== undefined
+        ? { euiBefore: bag.num(`opt.${p.role}.eui_gross`, p.euiBeforeGeneration, 'kWh/m2.yr', 2, 'Energy use before solar') }
+        : {}),
     });
   }
   return {
@@ -688,3 +705,18 @@ export function stageQuantities(doc: BuildingDoc): Record<StageId, string[]> {
     ],
   };
 }
+
+/** Two roles that land on the same bundle show as one card ("Lowest running cost and lowest energy"). */
+export function mergePicks<T extends { role: string; label: string; cand: { id: string } }>(picks: readonly T[]): T[] {
+  const out: T[] = [];
+  for (const p of picks) {
+    const same = out.findIndex((o) => o.cand.id === p.cand.id);
+    if (same < 0) out.push(p);
+    else {
+      const o = out[same] as T;
+      out[same] = { ...o, label: `${o.label} and ${p.label.toLowerCase()}` };
+    }
+  }
+  return out;
+}
+

@@ -363,6 +363,19 @@ export const SurfaceSetSchema: z.ZodType<SurfaceSet> = z.object({
       .refine((s) => s.positions.length % 3 === 0 && s.indices.length % 3 === 0, 'xyz triples and triangles')
       .refine((s) => s.indices.every((i) => i < s.positions.length / 3), 'index out of range'),
   ),
+  rooms: opt(
+    z.array(
+      z.object({
+        id: Id,
+        zoneId: opt(Id),
+        storeyId: Id,
+        outer: z.array(PointMmSchema).min(3),
+        holes: opt(z.array(z.array(PointMmSchema).min(3))),
+        elevations: z.array(MmSchema).min(1),
+        ceiling: MmSchema,
+      }),
+    ),
+  ),
 });
 
 export const CompiledBuildingSchema: z.ZodType<CompiledBuilding> = z.object({

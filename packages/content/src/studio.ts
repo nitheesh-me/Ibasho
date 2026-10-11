@@ -186,6 +186,54 @@ export const STUDIO_COPY = {
     'Drawing a building needs a bigger screen. You can still change room uses, windows and shading here.',
   emptyPlaces: 'No places yet. Start with a city, or open one of the sample buildings.',
   emptyVariants: 'Only the building as drawn so far. Change something to make a first variant.',
-  unknownHeight: 'Height not known. The hatched band shows how far its shadow could reach.',
-  oneFactCloses: 'Type the number of floors and the band closes.',
+  unknownHeight: 'Estimated height. The hatch shows how far its shadow could reach.',
+  oneFactCloses: 'Type the number of floors and the hatch closes.',
 } as const;
+
+/** The optimiser's picks (`OptimiseResult.picks[].role`), named for what each does best. */
+export const FUTURE_ROLE_COPY: Readonly<Record<string, string>> = {
+  'least-upfront': 'Least upfront',
+  'best-return': 'Best return',
+  'lowest-running': 'Lowest running cost',
+  'lowest-energy': 'Lowest energy',
+  'lowest-carbon': 'Lowest running carbon',
+};
+
+/** Design changes (`DesignOp.op`), in plain words for summaries such as future cards. */
+export const OP_COPY: Readonly<Record<string, string>> = {
+  addOverhang: 'Overhangs over the windows',
+  setGlazing: 'Low-E double glazing',
+  setRoofFinish: 'A cool white roof',
+  setLPD: 'LED lighting',
+  addDaylightControls: 'Lights that dim in daylight',
+  setSetpoint: 'Cooling set a little warmer',
+  addPV: 'Solar panels on the roof',
+  setWallAssembly: 'Insulated walls',
+};
+
+/** A bundle of design ops in plain words: unique kinds in order, at most `max`, then "and N more". */
+export function describeOps(ops: readonly { op: string }[], max = 3): string {
+  const kinds = [...new Set(ops.map((o) => o.op))];
+  if (kinds.length === 0) return 'The building as drawn';
+  const words = kinds.map((k, i) => {
+    const w = OP_COPY[k] ?? 'Another change';
+    return i === 0 ? w : w.charAt(0).toLowerCase() + w.slice(1);
+  });
+  const shown = words.slice(0, max);
+  const rest = words.length - shown.length;
+  return rest > 0 ? `${shown.join(', ')} and ${rest} more` : shown.join(', ');
+}
+
+/**
+ * Rupees in Indian words, rounded to two significant figures: "Rs 2.8 crore", "Rs 17 lakh",
+ * "Rs 46,000". Zero reads "Nothing". For display only; the engine keeps exact amounts.
+ */
+export function rupees(amount: number): string {
+  const r = Math.abs(amount);
+  const sign = amount < 0 ? 'minus ' : '';
+  if (r < 0.5) return 'Nothing';
+  const sig2 = (x: number) => Number(x.toPrecision(2));
+  if (r >= 1e7) return `${sign}Rs ${sig2(r / 1e7)} crore`;
+  if (r >= 1e5) return `${sign}Rs ${sig2(r / 1e5)} lakh`;
+  return `${sign}Rs ${sig2(r).toLocaleString('en-IN')}`;
+}

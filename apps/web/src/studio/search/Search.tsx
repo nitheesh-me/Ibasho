@@ -46,8 +46,8 @@ const GROUPS: { kind: PlaceHit['kind']; label: string }[] = [
 export function useSearch(query: string): PlaceHit[] {
   const places = useStudio((s) => s.places);
   const buildings = useStudio((s) => s.buildings);
-  const tiles = useStudio((s) => s.tiles);
-  return useMemo(() => findPlaces({ places, buildings, tiles }, query), [places, buildings, tiles, query]);
+  const areas = useStudio((s) => s.areas);
+  return useMemo(() => findPlaces({ places, buildings, areas }, query), [places, buildings, areas, query]);
 }
 
 interface ResultsProps {
@@ -111,7 +111,7 @@ function Results({ query, hits, active, onPick, onHover, listId, recent, onRecen
               const idx = i;
               return (
                 <div
-                  key={`${h.kind}:${h.id}`}
+                  key={`${h.kind}:${h.id}:${idx}`}
                   id={`${listId}-${idx}`}
                   role="option"
                   aria-selected={idx === active}
@@ -129,7 +129,9 @@ function Results({ query, hits, active, onPick, onHover, listId, recent, onRecen
                   )}
                   <span className="st-search__label">{h.name}</span>
                   <span className="st-search__detail">{hitDetail(state, h)}</span>
-                  <span className="st-search__city">{cityLabel(h.city)}</span>
+                  {h.kind === 'building' || h.kind === 'place' ? (
+                    <span className="st-search__city">{cityLabel(h.city)}</span>
+                  ) : null}
                 </div>
               );
             })}
@@ -250,13 +252,7 @@ export function SearchBox({
 export function CommandPalette() {
   const nav = useNavigate();
   const [open, setOpen] = useState(false);
-  const listId = useId();
-  const inputRef = useRef<HTMLInputElement>(null);
   const back = useRef<HTMLElement | null>(null);
-  const c = useSearchController((to) => {
-    setOpen(false);
-    nav(to);
-  });
   useEffect(() => {
     const on = (e: globalThis.KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
@@ -276,26 +272,33 @@ export function CommandPalette() {
       window.removeEventListener('ibasho:search', onOpen);
     };
   }, []);
-  useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 0);
-    else back.current?.focus?.();
-  }, [open]);
   if (!open) return null;
+  // The body mounts fresh on every open, so the query starts empty (round 3: queries ran together).
+  return (
+    <PaletteBody
+      onClose={() => {
+        setOpen(false);
+        setTimeout(() => back.current?.focus?.(), 0);
+      }}
+      onPicked={(to) => {
+        setOpen(false);
+        nav(to);
+      }}
+    />
+  );
+}
+
+function PaletteBody({ onClose, onPicked }: { onClose: () => void; onPicked: (to: string) => void }) {
+  const listId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const c = useSearchController(onPicked);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
   return (
     <div className="st-palette">
-      <button
-        type="button"
-        className="st-palette__scrim"
-        aria-label="Close search"
-        tabIndex={-1}
-        onClick={() => setOpen(false)}
-      />
-      <div
-        className="st-palette__box"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Find a building, floor or room"
-      >
+      <button type="button" className="st-palette__scrim" aria-label="Close search" tabIndex={-1} onClick={onClose} />
+      <div className="st-palette__box" role="dialog" aria-modal="true" aria-label="Find a building, floor or room">
         <input
           ref={inputRef}
           type="search"
@@ -308,7 +311,7 @@ export function CommandPalette() {
           value={c.query}
           onChange={(e) => c.setQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Escape') setOpen(false);
+            if (e.key === 'Escape') onClose();
             else c.onKey(e);
           }}
         />

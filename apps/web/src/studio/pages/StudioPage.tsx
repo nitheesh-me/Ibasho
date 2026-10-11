@@ -134,8 +134,12 @@ export function StudioPage() {
 
   // First results: run every variant once when the building opens.
   // Pack places wait for the city tiles (a second or so) so the stages run once, never restart.
-  const tilesReady = useStudio((s) => s.tilesReady);
-  const needsTiles = placeEntry?.place.cityPackId === 'city-hyderabad';
+  const packId = placeEntry?.place.cityPackId;
+  const tilesReady = useStudio((s) => (packId ? s.areas[packId] !== undefined : true));
+  const needsTiles = Boolean(packId);
+  useEffect(() => {
+    useStudio.getState().ensureArea(packId);
+  }, [packId]);
   useEffect(() => {
     if (!b || (needsTiles && !tilesReady)) return;
     const s = useStudio.getState();
@@ -143,6 +147,10 @@ export function StudioPage() {
   }, [b, needsTiles, tilesReady]);
 
   // Revisit: what changed since the last visit to this place.
+  // A place that loads on demand (found by search or a link) joins the studio when first opened.
+  useEffect(() => {
+    if (ready && !placeEntry) useStudio.getState().addSamplePlace(placeId);
+  }, [ready, placeEntry, placeId]);
   const hasPlace = Boolean(placeEntry);
   useEffect(() => {
     if (ready && hasPlace) useStudio.getState().visit(placeId);
@@ -175,7 +183,7 @@ export function StudioPage() {
   const job = useStudio((s) => (b ? s.jobs[jobKey(b.id, focusVariant)] : undefined));
   const baseJob = useStudio((s) => (b ? s.jobs[jobKey(b.id, BASE_VARIANT)] : undefined));
   const evidence = useBuildingEvidence(b?.id);
-  const tiles = useStudio((s) => s.tiles);
+  const areaTilesNow = useStudio((s) => (packId ? s.areas[packId] : undefined));
   const resolution = String(settings['analysis.resolution']) as ResolutionLevel;
   const phone = bpt === 'phone';
   const variantName = b?.variants.find((v) => v.id === focusVariant)?.name ?? 'As it is';
@@ -269,7 +277,7 @@ export function StudioPage() {
       <CityStage
         doc={v && Object.keys(v.changes).length ? docFor(b.doc, v.changes) : b.doc}
         place={placeEntry.place}
-        tiles={placeEntry.place.cityPackId === 'city-hyderabad' ? tiles : []}
+        tiles={areaTilesNow ?? []}
         level={compact ? 'building' : level}
         {...(compact ? {} : { onLevel: setLevel })}
         {...(storeyId ? { storeyId } : {})}

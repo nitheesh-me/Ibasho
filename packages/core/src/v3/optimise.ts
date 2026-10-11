@@ -45,7 +45,17 @@ export interface OptimiseResult {
   front: string[];
   /** Dominance witnesses for certificate checks: dominated id and the front id that dominates it. */
   witnesses: { dominated: string; by: string }[];
-  picks: { role: RecRole; id: string | 'none'; label: MessageKey }[];
+  picks: {
+    role: RecRole;
+    id: string | 'none';
+    label: MessageKey;
+    /**
+     * For `lowest-energy`: the bundle's energy use before rooftop generation, kWh/m²·yr. That role
+     * ranks efficiency, so show this next to the net EUI (rooftop solar can make another bundle's
+     * net EUI lower).
+     */
+    euiBeforeGeneration?: number;
+  }[];
   sweeps: Sweep[];
   /** Nodes behind `Candidate.evidence` and `Sweep` points (axes values, inputs). */
   evidence?: EvidenceGraph;

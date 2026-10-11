@@ -55,8 +55,9 @@ export function buildEnergyResult(
   const total = totalWh(endUses);
   const euiQ = euiExact(total, nca);
   const eui = Q.toNumber(euiQ);
-  const lo = r1(eui * (1 - core.spread));
-  const hi = r1(eui * (1 + core.spread));
+  // Ranges always read low to high, also for a net exporter (negative EUI).
+  const lo = r1(Math.min(eui * (1 - core.spread), eui * (1 + core.spread)));
+  const hi = r1(Math.max(eui * (1 - core.spread), eui * (1 + core.spread)));
   const ncaEv = ev.fixed('geom.nca', nca, 'mm2', 'geom.nca');
   const useEv: string[] = [];
   for (const u of END_USES) {
@@ -76,8 +77,8 @@ export function buildEnergyResult(
     const gfaEv = ev.fixed('geom.gfa', gfa, 'mm2', 'geom.gfa');
     ev.interval(
       'eui.site.gfa',
-      r1(g * (1 - core.spread)),
-      r1(g * (1 + core.spread)),
+      r1(Math.min(g * (1 - core.spread), g * (1 + core.spread))),
+      r1(Math.max(g * (1 - core.spread), g * (1 + core.spread))),
       'kWh/m2.yr',
       'preview.eui.range',
       {
@@ -87,7 +88,13 @@ export function buildEnergyResult(
     );
   }
   const sourceFactor = money.currency === 'INR' ? 3 : 1.5;
-  ev.interval('eui.source', r1(lo * sourceFactor), r1(hi * sourceFactor), 'kWh/m2.yr', 'preview.eui.source');
+  ev.interval(
+    'eui.source',
+    r1(Math.min(lo, hi) * sourceFactor),
+    r1(Math.max(lo, hi) * sourceFactor),
+    'kWh/m2.yr',
+    'preview.eui.source',
+  );
 
   const elecWh = END_USES.filter(
     (u) => !((u === 'heating' || u === 'hot-water') && core.heatingFuel === 'gas'),

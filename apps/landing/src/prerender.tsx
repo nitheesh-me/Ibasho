@@ -4,16 +4,26 @@
  */
 import { LANDING_META, needsPreview, type PluginPresence, visibleChapters } from '@ibasho/content';
 import { renderToStaticMarkup } from 'react-dom/server';
+import type { ExampleData } from './example.ts';
 import { LandingPage } from './Landing.tsx';
+import type { Poster } from './posters.ts';
+
+/** What the build found besides plugins: stills from the scene and the worked example. */
+export interface LandingExtras {
+  posters?: ReadonlyMap<string, Poster> | undefined;
+  example?: ExampleData | undefined;
+}
 
 const escapeAttr = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /** The page body for the given plugin presence. */
-export function renderLanding(presence: PluginPresence): string {
+export function renderLanding(presence: PluginPresence, extras: LandingExtras = {}): string {
   const chapters = visibleChapters(presence);
   const preview = new Set(chapters.filter((c) => needsPreview(c.requires, presence)).map((c) => c.id));
-  return renderToStaticMarkup(<LandingPage chapters={chapters} preview={preview} />);
+  return renderToStaticMarkup(
+    <LandingPage chapters={chapters} preview={preview} posters={extras.posters} example={extras.example} />,
+  );
 }
 
 /** Tags for `<head>`: description and social preview text. */
@@ -29,11 +39,11 @@ export function renderHead(): string {
 }
 
 /** Fill the two placeholders in `index.html`. Throws if either is missing, so a broken template fails the build. */
-export function fillTemplate(html: string, presence: PluginPresence): string {
+export function fillTemplate(html: string, presence: PluginPresence, extras: LandingExtras = {}): string {
   for (const mark of ['<!--landing-head-->', '<!--landing-body-->']) {
     if (!html.includes(mark)) throw new Error(`index.html is missing ${mark}`);
   }
   return html
     .replace('<!--landing-head-->', renderHead())
-    .replace('<!--landing-body-->', renderLanding(presence));
+    .replace('<!--landing-body-->', renderLanding(presence, extras));
 }

@@ -162,7 +162,8 @@
 .st-search__pop {
   position: absolute;
   inset-block-start: calc(100% + 4px);
-  inset-inline: 0;
+  inset-inline: auto 0;
+  max-inline-size: calc(100vw - 2 * var(--ma-3));
   z-index: 40;
   min-inline-size: min(26rem, 92vw);
   max-block-size: min(70vh, 30rem);

@@ -48,13 +48,14 @@ import {
 } from '@ibasho/ui';
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { cityTiles, samplePlaces } from '../data.ts';
+import { samplePlaces } from '../data.ts';
 import { CityStage } from '../niwa/Niwa.tsx';
 import { startJob } from '../preview/jobs.ts';
 import type { JobHandle, RunEvent } from '../preview/runner.ts';
 import { BASE_LEVERS, type Levers } from '../preview/settings.ts';
 import { TYPE_DEFAULTS, templateDoc } from '../preview/template.ts';
-import type { StageViews } from '../preview/views.ts';
+import { mergePicks, type StageViews } from '../preview/views.ts';
+import { SavingsWords } from '../panels/Summary.tsx';
 import { useStudio } from '../state/studio.ts';
 
 const STEPS = ['Brief', 'Design', 'Place', 'Compare sites', 'Shape to goals', 'Commit'] as const;
@@ -97,7 +98,7 @@ export function designGaps(
     const p = GOAL_PRESETS.find((x) => x.id === id);
     if (!p) return [];
     const label = goalLabel(id);
-    const source = p.sources[0]?.title ?? 'Typical target';
+    const source = plainSource(p.sources[0]?.title ?? 'Typical target');
     if (!applies(p, region))
       return [
         {
@@ -122,7 +123,7 @@ export function designGaps(
       p.id,
     );
     const value = g.value
-      ? `${fmt(g.value.lo)} to ${fmt(g.value.hi)}${g.unit ? ` ${g.unit}` : ''}`
+      ? `${fmt(g.value.lo) === fmt(g.value.hi) ? fmt(g.value.lo) : `${fmt(g.value.lo)} to ${fmt(g.value.hi)}`}${g.unit ? ` ${g.unit}` : ''}`
       : undefined;
     const text = value
       ? g.target !== undefined
@@ -131,9 +132,13 @@ export function designGaps(
       : g.status === 'unknown'
         ? 'Not enough is known yet to judge this.'
         : '';
-    return [{ id, label, state: g.status, text, source: g.sources[0]?.title ?? source }];
+    return [{ id, label, state: g.status, text, source: plainSource(g.sources[0]?.title ?? source) }];
   });
 }
+
+/** Our own method reads as a plain sentence, not an internal name. */
+const plainSource = (title: string): string =>
+  /^ibasho/i.test(title) ? 'worked out from the bundles of changes Ibasho tried' : title;
 
 const GAP_WORD: Record<GapState, string> = {
   met: 'Met',
@@ -186,10 +191,16 @@ const START: Record<CityId, { x: number; y: number }> = {
   london: { x: 0, y: 0 },
 };
 
+/** "Net zero ready (UK standard)" already names its country: add the region only when the label does not. */
+function withRegion(label: string, regions: readonly string[] | undefined): string {
+  if (!regions?.length || /\b(UK|India|London)\b/.test(label)) return label;
+  return `${label} (${regions.some((r) => r.startsWith('GB')) ? 'UK' : 'India'})`;
+}
+
 export function DesignFlow() {
   const nav = useNavigate();
   const st = useStudio.getState();
-  const tiles = useStudio((s) => s.tiles);
+  const areas = useStudio((s) => s.areas);
   const settings = useStudio((s) => s.settings);
   const [step, setStep] = useState(0);
   // Brief
@@ -212,9 +223,12 @@ export function DesignFlow() {
   const [runs, setRuns] = useState<Record<string, SiteRun>>({});
   const [chosen, setChosen] = useState<string | undefined>();
 
+  // Each plot reads its own city's map area (King's Cross for London), loaded once.
+  const tilesFor = useCallback((c: CityId) => areas[placeOf(c).cityPackId ?? ''] ?? [], [areas]);
+  const tiles = tilesFor(city);
   useEffect(() => {
-    void cityTiles().then((t) => t.length && useStudio.setState({ tiles: t }));
-  }, []);
+    useStudio.getState().ensureArea(placeOf(city).cityPackId);
+  }, [city]);
 
   const startDesign = (massing: boolean) => {
     const d = TYPE_DEFAULTS[type];
@@ -327,7 +341,7 @@ export function DesignFlow() {
             rotationMdeg: Math.round(site.rotationDeg * 1000),
           },
           place,
-          tiles: site.city === 'hyderabad' ? tiles : [],
+          tiles: tilesFor(site.city),
           levers: { ...BASE_LEVERS, ...site.levers },
           settings,
           resolution: 'sketch',
@@ -375,7 +389,7 @@ export function DesignFlow() {
         ),
       );
     },
-    [doc, tiles, settings, runs, goals],
+    [doc, tilesFor, settings, runs, goals],
   );
 
   const addSite = () => {
@@ -507,7 +521,7 @@ export function DesignFlow() {
           />
         </div>
         <fieldset className="st-goals">
-          <legend>Goals (each becomes a typed target)</legend>
+          <legend>Goals</legend>
           {GOAL_PRESETS.map((g) => (
             <button
               key={g.id}
@@ -519,8 +533,7 @@ export function DesignFlow() {
                 setGoals((gs) => (gs.includes(g.id) ? gs.filter((x) => x !== g.id) : [...gs, g.id]))
               }
             >
-              {goalLabel(g.id)}
-              {g.regions ? (g.regions.some((r) => r.startsWith('GB')) ? ' (UK)' : ' (India)') : ''}
+              {withRegion(goalLabel(g.id), g.regions)}
             </button>
           ))}
         </fieldset>
@@ -529,7 +542,7 @@ export function DesignFlow() {
             Start with massing
           </button>
           <button type="button" className="ib-btn" onClick={() => startDesign(false)}>
-            Start from a {type} template
+            Start from {/^[aeiou]/.test(type) ? 'an' : 'a'} {type} template
           </button>
         </div>
       </section>
@@ -629,14 +642,13 @@ export function DesignFlow() {
           ]}
         />
         <p className="st-note">
-          Click open ground on the map to move the building there, or use the buttons. More cities arrive as
-          city packs land.
+          Click open ground on the map to move the building there, or use the buttons.
         </p>
         <div className="st-new__city">
           <CityStage
             doc={placed}
             place={place}
-            tiles={city === 'hyderabad' ? tiles : []}
+            tiles={tiles}
             level="site"
             night={false}
             reducedMotion
@@ -734,13 +746,13 @@ export function DesignFlow() {
         {doc && sites.length > 1 ? (
           <div className="st-design__compare">
             <CityCompare
-              base={{ hero: doc, place: placeOf('hyderabad'), tiles, hideContextIds: [] }}
+              base={{ hero: doc, place: placeOf('hyderabad'), tiles: tilesFor('hyderabad'), hideContextIds: [] }}
               options={sites.map((s, i) => ({
                 id: s.id,
                 label: `Plot ${i + 1}`,
                 placement: { origin: s.origin, rotationMdeg: Math.round(s.rotationDeg * 1000) },
                 ...(s.city === 'london'
-                  ? { overrides: { place: placeOf('london'), tiles: [], hideContextIds: [] } }
+                  ? { overrides: { place: placeOf('london'), tiles: tilesFor('london'), hideContextIds: [] } }
                   : {}),
               }))}
               level="site"
@@ -768,7 +780,7 @@ export function DesignFlow() {
                       <CityStage
                         doc={{ ...doc, origin: s.origin, rotationMdeg: Math.round(s.rotationDeg * 1000) }}
                         place={placeOf(s.city)}
-                        tiles={s.city === 'hyderabad' ? tiles : []}
+                        tiles={tilesFor(s.city)}
                         level="building"
                         night={false}
                         reducedMotion
@@ -795,7 +807,6 @@ export function DesignFlow() {
                       ['Carbon', e?.carbon],
                       ['Roof sun', sun?.roof],
                       ['Daylit floor', d?.ecbc],
-                      ['Below code baseline', c?.savings],
                     ].map(([label, ev]) => (
                       <div key={label as string}>
                         <dt>{label as string}</dt>
@@ -808,6 +819,10 @@ export function DesignFlow() {
                         </dd>
                       </div>
                     ))}
+                    <div>
+                      <dt>Against code</dt>
+                      <dd>{c ? <SavingsWords c={c} /> : <span className="st-dash">computing</span>}</dd>
+                    </div>
                   </dl>
                 </div>
               ),
@@ -831,6 +846,22 @@ export function DesignFlow() {
         <h1 id="d4" className="st-new__title">
           Shape it to the goals
         </h1>
+        {sites.length > 1 ? (
+          <ChoiceChips
+            id="shape-plot"
+            label="Plot to shape"
+            value={chosenSite.id}
+            onChange={setChosen}
+            choices={sites.map((x, i) => ({
+              value: x.id,
+              label: `Plot ${i + 1}, ${x.city === 'london' ? 'London' : 'Hyderabad'}`,
+            }))}
+          />
+        ) : null}
+        <p className="st-note">
+          Shaping plot {sites.indexOf(chosenSite) + 1} in {chosenSite.city === 'london' ? 'London' : 'Hyderabad'}.
+          Goals that do not apply there are left out.
+        </p>
         <ul className="st-gaps">
           {gaps.map((g) => (
             <li key={g.id} data-state={g.state}>
@@ -846,12 +877,18 @@ export function DesignFlow() {
         <h2 className="st-ledger__title">Cheapest changes that move it</h2>
         {opt?.picks.length ? (
           <ul className="st-picks">
-            {opt.picks.map((p) => (
+            {mergePicks(opt.picks).map((p) => (
               <li key={p.role} className="st-pick">
                 <span className="st-pick__role">{p.label}</span>
                 <span className="st-pick__what">{p.cand.label}</span>
                 <span>
                   Upfront <Num ev={p.capex} size="ui" />, EUI <Num ev={p.eui} size="ui" />
+                  {p.euiBefore ? (
+                    <>
+                      {' '}
+                      (energy use before solar <Num ev={p.euiBefore} size="ui" />)
+                    </>
+                  ) : null}
                 </span>
                 <button
                   type="button"

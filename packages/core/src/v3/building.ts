@@ -351,6 +351,20 @@ export interface SurfaceSet {
     azimuthMdeg: Mdeg;
     tiltMdeg: Mdeg;
   }[];
+  /**
+   * Room outlines per storey (building frame), so daylight and the scene work on real rooms.
+   * `elevations` has one floor level per storey copy (a multiplied storey lists every copy).
+   */
+  rooms?: {
+    id: string;
+    zoneId?: string;
+    storeyId: string;
+    outer: PointMm[];
+    holes?: PointMm[][];
+    elevations: Mm[];
+    /** Floor to ceiling, mm. */
+    ceiling: Mm;
+  }[];
 }
 
 export interface CompiledBuilding {

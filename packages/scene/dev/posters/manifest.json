@@ -1,54 +1,361 @@
 {
-  "about": "Landing page stills rendered from the city stage. Each poster has a 1600x1000 and an 800x500 file.",
+  "about": "Landing page stills rendered from the city stage with no interface. Day stills use the Hiru palette, night stills Yoru. Stills marked preview show example results: put the Preview hatch in a corner.",
   "posters": [
     {
       "id": "city-day",
-      "chapter": "place",
+      "chapter": "city",
       "theme": "hiru",
-      "files": { "large": "city-day-1600.png", "small": "city-day-800.png" },
-      "alt": "Vindhya Bhavan, a courtyard building on the IIIT Hyderabad campus, shown as a paper model among its real neighbours on a March morning."
+      "alt": "Vindhya Bhavan on the IIIT Hyderabad campus as a paper model among its real neighbours in Gachibowli; neighbours with estimated heights carry a hatched band.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "city-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "city-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
     },
     {
-      "id": "city-dusk",
-      "chapter": "place",
-      "theme": "hiru",
-      "files": { "large": "city-dusk-1600.png", "small": "city-dusk-800.png" },
-      "alt": "The same campus just before sunset, with long shadows stretching east across the paper city."
+      "id": "city-night",
+      "chapter": "city",
+      "theme": "yoru",
+      "alt": "The campus at night: the modelled building glows like a lantern while the neighbours stay dark.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "city-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "city-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
     },
     {
-      "id": "sun-sweep",
+      "id": "sun-day",
       "chapter": "sun",
       "theme": "hiru",
-      "files": { "large": "sun-sweep-1600.png", "small": "sun-sweep-800.png" },
-      "alt": "Sun hours building up around the building during the day: ground that has had sun turns gold, shaded ground stays paper."
+      "alt": "Shade over a May day around the building: ground that stays in shadow longest is darkest, and at noon the sun stands in the north.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "sun-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "sun-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
     },
     {
-      "id": "daylight-drawer",
+      "id": "sun-night",
+      "chapter": "sun",
+      "theme": "yoru",
+      "alt": "The May shade study in the night palette.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "sun-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "sun-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "daylight-day",
       "chapter": "daylight",
       "theme": "hiru",
-      "files": { "large": "daylight-drawer-1600.png", "small": "daylight-drawer-800.png" },
-      "alt": "One floor slid out like a drawer, showing how far daylight reaches into each room from the windows."
+      "alt": "One floor slid out like a drawer: daylight spreads in from the windows, rooms that fall short stay dark, and glare spots carry a warm hatch.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "daylight-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "daylight-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
     },
     {
-      "id": "radiation",
-      "chapter": "radiation",
-      "theme": "hiru",
-      "files": { "large": "radiation-1600.png", "small": "radiation-800.png" },
-      "alt": "Yearly sunlight falling on the walls and roof, from deep blue on shaded walls to gold on the open roof."
-    },
-    {
-      "id": "lanterns",
-      "chapter": "night",
+      "id": "daylight-night",
+      "chapter": "daylight",
       "theme": "yoru",
-      "files": { "large": "lanterns-1600.png", "small": "lanterns-800.png" },
-      "alt": "The campus at night: the modelled building glows like a lantern, brighter for more energy use, while unmodelled neighbours stay dark."
+      "alt": "The daylight drawer in the night palette.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "daylight-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "daylight-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
     },
     {
-      "id": "compare",
+      "id": "energy-day",
+      "chapter": "energy",
+      "theme": "hiru",
+      "alt": "The building alone, ready for its energy story: a paper model by day and lit from within by night.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "energy-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "energy-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "energy-night",
+      "chapter": "energy",
+      "theme": "yoru",
+      "alt": "The building at night, its windows lit in lamplight and brighter for higher energy use.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "energy-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "energy-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "codes-day",
+      "chapter": "codes",
+      "theme": "hiru",
+      "alt": "The building seen from the south west, the view that sits beside its code and rating ladder.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "codes-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "codes-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "codes-night",
+      "chapter": "codes",
+      "theme": "yoru",
+      "alt": "The building at night seen from the south west.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "codes-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "codes-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "compare-day",
       "chapter": "compare",
       "theme": "hiru",
-      "files": { "large": "compare-1600.png", "small": "compare-800.png" },
-      "alt": "Three placements of the same building side by side: as drawn, turned a quarter, and on a plot further east."
+      "alt": "The same building three ways side by side: as drawn, turned a quarter, and on a plot further east.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "compare-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "compare-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "compare-night",
+      "chapter": "compare",
+      "theme": "yoru",
+      "alt": "Three placements of the building side by side at night.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "compare-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "compare-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "design-day",
+      "chapter": "design",
+      "theme": "hiru",
+      "alt": "A drawn floor plan with every room named, set on its plot in two orientations.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "design-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "design-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "design-night",
+      "chapter": "design",
+      "theme": "yoru",
+      "alt": "The floor plan on two plots in the night palette.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "design-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "design-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "trust-day",
+      "chapter": "trust",
+      "theme": "hiru",
+      "alt": "Yearly sunlight on the walls and roof, the kind of number you can open to see where it came from.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "trust-day-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "trust-day-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "trust-night",
+      "chapter": "trust",
+      "theme": "yoru",
+      "alt": "A floor of the building at night with its rooms named.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "trust-night-1600.webp",
+          "width": 1600,
+          "height": 1000
+        },
+        "small": {
+          "file": "trust-night-800.webp",
+          "width": 800,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "hero-wide",
+      "chapter": "hero",
+      "theme": "yoru",
+      "alt": "The real city around the IIIT Hyderabad campus at night: modelled buildings glow like lanterns, brighter for higher energy use, with Vindhya Bhavan lit at the centre.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "hero-wide-2400.webp",
+          "width": 2400,
+          "height": 1000
+        },
+        "small": {
+          "file": "hero-wide-1200.webp",
+          "width": 1200,
+          "height": 500
+        }
+      }
+    },
+    {
+      "id": "hero-phone",
+      "chapter": "hero",
+      "theme": "yoru",
+      "alt": "Vindhya Bhavan glowing like a lantern among its dark neighbours at night.",
+      "preview": true,
+      "files": {
+        "large": {
+          "file": "hero-phone-720.webp",
+          "width": 720,
+          "height": 900
+        }
+      }
+    },
+    {
+      "id": "invitation-dusk",
+      "chapter": "invitation",
+      "theme": "hiru",
+      "alt": "The campus in late afternoon light, long shadows reaching across the paper city.",
+      "preview": false,
+      "files": {
+        "large": {
+          "file": "dusk-wide-2400.webp",
+          "width": 2400,
+          "height": 1000
+        },
+        "small": {
+          "file": "dusk-wide-1200.webp",
+          "width": 1200,
+          "height": 500
+        }
+      }
     }
   ]
 }

@@ -36,7 +36,7 @@ describe('static landing', () => {
   it('carries every word of every chapter in the HTML itself (AC-L2)', () => {
     const text = doc.body.textContent ?? '';
     for (const c of LANDING_CHAPTERS) {
-      for (const copy of [c.kicker, c.title, c.line, ...c.body]) {
+      for (const copy of [c.kicker, c.title, c.line, ...c.body, ...(c.more ?? [])]) {
         expect(text, `${c.id}: ${copy}`).toContain(plainText(copy, termOf));
       }
     }

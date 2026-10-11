@@ -17,7 +17,14 @@ import ts from 'typescript';
 import { isCode, isTest, parse, pos, walk } from './ast.ts';
 import type { Finding } from './files.ts';
 
-export const NO_MATH_SCOPE = [/^packages\/engine\//, /^packs\/[^/]+\/src\/engine\//];
+export const NO_MATH_SCOPE = [
+  /^packages\/engine\//,
+  /^packs\/[^/]+\/src\/engine\//,
+  // v3 (ARCH 15.2): the plan kernel and the site worker follow the same ban, sqrt allowed.
+  /^packages\/(plan|site)\/src\//,
+];
+/** v3 (ARCH 15.2): IEEE 754 rounds `Math.sqrt` exactly, so plan and site may use it. */
+const SQRT_OK = /^packages\/(plan|site)\/src\//;
 /** Paths in scope that hold deliberate violations for the lint's own tests. */
 const FIXTURES = /\/__lint_fixtures__\//;
 
@@ -53,7 +60,7 @@ export function noMathInSource(file: string, text: string): Finding[] {
       const parent = n.parent;
       if (ts.isPropertyAccessExpression(parent) && parent.expression === n) {
         const name = parent.name.text;
-        if (!EXACT.has(name) && !CONSTANTS.has(name)) {
+        if (!EXACT.has(name) && !CONSTANTS.has(name) && !(name === 'sqrt' && SQRT_OK.test(file))) {
           report(
             parent,
             `Math.${name} is not deterministic across engines; use @ibasho/dmath or the core PRNG`,

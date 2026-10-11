@@ -63,7 +63,24 @@ export type Unit =
   | 'band'
   | 'bool'
   | 'rank'
-  | 'ids';
+  | 'ids'
+  // v3 (ARCH 15.4): EUI, daylight, hours, water, power density, plan geometry, India money
+  | 'kWh/m2.yr'
+  | 'W/m2'
+  | 'Wh/m2'
+  | 'lux'
+  | 'h/day'
+  | 'h/yr'
+  | 'L'
+  | 'kL'
+  | 'L/s'
+  | 'mm'
+  | 'mm2'
+  | 'mdeg'
+  | 'kVA'
+  | 'INR/yr'
+  | 'micro-paise/yr'
+  | 'micro-paise/Wh';
 
 /** Float conversion factors to a base unit, by dimension. Only same-dimension pairs convert. */
 const LINEAR: Record<string, { base: string; k: number }> = {
@@ -77,6 +94,13 @@ const LINEAR: Record<string, { base: string; k: number }> = {
   '1': { base: '1', k: 1 },
   '%': { base: '1', k: 0.01 },
   h: { base: 'h', k: 1 },
+  L: { base: 'L', k: 1 },
+  kL: { base: 'L', k: 1000 },
+  mm: { base: 'm', k: 0.001 },
+  m: { base: 'm', k: 1 },
+  'W/m2': { base: 'W/m2', k: 1 },
+  'Wh/m2': { base: 'Wh/m2', k: 1 },
+  'kWh/m2': { base: 'Wh/m2', k: 1000 },
 };
 
 export class UnitError extends Error {

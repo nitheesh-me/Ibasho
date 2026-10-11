@@ -1,0 +1,357 @@
+{
+  "schema": "ibasho.building/1",
+  "id": "gh1",
+  "version": 1,
+  "placeId": "pl_london",
+  "name": "1905 London terrace",
+  "typeId": "single-family",
+  "permitDate": "1905-01-01",
+  "origin": {
+    "x": 0,
+    "y": 0
+  },
+  "rotationMdeg": 45000,
+  "storeys": [
+    {
+      "id": "st_g",
+      "name": "Ground",
+      "elevation": 0,
+      "floorToFloor": 2900,
+      "multiplier": 1,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_g_front",
+          "floor": {
+            "outer": [
+              [
+                0,
+                0
+              ],
+              [
+                5000,
+                0
+              ],
+              [
+                5000,
+                4400
+              ],
+              [
+                0,
+                4400
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2600,
+          "segments": [
+            {
+              "id": "sg_g_front_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 250,
+                "sill": 800
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_front_1",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_front_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_rear",
+                "segId": "sg_g_rear_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_front_3",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Front room",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_g_rear",
+          "floor": {
+            "outer": [
+              [
+                0,
+                4400
+              ],
+              [
+                5000,
+                4400
+              ],
+              [
+                5000,
+                8400
+              ],
+              [
+                0,
+                8400
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2600,
+          "segments": [
+            {
+              "id": "sg_g_rear_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_front",
+                "segId": "sg_g_front_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_rear_1",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_rear_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 250,
+                "sill": 800
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_rear_3",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Kitchen",
+          "spaceTypeId": "kitchen"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    },
+    {
+      "id": "st_1",
+      "name": "First",
+      "elevation": 2900,
+      "floorToFloor": 2900,
+      "multiplier": 1,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_1_front",
+          "floor": {
+            "outer": [
+              [
+                0,
+                0
+              ],
+              [
+                5000,
+                0
+              ],
+              [
+                5000,
+                4400
+              ],
+              [
+                0,
+                4400
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2600,
+          "segments": [
+            {
+              "id": "sg_1_front_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 250,
+                "sill": 800
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_1_front_1",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_1_front_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_1_rear",
+                "segId": "sg_1_rear_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_1_front_3",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Front bedroom",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_1_rear",
+          "floor": {
+            "outer": [
+              [
+                0,
+                4400
+              ],
+              [
+                5000,
+                4400
+              ],
+              [
+                5000,
+                8400
+              ],
+              [
+                0,
+                8400
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2600,
+          "segments": [
+            {
+              "id": "sg_1_rear_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_1_front",
+                "segId": "sg_1_front_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_1_rear_1",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_1_rear_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 250,
+                "sill": 800
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_1_rear_3",
+              "boundary": {
+                "kind": "adiabatic"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Rear bedroom",
+          "spaceTypeId": "bedroom"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    }
+  ],
+  "roofs": [
+    {
+      "id": "rf_gh1",
+      "storeyId": "st_1",
+      "shape": "gable",
+      "pvZones": [],
+      "skylights": []
+    }
+  ],
+  "shades": [],
+  "zones": [],
+  "systems": [
+    {
+      "systemId": "gas-combi-condensing",
+      "fuel": "gas"
+    }
+  ]
+}

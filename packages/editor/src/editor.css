@@ -1,0 +1,569 @@
+/*
+ * Plan editor (DESIGN_SYSTEM 13.4). Owner: WP-15.
+ * An architect's drawing on washi: ink poche walls, pencil grid, hatches for function.
+ */
+
+.ib-editor {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 280px;
+  overflow: hidden;
+  background: var(--surface);
+  outline: none;
+  touch-action: none;
+  user-select: none;
+}
+.ib-editor:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--focus);
+}
+.ib-editor__svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  cursor: crosshair;
+}
+.ib-editor[data-tool="select"] .ib-editor__svg {
+  cursor: default;
+}
+.ib-editor__grid1 {
+  stroke: color-mix(in oklch, var(--line) 55%, transparent);
+}
+.ib-editor__grid5 {
+  stroke: color-mix(in oklch, var(--line) 95%, transparent);
+}
+.ib-editor__ghost {
+  fill: none;
+  stroke: color-mix(in oklch, var(--ink) 20%, transparent);
+  stroke-dasharray: 4 3;
+  vector-effect: non-scaling-stroke;
+}
+.ib-editor__floor {
+  fill: var(--surface-raised);
+  transition: fill var(--t-sumi) var(--ease-sumi);
+}
+.ib-editor__room[data-selected] .ib-editor__floor {
+  fill: color-mix(in oklch, var(--glow) 14%, var(--surface-raised));
+}
+.ib-editor__hatchline {
+  stroke: color-mix(in oklch, var(--ink-3) 60%, transparent);
+  fill: none;
+}
+.ib-editor__hatchdot {
+  fill: color-mix(in oklch, var(--ink-3) 70%, transparent);
+}
+.ib-editor__warnline {
+  stroke: var(--warm);
+  fill: none;
+}
+.ib-editor__untyped {
+  fill: none;
+  stroke: var(--ink-3);
+}
+.ib-editor__wall {
+  stroke: var(--ink);
+  stroke-linecap: square;
+}
+.ib-editor__partition {
+  stroke: var(--ink-2);
+  stroke-linecap: square;
+}
+.ib-editor__window line {
+  stroke: var(--ink);
+}
+.ib-editor__window .ib-editor__window-gap {
+  stroke: var(--surface-raised);
+}
+.ib-editor__window[data-bad] line:not(.ib-editor__window-gap) {
+  stroke: var(--warm);
+  stroke-dasharray: 3 2;
+}
+.ib-editor__shade line {
+  stroke: var(--ink-2);
+}
+.ib-editor__tag {
+  fill: var(--ink-2);
+  font-family: var(--font-code);
+}
+.ib-editor__sel {
+  fill: none;
+  stroke: var(--deep);
+}
+.ib-editor__label {
+  pointer-events: none;
+}
+.ib-editor__name {
+  fill: var(--ink);
+  font-family: var(--font-gothic);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  paint-order: stroke;
+  stroke: var(--surface-raised);
+  stroke-width: 0.25em;
+}
+.ib-editor__label[data-untyped] .ib-editor__name {
+  fill: var(--ink-3);
+  font-style: italic;
+}
+.ib-editor__area {
+  fill: var(--ink-2);
+  font-family: var(--font-code);
+  paint-order: stroke;
+  stroke: var(--surface-raised);
+  stroke-width: 0.25em;
+}
+.ib-editor__preview path {
+  fill: color-mix(in oklch, var(--deep) 8%, transparent);
+  stroke: var(--deep);
+}
+.ib-editor__dim rect {
+  fill: var(--surface-raised);
+  stroke: var(--ink-3);
+  vector-effect: non-scaling-stroke;
+}
+.ib-editor__dim text {
+  fill: var(--ink);
+  font-family: var(--font-code);
+}
+.ib-editor__split {
+  stroke: var(--deep);
+}
+.ib-editor__cursor {
+  fill: none;
+  stroke: var(--deep);
+}
+.ib-editor__underlay {
+  pointer-events: none;
+  filter: grayscale(1) contrast(0.9);
+}
+
+/* Tool rail: 48 px targets (DS 13.7). */
+.ib-editor__rail {
+  position: absolute;
+  inset-block-start: var(--ma-3);
+  inset-inline-start: var(--ma-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--ma-1);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  box-shadow: var(--kage-1);
+  max-block-size: calc(100% - 2 * var(--ma-3));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.ib-editor__tool {
+  appearance: none;
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 48px;
+  min-block-size: 48px;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  cursor: pointer;
+}
+.ib-editor__tool:hover:not(:disabled) {
+  background: var(--surface-sunk);
+  color: var(--text);
+}
+.ib-editor__tool[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.ib-editor__tool:disabled {
+  opacity: 0.35;
+}
+.ib-editor__glyph path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.ib-editor__tool-label {
+  font-size: 0.5625rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.ib-editor__tool-key {
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-end: 3px;
+  font-family: var(--font-code);
+  font-size: 0.5rem;
+  opacity: 0.6;
+}
+.ib-editor__rail-gap {
+  block-size: var(--ma-2);
+  border-block-end: 1px solid var(--line);
+  margin-block-end: var(--ma-1);
+}
+
+.ib-editor__zoom {
+  position: absolute;
+  inset-block-end: var(--ma-3);
+  inset-inline-end: var(--ma-3);
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+}
+.ib-editor__zoom button {
+  appearance: none;
+  min-inline-size: 36px;
+  min-block-size: 36px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.ib-editor__zoom button:hover {
+  background: var(--surface-sunk);
+}
+@media (pointer: coarse) {
+  .ib-editor__zoom button {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+}
+@media (pointer: fine) {
+  .ib-editor__pan {
+    display: none;
+  }
+}
+
+.ib-editor__palette {
+  margin: 0;
+  min-inline-size: 0;
+  position: absolute;
+  inset-block-start: var(--ma-3);
+  inset-inline-start: calc(48px + 4 * var(--ma-2));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  max-inline-size: min(520px, calc(100% - 96px));
+  padding: var(--ma-1);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  box-shadow: var(--kage-1);
+}
+.ib-editor__swatch {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-1);
+  min-block-size: 36px;
+  padding: 0 var(--ma-2);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: var(--fs-cap);
+  cursor: pointer;
+}
+.ib-editor__swatch[aria-pressed="true"] {
+  border-color: var(--ink);
+  color: var(--text);
+}
+.ib-editor__swatch-box {
+  stroke: var(--ink-3);
+}
+
+.ib-editor__status {
+  position: absolute;
+  inset-block-end: var(--ma-3);
+  inset-inline-start: calc(48px + 4 * var(--ma-2));
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-2);
+  max-inline-size: calc(100% - 320px);
+  padding: var(--ma-1) var(--ma-2);
+  background: color-mix(in oklch, var(--surface-raised) 88%, transparent);
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-editor__typed {
+  padding: 0 var(--ma-1);
+  border: 1px solid var(--deep);
+  color: var(--text);
+}
+.ib-editor__limited {
+  color: var(--ember-ink);
+}
+.ib-editor__north {
+  position: absolute;
+  inset-block-start: var(--ma-3);
+  inset-inline-end: var(--ma-3);
+  display: grid;
+  justify-items: center;
+  color: var(--ink);
+  font-family: var(--font-mincho);
+  font-size: var(--fs-cap);
+  font-weight: 700;
+  pointer-events: none;
+}
+.ib-editor__north path {
+  fill: var(--ink);
+}
+.ib-editor__scale {
+  position: absolute;
+  inset-block-end: calc(var(--ma-3) + 48px);
+  inset-inline-end: var(--ma-3);
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  color: var(--text-2);
+  font-family: var(--font-code);
+  font-size: 0.625rem;
+  pointer-events: none;
+}
+.ib-editor__scale-bar {
+  block-size: 5px;
+  border: 1px solid var(--ink);
+  border-block-start: 0;
+  background: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+}
+.ib-editor__overlay {
+  position: absolute;
+  inset-block-end: calc(var(--ma-3) + 72px);
+  inset-inline-end: var(--ma-3);
+  max-inline-size: min(320px, 60%);
+}
+@media (max-width: 767px) {
+  .ib-editor__rail {
+    flex-direction: row;
+    inset-block-start: auto;
+    inset-block-end: var(--ma-2);
+    inset-inline-start: var(--ma-2);
+  }
+  .ib-editor__tool {
+    inline-size: 44px;
+    min-block-size: 44px;
+  }
+  .ib-editor__rail-gap {
+    block-size: auto;
+    inline-size: var(--ma-1);
+    border: 0;
+  }
+  .ib-editor__status {
+    inset-block-end: auto;
+    inset-block-start: var(--ma-2);
+    inset-inline-start: var(--ma-2);
+    max-inline-size: calc(100% - 64px);
+  }
+  .ib-editor__zoom {
+    inset-block-end: calc(var(--ma-2) + 56px);
+  }
+  .ib-editor__scale,
+  .ib-editor__tool-key {
+    display: none;
+  }
+  .ib-editor__palette {
+    inset-inline: var(--ma-2);
+    inset-block-start: 48px;
+    max-inline-size: none;
+  }
+}
+
+/* ------------------------------------------------------------------ properties sheet */
+
+.ib-insp {
+  display: grid;
+  gap: var(--ma-3);
+}
+.ib-insp__head {
+  display: grid;
+  gap: 2px;
+}
+.ib-insp__kicker {
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ib-insp__title {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h3);
+}
+.ib-insp__dim {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-insp__row {
+  display: grid;
+  gap: var(--ma-1);
+  font-size: var(--fs-ui);
+}
+.ib-insp__row > label {
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-insp__row--range {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.ib-insp__row--range > label {
+  grid-column: 1 / -1;
+}
+.ib-insp__sub {
+  margin: var(--ma-2) 0 0;
+  font-size: var(--fs-cap);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.ib-insp__note,
+.ib-insp__empty {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.ib-field {
+  inline-size: 100%;
+  min-block-size: 40px;
+  padding: 0 var(--ma-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 0;
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+}
+.ib-field--small {
+  inline-size: auto;
+  min-block-size: 32px;
+  font-size: var(--fs-cap);
+}
+
+.ib-meter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--ma-1);
+  padding: 0 var(--ma-2);
+  border: 1px solid var(--line);
+  font-size: var(--fs-cap);
+  white-space: nowrap;
+}
+.ib-meter__label {
+  color: var(--text-3);
+}
+.ib-meter__limit {
+  color: var(--text-3);
+}
+.ib-meter[data-fail] {
+  border-color: var(--warm);
+}
+.ib-meter[data-fail] .ib-meter__limit,
+.ib-meter[data-fail] .ib-meter__value {
+  color: var(--warm);
+}
+
+.ib-facades__list {
+  display: grid;
+  gap: var(--ma-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-facades__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-2);
+  align-items: center;
+  padding-block: var(--ma-1);
+  border-block-end: 1px solid var(--line);
+}
+.ib-facades__row .ib-range {
+  flex: 1 1 12rem;
+}
+.ib-facades__bin {
+  font-family: var(--font-code);
+  font-weight: 600;
+}
+
+.ib-storeys {
+  display: grid;
+  gap: var(--ma-3);
+}
+.ib-storeys__list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-storeys__row {
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+.ib-storeys__row[data-current] {
+  border-color: var(--ink);
+}
+.ib-storeys__row[data-below] {
+  background: var(--surface-sunk);
+}
+.ib-storeys__pick {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--ma-2);
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding: 0 var(--ma-3);
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.ib-storeys__slab {
+  inline-size: 22px;
+  block-size: 8px;
+  border: 1.5px solid var(--ink);
+  transform: skewX(-30deg);
+}
+.ib-storeys__row[data-current] .ib-storeys__slab {
+  background: var(--ink);
+}
+.ib-storeys__name {
+  flex: 1 1 auto;
+}
+.ib-storeys__dim {
+  color: var(--text-3);
+  font-size: var(--fs-cap);
+}
+.ib-storeys__edit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ma-2);
+  padding: 0 var(--ma-3) var(--ma-3);
+}
+.ib-storeys__add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ma-2);
+}
+.ib-outline {
+  font-size: var(--fs-cap);
+}
+.ib-outline ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-1) var(--ma-3);
+  margin: var(--ma-2) 0;
+  padding: 0;
+  list-style: none;
+}
+.ib-outline .ib-link[aria-pressed="true"] {
+  font-weight: 700;
+}

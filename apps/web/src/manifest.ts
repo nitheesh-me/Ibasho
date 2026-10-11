@@ -43,3 +43,20 @@ export const manifest: ModuleManifest = {
 
 /** Engine module ids in boot order, for `init`. */
 export const ENGINE_MODULE_IDS: readonly string[] = manifest.engine.map((m) => m.id);
+
+/**
+ * Stage providers (ARCH 15.5, SPEC AC-PG4). Swapping a stage from Preview to real is one line here.
+ * Every stage is Preview in V-P; `apps/web/src/studio/preview/runner.ts` serves them until
+ * `packages/preview` (WP-13) and the real providers land.
+ */
+export const STAGE_PROVIDERS = {
+  geometry: 'preview.geometry',
+  sun: 'preview.sun',
+  radiation: 'preview.radiation',
+  daylight: 'preview.daylight',
+  energy: 'preview.energy',
+  codes: 'preview.codes',
+  optimise: 'preview.optimise',
+} as const satisfies Record<import('@ibasho/core').StageId, string>;
+
+export const isPreviewProvider = (id: string): boolean => id.startsWith('preview.');

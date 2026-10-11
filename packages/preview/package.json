@@ -1,0 +1,21 @@
+{
+  "name": "@ibasho/preview",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Preview stage providers for the seven studio stages: replay fixture results with staged progress, same contracts as real.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run",
+    "gen:preview": "node scripts/gen-preview.ts",
+    "gen:climate": "node scripts/gen-climate.ts"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/fixtures": "workspace:*",
+    "@ibasho/plan": "workspace:*"
+  }
+}

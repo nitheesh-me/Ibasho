@@ -258,6 +258,8 @@ export function renderEffect(e: Effect): string {
       return 'there is a risk to weigh';
     case 'info':
       return 'there is something to know';
+    case 'comply':
+      return `the design must meet the ${e.metric} limit`;
   }
 }
 

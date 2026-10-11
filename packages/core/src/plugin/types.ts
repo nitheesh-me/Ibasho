@@ -26,7 +26,20 @@ export type EnginePluginKind =
   | 'calibration'
   | 'search-strategy'
   | 'importer'
-  | 'maintenance';
+  | 'maintenance'
+  // v3 (ARCH 15.3)
+  | 'building-type'
+  | 'space-type'
+  | 'schedule'
+  | 'window-product'
+  | 'shade-preset'
+  | 'benchmark'
+  | 'rating-scheme'
+  | 'baseline-builder'
+  | 'stage-provider'
+  | 'site-method'
+  | 'city-pack'
+  | 'massing-generator';
 export type UiPluginKind =
   | 'measure-ui'
   | 'narrator'
@@ -36,7 +49,11 @@ export type UiPluginKind =
   | 'render-style'
   | 'exporter'
   | 'locale'
-  | 'checker-rung';
+  | 'checker-rung'
+  // v3 (ARCH 15.3)
+  | 'design-proposer'
+  | 'analysis-lens'
+  | 'editor-tool';
 export type PluginKind = EnginePluginKind | UiPluginKind;
 
 export const ENGINE_PLUGIN_KINDS: readonly EnginePluginKind[] = [
@@ -63,6 +80,18 @@ export const ENGINE_PLUGIN_KINDS: readonly EnginePluginKind[] = [
   'search-strategy',
   'importer',
   'maintenance',
+  'building-type',
+  'space-type',
+  'schedule',
+  'window-product',
+  'shade-preset',
+  'benchmark',
+  'rating-scheme',
+  'baseline-builder',
+  'stage-provider',
+  'site-method',
+  'city-pack',
+  'massing-generator',
 ];
 export const UI_PLUGIN_KINDS: readonly UiPluginKind[] = [
   'measure-ui',
@@ -74,6 +103,9 @@ export const UI_PLUGIN_KINDS: readonly UiPluginKind[] = [
   'exporter',
   'locale',
   'checker-rung',
+  'design-proposer',
+  'analysis-lens',
+  'editor-tool',
 ];
 export const PLUGIN_KINDS: readonly PluginKind[] = [...ENGINE_PLUGIN_KINDS, ...UI_PLUGIN_KINDS];
 
@@ -100,6 +132,15 @@ export const NUMERIC_PLUGIN_KINDS: ReadonlySet<PluginKind> = new Set<PluginKind>
   'indicator',
   'epc-proxy',
   'maintenance',
+  'building-type',
+  'space-type',
+  'schedule',
+  'window-product',
+  'shade-preset',
+  'benchmark',
+  'rating-scheme',
+  'site-method',
+  'city-pack',
 ]);
 
 export interface PluginBase<K extends PluginKind> {

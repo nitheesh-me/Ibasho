@@ -1,0 +1,40 @@
+{
+  "id": "gb1",
+  "title": "Vindhya Bhavan, IIIT Hyderabad",
+  "sources": [
+    {
+      "id": "iiit-vindhya-2022",
+      "title": "IIIT Hyderabad estate office, Vindhya Bhavan floor plans (Dec 2022)",
+      "url": "https://intranet.iiit.ac.in/offices/static/files/Vindhya_bhavan.pdf"
+    },
+    {
+      "id": "osm-r2829427",
+      "title": "OpenStreetMap relation 2829427 (ODbL)",
+      "url": "https://www.openstreetmap.org/relation/2829427"
+    },
+    {
+      "id": "rb",
+      "title": "Ibasho brief RB 3",
+      "url": "docs/research/v3/reference-buildings.md"
+    }
+  ],
+  "status": {
+    "layout": "measured: rectangles fitted to the OSM outline and its four courts (footprint IoU tested at 0.8 or more); wing rooms per RB 3.2",
+    "names": "read: room functions from the plan sheets (RB 3.2), functions only, no personal names",
+    "floorToFloor": "assumed 3.9 m",
+    "origin": "OSM outer ring centroid in the city-hyderabad frame; rotation 41.7 degrees",
+    "cellar": "partial under C4 and C5; the NE face is exposed (sloping site) with ventilators"
+  },
+  "unknowns": [
+    "window sizes and glazing (WWR 14% assumed from tag counts W1, W2, V2)",
+    "wall and roof build-ups (RCC frame, masonry infill likely)",
+    "external shading (not drawn)",
+    "permit date (built before 2014 TSECBC; edition unknown)",
+    "roof PV",
+    "lift and stair cores are modelled as rooms, not cores"
+  ],
+  "specialLoads": {
+    "dataCentreUpsKva": 120,
+    "precisionAcUnits": 3
+  }
+}

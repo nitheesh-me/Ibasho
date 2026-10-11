@@ -34,7 +34,8 @@ export interface EvidenceGraphBuilder {
   add(node: EvidenceNode): EvidenceId;
   /**
    * Add stage drafts. Ids come from `idFor` (default `evidenceId(quantity, subject)`); seals start at
-   * `seal` (default the builder's `defaultSeal`). Inputs may name an id or the `key` of any draft
+   * `seal` (default the builder's `defaultSeal`), except drafts with provenance kind `preview`,
+   * which always get seal `preview` (R26). Inputs may name an id or the `key` of any draft
    * added earlier or in the same batch.
    */
   addDrafts(
@@ -103,7 +104,9 @@ export function createEvidenceGraphBuilder(opts: EvidenceGraphBuilderOptions = {
           }
           return { id, role: inp.role };
         });
-        add({ ...rest, id: ids[i]!, inputs: resolved, seal });
+        // R26: Preview values carry the `preview` seal whatever the batch default.
+        const own = rest.provenance.kind === 'preview' ? 'preview' : seal;
+        add({ ...rest, id: ids[i]!, inputs: resolved, seal: own });
       });
       return ids;
     },

@@ -61,7 +61,7 @@ Stand on the shoulders of giants. Prefer proven open-source libraries, algorithm
 - Append only. Use `#entry(who, kind, status: ...)[body]` in the right section: Claims, Interfaces, Decisions, Blockers, Handoffs.
 - Add a CLAIM when you start and a HANDOFF when you finish (what exists, how to use it, what is stubbed).
 - Insert with one read-modify-write (a short script that inserts before the next `== ` heading), so parallel agents do not clobber each other.
-- Check it compiles: `typst compile docs/BLACKBOARD.typ deliverables/BLACKBOARD.pdf` (snap typst cannot write to `/tmp`).
+- Do not compile Typst files yourself. The orchestrator compiles the blackboard and STATUS at milestones. Keep entries valid Typst (escape `#`, `$`, `@` and backticks inside code properly).
 - When work lands, add a row to the Features table in `docs/STATUS.typ` and cite sources in `docs/refs.yml`.
 
 ## Checkpoints

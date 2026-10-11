@@ -1,0 +1,17 @@
+{
+  "name": "@ibasho/pack-ratings",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Rating ladders: LEED v4.1 and v5, IGBC, GRIHA, EDGE, BEE Star, GHMC stars.",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

@@ -192,6 +192,48 @@ export const MONS = {
     paths: [{ d: rays(8, 5.6, 8.4, 22.5) }],
     circles: [{ cx: 12, cy: 12, r: 3.6, fill: true }],
   },
+  // Building types (DS 13.4): straight lines and arcs, no fills except where noted.
+  'type-single-family': {
+    title: 'Single family home',
+    paths: [{ d: 'M6.4 11.4L12 6.2L17.6 11.4M8 11V17.4H16V11' }],
+  },
+  'type-apartments': {
+    title: 'Apartments',
+    paths: [{ d: 'M8.6 5.4H15.4V9.2H8.6ZM8.6 10.1H15.4V13.9H8.6ZM8.6 14.8H15.4V18.6H8.6Z' }],
+  },
+  'type-rental': {
+    title: 'Rental',
+    paths: [{ d: 'M7.2 7.2H16.8V16.8H7.2ZM11.6 12H15.2V14' }],
+    circles: [{ cx: 10, cy: 12, r: 1.6 }],
+  },
+  'type-office': {
+    title: 'Office',
+    paths: [{ d: 'M6.8 6.8H17.2V17.2H6.8ZM12 6.8V17.2M6.8 12H17.2' }],
+  },
+  'type-hotel': {
+    title: 'Hotel',
+    paths: [{ d: 'M13.6 5.4A3.8 3.8 0 1 0 13.6 12.6A3 3 0 1 1 13.6 5.4ZM6.4 16H17.6' }],
+  },
+  'type-education': {
+    title: 'Education',
+    paths: [
+      {
+        d: 'M12 16.6A9 9 0 0 0 5.6 14.2V7.6A9 9 0 0 1 12 10ZM12 16.6A9 9 0 0 1 18.4 14.2V7.6A9 9 0 0 0 12 10Z',
+      },
+    ],
+  },
+  'type-hospital': {
+    title: 'Hospital',
+    paths: [{ d: 'M10 6H14V10H18V14H14V18H10V14H6V10H10Z' }],
+  },
+  'type-lab': {
+    title: 'Lab',
+    paths: [
+      {
+        d: 'M9.6 5.4H14.4M10.6 5.4V10.4L6.9 16.6A1 1 0 0 0 7.7 18H16.3A1 1 0 0 0 17.1 16.6L13.4 10.4V5.4M8.4 14.4H15.6',
+      },
+    ],
+  },
 } as const satisfies Record<string, MonDef>;
 
 export type MonId = keyof typeof MONS;

@@ -1,0 +1,27 @@
+{
+  "id": "gb4",
+  "title": "Gachibowli apartment block (typical, not a real address)",
+  "sources": [
+    {
+      "id": "spec16",
+      "title": "SPEC 16 golden buildings",
+      "url": "docs/SPEC.md"
+    }
+  ],
+  "status": {
+    "layout": "assumed: typical G+4 block, 4 two-bedroom flats a floor"
+  },
+  "gh2": {
+    "storeyId": "st_top",
+    "roomIds": [
+      "rm_top_f3_living",
+      "rm_top_f3_bed1",
+      "rm_top_f3_bed2"
+    ]
+  },
+  "unknowns": [
+    "construction",
+    "glazing",
+    "AC count per flat"
+  ]
+}

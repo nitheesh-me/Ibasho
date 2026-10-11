@@ -31,6 +31,44 @@ export {
   sampleSequence,
   sequenceDuration,
 } from './camera/sequence.ts';
+export type { CityStats } from './city/CityScene.tsx';
+export {
+  CityStage,
+  type CityStageHandle,
+  type CityStageProps,
+  type CityStyle,
+  chromeInsets,
+  DEFAULT_TIME,
+  layoutOf,
+  legendFor,
+  radiationDomain,
+  SWEEP_DATES,
+} from './city/CityStage.tsx';
+export { CitySvg, type CitySvgProps } from './city/CitySvg.tsx';
+export { type CityModel, type CityPlace, cityModel, DEFAULT_PLACE } from './city/model.ts';
+export {
+  annualKwh,
+  PREVIEW_STAMP,
+  passMask,
+  previewDaylight,
+  previewSite,
+  sdaShare,
+} from './city/preview.ts';
+export { CITY_RAMPS, type CityRampId, rampGradientCss, rampHex } from './city/ramps.ts';
+export { STAND_IN_PACK_ID, standInCity } from './city/standin.ts';
+export { type CityTime, dayWindow, SWEEP_MS, sunOf } from './city/sun.ts';
+export type {
+  CityFocus,
+  CityLensId,
+  CityTarget,
+  DaylightGrid,
+  LanternDatum,
+  PhototropicSpec,
+  ZoomLevel,
+} from './city/types.ts';
+export { ZOOM_LEVELS } from './city/types.ts';
+export { type FocusResolution, focusFromHit, resolveFocus } from './city/view.ts';
+export { IIIT_ORIGIN, VINDHYA_ID, vindhyaStandIn } from './city/vindhya.ts';
 export {
   NETSU_RANGE,
   netsuGradientCss,

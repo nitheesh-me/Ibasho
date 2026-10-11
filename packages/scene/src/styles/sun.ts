@@ -21,9 +21,9 @@ export interface SunPosition {
 
 export function sunAt(date: Date, lat: number, lon: number): SunPosition {
   const p = SunCalc.getPosition(date, lat, lon);
-  // suncalc azimuth is radians from south, positive towards west.
-  const azimuthDeg = ((((p.azimuth * 180) / Math.PI + 180) % 360) + 360) % 360;
-  const altitudeDeg = (p.altitude * 180) / Math.PI;
+  // suncalc 2 returns degrees, azimuth clockwise from north (1.x was radians from south).
+  const azimuthDeg = ((p.azimuth % 360) + 360) % 360;
+  const altitudeDeg = p.altitude;
   return { azimuthDeg, altitudeDeg, dir: eyeDirection(azimuthDeg, altitudeDeg) };
 }
 

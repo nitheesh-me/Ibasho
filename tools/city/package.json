@@ -1,0 +1,16 @@
+{
+  "name": "@ibasho/tools-city",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Builds offline city context packs (ibasho.city/1) from cached OpenStreetMap Overpass extracts.",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "fetch": "node src/cli.ts fetch",
+    "build": "node src/cli.ts build"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

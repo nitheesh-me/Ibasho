@@ -2,6 +2,8 @@
  * Memory domain contracts (AM 7.1). Owner: WP-00 (contract); WP-05 implements the domain,
  * WP-08 implements `MemoryRepo` in `packages/store`.
  */
+import type { Goal, GoalStrength, MemoryScope } from '../v3/goals.ts';
+import type { DesignOp } from '../v3/partner.ts';
 import type { MeasureId, ScenarioOp } from './ops.ts';
 
 export type Right = 'yes' | 'no' | 'ask' | 'unknown';
@@ -28,6 +30,19 @@ export interface MemoryPayloads {
   questionAsked: { question: string };
   memoryEdited: { eventId: string; payload: unknown };
   memoryForgotten: { selector: ForgetSelector };
+  // v3 (AR 3.3): scoped goals, variants, recommendations, the partner, external data
+  goalSet: { key: string; goal: Goal; strength: GoalStrength; scope: MemoryScope };
+  goalCleared: { key: string; scope: MemoryScope };
+  constraintSet: { key: 'rights' | 'designLimit'; value: unknown; scope: MemoryScope };
+  variantCreated: { variantId: string; parentId: string; ops: DesignOp[] };
+  variantArchived: { variantId: string };
+  recommendationShown: { recSetId: string; inputsHash: string; leaderIds: string[] };
+  recommendationPinned: { recSetId: string; itemId: string };
+  recommendationUnpinned: { recSetId: string; itemId: string };
+  partnerProposed: { proposalId: string; ops: DesignOp[]; rationale: string; provider: string };
+  partnerAccepted: { proposalId: string; reason?: string };
+  partnerDismissed: { proposalId: string; reason?: string };
+  externalDataChanged: { pack: string; from: string; to: string };
 }
 export type MemoryEventType = keyof MemoryPayloads;
 
@@ -40,6 +55,11 @@ interface MemoryEventBase<T extends MemoryEventType> {
   type: T;
   payload: MemoryPayloads[T];
   source?: { kind: 'ui' | 'chat' | 'note'; ref?: string; quote?: string };
+  /** v3 (R42): the scope the event applies to; absent means the home or building (`homeId`). */
+  scope?: MemoryScope;
+  /** v3 bi-temporal: when the fact holds in the world. `at` is when it was recorded. ISO timestamps. */
+  validFrom?: string;
+  validTo?: string;
 }
 export type MemoryEvent = { [T in MemoryEventType]: MemoryEventBase<T> }[MemoryEventType];
 

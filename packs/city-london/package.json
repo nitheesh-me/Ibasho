@@ -1,0 +1,17 @@
+{
+  "name": "@ibasho/pack-city-london",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline city context pack around the GH1 London terrace (stub).",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

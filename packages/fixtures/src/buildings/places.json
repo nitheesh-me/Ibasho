@@ -1,0 +1,80 @@
+[
+  {
+    "id": "pl_iiit",
+    "name": "IIIT Hyderabad campus",
+    "lat": 17.4453,
+    "lon": 78.349,
+    "elevationM": 545,
+    "trueNorthMdeg": 0,
+    "climatePackId": "climate.hyderabad",
+    "codePackIds": [
+      "codes-in"
+    ],
+    "moneyPackIds": [
+      "money-in"
+    ],
+    "cityPackId": "city-hyderabad",
+    "buildingIds": [
+      "gb1",
+      "gb2"
+    ],
+    "sample": true
+  },
+  {
+    "id": "pl_hitec",
+    "name": "HITEC City office",
+    "lat": 17.458,
+    "lon": 78.3683,
+    "elevationM": 560,
+    "trueNorthMdeg": 0,
+    "climatePackId": "climate.hyderabad",
+    "codePackIds": [
+      "codes-in"
+    ],
+    "moneyPackIds": [
+      "money-in"
+    ],
+    "buildingIds": [
+      "gb3"
+    ],
+    "sample": true
+  },
+  {
+    "id": "pl_gachibowli",
+    "name": "Gachibowli apartments",
+    "lat": 17.4453,
+    "lon": 78.349,
+    "elevationM": 545,
+    "trueNorthMdeg": 0,
+    "climatePackId": "climate.hyderabad",
+    "codePackIds": [
+      "codes-in"
+    ],
+    "moneyPackIds": [
+      "money-in"
+    ],
+    "cityPackId": "city-hyderabad",
+    "buildingIds": [
+      "gb4"
+    ],
+    "sample": true
+  },
+  {
+    "id": "pl_london",
+    "name": "London terrace",
+    "lat": 51.548,
+    "lon": -0.105,
+    "elevationM": 30,
+    "trueNorthMdeg": 0,
+    "climatePackId": "climate.london",
+    "codePackIds": [],
+    "moneyPackIds": [
+      "money-uk"
+    ],
+    "cityPackId": "city-london",
+    "buildingIds": [
+      "gh1"
+    ],
+    "sample": true
+  }
+]

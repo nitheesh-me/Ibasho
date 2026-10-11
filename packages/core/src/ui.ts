@@ -12,6 +12,9 @@ import type { IsoDate, MessageKey } from './common.ts';
 import type { CheckerRungId, CheckId, EvidenceId, QuantityId } from './evidence/types.ts';
 import type { PluginBase } from './plugin/types.ts';
 import type { HomeTwin, MeterData } from './twin.ts';
+import type { BuildingDoc, CompiledBuilding } from './v3/building.ts';
+import type { ContextBuilding } from './v3/place.ts';
+import type { BuildingResult } from './v3/result.ts';
 
 /** Structural stand-in for `React.FC<P>`. */
 export type Component<P> = (props: P) => unknown;
@@ -71,15 +74,30 @@ export interface ExportCtx {
   twin: HomeTwin;
   result?: SearchResult;
   locale: string;
+  /** v3 building formats (gbXML, epJSON, Dragonfly, GeoJSON, IFC). */
+  building?: BuildingDoc;
+  compiled?: CompiledBuilding;
+  buildingResult?: BuildingResult;
 }
 export interface ExporterPlugin extends PluginBase<'exporter'> {
-  format: 'ibasho' | 'pdf' | 'csv' | 'letter';
+  format: 'ibasho' | 'pdf' | 'csv' | 'letter' | 'gbxml' | 'epjson' | 'dragonfly' | 'geojson' | 'ifc';
   export(ctx: ExportCtx): Promise<BlobLike>;
+}
+
+/** What a v3 building importer returns: a document draft and what the person must confirm. */
+export interface BuildingImport {
+  doc?: Partial<BuildingDoc>;
+  context?: ContextBuilding[];
+  /** Proposals (trace assist): rooms, walls or storeys the person confirms one by one (SPEC 20). */
+  proposals: { id: string; kind: 'room' | 'wall' | 'storey' | 'scale'; confidence: number; data: unknown }[];
+  warnings: string[];
 }
 export interface ImporterPlugin extends PluginBase<'importer'> {
   /** MIME types or extensions. */
   accepts: string[];
   parse(file: BlobLike): Promise<MeterData | Partial<HomeTwin>>;
+  /** v3 (ARCH 15.3): building formats (PDF trace, OSM, GeoJSON, gbXML, IFC). */
+  parseBuilding?(file: BlobLike): Promise<BuildingImport>;
 }
 
 export interface FontRef {

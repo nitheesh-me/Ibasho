@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { MEASURE_KINDS, type MeasureKind } from '../measure-kinds.ts';
 import type { Effect, Expr, Obligation, Rule } from '../rules.ts';
 import { CHECK_KINDS, type CheckKind } from '../twin.ts';
+import { METRIC_IDS, type MetricId } from '../v3/metrics.ts';
 import { GradeSchema, IsoDateSchema, RegionCodeSchema, TriSchema } from './common.ts';
 
 const CheckKindSchema = z.enum(CHECK_KINDS as unknown as [CheckKind, ...CheckKind[]]);
@@ -69,6 +70,13 @@ export const EffectSchema: z.ZodType<Effect> = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('check'), check: CheckKindSchema }),
   z.object({ kind: z.literal('warn'), risk: z.string() }),
   z.object({ kind: z.literal('info'), note: z.string() }),
+  z.object({
+    kind: z.literal('comply'),
+    metric: z.enum(METRIC_IDS as [MetricId, ...MetricId[]]),
+    op: z.enum(['<', '<=', '=', '>=', '>', '!=']),
+    limit: z.number().refine(Number.isFinite, 'expected a finite number'),
+    tier: z.union([z.literal(1), z.literal(2), z.literal(3)]).exactOptional(),
+  }),
 ]);
 
 export const RuleSchema: z.ZodType<Rule> = z
@@ -84,7 +92,7 @@ export const RuleSchema: z.ZodType<Rule> = z
       z.array(z.enum(MEASURE_KINDS as unknown as [MeasureKind, ...MeasureKind[]])),
       z.literal('*'),
     ]),
-    scope: z.enum(['measure', 'package']),
+    scope: z.enum(['measure', 'package', 'building']),
     when: ExprSchema,
     effect: EffectSchema,
     effectiveFrom: IsoDateSchema,

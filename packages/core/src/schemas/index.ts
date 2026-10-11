@@ -9,3 +9,8 @@ export * from './memory.ts';
 export * from './ops.ts';
 export * from './rules.ts';
 export * from './twin.ts';
+// v3 studio schemas (ARCH 15.4)
+export * from './v3/building.ts';
+export * from './v3/place.ts';
+export * from './v3/result.ts';
+export * from './v3/wire.ts';

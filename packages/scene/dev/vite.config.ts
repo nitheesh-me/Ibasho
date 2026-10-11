@@ -17,5 +17,13 @@ export default {
     strictPort: true,
     fs: { allow: [fileURLToPath(new URL('../../..', import.meta.url))] },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        city: fileURLToPath(new URL('./city.html', import.meta.url)),
+      },
+    },
+  },
   preview: { host: '127.0.0.1', port: 5177, strictPort: true },
 };

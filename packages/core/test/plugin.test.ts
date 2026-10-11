@@ -307,7 +307,7 @@ describe('cross-plugin checks', () => {
 describe('plugin kinds', () => {
   it('lists every kind once', () => {
     expect(new Set(PLUGIN_KINDS).size).toBe(PLUGIN_KINDS.length);
-    expect(PLUGIN_KINDS.length).toBe(32);
+    expect(PLUGIN_KINDS.length).toBe(47); // 32 v2 kinds + 15 v3 kinds (ARCH 15.3)
   });
   it('grades that need a badge (R17)', () => {
     expect(gradeNeedsBadge('estimate')).toBe(true);

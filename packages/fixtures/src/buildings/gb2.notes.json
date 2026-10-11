@@ -1,0 +1,28 @@
+{
+  "id": "gb2",
+  "title": "Himalaya Building, IIIT Hyderabad",
+  "sources": [
+    {
+      "id": "iiit-himalaya-2022",
+      "title": "IIIT Hyderabad estate office, Himalaya Building floor plans (Dec 2022)",
+      "url": "https://intranet.iiit.ac.in/offices/static/files/Himalaya_Building.pdf"
+    },
+    {
+      "id": "osm-w187896823",
+      "title": "OpenStreetMap ways 187896823 (Academic Block) and 211078709 (D Block), ODbL",
+      "url": "https://www.openstreetmap.org/way/187896823"
+    }
+  ],
+  "status": {
+    "layout": "coarse: Bodh and Block D on their OSM ways; Shodh and Vrithi at assumed positions (not mapped); bridges omitted",
+    "uses": "coarse: Bodh perimeter classrooms with tiered halls in the core; Shodh office (holds labs, an auditorium and dining in reality); basements office",
+    "plant": "read: 400 TR chillers (1 x 100 + 2 x 150), a plausibility gate, not an input"
+  },
+  "unknowns": [
+    "positions of Shodh and Vrithi",
+    "window sizes (WWR 20% assumed)",
+    "wall and roof build-ups",
+    "external shading",
+    "the +118.50 level label (ignored)"
+  ]
+}

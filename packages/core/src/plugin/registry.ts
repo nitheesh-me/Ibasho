@@ -11,6 +11,8 @@ import { Q } from '../exact/q.ts';
 import type { MaintenancePlugin } from '../maintenance.ts';
 import { exprFns } from '../rules.ts';
 import { sha256Hex } from '../sha256.ts';
+import { STUDIO_STAGES } from '../v3/provenance.ts';
+import type { Schedule24x3, Sourced } from '../v3/types.ts';
 import type { AnyPlugin, ModuleRef, PluginOf, PluginRegistry } from './kind-map.ts';
 import { NUMERIC_PLUGIN_KINDS, PLUGIN_KINDS, type PluginKind, type Query } from './types.ts';
 
@@ -24,7 +26,13 @@ export type RegistryCheck =
   | 'rule-packs'
   | 'measure-ids'
   | 'side'
-  | 'maintenance';
+  | 'maintenance'
+  // v3 (ARCH 15.3)
+  | 'schedules'
+  | 'ratings'
+  | 'stage-providers'
+  | 'sourced'
+  | 'building-types';
 
 export interface RegistryIssue {
   pluginId: string;
@@ -121,6 +129,31 @@ export function checkPlugin(p: AnyPlugin, opts: RegistryOptions = {}): RegistryI
     for (const m of checkMaintenance(p)) add('maintenance', m);
   }
 
+  if (p.kind === 'schedule') {
+    for (const m of checkSchedule(p.profile)) add('schedules', m);
+  }
+  if (p.kind === 'rating-scheme') {
+    for (const m of checkRatingSteps(p.steps)) add('ratings', m);
+  }
+  if (p.kind === 'stage-provider') {
+    if (!STUDIO_STAGES.includes(p.stage)) add('stage-providers', `unknown stage ${String(p.stage)}`);
+    if (p.impl !== 'preview' && p.impl !== 'real')
+      add('stage-providers', `impl ${String(p.impl)} is invalid`);
+    if (typeof p.run !== 'function') add('stage-providers', 'run is not a function');
+  }
+  if (p.kind === 'space-type') {
+    const fields = { ...p } as Record<string, unknown>;
+    for (const [k, v] of Object.entries(fields)) {
+      if (isSourced(v) && !(v.low <= v.typical && v.typical <= v.high)) {
+        add('sourced', `${k}: not low <= typical <= high`);
+      }
+    }
+  }
+  if (p.kind === 'building-type') {
+    const total = p.spaceMix.reduce((a, m) => a + m.perMille, 0);
+    if (total !== 1000) add('building-types', `space mix sums to ${total} per mille, not 1000`);
+  }
+
   if (p.kind === 'rule-pack') {
     const known = new Set(opts.namedFns ?? NAMED_FNS);
     const seen = new Set<string>();
@@ -165,6 +198,40 @@ export function checkMaintenance(p: MaintenancePlugin): string[] {
     out.push('endOfLife.ageYears is not 0 < lo <= mid <= hi');
   }
   return out;
+}
+
+/** A schedule has 24 fractions in [0, 1] for each day type. */
+export function checkSchedule(s: Schedule24x3): string[] {
+  const out: string[] = [];
+  for (const day of ['weekday', 'saturday', 'sunday'] as const) {
+    const xs = s[day];
+    if (xs.length !== 24) out.push(`${day} has ${xs.length} values, not 24`);
+    if (xs.some((x) => !(x >= 0 && x <= 1))) out.push(`${day} has a value outside [0, 1]`);
+  }
+  return out;
+}
+
+/** Rating steps ascend strictly by threshold and never lose points (monotone, AC-CD3). */
+export function checkRatingSteps(steps: readonly { atLeast: number; points: number }[]): string[] {
+  const out: string[] = [];
+  if (steps.length === 0) out.push('no steps');
+  for (let i = 1; i < steps.length; i++) {
+    const a = steps[i - 1]!;
+    const b = steps[i]!;
+    if (!(a.atLeast < b.atLeast)) out.push(`step ${i}: threshold does not ascend`);
+    if (b.points < a.points) out.push(`step ${i}: points decrease`);
+  }
+  return out;
+}
+
+function isSourced(v: unknown): v is Sourced {
+  return (
+    typeof v === 'object' &&
+    v !== null &&
+    typeof (v as Sourced).low === 'number' &&
+    typeof (v as Sourced).typical === 'number' &&
+    typeof (v as Sourced).high === 'number'
+  );
 }
 
 export class FingerprintMismatchError extends Error {

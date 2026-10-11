@@ -1,0 +1,26 @@
+{
+  "id": "gb3",
+  "title": "HITEC City office (modelled on a public listing)",
+  "sources": [
+    {
+      "id": "osm-w776432080",
+      "title": "OpenStreetMap way 776432080 (ODbL)",
+      "url": "https://www.openstreetmap.org/way/776432080"
+    },
+    {
+      "id": "rb",
+      "title": "Ibasho brief RB 6",
+      "url": "docs/research/v3/reference-buildings.md"
+    }
+  ],
+  "status": {
+    "plate": "measured: 59 x 37 m oriented box",
+    "storeys": "read: 15 (OSM, listing)",
+    "wwr": "assumed 65% curtain wall"
+  },
+  "unknowns": [
+    "glass U, SHGC, VLT",
+    "floor to floor (4.0 m assumed)",
+    "exact location (the sample place stands apart from the city pack)"
+  ]
+}

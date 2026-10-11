@@ -4,7 +4,7 @@
  * Dexie database `ibasho`, typed migrations and repositories. M-0 scope; the `.ibasho` codec, the
  * full `MemoryRepo`, storage persistence status and the snapshot codec are PLACEHOLDER (M-D, T2).
  */
-export { applyMigrations, DB_VERSION, MIGRATIONS, type Migration, V1 } from './migrations.ts';
+export { applyMigrations, DB_VERSION, MIGRATIONS, type Migration, V1, V2 } from './migrations.ts';
 export { type Clock, createStore, RESULTS_PER_HOME, type Store } from './repos.ts';
 export {
   type BlobRow,
@@ -22,3 +22,17 @@ export {
   type StoredVerdict,
   type TwinRow,
 } from './schema.ts';
+export { createStudioStore, type StudioStore } from './studio.ts';
+export type {
+  BuildingResultRow,
+  BuildingRow,
+  CityTileRow,
+  CommandOrigin,
+  CommandRow,
+  DocRow,
+  PlaceRow,
+  RecSetRow,
+  ScopedSettingRow,
+  SiteResultRow,
+  VariantRow,
+} from './studio-rows.ts';

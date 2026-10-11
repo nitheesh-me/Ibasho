@@ -1,0 +1,19 @@
+{
+  "id": "gh1",
+  "title": "GH1 1905 London terrace",
+  "sources": [
+    {
+      "id": "gh1-twin",
+      "title": "GH1 survey twin",
+      "url": "packages/fixtures/src/homes/gh1.twin.json"
+    }
+  ],
+  "status": {
+    "footprint": "estimated 42 m² (twin)",
+    "orientation": "assumed: front faces south-west"
+  },
+  "unknowns": [
+    "exact orientation",
+    "roof pitch"
+  ]
+}

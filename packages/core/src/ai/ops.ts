@@ -35,7 +35,17 @@ export interface OpValidation {
   accepted: ScenarioOp[];
   rejected: {
     op: ScenarioOp;
-    code: 'schema' | 'range' | 'unknown-measure' | 'memory-conflict' | 'tenure' | 'budget';
+    code:
+      | 'schema'
+      | 'range'
+      | 'unknown-measure'
+      | 'memory-conflict'
+      | 'tenure'
+      | 'budget'
+      // v3 DesignOps (AR 8)
+      | 'geometry'
+      | 'code-compliance'
+      | 'grid';
     detail: string;
   }[];
   /** True when any accepted op mutates state. */

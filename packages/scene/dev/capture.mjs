@@ -45,24 +45,43 @@ const browser = await chromium.launch({
 });
 try {
   for (const [name, query] of shots) {
-    const page = await browser.newPage({ viewport: { width: 960, height: 600 }, deviceScaleFactor: 1 });
+    const vq = new URLSearchParams(query.startsWith('city:') ? query.slice(5) : query);
+    const page = await browser.newPage({
+      viewport: { width: Number(vq.get('vw') ?? 960), height: Number(vq.get('vh') ?? 600) },
+      deviceScaleFactor: 1,
+    });
     const logs = [];
     page.on('console', (m) => {
       if (m.type() === 'error' || m.type() === 'warning') logs.push(`${m.type()}: ${m.text()}`);
     });
     page.on('pageerror', (e) => logs.push(`pageerror: ${e.message}`));
-    const params = new URLSearchParams(query);
+    // `city:<query>` shoots the city harness (dev/city.html) instead of the house.
+    const city = query.startsWith('city:');
+    const q = city ? query.slice(5) : query;
+    const params = new URLSearchParams(q);
     const svg = params.get('style') === 'svg';
-    await page.goto(`http://127.0.0.1:5177/?chrome=0&capture=1&${query}`);
+    await page.goto(`http://127.0.0.1:5177/${city ? 'city.html' : ''}?chrome=0&capture=1&${q}`);
     // WebGL: shoot as soon as the still life has baked (bounded). SVG: the DOM is ready at load.
     const limit = Number(params.get('wait') ?? 20000);
-    if (svg) await page.waitForTimeout(500);
+    if (svg) await page.waitForTimeout(800);
+    else if (city)
+      await page
+        .waitForFunction(
+          () => (window.__cityStats?.frames ?? 0) > 0 && window.__cityStats?.phase === 'resting',
+          null,
+          {
+            timeout: limit,
+            polling: 250,
+          },
+        )
+        .then(() => page.waitForTimeout(Number(params.get('settle') ?? 600)))
+        .catch(() => logs.push(`warning: city not resting within ${limit} ms`));
     else
       await page
         .waitForFunction(() => window.__sceneStats?.phase === 'baked', null, { timeout: limit, polling: 250 })
         .catch(() => logs.push(`warning: not baked within ${limit} ms`));
     await page.screenshot({ path: `${outDir}/${name}.png` });
-    const stats = await page.evaluate(() => window.__sceneStats ?? null);
+    const stats = await page.evaluate(() => window.__cityStats ?? window.__sceneStats ?? null);
     console.log(name, JSON.stringify(stats), logs.slice(0, 8).join('\n  '));
     await page.close();
   }

@@ -33,6 +33,28 @@ describe('dependency-cruiser layering (G0-2)', () => {
   });
 });
 
+describe('dependency-cruiser v3 layers (V-0)', () => {
+  it('reports plan-imports-three.ts (the plan kernel must not import three)', async () => {
+    const config = require(join(root, '.dependency-cruiser.cjs'));
+    const prev = process.cwd();
+    process.chdir(root);
+    try {
+      const res = await cruise(['tools/lint/__fixtures__/plan-imports-three.ts'], {
+        ...config.options,
+        ruleSet: { forbidden: config.forbidden },
+        validate: true,
+      });
+      const output = typeof res.output === 'string' ? JSON.parse(res.output) : res.output;
+      const rules = output.summary.violations.map(
+        (v: { rule: { name: string }; from: string }) => `${v.rule.name}:${v.from}`,
+      );
+      expect(rules).toContain('engine-no-react-three-dom:tools/lint/__fixtures__/plan-imports-three.ts');
+    } finally {
+      process.chdir(prev);
+    }
+  });
+});
+
 describe('no-math (G0-3)', () => {
   const file = 'packages/engine/__lint_fixtures__/math-exp.ts';
 

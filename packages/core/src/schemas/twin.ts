@@ -13,6 +13,7 @@ import {
   type HomeTwin,
   type Junction,
   type MeterData,
+  type SystemRef,
   type TwinPatch,
 } from '../twin.ts';
 import { FUELS, type Fuel } from '../units.ts';
@@ -80,6 +81,8 @@ const SystemRefShape = {
   sizeKW: opt(NumFieldSchema),
   installedYear: opt(z.number().int()),
 };
+/** A `SystemRef` on its own (v3 building documents list systems directly). */
+export const SystemRefSchema: z.ZodType<SystemRef> = z.object(SystemRefShape);
 
 export const MeterDataSchema: z.ZodType<MeterData> = z.object({
   series: z.array(

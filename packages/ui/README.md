@@ -58,3 +58,22 @@ M-0, M-A and M-B sets done: tokens, fonts, baked glyphs, `Num`, seals, and the k
 Not built yet (M-D): the rest of DS 8 (`RangeBand`, `RedThread`, `EvidenceDrawer`, `InsightCard`, `Tabs`, `Modal`, `ConsentCard`, inputs, `ToldList`, loaders, `MendedError`, `Lantern`, `Toast`, `Palette`, `BrushFrame`), `tools/lint/mon`, axe and visual snapshot runs over stories (F4), the network audit (F8 in a browser), a Latin-first fonts entry.
 
 Commands: `pnpm --filter @ibasho/ui typecheck`, `pnpm --filter @ibasho/ui test`.
+
+## v3 studio kit (DESIGN_SYSTEM 13)
+
+`src/v3/`, styles in `src/styles/v3.css` (imported by `andon.css`). Stories: `stories/Studio.stories.tsx`.
+
+| Export | What |
+|---|---|
+| `StageBar`, `STAGE_LABEL`, `overallFraction` | Seven beads (geometry to options), rough or refined half beads, stale hatch, split on failure, Cancel after 1 s, percent and time left past 10 s, Preview stamp. Reads core `StageBarState` |
+| `PreviewStamp`, `Stale`, `TierCaption`, `ApplicabilityChip` | Preview word on a pencil hatch (never a seal); "updating" hatch; rough and refining captions; R34 ladder in plain words |
+| `ScaleLadder`, `stepLevel`, `ModeTabs` | City, Site, Building, Floor, Room (vertical or breadcrumb); Make, Look, Choose, Prove, Tell tabs with arrow keys |
+| `LensPanel`, `AnalysisLegend`, `Histogram`, `RAMPS`, `rampColor`, `rampGradient` | One panel for every lens; legend with unit, resolution, period, method, tier, "Modelled, not measured", Preview; OKLab ramps Hinata, Hidamari, Akari, Sora, Netsu, Kotai, Shiro |
+| `TypeCards`, `TypeCard`, `TYPE_INFO`, `ScheduleStrip` | Eight building types with mons (`type-*` in `MONS`) and a 24 hour strip |
+| `EuiGauge`, `EndUseBar`, `RatingLadder`, `stepState` | EUI range against target and bands; end uses with PV negative; three gates on one savings axis (likely, possible, not yet) |
+| `LedgerRow`, `Stepper`, `ChoiceChips` | Settings ledger row: control, unit, origin chip, grade, scope, "changes N numbers" |
+| `Range`, `SunScrubber`, `Picker` | Andon inputs: kumiko track with step buttons; 24 hour sun scrubber (night hatch, daylight band, sunrise and sunset, altitude arc, Home and End); listbox picker. No native range or select anywhere |
+| `CompareGrid`, `FilmStrip` | 1, 2 or 1 + 3 compare; versions with the EUI after each |
+| `.ib-btn`, `.ib-btn--quiet`, `.ib-btn--hero` | Buttons; gold only on the one hero action |
+
+`Num` draws seal `preview` with a dashed underline and no glyph (AC-PG3). v3 units (`kWh/m2.yr`, `micro-paise/*`, `lux`, ...) are in `DISPLAY`.

@@ -7,6 +7,10 @@
  * L3  scene, packs ui halves         L0, ui, engine result types (type only).
  * L4  apps                           anything.
  *
+ * v3 (ARCH 15.2): plan, site and preview are L1 (L0 only; preview may also import plan and read its
+ * replay data in packages/fixtures/src/{preview,buildings}; site alone may import three maths and three-mesh-bvh);
+ * interop is L2 (L0 and plan); editor is L3 (L0, ui, plan). Every L3 may use plan's pure functions.
+ *
  * Test files (`*.test.ts`, `test/`) are exempt from the layer rules (not from the react/three ban),
  * because tests legitimately wire fixtures and packs together.
  *
@@ -21,6 +25,8 @@ const NM = 'node_modules/';
 const L0 = '^packages/(core|dmath|spec-gen)/';
 const L1_ENGINE_HALVES = '^packs/[^/]+/src/engine/';
 const PACK_UI = '^packs/[^/]+/src/ui/';
+const L1_V3 = 'plan|site';
+const L3 = `(^packages/(scene|editor)/src/|${PACK_UI})`;
 
 module.exports = {
   forbidden: [
@@ -35,8 +41,15 @@ module.exports = {
       name: 'engine-no-react-three-dom',
       comment: 'ARCH 3: engine and pack engine halves must not import react, three or DOM libraries.',
       severity: 'error',
-      from: { path: `(^packages/engine/|${L1_ENGINE_HALVES}|${FX}engine-)` },
+      from: { path: `(^packages/(engine|plan|preview)/|${L1_ENGINE_HALVES}|${FX}(engine|plan)-)` },
       to: { path: `${NM}(react|react-dom|three|@react-three|motion|@use-gesture)/` },
+    },
+    {
+      name: 'site-no-react-dom',
+      comment: 'ARCH 15.2: site may import three maths and three-mesh-bvh, never react or DOM libraries.',
+      severity: 'error',
+      from: { path: `(^packages/site/|${FX}site-)` },
+      to: { path: `${NM}(react|react-dom|@react-three|motion|@use-gesture)/` },
     },
     {
       name: 'packages-not-apps',
@@ -77,12 +90,12 @@ module.exports = {
       name: 'l1-imports-l0-only',
       comment: 'ARCH 3: engine, verify, store and pack engine halves import L0 only.',
       severity: 'error',
-      from: { path: `(^packages/(engine|verify|store)/src/|${L1_ENGINE_HALVES})`, pathNot: TEST },
+      from: { path: `(^packages/(engine|verify|store|${L1_V3})/src/|${L1_ENGINE_HALVES})`, pathNot: TEST },
       to: {
         path: '^(packages|packs|apps)/',
         pathNot: [
           L0,
-          '^packages/(engine|verify|store)/src/',
+          `^packages/(engine|verify|store|${L1_V3})/src/`,
           L1_ENGINE_HALVES,
           // BUILD_PLAN 2: a pack's ids.ts is shared by its engine and UI halves.
           '^packs/[^/]+/src/ids\\.ts$',
@@ -93,8 +106,8 @@ module.exports = {
       name: 'l1-siblings-separate',
       comment: 'ARCH 3: L1 packages do not import each other (engine result types live in core).',
       severity: 'error',
-      from: { path: '^packages/(engine|verify|store)/src/', pathNot: TEST },
-      to: { path: '^packages/(engine|verify|store)/src/', pathNot: '^packages/$1/' },
+      from: { path: `^packages/(engine|verify|store|${L1_V3})/src/`, pathNot: TEST },
+      to: { path: `^packages/(engine|verify|store|${L1_V3})/src/`, pathNot: '^packages/$1/' },
     },
     {
       name: 'ai-l0-and-l1-types-only',
@@ -115,6 +128,31 @@ module.exports = {
       },
     },
     {
+      name: 'preview-l0-plan-and-fixtures',
+      comment:
+        'ARCH 15.5: preview (L1) imports L0, the plan kernel (its geometry provider compiles documents) and its replay data.',
+      severity: 'error',
+      from: { path: '^packages/preview/src/', pathNot: TEST },
+      to: {
+        path: '^(packages|packs|apps)/',
+        pathNot: [L0, '^packages/(preview|plan)/src/', '^packages/fixtures/src/(preview|buildings)/'],
+      },
+    },
+    {
+      name: 'fixtures-only-for-preview',
+      comment: 'ARCH 15.5: of the L1 packages only preview reads fixture data at run time.',
+      severity: 'error',
+      from: { path: '^packages/(engine|verify|store|plan|site)/src/', pathNot: TEST },
+      to: { path: '^packages/fixtures/' },
+    },
+    {
+      name: 'interop-l0-and-plan',
+      comment: 'ARCH 15.2: interop (L2) imports L0 and plan only.',
+      severity: 'error',
+      from: { path: '^packages/interop/src/', pathNot: TEST },
+      to: { path: '^(packages|packs|apps)/', pathNot: [L0, '^packages/(interop|plan)/'] },
+    },
+    {
       name: 'ui-l0-only',
       comment: 'ARCH 3: ui imports L0 only.',
       severity: 'error',
@@ -123,18 +161,25 @@ module.exports = {
     },
     {
       name: 'l3-allowed',
-      comment: 'ARCH 3: scene and pack ui halves import L0, ui and engine result types (type only).',
+      comment:
+        'ARCH 3 and 15.2: scene, editor and pack ui halves import L0, ui, plan and engine result types (type only).',
       severity: 'error',
-      from: { path: `(^packages/scene/src/|${PACK_UI})`, pathNot: TEST },
+      from: { path: L3, pathNot: TEST },
       to: {
         path: '^(packages|packs|apps)/',
-        pathNot: [L0, '^packages/(ui|scene)/', PACK_UI, '^packs/[^/]+/src/ids\\.ts$', '^packages/engine/'],
+        pathNot: [
+          L0,
+          '^packages/(ui|scene|editor|plan)/',
+          PACK_UI,
+          '^packs/[^/]+/src/ids\\.ts$',
+          '^packages/engine/',
+        ],
       },
     },
     {
       name: 'l3-engine-type-only',
       severity: 'error',
-      from: { path: `(^packages/scene/src/|${PACK_UI})`, pathNot: TEST },
+      from: { path: L3, pathNot: TEST },
       to: { path: '^packages/engine/', dependencyTypesNot: ['type-only'] },
     },
     {

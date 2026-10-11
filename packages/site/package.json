@@ -1,0 +1,17 @@
+{
+  "name": "@ibasho/site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site worker: SPA sun position, EPW, Perez sky, visibility kernel, sun hours, radiation, SVF, daylight tiers, shading ledger.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

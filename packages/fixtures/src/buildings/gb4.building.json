@@ -1,0 +1,3828 @@
+{
+  "schema": "ibasho.building/1",
+  "id": "gb4",
+  "version": 1,
+  "placeId": "pl_gachibowli",
+  "name": "Gachibowli apartment block",
+  "typeId": "apartments",
+  "tenure": {
+    "owner": "association",
+    "pays": {
+      "electricity": "tenant",
+      "water": "association"
+    },
+    "decides": {
+      "envelope": "association",
+      "systems": "owner",
+      "roof": "association",
+      "interior": "owner"
+    }
+  },
+  "origin": {
+    "x": -520000,
+    "y": -760000
+  },
+  "rotationMdeg": 0,
+  "storeys": [
+    {
+      "id": "st_g",
+      "name": "Ground",
+      "elevation": 0,
+      "floorToFloor": 3000,
+      "multiplier": 1,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_g_f1_living",
+          "floor": {
+            "outer": [
+              [
+                -17000,
+                -6000
+              ],
+              [
+                -10000,
+                -6000
+              ],
+              [
+                -10000,
+                0
+              ],
+              [
+                -13500,
+                0
+              ],
+              [
+                -17000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f1_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f1_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_living",
+                "segId": "sg_g_f2_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_bed2",
+                "segId": "sg_g_f1_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_bed1",
+                "segId": "sg_g_f1_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_living_4",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 1 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_g_f1_bed1",
+          "floor": {
+            "outer": [
+              [
+                -17000,
+                0
+              ],
+              [
+                -13500,
+                0
+              ],
+              [
+                -13500,
+                6000
+              ],
+              [
+                -17000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f1_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_living",
+                "segId": "sg_g_f1_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_bed2",
+                "segId": "sg_g_f1_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f1_bed1_3",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 1 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_f1_bed2",
+          "floor": {
+            "outer": [
+              [
+                -13500,
+                0
+              ],
+              [
+                -10000,
+                0
+              ],
+              [
+                -10000,
+                6000
+              ],
+              [
+                -13500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f1_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_living",
+                "segId": "sg_g_f1_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_bed1",
+                "segId": "sg_g_f2_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f1_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f1_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_bed1",
+                "segId": "sg_g_f1_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 1 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_f2_living",
+          "floor": {
+            "outer": [
+              [
+                -10000,
+                -6000
+              ],
+              [
+                -3000,
+                -6000
+              ],
+              [
+                -3000,
+                0
+              ],
+              [
+                -6500,
+                0
+              ],
+              [
+                -10000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f2_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f2_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_stair",
+                "segId": "sg_g_stair_5"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_bed2",
+                "segId": "sg_g_f2_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_bed1",
+                "segId": "sg_g_f2_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_living",
+                "segId": "sg_g_f1_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 2 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_g_f2_bed1",
+          "floor": {
+            "outer": [
+              [
+                -10000,
+                0
+              ],
+              [
+                -6500,
+                0
+              ],
+              [
+                -6500,
+                6000
+              ],
+              [
+                -10000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f2_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_living",
+                "segId": "sg_g_f2_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_bed2",
+                "segId": "sg_g_f2_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f2_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f1_bed2",
+                "segId": "sg_g_f1_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 2 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_f2_bed2",
+          "floor": {
+            "outer": [
+              [
+                -6500,
+                0
+              ],
+              [
+                -3000,
+                0
+              ],
+              [
+                -3000,
+                6000
+              ],
+              [
+                -6500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f2_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_living",
+                "segId": "sg_g_f2_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_stair",
+                "segId": "sg_g_stair_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f2_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f2_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_bed1",
+                "segId": "sg_g_f2_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 2 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_stair",
+          "floor": {
+            "outer": [
+              [
+                -3000,
+                -6000
+              ],
+              [
+                3000,
+                -6000
+              ],
+              [
+                3000,
+                0
+              ],
+              [
+                3000,
+                6000
+              ],
+              [
+                -3000,
+                6000
+              ],
+              [
+                -3000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_stair_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_stair_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_living",
+                "segId": "sg_g_f3_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_stair_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_bed1",
+                "segId": "sg_g_f3_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_stair_3",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_stair_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_bed2",
+                "segId": "sg_g_f2_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_stair_5",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f2_living",
+                "segId": "sg_g_f2_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Stair and landing",
+          "spaceTypeId": "stair"
+        },
+        {
+          "id": "rm_g_f3_living",
+          "floor": {
+            "outer": [
+              [
+                3000,
+                -6000
+              ],
+              [
+                10000,
+                -6000
+              ],
+              [
+                10000,
+                0
+              ],
+              [
+                6500,
+                0
+              ],
+              [
+                3000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f3_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f3_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_living",
+                "segId": "sg_g_f4_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_bed2",
+                "segId": "sg_g_f3_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_bed1",
+                "segId": "sg_g_f3_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_stair",
+                "segId": "sg_g_stair_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 3 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_g_f3_bed1",
+          "floor": {
+            "outer": [
+              [
+                3000,
+                0
+              ],
+              [
+                6500,
+                0
+              ],
+              [
+                6500,
+                6000
+              ],
+              [
+                3000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f3_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_living",
+                "segId": "sg_g_f3_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_bed2",
+                "segId": "sg_g_f3_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f3_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_stair",
+                "segId": "sg_g_stair_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 3 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_f3_bed2",
+          "floor": {
+            "outer": [
+              [
+                6500,
+                0
+              ],
+              [
+                10000,
+                0
+              ],
+              [
+                10000,
+                6000
+              ],
+              [
+                6500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f3_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_living",
+                "segId": "sg_g_f3_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_bed1",
+                "segId": "sg_g_f4_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f3_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f3_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_bed1",
+                "segId": "sg_g_f3_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 3 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_f4_living",
+          "floor": {
+            "outer": [
+              [
+                10000,
+                -6000
+              ],
+              [
+                17000,
+                -6000
+              ],
+              [
+                17000,
+                0
+              ],
+              [
+                13500,
+                0
+              ],
+              [
+                10000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f4_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f4_living_1",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f4_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_bed2",
+                "segId": "sg_g_f4_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f4_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_bed1",
+                "segId": "sg_g_f4_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f4_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_living",
+                "segId": "sg_g_f3_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 4 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_g_f4_bed1",
+          "floor": {
+            "outer": [
+              [
+                10000,
+                0
+              ],
+              [
+                13500,
+                0
+              ],
+              [
+                13500,
+                6000
+              ],
+              [
+                10000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f4_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_living",
+                "segId": "sg_g_f4_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f4_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_bed2",
+                "segId": "sg_g_f4_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f4_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f4_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f3_bed2",
+                "segId": "sg_g_f3_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 4 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_g_f4_bed2",
+          "floor": {
+            "outer": [
+              [
+                13500,
+                0
+              ],
+              [
+                17000,
+                0
+              ],
+              [
+                17000,
+                6000
+              ],
+              [
+                13500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_g_f4_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_living",
+                "segId": "sg_g_f4_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_f4_bed2_1",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f4_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_g_f4_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_f4_bed1",
+                "segId": "sg_g_f4_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 4 bedroom 2",
+          "spaceTypeId": "bedroom"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    },
+    {
+      "id": "st_mid",
+      "name": "Floors 1 to 3",
+      "elevation": 3000,
+      "floorToFloor": 3000,
+      "multiplier": 3,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_mid_f1_living",
+          "floor": {
+            "outer": [
+              [
+                -17000,
+                -6000
+              ],
+              [
+                -10000,
+                -6000
+              ],
+              [
+                -10000,
+                0
+              ],
+              [
+                -13500,
+                0
+              ],
+              [
+                -17000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f1_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f1_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_living",
+                "segId": "sg_mid_f2_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_bed2",
+                "segId": "sg_mid_f1_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_bed1",
+                "segId": "sg_mid_f1_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_living_4",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 1 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_mid_f1_bed1",
+          "floor": {
+            "outer": [
+              [
+                -17000,
+                0
+              ],
+              [
+                -13500,
+                0
+              ],
+              [
+                -13500,
+                6000
+              ],
+              [
+                -17000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f1_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_living",
+                "segId": "sg_mid_f1_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_bed2",
+                "segId": "sg_mid_f1_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f1_bed1_3",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 1 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_f1_bed2",
+          "floor": {
+            "outer": [
+              [
+                -13500,
+                0
+              ],
+              [
+                -10000,
+                0
+              ],
+              [
+                -10000,
+                6000
+              ],
+              [
+                -13500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f1_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_living",
+                "segId": "sg_mid_f1_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_bed1",
+                "segId": "sg_mid_f2_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f1_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f1_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_bed1",
+                "segId": "sg_mid_f1_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 1 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_f2_living",
+          "floor": {
+            "outer": [
+              [
+                -10000,
+                -6000
+              ],
+              [
+                -3000,
+                -6000
+              ],
+              [
+                -3000,
+                0
+              ],
+              [
+                -6500,
+                0
+              ],
+              [
+                -10000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f2_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f2_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_stair",
+                "segId": "sg_mid_stair_5"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_bed2",
+                "segId": "sg_mid_f2_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_bed1",
+                "segId": "sg_mid_f2_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_living",
+                "segId": "sg_mid_f1_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 2 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_mid_f2_bed1",
+          "floor": {
+            "outer": [
+              [
+                -10000,
+                0
+              ],
+              [
+                -6500,
+                0
+              ],
+              [
+                -6500,
+                6000
+              ],
+              [
+                -10000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f2_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_living",
+                "segId": "sg_mid_f2_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_bed2",
+                "segId": "sg_mid_f2_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f2_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f1_bed2",
+                "segId": "sg_mid_f1_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 2 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_f2_bed2",
+          "floor": {
+            "outer": [
+              [
+                -6500,
+                0
+              ],
+              [
+                -3000,
+                0
+              ],
+              [
+                -3000,
+                6000
+              ],
+              [
+                -6500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f2_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_living",
+                "segId": "sg_mid_f2_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_stair",
+                "segId": "sg_mid_stair_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f2_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f2_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_bed1",
+                "segId": "sg_mid_f2_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 2 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_stair",
+          "floor": {
+            "outer": [
+              [
+                -3000,
+                -6000
+              ],
+              [
+                3000,
+                -6000
+              ],
+              [
+                3000,
+                0
+              ],
+              [
+                3000,
+                6000
+              ],
+              [
+                -3000,
+                6000
+              ],
+              [
+                -3000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_stair_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_stair_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_living",
+                "segId": "sg_mid_f3_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_stair_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_bed1",
+                "segId": "sg_mid_f3_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_stair_3",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_stair_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_bed2",
+                "segId": "sg_mid_f2_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_stair_5",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f2_living",
+                "segId": "sg_mid_f2_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Stair and landing",
+          "spaceTypeId": "stair"
+        },
+        {
+          "id": "rm_mid_f3_living",
+          "floor": {
+            "outer": [
+              [
+                3000,
+                -6000
+              ],
+              [
+                10000,
+                -6000
+              ],
+              [
+                10000,
+                0
+              ],
+              [
+                6500,
+                0
+              ],
+              [
+                3000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f3_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f3_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_living",
+                "segId": "sg_mid_f4_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_bed2",
+                "segId": "sg_mid_f3_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_bed1",
+                "segId": "sg_mid_f3_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_stair",
+                "segId": "sg_mid_stair_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 3 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_mid_f3_bed1",
+          "floor": {
+            "outer": [
+              [
+                3000,
+                0
+              ],
+              [
+                6500,
+                0
+              ],
+              [
+                6500,
+                6000
+              ],
+              [
+                3000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f3_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_living",
+                "segId": "sg_mid_f3_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_bed2",
+                "segId": "sg_mid_f3_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f3_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_stair",
+                "segId": "sg_mid_stair_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 3 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_f3_bed2",
+          "floor": {
+            "outer": [
+              [
+                6500,
+                0
+              ],
+              [
+                10000,
+                0
+              ],
+              [
+                10000,
+                6000
+              ],
+              [
+                6500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f3_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_living",
+                "segId": "sg_mid_f3_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_bed1",
+                "segId": "sg_mid_f4_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f3_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f3_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_bed1",
+                "segId": "sg_mid_f3_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 3 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_f4_living",
+          "floor": {
+            "outer": [
+              [
+                10000,
+                -6000
+              ],
+              [
+                17000,
+                -6000
+              ],
+              [
+                17000,
+                0
+              ],
+              [
+                13500,
+                0
+              ],
+              [
+                10000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f4_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f4_living_1",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f4_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_bed2",
+                "segId": "sg_mid_f4_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f4_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_bed1",
+                "segId": "sg_mid_f4_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f4_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_living",
+                "segId": "sg_mid_f3_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 4 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_mid_f4_bed1",
+          "floor": {
+            "outer": [
+              [
+                10000,
+                0
+              ],
+              [
+                13500,
+                0
+              ],
+              [
+                13500,
+                6000
+              ],
+              [
+                10000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f4_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_living",
+                "segId": "sg_mid_f4_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f4_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_bed2",
+                "segId": "sg_mid_f4_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f4_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f4_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f3_bed2",
+                "segId": "sg_mid_f3_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 4 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_mid_f4_bed2",
+          "floor": {
+            "outer": [
+              [
+                13500,
+                0
+              ],
+              [
+                17000,
+                0
+              ],
+              [
+                17000,
+                6000
+              ],
+              [
+                13500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_mid_f4_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_living",
+                "segId": "sg_mid_f4_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_mid_f4_bed2_1",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f4_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_mid_f4_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_mid_f4_bed1",
+                "segId": "sg_mid_f4_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Flat 4 bedroom 2",
+          "spaceTypeId": "bedroom"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    },
+    {
+      "id": "st_top",
+      "name": "Floor 4 (GH2 is flat 4C)",
+      "elevation": 12000,
+      "floorToFloor": 3000,
+      "multiplier": 1,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_top_f1_living",
+          "floor": {
+            "outer": [
+              [
+                -17000,
+                -6000
+              ],
+              [
+                -10000,
+                -6000
+              ],
+              [
+                -10000,
+                0
+              ],
+              [
+                -13500,
+                0
+              ],
+              [
+                -17000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f1_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f1_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_living",
+                "segId": "sg_top_f2_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_bed2",
+                "segId": "sg_top_f1_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_bed1",
+                "segId": "sg_top_f1_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_living_4",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 1 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_top_f1_bed1",
+          "floor": {
+            "outer": [
+              [
+                -17000,
+                0
+              ],
+              [
+                -13500,
+                0
+              ],
+              [
+                -13500,
+                6000
+              ],
+              [
+                -17000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f1_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_living",
+                "segId": "sg_top_f1_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_bed2",
+                "segId": "sg_top_f1_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f1_bed1_3",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 1 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_f1_bed2",
+          "floor": {
+            "outer": [
+              [
+                -13500,
+                0
+              ],
+              [
+                -10000,
+                0
+              ],
+              [
+                -10000,
+                6000
+              ],
+              [
+                -13500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f1_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_living",
+                "segId": "sg_top_f1_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_bed1",
+                "segId": "sg_top_f2_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f1_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f1_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_bed1",
+                "segId": "sg_top_f1_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 1 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_f2_living",
+          "floor": {
+            "outer": [
+              [
+                -10000,
+                -6000
+              ],
+              [
+                -3000,
+                -6000
+              ],
+              [
+                -3000,
+                0
+              ],
+              [
+                -6500,
+                0
+              ],
+              [
+                -10000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f2_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f2_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_stair",
+                "segId": "sg_top_stair_5"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_bed2",
+                "segId": "sg_top_f2_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_bed1",
+                "segId": "sg_top_f2_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_living",
+                "segId": "sg_top_f1_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 2 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_top_f2_bed1",
+          "floor": {
+            "outer": [
+              [
+                -10000,
+                0
+              ],
+              [
+                -6500,
+                0
+              ],
+              [
+                -6500,
+                6000
+              ],
+              [
+                -10000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f2_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_living",
+                "segId": "sg_top_f2_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_bed2",
+                "segId": "sg_top_f2_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f2_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f1_bed2",
+                "segId": "sg_top_f1_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 2 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_f2_bed2",
+          "floor": {
+            "outer": [
+              [
+                -6500,
+                0
+              ],
+              [
+                -3000,
+                0
+              ],
+              [
+                -3000,
+                6000
+              ],
+              [
+                -6500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f2_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_living",
+                "segId": "sg_top_f2_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_stair",
+                "segId": "sg_top_stair_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f2_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f2_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_bed1",
+                "segId": "sg_top_f2_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 2 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_stair",
+          "floor": {
+            "outer": [
+              [
+                -3000,
+                -6000
+              ],
+              [
+                3000,
+                -6000
+              ],
+              [
+                3000,
+                0
+              ],
+              [
+                3000,
+                6000
+              ],
+              [
+                -3000,
+                6000
+              ],
+              [
+                -3000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_stair_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_stair_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_living",
+                "segId": "sg_top_f3_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_stair_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_bed1",
+                "segId": "sg_top_f3_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_stair_3",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_stair_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_bed2",
+                "segId": "sg_top_f2_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_stair_5",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f2_living",
+                "segId": "sg_top_f2_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Stair and landing",
+          "spaceTypeId": "stair"
+        },
+        {
+          "id": "rm_top_f3_living",
+          "floor": {
+            "outer": [
+              [
+                3000,
+                -6000
+              ],
+              [
+                10000,
+                -6000
+              ],
+              [
+                10000,
+                0
+              ],
+              [
+                6500,
+                0
+              ],
+              [
+                3000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f3_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f3_living_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_living",
+                "segId": "sg_top_f4_living_4"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_bed2",
+                "segId": "sg_top_f3_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_bed1",
+                "segId": "sg_top_f3_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_stair",
+                "segId": "sg_top_stair_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 3 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_top_f3_bed1",
+          "floor": {
+            "outer": [
+              [
+                3000,
+                0
+              ],
+              [
+                6500,
+                0
+              ],
+              [
+                6500,
+                6000
+              ],
+              [
+                3000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f3_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_living",
+                "segId": "sg_top_f3_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_bed2",
+                "segId": "sg_top_f3_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f3_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_stair",
+                "segId": "sg_top_stair_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 3 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_f3_bed2",
+          "floor": {
+            "outer": [
+              [
+                6500,
+                0
+              ],
+              [
+                10000,
+                0
+              ],
+              [
+                10000,
+                6000
+              ],
+              [
+                6500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f3_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_living",
+                "segId": "sg_top_f3_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_bed2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_bed1",
+                "segId": "sg_top_f4_bed1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f3_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f3_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_bed1",
+                "segId": "sg_top_f3_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 3 bedroom 2",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_f4_living",
+          "floor": {
+            "outer": [
+              [
+                10000,
+                -6000
+              ],
+              [
+                17000,
+                -6000
+              ],
+              [
+                17000,
+                0
+              ],
+              [
+                13500,
+                0
+              ],
+              [
+                10000,
+                0
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f4_living_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f4_living_1",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f4_living_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_bed2",
+                "segId": "sg_top_f4_bed2_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f4_living_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_bed1",
+                "segId": "sg_top_f4_bed1_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f4_living_4",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_living",
+                "segId": "sg_top_f3_living_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 4 living and kitchen",
+          "spaceTypeId": "living"
+        },
+        {
+          "id": "rm_top_f4_bed1",
+          "floor": {
+            "outer": [
+              [
+                10000,
+                0
+              ],
+              [
+                13500,
+                0
+              ],
+              [
+                13500,
+                6000
+              ],
+              [
+                10000,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f4_bed1_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_living",
+                "segId": "sg_top_f4_living_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f4_bed1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_bed2",
+                "segId": "sg_top_f4_bed2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f4_bed1_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f4_bed1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f3_bed2",
+                "segId": "sg_top_f3_bed2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 4 bedroom 1",
+          "spaceTypeId": "bedroom"
+        },
+        {
+          "id": "rm_top_f4_bed2",
+          "floor": {
+            "outer": [
+              [
+                13500,
+                0
+              ],
+              [
+                17000,
+                0
+              ],
+              [
+                17000,
+                6000
+              ],
+              [
+                13500,
+                6000
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2750,
+          "segments": [
+            {
+              "id": "sg_top_f4_bed2_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_living",
+                "segId": "sg_top_f4_living_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_f4_bed2_1",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f4_bed2_2",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 180,
+                "sill": 900
+              },
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 0
+                }
+              ]
+            },
+            {
+              "id": "sg_top_f4_bed2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_f4_bed1",
+                "segId": "sg_top_f4_bed1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Flat 4 bedroom 2",
+          "spaceTypeId": "bedroom"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    }
+  ],
+  "roofs": [
+    {
+      "id": "rf_gb4",
+      "storeyId": "st_top",
+      "shape": "flat",
+      "pvZones": [],
+      "skylights": []
+    }
+  ],
+  "shades": [],
+  "zones": [],
+  "systems": [
+    {
+      "systemId": "split-ac-3star",
+      "fuel": "electricity"
+    }
+  ]
+}

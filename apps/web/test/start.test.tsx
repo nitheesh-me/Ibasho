@@ -69,8 +69,8 @@ describe('seeding a home from the answers', () => {
 });
 
 describe('/app/start to the Reveal', () => {
-  it('sends a first visit to onboarding', async () => {
-    const router = createMemoryRouter(routes, { initialEntries: ['/'] });
+  it('sends a first visit to onboarding (v2 landing, now at /homes; /app/ is the v3 studio)', async () => {
+    const router = createMemoryRouter(routes, { initialEntries: ['/homes'] });
     render(
       <ServicesContext.Provider value={services}>
         <RouterProvider router={router} />

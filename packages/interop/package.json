@@ -1,0 +1,17 @@
+{
+  "name": "@ibasho/interop",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Importers and exporters as plugins: PDF underlay and trace, OSM, GeoJSON, gbXML, epJSON, Dragonfly JSON, IFC later.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

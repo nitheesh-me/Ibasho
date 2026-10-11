@@ -154,10 +154,13 @@ describe('F5 scarcity: --seal and --gold', () => {
     }
   });
 
-  it('--gold and --gold-ink are unused until the mend and hero components exist', () => {
+  it('--gold and --gold-ink are read only by the one hero action (and later the mend)', () => {
     for (const f of files) {
       if (isTokenSource(f)) continue;
-      expect(read(f), f).not.toMatch(/var\(--gold(-ink)?\)/);
+      const src = read(f);
+      // Strip the hero action rules; nothing else may borrow gold.
+      const rest = src.replace(/\.ib-btn--hero[^{]*\{[^}]*\}/g, '');
+      expect(rest, f).not.toMatch(/var\(--gold(-ink)?\)/);
     }
   });
 });

@@ -18,3 +18,6 @@ docs/progress/
 
 # Downloaded third-party sources (kept locally, not versioned)
 docs/research/v3/sources/
+
+# Private trailer work (not versioned, not shared)
+videos/

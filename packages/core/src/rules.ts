@@ -8,6 +8,7 @@ import type { Grade, IsoDate, MessageKey, RegionCode } from './common.ts';
 import type { Tri } from './fields.ts';
 import type { MeasureKind } from './measure-kinds.ts';
 import type { CheckKind, Element, VentSystem } from './twin.ts';
+import type { MetricId } from './v3/metrics.ts';
 
 export type Authority =
   | 'LPA'
@@ -25,6 +26,7 @@ export type Authority =
 /**
  * Fact id, namespaced by subject: `h.*` home facts (RP 4), `m.*` option facts from
  * `MeasureModel.facts`, `p.*` package facts (counts, totals, noise inputs), `o.*` owner context.
+ * v3 adds `b.*` building facts and `z.*` zone or room facts (`BUILDING_FACTS`, `ZONE_FACTS`).
  */
 export type FactId = string;
 export interface FactRef {
@@ -46,7 +48,12 @@ export type Effect =
   | { kind: 'oblige'; spec: Obligation }
   | { kind: 'check'; check: CheckKind }
   | { kind: 'warn'; risk: MessageKey }
-  | { kind: 'info'; note: MessageKey };
+  | { kind: 'info'; note: MessageKey }
+  /**
+   * Code pre-check (R34): pass, fail or unknown (a missing fact), with a margin against `limit`
+   * in the metric's unit. Tiered rules share a stem (`.T1`, `.T2`, `.T3`) and set `tier`.
+   */
+  | { kind: 'comply'; metric: MetricId; op: CmpOp; limit: number; tier?: 1 | 2 | 3 };
 
 export type CmpOp = '<' | '<=' | '=' | '>=' | '>' | '!=';
 
@@ -70,7 +77,8 @@ export interface Rule {
   id: string;
   jurisdiction: RegionCode | 'CITY';
   measures: MeasureKind[] | '*';
-  scope: 'measure' | 'package';
+  /** `building` (v3): code rules evaluated once per building, outside any package. */
+  scope: 'measure' | 'package' | 'building';
   when: Expr;
   effect: Effect;
   effectiveFrom: IsoDate;

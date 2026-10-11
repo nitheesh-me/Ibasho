@@ -7,6 +7,18 @@
 import type { Certificate, HomeTwin, SearchResult } from '@ibasho/core';
 import { Dexie, type EntityTable, type Table } from 'dexie';
 import { applyMigrations, MIGRATIONS, type Migration } from './migrations.ts';
+import type {
+  BuildingResultRow,
+  BuildingRow,
+  CityTileRow,
+  CommandRow,
+  DocRow,
+  PlaceRow,
+  RecSetRow,
+  ScopedSettingRow,
+  SiteResultRow,
+  VariantRow,
+} from './studio-rows.ts';
 
 export const DB_NAME = 'ibasho';
 
@@ -99,6 +111,17 @@ export type IbashoDb = Dexie & {
   narration: Table<NarrationRow, [string, string, string]>;
   settings: EntityTable<SettingRow, 'key'>;
   blobs: EntityTable<BlobRow, 'id'>;
+  // v2 (ARCH 15.8)
+  places: EntityTable<PlaceRow, 'id'>;
+  buildings: EntityTable<BuildingRow, 'id'>;
+  docs: Table<DocRow, [string, number]>;
+  commands: EntityTable<CommandRow, 'id'>;
+  variants: EntityTable<VariantRow, 'id'>;
+  buildingResults: EntityTable<BuildingResultRow, 'inputsHash'>;
+  siteResults: EntityTable<SiteResultRow, 'inputsHash'>;
+  scopedSettings: Table<ScopedSettingRow, [string, string, string]>;
+  recsets: EntityTable<RecSetRow, 'id'>;
+  cityTiles: Table<CityTileRow, [string, string]>;
 };
 
 export interface OpenOptions {

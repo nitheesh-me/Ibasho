@@ -129,11 +129,14 @@ export function Num({ ev, seal, signed, delta, as, size = 'body', plain = false,
       </span>
       {plain ? null : (
         <>
-          <span className="ib-num__seal ib-seal" data-seal={level} data-size="glyph" aria-hidden="true">
-            <span className="ib-seal__print">
-              <SealMark kind={level} size="glyph" seed={sealSeed(ev)} />
+          {level === 'preview' ? null : (
+            // Preview numbers carry no seal glyph, only the dashed underline (DS 13.3).
+            <span className="ib-num__seal ib-seal" data-seal={level} data-size="glyph" aria-hidden="true">
+              <span className="ib-seal__print">
+                <SealMark kind={level} size="glyph" seed={sealSeed(ev)} />
+              </span>
             </span>
-          </span>
+          )}
           <span id={noteId} role="tooltip" className="ib-num__note">
             <span className="ib-num__note-level">{sealLabel}.</span> {notProvedLine(NOT_PROVED[level])}
           </span>

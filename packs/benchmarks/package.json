@@ -1,0 +1,17 @@
+{
+  "name": "@ibasho/pack-benchmarks",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "EUI benchmarks and end-use priors (ENERGY STAR, CIBSE TM46, BEE bands).",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

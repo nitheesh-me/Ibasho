@@ -252,3 +252,51 @@ prs-regs-2015:
   author: "UK Government"
   date: 2015
   url: https://www.legislation.gov.uk/uksi/2015/962
+
+three-mesh-bvh:
+  type: Web
+  title: "three-mesh-bvh: a BVH implementation to speed up raycasting against three.js meshes"
+  author: "Johnson, Garrett"
+  url: https://github.com/gkjohnson/three-mesh-bvh
+osm:
+  type: Web
+  title: "OpenStreetMap"
+  author: "OpenStreetMap contributors"
+  url: https://www.openstreetmap.org/
+aprilli-phototropic:
+  type: Web
+  title: "Phototropic Housing"
+  author: "APRILLI and Won Hee Ko"
+  url: https://www.aprilli.com/sustainability/phototropic-housing-gbbcb
+clipper2:
+  type: Web
+  title: "Clipper2: polygon clipping and offsetting"
+  author: "Johnson, Angus"
+  url: https://github.com/AngusJohnson/Clipper2
+tmyx-hyderabad:
+  type: Web
+  title: "TMYx 2011-2025, Hyderabad Rajiv Gandhi Intl AP 431285"
+  author: "Climate.OneBuilding.Org"
+  url: https://climate.onebuilding.org
+overpass:
+  type: Web
+  title: "Overpass API"
+  author: "Olbricht, Roland"
+  url: https://wiki.openstreetmap.org/wiki/Overpass_API
+iiit-plans:
+  type: Web
+  title: "Vindhya Bhavan and Himalaya Building floor plans"
+  author: "IIIT Hyderabad Estate Office"
+  url: https://intranet.iiit.ac.in/offices/static/files/Vindhya_bhavan.pdf
+ecbc-2017:
+  type: Report
+  title: "Energy Conservation Building Code 2017"
+  author: "Bureau of Energy Efficiency"
+  url: https://beeindia.gov.in
+
+immer:
+  type: Web
+  title: "Immer: create the next immutable state by mutating the current one"
+  author: Weststrate, Michel
+  url: https://github.com/immerjs/immer
+  date: 2024

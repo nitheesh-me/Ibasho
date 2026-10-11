@@ -1,0 +1,1670 @@
+{
+  "schema": "ibasho.building/1",
+  "id": "gb3",
+  "version": 1,
+  "placeId": "pl_hitec",
+  "name": "HITEC City office",
+  "typeId": "office",
+  "tenure": {
+    "owner": "landlord",
+    "pays": {
+      "electricity": "tenant",
+      "water": "landlord",
+      "diesel": "landlord"
+    },
+    "decides": {
+      "envelope": "landlord",
+      "systems": "landlord",
+      "roof": "landlord",
+      "interior": "tenant"
+    }
+  },
+  "origin": {
+    "x": 0,
+    "y": 0
+  },
+  "rotationMdeg": 113000,
+  "storeys": [
+    {
+      "id": "st_b",
+      "name": "Basements (3)",
+      "elevation": -9900,
+      "floorToFloor": 3300,
+      "multiplier": 3,
+      "belowGrade": true,
+      "rooms": [
+        {
+          "id": "rm_b_core",
+          "floor": {
+            "outer": [
+              [
+                -24930,
+                -13930
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_b_core_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_0",
+                "segId": "sg_b_perim_0_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_core_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_1",
+                "segId": "sg_b_perim_1_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_core_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_2",
+                "segId": "sg_b_perim_2_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_core_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_3",
+                "segId": "sg_b_perim_3_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Core zone",
+          "spaceTypeId": "parking"
+        },
+        {
+          "id": "rm_b_perim_0",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                -18500
+              ],
+              [
+                29500,
+                -18500
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                -24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_b_perim_0_0",
+              "boundary": {
+                "kind": "ground"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_0_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_1",
+                "segId": "sg_b_perim_1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_0_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_core",
+                "segId": "sg_b_core_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_0_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_3",
+                "segId": "sg_b_perim_3_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 0",
+          "spaceTypeId": "parking"
+        },
+        {
+          "id": "rm_b_perim_1",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                -18500
+              ],
+              [
+                29500,
+                18500
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_b_perim_1_0",
+              "boundary": {
+                "kind": "ground"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_2",
+                "segId": "sg_b_perim_2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_1_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_core",
+                "segId": "sg_b_core_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_0",
+                "segId": "sg_b_perim_0_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 1",
+          "spaceTypeId": "parking"
+        },
+        {
+          "id": "rm_b_perim_2",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                18500
+              ],
+              [
+                -29500,
+                18500
+              ],
+              [
+                -24930,
+                13930
+              ],
+              [
+                24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_b_perim_2_0",
+              "boundary": {
+                "kind": "ground"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_3",
+                "segId": "sg_b_perim_3_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_2_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_core",
+                "segId": "sg_b_core_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_1",
+                "segId": "sg_b_perim_1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 2",
+          "spaceTypeId": "parking"
+        },
+        {
+          "id": "rm_b_perim_3",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                18500
+              ],
+              [
+                -29500,
+                -18500
+              ],
+              [
+                -24930,
+                -13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_b_perim_3_0",
+              "boundary": {
+                "kind": "ground"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_3_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_0",
+                "segId": "sg_b_perim_0_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_3_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_core",
+                "segId": "sg_b_core_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_b_perim_3_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_b_perim_2",
+                "segId": "sg_b_perim_2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "ground",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 3",
+          "spaceTypeId": "parking"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    },
+    {
+      "id": "st_g",
+      "name": "Ground",
+      "elevation": 0,
+      "floorToFloor": 5000,
+      "multiplier": 1,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_g_core",
+          "floor": {
+            "outer": [
+              [
+                -24930,
+                -13930
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_g_core_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_0",
+                "segId": "sg_g_perim_0_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_core_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_1",
+                "segId": "sg_g_perim_1_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_core_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_2",
+                "segId": "sg_g_perim_2_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_core_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_3",
+                "segId": "sg_g_perim_3_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Core zone",
+          "spaceTypeId": "lobby"
+        },
+        {
+          "id": "rm_g_perim_0",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                -18500
+              ],
+              [
+                29500,
+                -18500
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                -24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_g_perim_0_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_0_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_1",
+                "segId": "sg_g_perim_1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_0_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_core",
+                "segId": "sg_g_core_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_0_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_3",
+                "segId": "sg_g_perim_3_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 0",
+          "spaceTypeId": "lobby"
+        },
+        {
+          "id": "rm_g_perim_1",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                -18500
+              ],
+              [
+                29500,
+                18500
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_g_perim_1_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_2",
+                "segId": "sg_g_perim_2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_1_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_core",
+                "segId": "sg_g_core_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_0",
+                "segId": "sg_g_perim_0_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 1",
+          "spaceTypeId": "lobby"
+        },
+        {
+          "id": "rm_g_perim_2",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                18500
+              ],
+              [
+                -29500,
+                18500
+              ],
+              [
+                -24930,
+                13930
+              ],
+              [
+                24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_g_perim_2_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_3",
+                "segId": "sg_g_perim_3_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_2_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_core",
+                "segId": "sg_g_core_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_1",
+                "segId": "sg_g_perim_1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 2",
+          "spaceTypeId": "lobby"
+        },
+        {
+          "id": "rm_g_perim_3",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                18500
+              ],
+              [
+                -29500,
+                -18500
+              ],
+              [
+                -24930,
+                -13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_g_perim_3_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_3_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_0",
+                "segId": "sg_g_perim_0_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_3_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_core",
+                "segId": "sg_g_core_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_g_perim_3_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_g_perim_2",
+                "segId": "sg_g_perim_2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 3",
+          "spaceTypeId": "lobby"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    },
+    {
+      "id": "st_typ",
+      "name": "Floors 1 to 13",
+      "elevation": 5000,
+      "floorToFloor": 4000,
+      "multiplier": 13,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_typ_core",
+          "floor": {
+            "outer": [
+              [
+                -24930,
+                -13930
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_typ_core_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_0",
+                "segId": "sg_typ_perim_0_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_core_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_1",
+                "segId": "sg_typ_perim_1_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_core_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_2",
+                "segId": "sg_typ_perim_2_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_core_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_3",
+                "segId": "sg_typ_perim_3_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Core zone",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_typ_perim_0",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                -18500
+              ],
+              [
+                29500,
+                -18500
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                -24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_typ_perim_0_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_0_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_1",
+                "segId": "sg_typ_perim_1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_0_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_core",
+                "segId": "sg_typ_core_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_0_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_3",
+                "segId": "sg_typ_perim_3_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 0",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_typ_perim_1",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                -18500
+              ],
+              [
+                29500,
+                18500
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_typ_perim_1_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_2",
+                "segId": "sg_typ_perim_2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_1_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_core",
+                "segId": "sg_typ_core_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_0",
+                "segId": "sg_typ_perim_0_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 1",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_typ_perim_2",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                18500
+              ],
+              [
+                -29500,
+                18500
+              ],
+              [
+                -24930,
+                13930
+              ],
+              [
+                24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_typ_perim_2_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_3",
+                "segId": "sg_typ_perim_3_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_2_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_core",
+                "segId": "sg_typ_core_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_1",
+                "segId": "sg_typ_perim_1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 2",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_typ_perim_3",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                18500
+              ],
+              [
+                -29500,
+                -18500
+              ],
+              [
+                -24930,
+                -13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_typ_perim_3_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_3_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_0",
+                "segId": "sg_typ_perim_0_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_3_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_core",
+                "segId": "sg_typ_core_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_typ_perim_3_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_typ_perim_2",
+                "segId": "sg_typ_perim_2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "adjacent",
+          "name": "Perimeter 3",
+          "spaceTypeId": "office-open"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    },
+    {
+      "id": "st_top",
+      "name": "Floor 14",
+      "elevation": 57000,
+      "floorToFloor": 4000,
+      "multiplier": 1,
+      "belowGrade": false,
+      "rooms": [
+        {
+          "id": "rm_top_core",
+          "floor": {
+            "outer": [
+              [
+                -24930,
+                -13930
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_top_core_0",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_0",
+                "segId": "sg_top_perim_0_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_core_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_1",
+                "segId": "sg_top_perim_1_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_core_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_2",
+                "segId": "sg_top_perim_2_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_core_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_3",
+                "segId": "sg_top_perim_3_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Core zone",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_top_perim_0",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                -18500
+              ],
+              [
+                29500,
+                -18500
+              ],
+              [
+                24930,
+                -13930
+              ],
+              [
+                -24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_top_perim_0_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_0_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_1",
+                "segId": "sg_top_perim_1_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_0_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_core",
+                "segId": "sg_top_core_0"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_0_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_3",
+                "segId": "sg_top_perim_3_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Perimeter 0",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_top_perim_1",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                -18500
+              ],
+              [
+                29500,
+                18500
+              ],
+              [
+                24930,
+                13930
+              ],
+              [
+                24930,
+                -13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_top_perim_1_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_1_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_2",
+                "segId": "sg_top_perim_2_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_1_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_core",
+                "segId": "sg_top_core_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_1_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_0",
+                "segId": "sg_top_perim_0_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Perimeter 1",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_top_perim_2",
+          "floor": {
+            "outer": [
+              [
+                29500,
+                18500
+              ],
+              [
+                -29500,
+                18500
+              ],
+              [
+                -24930,
+                13930
+              ],
+              [
+                24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_top_perim_2_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_2_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_3",
+                "segId": "sg_top_perim_3_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_2_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_core",
+                "segId": "sg_top_core_2"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_2_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_1",
+                "segId": "sg_top_perim_1_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Perimeter 2",
+          "spaceTypeId": "office-open"
+        },
+        {
+          "id": "rm_top_perim_3",
+          "floor": {
+            "outer": [
+              [
+                -29500,
+                18500
+              ],
+              [
+                -29500,
+                -18500
+              ],
+              [
+                -24930,
+                -13930
+              ],
+              [
+                -24930,
+                13930
+              ]
+            ],
+            "holes": []
+          },
+          "ceiling": 2900,
+          "segments": [
+            {
+              "id": "sg_top_perim_3_0",
+              "boundary": {
+                "kind": "outdoors"
+              },
+              "window": {
+                "kind": "ratio",
+                "wwrPm": 650,
+                "sill": 0
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_3_1",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_0",
+                "segId": "sg_top_perim_0_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_3_2",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_core",
+                "segId": "sg_top_core_3"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            },
+            {
+              "id": "sg_top_perim_3_3",
+              "boundary": {
+                "kind": "adjacent",
+                "roomId": "rm_top_perim_2",
+                "segId": "sg_top_perim_2_1"
+              },
+              "window": {
+                "kind": "none"
+              },
+              "shading": []
+            }
+          ],
+          "floorBoundary": "adjacent",
+          "ceilingBoundary": "roof",
+          "name": "Perimeter 3",
+          "spaceTypeId": "office-open"
+        }
+      ],
+      "rooms3d": [],
+      "cores": []
+    }
+  ],
+  "roofs": [
+    {
+      "id": "rf_gb3",
+      "storeyId": "st_top",
+      "shape": "flat",
+      "pvZones": [],
+      "skylights": []
+    }
+  ],
+  "shades": [],
+  "zones": [],
+  "systems": [
+    {
+      "systemId": "chiller-water-cooled",
+      "fuel": "electricity"
+    },
+    {
+      "systemId": "diesel-genset",
+      "fuel": "electricity"
+    }
+  ]
+}

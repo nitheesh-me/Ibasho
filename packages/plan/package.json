@@ -1,0 +1,20 @@
+{
+  "name": "@ibasho/plan",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Integer-mm geometry kernel: polygons (Clipper2), areas, adjacency, WWR, orientation, storeys, zoning, BuildingDoc compile().",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+    "test": "vitest run",
+    "gen:buildings": "node scripts/gen-buildings.ts"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/dmath": "workspace:*",
+    "clipper2-ts": "2.0.1"
+  }
+}

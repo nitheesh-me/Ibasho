@@ -33,3 +33,5 @@ export * from './rules.ts';
 export * from './twin.ts';
 export * from './ui.ts';
 export * from './units.ts';
+// v3 studio contracts (ARCH 15.4)
+export * from './v3/index.ts';

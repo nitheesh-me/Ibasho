@@ -1,0 +1,30 @@
+{
+  "name": "@ibasho/editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Make mode: SVG plan editor for ibasho.building/1 documents: storeys, rooms and functions, windows, doors, shading, massing, snap, split, undo and redo, underlay.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./editor.css": "./src/editor.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*",
+    "@ibasho/ui": "workspace:*",
+    "immer": "11.1.18",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "16.3.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
+}

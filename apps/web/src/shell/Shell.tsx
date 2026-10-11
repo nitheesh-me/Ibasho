@@ -9,6 +9,7 @@
 import { Glyph } from '@ibasho/ui';
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
+import { CommandPalette, SearchBox, SearchButton } from '../studio/search/Search.tsx';
 
 export type Theme = 'hiru' | 'yoru';
 
@@ -19,6 +20,20 @@ interface ShellState {
 
 const Ctx = createContext<ShellState>({ theme: 'hiru', reducedMotion: false });
 export const useShell = (): ShellState => useContext(Ctx);
+
+/** Studio pages put their selectors and mode tabs into the one top bar (DS 13.7: 56 px). */
+const SlotCtx = createContext<(node: ReactNode | null) => void>(() => undefined);
+export function useTopBar(node: ReactNode | null, deps: readonly unknown[]): void {
+  const set = useContext(SlotCtx);
+  useEffect(
+    () => {
+      set(node);
+      return () => set(null);
+    },
+    // biome-ignore lint/correctness/useExhaustiveDependencies: the caller names what the node depends on
+    deps,
+  );
+}
 
 const THEME_KEY = 'ibasho.theme';
 
@@ -45,6 +60,7 @@ function useReducedMotion(): boolean {
 
 export function Shell({ children }: { children?: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(readTheme);
+  const [slot, setSlot] = useState<ReactNode | null>(null);
   const reducedMotion = useReducedMotion();
   useEffect(() => {
     const root = document.documentElement;
@@ -61,38 +77,55 @@ export function Shell({ children }: { children?: ReactNode }) {
 
   return (
     <Ctx.Provider value={state}>
-      <div className="ib-app" data-andon="app">
-        <a className="ib-skip" href="#main">
-          Skip to the page
-        </a>
-        <header className="ib-top">
-          <Link to="/" className="ib-brand" aria-label="Ibasho, your home">
-            <Glyph char="居" className="ib-brand__mark" pad={60} />
-            <span className="ib-brand__name">Ibasho</span>
-          </Link>
-          <nav className="ib-top__nav" aria-label="Homes">
-            <NavLink to="/home/gh1" className="ib-top__link">
-              Sample home
-            </NavLink>
-            <NavLink to="/start" className="ib-top__link">
-              Draw my home
-            </NavLink>
-          </nav>
-          <button
-            type="button"
-            className="ib-lantern"
-            aria-pressed={theme === 'yoru'}
-            onClick={() => setTheme(next)}
-            title={theme === 'hiru' ? 'Light the lantern (night view)' : 'Back to day view'}
-          >
-            <Glyph char={theme === 'hiru' ? '昼' : '夜'} className="ib-lantern__glyph" pad={80} />
-            <span>{theme === 'hiru' ? 'Day' : 'Night'}</span>
-          </button>
-        </header>
-        <main id="main" className="ib-main">
-          {children ?? <Outlet />}
-        </main>
-      </div>
+      <SlotCtx.Provider value={setSlot}>
+        <div className="ib-app" data-andon="app" data-slot={slot ? '' : undefined}>
+          <a className="ib-skip" href="#main">
+            Skip to the page
+          </a>
+          <header className="ib-top">
+            <Link to="/" className="ib-brand" aria-label="Ibasho studio, your places">
+              <Glyph char="居" className="ib-brand__mark" pad={60} />
+              <span className="ib-brand__name">Ibasho</span>
+            </Link>
+            {slot ? (
+              <div className="ib-top__slot">{slot}</div>
+            ) : (
+              <nav className="ib-top__nav" aria-label="Studio">
+                <NavLink to="/" end className="ib-top__link">
+                  Places
+                </NavLink>
+                <NavLink to="/new" className="ib-top__link">
+                  New
+                </NavLink>
+                <NavLink to="/settings" className="ib-top__link">
+                  Settings
+                </NavLink>
+                <NavLink to="/home/gh1" className="ib-top__link ib-top__link--minor">
+                  London home
+                </NavLink>
+              </nav>
+            )}
+            <div className="ib-top__search">
+              <SearchBox compact />
+            </div>
+            <SearchButton />
+            <button
+              type="button"
+              className="ib-lantern"
+              aria-pressed={theme === 'yoru'}
+              onClick={() => setTheme(next)}
+              title={theme === 'hiru' ? 'Light the lantern (night view)' : 'Back to day view'}
+            >
+              <Glyph char={theme === 'hiru' ? '昼' : '夜'} className="ib-lantern__glyph" pad={80} />
+              <span>{theme === 'hiru' ? 'Day' : 'Night'}</span>
+            </button>
+          </header>
+          <main id="main" className="ib-main">
+            {children ?? <Outlet />}
+          </main>
+          <CommandPalette />
+        </div>
+      </SlotCtx.Provider>
     </Ctx.Provider>
   );
 }

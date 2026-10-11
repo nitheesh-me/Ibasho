@@ -13,6 +13,7 @@ import type { PluginBase } from './plugin/types.ts';
 import type { FactId, Rule } from './rules.ts';
 import type { Band, BuiltForm, Element, HomeTwin, JunctionKind, MeterData, TwinPatch } from './twin.ts';
 import type { Fuel, FuelMonthly, Month, Unit } from './units.ts';
+import type { Epw } from './v3/site.ts';
 
 // ---------------------------------------------------------------------------------------------
 // Climate
@@ -51,6 +52,8 @@ export interface ClimatePack extends PluginBase<'climate'> {
   hourly?: () => Promise<HourlyClimate>;
   /** Monthly irradiation on a plane, kWh/m² per month. dmath only. */
   irradiance(azimuthDeg: number, tiltDeg: number): number[];
+  /** v3 (ARCH 15.3, R28): the parsed EPW the monthly tables derive from, when the pack has one. */
+  epw?(): Promise<Epw>;
 }
 
 // ---------------------------------------------------------------------------------------------

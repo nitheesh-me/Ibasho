@@ -17,8 +17,11 @@ export type CheckId = string;
 export type ClaimId = string;
 export type CheckerRungId = 'lean-native' | 'lean-wasm' | 'mirror';
 
-/** Numbers are never `proved`: Proved seals sit on claims only (SPEC R11). */
-export type SealLevel = 'checked' | 'modelled' | 'unverified' | 'cracked';
+/**
+ * Numbers are never `proved`: Proved seals sit on claims only (SPEC R11). `preview` (v3, R26)
+ * marks values replayed by a Preview stage provider: never Checked, never sealed by `verify`.
+ */
+export type SealLevel = 'checked' | 'modelled' | 'unverified' | 'cracked' | 'preview';
 
 export type EvidenceValue =
   | { fixed: string; unit: Unit }
@@ -36,10 +39,19 @@ export type ProvenanceKind =
   | 'catalogue'
   | 'tariff'
   | 'owner-claim'
-  | 'calibrated';
+  | 'calibrated'
+  /** v3 (R26): replayed from a Preview fixture, shaped exactly like the real output. */
+  | 'preview';
 
 export interface EvidenceSubject {
+  /** The home, or in v3 the building id (homes are `single-family` buildings). */
   homeId: string;
+  placeId?: string;
+  buildingId?: string;
+  variantId?: string;
+  storeyId?: string;
+  roomId?: string;
+  surfaceId?: string;
   packageId?: string;
   measureId?: string;
   elementId?: string;
@@ -66,7 +78,10 @@ export interface EvidenceNode {
   uncertainty?: { p10: number; p50: number; p90: number };
   seal: SealLevel;
   check?: { id: CheckId; rung: CheckerRungId; coverage: 'all' | 'sample' };
-  derived?: { kind: 'rank' | 'ratio' | 'percent' | 'compare' | 'sign'; of: EvidenceId[] };
+  derived?: {
+    kind: 'rank' | 'ratio' | 'percent' | 'compare' | 'sign' | 'attribution' | 'bisect';
+    of: EvidenceId[];
+  };
   rounding: { mode: 'sig' | 'step'; value: number };
 }
 

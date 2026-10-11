@@ -36,6 +36,21 @@ import type {
   RenderStylePlugin,
   VisualLayerPlugin,
 } from '../ui.ts';
+import type { BaselineBuilderPlugin, RatingSchemePlugin } from '../v3/codes.ts';
+import type { AnalysisLensPlugin, EditorToolPlugin } from '../v3/lens.ts';
+import type { MassingGeneratorPlugin } from '../v3/optimise.ts';
+import type { DesignProposerPlugin } from '../v3/partner.ts';
+import type { CityPackPlugin } from '../v3/place.ts';
+import type { SiteMethodPlugin } from '../v3/site.ts';
+import type { AnyStageProvider } from '../v3/stage.ts';
+import type {
+  BenchmarkPlugin,
+  BuildingTypePlugin,
+  SchedulePlugin,
+  ShadePresetPlugin,
+  SpaceTypePlugin,
+  WindowProductPlugin,
+} from '../v3/types.ts';
 import type { PluginKind, Query } from './types.ts';
 
 export interface PluginKindMap {
@@ -71,6 +86,22 @@ export interface PluginKindMap {
   exporter: ExporterPlugin;
   locale: LocalePack;
   'checker-rung': CheckerRung;
+  // v3 (ARCH 15.3)
+  'building-type': BuildingTypePlugin;
+  'space-type': SpaceTypePlugin;
+  schedule: SchedulePlugin;
+  'window-product': WindowProductPlugin;
+  'shade-preset': ShadePresetPlugin;
+  benchmark: BenchmarkPlugin;
+  'rating-scheme': RatingSchemePlugin;
+  'baseline-builder': BaselineBuilderPlugin;
+  'stage-provider': AnyStageProvider;
+  'site-method': SiteMethodPlugin;
+  'city-pack': CityPackPlugin;
+  'massing-generator': MassingGeneratorPlugin;
+  'design-proposer': DesignProposerPlugin;
+  'analysis-lens': AnalysisLensPlugin;
+  'editor-tool': EditorToolPlugin;
 }
 
 export type PluginOf<K extends PluginKind> = PluginKindMap[K];

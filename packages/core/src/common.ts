@@ -6,7 +6,18 @@
 export type IsoDate = `${number}-${number}-${number}`;
 /** Semantic version `MAJOR.MINOR.PATCH`. */
 export type SemVer = `${number}.${number}.${number}`;
-export type RegionCode = 'GB' | 'GB-ENG' | 'GB-WLS' | 'GB-SCT' | 'IN' | 'IN-TG' | 'IN-DL' | 'IN-MH';
+/** `US` and `EU` (v3) carry ASHRAE 90.1, IECC and EPBD context rules. */
+export type RegionCode =
+  | 'GB'
+  | 'GB-ENG'
+  | 'GB-WLS'
+  | 'GB-SCT'
+  | 'IN'
+  | 'IN-TG'
+  | 'IN-DL'
+  | 'IN-MH'
+  | 'US'
+  | 'EU';
 export const REGION_CODES: readonly RegionCode[] = [
   'GB',
   'GB-ENG',
@@ -16,6 +27,8 @@ export const REGION_CODES: readonly RegionCode[] = [
   'IN-TG',
   'IN-DL',
   'IN-MH',
+  'US',
+  'EU',
 ];
 /** Evidence grade of a source (R17: `estimate` and `announced` show a badge). */
 export type Grade = 'primary' | 'secondary' | 'announced' | 'estimate';

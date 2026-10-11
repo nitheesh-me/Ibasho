@@ -17,6 +17,7 @@ export const SEAL_LABEL: Record<SealKind, string> = {
   cracked: 'Check failed',
   unverified: 'Unverified rule',
   pressing: 'Checking',
+  preview: 'Preview',
 };
 
 export const RUNG_LABEL: Record<CheckerRungId, string> = {
@@ -32,6 +33,7 @@ export const NOT_PROVED: Record<NumberSeal, string> = {
   cracked: 'this number. Its check failed, so we show it marked for you to judge.',
   unverified: 'this rule. It has no checked encoding yet.',
   pressing: 'anything yet. The check is still running.',
+  preview: 'anything. This is Preview data, recorded to show the flow, not computed for this building.',
 };
 
 export interface CheckInfo {

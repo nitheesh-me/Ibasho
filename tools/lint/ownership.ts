@@ -24,6 +24,19 @@ export type Owner =
   | 'WP-10'
   | 'WP-11'
   | 'WP-12'
+  // v3 (BUILD_PLAN 10)
+  | 'WP-13'
+  | 'WP-14'
+  | 'WP-15'
+  | 'WP-16'
+  | 'WP-17'
+  | 'WP-18'
+  | 'WP-19'
+  | 'WP-20'
+  | 'WP-21'
+  | 'WP-22'
+  | 'WP-23'
+  | 'WP-24'
   | 'orchestrator'
   /** Append-only coordination files every agent may add entries to. */
   | 'shared-append';
@@ -48,6 +61,12 @@ const FIX_WP03 = FIX(['rules']);
 const FIX_WP04 = FIX(['certs']);
 const FIX_WP05 = FIX(['injection', 'utterances', 'narration']);
 const FIX_WP12 = FIX(['agent']);
+// v3 (BUILD_PLAN 10)
+const FIX_V3 = FIX(['preview', 'buildings', 'site', 'energy', 'codes', 'optimise', 'interop']);
+const ENGINE_WP18 = ['zones', 'systems', 'enduse'].map((d) => `packages/engine/src/${d}/**`);
+const ENGINE_WP19 = ['packages/engine/src/codes/**'];
+const ENGINE_WP20 = ['packages/engine/src/optimise/**'];
+const TYPES_UI = ['packs/types-global/src/ui/**', 'packs/types-in/src/ui/**'];
 
 export const OWNERSHIP: readonly OwnershipRule[] = [
   {
@@ -75,23 +94,30 @@ export const OWNERSHIP: readonly OwnershipRule[] = [
   {
     owner: 'WP-02',
     include: ['packages/engine/**', 'packs/money-uk/**', 'packs/money-in/**', ...FIX_WP02],
-    exclude: [...ENGINE_WP01, ...ENGINE_WP03],
-    note: 'WP-02 holds engine package files and any engine path not given to WP-01 or WP-03.',
+    exclude: [...ENGINE_WP01, ...ENGINE_WP03, ...ENGINE_WP18, ...ENGINE_WP19, ...ENGINE_WP20],
+    note: 'WP-02 holds engine package files and any engine path not given to WP-01, WP-03, WP-18, WP-19 or WP-20.',
   },
   { owner: 'WP-03', include: [...ENGINE_WP03, 'packs/rules-uk/**', 'packs/rules-in/**', ...FIX_WP03] },
   {
     owner: 'WP-04',
     include: ['proofs/**', 'packages/spec-gen/**', 'packages/verify/**', 'tools/verify/**', ...FIX_WP04],
   },
-  { owner: 'WP-05', include: ['packages/ai/**', 'apps/companion/**', ...FIX_WP05] },
+  {
+    owner: 'WP-05',
+    include: ['packages/ai/**', 'apps/companion/**', ...FIX_WP05],
+    exclude: ['apps/companion/src/runners/**'],
+  },
   { owner: 'WP-06', include: ['packages/ui/**'] },
-  { owner: 'WP-07', include: ['packages/scene/**', ...PACK_HOME_UI('home-uk'), ...PACK_HOME_UI('home-in')] },
+  {
+    owner: 'WP-07',
+    include: ['packages/scene/**', ...PACK_HOME_UI('home-uk'), ...PACK_HOME_UI('home-in'), ...TYPES_UI],
+  },
   { owner: 'WP-08', include: ['apps/web/**', 'packages/store/**'], exclude: ['apps/web/public/assets/**'] },
   { owner: 'WP-09', include: ['apps/landing/**', 'packages/content/**'] },
   {
     owner: 'WP-10',
     include: ['tests/**', 'tools/lint/**', '.github/**', 'packages/fixtures/**'],
-    exclude: [...FIX_WP01, ...FIX_WP02, ...FIX_WP03, ...FIX_WP04, ...FIX_WP05, ...FIX_WP12],
+    exclude: [...FIX_WP01, ...FIX_WP02, ...FIX_WP03, ...FIX_WP04, ...FIX_WP05, ...FIX_WP12, ...FIX_V3],
   },
   { owner: 'WP-11', include: ['apps/web/public/assets/**', 'tools/assets/**'] },
   {
@@ -104,6 +130,41 @@ export const OWNERSHIP: readonly OwnershipRule[] = [
       ...FIX_WP12,
     ],
   },
+  // v3 work packages (BUILD_PLAN 10)
+  { owner: 'WP-13', include: ['packages/preview/**', 'packages/fixtures/src/preview/**'] },
+  { owner: 'WP-14', include: ['packages/plan/**', 'packages/fixtures/src/buildings/**'] },
+  { owner: 'WP-15', include: ['packages/editor/**'] },
+  { owner: 'WP-16', include: ['packages/site/**', 'packages/fixtures/src/site/**'] },
+  { owner: 'WP-17', include: ['packs/city-hyderabad/**', 'packs/city-london/**', 'tools/city/**'] },
+  {
+    owner: 'WP-18',
+    include: [
+      ...ENGINE_WP18,
+      'packs/types-global/**',
+      'packs/types-in/**',
+      'packs/benchmarks/**',
+      'packages/fixtures/src/energy/**',
+    ],
+    exclude: TYPES_UI,
+  },
+  {
+    owner: 'WP-19',
+    include: [
+      ...ENGINE_WP19,
+      'packs/codes-in/**',
+      'packs/codes-global/**',
+      'packs/ratings/**',
+      'packages/fixtures/src/codes/**',
+    ],
+  },
+  { owner: 'WP-20', include: [...ENGINE_WP20, 'packages/fixtures/src/optimise/**'] },
+  {
+    owner: 'WP-21',
+    include: ['packages/interop/**', 'apps/companion/src/runners/**', 'packages/fixtures/src/interop/**'],
+  },
+  { owner: 'WP-22', include: ['docs/qa/product/**'] },
+  { owner: 'WP-23', include: ['docs/qa/ux/**'] },
+  { owner: 'WP-24', include: ['docs/qa/content/**'] },
   {
     owner: 'shared-append',
     include: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml', 'ACKNOWLEDGEMENTS.md'],
@@ -112,7 +173,7 @@ export const OWNERSHIP: readonly OwnershipRule[] = [
   {
     owner: 'orchestrator',
     include: ['docs/**', 'report/**', 'deliverables/**'],
-    exclude: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml'],
+    exclude: ['docs/BLACKBOARD.typ', 'docs/STATUS.typ', 'docs/refs.yml', 'docs/qa/{product,ux,content}/**'],
   },
 ];
 

@@ -132,6 +132,8 @@ export {
   SNAP_HEIGHT,
 } from './sheet/Sheet.tsx';
 export { Slider, type SliderProps, type SliderStop, sliderKey, stopAt } from './slider/Slider.tsx';
+// v3 studio kit (DESIGN_SYSTEM 13).
+export * from './v3/index.ts';
 export {
   WHY_NOT_LABEL,
   WHY_NOT_ORDER,

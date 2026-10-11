@@ -91,6 +91,23 @@ export const DISPLAY: Record<Unit, DisplayUnit> = {
   bool: { shift: 0 },
   rank: { shift: 0 },
   ids: { shift: 0 },
+  // v3 units (ARCH 15.4).
+  'kWh/m2.yr': { shift: 0, suffix: 'kWh/m²·yr', spoken: 'kilowatt hours per square metre a year' },
+  'W/m2': { shift: 0, suffix: 'W/m²', spoken: 'watts per square metre' },
+  'Wh/m2': { shift: -3, suffix: 'kWh/m²', spoken: 'kilowatt hours per square metre' },
+  lux: { shift: 0, suffix: 'lux' },
+  'h/day': { shift: 0, suffix: 'hours a day' },
+  'h/yr': { shift: 0, suffix: 'hours a year' },
+  L: { shift: 0, suffix: 'L', spoken: 'litres' },
+  kL: { shift: 0, suffix: 'kL', spoken: 'kilolitres' },
+  'L/s': { shift: 0, suffix: 'L/s', spoken: 'litres per second' },
+  mm: { shift: 0, suffix: 'mm', spoken: 'millimetres' },
+  mm2: { shift: -6, suffix: 'm²', spoken: 'square metres' },
+  mdeg: { shift: -3, suffix: '°', tight: true, spoken: 'degrees' },
+  kVA: { shift: 0, suffix: 'kVA', spoken: 'kilovolt amperes' },
+  'INR/yr': { shift: 0, prefix: '₹', suffix: 'a year' },
+  'micro-paise/yr': { shift: -8, prefix: '₹', suffix: 'a year' },
+  'micro-paise/Wh': { shift: -5, prefix: '₹', suffix: 'per kWh', spoken: 'rupees per kilowatt hour' },
 };
 
 /** Alternative displays a caller may ask for with `as`. */

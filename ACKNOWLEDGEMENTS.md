@@ -66,6 +66,11 @@ Proofs:
 
 - Lean 4, https://github.com/leanprover/lean4, Apache-2.0: the spec, the theorems and the `ibasho-check` checker.
 
+- Clipper2 (clipper2-ts 2.0.1, TypeScript port of Angus Johnson's Clipper2), https://github.com/AngusJohnson/Clipper2, BSL-1.0: polygon booleans, offsets and triangulation in `@ibasho/plan`.
+- Immer, https://github.com/immerjs/immer, MIT: commands as patches (store, editor).
+- react-resizable-panels, https://github.com/bvaughn/react-resizable-panels, MIT: plan and 3D split views.
+- d3-scale and d3-shape, https://github.com/d3/d3, ISC: lens histograms, end-use bars, parallel coordinates.
+
 ## Algorithms and vendored code
 
 - fdlibm 5.3, Sun Microsystems (1993), freely distributable: `exp`, `log`, `log10` and `sqrt` in `packages/dmath` are ports, so every JavaScript engine gets the same bits.
@@ -97,6 +102,11 @@ Proofs:
 - Historic England, TrustMark PAS 2035: retrofit guidance.
 - Nationwide (2026) house price and EPC study: value evidence.
 
+- OpenStreetMap contributors, https://www.openstreetmap.org/copyright, ODbL 1.0: building footprints, levels, names and trees for the `city-hyderabad` and `city-london` packs and the GB1 and GB2 placement, fetched with the Overpass API (maps.mail.ru mirror).
+- Climate.OneBuilding.Org TMYx 2011-2025, Hyderabad Rajiv Gandhi Intl (431285), https://climate.onebuilding.org, CC BY 4.0: monthly climate for the Preview model.
+- IIIT Hyderabad estate office floor plans of Vindhya Bhavan and Himalaya (2022), https://intranet.iiit.ac.in/offices/static/files/: reference only, simplified into the GB1 and GB2 room schedules (no drawings or names shipped).
+- BEE ECBC 2017, ECSBC 2024, Eco Niwas Samhita and TGSPDCL tariff orders: thresholds and tariffs in the Preview codes and bills (estimates until checked against the PDFs).
+
 ## Assets (fonts, textures, HDRIs, models, sounds)
 
 - Poly Haven, https://polyhaven.com, CC0-1.0: HDRIs and textures.
@@ -113,3 +123,7 @@ The served credits page is `/app/assets/attribution.html`, generated from the as
 - Dami Lee, architectural storytelling: https://www.youtube.com/@DamiLeeArch
 - tldraw offline agent skill: pattern for the Ibasho agent link (local server, token file, skill, subagent, hook).
 - Claude Code plugins and the Model Context Protocol specification: shape of the agent link.
+
+## Music (private trailer only)
+
+- "それぞれの居場所は" by Umitaro Abe, from the *Drifting Home* Original Soundtrack (YouTube: https://www.youtube.com/watch?v=bUuVbLygWmc). Used only as background music for a private, unshared trailer. The audio file stays in the git-ignored `videos/` folder and is not distributed.

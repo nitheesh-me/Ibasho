@@ -1,0 +1,17 @@
+{
+  "name": "@ibasho/pack-types-global",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Building types, space types, schedules, constructions, window products, shade presets, systems (global).",
+  "exports": {
+    "./engine": "./src/engine/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@ibasho/core": "workspace:*"
+  }
+}

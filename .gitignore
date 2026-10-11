@@ -33,3 +33,4 @@ docs/qa/**/*.mjs
 docs/qa/**/*.log
 docs/qa/**/explore/
 docs/qa/trailer-*
+deliverables/*.zip

@@ -1,0 +1,3 @@
+docs/qa/**/*.png export-ignore
+docs/qa/**/*.jpg export-ignore
+docs/qa/**/*.webp export-ignore

@@ -136,6 +136,8 @@ function App() {
           : {})}
         {...(q.get('floors') ? { addedFloors: Number(q.get('floors')) } : {})}
         {...(q.get('sweep') === '1' ? { sweep: { dates: ['2026-03-21', '2026-05-21'], key: 1 } } : {})}
+        drawerSlide={q.get('slide') === '1'}
+        {...(q.get('theme') === 'yoru' ? { theme: 'yoru' as const } : {})}
         tierCap={Number(q.get('tier') ?? 2) as QualityTier}
         reducedMotion={q.get('reduced') === '1'}
         controls={q.get('controls') !== '0'}

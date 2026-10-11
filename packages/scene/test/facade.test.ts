@@ -9,12 +9,17 @@ import { roofGrid } from '../src/city/kernels.worker.ts';
 import { previewRoofRadiation } from '../src/city/preview.ts';
 
 describe('facade detail from the document', () => {
-  it('gives every glazed outdoor segment panes, heads, sills and jambs, and invents no shading', () => {
+  it('gives every glazed outdoor segment panes, heads, sills and jambs, and its chajja', () => {
     const f = facadeOf(gb1 as unknown as BuildingDoc);
     const c = facadeCounts(f);
     expect(c.glass).toBeGreaterThan(40);
     expect(c.frame).toBeGreaterThanOrEqual(c.glass * 3);
-    expect(c.shade).toBe(0);
+    // GB1 carries a chajja on each of its 74 glazed outside segments; nothing else is invented.
+    const shaded = (gb1 as unknown as BuildingDoc).storeys
+      .flatMap((st) => st.rooms.flatMap((r) => r.segments))
+      .filter((sg) => sg.shading.length).length;
+    expect(shaded).toBe(74);
+    expect(c.shade).toBeGreaterThanOrEqual(shaded);
     // Panes face out: every glass matrix has a unit normal column that is horizontal.
     for (const s of f)
       for (const m of s.glass) {

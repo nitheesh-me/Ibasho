@@ -8,6 +8,7 @@
  */
 import { ApplicabilityChip, GradeBadge, Num, PreviewStamp, RatingLadder, Stale } from '@ibasho/ui';
 import { Link } from 'react-router';
+import { useJobs } from '../hooks.ts';
 import { BASE_VARIANT, type BuildingEntry, type Job, jobKey, useStudio } from '../state/studio.ts';
 import { Card, SavingsWords, Waiting } from './Summary.tsx';
 
@@ -67,10 +68,14 @@ export function ProvePanel({ job, b }: { job: Job | undefined; b: BuildingEntry 
           ? null
           : 'The permit date is not set, so local adoption must be confirmed for every edition.'}
       </p>
-      <Card title="Code and green ratings on one scale" kicker="Ratings" aside={c ? <PreviewStamp compact /> : null}>
+      <Card
+        title="Code and green ratings on one scale"
+        kicker="Ratings"
+        aside={c ? <PreviewStamp compact /> : null}
+      >
         {c ? (
           <Stale stale={Boolean(job?.stale.codes)}>
-            <RatingLadder savings={c.savings} rows={c.ladder} axisMax={45} />
+            <RatingLadder savings={c.savings} rows={c.ladder} axisMax={45} summary={<SavingsWords c={c} />} />
             <p className="st-note">
               Code baseline <Num ev={c.baseline} size="ui" />, ECSBC 2024 standard design (Preview).
             </p>
@@ -128,7 +133,7 @@ export function ProvePanel({ job, b }: { job: Job | undefined; b: BuildingEntry 
 }
 
 export function TellPanel({ b }: { b: BuildingEntry }) {
-  const jobs = useStudio((s) => s.jobs);
+  const jobs = useJobs();
   const base = jobs[jobKey(b.id, BASE_VARIANT)];
   const e = base?.views.energy;
   const c = base?.views.codes;

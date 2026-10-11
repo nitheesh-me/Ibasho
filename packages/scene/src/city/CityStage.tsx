@@ -140,9 +140,18 @@ export interface CityStageProps {
   penumbra?: boolean;
   /** Moment 6. `t` is the shown step; the strip calls `onPhototropicChange` (or steps itself). */
   phototropic?: PhototropicSpec | null;
+  /** Moment 4 as a drawer that slides out beside the building (posters). Default false: the floor
+   * stays inside its footprint with the floors above lifted away. */
+  drawerSlide?: boolean;
   onPhototropicChange?: (t: number) => void;
 
   style?: CityStyle;
+  /**
+   * Page theme. `yoru` draws the night city in every renderer, the plan drawing (`style="svg"`)
+   * included. Absent: night follows `style`, the Lanterns lens and the sun; with `style="svg"` the
+   * nearest ancestor `data-theme` is read too.
+   */
+  theme?: Theme;
   /** Plan azimuth of the camera (degrees, snapped to 45 on release). */
   azimuthDeg?: number;
   onAzimuthChange?: (deg: number) => void;
@@ -515,8 +524,31 @@ export function CityStage(props: CityStageProps) {
     [timeNow, model.place],
   );
   // Night look: the Yoru style, the Lanterns lens, or the sun well below the horizon.
+  const [pageTheme, setPageTheme] = useState<Theme | null>(null);
+  useEffect(() => {
+    if (props.theme || style !== 'svg') return;
+    const read = (): void => {
+      const t = container.current?.parentElement?.closest('[data-theme]')?.getAttribute('data-theme');
+      setPageTheme(t === 'yoru' ? 'yoru' : t === 'hiru' ? 'hiru' : null);
+    };
+    read();
+    if (typeof MutationObserver === 'undefined') return;
+    const mo = new MutationObserver(read);
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+      subtree: true,
+    });
+    return () => mo.disconnect();
+  }, [props.theme, style]);
   const theme: Theme =
-    style === 'yoru' || chosenLens === 'lanterns' || sun.altitudeDeg < -4 ? 'yoru' : 'hiru';
+    props.theme === 'yoru' ||
+    pageTheme === 'yoru' ||
+    style === 'yoru' ||
+    chosenLens === 'lanterns' ||
+    sun.altitudeDeg < -4
+      ? 'yoru'
+      : 'hiru';
   // At night a sun lens has nothing to paint and would fight the lantern light (studio review
   // S-B1): the stage shows Lanterns while it is dark and returns to the chosen lens by day. The
   // chosen lens is kept, so turning back restores it.
@@ -1117,7 +1149,7 @@ export function CityStage(props: CityStageProps) {
     model.hero && (level === 'site' || level === 'building') && (castShown || theme === 'hiru') ? (
       castShown ? (
         <div
-          className="ib-city-panel ib-city-panel--pad"
+          className="ib-plate ib-city-panel ib-city-panel--pad"
           style={{ display: 'grid', gap: 6, maxInlineSize: 220 }}
         >
           <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1146,7 +1178,7 @@ export function CityStage(props: CityStageProps) {
           <span className="ib-city-unit">Shows the winter sun it takes from neighbours</span>
         </div>
       ) : (
-        <button type="button" className="ib-city-btn" onClick={() => setCastOpen(true)}>
+        <button type="button" className="ib-btn ib-btn--quiet ib-city-btn" onClick={() => setCastOpen(true)}>
           Shadow you cast
         </button>
       )
@@ -1166,7 +1198,7 @@ export function CityStage(props: CityStageProps) {
   const ribbon =
     addedM > 0 && model.hero ? (
       <div
-        className="ib-city-panel ib-city-note"
+        className="ib-plate ib-city-panel ib-city-note"
         role="status"
         style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', maxInlineSize: 520 }}
       >
@@ -1179,7 +1211,7 @@ export function CityStage(props: CityStageProps) {
                 <button
                   key={l.id}
                   type="button"
-                  className="ib-city-chip"
+                  className="ib-chip ib-city-chip"
                   style={{ minBlockSize: 32 }}
                   onClick={() => setFocus({ kind: 'building', buildingId: l.id })}
                 >
@@ -1213,7 +1245,7 @@ export function CityStage(props: CityStageProps) {
       <div className="ib-city-time__row">
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-pressed={sweeping}
           onClick={() => (sweeping ? setSweep(null) : startSweep(SWEEP_DATES))}
         >
@@ -1345,6 +1377,7 @@ export function CityStage(props: CityStageProps) {
             daylight={daylight}
             lanterns={lanterns}
             phototropic={photoSpec}
+            drawerSlide={!!props.drawerSlide}
             penumbra={props.penumbra ?? true}
             closing={closing}
             settings={settings}
@@ -1422,7 +1455,7 @@ export function CityStage(props: CityStageProps) {
       {controls && layout === 'desktop' ? (
         <>
           <div
-            className="ib-city-panel"
+            className="ib-plate ib-city-panel"
             style={{
               position: 'absolute',
               left: 16,
@@ -1441,7 +1474,7 @@ export function CityStage(props: CityStageProps) {
             <LensChips lens={lens} onLens={setLens} wrap />
           </div>
           <div
-            className="ib-city-panel"
+            className="ib-plate ib-city-panel"
             style={{
               position: 'absolute',
               left: 16,
@@ -1454,7 +1487,7 @@ export function CityStage(props: CityStageProps) {
           </div>
           {legendEl ? (
             <div
-              className="ib-city-panel ib-city-panel--pad"
+              className="ib-plate ib-city-panel ib-city-panel--pad"
               style={{ position: 'absolute', right: 16, bottom: 16, width: 280 }}
             >
               {legendEl}
@@ -1468,8 +1501,10 @@ export function CityStage(props: CityStageProps) {
               bottom: 148,
               display: 'flex',
               gap: 12,
-              alignItems: 'end',
+              alignItems: 'center',
+              padding: '4px 8px',
             }}
+            className="ib-plate ib-city-panel"
           >
             {standInEl}
             <ScaleBar metresPerPx={metresPerPx} />
@@ -1479,7 +1514,10 @@ export function CityStage(props: CityStageProps) {
 
       {controls && layout === 'tablet' ? (
         <>
-          <div className="ib-city-panel" style={{ position: 'absolute', left: 12, top: 12, maxWidth: '46%' }}>
+          <div
+            className="ib-plate ib-city-panel"
+            style={{ position: 'absolute', left: 12, top: 12, maxWidth: '46%' }}
+          >
             {ladderEl}
           </div>
           {storeyStack ? <div style={{ position: 'absolute', left: 12, top: 72 }}>{storeyStack}</div> : null}
@@ -1494,12 +1532,15 @@ export function CityStage(props: CityStageProps) {
           >
             <LensChips lens={lens} onLens={setLens} wrap />
           </div>
-          <div className="ib-city-panel" style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+          <div
+            className="ib-plate ib-city-panel"
+            style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
+          >
             {timeStrip}
           </div>
           {legendEl ? (
             <div
-              className="ib-city-panel ib-city-panel--pad"
+              className="ib-plate ib-city-panel ib-city-panel--pad"
               style={{
                 position: 'absolute',
                 right: 12,
@@ -1520,8 +1561,10 @@ export function CityStage(props: CityStageProps) {
               bottom: 144,
               display: 'flex',
               gap: 12,
-              alignItems: 'end',
+              alignItems: 'center',
+              padding: '4px 8px',
             }}
+            className="ib-plate ib-city-panel"
           >
             {standInEl}
             <ScaleBar metresPerPx={metresPerPx} />
@@ -1551,9 +1594,21 @@ export function CityStage(props: CityStageProps) {
               </button>
             </div>
           </div>
-          <div style={{ position: 'absolute', left: 8, bottom: `calc(55% + 12px)` }}>{standInEl}</div>
+          <div
+            className="ib-plate ib-city-panel"
+            style={{
+              position: 'absolute',
+              left: 8,
+              bottom: `calc(55% + 16px)`,
+              padding: '2px 8px',
+              display: 'flex',
+              gap: 8,
+            }}
+          >
+            {standInEl}
+          </div>
           <section
-            className="ib-city-panel ib-city-sheet"
+            className="ib-plate ib-city-panel ib-city-sheet"
             style={{ height: '55%' }}
             aria-label="Stage controls"
           >
@@ -1570,7 +1625,7 @@ export function CityStage(props: CityStageProps) {
 
       {!controls && legendEl ? (
         <div
-          className="ib-city-panel ib-city-panel--pad"
+          className="ib-plate ib-city-panel ib-city-panel--pad"
           style={{ position: 'absolute', right: 12, bottom: 12, width: 280 }}
         >
           {legendEl}
@@ -1590,11 +1645,13 @@ export function CityStage(props: CityStageProps) {
             pointerEvents: 'none',
           }}
         >
-          <span className="ib-city-panel ib-city-big-clock">
+          <span className="ib-plate ib-city-panel ib-city-big-clock">
             {dateLabel(timeNow.date)} {clockLabel(timeNow.minutes)}
           </span>
           {mayNote ? (
-            <span className="ib-city-panel ib-city-note">Noon sun in the north, 10 May to 2 August</span>
+            <span className="ib-plate ib-city-panel ib-city-note">
+              Noon sun in the north, 10 May to 2 August
+            </span>
           ) : null}
         </div>
       ) : null}
@@ -1635,7 +1692,7 @@ export function CityStage(props: CityStageProps) {
 
       {hoverMass && hover && !pinned ? (
         <div
-          className="ib-city-panel ib-city-note"
+          className="ib-plate ib-city-panel ib-city-note"
           style={{ position: 'absolute', left: hover.at.x + 14, top: hover.at.y + 14, pointerEvents: 'none' }}
         >
           {hoverMass.name ?? 'Neighbour'}
@@ -1649,7 +1706,7 @@ export function CityStage(props: CityStageProps) {
       ) : null}
       {hoverRoom && hover ? (
         <div
-          className="ib-city-panel ib-city-note"
+          className="ib-plate ib-city-panel ib-city-note"
           style={{ position: 'absolute', left: hover.at.x + 14, top: hover.at.y + 14, pointerEvents: 'none' }}
         >
           {USE_LABEL[hoverRoom.use ?? ''] ?? hoverRoom.name ?? 'Room'},{' '}
@@ -1683,7 +1740,7 @@ export function CityStage(props: CityStageProps) {
       {toast ? (
         <div
           role="status"
-          className="ib-city-panel ib-city-toast"
+          className="ib-plate ib-city-panel ib-city-toast"
           style={{ position: 'absolute', left: '50%', top: insets.top, transform: 'translateX(-50%)' }}
         >
           {toast}

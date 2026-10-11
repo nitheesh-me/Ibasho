@@ -80,6 +80,20 @@ try {
       await page
         .waitForFunction(() => window.__sceneStats?.phase === 'baked', null, { timeout: limit, polling: 250 })
         .catch(() => logs.push(`warning: not baked within ${limit} ms`));
+    // `probe=<chip label>`: click a lens chip and report the longest main thread task after it.
+    const probe = params.get('probe');
+    if (probe) {
+      await page.evaluate(() => {
+        window.__longest = 0;
+        new PerformanceObserver((l) => {
+          for (const e of l.getEntries()) window.__longest = Math.max(window.__longest, e.duration);
+        }).observe({ type: 'longtask', buffered: false });
+      });
+      await page.getByRole('radio', { name: probe }).first().click();
+      await page.waitForTimeout(3000);
+      const longest = await page.evaluate(() => window.__longest);
+      console.log(`${name} probe ${probe}: longest task ${Math.round(longest)} ms`);
+    }
     await page.screenshot({ path: `${outDir}/${name}.png` });
     const stats = await page.evaluate(() => window.__cityStats ?? window.__sceneStats ?? null);
     console.log(name, JSON.stringify(stats), logs.slice(0, 8).join('\n  '));

@@ -214,7 +214,8 @@ export function formatEvidence(node: EvidenceNode, opts: FormatOptions = {}): Fo
   // Round in the node's own unit (the policy is written in it), then move to display units.
   let shown = vals.map((d) => shift(rounded(d, node), du.shift));
   // A range that rounds to one value reads as that value ("1,100", not "1,100 to 1,100").
-  if (shown.length === 2 && decToString(shown[0] as Dec) === decToString(shown[1] as Dec)) shown = [shown[0] as Dec];
+  if (shown.length === 2 && decToString(shown[0] as Dec) === decToString(shown[1] as Dec))
+    shown = [shown[0] as Dec];
   const parts: NumPart[] = [];
   shown.forEach((d, i) => {
     if (i > 0) parts.push({ kind: 'join', text: ' to ' });

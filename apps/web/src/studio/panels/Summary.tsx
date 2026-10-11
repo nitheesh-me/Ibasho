@@ -144,7 +144,8 @@ export function SavingsWords({ c }: { c: CodesView }) {
     );
   return (
     <span>
-      between <Num ev={c.savingsBest} size="ui" /> better and <Num ev={c.savingsWorst} size="ui" /> worse than code
+      between <Num ev={c.savingsBest} size="ui" /> better and <Num ev={c.savingsWorst} size="ui" /> worse than
+      code
     </span>
   );
 }

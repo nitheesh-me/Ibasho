@@ -1,0 +1,8 @@
+lantern click returned in 1467 ms
+theme after click: yoru
+01-building-night-1280: long tasks 7, max 1267 ms
+02-city-night-1280: long tasks 46, max 588 ms
+03-search-1280: long tasks 25, max 5266 ms
+04-choose-1600: long tasks 31, max 343 ms
+05-phone-360: long tasks 14, max 1584 ms
+06-tablet-768: long tasks 20, max 7559 ms

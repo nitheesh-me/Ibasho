@@ -15,8 +15,8 @@ import gb5Json from '@ibasho/fixtures/buildings/gb5.building.json';
 import gb6Json from '@ibasho/fixtures/buildings/gb6.building.json';
 import gb7Json from '@ibasho/fixtures/buildings/gb7.building.json';
 import placesJson from '@ibasho/fixtures/buildings/places.json';
-import { HERO_CONTEXT_IDS as HERO_LONDON } from '@ibasho/pack-city-london/engine';
 import { HERO_CONTEXT_IDS as HERO_HYDERABAD } from '@ibasho/pack-city-hyderabad/engine';
+import { HERO_CONTEXT_IDS as HERO_LONDON } from '@ibasho/pack-city-london/engine';
 
 export const HERO_ID = 'gb1';
 export const IIIT_PLACE_ID = 'pl_iiit';
@@ -96,12 +96,26 @@ export function weatherCity(place: Pick<Place, 'climatePackId' | 'name'> | undef
 }
 
 /** True between the tropics, where the noon sun stands in the north for part of the year. */
-export const inTropics = (place: Pick<Place, 'lat'> | undefined): boolean => Math.abs(place?.lat ?? 17) < 23.44;
+export const inTropics = (place: Pick<Place, 'lat'> | undefined): boolean =>
+  Math.abs(place?.lat ?? 17) < 23.44;
 
 /** Climate, code, money and city packs for a plot, from where it is (UK or India for now). */
-export function packsFor(lat: number, lon: number): Pick<Place, 'climatePackId' | 'codePackIds' | 'moneyPackIds' | 'cityPackId'> {
+export function packsFor(
+  lat: number,
+  lon: number,
+): Pick<Place, 'climatePackId' | 'codePackIds' | 'moneyPackIds' | 'cityPackId'> {
   const uk = lat > 49 && lat < 61 && lon > -9 && lon < 2;
   return uk
-    ? { climatePackId: 'climate.london', codePackIds: ['codes-uk'], moneyPackIds: ['money-uk'], cityPackId: 'city-london' }
-    : { climatePackId: 'climate.hyderabad', codePackIds: ['codes-in'], moneyPackIds: ['money-in'], cityPackId: 'city-hyderabad' };
+    ? {
+        climatePackId: 'climate.london',
+        codePackIds: ['codes-uk'],
+        moneyPackIds: ['money-uk'],
+        cityPackId: 'city-london',
+      }
+    : {
+        climatePackId: 'climate.hyderabad',
+        codePackIds: ['codes-in'],
+        moneyPackIds: ['money-in'],
+        cityPackId: 'city-hyderabad',
+      };
 }

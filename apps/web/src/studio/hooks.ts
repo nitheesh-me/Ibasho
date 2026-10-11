@@ -4,6 +4,7 @@
 import type { EvidenceId, EvidenceNode } from '@ibasho/core';
 import type { EvidenceSource } from '@ibasho/ui';
 import { useEffect, useMemo, useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { BASE_VARIANT, type BuildingEntry, type Job, jobKey, useStudio } from './state/studio.ts';
 
 export type Breakpoint = 'phone' | 'tablet' | 'desktop' | 'wide';
@@ -43,7 +44,7 @@ export function useBuildingEvidence(
   buildingId: string | undefined,
   open?: (id: EvidenceId, from: HTMLElement) => void,
 ): EvidenceSource {
-  const jobs = useStudio((s) => s.jobs);
+  const jobs = useJobs();
   return useMemo(() => {
     const map = new Map<EvidenceId, EvidenceNode>();
     if (buildingId) {
@@ -58,8 +59,49 @@ export function useBuildingEvidence(
   }, [jobs, buildingId, open]);
 }
 
+const NO_BAR: Job['bar'] = { generation: 0, stages: [] };
+const stripCache = new Map<string, { deps: unknown[]; out: Job }>();
+
+/**
+ * A job without its progress bar and message: what panels and the scene render from. Progress
+ * events arrive every tick and change only the bar, so views that read this stay still while a
+ * stage runs (the round 5 lantern stall: every tick re-rendered the whole studio and the scene).
+ */
+export function stripJob(j: Job): Job {
+  const deps = [j.views, j.nodes, j.tiers, j.stale, j.outputs, j.latest, j.resolution, j.generation];
+  const hit = stripCache.get(j.key);
+  if (hit && hit.deps.length === deps.length && hit.deps.every((d, i) => d === deps[i])) return hit.out;
+  const out: Job = { ...j, bar: NO_BAR, message: undefined };
+  stripCache.set(j.key, { deps, out });
+  return out;
+}
+
+/** Every job, render-stable (changes only when results change, never on progress ticks). */
+export function useJobs(): Record<string, Job> {
+  return useStudio(
+    useShallow((s) => {
+      const out: Record<string, Job> = {};
+      for (const [k, j] of Object.entries(s.jobs)) out[k] = stripJob(j);
+      return out;
+    }),
+  );
+}
+
 export function useJob(buildingId: string | undefined, variantId: string = BASE_VARIANT): Job | undefined {
-  return useStudio((s) => (buildingId ? s.jobs[jobKey(buildingId, variantId)] : undefined));
+  return useStudio((s) => {
+    const j = buildingId ? s.jobs[jobKey(buildingId, variantId)] : undefined;
+    return j ? stripJob(j) : undefined;
+  });
+}
+
+/** The live progress bar and message of one job (only the engawa reads this). */
+export function useJobBar(key: string | undefined): { bar: Job['bar']; message: string | undefined } {
+  return useStudio(
+    useShallow((s) => {
+      const j = key ? s.jobs[key] : undefined;
+      return { bar: j?.bar ?? NO_BAR, message: j?.message };
+    }),
+  );
 }
 
 export function useBuilding(buildingId: string | undefined): BuildingEntry | undefined {

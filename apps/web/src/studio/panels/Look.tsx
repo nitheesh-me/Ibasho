@@ -5,11 +5,11 @@
  * Result, Inspect) with a legend that names unit, resolution, period, method, tier, "Modelled"
  * and the Preview stamp.
  */
-import type { ResolutionLevel, Place } from '@ibasho/core';
+import type { Place, ResolutionLevel } from '@ibasho/core';
 import { AnalysisLegend, Histogram, LensPanel, Num, type RampName, Stale } from '@ibasho/ui';
 import type { ReactNode } from 'react';
-import type { Job } from '../state/studio.ts';
 import { inTropics, weatherCity } from '../data.ts';
+import type { Job } from '../state/studio.ts';
 import { Waiting } from './Summary.tsx';
 
 export type LensId = 'shadows' | 'sun-hours' | 'radiation' | 'daylight' | 'glare' | 'thermal' | 'neighbours';
@@ -168,8 +168,8 @@ export function LookPanel(p: LookPanelProps) {
         >
           {inTropics(p.place) ? (
             <p className="st-note">
-              Here the noon sun stands in the north from about May to early August, so north glass needs short fins
-              too.
+              Here the noon sun stands in the north from about May to early August, so north glass needs short
+              fins too.
             </p>
           ) : (
             <p className="st-note">The sun stays in the south here; south and west glass take the most.</p>

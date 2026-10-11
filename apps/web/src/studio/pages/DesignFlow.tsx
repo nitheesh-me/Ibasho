@@ -50,12 +50,12 @@ import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } fro
 import { useNavigate } from 'react-router';
 import { samplePlaces } from '../data.ts';
 import { CityStage } from '../niwa/Niwa.tsx';
+import { SavingsWords } from '../panels/Summary.tsx';
 import { startJob } from '../preview/jobs.ts';
 import type { JobHandle, RunEvent } from '../preview/runner.ts';
 import { BASE_LEVERS, type Levers } from '../preview/settings.ts';
 import { TYPE_DEFAULTS, templateDoc } from '../preview/template.ts';
 import { mergePicks, type StageViews } from '../preview/views.ts';
-import { SavingsWords } from '../panels/Summary.tsx';
 import { useStudio } from '../state/studio.ts';
 
 const STEPS = ['Brief', 'Design', 'Place', 'Compare sites', 'Shape to goals', 'Commit'] as const;
@@ -656,6 +656,13 @@ export function DesignFlow() {
             minutes={15 * 60}
             lens="shadows"
             job={undefined}
+            placeMode
+            placement={{ origin, rotationMdeg: Math.round(rotation * 1000) }}
+            onPlacementChange={(pl) => {
+              setOrigin({ x: Math.round(pl.origin.x), y: Math.round(pl.origin.y) });
+              setRotation(Math.round(pl.rotationMdeg / 1000));
+            }}
+            onSiteCheck={setCheck}
             onSelect={(t) => {
               if (t.kind === 'ground')
                 setOrigin({ x: Math.round(t.east * 1000), y: Math.round(t.north * 1000) });
@@ -746,7 +753,12 @@ export function DesignFlow() {
         {doc && sites.length > 1 ? (
           <div className="st-design__compare">
             <CityCompare
-              base={{ hero: doc, place: placeOf('hyderabad'), tiles: tilesFor('hyderabad'), hideContextIds: [] }}
+              base={{
+                hero: doc,
+                place: placeOf('hyderabad'),
+                tiles: tilesFor('hyderabad'),
+                hideContextIds: [],
+              }}
               options={sites.map((s, i) => ({
                 id: s.id,
                 label: `Plot ${i + 1}`,
@@ -859,8 +871,8 @@ export function DesignFlow() {
           />
         ) : null}
         <p className="st-note">
-          Shaping plot {sites.indexOf(chosenSite) + 1} in {chosenSite.city === 'london' ? 'London' : 'Hyderabad'}.
-          Goals that do not apply there are left out.
+          Shaping plot {sites.indexOf(chosenSite) + 1} in{' '}
+          {chosenSite.city === 'london' ? 'London' : 'Hyderabad'}. Goals that do not apply there are left out.
         </p>
         <ul className="st-gaps">
           {gaps.map((g) => (

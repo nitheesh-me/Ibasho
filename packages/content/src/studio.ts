@@ -6,7 +6,7 @@
  * it has words. Copy may carry glossary marks (`[[g:<id>]]`); render with `segments`, or strip with
  * `plainText` for labels and aria text.
  */
-import type { Applicability, GapStatus, ObjectiveId, StageId, StageStatus, Tier } from '@ibasho/core';
+import type { Applicability, EndUse, GapStatus, ObjectiveId, StageId, StageStatus, Tier } from '@ibasho/core';
 
 export interface StageCopy {
   /** Short bead label. */
@@ -237,3 +237,16 @@ export function rupees(amount: number): string {
   if (r >= 1e5) return `${sign}Rs ${sig2(r / 1e5)} lakh`;
   return `${sign}Rs ${sig2(r).toLocaleString('en-IN')}`;
 }
+
+/** End uses (`END_USES` in core), in the words of the end use bar. */
+export const END_USE_COPY: Readonly<Record<EndUse, string>> = {
+  cooling: 'Cooling',
+  heating: 'Heating',
+  lighting: 'Lighting',
+  equipment: 'Equipment',
+  fans: 'Fans',
+  pumps: 'Pumps',
+  'hot-water': 'Hot water',
+  other: 'Other',
+  pv: 'Solar',
+};

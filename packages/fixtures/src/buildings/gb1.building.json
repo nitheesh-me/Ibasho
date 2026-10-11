@@ -597,7 +597,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_a3_1",
@@ -768,7 +775,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_a5_1",
@@ -941,7 +955,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_a7_1",
@@ -953,7 +974,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_a7_2",
@@ -965,7 +993,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_a7_3",
@@ -1288,7 +1323,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_b2_2",
@@ -1324,7 +1366,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "ground",
@@ -1509,7 +1558,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_b6_2",
@@ -1533,7 +1589,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_b6_4",
@@ -1569,7 +1632,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "ground",
@@ -1795,7 +1865,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_b3_1",
@@ -2156,7 +2233,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_b5_1",
@@ -2494,7 +2578,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c1a_1",
@@ -2530,7 +2621,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "ground",
@@ -2606,7 +2704,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c1b_3",
@@ -2618,7 +2723,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "ground",
@@ -2884,7 +2996,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c3_3",
@@ -2970,7 +3089,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c4_3",
@@ -3058,7 +3184,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c5_3",
@@ -3299,7 +3432,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c7_1",
@@ -3311,7 +3451,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c7_2",
@@ -3323,7 +3470,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_1_c7_3",
@@ -3612,7 +3766,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a1dc_1",
@@ -3648,7 +3809,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -3736,7 +3904,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a1ups_4",
@@ -3748,7 +3923,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -3894,7 +4076,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a3_1",
@@ -4063,7 +4252,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a5_1",
@@ -4235,7 +4431,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a7_1",
@@ -4247,7 +4450,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a7_2",
@@ -4259,7 +4469,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_a7_3",
@@ -4583,7 +4800,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_b2_2",
@@ -4619,7 +4843,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -4804,7 +5035,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_b6_2",
@@ -4828,7 +5066,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_b6_4",
@@ -4864,7 +5109,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -5092,7 +5344,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_b3_1",
@@ -5449,7 +5708,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_b5_1",
@@ -5786,7 +6052,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c1a_1",
@@ -5822,7 +6095,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -5896,7 +6176,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c1b_3",
@@ -5908,7 +6195,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -6174,7 +6468,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c3_3",
@@ -6262,7 +6563,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c4_3",
@@ -6346,7 +6654,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c5_3",
@@ -6587,7 +6902,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c7_1",
@@ -6599,7 +6921,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c7_2",
@@ -6611,7 +6940,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_2_c7_3",
@@ -6890,7 +7226,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a1dc_1",
@@ -6926,7 +7269,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -7016,7 +7366,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a1ups_4",
@@ -7028,7 +7385,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -7175,7 +7539,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a3_1",
@@ -7343,7 +7714,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a5_1",
@@ -7516,7 +7894,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a7_1",
@@ -7528,7 +7913,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a7_2",
@@ -7540,7 +7932,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_a7_3",
@@ -7863,7 +8262,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_b2_2",
@@ -7899,7 +8305,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -8082,7 +8495,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_b6_2",
@@ -8106,7 +8526,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_b6_4",
@@ -8142,7 +8569,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -8368,7 +8802,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_b3_1",
@@ -8724,7 +9165,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_b5_1",
@@ -9061,7 +9509,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c1a_1",
@@ -9097,7 +9552,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -9170,7 +9632,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c1b_3",
@@ -9182,7 +9651,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             }
           ],
           "floorBoundary": "adjacent",
@@ -9448,7 +9924,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c3_3",
@@ -9534,7 +10017,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c4_3",
@@ -9619,7 +10109,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c5_3",
@@ -9859,7 +10356,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 750,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c7_1",
@@ -9871,7 +10375,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c7_2",
@@ -9883,7 +10394,14 @@
                 "wwrPm": 140,
                 "sill": 900
               },
-              "shading": []
+              "shading": [
+                {
+                  "kind": "overhang",
+                  "depth": 600,
+                  "aboveHead": 150,
+                  "extension": 300
+                }
+              ]
             },
             {
               "id": "sg_3_c7_3",

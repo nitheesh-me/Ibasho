@@ -461,3 +461,121 @@ export function Picker<T extends string>({
     </div>
   );
 }
+
+// ------------------------------------------------------------------------------------------------
+// Menu
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  /** Destructive items sit last, in warm ink, and should confirm in the caller. */
+  danger?: boolean;
+  disabled?: boolean;
+}
+
+export interface MenuProps {
+  /** Accessible name of the trigger, e.g. "More for IIIT Hyderabad campus". */
+  label: string;
+  /** Visible trigger text (default "More"). */
+  text?: string;
+  items: readonly MenuItem[];
+  onPick: (id: string) => void;
+}
+
+/** A small action menu (WAI-ARIA menu button): arrows move, Enter picks, Escape closes. */
+export function Menu({ label, text = 'More', items, onPick }: MenuProps) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const btn = useRef<HTMLButtonElement>(null);
+  const list = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const enabled = items.filter((i) => !i.disabled);
+  useEffect(() => {
+    if (!open) return;
+    setActive(0);
+    list.current?.focus();
+    const away = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (!list.current?.contains(t) && !btn.current?.contains(t)) setOpen(false);
+    };
+    document.addEventListener('mousedown', away);
+    return () => document.removeEventListener('mousedown', away);
+  }, [open]);
+  const pick = (it: MenuItem | undefined) => {
+    if (!it || it.disabled) return;
+    setOpen(false);
+    btn.current?.focus();
+    onPick(it.id);
+  };
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowDown') setActive((a) => (a + 1) % Math.max(1, enabled.length));
+    else if (e.key === 'ArrowUp') setActive((a) => (a + enabled.length - 1) % Math.max(1, enabled.length));
+    else if (e.key === 'Home') setActive(0);
+    else if (e.key === 'End') setActive(enabled.length - 1);
+    else if (e.key === 'Enter' || e.key === ' ') pick(enabled[active]);
+    else if (e.key === 'Escape' || e.key === 'Tab') {
+      setOpen(false);
+      if (e.key === 'Escape') btn.current?.focus();
+      return;
+    } else return;
+    e.preventDefault();
+  };
+  return (
+    <div className="ib-menu">
+      <button
+        ref={btn}
+        type="button"
+        className="ib-menu__btn"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={open ? id : undefined}
+        aria-label={label}
+        onClick={() => setOpen((o) => !o)}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
+      >
+        {text}
+        <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" className="ib-picker__caret">
+          <path d="M2 4L6 8L10 4" />
+        </svg>
+      </button>
+      {open ? (
+        <div
+          ref={list}
+          id={id}
+          role="menu"
+          tabIndex={-1}
+          aria-label={label}
+          className="ib-menu__list"
+          onKeyDown={onKey}
+          aria-activedescendant={enabled[active] ? `${id}-${enabled[active]?.id}` : undefined}
+        >
+          {items.map((it) => (
+            <div
+              key={it.id}
+              id={`${id}-${it.id}`}
+              role="menuitem"
+              tabIndex={-1}
+              aria-disabled={it.disabled || undefined}
+              data-active={enabled[active]?.id === it.id ? '' : undefined}
+              data-danger={it.danger ? '' : undefined}
+              className="ib-menu__item"
+              onMouseEnter={() => {
+                const i = enabled.indexOf(it);
+                if (i >= 0) setActive(i);
+              }}
+              onClick={() => pick(it)}
+              onKeyDown={() => undefined}
+            >
+              {it.label}
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}

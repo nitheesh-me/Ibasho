@@ -1,41 +1,113 @@
 # Ibasho 居場所
 
-See how a building will live in its city. Ibasho is a local-first studio for designing and improving buildings: place a building in its real city, draw it floor by floor, and see its sun and shade, daylight, energy by end use, bills, carbon, code standing and green rating path. Numbers come from documented models, unknowns are shown as unknown, and Lean 4 checks the bookkeeping.
+## Problem statement
 
-A personal project, not for commercial use.
+The brief asked for a green score and retrofit advice for a home. We widened it. Sustainability does not stop at the front door, and no two houses are the same under its lens. The same building behaves differently in Hyderabad and in London, beside a tall neighbour or in the open, as a lab or as a flat. So the question starts at a desk and grows outwards: desk, room, floor, building, community, area, city.
 
-## Run it
+This file covers setup and running only. The report in [`deliverables/final_report.pdf`](deliverables/final_report.pdf) describes the solution.
 
-Node 26.1.0 and pnpm 11.1.1.
+## Requirements
+
+| Tool | Version | Needed for |
+|---|---|---|
+| Node.js | 26.1.0 (see `.nvmrc`) | Everything |
+| pnpm | 11.1.1 (`corepack enable` picks it up from `package.json`) | Everything |
+| Lean 4 via [elan](https://github.com/leanprover/elan) | v4.34.0 (pinned in `proofs/lean-toolchain`) | Optional: the proofs and the native checker |
+| [Ollama](https://ollama.com) | any recent release | Optional: the local narrator |
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | any recent release | Optional: the agent link |
+
+No account, API key or network service is needed to run the studio. City, weather and building data ship with the repository.
+
+## Install
 
 ```
 pnpm install --frozen-lockfile
-pnpm --filter @ibasho/web dev        # the studio
-pnpm --filter @ibasho/landing dev    # the landing page
 ```
 
-## Where things are
+## Run
 
-- Plan and design: [`docs/PLAN-V3.md`](docs/PLAN-V3.md), [`docs/SPEC.md`](docs/SPEC.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)
-- Progress: [`docs/STATUS.typ`](docs/STATUS.typ) (PDF in `deliverables/`)
-- Milestone reports: [`report/`](report/)
+```
+pnpm --filter @ibasho/web dev        # the studio, at http://localhost:5173/app/
+pnpm --filter @ibasho/landing dev    # the landing page, at http://localhost:5173/ (or the next free port)
+```
 
-## Building plans and layouts
+Vite prints the address it uses. The studio opens on "Your places"; the IIIT Hyderabad campus and the London terrace are ready to explore.
 
-Where each sample building's plan or layout comes from. Floor plans are used where public; otherwise the closest public layout source (map outline, developer or architect description, listing) and the floors are marked estimated.
+Production build and preview:
 
-| Building | Plan or layout source | Other layout sources |
+```
+pnpm build                                 # builds both apps
+pnpm --filter @ibasho/web preview          # http://localhost:4173/app/
+pnpm --filter @ibasho/landing preview      # http://localhost:4174/
+```
+
+## Tests and checks
+
+```
+pnpm --filter @ibasho/<package> test       # one package, for example @ibasho/site or @ibasho/plan
+pnpm test                                  # every package
+pnpm -r typecheck                          # TypeScript in every package
+pnpm lint                                  # Biome, layer rules, unused code, house rules
+pnpm contracts                             # cross package contract tests
+pnpm smoke                                 # both apps boot in Chromium and Firefox (Playwright)
+```
+
+On a small machine, limit parallel work, for example `pnpm exec turbo run test --concurrency=2` or `pnpm --filter @ibasho/site exec vitest run --maxWorkers=2`.
+
+## Optional: Lean proofs and checker
+
+```
+cd proofs
+lake build                                          # the proved specification
+lake build IbashoCheck ibasho-check ibasho-gen      # the checker and the code generator
+lake exe ibasho-gen --check                         # generated constants match the Lean source
+```
+
+Or `pnpm proofs` from the root, which builds and regenerates. `pnpm verify` runs the checker and its TypeScript mirror over the sample certificates.
+
+## Optional: local narrator (Ollama)
+
+```
+ollama pull qwen3:8b       # or qwen3:4b on a smaller machine
+ollama serve
+```
+
+The studio finds Ollama on your machine and uses it only to polish wording. Without it, the narrator uses its built in templates. If the browser cannot reach Ollama, start the companion below, which passes requests through on 127.0.0.1 only.
+
+## Optional: companion and agent link
+
+```
+pnpm --filter @ibasho/companion start      # local helper on 127.0.0.1:7357 (Lean checker, Ollama pass through)
+pnpm --filter @ibasho/mcp start            # MCP server for AI agents, over stdio
+node tools/agent-install/src/cli.ts --dry-run     # show what installing into Claude Code would change
+pnpm agent:install                              # install as a Claude Code plugin
+node tools/agent-install/src/cli.ts --uninstall   # remove it again
+```
+
+## External data and model weights
+
+Everything the app needs is already in the repository, rebuilt from these sources. Links are for reference and for rebuilding.
+
+| Source | Used for | Licence |
 |---|---|---|
-| Vindhya Bhavan, IIIT Hyderabad | [Floor plans, IIIT Hyderabad estate office (PDF, Dec 2022)](https://intranet.iiit.ac.in/offices/static/files/Vindhya_bhavan.pdf) | [OpenStreetMap relation 2829427](https://www.openstreetmap.org/relation/2829427) |
-| Himalaya Building, IIIT Hyderabad | [Floor plans, IIIT Hyderabad estate office (PDF, Dec 2022)](https://intranet.iiit.ac.in/offices/static/files/Himalaya_Building.pdf) | [OpenStreetMap way 187896823](https://www.openstreetmap.org/way/187896823), [way 211078709](https://www.openstreetmap.org/way/211078709) |
-| Lloyds Technology Centre (Octave Block, Sattva Knowledge City) | No public floor plan. Footprint: [OpenStreetMap way 852979202](https://www.openstreetmap.org/way/852979202) | [Sattva Knowledge City, developer page](https://sattvagroup.com/commercial/sattva-knowledge-city/), [office address, floor 10](https://lloydstechnologycentre.com/corporate-details) |
-| Qualcomm (KRC Commerzone, Raidurg) | No public floor plan. Massing and cores: [KRC Commerzone, World Architects](https://world-architects.com/en/projects/view/krc-commerzone-hyderabad) | [OpenStreetMap way 1133460476](https://www.openstreetmap.org/way/1133460476), [K Raheja Corp release](https://krahejacorp.com/newsroom/mindspace-reit-to-acquire-18-million-sq-ft-it-park-in-hyderabad-for-rs-2038-cr) |
-| Vanguard (Sattva Knowledge Park) | No public floor plan. Typical floor plate: [myHQ listing, Tower 1](https://myhq.in/managed-office/redbrick-offices-madhapur-2) | [OpenStreetMap way 1133269186](https://www.openstreetmap.org/way/1133269186), [Sattva Hyderabad commercial](https://sattvagroup.com/commercial/hyderabad-commercial/) |
-| HITEC City office (typical) | No plan; modelled on a public listing. Footprint: [OpenStreetMap way 776432080](https://www.openstreetmap.org/way/776432080) | |
-| Gachibowli apartments, London terrace | Typical buildings, not real addresses; layouts are our own | |
+| [OpenStreetMap](https://www.openstreetmap.org/copyright) via the [Overpass API](https://overpass-api.de) | Building outlines, levels, names and trees for Hyderabad and London | ODbL 1.0 |
+| [Climate.OneBuilding TMYx 2011 to 2025, Hyderabad (431285)](https://climate.onebuilding.org/WMO_Region_2_Asia/IND_India/TG_Telangana/IND_TG_Hyderabad-Gandhi.Intl.AP.431285_TMYx.2011-2025.zip) | Hourly Hyderabad weather (EPW) | CC BY 4.0 |
+| [PVGIS 5.2 TMY (European Commission JRC)](https://re.jrc.ec.europa.eu/pvg_tools/en/) | Hourly London weather | Free reuse with attribution |
+| [NASA POWER](https://power.larc.nasa.gov) | Monthly climate for the home model | Open, NASA |
+| [IIIT Hyderabad estate office floor plans](https://intranet.iiit.ac.in/offices/static/files/Vindhya_bhavan.pdf) ([Himalaya](https://intranet.iiit.ac.in/offices/static/files/Himalaya_Building.pdf)) | Room layouts of Vindhya Bhavan and Himalaya, simplified; the PDFs are not shipped | Public documents, reference only |
+| [Poly Haven](https://polyhaven.com) | Skies and textures | CC0 |
+| [Kenney Furniture Kit](https://kenney.nl/assets/furniture-kit) | Furniture models | CC0 |
+| [Quaternius Ultimate House Interior](https://quaternius.com/packs/ultimatehomeinterior.html) | Interior models | CC0 |
+| [Ollama `qwen3:8b`](https://ollama.com/library/qwen3) | Optional local narrator; downloaded by you, never shipped | Apache 2.0 |
+
+Codes, tariffs, benchmarks and other published sources are listed with their licences in [`ACKNOWLEDGEMENTS.md`](ACKNOWLEDGEMENTS.md).
 
 ## Sources and credits
 
-- Full source notes for every reference building (what is measured, estimated or assumed, all public sources and unknowns): [`docs/sources/REFERENCE-BUILDINGS.md`](docs/sources/REFERENCE-BUILDINGS.md).
-- Libraries, data, algorithms, assets and ideas: [`ACKNOWLEDGEMENTS.md`](ACKNOWLEDGEMENTS.md).
+- Where each sample building's plan and facts come from, and what is measured, estimated or unknown: [`docs/sources/REFERENCE-BUILDINGS.md`](docs/sources/REFERENCE-BUILDINGS.md).
+- Libraries, algorithms, data, assets and ideas we build on: [`ACKNOWLEDGEMENTS.md`](ACKNOWLEDGEMENTS.md).
 - Map data © OpenStreetMap contributors (ODbL).
+
+## Licence
+
+MIT, see [`LICENSE`](LICENSE).

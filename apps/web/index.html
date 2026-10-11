@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ibasho</title>
+    <style>
+      /* Paper before the app paints (no white flash while fonts load). */
+      html { background: #f4eee3; color-scheme: light; }
+      @media (prefers-color-scheme: dark) { html:not([data-theme="hiru"]) { background: #15120f; } }
+    </style>
   </head>
   <body>
     <div id="root"></div>

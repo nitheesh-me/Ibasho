@@ -74,6 +74,8 @@ Commands: `pnpm --filter @ibasho/ui typecheck`, `pnpm --filter @ibasho/ui test`.
 | `LedgerRow`, `Stepper`, `ChoiceChips` | Settings ledger row: control, unit, origin chip, grade, scope, "changes N numbers" |
 | `Range`, `SunScrubber`, `Picker` | Andon inputs: kumiko track with step buttons; 24 hour sun scrubber (night hatch, daylight band, sunrise and sunset, altitude arc, Home and End); listbox picker. No native range or select anywhere |
 | `CompareGrid`, `FilmStrip` | 1, 2 or 1 + 3 compare; versions with the EUI after each |
+| `Menu` | Menu button (More): arrows, Enter, Escape; a `danger` item sits last in warm ink |
+| `loadAndonFonts`, `ABOVE_THE_FOLD` | Starts the first screen's faces at once and resolves when loaded or after a short cap, so apps render without a font swap |
 | `.ib-btn`, `.ib-btn--quiet`, `.ib-btn--hero` | Buttons; gold only on the one hero action |
 
 `Num` draws seal `preview` with a dashed underline and no glyph (AC-PG3). v3 units (`kWh/m2.yr`, `micro-paise/*`, `lux`, ...) are in `DISPLAY`.

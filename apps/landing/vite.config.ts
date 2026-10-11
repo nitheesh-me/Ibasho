@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin, runnerImport } from 'vite';
 import { discoverPlugins } from './src/discover.ts';
 import { readExample } from './src/example.ts';
-import { syncPosters } from './src/posters.ts';
+import { type Poster, syncPosters } from './src/posters.ts';
 
 // Owner: WP-09 (Content and landing).
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -16,8 +16,13 @@ type Prerender = typeof import('./src/prerender.tsx');
  * The renderer goes through Vite's module runner, so workspace TSX (`@ibasho/ui`) transforms.
  */
 function prerender(): Plugin {
+  let posters: Map<string, Poster> = new Map();
   return {
     name: 'ibasho-landing-prerender',
+    // Copy the stills before Vite resolves `public/`, so this build already serves them.
+    config() {
+      posters = syncPosters(repoRoot, fileURLToPath(new URL('./public', import.meta.url)));
+    },
     async transformIndexHtml(html) {
       const { source, plugins, skipped, stages } = await discoverPlugins(repoRoot);
       console.info(
@@ -33,7 +38,6 @@ function prerender(): Plugin {
         ? { has: () => true, hasKind: () => true, stage: () => 'preview' as const }
         : presenceFromList(plugins, stages);
       // Stills from the city scene, copied into public/ when rendered; the worked example's figures.
-      const posters = syncPosters(repoRoot, fileURLToPath(new URL('./public', import.meta.url)));
       const example = readExample(repoRoot);
       console.info(`landing: ${posters.size} stills, worked example ${example ? 'found' : 'absent'}`);
       return module.fillTemplate(html, presence, { posters, example });

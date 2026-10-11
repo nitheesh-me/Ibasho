@@ -8,6 +8,7 @@
  */
 import { CompareGrid, Num, PreviewStamp, Range, Stale, TierCaption } from '@ibasho/ui';
 import type { ReactNode } from 'react';
+import { useJobs } from '../hooks.ts';
 import { BASE_LEVERS, LEVERS } from '../preview/settings.ts';
 import { type Cand, mergePicks } from '../preview/views.ts';
 import { BASE_VARIANT, type BuildingEntry, jobKey, useStudio } from '../state/studio.ts';
@@ -15,7 +16,7 @@ import { changeList } from './ProveTell.tsx';
 import { Card, SavingsWords, Waiting } from './Summary.tsx';
 
 export function ChoosePanel({ b }: { b: BuildingEntry }) {
-  const jobs = useStudio((s) => s.jobs);
+  const jobs = useJobs();
   const st = useStudio.getState();
   const focus = b.variants.find((v) => v.id === b.focus) ?? b.variants[0];
   const base = jobs[jobKey(b.id, BASE_VARIANT)];
@@ -53,7 +54,7 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
           ))}
         </ol>
         {b.variants.length < 4 ? (
-          <button type="button" className="ib-btn" onClick={() => st.addVariant(b.id)}>
+          <button type="button" className="ib-btn ib-btn--quiet" onClick={() => st.addVariant(b.id)}>
             Add a what-if
           </button>
         ) : null}
@@ -234,7 +235,7 @@ export function FrontPlot({ candidates, picks }: { candidates: Cand[]; picks: st
 
 /** The Niwa in Choose mode: variants side by side (1, 2 or 1 + 3). */
 export function CompareView({ b, render }: { b: BuildingEntry; render: (variantId: string) => ReactNode }) {
-  const jobs = useStudio((s) => s.jobs);
+  const jobs = useJobs();
   const st = useStudio.getState();
   const ordered = [
     b.variants.find((v) => v.id === b.focus),
@@ -277,9 +278,7 @@ export function CompareView({ b, render }: { b: BuildingEntry; render: (variantI
                     </div>
                     <div>
                       <dt>Against code</dt>
-                      <dd>
-                        {c ? <SavingsWords c={c} /> : <span className="st-dash">computing</span>}
-                      </dd>
+                      <dd>{c ? <SavingsWords c={c} /> : <span className="st-dash">computing</span>}</dd>
                     </div>
                   </dl>
                 </Stale>

@@ -4,6 +4,9 @@
 
 export { CompareGrid, type CompareSlot, type FilmFrame, FilmStrip } from './Compare.tsx';
 export {
+  Menu,
+  type MenuItem,
+  type MenuProps,
   Picker,
   type PickerOption,
   type PickerProps,

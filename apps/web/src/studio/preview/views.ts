@@ -611,21 +611,19 @@ export function optimiseView(c: ViewCtx, out: OptimiseResult, bag: EvBag): Optim
       role: p.role,
       label: ROLE[p.role] ?? p.role,
       cand,
-      capex: bag.fixed(
-        `opt.${p.role}.capex`,
-        BigInt(Math.round(cand.capexRs)) * 100_000_000n,
-        money,
-        step,
-      ),
-      opex: bag.fixed(
-        `opt.${p.role}.opex`,
-        BigInt(Math.round(cand.opexRs)) * 100_000_000n,
-        moneyYr,
-        step,
-      ),
+      capex: bag.fixed(`opt.${p.role}.capex`, BigInt(Math.round(cand.capexRs)) * 100_000_000n, money, step),
+      opex: bag.fixed(`opt.${p.role}.opex`, BigInt(Math.round(cand.opexRs)) * 100_000_000n, moneyYr, step),
       eui: bag.num(`opt.${p.role}.eui`, cand.eui, 'kWh/m2.yr', 2),
       ...(p.euiBeforeGeneration !== undefined
-        ? { euiBefore: bag.num(`opt.${p.role}.eui_gross`, p.euiBeforeGeneration, 'kWh/m2.yr', 2, 'Energy use before solar') }
+        ? {
+            euiBefore: bag.num(
+              `opt.${p.role}.eui_gross`,
+              p.euiBeforeGeneration,
+              'kWh/m2.yr',
+              2,
+              'Energy use before solar',
+            ),
+          }
         : {}),
     });
   }
@@ -707,7 +705,9 @@ export function stageQuantities(doc: BuildingDoc): Record<StageId, string[]> {
 }
 
 /** Two roles that land on the same bundle show as one card ("Lowest running cost and lowest energy"). */
-export function mergePicks<T extends { role: string; label: string; cand: { id: string } }>(picks: readonly T[]): T[] {
+export function mergePicks<T extends { role: string; label: string; cand: { id: string } }>(
+  picks: readonly T[],
+): T[] {
   const out: T[] = [];
   for (const p of picks) {
     const same = out.findIndex((o) => o.cand.id === p.cand.id);
@@ -719,4 +719,3 @@ export function mergePicks<T extends { role: string; label: string; cand: { id: 
   }
   return out;
 }
-

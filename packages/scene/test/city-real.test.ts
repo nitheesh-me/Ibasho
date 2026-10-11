@@ -3,11 +3,21 @@ import type { BuildingDoc, CityTile } from '@ibasho/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { HERO_CONTEXT_IDS, loadCityTiles } from '../../../packs/city-hyderabad/src/engine/index.ts';
 import gb1 from '../../fixtures/src/buildings/gb1.building.json' with { type: 'json' };
+import rad from '../../fixtures/src/preview/gb1/radiation.json' with { type: 'json' };
 import { compile } from '../../plan/src/index.ts';
 import { chromeInsets, layoutOf, radiationDomain } from '../src/city/CityStage.tsx';
 import { pointInRing } from '../src/city/frame.ts';
+import { heroFromCompiled, heroFromDoc } from '../src/city/hero.ts';
 import { cityModel, defaultLanterns } from '../src/city/model.ts';
-import { passMask, previewDaylight, previewSite, sdaShare } from '../src/city/preview.ts';
+import {
+  annualKwh,
+  passMask,
+  previewDaylight,
+  previewSite,
+  sdaShare,
+  surfaceKey,
+} from '../src/city/preview.ts';
+import { plinthRing } from '../src/city/sceneParts.ts';
 import { focusFromHit, resolveFocus } from '../src/city/view.ts';
 
 const doc = gb1 as unknown as BuildingDoc;
@@ -109,6 +119,53 @@ describe('GB1 on the city-hyderabad pack', () => {
       level: 'floor',
       storeyId: 'st_2',
     });
+  });
+});
+
+describe('round 8 checks', () => {
+  it('no neighbour footprint overlaps GB1 or its site board (the close view only looks past them)', () => {
+    const m = cityModel({ tiles, hero: doc, hideContextIds: HERO_CONTEXT_IDS.gb1 ?? [] });
+    const hero = m.hero!;
+    const rings = hero.rooms.map((r) => r.ring);
+    const board = plinthRing(m.heroDoc, hero);
+    for (const c of m.masses) {
+      for (const p of c.ring) {
+        expect(pointInRing(p[0], p[1], board)).toBe(false);
+        for (const r of rings) expect(pointInRing(p[0], p[1], r)).toBe(false);
+      }
+    }
+  });
+
+  it('the compiled hero is rotated once: same footprint as the document path', () => {
+    const a = heroFromDoc(doc);
+    const b = heroFromCompiled(doc, compile(doc).meshes);
+    const box = (h: typeof a) => {
+      const w = h.surfaces.filter((s) => s.kind === 'wall');
+      const xs = w.flatMap((s) => s.tris.filter((_, i) => i % 3 === 0));
+      const zs = w.flatMap((s) => s.tris.filter((_, i) => i % 3 === 2));
+      return [Math.min(...xs), Math.max(...xs), Math.min(...zs), Math.max(...zs)];
+    };
+    const [ax0, ax1, az0, az1] = box(a);
+    const [bx0, bx1, bz0, bz1] = box(b);
+    for (const [u, v] of [
+      [ax0, bx0],
+      [ax1, bx1],
+      [az0, bz0],
+      [az1, bz1],
+    ] as const)
+      expect(Math.abs(u! - v!)).toBeLessThan(0.6);
+  });
+
+  it('radiation paints the compiled facades, not only the roof', () => {
+    const hero = heroFromCompiled(doc, compile(doc).meshes);
+    const surfaces = (rad as unknown as { surfaces: { id: string; irrWhm2: string[] }[] }).surfaces;
+    const by = new Map(surfaces.flatMap((s) => [[s.id, s] as const, [surfaceKey(s.id), s] as const]));
+    const walls = hero.surfaces.filter((s) => s.kind === 'wall');
+    const painted = walls.filter((s) => {
+      const d = by.get(s.id) ?? by.get(surfaceKey(s.id));
+      return d && annualKwh(d as never) !== null;
+    });
+    expect(painted.length / walls.length).toBeGreaterThan(0.8);
   });
 });
 

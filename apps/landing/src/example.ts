@@ -11,7 +11,8 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describeOps, FUTURE_ROLE_COPY, rupees } from '@ibasho/content';
+import { describeOps, END_USE_COPY, FUTURE_ROLE_COPY, rupees } from '@ibasho/content';
+import { END_USES, type EndUse } from '@ibasho/core';
 
 interface Range {
   lo: number;
@@ -38,6 +39,15 @@ export interface ExampleData {
   bill?: string;
   rating?: { level: string; context: string };
   futures: ExampleFuture[];
+  /** Shares of the year's energy by end use, largest first, for the end use bar. */
+  endUses: { id: EndUse; label: string; share: number }[];
+  /** EUI as drawn and the code reference, in kWh/m² a year, for the range plate. */
+  euiRange: Range;
+  targetRange?: Range;
+  /** Rating rows for the codes plate. */
+  ratings: { scheme: string; level: string; status: 'likely' | 'possible' | 'unknown' }[];
+  /** Linked values behind the energy result, for the evidence plate. */
+  evidenceCount: number;
 }
 
 /** Money in the studio's bills is fixed point: 10^8 units to the rupee. */
@@ -75,7 +85,13 @@ export function readExample(repoRoot: string, buildingId = 'gb1'): ExampleData |
   try {
     const dir = join(repoRoot, 'packages', 'fixtures', 'src', 'preview', buildingId);
     const energy = readJson(join(dir, 'energy.json')) as
-      | { stamp: { impl: string }; eui: { site: Range }; bills?: { currency: string; total: string }[] }
+      | {
+          stamp: { impl: string };
+          eui: { site: Range };
+          bills?: { currency: string; total: string }[];
+          endUses?: Partial<Record<string, string[]>>;
+          evidence?: { nodes?: unknown[] };
+        }
       | undefined;
     const codes = readJson(join(dir, 'codes.json')) as
       | {
@@ -127,7 +143,31 @@ export function readExample(repoRoot: string, buildingId = 'gb1'): ExampleData |
       if (!seen.has(c.id)) seen.set(c.id, name);
     }
 
+    const totals = END_USES.filter((u) => u !== 'pv').map((u) => ({
+      id: u,
+      total: (energy.endUses?.[u] ?? []).reduce((a, x) => a + Number(x), 0),
+    }));
+    const sum = totals.reduce((a, t) => a + t.total, 0);
+    const endUses =
+      sum > 0
+        ? totals
+            .filter((t) => t.total > 0)
+            .map((t) => ({ id: t.id, label: END_USE_COPY[t.id], share: t.total / sum }))
+            .sort((a, b) => b.share - a.share)
+        : [];
+    const ratings = (codes?.ratings ?? []).slice(0, 4).map((r) => {
+      const lv = r.level.likely;
+      const status: 'likely' | 'possible' | 'unknown' = lv === 'unknown' ? 'unknown' : 'likely';
+      const level = lv === 'unknown' ? 'Not known yet' : lv === 'none' ? 'No level yet' : `${lv}`;
+      return { scheme: r.scheme.replace(/-/g, ' '), level, status };
+    });
+
     return {
+      endUses,
+      euiRange: energy.eui.site,
+      ...(baseline ? { targetRange: baseline.eui } : {}),
+      ratings,
+      evidenceCount: energy.evidence?.nodes?.length ?? 0,
       preview: energy.stamp.impl === 'preview' || opt.stamp.impl === 'preview',
       lat: place?.lat ?? 0,
       lon: place?.lon ?? 0,

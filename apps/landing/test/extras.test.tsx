@@ -55,39 +55,95 @@ describe('promises', () => {
 });
 
 describe('stills', () => {
-  it('copy rendered stills, skip missing ones, and drop them into their chapter', () => {
+  const still = (id: string, chapter: string, theme: string, file: string, preview = true) => ({
+    id,
+    chapter,
+    theme,
+    alt: `${id} alt.`,
+    preview,
+    files: {
+      large: { file: `${file}-1600.webp`, width: 1600, height: 1000 },
+      small: { file: `${file}-800.webp`, width: 800, height: 500 },
+    },
+  });
+
+  function fixture(entries: object[], files: string[]) {
     const root = mkdtempSync(join(tmpdir(), 'ibasho-posters-'));
     const src = join(root, 'packages', 'scene', 'dev', 'posters');
     mkdirSync(src, { recursive: true });
-    writeFileSync(
-      join(src, 'manifest.json'),
-      JSON.stringify({
-        posters: [
-          {
-            id: 'city-day',
-            theme: 'hiru',
-            alt: 'The campus as a paper model.',
-            files: { large: 'a-1600.png', small: 'a-800.png' },
-          },
-          {
-            id: 'sun-sweep',
-            theme: 'hiru',
-            alt: 'Sun hours.',
-            files: { large: 'b-1600.png', small: 'b-800.png' },
-          },
-          { id: 'bad', alt: 'x', files: { large: '../escape.png', small: 'c.png' } },
-        ],
-      }),
+    writeFileSync(join(src, 'manifest.json'), JSON.stringify({ posters: entries }));
+    for (const f of files) writeFileSync(join(src, f), 'x');
+    return syncPosters(root, join(root, 'public'));
+  }
+
+  it('copy rendered stills, skip missing or unsafe ones, and drop them into their chapter', () => {
+    const posters = fixture(
+      [
+        still('city-day', 'city', 'hiru', 'a'),
+        still('sun-day', 'sun', 'hiru', 'b'),
+        { id: 'bad', alt: 'x', files: { large: { file: '../escape.png' } } },
+      ],
+      ['a-1600.webp', 'a-800.webp'],
     );
-    writeFileSync(join(src, 'a-1600.png'), 'x');
-    writeFileSync(join(src, 'a-800.png'), 'x');
-    const pub = join(root, 'public');
-    const posters = syncPosters(root, pub);
     expect([...posters.keys()]).toEqual(['city-day']);
     const doc = parse(renderLanding(real, { posters }));
     const img = doc.querySelector('#city .lp-ch__still img');
-    expect(img?.getAttribute('src')).toBe('/posters/a-1600.png');
-    expect(img?.getAttribute('alt')).toBe('The campus as a paper model.');
+    expect(img?.getAttribute('src')).toBe('/posters/a-1600.webp');
+    expect(img?.getAttribute('srcset')).toBe('/posters/a-800.webp 800w, /posters/a-1600.webp 1600w');
+    expect(img?.getAttribute('width')).toBe('1600');
+    expect(img?.getAttribute('loading')).toBe('lazy');
+    expect(doc.querySelector('#city .lp-preview--corner')).not.toBeNull();
     expect(doc.querySelector('#sun .lp-panel')).not.toBeNull();
+  });
+
+  it('show the day or the night still by theme, and the night hero as a picture', () => {
+    const posters = fixture(
+      [
+        still('city-day', 'city', 'hiru', 'a'),
+        still('city-night', 'city', 'yoru', 'n'),
+        still('hero-wide', 'hero', 'yoru', 'w'),
+        {
+          ...still('hero-phone', 'hero', 'yoru', 'p'),
+          files: { large: { file: 'p-720.webp', width: 720, height: 900 } },
+        },
+        still('invitation-dusk', 'invitation', 'hiru', 'd', false),
+      ],
+      [
+        'a-1600.webp',
+        'a-800.webp',
+        'n-1600.webp',
+        'n-800.webp',
+        'w-1600.webp',
+        'w-800.webp',
+        'p-720.webp',
+        'd-1600.webp',
+        'd-800.webp',
+      ],
+    );
+    const doc = parse(renderLanding(real, { posters }));
+    expect(doc.querySelector('#city img.lp-still--hiru')).not.toBeNull();
+    expect(doc.querySelector('#city img.lp-still--yoru')).not.toBeNull();
+    const pic = doc.querySelector('#hero picture.lp-still--yoru');
+    expect(pic?.querySelector('source')?.getAttribute('media')).toBe('(min-width: 48rem)');
+    expect(pic?.querySelector('img')?.getAttribute('src')).toBe('/posters/p-720.webp');
+    expect(doc.querySelector('#hero img.lp-still--hiru')).not.toBeNull();
+    expect(doc.querySelector('#invitation .lp-invite__still')?.getAttribute('src')).toBe(
+      '/posters/d-1600.webp',
+    );
+  });
+
+  it('carry result plates with the worked example figures on energy, codes, compare and trust', () => {
+    const ids = ['energy', 'codes', 'compare', 'trust'];
+    const posters = fixture(
+      ids.map((c) => still(`${c}-day`, c, 'hiru', c)),
+      ids.flatMap((c) => [`${c}-1600.webp`, `${c}-800.webp`]),
+    );
+    const ex = readExample(repoRoot);
+    const doc = parse(renderLanding(real, { posters, example: ex }));
+    for (const c of ids) expect(doc.querySelector(`#${c} .lp-plate`), c).not.toBeNull();
+    expect(doc.querySelectorAll('#energy .lp-enduse > span').length).toBeGreaterThan(2);
+    expect(doc.querySelectorAll('#compare .lp-plate__cards li')).toHaveLength(3);
+    expect(doc.querySelector('#trust .lp-plate__value')?.textContent).toMatch(/^\d+ to \d+ kWh/);
+    expect(doc.querySelector('#city .lp-plate')).toBeNull();
   });
 });

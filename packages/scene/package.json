@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "vite --config dev/vite.config.ts",
     "capture": "node dev/capture.mjs",
+    "posters": "node dev/posters.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests"
   },

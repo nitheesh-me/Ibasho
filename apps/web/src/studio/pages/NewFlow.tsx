@@ -145,8 +145,9 @@ export function NewFlow() {
     let placeId = existingPlace?.place.id;
     if (!placeId) {
       const p = pick;
+      if (p.sample) st.addSamplePlace(p.id);
       placeId = p.sample
-        ? (st.addSamplePlace(p.id), p.id)
+        ? p.id
         : p.id === 'iiit' && useStudio.getState().places[IIIT_PLACE_ID]
           ? IIIT_PLACE_ID
           : st.createPlace({ name: p.name, lat: p.lat, lon: p.lon, area: p.area });

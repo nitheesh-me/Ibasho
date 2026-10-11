@@ -21,12 +21,8 @@ import type { CityLensId, PhototropicSpec, ZoomLevel } from './types.ts';
 export const CITY_CSS = `
 .ib-city { font-family: var(--font-gothic); color: var(--ink); }
 .ib-city :focus-visible { outline: 2px solid var(--focus, var(--deep)); outline-offset: 2px; box-shadow: 0 0 0 4px var(--paper); }
-.ib-city-panel {
-  background: color-mix(in oklch, var(--paper-raised) 86%, transparent);
-  -webkit-backdrop-filter: blur(10px) saturate(1.05); backdrop-filter: blur(10px) saturate(1.05);
-  border: 1px solid color-mix(in oklch, var(--ink-3) 35%, transparent);
-  border-radius: 0; box-shadow: var(--kage-1);
-}
+/* Panels are the studio's \`ib-plate\` (surface, line, kage or tomoshibi); this only resets padding. */
+.ib-city-panel { padding: 0; border-radius: var(--r-1); }
 .ib-city[data-theme="yoru"] .ib-city-panel { box-shadow: var(--tomoshibi); }
 .ib-city-panel--pad { padding: var(--ma-2) var(--ma-3); }
 .ib-city .ib-ladder { font-size: var(--fs-ui); }
@@ -35,30 +31,24 @@ export const CITY_CSS = `
 .ib-city-chips { display: flex; gap: var(--ma-1); margin: 0; padding: 0; border: 0; overflow-x: auto; scrollbar-width: none;
   scroll-snap-type: x proximity; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8px, #000 calc(100% - 16px), transparent);
   mask-image: linear-gradient(90deg, transparent 0, #000 8px, #000 calc(100% - 16px), transparent); padding-inline: 8px; }
-.ib-city-chip { appearance: none; scroll-snap-align: start; display: inline-flex; align-items: center; gap: 6px; flex: none;
-  min-block-size: 44px; padding: 0 var(--ma-3); border: 1px solid var(--line); border-radius: 0;
-  background: color-mix(in oklch, var(--paper-raised) 84%, transparent); color: var(--text-2);
-  font: 500 var(--fs-ui)/1 var(--font-gothic); cursor: pointer; white-space: nowrap;
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.ib-city-chip:hover { color: var(--ink); border-color: var(--ink-3); }
-.ib-city-chip[aria-checked="true"], .ib-city-chip[aria-pressed="true"] { background: var(--paper-sunk); color: var(--ink);
-  box-shadow: inset 0 -2px 0 var(--ink); }
-.ib-city[data-theme="yoru"] .ib-city-chip[aria-checked="true"] { box-shadow: inset 0 -2px 0 var(--glow), var(--tomoshibi); }
+/* Chips are the studio's \`ib-chip\` (size, type, active bead); this only lays out the swatch. */
+.ib-city-chip { scroll-snap-align: start; display: inline-flex; align-items: center; gap: var(--ma-1); flex: none; white-space: nowrap; }
+.ib-city[data-theme="yoru"] .ib-chip[aria-checked="true"] { box-shadow: inset 0 -2px 0 var(--ink), var(--tomoshibi); }
 .ib-city-chips--wrap { flex-wrap: wrap; justify-content: flex-end; overflow: visible; -webkit-mask-image: none; mask-image: none; padding-inline: 0; }
-.ib-city-chips--wrap .ib-city-chip { padding: 0 10px; gap: 5px; }
+
 .ib-city-swatch { inline-size: 14px; block-size: 6px; border: 1px solid var(--line); }
 .ib-city-num, .ib-city code { font-family: var(--font-code); font-variant-numeric: tabular-nums; }
 .ib-city-unit { color: var(--text-2); font-size: var(--fs-cap); }
-.ib-city-time { display: grid; gap: 4px; padding: 6px 12px; }
-.ib-city-time__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ib-city-time { display: grid; gap: var(--ma-1); padding: var(--ma-2) var(--ma-3); }
+.ib-city-time__row { display: flex; align-items: center; gap: var(--ma-3); flex-wrap: wrap; font-size: var(--fs-ui); }
 .ib-city-scrub { position: relative; flex: 1 1 220px; min-inline-size: 180px; block-size: 44px; touch-action: none; cursor: pointer; }
 .ib-city-scrub svg { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; }
 .ib-city-months { display: flex; gap: 2px; flex: 1 1 200px; }
 .ib-city-months button { flex: 1; min-inline-size: 18px; min-block-size: 32px; border: 0; border-block-end: 2px solid var(--line);
-  background: transparent; color: var(--text-3); font: 500 var(--fs-cap)/1 var(--font-gothic); cursor: pointer; padding: 0; }
+  background: transparent; color: var(--text-3); font: inherit; font-size: var(--fs-cap); letter-spacing: 0.02em; cursor: pointer; padding: 0; }
 .ib-city-months button[aria-pressed="true"] { color: var(--ink); border-block-end-color: var(--ink); }
 .ib-city-big-clock { font: 400 var(--fs-h2)/1 var(--font-code); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; padding: 4px 14px; }
-.ib-city-note { font: 500 var(--fs-ui)/1.4 var(--font-gothic); padding: 6px 10px; max-inline-size: 280px; }
+.ib-city-note { font-size: var(--fs-ui); line-height: var(--lh-ui); padding: var(--ma-2) var(--ma-3); max-inline-size: 280px; }
 .ib-city-label { display: inline-grid; gap: 1px; padding: 2px 6px; background: var(--paper-raised); border: 1px solid var(--line);
   font: 500 12px/1.3 var(--font-gothic); color: var(--ink); white-space: nowrap; text-align: center; }
 .ib-city-label b { font-weight: 500; }
@@ -69,7 +59,8 @@ export const CITY_CSS = `
 .ib-city-locator__leader { inline-size: 1px; block-size: 46px; background: var(--ink); }
 .ib-city-compass { display: grid; grid-template-columns: 44px 44px 44px; gap: 2px; }
 .ib-city-compass button { inline-size: 44px; block-size: 44px; display: grid; place-items: center; border: 1px solid var(--line);
-  background: color-mix(in oklch, var(--paper-raised) 86%, transparent); color: var(--ink); cursor: pointer; padding: 0; border-radius: 0; }
+  background: var(--surface-raised); color: var(--text); cursor: pointer; padding: 0; border-radius: var(--r-1); box-shadow: var(--kage-1); }
+.ib-city-compass button:hover { border-color: var(--ink-3); }
 .ib-city-scale { display: flex; flex: none; align-items: end; gap: 8px; white-space: nowrap; font: 400 var(--fs-cap)/1 var(--font-code); color: var(--ink); }
 .ib-city-scale__bar { block-size: 4px; border: 1px solid var(--ink); border-block-start: 0; }
 .ib-city-legend { display: grid; gap: 6px; }
@@ -85,14 +76,14 @@ export const CITY_CSS = `
 .ib-city-chip-pin { display: grid; gap: 6px; padding: 10px 12px; max-inline-size: 300px; font-size: var(--fs-ui); }
 .ib-city-chip-pin header { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; }
 .ib-city-chip-pin .ib-city-sub { color: var(--text-2); font-size: var(--fs-cap); }
-.ib-city-btn { appearance: none; min-block-size: 44px; padding: 0 var(--ma-3); border: 1px solid var(--ink); border-radius: 0;
-  background: var(--paper-raised); color: var(--ink); font: 500 var(--fs-ui)/1 var(--font-gothic); cursor: pointer; }
-.ib-city-btn[aria-pressed="true"] { background: var(--paper-sunk); box-shadow: inset 0 -2px 0 var(--ink); }
+/* Buttons are the studio's \`ib-btn ib-btn--quiet\`; pressed reads like an active chip. */
+.ib-city-btn { white-space: nowrap; }
+.ib-city-btn[aria-pressed="true"] { background: var(--paper-sunk); border-color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
 .ib-city-x { appearance: none; inline-size: 44px; block-size: 44px; margin: -10px -10px 0 0; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; }
-.ib-city-toast { padding: 8px 12px; font-size: var(--fs-ui); max-inline-size: 340px; }
+.ib-city-toast { padding: var(--ma-2) var(--ma-3); font-size: var(--fs-ui); max-inline-size: 340px; }
 .ib-city-storeys { display: grid; gap: 2px; }
-.ib-city-storeys button { min-inline-size: 44px; min-block-size: 32px; padding: 0 8px; border: 1px solid var(--line); border-radius: 0;
-  background: color-mix(in oklch, var(--paper-raised) 86%, transparent); color: var(--text-2); font: 500 var(--fs-cap)/1 var(--font-gothic); cursor: pointer; }
+.ib-city-storeys button { min-inline-size: 44px; min-block-size: 32px; padding: 0 var(--ma-2); border: 1px solid var(--line); border-radius: var(--r-1);
+  background: var(--surface-raised); color: var(--text-2); font: inherit; font-size: var(--fs-cap); letter-spacing: 0.02em; cursor: pointer; }
 .ib-city-storeys button[aria-pressed="true"] { background: var(--paper-sunk); color: var(--ink); box-shadow: inset 3px 0 0 var(--ink); }
 .ib-city-sheet { position: absolute; inset-inline: 0; inset-block-end: 0; display: grid; align-content: start; gap: 8px;
   padding: 8px 8px 12px; overflow-y: auto; border-inline: 0; border-block-end: 0; }
@@ -155,7 +146,7 @@ export function LensChips(p: { lens: CityLensId; onLens: (l: CityLensId) => void
             role="radio"
             aria-checked={p.lens === l}
             tabIndex={p.lens === l ? 0 : -1}
-            className="ib-city-chip"
+            className="ib-chip ib-city-chip"
             onClick={() => p.onLens(l)}
           >
             {ramp ? (
@@ -465,7 +456,10 @@ export function PinnedChip(p: {
     unknown: 'unknown, guessed from footprint size',
   };
   return (
-    <section className="ib-city-panel ib-city-chip-pin" aria-label={`${m.name ?? 'Neighbour'} details`}>
+    <section
+      className="ib-plate ib-city-panel ib-city-chip-pin"
+      aria-label={`${m.name ?? 'Neighbour'} details`}
+    >
       <header>
         <span>{m.name ?? 'Neighbour'}</span>
         <button type="button" className="ib-city-x" aria-label="Close" onClick={p.onClose}>
@@ -502,7 +496,7 @@ export function PinnedChip(p: {
             onChange={p.onFloors}
             label="floors"
           />
-          <button type="button" className="ib-city-btn" onClick={p.onEnter}>
+          <button type="button" className="ib-btn ib-btn--quiet ib-city-btn" onClick={p.onEnter}>
             Enter a real count
           </button>
         </span>
@@ -532,7 +526,7 @@ export function PlacePanel(p: {
   const c = p.check;
   return (
     <section
-      className="ib-city-panel ib-city-chip-pin"
+      className="ib-plate ib-city-panel ib-city-chip-pin"
       style={{ ...p.style, maxInlineSize: 320 }}
       aria-label="Place the building"
     >
@@ -546,7 +540,7 @@ export function PlacePanel(p: {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Move up 5 metres"
           onClick={() => p.onNudge(dir(up), 0)}
         >
@@ -554,7 +548,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Move down 5 metres"
           onClick={() => p.onNudge(dir(up + Math.PI), 0)}
         >
@@ -562,7 +556,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Move left 5 metres"
           onClick={() => p.onNudge(dir(up - Math.PI / 2), 0)}
         >
@@ -570,7 +564,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Move right 5 metres"
           onClick={() => p.onNudge(dir(up + Math.PI / 2), 0)}
         >
@@ -578,7 +572,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Turn 15 degrees anticlockwise"
           onClick={() => p.onNudge([0, 0], -15)}
         >
@@ -586,7 +580,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Turn 15 degrees clockwise"
           onClick={() => p.onNudge([0, 0], 15)}
         >
@@ -594,7 +588,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Ground half a metre lower"
           onClick={() => p.onGround(-500)}
         >
@@ -602,7 +596,7 @@ export function PlacePanel(p: {
         </button>
         <button
           type="button"
-          className="ib-city-btn"
+          className="ib-btn ib-btn--quiet ib-city-btn"
           aria-label="Ground half a metre higher"
           onClick={() => p.onGround(500)}
         >
@@ -652,7 +646,7 @@ export function SunBentStrip(p: { spec: PhototropicSpec; t: number; onPick: (t: 
   const steps = p.spec.steps ?? [];
   if (!steps.length)
     return (
-      <div className="ib-city-panel ib-city-note">
+      <div className="ib-plate ib-city-panel ib-city-note">
         <PreviewStamp compact /> Sun bent variant: an illustration until the search runs
       </div>
     );
@@ -673,7 +667,7 @@ export function SunBentStrip(p: { spec: PhototropicSpec; t: number; onPick: (t: 
   const last = k === steps.length - 1;
   return (
     <section
-      className="ib-city-panel ib-city-panel--pad"
+      className="ib-plate ib-city-panel ib-city-panel--pad"
       style={{ display: 'grid', gap: 6, maxInlineSize: 560 }}
       aria-label="Sun bent search"
     >

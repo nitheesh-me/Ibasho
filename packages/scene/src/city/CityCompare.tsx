@@ -62,7 +62,7 @@ export function CityCompare(p: CityCompareProps) {
     >
       {p.bare ? null : (
         <div
-          className="ib-city-panel"
+          className="ib-plate ib-city-panel"
           style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', padding: 8 }}
         >
           <Ladder
@@ -128,7 +128,7 @@ export function CityCompare(p: CityCompareProps) {
               />
               {p.bare ? null : (
                 <div
-                  className="ib-city-panel ib-city-note"
+                  className="ib-plate ib-city-panel ib-city-note"
                   style={{ position: 'absolute', left: 8, top: 8, maxWidth: 'calc(100% - 16px)' }}
                 >
                   <b>{o.label}</b>

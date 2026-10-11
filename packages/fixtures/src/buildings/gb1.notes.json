@@ -23,12 +23,13 @@
     "names": "read: room functions from the plan sheets (RB 3.2), functions only, no personal names",
     "floorToFloor": "assumed 3.9 m",
     "origin": "OSM outer ring centroid in the city-hyderabad frame; rotation 41.7 degrees",
-    "cellar": "partial under C4 and C5; the NE face is exposed (sloping site) with ventilators"
+    "cellar": "partial under C4 and C5; the NE face is exposed (sloping site) with ventilators",
+    "shading": "Estimated: an RCC chajja over every window band, 750 mm on the SW and NW facades and 600 mm on the NE and SE facades, 150 mm above the window head. The plan sheets show no elevations, so depths follow typical Hyderabad institutional practice (450 to 900 mm). No fins or jaalis are assumed."
   },
   "unknowns": [
     "window sizes and glazing (WWR 14% assumed from tag counts W1, W2, V2)",
     "wall and roof build-ups (RCC frame, masonry infill likely)",
-    "external shading (not drawn)",
+    "chajja depths and continuity (estimated, not drawn; fins and jaalis not assumed)",
     "permit date (built before 2014 TSECBC; edition unknown)",
     "roof PV",
     "lift and stair cores are modelled as rooms, not cores"

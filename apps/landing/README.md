@@ -22,3 +22,7 @@ The landing page at `/`: "Ibasho no kōjō". It introduces the v3 studio (a buil
 - Done: v3 copy, review round 2 (grain, theme, fold, length, worked example, still slots, studio-matched controls), tests (34).
 - Waiting on the scene: the stills themselves. They drop in on the next build once rendered.
 - Not yet: a Latin only font subset for the landing (the shared font stylesheet is large).
+
+## Stills from the city scene
+
+`src/posters.ts` reads `packages/scene/dev/posters/manifest.json` (id, chapter, theme, alt, preview, large and small files with sizes) in the Vite `config` hook, copies the files into `public/posters/` (pruning stale copies) and lists them. Each chapter shows its day still by day and its night still by night (`ThemedStill`); both are lazy and carry width and height, so the hidden one is never fetched and nothing shifts. The hero shows `city-day` by day and a `<picture>` of `hero-wide` (768 px and up) or `hero-phone` by night. The invitation sits over `invitation-dusk`. Stills marked `preview` carry the Preview hatch in a corner. Energy, codes, compare and trust stills are scene only; the page sets a small result plate over them with the worked example's figures (end use bar, EUI against the ECSBC reference, rating rows, the three futures, an evidence card), read from the studio's Preview results by `src/example.ts`.

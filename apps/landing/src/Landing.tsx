@@ -21,10 +21,12 @@ import {
   LANDING_FOOTER,
   LANDING_HERO_CAPTION,
   LANDING_INVITATION,
+  LANDING_PLATES,
   LANDING_PREVIEW_NOTE,
   LANDING_TAGLINE,
   type LandingChapter,
   markedTerms,
+  RATING_COPY,
   segments,
   termOf,
 } from '@ibasho/content';
@@ -33,7 +35,7 @@ import { Glyph, Mon } from '@ibasho/ui';
 import type { ReactNode } from 'react';
 import { CityArt } from './CityArt.tsx';
 import type { ExampleData } from './example.ts';
-import type { Poster } from './posters.ts';
+import { type Poster, srcSetOf, stillsFor } from './posters.ts';
 
 /** Copy with glossary marks rendered as links to the "Words we use" list. */
 export function Copy({ text }: { text: string }): ReactNode {
@@ -75,28 +77,75 @@ function PreviewMark({ corner = false }: { corner?: boolean }) {
   );
 }
 
-/** A still from the city scene, small and large, lazily loaded. */
+/** A still from the city scene, small and large by width, lazily loaded and sized to avoid shift. */
 function Still({
   poster,
-  eager = false,
   className,
+  sizes = '(min-width: 80rem) 50vw, 100vw',
 }: {
   poster: Poster;
-  eager?: boolean;
   className?: string;
+  sizes?: string;
 }) {
   return (
     <img
       className={className}
-      src={poster.large}
-      srcSet={`${poster.small} 800w, ${poster.large} 1600w`}
-      sizes="(min-width: 80rem) 50vw, 100vw"
+      src={poster.large.src}
+      srcSet={srcSetOf(poster)}
+      sizes={sizes}
       alt={poster.alt}
-      width={1600}
-      height={1000}
-      loading={eager ? 'eager' : 'lazy'}
+      width={poster.large.width}
+      height={poster.large.height}
+      loading="lazy"
       decoding="async"
     />
+  );
+}
+
+/**
+ * The day and the night still of one slot. Only the one for the theme in force is displayed, and
+ * a lazy image that is not displayed is never fetched, so a reader downloads one of the two.
+ */
+function ThemedStill({
+  day,
+  night,
+  sizes,
+}: {
+  day?: Poster | undefined;
+  night?: Poster | undefined;
+  sizes?: string;
+}) {
+  if (day && night)
+    return (
+      <>
+        <Still poster={day} className="lp-still lp-still--hiru" {...(sizes ? { sizes } : {})} />
+        <Still poster={night} className="lp-still lp-still--yoru" {...(sizes ? { sizes } : {})} />
+      </>
+    );
+  const one = day ?? night;
+  return one ? <Still poster={one} className="lp-still" {...(sizes ? { sizes } : {})} /> : null;
+}
+
+/** The hero at night: the wide lantern city on larger screens, the tall crop on phones. */
+function HeroNight({ wide, phone }: { wide?: Poster | undefined; phone?: Poster | undefined }) {
+  const main = phone ?? wide;
+  if (!main) return null;
+  return (
+    <picture className="lp-still lp-still--yoru">
+      {wide && phone ? (
+        <source media="(min-width: 48rem)" srcSet={srcSetOf(wide)} sizes="(min-width: 80rem) 55vw, 100vw" />
+      ) : null}
+      <img
+        src={main.large.src}
+        srcSet={srcSetOf(main)}
+        sizes="100vw"
+        alt={main.alt}
+        width={main.large.width}
+        height={main.large.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
   );
 }
 
@@ -112,8 +161,10 @@ function Hero({
   example?: ExampleData | undefined;
 }) {
   const titleId = `${chapter.id}-title`;
-  const day = posters.get('city-day');
-  const night = posters.get('lanterns');
+  const day = stillsFor(posters, 'city').day;
+  const wide = posters.get('hero-wide');
+  const phone = posters.get('hero-phone');
+  const stillPreview = [day, wide, phone].some((p) => p?.preview);
   const coords = example ? `${example.lat.toFixed(2)}° N, ${example.lon.toFixed(2)}° E` : undefined;
   return (
     <section id={chapter.id} className="lp-hero" data-chapter={chapter.id} aria-labelledby={titleId}>
@@ -130,10 +181,15 @@ function Hero({
           {chapter.title}
         </h1>
         <figure className="lp-hero__art">
-          {day && night ? (
-            <div className="lp-stills">
-              <Still poster={day} eager className="lp-still lp-still--hiru" />
-              <Still poster={night} eager className="lp-still lp-still--yoru" />
+          {day && (wide || phone) ? (
+            <div className="lp-stills lp-hero__frame">
+              <Still
+                poster={day}
+                className="lp-still lp-still--hiru"
+                sizes="(min-width: 80rem) 55vw, 100vw"
+              />
+              <HeroNight wide={wide} phone={phone} />
+              {stillPreview ? <PreviewMark corner /> : null}
             </div>
           ) : (
             <CityArt />
@@ -218,7 +274,8 @@ function Example({ data, poster }: { data: ExampleData; poster?: Poster | undefi
       </div>
       {poster ? (
         <figure className="lp-ex__still">
-          <Still poster={poster} />
+          <Still poster={poster} sizes="(min-width: 80rem) 30vw, 50vw" />
+          {poster.preview ? <PreviewMark corner /> : null}
         </figure>
       ) : null}
       <dl className="lp-ex__figures">
@@ -288,6 +345,152 @@ function Example({ data, poster }: { data: ExampleData; poster?: Poster | undefi
   );
 }
 
+/** End use colours: cooling deep, lighting lantern glow, equipment ember (DESIGN_SYSTEM 13.1). */
+const END_USE_TONE: Record<string, string> = {
+  cooling: 'var(--deep)',
+  heating: 'var(--warm)',
+  lighting: 'var(--glow)',
+  equipment: 'var(--ember)',
+  fans: 'var(--cold)',
+  pumps: 'var(--ink-3)',
+  'hot-water': 'var(--warm)',
+  other: 'var(--line)',
+};
+
+const pct = (x: number) => `${Math.round(x * 100)}%`;
+const r0 = (x: number) => String(Math.round(x));
+
+/** A small result plate set over a chapter still, with the worked example's own figures. */
+function Plate({ chapter, data }: { chapter: string; data: ExampleData }) {
+  const P = LANDING_PLATES;
+  if (chapter === 'energy' && data.endUses.length > 0) {
+    const t = data.targetRange;
+    const lo = Math.min(data.euiRange.lo, t?.lo ?? data.euiRange.lo) * 0.85;
+    const hi = Math.max(data.euiRange.hi, t?.hi ?? data.euiRange.hi) * 1.08;
+    const at = (x: number) => `${(((x - lo) / (hi - lo)) * 100).toFixed(1)}%`;
+    const band = (r: { lo: number; hi: number }) => ({
+      left: at(r.lo),
+      width: `calc(${at(r.hi)} - ${at(r.lo)})`,
+    });
+    return (
+      <div className="lp-plate lp-plate--energy">
+        <p className="lp-plate__title">{P.energy.title}</p>
+        <div
+          className="lp-enduse"
+          role="img"
+          aria-label={data.endUses.map((u) => `${u.label} ${pct(u.share)}`).join(', ')}
+        >
+          {data.endUses.map((u) => (
+            <span key={u.id} style={{ flexGrow: u.share, background: END_USE_TONE[u.id] ?? 'var(--line)' }} />
+          ))}
+        </div>
+        <ul className="lp-enduse__key">
+          {data.endUses.slice(0, 4).map((u) => (
+            <li key={u.id}>
+              <span
+                className="lp-enduse__sw"
+                style={{ background: END_USE_TONE[u.id] ?? 'var(--line)' }}
+                aria-hidden="true"
+              />
+              {u.label} <span className="lp-data">{pct(u.share)}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="lp-range" aria-hidden="true">
+          {t ? <span className="lp-range__band lp-range__band--target" style={band(t)} /> : null}
+          <span className="lp-range__band" style={band(data.euiRange)} />
+        </div>
+        <dl className="lp-plate__rows">
+          <div>
+            <dt>{P.energy.range}</dt>
+            <dd className="lp-data">
+              {r0(data.euiRange.lo)} to {r0(data.euiRange.hi)} {P.energy.unit}
+            </dd>
+          </div>
+          {t ? (
+            <div>
+              <dt>{P.energy.target}</dt>
+              <dd className="lp-data">
+                {r0(t.lo)} to {r0(t.hi)} {P.energy.unit}
+              </dd>
+            </div>
+          ) : null}
+        </dl>
+      </div>
+    );
+  }
+  if (chapter === 'codes' && data.ratings.length > 0) {
+    return (
+      <div className="lp-plate lp-plate--codes">
+        <p className="lp-plate__title">{P.codes.title}</p>
+        <dl className="lp-plate__rows">
+          {data.ratings.map((r) => (
+            <div key={r.scheme}>
+              <dt>{r.scheme}</dt>
+              <dd>
+                <span className="lp-chip" data-status={r.status}>
+                  {RATING_COPY[r.status]}
+                </span>{' '}
+                {r.level}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="lp-plate__note">{P.codes.note}</p>
+      </div>
+    );
+  }
+  if (chapter === 'compare' && data.futures.length > 0) {
+    return (
+      <div className="lp-plate lp-plate--compare">
+        <p className="lp-plate__title">{P.compare.title}</p>
+        <ol className="lp-plate__cards">
+          {data.futures.map((f) => (
+            <li key={f.role}>
+              <span className="lp-plate__card-name">{f.name}</span>
+              <span className="lp-data">
+                {P.compare.upfront} {f.upfront}
+              </span>
+              {f.saves ? (
+                <span className="lp-data">
+                  {P.compare.saves} {f.saves}
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+      </div>
+    );
+  }
+  if (chapter === 'trust') {
+    return (
+      <div className="lp-plate lp-plate--trust">
+        <p className="lp-plate__title">{P.trust.title}</p>
+        <p className="lp-plate__value lp-data">
+          {r0(data.euiRange.lo)} to {r0(data.euiRange.hi)} {P.energy.unit}
+        </p>
+        <dl className="lp-plate__rows">
+          <div>
+            <dt>{P.trust.method}</dt>
+            <dd>{P.trust.methodValue}</dd>
+          </div>
+          {data.evidenceCount > 0 ? (
+            <div>
+              <dt>{P.trust.inputs}</dt>
+              <dd className="lp-data">{data.evidenceCount}</dd>
+            </div>
+          ) : null}
+          <div>
+            <dt>{P.trust.grade}</dt>
+            <dd>{data.preview ? P.trust.gradePreview : P.trust.gradeReal}</dd>
+          </div>
+        </dl>
+      </div>
+    );
+  }
+  return null;
+}
+
 function Types() {
   const types = Object.values(BUILDING_TYPE_COPY);
   return (
@@ -306,14 +509,19 @@ function Chapter({
   chapter,
   index,
   preview,
-  poster,
+  stills,
+  example,
 }: {
   chapter: LandingChapter;
   index: number;
   preview: boolean;
-  poster?: Poster | undefined;
+  stills: { day?: Poster | undefined; night?: Poster | undefined };
+  example?: ExampleData | undefined;
 }) {
   const titleId = `${chapter.id}-title`;
+  const has = Boolean(stills.day || stills.night);
+  const stamped = preview || Boolean(stills.day?.preview || stills.night?.preview);
+  const plate = example && has ? <Plate chapter={chapter.id} data={example} /> : null;
   return (
     <section
       id={chapter.id}
@@ -357,16 +565,20 @@ function Chapter({
           </a>
         ) : null}
       </div>
-      <figure className={poster ? 'lp-ch__still' : 'lp-ch__still lp-ch__still--drawn'}>
-        {poster ? (
-          <Still poster={poster} />
+      <figure
+        className={has ? 'lp-ch__still' : 'lp-ch__still lp-ch__still--drawn'}
+        data-plate={plate ? chapter.id : undefined}
+      >
+        {has ? (
+          <ThemedStill day={stills.day} night={stills.night} />
         ) : (
           <div className="lp-panel" aria-hidden="true">
             <Glyph char={chapter.glyph} pad={60} className="lp-panel__glyph" />
             <span className="lp-panel__gloss">{chapter.glyphMeaning}</span>
           </div>
         )}
-        {preview ? <PreviewMark corner /> : null}
+        {stamped ? <PreviewMark corner /> : null}
+        {plate}
       </figure>
     </section>
   );
@@ -381,7 +593,7 @@ function Invitation({ poster }: { poster?: Poster | undefined }) {
       data-still={poster ? '' : undefined}
       aria-labelledby="invitation-title"
     >
-      {poster ? <Still poster={poster} className="lp-invite__still" /> : null}
+      {poster ? <Still poster={poster} className="lp-invite__still" sizes="100vw" /> : null}
       <div className="lp-invite__inner">
         <h2 id="invitation-title" className="lp-invite__title">
           {inv.title}
@@ -446,12 +658,21 @@ export function LandingPage({
   const hero = first?.id === 'hero' ? first : undefined;
   const others = hero ? rest : chapters;
   const anyPreview = others.some((c) => preview.has(c.id)) || example?.preview === true;
-  const posterOf = (c: LandingChapter): Poster | undefined =>
+  const stillsOf = (c: LandingChapter) =>
     c.poster
-      ? { id: c.id, theme: 'hiru', alt: c.poster.alt, large: c.poster.src, small: c.poster.src }
+      ? {
+          day: {
+            id: c.id,
+            chapter: c.id,
+            theme: 'hiru' as const,
+            alt: c.poster.alt,
+            preview: false,
+            large: { src: c.poster.src, width: 1600, height: 1000 },
+          },
+        }
       : c.posterId
-        ? posters.get(c.posterId)
-        : undefined;
+        ? stillsFor(posters, c.posterId)
+        : {};
   return (
     <>
       <a className="lp-skip" href="#story">
@@ -478,9 +699,18 @@ export function LandingPage({
         <Audiences />
         {example ? <Example data={example} poster={posters.get(LANDING_EXAMPLE.posterId)} /> : null}
         {others.map((c, i) => (
-          <Chapter key={c.id} chapter={c} index={i} preview={preview.has(c.id)} poster={posterOf(c)} />
+          <Chapter
+            key={c.id}
+            chapter={c}
+            index={i}
+            preview={preview.has(c.id)}
+            stills={stillsOf(c)}
+            example={example}
+          />
         ))}
-        <Invitation poster={posters.get(LANDING_INVITATION.posterId)} />
+        <Invitation
+          poster={stillsFor(posters, LANDING_INVITATION.posterId).day ?? posters.get('invitation-dusk')}
+        />
         <Words ids={termsUsed(chapters, anyPreview)} />
       </main>
       <footer className="lp-foot">

@@ -187,9 +187,11 @@ export interface RatingLadderProps {
   rows: LadderRow[];
   axisMax?: number;
   preview?: boolean;
+  /** Plain words for the savings range in the head (replaces the bare number). */
+  summary?: ReactNode;
 }
 
-export function RatingLadder({ savings, rows, axisMax = 60, preview }: RatingLadderProps) {
+export function RatingLadder({ savings, rows, axisMax = 60, preview, summary }: RatingLadderProps) {
   const src = useEvidenceSource();
   const m = magnitude(src.node(savings));
   const lo = m?.lo ?? 0;
@@ -198,16 +200,11 @@ export function RatingLadder({ savings, rows, axisMax = 60, preview }: RatingLad
   return (
     <figure className="ib-rladder">
       <figcaption className="ib-rladder__head">
-        <span>Savings against the code baseline</span>
-        <Num ev={savings} />
+        <span>Against the code baseline</span>
+        {summary ?? <Num ev={savings} />}
         {preview ? <PreviewStamp compact /> : null}
       </figcaption>
       <div className="ib-rladder__rows">
-        <div
-          className="ib-rladder__band"
-          aria-hidden="true"
-          style={{ insetInlineStart: at(lo), inlineSize: at(hi - lo) }}
-        />
         {rows.map((r) => (
           <div key={r.scheme} className="ib-rladder__row">
             <div className="ib-rladder__name">
@@ -216,20 +213,34 @@ export function RatingLadder({ savings, rows, axisMax = 60, preview }: RatingLad
               {r.estimate ? <span className="ib-badge-estimate">estimate</span> : null}
             </div>
             <ol className="ib-rladder__steps">
-              {r.steps.map((s) => {
+              <li
+                className="ib-rladder__band"
+                aria-hidden="true"
+                style={{ insetInlineStart: at(lo), inlineSize: at(Math.max(0, hi - lo)) }}
+              />
+              {r.steps.map((s, i) => {
                 const st = stepState(s.atLeast, lo, hi);
+                // One readable label per row at most two: the highest likely step and the highest possible one
+                // (or the first step when none is reached), so labels never overlap.
+                const likelyTop = r.steps.filter((x) => stepState(x.atLeast, lo, hi) === 'likely').pop();
+                const possibleTop = r.steps.filter((x) => stepState(x.atLeast, lo, hi) === 'possible').pop();
+                const show = s === likelyTop || s === possibleTop || (!likelyTop && !possibleTop && i === 0);
                 return (
                   <li
                     key={s.level}
                     className="ib-rladder__step"
                     data-state={st}
+                    data-end={s.atLeast / axisMax > 0.7 ? '' : undefined}
                     style={{ insetInlineStart: at(s.atLeast) }}
                     aria-label={`${s.level}: ${st === 'not-yet' ? 'not reached' : st}`}
+                    title={s.level}
                   >
                     <span className="ib-rladder__mark" aria-hidden="true" />
-                    <span className="ib-rladder__level" aria-hidden="true">
-                      {s.level}
-                    </span>
+                    {show ? (
+                      <span className="ib-rladder__level" aria-hidden="true">
+                        {s.level}
+                      </span>
+                    ) : null}
                   </li>
                 );
               })}

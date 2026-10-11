@@ -186,7 +186,7 @@
   stroke-linecap: round;
 }
 .ib-editor__tool-label {
-  font-size: 0.5625rem;
+  font-size: var(--fs-tick);
   letter-spacing: 0.02em;
   line-height: 1;
 }
@@ -195,7 +195,7 @@
   inset-block-start: 2px;
   inset-inline-end: 3px;
   font-family: var(--font-code);
-  font-size: 0.5rem;
+  font-size: var(--fs-tick);
   opacity: 0.6;
 }
 .ib-editor__rail-gap {
@@ -321,7 +321,7 @@
   gap: 2px;
   color: var(--text-2);
   font-family: var(--font-code);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
   pointer-events: none;
 }
 .ib-editor__scale-bar {

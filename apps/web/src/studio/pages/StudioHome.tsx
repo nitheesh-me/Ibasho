@@ -8,7 +8,7 @@
  * lineage link). Nothing is deleted unless the person asks.
  */
 import type { Place } from '@ibasho/core';
-import { EvidenceProvider, Mon, Num, PreviewStamp, staticEvidence, TYPE_INFO } from '@ibasho/ui';
+import { EvidenceProvider, Menu, Mon, Num, PreviewStamp, staticEvidence, TYPE_INFO } from '@ibasho/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { agoWords } from '../hooks.ts';
@@ -29,6 +29,7 @@ export function StudioHome() {
   const st = useStudio.getState();
   const list = Object.values(places).sort((a, b) => b.updatedAt - a.updatedAt);
   const [confirm, setConfirm] = useState<string | null>(null);
+  const [renaming, setRenaming] = useState<string | null>(null);
 
   useEffect(() => {
     if (!ready) return;
@@ -201,38 +202,76 @@ export function StudioHome() {
                 <span className="st-place__when">Changed {agoWords(p.updatedAt)}</span>
               </div>
               <div className="st-place__actions">
-                <button
-                  type="button"
-                  className="ib-link"
-                  onClick={() => {
-                    const id = st.branch(p.place.id);
-                    nav(`/p/${id}`);
-                  }}
-                  title="Copy this place into a new project; the original stays as it is"
+                <Link
+                  to={first ? `/p/${p.place.id}/b/${first.id}?level=building` : `/new?place=${p.place.id}`}
+                  className="ib-btn ib-btn--quiet ib-btn--small"
                 >
-                  Branch
-                </button>
-                <Link to={`/new?place=${p.place.id}`} className="ib-link">
-                  Add a building
+                  Open
                 </Link>
                 {confirm === p.place.id ? (
-                  <span className="st-confirm">
-                    Delete for good?{' '}
-                    <button type="button" className="ib-link" onClick={() => st.removePlace(p.place.id)}>
-                      Delete
+                  <span className="st-confirm" role="alert">
+                    Remove {p.place.name} and its buildings from this device?{' '}
+                    <button
+                      type="button"
+                      className="ib-btn ib-btn--small st-confirm__yes"
+                      onClick={() => st.removePlace(p.place.id)}
+                    >
+                      Remove
                     </button>{' '}
-                    <button type="button" className="ib-link" onClick={() => setConfirm(null)}>
+                    <button
+                      type="button"
+                      className="ib-btn ib-btn--quiet ib-btn--small"
+                      onClick={() => setConfirm(null)}
+                    >
                       Keep
                     </button>
                   </span>
-                ) : (
-                  <button
-                    type="button"
-                    className="ib-link st-place__del"
-                    onClick={() => setConfirm(p.place.id)}
+                ) : renaming === p.place.id ? (
+                  <form
+                    className="st-rename"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const f = new FormData(e.currentTarget).get('name');
+                      st.renamePlace(p.place.id, String(f ?? ''));
+                      setRenaming(null);
+                    }}
                   >
-                    Delete
-                  </button>
+                    <label className="ib-sr" htmlFor={`rn-${p.place.id}`}>
+                      New name for {p.place.name}
+                    </label>
+                    <input
+                      id={`rn-${p.place.id}`}
+                      name="name"
+                      className="ib-field ib-field--small"
+                      defaultValue={p.place.name}
+                    />
+                    <button type="submit" className="ib-btn ib-btn--small">
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      className="ib-btn ib-btn--quiet ib-btn--small"
+                      onClick={() => setRenaming(null)}
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <Menu
+                    label={`More for ${p.place.name}`}
+                    items={[
+                      { id: 'branch', label: 'Branch a copy' },
+                      { id: 'add', label: 'Add a building' },
+                      { id: 'rename', label: 'Rename' },
+                      { id: 'remove', label: 'Remove', danger: true },
+                    ]}
+                    onPick={(a) => {
+                      if (a === 'branch') nav(`/p/${st.branch(p.place.id)}`);
+                      else if (a === 'add') nav(`/new?place=${p.place.id}`);
+                      else if (a === 'rename') setRenaming(p.place.id);
+                      else if (a === 'remove') setConfirm(p.place.id);
+                    }}
+                  />
                 )}
               </div>
             </article>

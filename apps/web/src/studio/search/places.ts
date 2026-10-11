@@ -10,17 +10,26 @@ import { buildPlaceIndex, type PlaceIndex, searchPlaces } from '@ibasho/plan';
 import { cityOf, contextIdsFor, hasSampleDoc, sampleDoc, samplePlaces } from '../data.ts';
 import type { StudioState } from '../state/studio.ts';
 
-type Loaded = Pick<StudioState, 'places' | 'buildings'> & { areas: Readonly<Record<string, readonly CityTile[]>> };
+type Loaded = Pick<StudioState, 'places' | 'buildings'> & {
+  areas: Readonly<Record<string, readonly CityTile[]>>;
+};
 
 /** On-demand sample places (offices of interest, King's Cross) and their buildings, searchable before they load. */
-let onDemand: { places: ReturnType<typeof samplePlaces>; docs: { doc: ReturnType<typeof sampleDoc>; placeId: string; city: string }[] } | undefined;
+let onDemand:
+  | {
+      places: ReturnType<typeof samplePlaces>;
+      docs: { doc: ReturnType<typeof sampleDoc>; placeId: string; city: string }[];
+    }
+  | undefined;
 function onDemandSamples() {
   if (!onDemand) {
     const places = samplePlaces().filter((p) => p.onDemand);
     onDemand = {
       places,
       docs: places.flatMap((p) =>
-        p.buildingIds.filter(hasSampleDoc).map((id) => ({ doc: sampleDoc(id), placeId: p.id, city: cityOf(p) })),
+        p.buildingIds
+          .filter(hasSampleDoc)
+          .map((id) => ({ doc: sampleDoc(id), placeId: p.id, city: cityOf(p) })),
       ),
     };
   }
@@ -39,10 +48,7 @@ export function placeIndex(s: Loaded): PlaceIndex {
   if (memo && memo.key.every((k, i) => k === key[i])) return memo.index;
   const extra = onDemandSamples();
   const index = buildPlaceIndex({
-    places: [
-      ...Object.values(s.places).map((p) => p.place),
-      ...extra.places.filter((p) => !s.places[p.id]),
-    ],
+    places: [...Object.values(s.places).map((p) => p.place), ...extra.places.filter((p) => !s.places[p.id])],
     cities: Object.entries(s.areas)
       .filter(([, tiles]) => tiles.length)
       .map(([city, tiles]) => ({ city, tiles })),
@@ -54,7 +60,11 @@ export function placeIndex(s: Loaded): PlaceIndex {
       })),
       ...extra.docs
         .filter((d) => !s.buildings[d.doc.id])
-        .map((d) => ({ doc: d.doc, city: d.city, ...(contextIdsFor(d.doc.id).length ? { contextIds: contextIdsFor(d.doc.id) } : {}) })),
+        .map((d) => ({
+          doc: d.doc,
+          city: d.city,
+          ...(contextIdsFor(d.doc.id).length ? { contextIds: contextIdsFor(d.doc.id) } : {}),
+        })),
     ],
   });
   memo = { key, index };
@@ -107,3 +117,63 @@ export function hitDetail(s: Pick<StudioState, 'places' | 'buildings'>, h: Place
 
 export const cityLabel = (city: string): string =>
   city.startsWith('city-hyderabad') ? 'Hyderabad' : city.startsWith('city-london') ? 'London' : '';
+
+/** Engineering zone rows (thermal zones, not rooms a person names) stay out of search results. */
+export const isEngineeringZone = (name: string): boolean =>
+  /\b(core|perimeter)\s+(zone|\d+)\b|\bzone\s*\d*$/i.test(name.trim());
+
+export type SearchRow =
+  | { type: 'head'; kind: PlaceHit['kind']; label: string }
+  | { type: 'sub'; label: string }
+  | { type: 'hit'; hit: PlaceHit }
+  | { type: 'more'; kind: PlaceHit['kind']; count: number };
+
+const GROUP_LABEL: [PlaceHit['kind'], string][] = [
+  ['place', 'Places'],
+  ['building', 'Buildings'],
+  ['storey', 'Floors'],
+  ['room', 'Rooms'],
+];
+
+/**
+ * Results in groups (Places, Buildings, Floors, Rooms), at most `cap` per group until the person
+ * asks for more; rooms are grouped under their storey; engineering zones are hidden (B-m10).
+ */
+export function groupHits(
+  hits: readonly PlaceHit[],
+  expanded: ReadonlySet<PlaceHit['kind']>,
+  cap = 3,
+): SearchRow[] {
+  const rows: SearchRow[] = [];
+  const seen = new Set<string>();
+  const clean = hits.filter((h) => {
+    const k = `${h.kind}:${h.id}`;
+    if (seen.has(k) || isEngineeringZone(h.name)) return false;
+    seen.add(k);
+    return true;
+  });
+  for (const [kind, label] of GROUP_LABEL) {
+    let items = clean.filter((h) => h.kind === kind);
+    if (!items.length) continue;
+    if (kind === 'room') {
+      // Keep the best storey first, then group rooms under their storey.
+      const order = new Map<string, number>();
+      for (const h of items) if (!order.has(h.storeyName ?? '')) order.set(h.storeyName ?? '', order.size);
+      items = [...items].sort(
+        (a, b) => (order.get(a.storeyName ?? '') ?? 0) - (order.get(b.storeyName ?? '') ?? 0),
+      );
+    }
+    const shown = expanded.has(kind) ? items : items.slice(0, cap);
+    rows.push({ type: 'head', kind, label });
+    let sub: string | undefined;
+    for (const h of shown) {
+      if (kind === 'room' && h.storeyName && h.storeyName !== sub) {
+        sub = h.storeyName;
+        rows.push({ type: 'sub', label: `${h.storeyName}, ${h.buildingName}` });
+      }
+      rows.push({ type: 'hit', hit: h });
+    }
+    if (shown.length < items.length) rows.push({ type: 'more', kind, count: items.length - shown.length });
+  }
+  return rows;
+}

@@ -4,6 +4,11 @@
  */
 
 :root {
+  /* Two small steps below --fs-cap, used for chart ticks and dense labels only. */
+  --fs-micro: 0.6875rem;
+  --fs-tick: 0.625rem;
+  /* Akari mid stop (daylight bars outside the ramp component). */
+  --akari-mid: #2a7f88;
   --t-extrude: 400ms;
   --t-drawer: 700ms;
   --t-explode: 900ms;
@@ -128,7 +133,7 @@
 }
 .ib-preview[data-compact] {
   padding: 0 var(--ma-1);
-  font-size: 0.6875rem;
+  font-size: var(--fs-micro);
 }
 .ib-preview__hatch {
   position: absolute;
@@ -170,7 +175,7 @@ span.ib-stale {
   padding: 0 var(--ma-1);
   background: var(--surface-raised);
   color: var(--ink-2);
-  font-size: 0.6875rem;
+  font-size: var(--fs-micro);
   letter-spacing: 0.06em;
   z-index: 1;
 }
@@ -281,7 +286,7 @@ span.ib-stale {
   max-inline-size: 7.5em;
   overflow: hidden;
   color: var(--ink-3);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
   letter-spacing: 0.02em;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -320,18 +325,36 @@ span.ib-stale {
   font-size: var(--fs-cap);
 }
 .ib-stagebar__cancel {
+  /* Same as .ib-btn--quiet.ib-btn--small. */
   appearance: none;
-  min-block-size: 32px;
+  min-block-size: 36px;
   padding: 0 var(--ma-3);
-  border: 1px solid var(--ink-2);
-  background: transparent;
+  border: 1px solid var(--ink-3);
+  border-radius: var(--r-1);
+  background: var(--surface-raised);
   color: var(--text);
   font: inherit;
   font-size: var(--fs-cap);
+  font-weight: 500;
   cursor: pointer;
+}
+@media (pointer: coarse) {
+  .ib-stagebar__cancel {
+    min-block-size: 44px;
+  }
 }
 .ib-stagebar[data-compact] .ib-stagebar__track {
   display: none;
+}
+/* Compact (phone, tablet): the sentence wraps to two lines instead of being cut short. */
+.ib-stagebar[data-compact] .ib-stagebar__msg {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  white-space: normal;
+  line-height: 1.25;
+  font-size: var(--fs-cap);
 }
 :root[data-motion="reduced"] .ib-stagebar__bead,
 :root[data-motion="reduced"] .ib-stagebar__ink {
@@ -402,7 +425,7 @@ span.ib-stale {
   max-inline-size: 6em;
   overflow: hidden;
   color: var(--text-3);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
   font-weight: 400;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -688,7 +711,7 @@ span.ib-stale {
 .ib-typecard__strip-cap {
   grid-area: cap;
   color: var(--text-3);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
   letter-spacing: 0.04em;
 }
 .ib-sched {
@@ -748,7 +771,7 @@ span.ib-stale {
   inset-block-start: calc(100% + 4px);
   inset-inline-start: 2px;
   color: var(--text-3);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
   white-space: nowrap;
 }
 .ib-eui__range {
@@ -926,11 +949,10 @@ span.ib-stale {
 }
 .ib-rladder__band {
   position: absolute;
-  inset-block: 0;
-  margin-inline-start: 0;
-  background: color-mix(in oklch, var(--glow) 16%, transparent);
-  border-inline: 1px dashed var(--ember-ink);
+  inset-block: 2px 14px;
+  background: color-mix(in oklch, var(--glow) 18%, transparent);
   pointer-events: none;
+  list-style: none;
 }
 .ib-rladder__row {
   position: relative;
@@ -987,8 +1009,12 @@ span.ib-stale {
   inset-block-start: 14px;
   inset-inline-start: 0;
   color: var(--text-3);
-  font-size: 0.5625rem;
+  font-size: var(--fs-micro);
   white-space: nowrap;
+}
+.ib-rladder__step[data-end] .ib-rladder__level {
+  inset-inline-start: auto;
+  inset-inline-end: -6px;
 }
 .ib-rladder__step[data-state="likely"] .ib-rladder__level {
   color: var(--text);
@@ -1268,7 +1294,7 @@ span.ib-stale {
 .ib-film__origin,
 .ib-film__when {
   color: var(--text-3);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
 }
 .ib-film__eui {
   font-size: var(--fs-cap);
@@ -1311,14 +1337,32 @@ span.ib-stale {
   color: var(--text);
   border-color: var(--ink-3);
 }
-/* The one hero action: gold (DS rule 2). */
+/* The one hero action: gold (DS rule 2), the same as the landing's action. */
 .ib-btn--hero {
+  --ib-on-gold: oklch(18.5% 0.008 67);
   background: var(--gold);
-  border-color: var(--gold);
-  color: var(--ink);
+  border-color: color-mix(in oklch, var(--gold) 70%, var(--ink));
+  color: var(--ib-on-gold);
+  box-shadow:
+    inset 0 0 0 3px var(--gold),
+    inset 0 0 0 4px color-mix(in oklch, var(--ib-on-gold) 22%, transparent);
 }
-:root[data-theme="yoru"] .ib-btn--hero {
-  color: oklch(18.5% 0.008 67);
+.ib-btn--hero:hover:not(:disabled) {
+  box-shadow:
+    inset 0 0 0 3px var(--gold),
+    inset 0 0 0 4px color-mix(in oklch, var(--ib-on-gold) 22%, transparent),
+    var(--tomoshibi);
+}
+/* Small buttons inside cards and rows. */
+.ib-btn--small {
+  min-block-size: 36px;
+  padding: 0 var(--ma-3);
+  font-size: var(--fs-cap);
+}
+@media (pointer: coarse) {
+  .ib-btn--small {
+    min-block-size: 44px;
+  }
 }
 
 /* ------------------------------------------------------------------ Range (kumiko input track) */
@@ -1488,7 +1532,7 @@ span.ib-stale {
   inset-block-end: calc(100% + 18px);
   transform: translateX(-50%);
   color: var(--text-3);
-  font-size: 0.5625rem;
+  font-size: var(--fs-tick);
   white-space: nowrap;
 }
 .ib-sun__thumb {
@@ -1603,11 +1647,74 @@ span.ib-stale {
 .ib-picker__group {
   margin-block-start: var(--ma-2);
   color: var(--text-3);
-  font-size: 0.625rem;
+  font-size: var(--fs-tick);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .ib-picker__hint {
   color: var(--text-3);
   font-size: var(--fs-cap);
+}
+
+/* ------------------------------------------------------------------ Menu */
+
+.ib-menu {
+  position: relative;
+  display: inline-block;
+}
+.ib-menu__btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ma-1);
+  min-block-size: 36px;
+  padding: 0 var(--ma-3);
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-cap);
+  cursor: pointer;
+}
+.ib-menu__btn:hover,
+.ib-menu__btn[aria-expanded="true"] {
+  border-color: var(--ink-3);
+}
+.ib-menu__list {
+  position: absolute;
+  inset-block-start: calc(100% + 4px);
+  inset-inline-end: 0;
+  z-index: 60;
+  min-inline-size: 12rem;
+  padding: var(--ma-1);
+  border: 1px solid var(--ink-3);
+  background: var(--surface-raised);
+  box-shadow: var(--kage-2);
+  outline: none;
+}
+.ib-menu__item {
+  display: flex;
+  align-items: center;
+  min-block-size: 36px;
+  padding: 0 var(--ma-2);
+  font-size: var(--fs-ui);
+  cursor: pointer;
+}
+.ib-menu__item[data-active] {
+  background: var(--surface-sunk);
+}
+.ib-menu__item[data-danger] {
+  margin-block-start: var(--ma-1);
+  border-block-start: 1px solid var(--line);
+  color: var(--warm);
+}
+.ib-menu__item[aria-disabled] {
+  color: var(--text-3);
+  cursor: default;
+}
+@media (pointer: coarse) {
+  .ib-menu__btn,
+  .ib-menu__item {
+    min-block-size: 44px;
+  }
 }

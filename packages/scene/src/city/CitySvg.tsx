@@ -39,6 +39,15 @@ export interface CitySvgProps {
 const path = (ring: readonly EN[]): string =>
   `M${ring.map(([e, n]) => `${e.toFixed(1)} ${(-n).toFixed(1)}`).join('L')}Z`;
 
+/** Night plan palette: the same values the 3D night city uses (dark card, lamplit hero). */
+const NIGHT = {
+  ground: '#1d1915',
+  road: '#262019',
+  context: '#322b23',
+  lamp: '#f2c27a',
+  lampEdge: '#ffe2b0',
+};
+
 export function CitySvg(p: CitySvgProps) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const { model, theme, sun, view } = p;
@@ -80,10 +89,20 @@ export function CitySvg(p: CitySvgProps) {
       if (s?.sunHours) return rampHex('hidamari', s.sunHours.annual / 365 / 13);
     }
     if (p.lens === 'daylight' && grid) return rampHex('akari', sdaShare(grid) / 100);
-    return theme === 'hiru' ? '#e2d6c2' : '#2b2520';
+    // At night the hero is the lantern: warm lamplight rooms on the dark card (matches 3D).
+    return theme === 'hiru' ? '#e2d6c2' : NIGHT.lamp;
   };
 
-  const up = sun.up && sun.altitudeDeg > 2 && theme === 'hiru';
+  const night = theme === 'yoru';
+  const up = sun.up && sun.altitudeDeg > 2 && !night;
+  const halo = useMemo(() => {
+    if (!hero) return null;
+    const b = hero.box;
+    return {
+      c: [(b.minE + b.maxE) / 2, (b.minN + b.maxN) / 2] as const,
+      r: Math.max(b.maxE - b.minE, b.maxN - b.minN) * 0.9,
+    };
+  }, [hero]);
   const shade = up
     ? [
         ...masses
@@ -114,9 +133,15 @@ export function CitySvg(p: CitySvgProps) {
       preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label={`Plan of ${model.place.name ?? 'the city'}: ${masses.length} neighbours, ${hero ? hero.name : 'no building'}, sun ${Math.round(sun.altitudeDeg)} degrees high`}
-      style={{ display: 'block', background: t('paper') }}
+      style={{ display: 'block', background: night ? NIGHT.ground : t('paper') }}
     >
       <defs>
+        {night ? (
+          <radialGradient id={`halo${uid}`}>
+            <stop offset="0" stopColor={NIGHT.lamp} stopOpacity={0.45} />
+            <stop offset="1" stopColor={NIGHT.lamp} stopOpacity={0} />
+          </radialGradient>
+        ) : null}
         <pattern
           id={`hatch${uid}`}
           width={2.2}
@@ -131,7 +156,7 @@ export function CitySvg(p: CitySvgProps) {
       <g transform={`rotate(${rot} ${view.target[0]} ${-view.target[2]})`}>
         {roadPolys(model.roads).map((r, i) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: static road list
-          <path key={i} d={path(r)} fill={t('paper-sunk')} />
+          <path key={i} d={path(r)} fill={night ? NIGHT.road : t('paper-sunk')} />
         ))}
         {band.map((r, i) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: derived polygons
@@ -146,12 +171,9 @@ export function CitySvg(p: CitySvgProps) {
           <path
             key={m.id}
             d={path(m.ring)}
-            fill={theme === 'hiru' ? t('paper-raised') : '#1b1815'}
-            stroke={
-              p.highlight?.contextId === m.id
-                ? t(theme === 'hiru' ? 'ink' : 'glow')
-                : t(theme === 'hiru' ? 'ink-3' : 'line')
-            }
+            fill={night ? NIGHT.context : t('paper-raised')}
+            stroke={p.highlight?.contextId === m.id ? t(night ? 'glow' : 'ink') : t('ink-3')}
+            strokeOpacity={night && p.highlight?.contextId !== m.id ? 0.6 : 1}
             strokeWidth={(p.highlight?.contextId === m.id ? 2.4 : 0.4) / Math.max(px, 0.05)}
             strokeDasharray={m.source === 'unknown' || theme === 'yoru' ? `${3 / px} ${2 / px}` : undefined}
             onClick={() => p.onPick?.({ kind: 'context', id: m.id })}
@@ -159,13 +181,16 @@ export function CitySvg(p: CitySvgProps) {
             <title>{`${m.name ?? 'Neighbour'}: ${m.user ?? m.likely} m (${m.user !== undefined ? 'yours' : `${m.source}, ${m.lo} to ${m.hi} m`})`}</title>
           </path>
         ))}
+        {night && halo ? (
+          <circle cx={halo.c[0]} cy={-halo.c[1]} r={halo.r} fill={`url(#halo${uid})`} pointerEvents="none" />
+        ) : null}
         {rooms.map((r) => (
           // biome-ignore lint/a11y/noStaticElementInteractions: pointer shortcut; keyboard users pick from the studio outline
           <path
             key={r.id}
             d={path(r.ring)}
             fill={roomFill(r.id)}
-            stroke={t('ink')}
+            stroke={night ? NIGHT.lampEdge : t('ink')}
             strokeWidth={(p.highlight?.roomId === r.id ? 3 : 1.2) / Math.max(px, 0.05)}
             onClick={() =>
               hero && p.onPick?.({ kind: 'hero', buildingId: hero.id, roomId: r.id, storeyId: r.storeyId })

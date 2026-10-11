@@ -12,7 +12,7 @@ import { defaultSettings } from '../src/studio/preview/settings.ts';
 import { templateDoc } from '../src/studio/preview/template.ts';
 import { energyParams, variantDoc } from '../src/studio/preview/variant.ts';
 import { viewFor } from '../src/studio/preview/views.ts';
-import { findPlaces, hitPath } from '../src/studio/search/places.ts';
+import { findPlaces, groupHits, hitPath, isEngineeringZone } from '../src/studio/search/places.ts';
 
 const place = samplePlaces().find((p) => p.id === IIIT_PLACE_ID) as Place;
 const inputs = (over: Partial<StageInputs> = {}): StageInputs => ({
@@ -196,6 +196,27 @@ describe('generations (review R2-m0)', () => {
   }, 60_000);
 });
 
+describe('Choose: the building as it is comes first', () => {
+  it('runBuilding starts the baseline at once and the what-ifs only after it', async () => {
+    const { useStudio, jobKey } = await import('../src/studio/state/studio.ts');
+    const st = useStudio.getState();
+    st.hydrate(undefined);
+    useStudio.setState({ deviceFactor: 0.01 });
+    const b = useStudio.getState().buildings.gb1;
+    const what = b?.variants.find((v) => v.id !== 'as-built');
+    expect(what).toBeTruthy();
+    for (const v of b?.variants ?? []) useStudio.getState().cancel('gb1', v.id);
+    const whatGen = useStudio.getState().jobs[jobKey('gb1', what?.id ?? '')]?.generation ?? 0;
+    useStudio.getState().runBuilding('gb1');
+    const base = useStudio.getState().jobs[jobKey('gb1', 'as-built')];
+    expect(base?.bar.stages.some((x) => x.status === 'queued' || x.status === 'running')).toBe(true);
+    expect(useStudio.getState().jobs[jobKey('gb1', what?.id ?? '')]?.generation ?? 0).toBe(whatGen);
+    await base?.handle?.done;
+    expect(useStudio.getState().jobs[jobKey('gb1', what?.id ?? '')]?.generation).toBe(whatGen + 1);
+    for (const v of b?.variants ?? []) useStudio.getState().cancel('gb1', v.id);
+  }, 60_000);
+});
+
 describe('design before you build (SPEC 27)', () => {
   it('goal gaps are met, not met or unknown with a source, never compliant (AC-PD3)', async () => {
     const { designGaps } = await import('../src/studio/pages/DesignFlow.tsx');
@@ -210,5 +231,93 @@ describe('design before you build (SPEC 27)', () => {
     const gaps = designGaps(['ecsbc-super', 'leed-gold', 'lowest-opex'], out, 'IN');
     for (const g of gaps) expect(['met', 'not-met', 'unknown']).toContain(g.state);
     expect(JSON.stringify(gaps)).not.toMatch(/compliant|certified/i);
+  });
+});
+
+describe('no restarts (round 3 R3-1)', () => {
+  it('city tiles arriving never restart a job that already had them', async () => {
+    const { useStudio, jobKey } = await import('../src/studio/state/studio.ts');
+    const st = useStudio.getState();
+    st.hydrate(undefined);
+    const tile = {
+      schema: 'ibasho.city/1',
+      packId: 'city-hyderabad',
+      tx: 0,
+      ty: 0,
+      buildings: [],
+      trees: [],
+    } as never;
+    useStudio.getState().areaLoaded('city-hyderabad', [tile]);
+    useStudio.getState().run('gb1', 'as-built');
+    const key = jobKey('gb1', 'as-built');
+    const gen = useStudio.getState().jobs[key]?.generation;
+    expect(useStudio.getState().jobs[key]?.withTiles).toBe(true);
+    useStudio.getState().areaLoaded('city-hyderabad', [tile]);
+    expect(useStudio.getState().jobs[key]?.generation).toBe(gen);
+    useStudio.getState().cancel('gb1', 'as-built');
+  });
+});
+
+describe('the page stays still while stages run (round 5 lantern stall)', () => {
+  it('a progress tick keeps the render view of a job the same object; a result changes it', async () => {
+    const { stripJob } = await import('../src/studio/hooks.ts');
+    const base = {
+      key: 'gb1~as-built',
+      generation: 1,
+      bar: { generation: 1, stages: [] },
+      message: 'Tracing the sun',
+      views: {},
+      nodes: {},
+      tiers: {},
+      stale: {},
+      outputs: {},
+      latest: {},
+      resolution: 'standard',
+    } as unknown as Parameters<typeof stripJob>[0];
+    const a = stripJob(base);
+    const tick = { ...base, bar: { generation: 1, stages: [] }, message: 'Sun and shadows: refining' };
+    expect(stripJob(tick)).toBe(a);
+    const result = { ...tick, views: { sun: {} } } as unknown as typeof base;
+    expect(stripJob(result)).not.toBe(a);
+    expect(stripJob(result).bar.stages).toEqual([]);
+  });
+});
+
+describe('search grouping (B-m10)', () => {
+  it('caps each group at three with a more row, groups rooms by storey and hides zones', () => {
+    const hit = (kind: 'building' | 'room', id: string, name: string, storeyName?: string) =>
+      ({
+        kind,
+        id,
+        name,
+        aliases: [],
+        buildingId: 'gb1',
+        buildingName: 'Vindhya Bhavan',
+        city: 'city-hyderabad',
+        centre: [0, 0],
+        bbox: { minX: 0, minY: 0, maxX: 1, maxY: 1 },
+        source: 'document',
+        score: 50,
+        matched: [],
+        ...(storeyName ? { storeyName } : {}),
+      }) as never;
+    const rows = groupHits(
+      [
+        hit('room', 'r1', 'Lab A', 'First floor'),
+        hit('room', 'r2', 'Lab B', 'Second floor'),
+        hit('room', 'r3', 'Lab C', 'First floor'),
+        hit('room', 'r4', 'Lab D', 'First floor'),
+        hit('room', 'z1', 'Block D core zone', 'First floor'),
+      ],
+      new Set(),
+    );
+    expect(rows.filter((r) => r.type === 'hit')).toHaveLength(3);
+    expect(rows.find((r) => r.type === 'more')).toEqual({ type: 'more', kind: 'room', count: 1 });
+    expect(rows.filter((r) => r.type === 'sub').map((r) => (r as { label: string }).label)).toEqual([
+      'First floor, Vindhya Bhavan',
+    ]);
+    expect(isEngineeringZone('Block D perimeter 0')).toBe(true);
+    expect(isEngineeringZone('Seminar Hall II')).toBe(false);
+    expect(groupHits([], new Set())).toEqual([]);
   });
 });

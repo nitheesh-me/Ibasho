@@ -247,3 +247,40 @@ describe('chip active state (review B-B1)', () => {
       expect(contrast(CORE.ink[t], CORE['paper-sunk'][t])).toBeGreaterThanOrEqual(4.5);
   });
 });
+
+describe('fonts and menu (B-m11, B-m12)', () => {
+  it('loadAndonFonts asks for the above-the-fold faces and never waits past the cap', async () => {
+    const { loadAndonFonts, ABOVE_THE_FOLD } = await import('../src/index.ts');
+    const asked: string[] = [];
+    await loadAndonFonts(5, {
+      load: (f: string) => {
+        asked.push(f);
+        return Promise.resolve();
+      },
+    });
+    expect(asked).toEqual([...ABOVE_THE_FOLD]);
+    const t = Date.now();
+    await loadAndonFonts(20, { load: () => new Promise(() => undefined) });
+    expect(Date.now() - t).toBeLessThan(1000);
+  });
+  it('Menu opens, moves with arrows and picks', async () => {
+    const { Menu } = await import('../src/v3/index.ts');
+    const onPick = vi.fn();
+    render(
+      <Menu
+        label="More for Campus"
+        items={[
+          { id: 'rename', label: 'Rename' },
+          { id: 'remove', label: 'Remove', danger: true },
+        ]}
+        onPick={onPick}
+      />,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'More for Campus' }));
+    const menu = screen.getByRole('menu');
+    fireEvent.keyDown(menu, { key: 'ArrowDown' });
+    fireEvent.keyDown(menu, { key: 'Enter' });
+    expect(onPick).toHaveBeenCalledWith('remove');
+    expect(screen.queryByRole('menu')).toBeNull();
+  });
+});

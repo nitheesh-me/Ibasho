@@ -22,7 +22,7 @@ import {
   type ZoomLevel,
 } from '@ibasho/scene';
 import { AnalysisLegend, rampColor, SunScrubber } from '@ibasho/ui';
-import { Component, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { Component, type ReactNode, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { contextIdsFor, tzHoursOf } from '../data.ts';
 import type { LensId } from '../panels/Look.tsx';
 import type { Job } from '../state/studio.ts';
@@ -118,7 +118,9 @@ export function webglInfo(): { ok: boolean; software: boolean } {
     const gl = (c.getContext('webgl2') ?? c.getContext('webgl')) as WebGLRenderingContext | null;
     if (gl) {
       const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-      const renderer = String(dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+      const renderer = String(
+        dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+      );
       glProbe = { ok: true, software: /swiftshader|llvmpipe|software/i.test(renderer) };
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     }
@@ -149,6 +151,9 @@ class SceneGuard extends Component<{ children: ReactNode }, { failed: boolean }>
 /** The one place the scene component is mounted. */
 export function CityStage(p: CityStageProps) {
   const gl = webglInfo();
+  // Day and night: the page flips at once (CSS tokens); the scene follows at low priority, so the
+  // lantern button never waits on the scene rebuilding its materials (round 5 stall).
+  const night = useDeferredValue(p.night);
   const jobOutputs = p.job?.outputs;
   const jobLatest = p.job?.latest;
   const out = useMemo(
@@ -167,12 +172,9 @@ export function CityStage(p: CityStageProps) {
   // Stable props (round 3 R3-8): a new tiles array, place or time object on every progress tick made
   // the scene rebuild the city model many times a second while stages ran.
   const docId = p.doc.id;
-  const tiles = useMemo(() => {
-    const hide = contextIdsFor(docId);
-    return hide.length
-      ? p.tiles.map((t) => ({ ...t, buildings: t.buildings.filter((b) => !hide.includes(b.id)) }))
-      : p.tiles;
-  }, [p.tiles, docId]);
+  // The scene hides the mapped buildings this model replaces (agent C's `hideContextIds`).
+  const hideIds = useMemo(() => contextIdsFor(docId), [docId]);
+  const tiles = p.tiles;
   const { lat, lon, name } = p.place;
   const place = useMemo(() => ({ lat, lon, name, tzHours: tzHoursOf({ lat, lon }) }), [lat, lon, name]);
   const iso = isoOf(p.date);
@@ -197,17 +199,25 @@ export function CityStage(p: CityStageProps) {
           {...(p.onSelect ? { onSelect: p.onSelect } : {})}
           time={time}
           {...(onTimeChange ? { onTimeChange } : {})}
-          lens={p.night && lens === 'none' ? 'lanterns' : lens}
+          lens={night && lens === 'none' ? 'lanterns' : lens}
           site={site ?? null}
           stamp={stamp}
           // Software GL (no graphics card) draws the whole city as the plan drawing: the 3D city at that
           // scale is too heavy there (round 3: white page at City by night). Buildings stay in 3D.
-          style={p.compact || !gl.ok || (gl.software && p.level === 'city') ? 'svg' : p.night ? 'yoru' : 'washi'}
+          style={
+            p.compact || !gl.ok || (gl.software && p.level === 'city') ? 'svg' : night ? 'yoru' : 'washi'
+          }
           tierCap={gl.software ? 1 : 2}
           reducedMotion={p.reducedMotion}
           controls={false}
           legend={false}
           focus={focus}
+          hideContextIds={hideIds}
+          {...(p.azimuthDeg !== undefined ? { azimuthDeg: p.azimuthDeg } : {})}
+          {...(p.placement ? { placement: p.placement } : {})}
+          {...(p.onPlacementChange ? { onPlacementChange: p.onPlacementChange } : {})}
+          {...(p.placeMode ? { placeMode: true } : {})}
+          {...(p.onSiteCheck ? { onSiteCheck: p.onSiteCheck } : {})}
         />
       </SceneGuard>
       {p.label ? <div className="st-scene__label ib-plate">{p.label}</div> : null}

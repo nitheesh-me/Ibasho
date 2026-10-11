@@ -20,7 +20,6 @@ import {
   SCALE_LEVELS,
   ScaleLadder,
   type ScaleLevel,
-  Sheet,
   StageBar,
   type StudioMode,
   stepLevel,
@@ -28,7 +27,7 @@ import {
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
 import { useShell, useTopBar } from '../../shell/Shell.tsx';
-import { useBreakpoint, useBuildingEvidence, useReducedMotion } from '../hooks.ts';
+import { useBreakpoint, useBuildingEvidence, useJob, useJobBar, useReducedMotion } from '../hooks.ts';
 import { CityStage, type DateId, PlanStage, TimeStrip } from '../niwa/Niwa.tsx';
 import { ChoosePanel, CompareView } from '../panels/Choose.tsx';
 import { type LensId, LookPanel } from '../panels/Look.tsx';
@@ -180,8 +179,10 @@ export function StudioPage() {
   }, [level, setLevel, setMode]);
 
   const focusVariant = b?.focus ?? BASE_VARIANT;
-  const job = useStudio((s) => (b ? s.jobs[jobKey(b.id, focusVariant)] : undefined));
-  const baseJob = useStudio((s) => (b ? s.jobs[jobKey(b.id, BASE_VARIANT)] : undefined));
+  // Render-stable jobs: progress ticks never re-render the studio or the scene (round 5 stall).
+  const job = useJob(b?.id, focusVariant);
+  const baseJob = useJob(b?.id, BASE_VARIANT);
+  const live = useJobBar(b ? jobKey(b.id, focusVariant) : undefined);
   const evidence = useBuildingEvidence(b?.id);
   const areaTilesNow = useStudio((s) => (packId ? s.areas[packId] : undefined));
   const resolution = String(settings['analysis.resolution']) as ResolutionLevel;
@@ -320,17 +321,19 @@ export function StudioPage() {
 
   let niwa: ReactNode;
   if (showCompare) niwa = <CompareView b={b} render={(vid) => city(vid, true)} />;
-  else if (planLevel) {
-    niwa =
-      mode === 'make' && bpt === 'wide' ? (
-        <div className="st-split">
-          <div className="st-split__plan">{plan(true)}</div>
-          <div className="st-split__axo">{city(BASE_VARIANT, false, 180)}</div>
+  else {
+    // The scene stays mounted across modes (one stage, never reloaded, PLAN-V3 5): Make hides it below
+    // 1600 px instead of unmounting it, which also avoids React's nested root unmount warning (B-m9).
+    const split = planLevel && bpt === 'wide';
+    niwa = (
+      <div className="st-split" data-split={split ? '' : undefined} data-plan={planLevel ? '' : undefined}>
+        {planLevel ? <div className="st-split__plan">{plan(mode === 'make')}</div> : null}
+        <div className="st-split__axo" hidden={planLevel && !split}>
+          {planLevel ? city(BASE_VARIANT, false, 180) : city()}
         </div>
-      ) : (
-        plan(mode === 'make')
-      );
-  } else niwa = city();
+      </div>
+    );
+  }
 
   const roomPanel =
     level === 'room' && selection.length ? (
@@ -338,7 +341,7 @@ export function StudioPage() {
         <KeyNumbers
           items={[
             { label: 'Daylit share of the building', ev: baseJob?.views.daylight?.ecbc },
-            { label: 'Classroom hours comfortable with fans', ev: baseJob?.views.energy?.fanHours },
+            { label: 'Hours comfortable with ceiling fans alone', ev: baseJob?.views.energy?.fanHours },
           ]}
         />
         <p className="st-note">
@@ -406,7 +409,13 @@ export function StudioPage() {
 
   return (
     <EvidenceProvider source={evidence}>
-      <div className="st-studio" data-bp={bpt} data-mode={mode} data-level={level}>
+      <div
+        className="st-studio"
+        data-panel={bpt === 'tablet' && !sheetOpen ? 'hidden' : undefined}
+        data-bp={bpt}
+        data-mode={mode}
+        data-level={level}
+      >
         {bpt === 'desktop' || bpt === 'wide' ? (
           <aside className="st-ladder">
             <ScaleLadder
@@ -464,19 +473,12 @@ export function StudioPage() {
             </div>
             {zashiki}
           </section>
-        ) : (
-          <Sheet
-            open={sheetOpen}
-            onClose={() => setSheetOpen(false)}
-            title={MODE_LABEL[mode]}
-            kicker={b.name}
-            placement="side"
-            defaultSnap="full"
-            className="st-sheet"
-          >
+        ) : sheetOpen ? (
+          // Tablet: the panel is a column beside the stage (an overlay sheet covered the time strip, round 6).
+          <aside className="st-zashiki" id="st-zashiki" aria-label={`${MODE_LABEL[mode]} panel`}>
             {zashiki}
-          </Sheet>
-        )}
+          </aside>
+        ) : null}
         <section className="st-engawa" aria-label="Progress and narrator">
           <p className="st-narrator">
             {changes && !changes.dismissed ? (
@@ -494,8 +496,8 @@ export function StudioPage() {
             )}
           </p>
           <StageBar
-            state={job?.bar ?? { generation: 0, stages: [] }}
-            {...(job?.message ? { message: job.message } : {})}
+            state={live.bar}
+            {...(live.message ? { message: live.message } : {})}
             onCancel={() => st.cancel(b.id, focusVariant)}
             compact={bpt !== 'wide' && bpt !== 'desktop'}
           />

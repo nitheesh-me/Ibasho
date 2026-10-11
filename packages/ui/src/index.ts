@@ -21,6 +21,7 @@ export {
   useEvidenceSource,
   useStaticEvidence,
 } from './evidence/context.tsx';
+export { ABOVE_THE_FOLD, loadAndonFonts } from './fonts/load.ts';
 export {
   FUEL_MON,
   FUEL_NAME,

@@ -39,7 +39,15 @@ import {
 } from '@ibasho/editor';
 import { create } from 'zustand';
 import { STAGE_PROVIDERS } from '../../manifest.ts';
-import { areaTiles, contextIdsFor, packsFor, hasSampleDoc, IIIT_PLACE_ID, sampleDoc, samplePlaces } from '../data.ts';
+import {
+  areaTiles,
+  contextIdsFor,
+  hasSampleDoc,
+  IIIT_PLACE_ID,
+  packsFor,
+  sampleDoc,
+  samplePlaces,
+} from '../data.ts';
 import { startJob } from '../preview/jobs.ts';
 import type { JobHandle, RunEvent, StageInputs } from '../preview/runner.ts';
 import {
@@ -154,6 +162,8 @@ export interface StudioState {
   areas: Record<string, CityTile[]>;
   /** Load a city area's tiles once; jobs at places in it that ran without context rerun from the sun. */
   ensureArea(packId: string | undefined): void;
+  /** Tiles of an area arrived (exposed for tests). */
+  areaLoaded(packId: string, tiles: CityTile[]): void;
   /** Add an on-demand sample place (and its buildings) when someone searches for or picks it. */
   addSamplePlace(placeId: string): boolean;
 
@@ -164,6 +174,7 @@ export interface StudioState {
   startOver(): string;
   branch(placeId: string, name?: string): string;
   removePlace(placeId: string): void;
+  renamePlace(placeId: string, name: string): void;
   visit(placeId: string): Revisit | undefined;
   dismissRevisit(): void;
 
@@ -215,6 +226,12 @@ export const useStudio = create<StudioState>()((set, get) => {
     });
 
   const onEvent = (key: string) => (e: RunEvent) => {
+    // Progress without a result only moves the bar: coalesce small steps so the main thread
+    // repaints the bar about ten times a stage, not every tick.
+    if (!e.result && e.status === 'running') {
+      const cur = get().jobs[key]?.bar.stages.find((x) => x.id === e.stage);
+      if (cur && cur.status === 'running' && Math.abs(e.fraction - cur.fraction) < 0.1) return;
+    }
     patchJob(key, (j) => {
       if (e.generation !== j.generation) return j; // superseded (H9)
       const stages = j.bar.stages.map((st) =>
@@ -278,19 +295,22 @@ export const useStudio = create<StudioState>()((set, get) => {
     ensureArea(packId) {
       if (!packId || get().areas[packId] || loadingAreas.has(packId)) return;
       loadingAreas.add(packId);
-      void areaTiles(packId).then((tiles) => {
-        set((st) => ({
-          areas: { ...st.areas, [packId]: tiles },
-          ...(packId === 'city-hyderabad' ? { tiles, tilesReady: true } : {}),
-        }));
-        if (!tiles.length) return;
-        // Context arrived: only jobs that ran without it rerun from the sun (never a running job with tiles).
-        for (const b of Object.values(get().buildings)) {
-          const j = get().jobs[jobKey(b.id, BASE_VARIANT)];
-          const place = get().places[b.placeId]?.place;
-          if (j && !j.withTiles && place?.cityPackId === packId) get().runBuilding(b.id, ['sun']);
-        }
-      });
+      void areaTiles(packId).then((tiles) => get().areaLoaded(packId, tiles));
+    },
+
+    areaLoaded(packId, tiles) {
+      set((st) => ({
+        areas: { ...st.areas, [packId]: tiles },
+        ...(packId === 'city-hyderabad' ? { tiles, tilesReady: true } : {}),
+      }));
+      if (!tiles.length) return;
+      // Context arrived: only jobs that ran without it rerun from the sun. A job that already had the
+      // tiles never restarts (round 3: stages went back to "Tracing the sun" by themselves).
+      for (const b of Object.values(get().buildings)) {
+        const j = get().jobs[jobKey(b.id, BASE_VARIANT)];
+        const place = get().places[b.placeId]?.place;
+        if (j && !j.withTiles && place?.cityPackId === packId) get().runBuilding(b.id, ['sun']);
+      }
     },
 
     addSamplePlace(placeId) {
@@ -309,7 +329,9 @@ export const useStudio = create<StudioState>()((set, get) => {
           typeId: doc.typeId,
           doc,
           history: emptyHistory(),
-          versions: [{ id: newId('v'), label: 'From the map and public listings', at: now, doc, origin: 'import' }],
+          versions: [
+            { id: newId('v'), label: 'From the map and public listings', at: now, doc, origin: 'import' },
+          ],
           variants: [{ id: BASE_VARIANT, name: 'As it is', changes: {} }],
           focus: BASE_VARIANT,
           sample: true,
@@ -536,6 +558,22 @@ export const useStudio = create<StudioState>()((set, get) => {
         buildings: { ...st.buildings, ...buildings },
       }));
       return pid;
+    },
+
+    renamePlace(placeId, name) {
+      const n = name.trim();
+      if (!n) return;
+      set((s) => {
+        const p = s.places[placeId];
+        return p
+          ? {
+              places: {
+                ...s.places,
+                [placeId]: { ...p, updatedAt: Date.now(), place: { ...p.place, name: n } },
+              },
+            }
+          : {};
+      });
     },
 
     removePlace(placeId) {
@@ -781,14 +819,7 @@ export const useStudio = create<StudioState>()((set, get) => {
       const factor = variantId === b.focus ? s.deviceFactor : s.deviceFactor * 0.5;
       const inputs = inputsFor(s, b, v, old?.outputs ?? {});
       job.withTiles = inputs.tiles.length > 0 || old?.withTiles === true;
-      job.handle = startJob(
-        jobId,
-        generation,
-        stages,
-        inputs,
-        onEvent(key),
-        factor,
-      );
+      job.handle = startJob(jobId, generation, stages, inputs, onEvent(key), factor);
       set((st) => ({ jobs: { ...st.jobs, [key]: job } }));
       job.handle.done.then((end) => {
         if (end.status === 'cancelled') {
@@ -817,11 +848,29 @@ export const useStudio = create<StudioState>()((set, get) => {
     runBuilding(buildingId, changed = ['geometry']) {
       const b = get().buildings[buildingId];
       if (!b) return;
-      // The building as it is first (compare reads against it), then the focused what-if, then the rest.
-      const order = [BASE_VARIANT, b.focus, ...b.variants.map((v) => v.id)].filter(
-        (id, i, a) => a.indexOf(id) === i,
+      // The building as it is first (compare reads against it). What-ifs start once the baseline has its
+      // energy and code results (or ends), so "As it is" never appears after the what-if.
+      const order = [b.focus, ...b.variants.map((v) => v.id)].filter(
+        (id, i, a) => id !== BASE_VARIANT && a.indexOf(id) === i && b.variants.some((v) => v.id === id),
       );
-      for (const id of order) if (b.variants.some((v) => v.id === id)) get().run(buildingId, id, changed);
+      get().run(buildingId, BASE_VARIANT, changed);
+      if (!order.length) return;
+      const key = jobKey(buildingId, BASE_VARIANT);
+      const gen = get().jobs[key]?.generation;
+      const baselineReady = (j: Job | undefined) =>
+        !j ||
+        j.generation !== gen ||
+        Boolean(j.views.energy && j.views.codes && !j.stale.energy && !j.stale.codes) ||
+        !j.bar.stages.some((x) => x.status === 'running' || x.status === 'queued');
+      const startRest = () => {
+        for (const id of order) get().run(buildingId, id, changed);
+      };
+      if (baselineReady(get().jobs[key])) return startRest();
+      const unsub = useStudio.subscribe((st) => {
+        if (!baselineReady(st.jobs[key])) return;
+        unsub();
+        startRest();
+      });
     },
 
     cancel(buildingId, variantId) {

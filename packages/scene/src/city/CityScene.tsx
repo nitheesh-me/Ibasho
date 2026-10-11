@@ -156,6 +156,8 @@ export interface CitySceneProps {
   castLosers?: readonly string[];
   /** Compare: outline these facade bins (Kotai warm for more, green for less). */
   emphasis?: { bins: readonly string[]; tone: 'more' | 'less' } | null;
+  /** Moment 4 as a sliding drawer (posters); default false: the floor stays inside its footprint. */
+  drawerSlide?: boolean;
   /** Find: what to outline or light; the rest of the city dims. */
   highlight?: {
     contextId?: string;
@@ -275,12 +277,13 @@ function lookOf(theme: Theme): Look {
         tray: mix(t('ink'), t('paper'), 0.12),
       }
     : {
-        ground: t('paper-sunk'),
-        road: t('paper'),
+        // Night paper lifted a step (round 7): readable card, not muddy grey, lanterns still richest.
+        ground: '#1d1915',
+        road: '#262019',
         // Tops at --paper-raised (Yoru), walls near #15120F through the vertex shade; never lit (S-B1).
-        context: t('paper-raised'),
+        context: '#322b23',
         contextLine: t('ink-3'),
-        contextLineOpacity: 0.45,
+        contextLineOpacity: 0.5,
         wall: '#4a3e33',
         roof: '#3a3129',
         glass: '#1d2326',
@@ -345,6 +348,8 @@ export function CityScene(p: CitySceneProps) {
   }, [look, uniforms, dpr, invalidate]);
 
   // ---------------------------------------------------------------- materials
+  // Built once: a day and night switch recolours these in place (no geometry, no recompile).
+  // biome-ignore lint/correctness/useExhaustiveDependencies: theme colours are applied in the effect below
   const mats = useMemo(() => {
     const ghost = (src: MeshStandardMaterial): MeshStandardMaterial => {
       const m = src.clone();
@@ -386,19 +391,18 @@ export function CityScene(p: CitySceneProps) {
       lantern: lensMaterial({ color: '#0a0806', roughness: 0.9, vertexColors: true }, uniforms, {
         vertexEmissive: true,
       }),
-      contextLine: yoru
-        ? new LineDashedMaterial({
-            color: look.contextLine,
-            dashSize: 2.2,
-            gapSize: 1.6,
-            transparent: true,
-            opacity: look.contextLineOpacity,
-          })
-        : new LineBasicMaterial({
-            color: look.contextLine,
-            transparent: true,
-            opacity: look.contextLineOpacity,
-          }),
+      contextLineNight: new LineDashedMaterial({
+        color: lookOf('yoru').contextLine,
+        dashSize: 2.2,
+        gapSize: 1.6,
+        transparent: true,
+        opacity: lookOf('yoru').contextLineOpacity,
+      }),
+      contextLineDay: new LineBasicMaterial({
+        color: lookOf('hiru').contextLine,
+        transparent: true,
+        opacity: lookOf('hiru').contextLineOpacity,
+      }),
       ghost: lensMaterial(
         { color: look.hatch, transparent: true, opacity: 0.25, depthWrite: false, side: DoubleSide },
         uniforms,
@@ -420,9 +424,9 @@ export function CityScene(p: CitySceneProps) {
       wall,
       roof,
       glass,
-      facadeFrame: new MeshStandardMaterial({ color: yoru ? '#3a3229' : look.fin, roughness: 0.95 }),
+      facadeFrame: new MeshStandardMaterial({ color: look.fin, roughness: 0.95 }),
       facadeShade: new MeshStandardMaterial({
-        color: yoru ? '#332c25' : look.plinth,
+        color: look.plinth,
         roughness: 0.95,
         side: DoubleSide,
       }),
@@ -435,7 +439,24 @@ export function CityScene(p: CitySceneProps) {
       pv: new MeshStandardMaterial({ color: look.pv, roughness: 0.35, metalness: 0.4, side: DoubleSide }),
       fin: new MeshStandardMaterial({ color: look.fin, roughness: 0.9, side: DoubleSide }),
     };
-  }, [yoru, look, uniforms]);
+  }, [uniforms]);
+  useLayoutEffect(() => {
+    mats.glass.color.set(look.glass);
+    mats.ghostGlass.color.set(look.glass);
+    mats.ground.color.set(look.ground);
+    mats.road.color.set(look.road);
+    mats.facadeFrame.color.set(yoru ? '#3a3229' : look.fin);
+    mats.facadeShade.color.set(yoru ? '#332c25' : look.plinth);
+    mats.ghost.color.set(look.hatch);
+    mats.ghost.opacity = 0.25;
+    mats.penumbra.color.set(look.hatch);
+    mats.rooms.color.set(look.ink);
+    mats.plinth.color.set(look.plinth);
+    mats.pv.color.set(look.pv);
+    mats.fin.color.set(look.fin);
+    invalidate();
+  }, [mats, look, yoru, invalidate]);
+  const contextLine = yoru ? mats.contextLineNight : mats.contextLineDay;
   useEffect(
     () => () => {
       for (const m of Object.values(mats)) m.dispose();
@@ -526,7 +547,7 @@ export function CityScene(p: CitySceneProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: new geometry or material needs fresh dash distances
   useLayoutEffect(() => {
     outlineRef.current?.computeLineDistances();
-  }, [outlineGeo, mats]);
+  }, [outlineGeo, mats, yoru]);
   // Penumbra only where it matters (studio review S-M1): the 6 to 10 estimated neighbours whose
   // plausible shadow can reach the hero's site (preferring the site stage's unknownHeightIds), plus
   // whatever is selected or hovered. Every other estimated height shows a dashed top edge only, and
@@ -586,14 +607,18 @@ export function CityScene(p: CitySceneProps) {
   const dashedMat = useMemo(
     () =>
       new LineDashedMaterial({
-        color: look.hatch,
+        color: lookOf('hiru').hatch,
         dashSize: 1.4,
         gapSize: 1.2,
         transparent: true,
-        opacity: yoru ? 0.45 : 0.55,
+        opacity: 0.55,
       }),
-    [look.hatch, yoru],
+    [],
   );
+  useLayoutEffect(() => {
+    dashedMat.color.set(look.hatch);
+    dashedMat.opacity = yoru ? 0.45 : 0.55;
+  }, [dashedMat, look.hatch, yoru]);
   useEffect(() => () => dashedMat.dispose(), [dashedMat]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: new geometry needs fresh dash distances
   useLayoutEffect(() => {
@@ -659,6 +684,9 @@ export function CityScene(p: CitySceneProps) {
     : undefined;
   const cut = level === 'floor' || level === 'room';
   const drawer = cut && lens === 'daylight' && !!p.daylight;
+  // The drawer slides out only when asked (`drawerSlide`); by default the floor stays inside its
+  // footprint and the floors above lift away (studio review R3-5).
+  const slide = drawer && !!p.drawerSlide;
   const storeyMeshes = useMemo(() => {
     if (!hero) return [];
     return hero.storeys.map((st) => {
@@ -724,11 +752,17 @@ export function CityScene(p: CitySceneProps) {
   // 1.5 px ink outline per storey (DS 13.1), lantern rim colour at night.
   const outlines = useMemo(
     () =>
-      storeyMeshes.map((sm) =>
-        track(fatLines(sm.outlinePos, look.outline, 1.5, { opacity: look.outlineOpacity })),
-      ),
-    [storeyMeshes, look, track],
+      storeyMeshes.map((sm) => track(fatLines(sm.outlinePos, lookOf('hiru').outline, 1.5, { opacity: 0.6 }))),
+    [storeyMeshes, track],
   );
+  useLayoutEffect(() => {
+    for (const l of outlines) {
+      l.material.color.set(look.outline);
+      l.material.opacity = look.outlineOpacity;
+      l.material.transparent = look.outlineOpacity < 1;
+    }
+    invalidate();
+  }, [outlines, look, invalidate]);
   useEffect(
     () => () => {
       for (const l of outlines) {
@@ -764,8 +798,11 @@ export function CityScene(p: CitySceneProps) {
       const b = ring[(i + 1) % ring.length]!;
       edge.push(a[0], PLINTH_M + 0.01, -a[1], b[0], PLINTH_M + 0.01, -b[1]);
     });
-    return { geo, edge: track(fatLines(edge, look.hatch, 1, { opacity: 0.8 })) };
-  }, [hero, model.heroDoc, look, track]);
+    return { geo, edge: track(fatLines(edge, lookOf('hiru').hatch, 1, { opacity: 0.8 })) };
+  }, [hero, model.heroDoc, track]);
+  useLayoutEffect(() => {
+    plinth?.edge.material.color.set(look.hatch);
+  }, [plinth, look.hatch]);
   useEffect(
     () => () => {
       plinth?.geo.dispose();
@@ -1004,22 +1041,22 @@ export function CityScene(p: CitySceneProps) {
   // While the drawer is open the city steps back to 30% so the drawer never draws over it (S-M2).
   useEffect(() => {
     for (const m of [mats.context, mats.guess, mats.tree]) {
-      m.transparent = drawer || m === mats.guess;
-      m.opacity = drawer ? 0.3 : m === mats.guess ? 0.82 : 1;
-      m.depthWrite = !drawer;
+      m.transparent = slide || m === mats.guess;
+      m.opacity = slide ? 0.3 : m === mats.guess ? 0.82 : 1;
+      m.depthWrite = !slide;
       m.needsUpdate = true;
     }
     invalidate();
-  }, [drawer, mats, invalidate]);
+  }, [slide, mats, invalidate]);
   const drawerRef = useRef<Object3D>(null);
   const drawerAnim = useRef({ from: 0, to: 0, start: 0 });
   const drawerShift = useRef<[number, number]>([0, 0]);
   const [drawerOut, setDrawerOut] = useState(false);
   useEffect(() => {
-    drawerAnim.current = { from: 0, to: drawer ? 1 : 0, start: performance.now() };
-    setDrawerOut(drawer && p.reducedMotion);
+    drawerAnim.current = { from: 0, to: slide ? 1 : 0, start: performance.now() };
+    setDrawerOut(slide && p.reducedMotion);
     invalidate();
-  }, [drawer, p.reducedMotion, invalidate]);
+  }, [slide, p.reducedMotion, invalidate]);
 
   // ---------------------------------------------------------------- phototropic (moment 6)
   const photo = useMemo(() => {
@@ -1117,10 +1154,10 @@ export function CityScene(p: CitySceneProps) {
     mats.context.color = hl ? base.clone().lerp(new Color(look.ground), 0.45) : base;
     const gb = new Color(mix(look.context, look.ground, 0.35));
     mats.guess.color = hl ? gb.lerp(new Color(look.ground), 0.45) : gb;
-    (mats.contextLine as LineBasicMaterial).opacity = look.contextLineOpacity * (hl ? 0.5 : 1);
+    contextLine.opacity = look.contextLineOpacity * (hl ? 0.5 : 1);
     mats.tree.color = hl ? new Color(look.tree).lerp(new Color(look.ground), 0.45) : new Color(look.tree);
     invalidate();
-  }, [hl, mats, look, invalidate]);
+  }, [hl, mats, look, contextLine, invalidate]);
   const hlLines = useMemo(() => {
     if (!hl) return null;
     const focusColour = yoru ? token('glow', 'yoru') : look.deep;
@@ -1229,7 +1266,12 @@ export function CityScene(p: CitySceneProps) {
     invalidate();
   }, [sun, yoru, p.view.target, p.view.halfH, sunTarget, mapSize, invalidate]);
   const lift = sun.up ? Math.min(1, sun.altitudeDeg / 12) : 0;
-  const sunIntensity = yoru ? 0.35 : 0.25 + 2.6 * lift;
+  const sunIntensity = yoru ? 0.5 : 0.25 + 2.6 * lift;
+  useEffect(() => {
+    // A touch more exposure at night so the paper reads; lanterns stay the brightest marks.
+    gl.toneMappingExposure = yoru ? 1.12 : 1.0;
+    invalidate();
+  }, [gl, yoru, invalidate]);
   const sunColour = useMemo(() => {
     if (yoru) return new Color('#8a9cc4');
     const warmth = 1 - lift;
@@ -1255,7 +1297,7 @@ export function CityScene(p: CitySceneProps) {
   // Cutaway: on entering a floor or room the floors above lift 16 m (`--t-ori`) and stay as faint
   // paper sheets, so the person sees where the floor came from (QA M2).
   const selIndex = selStorey ? (hero?.storeys.indexOf(selStorey) ?? 0) : 0;
-  const liftKey = cut && !drawer ? `${selStorey?.id ?? ''}` : '';
+  const liftKey = cut && !slide ? `${selStorey?.id ?? ''}` : '';
   const liftStart = useRef(0);
   const liftRefs = useRef(new Map<string, Object3D>());
   useEffect(() => {
@@ -1283,7 +1325,7 @@ export function CityScene(p: CitySceneProps) {
     }
     // Drawer: `--t-drawer` 700 ms; the camera follows half the slide so both fit.
     const dr = drawerRef.current;
-    if (dr && drawer) {
+    if (dr && slide) {
       const a = drawerAnim.current;
       const k = p.reducedMotion ? 1 : Math.min(1, (now - a.start) / 700);
       const v = a.from + (a.to - a.from) * easeOri(k);
@@ -1319,10 +1361,14 @@ export function CityScene(p: CitySceneProps) {
   const bake = useMemo(
     () =>
       p.settings.ao || p.settings.shadows
-        ? paperBake(gl, scene, camera, { ink: yoru ? '#070605' : look.ink, night: yoru, far: 6000 })
+        ? paperBake(gl, scene, camera, { ink: lookOf('hiru').ink, night: false, far: 6000 })
         : null,
-    [gl, scene, camera, look.ink, yoru, p.settings.ao, p.settings.shadows],
+    [gl, scene, camera, p.settings.ao, p.settings.shadows],
   );
+  useLayoutEffect(() => {
+    bake?.setTheme({ ink: yoru ? '#070605' : look.ink, night: yoru });
+    invalidate();
+  }, [bake, yoru, look.ink, invalidate]);
   useEffect(() => () => bake?.dispose(), [bake]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: a DPR change resizes the drawing buffer
   useEffect(() => {
@@ -1764,9 +1810,9 @@ export function CityScene(p: CitySceneProps) {
   return (
     <>
       <hemisphereLight
-        args={[yoru ? '#2A3346' : '#fbf3e4', yoru ? '#0c0a08' : '#d9cbb4', yoru ? 0.55 : 0.9]}
+        args={[yoru ? '#3b4762' : '#fbf3e4', yoru ? '#1a1510' : '#d9cbb4', yoru ? 0.8 : 0.9]}
       />
-      <ambientLight intensity={yoru ? 0.1 : 0.18} />
+      <ambientLight intensity={yoru ? 0.14 : 0.18} />
       <directionalLight
         ref={sunRef}
         color={sunColour}
@@ -1807,7 +1853,7 @@ export function CityScene(p: CitySceneProps) {
       {night && lanternMasses.length ? (
         <mesh geometry={lanternGeo} material={mats.lantern} raycast={noRaycast} />
       ) : null}
-      <lineSegments ref={outlineRef} geometry={outlineGeo} material={mats.contextLine} raycast={noRaycast} />
+      <lineSegments ref={outlineRef} geometry={outlineGeo} material={contextLine} raycast={noRaycast} />
       <lineSegments ref={dashedRef} geometry={dashedTops} material={dashedMat} raycast={noRaycast} />
       {p.penumbra ? (
         <mesh geometry={ghostGeo} material={mats.ghost} raycast={noRaycast} renderOrder={2} />
@@ -1878,7 +1924,7 @@ export function CityScene(p: CitySceneProps) {
               const isSel = cut && selStorey?.id === sm.st.id;
               const above = cut && i > selIndex;
               // With the drawer out, everything but the drawer fades to a ghost (QA B5).
-              const ghost = (above && !drawer) || (drawer && drawerOut && !isSel);
+              const ghost = (above && !slide) || (slide && drawerOut && !isSel);
               const wallGeo = isSel ? sm.cutWallGeo : sm.wallGeo;
               const glassGeo = isSel ? sm.cutGlassGeo : sm.glassGeo;
               const walls = isSel ? sm.cutWalls : sm.walls;
@@ -1942,13 +1988,13 @@ export function CityScene(p: CitySceneProps) {
                   {!ghost ? <primitive object={outlines[i]!} /> : null}
                 </>
               );
-              if (isSel && drawer)
+              if (isSel && slide)
                 return (
                   <group key={sm.st.id} ref={drawerRef as unknown as MutableRefObject<never>}>
                     {body}
                   </group>
                 );
-              if (above && !drawer)
+              if (above && !slide)
                 return (
                   <group
                     key={sm.st.id}

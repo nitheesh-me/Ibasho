@@ -14,7 +14,7 @@ import { Mon, TYPE_INFO } from '@ibasho/ui';
 import { type KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useStudio } from '../state/studio.ts';
-import { cityLabel, findPlaces, hitDetail, hitPath } from './places.ts';
+import { cityLabel, findPlaces, groupHits, hitDetail, hitPath, type SearchRow } from './places.ts';
 
 const RECENT_KEY = 'ibasho.search.recent';
 
@@ -35,13 +35,6 @@ function pushRecent(q: string) {
   }
 }
 
-const GROUPS: { kind: PlaceHit['kind']; label: string }[] = [
-  { kind: 'place', label: 'Places' },
-  { kind: 'building', label: 'Buildings' },
-  { kind: 'storey', label: 'Floors' },
-  { kind: 'room', label: 'Rooms' },
-];
-
 /** Search the studio. Swap point for agent A's `searchPlaces`. */
 export function useSearch(query: string): PlaceHit[] {
   const places = useStudio((s) => s.places);
@@ -53,6 +46,8 @@ export function useSearch(query: string): PlaceHit[] {
 interface ResultsProps {
   query: string;
   hits: PlaceHit[];
+  rows: SearchRow[];
+  onMore: (kind: PlaceHit['kind']) => void;
   active: number;
   onPick: (h: PlaceHit) => void;
   onHover: (i: number) => void;
@@ -61,7 +56,18 @@ interface ResultsProps {
   onRecent: (q: string) => void;
 }
 
-function Results({ query, hits, active, onPick, onHover, listId, recent, onRecent }: ResultsProps) {
+function Results({
+  query,
+  hits,
+  rows,
+  onMore,
+  active,
+  onPick,
+  onHover,
+  listId,
+  recent,
+  onRecent,
+}: ResultsProps) {
   const places = useStudio((s) => s.places);
   const buildings = useStudio((s) => s.buildings);
   const state = { places, buildings };
@@ -97,44 +103,63 @@ function Results({ query, hits, active, onPick, onHover, listId, recent, onRecen
   let i = -1;
   return (
     <div id={listId} role="listbox" aria-label="Results" className="st-search__list">
-      {GROUPS.map((g) => {
-        const items = hits.filter((h) => h.kind === g.kind);
-        if (!items.length) return null;
-        return (
-          // biome-ignore lint/a11y/useSemanticElements: an option group inside a listbox (ARIA 1.2)
-          <div key={g.kind} role="group" aria-label={g.label}>
-            <p className="st-search__group" aria-hidden="true">
-              {g.label}
+      {rows.map((r, n) => {
+        if (r.type === 'head')
+          return (
+            <p key={`h:${r.kind}`} className="st-search__group" aria-hidden="true">
+              {r.label}
             </p>
-            {items.map((h) => {
-              i++;
-              const idx = i;
-              return (
-                <div
-                  key={`${h.kind}:${h.id}:${idx}`}
-                  id={`${listId}-${idx}`}
-                  role="option"
-                  aria-selected={idx === active}
-                  className="st-search__hit"
-                  tabIndex={-1}
-                  onMouseEnter={() => onHover(idx)}
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => onPick(h)}
-                  onKeyDown={() => undefined}
-                >
-                  {buildings[h.buildingId] ? (
-                    <Mon id={TYPE_INFO[buildings[h.buildingId]?.typeId ?? 'office'].mon} size={16} />
-                  ) : (
-                    <span className="st-search__ctx" aria-hidden="true" />
-                  )}
-                  <span className="st-search__label">{h.name}</span>
-                  <span className="st-search__detail">{hitDetail(state, h)}</span>
-                  {h.kind === 'building' || h.kind === 'place' ? (
-                    <span className="st-search__city">{cityLabel(h.city)}</span>
-                  ) : null}
-                </div>
-              );
-            })}
+          );
+        if (r.type === 'sub')
+          return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: storey subheads are positional
+            <p key={`s:${n}`} className="st-search__sub" aria-hidden="true">
+              {r.label}
+            </p>
+          );
+        i++;
+        const idx = i;
+        if (r.type === 'more')
+          return (
+            <div
+              key={`m:${r.kind}`}
+              id={`${listId}-${idx}`}
+              role="option"
+              aria-selected={idx === active}
+              className="st-search__more"
+              tabIndex={-1}
+              onMouseEnter={() => onHover(idx)}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => onMore(r.kind)}
+              onKeyDown={() => undefined}
+            >
+              Show {r.count === 1 ? 'one more' : `${r.count} more`}
+            </div>
+          );
+        const h = r.hit;
+        return (
+          <div
+            key={`${h.kind}:${h.id}`}
+            id={`${listId}-${idx}`}
+            role="option"
+            aria-selected={idx === active}
+            className="st-search__hit"
+            tabIndex={-1}
+            onMouseEnter={() => onHover(idx)}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => onPick(h)}
+            onKeyDown={() => undefined}
+          >
+            {buildings[h.buildingId] ? (
+              <Mon id={TYPE_INFO[buildings[h.buildingId]?.typeId ?? 'office'].mon} size={16} />
+            ) : (
+              <span className="st-search__ctx" aria-hidden="true" />
+            )}
+            <span className="st-search__label">{h.name}</span>
+            <span className="st-search__detail">{hitDetail(state, h)}</span>
+            {h.kind === 'building' || h.kind === 'place' ? (
+              <span className="st-search__city">{cityLabel(h.city)}</span>
+            ) : null}
           </div>
         );
       })}
@@ -147,7 +172,10 @@ function useSearchController(onPicked: (to: string, h: PlaceHit) => void) {
   const [active, setActive] = useState(0);
   const [recent, setRecent] = useState<string[]>(readRecent);
   const hits = useSearch(query);
-  const flat = useMemo(() => GROUPS.flatMap((g) => hits.filter((h) => h.kind === g.kind)), [hits]);
+  const [expanded, setExpanded] = useState<ReadonlySet<PlaceHit['kind']>>(new Set());
+  const rows = useMemo(() => groupHits(hits, expanded), [hits, expanded]);
+  const flat = useMemo(() => rows.filter((r) => r.type === 'hit' || r.type === 'more'), [rows]);
+  const more = (kind: PlaceHit['kind']) => setExpanded((e) => new Set([...e, kind]));
   useEffect(() => setActive(0), []);
   const pick = useCallback(
     (h: PlaceHit) => {
@@ -165,10 +193,11 @@ function useSearchController(onPicked: (to: string, h: PlaceHit) => void) {
       e.preventDefault();
       setActive((a) => Math.max(0, a - 1));
     } else if (e.key === 'Enter') {
-      const h = flat[active];
-      if (h) {
+      const r = flat[active];
+      if (r) {
         e.preventDefault();
-        pick(h);
+        if (r.type === 'more') more(r.kind);
+        else if (r.type === 'hit') pick(r.hit);
       }
     }
   };
@@ -177,11 +206,15 @@ function useSearchController(onPicked: (to: string, h: PlaceHit) => void) {
     setQuery: (q: string) => {
       setQuery(q);
       setActive(0);
+      setExpanded(new Set());
     },
     active,
     setActive,
     recent,
-    hits: flat,
+    hits,
+    rows,
+    count: flat.length,
+    more,
     pick,
     onKey,
   };
@@ -212,7 +245,7 @@ export function SearchBox({
         role="combobox"
         aria-expanded={open}
         aria-controls={listId}
-        aria-activedescendant={open && c.hits.length ? `${listId}-${c.active}` : undefined}
+        aria-activedescendant={open && c.count ? `${listId}-${c.active}` : undefined}
         aria-label="Find a building, floor or room"
         placeholder={placeholder}
         value={c.query}
@@ -235,6 +268,8 @@ export function SearchBox({
           <Results
             query={c.query}
             hits={c.hits}
+            rows={c.rows}
+            onMore={c.more}
             active={c.active}
             onPick={c.pick}
             onHover={c.setActive}
@@ -297,8 +332,19 @@ function PaletteBody({ onClose, onPicked }: { onClose: () => void; onPicked: (to
   }, []);
   return (
     <div className="st-palette">
-      <button type="button" className="st-palette__scrim" aria-label="Close search" tabIndex={-1} onClick={onClose} />
-      <div className="st-palette__box" role="dialog" aria-modal="true" aria-label="Find a building, floor or room">
+      <button
+        type="button"
+        className="st-palette__scrim"
+        aria-label="Close search"
+        tabIndex={-1}
+        onClick={onClose}
+      />
+      <div
+        className="st-palette__box"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Find a building, floor or room"
+      >
         <input
           ref={inputRef}
           type="search"
@@ -306,7 +352,7 @@ function PaletteBody({ onClose, onPicked }: { onClose: () => void; onPicked: (to
           role="combobox"
           aria-expanded="true"
           aria-controls={listId}
-          aria-activedescendant={c.hits.length ? `${listId}-${c.active}` : undefined}
+          aria-activedescendant={c.count ? `${listId}-${c.active}` : undefined}
           placeholder="Find a building, floor or room"
           value={c.query}
           onChange={(e) => c.setQuery(e.target.value)}
@@ -318,6 +364,8 @@ function PaletteBody({ onClose, onPicked }: { onClose: () => void; onPicked: (to
         <Results
           query={c.query}
           hits={c.hits}
+          rows={c.rows}
+          onMore={c.more}
           active={c.active}
           onPick={c.pick}
           onHover={c.setActive}

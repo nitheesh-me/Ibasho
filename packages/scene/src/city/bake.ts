@@ -52,6 +52,8 @@ export interface PaperBake {
   composer: EffectComposer;
   setSize(width: number, height: number): void;
   render(): void;
+  /** Day and night in place: AO colour and strength, edge ink. No pass is rebuilt. */
+  setTheme(t: { ink: string; night: boolean }): void;
   dispose(): void;
 }
 
@@ -72,8 +74,15 @@ export function paperBake(
   ao.configuration.gammaCorrection = false;
   ao.configuration.halfRes = true;
   composer.addPass(ao);
-  composer.addPass(new EffectPass(camera, new InkEdgeEffect(opts.ink, opts.night ? 0.25 : 0.35, opts.far)));
+  const edge = new InkEdgeEffect(opts.ink, opts.night ? 0.25 : 0.35, opts.far);
+  composer.addPass(new EffectPass(camera, edge));
   return {
+    setTheme: ({ ink, night }) => {
+      ao.configuration.intensity = night ? 1.2 : 2.2;
+      ao.configuration.color = new Color(ink);
+      (edge.uniforms.get('uInk')!.value as Color).set(ink);
+      edge.uniforms.get('uStrength')!.value = night ? 0.25 : 0.35;
+    },
     composer,
     setSize: (w, h) => composer.setSize(w, h, false),
     render: () => composer.render(0),

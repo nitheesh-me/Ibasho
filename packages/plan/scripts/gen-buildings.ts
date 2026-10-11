@@ -338,6 +338,17 @@ const GB1_WINGS: Wing[] = [
 const gb1Window: WindowRule = { kind: 'ratio', wwrPm: 140, sill: 900 };
 const NO_WINDOWS = new Set(['data-centre', 'plant', 'stair', 'toilet-core', 'circulation']);
 
+/**
+ * Chajjas (estimated): a continuous RCC sunshade over each window band, the usual Hyderabad
+ * institutional detail. Deeper on the afternoon facades: the building frame's -y (A row, true
+ * bearing about 222, SW) and -x (west ends, about 312, NW) get 750 mm; +y (NE) and +x (SE) 600 mm.
+ * Not drawn on the plan sheets (plans only, no elevations); depths sit in the typical 450 to 900 mm.
+ */
+function gb1Chajja(normal: PointMm): ShadeRule[] {
+  const afternoon = normal[1] < 0 || (normal[0] < 0 && Math.abs(normal[0]) > Math.abs(normal[1]));
+  return [{ kind: 'overhang', depth: afternoon ? 750 : 600, aboveHead: 150, extension: 300 }];
+}
+
 function gb1(): { doc: BuildingDoc; notes: unknown } {
   const vindhya = ctx('osm_r2829427');
   const [ox, oy] = centroid(vindhya.footprint);
@@ -411,10 +422,10 @@ function gb1(): { doc: BuildingDoc; notes: unknown } {
       floorBoundary: f === 0 ? 'ground' : 'adjacent',
       ceilingBoundary: f === 2 ? 'roof' : 'adjacent',
       exterior: { kind: 'outdoors' },
-      exteriorRules: (room) => ({
-        window: NO_WINDOWS.has(room.spaceTypeId ?? '') ? { kind: 'none' } : gb1Window,
-        shading: [],
-      }),
+      exteriorRules: (room, edge) => {
+        const glazed = !NO_WINDOWS.has(room.spaceTypeId ?? '');
+        return { window: glazed ? gb1Window : { kind: 'none' }, shading: glazed ? gb1Chajja(edge.normal) : [] };
+      },
     });
     storeys.push(
       storey(
@@ -468,11 +479,13 @@ function gb1(): { doc: BuildingDoc; notes: unknown } {
       floorToFloor: 'assumed 3.9 m',
       origin: 'OSM outer ring centroid in the city-hyderabad frame; rotation 41.7 degrees',
       cellar: 'partial under C4 and C5; the NE face is exposed (sloping site) with ventilators',
+      shading:
+        'Estimated: an RCC chajja over every window band, 750 mm on the SW and NW facades and 600 mm on the NE and SE facades, 150 mm above the window head. The plan sheets show no elevations, so depths follow typical Hyderabad institutional practice (450 to 900 mm). No fins or jaalis are assumed.',
     },
     unknowns: [
       'window sizes and glazing (WWR 14% assumed from tag counts W1, W2, V2)',
       'wall and roof build-ups (RCC frame, masonry infill likely)',
-      'external shading (not drawn)',
+      'chajja depths and continuity (estimated, not drawn; fins and jaalis not assumed)',
       'permit date (built before 2014 TSECBC; edition unknown)',
       'roof PV',
       'lift and stair cores are modelled as rooms, not cores',

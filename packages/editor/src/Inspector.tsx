@@ -392,7 +392,7 @@ export function StoreyStack({ doc, storeyId, onStorey, onEdit, limited }: Storey
           />
           <button
             type="button"
-            className="ib-btn"
+            className="ib-btn ib-btn--quiet"
             onClick={() => {
               const id = `st_${Math.random().toString(36).slice(2, 8)}`;
               onEdit('Add storey above', addStoreyAbove(storeyId, copy, id));

@@ -37,7 +37,10 @@ export interface LandingChapter {
   types?: boolean;
   /** Where to see it in the studio. */
   link?: { label: string; href: string };
-  /** Id of the still from the city scene (`posters/manifest.json`), used once that file exists. */
+  /**
+   * Chapter id of the stills from the city scene (`posters/manifest.json`), a day and a night one,
+   * used once those files exist.
+   */
   posterId?: string;
   /** A resolved still. The landing build fills it from `posterId`. */
   poster?: { src: string; srcSet?: string; alt: string };
@@ -84,7 +87,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyphMeaning: 'place',
     requires: ['stage:geometry', 'stage:sun'],
     types: true,
-    posterId: 'city-day',
+    posterId: 'city',
   },
   {
     id: 'sun',
@@ -102,7 +105,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyph: '昼',
     glyphMeaning: 'daytime',
     requires: ['stage:sun', 'stage:radiation'],
-    posterId: 'sun-sweep',
+    posterId: 'sun',
   },
   {
     id: 'daylight',
@@ -117,7 +120,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyph: '居',
     glyphMeaning: 'to stay',
     requires: ['stage:daylight'],
-    posterId: 'daylight-drawer',
+    posterId: 'daylight',
   },
   {
     id: 'energy',
@@ -136,7 +139,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyph: '勘',
     glyphMeaning: 'to reckon',
     requires: ['stage:energy'],
-    posterId: 'lanterns',
+    posterId: 'energy',
   },
   {
     id: 'codes',
@@ -154,6 +157,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyph: '検',
     glyphMeaning: 'to examine',
     requires: ['stage:codes'],
+    posterId: 'codes',
   },
   {
     id: 'compare',
@@ -192,6 +196,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyphMeaning: 'a model',
     requires: ['stage:geometry', 'stage:sun', 'stage:energy', 'stage:codes'],
     link: { label: 'Start a design', href: STUDIO_LINKS.design },
+    posterId: 'design',
   },
   {
     id: 'trust',
@@ -210,6 +215,7 @@ export const LANDING_CHAPTERS: readonly LandingChapter[] = [
     glyph: '証',
     glyphMeaning: 'proof',
     requires: [],
+    posterId: 'trust',
   },
 ];
 
@@ -272,7 +278,38 @@ export const LANDING_EXAMPLE = {
   futuresLine: 'Bundles of changes the search found, each worked out whole.',
   link: { label: 'Walk through Vindhya Bhavan', href: STUDIO_LINKS.vindhya },
   previewNote: 'Example figures. They become this building’s own numbers as each step is calculated.',
-  posterId: 'radiation',
+  posterId: 'hero-phone',
+} as const;
+
+/**
+ * Words for the small result plates set over the chapter stills (energy, codes, compare, trust).
+ * The figures on them come from the studio's own results for the worked example.
+ */
+export const LANDING_PLATES = {
+  energy: {
+    title: 'Where the energy goes',
+    range: 'As drawn',
+    target: 'ECSBC reference',
+    unit: 'kWh/m² a year',
+  },
+  codes: {
+    title: 'Green ratings, as a pre-check',
+    note: 'An estimate, not a certification.',
+  },
+  compare: {
+    title: 'Three futures',
+    upfront: 'Upfront',
+    saves: 'Saves',
+  },
+  trust: {
+    title: 'Energy per square metre',
+    method: 'How it is worked out',
+    methodValue: 'Energy used over the year, divided by the cooled floor area.',
+    inputs: 'Linked values',
+    grade: 'Standing',
+    gradePreview: 'Example result, not yet checked',
+    gradeReal: 'Modelled, not measured',
+  },
 } as const;
 
 /** One quiet line under the hero actions while any chapter is Preview (landing review M3). */
@@ -284,7 +321,7 @@ export const LANDING_INVITATION = {
   line: 'Choose Hyderabad or London, pick a building or draw your own, and explore it in a few minutes. No account needed.',
   cta: { label: 'Open the studio', href: STUDIO_LINKS.studio },
   sample: { label: 'Or walk through Vindhya Bhavan', href: STUDIO_LINKS.vindhya },
-  posterId: 'city-dusk',
+  posterId: 'invitation',
 } as const;
 
 /** Page metadata for the landing `<head>`. */

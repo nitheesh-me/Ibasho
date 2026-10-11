@@ -24,6 +24,7 @@ export {
   LANDING_HERO_CAPTION,
   LANDING_INVITATION,
   LANDING_META,
+  LANDING_PLATES,
   LANDING_PREVIEW_NOTE,
   LANDING_TAGLINE,
   type LandingAudience,
@@ -59,6 +60,7 @@ export { PROOFS_INTRO, type ProofsIntro } from './proofs.ts';
 export {
   APPLICABILITY_COPY,
   describeOps,
+  END_USE_COPY,
   FUTURE_ROLE_COPY,
   GAP_COPY,
   GOAL_PRESET_COPY,

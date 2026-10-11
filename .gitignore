@@ -21,3 +21,9 @@ docs/research/v3/sources/
 
 # Private trailer work (not versioned, not shared)
 videos/
+
+# Problem statement (third-party, kept locally)
+docs/LLOYDS-ps2.pdf
+
+# Build copy of scene stills (originals in packages/scene/dev/posters)
+apps/landing/public/posters/

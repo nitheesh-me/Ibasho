@@ -121,8 +121,27 @@ type Drag =
   | { kind: 'rect'; a: PointMm; b: PointMm }
   | null;
 
-function fitView(s: Storey | undefined, aspect: number): View {
-  const pts = s?.rooms.flatMap((r) => r.floor.outer) ?? [];
+/** Plan point to drawing coordinates: true north up (rotate by the building's bearing), y down. */
+function toDraw(p: readonly [number, number], deg: number): [number, number] {
+  const a = (deg * Math.PI) / 180;
+  const c = Math.cos(a);
+  const sn = Math.sin(a);
+  const X = p[0];
+  const Y = -p[1];
+  return [X * c - Y * sn, X * sn + Y * c];
+}
+function fromDraw(q: readonly [number, number], deg: number): [number, number] {
+  const a = (-deg * Math.PI) / 180;
+  const c = Math.cos(a);
+  const sn = Math.sin(a);
+  return [q[0] * c - q[1] * sn, -(q[0] * sn + q[1] * c)];
+}
+
+function fitView(s: Storey | undefined, aspect: number, deg = 0): View {
+  const pts = (s?.rooms.flatMap((r) => r.floor.outer) ?? []).map((p) => {
+    const [x, y] = toDraw(p, deg);
+    return [x, -y] as PointMm;
+  });
   const b = pts.length ? bbox(pts) : { x0: 0, y0: 0, x1: 20000, y1: 15000 };
   const pad = Math.max(3000, 0.08 * Math.max(b.x1 - b.x0, b.y1 - b.y0));
   let w = b.x1 - b.x0 + 2 * pad;
@@ -131,7 +150,8 @@ function fitView(s: Storey | undefined, aspect: number): View {
   else w = h * aspect;
   const cx = (b.x0 + b.x1) / 2;
   const cy = -(b.y0 + b.y1) / 2;
-  return { x: cx - w / 2, y: cy - h / 2, w, h };
+  // Leave room on the left for the tool rail (about 7% of the width).
+  return { x: cx - w / 2 - 0.07 * w, y: cy - h / 2, w, h };
 }
 
 const P = ([x, y]: readonly [number, number]) => `${x},${-y}`;
@@ -144,7 +164,8 @@ export function PlanEditor(props: PlanEditorProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const [aspect, setAspect] = useState(1.6);
-  const [view, setView] = useState<View>(() => fitView(storey, 1.6));
+  const rotDeg = doc.rotationMdeg / 1000;
+  const [view, setView] = useState<View>(() => fitView(storey, 1.6, doc.rotationMdeg / 1000));
   const [toolLocal, setToolLocal] = useState<ToolId>('select');
   const tool = props.tool ?? toolLocal;
   const setTool = (t: ToolId) => (props.onTool ? props.onTool(t) : setToolLocal(t));
@@ -173,6 +194,7 @@ export function PlanEditor(props: PlanEditorProps) {
       fitView(
         doc.storeys.find((s) => s.id === storeyKey),
         a,
+        doc.rotationMdeg / 1000,
       ),
     );
   }, [storeyKey]);
@@ -202,12 +224,21 @@ export function PlanEditor(props: PlanEditorProps) {
     [rooms],
   );
 
-  const toPlan = useCallback((clientX: number, clientY: number): [number, number] => {
-    const svg = svgRef.current;
-    const m = svg?.getScreenCTM();
-    if (!svg || !m) return [0, 0];
+  const toPlan = useCallback(
+    (clientX: number, clientY: number): [number, number] => {
+      const svg = svgRef.current;
+      const m = svg?.getScreenCTM();
+      if (!svg || !m) return [0, 0];
+      const pt = new DOMPoint(clientX, clientY).matrixTransform(m.inverse());
+      return fromDraw([pt.x, pt.y], rotDeg);
+    },
+    [rotDeg],
+  );
+  const toSvgPt = useCallback((clientX: number, clientY: number): [number, number] => {
+    const m = svgRef.current?.getScreenCTM();
+    if (!m) return [0, 0];
     const pt = new DOMPoint(clientX, clientY).matrixTransform(m.inverse());
-    return [pt.x, -pt.y];
+    return [pt.x, pt.y];
   }, []);
 
   const snap = (p: [number, number], anchor?: PointMm, off = false) =>
@@ -235,7 +266,7 @@ export function PlanEditor(props: PlanEditorProps) {
   const zoomAt = (factor: number, at?: [number, number]) => {
     setView((v) => {
       const cx = at ? at[0] : v.x + v.w / 2;
-      const cy = at ? -at[1] : v.y + v.h / 2;
+      const cy = at ? at[1] : v.y + v.h / 2;
       const w = Math.min(2_000_000, Math.max(2000, v.w * factor));
       const h = w / aspect;
       return { x: cx - ((cx - v.x) * w) / v.w, y: cy - ((cy - v.y) * h) / v.h, w, h };
@@ -254,7 +285,7 @@ export function PlanEditor(props: PlanEditorProps) {
       pinch.current = {
         d: Math.hypot(a[0] - b[0], a[1] - b[1]),
         view,
-        mid: toPlan((a[0] + b[0]) / 2, (a[1] + b[1]) / 2),
+        mid: toSvgPt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2),
       };
       setDrag(null);
       return;
@@ -375,7 +406,7 @@ export function PlanEditor(props: PlanEditorProps) {
       const w = Math.min(2_000_000, Math.max(2000, pv.w * f));
       const h = w / aspect;
       const [mx, my] = pinch.current.mid;
-      setView({ x: mx - ((mx - pv.x) * w) / pv.w, y: -my - ((-my - pv.y) * h) / pv.h, w, h });
+      setView({ x: mx - ((mx - pv.x) * w) / pv.w, y: my - ((my - pv.y) * h) / pv.h, w, h });
       return;
     }
     const raw = toPlan(e.clientX, e.clientY);
@@ -421,7 +452,7 @@ export function PlanEditor(props: PlanEditorProps) {
   };
 
   const onWheel = (e: WheelEvent<SVGSVGElement>) => {
-    zoomAt(e.deltaY > 0 ? 1.12 : 1 / 1.12, toPlan(e.clientX, e.clientY));
+    zoomAt(e.deltaY > 0 ? 1.12 : 1 / 1.12, toSvgPt(e.clientX, e.clientY));
   };
 
   const closePoly = () => {
@@ -568,84 +599,99 @@ export function PlanEditor(props: PlanEditorProps) {
           <Patterns px={px} />
         </defs>
         <rect x={view.x} y={view.y} width={view.w} height={view.h} fill="url(#ibp-grid)" />
-        {props.underlayUrl && storey?.underlay ? <Underlay storey={storey} url={props.underlayUrl} /> : null}
-        {below && below.id !== storey?.id
-          ? (below.rooms as Room2D[]).map((r) => (
+        <g transform={`rotate(${rotDeg})`}>
+          {props.underlayUrl && storey?.underlay ? (
+            <Underlay storey={storey} url={props.underlayUrl} />
+          ) : null}
+          {below && below.id !== storey?.id && !below.belowGrade
+            ? (below.rooms as Room2D[]).map((r) => (
+                <path
+                  key={`g${r.id}`}
+                  d={ringPath(r.floor.outer)}
+                  className="ib-editor__ghost"
+                  strokeWidth={px}
+                />
+              ))
+            : null}
+          {rooms.map((r) => {
+            const sel = selection.includes(r.id);
+            const fn = spaceFunction(r.spaceTypeId);
+            const paint = props.paint?.(r);
+            const flags = flagged.get(r.id);
+            const d =
+              moveDelta && selection.includes(r.id)
+                ? `translate(${moveDelta[0]} ${-moveDelta[1]})`
+                : undefined;
+            return (
+              <g key={r.id} transform={d} className="ib-editor__room" data-selected={sel ? '' : undefined}>
+                <path
+                  d={ringPath(r.floor.outer)}
+                  className="ib-editor__floor"
+                  style={paint ? { fill: paint } : undefined}
+                />
+                {!paint && fn && fn.hatch !== 'none' ? (
+                  <path
+                    d={ringPath(r.floor.outer)}
+                    fill={`url(#ibp-${fn.hatch})`}
+                    className="ib-editor__hatch"
+                  />
+                ) : null}
+                {flags?.has('overlap') ? <path d={ringPath(r.floor.outer)} fill="url(#ibp-warn)" /> : null}
+                {!r.spaceTypeId ? (
+                  <path
+                    d={ringPath(r.floor.outer)}
+                    className="ib-editor__untyped"
+                    strokeWidth={1.5 * px}
+                    strokeDasharray={`${6 * px} ${4 * px}`}
+                  />
+                ) : null}
+                <Walls room={r} px={px} flags={flagged} deg={rotDeg} />
+                {sel ? (
+                  <path d={ringPath(r.floor.outer)} className="ib-editor__sel" strokeWidth={3 * px} />
+                ) : null}
+              </g>
+            );
+          })}
+          {(storey?.cores ?? []).map((c) => (
+            <g key={c.id} className="ib-editor__core">
+              <path d={ringPath(c.outline)} strokeWidth={1.5 * px} />
               <path
-                key={`g${r.id}`}
-                d={ringPath(r.floor.outer)}
-                className="ib-editor__ghost"
+                d={`M${P(c.outline[0] as PointMm)}L${P(c.outline[2] as PointMm)}M${P(c.outline[1] as PointMm)}L${P(c.outline[3] as PointMm)}`}
                 strokeWidth={px}
               />
-            ))
-          : null}
-        {rooms.map((r) => {
-          const sel = selection.includes(r.id);
-          const fn = spaceFunction(r.spaceTypeId);
-          const paint = props.paint?.(r);
-          const flags = flagged.get(r.id);
-          const d =
-            moveDelta && selection.includes(r.id) ? `translate(${moveDelta[0]} ${-moveDelta[1]})` : undefined;
-          return (
-            <g key={r.id} transform={d} className="ib-editor__room" data-selected={sel ? '' : undefined}>
+            </g>
+          ))}
+          {rooms.map((r) => (
+            <RoomLabel key={`l${r.id}`} room={r} px={px} deg={rotDeg} />
+          ))}
+          {preview ? (
+            <g className="ib-editor__preview">
               <path
-                d={ringPath(r.floor.outer)}
-                className="ib-editor__floor"
-                style={paint ? { fill: paint } : undefined}
+                d={tool === 'poly' ? `M${preview.map(P).join('L')}` : ringPath(preview)}
+                strokeWidth={1.5 * px}
               />
-              {!paint && fn && fn.hatch !== 'none' ? (
-                <path
-                  d={ringPath(r.floor.outer)}
-                  fill={`url(#ibp-${fn.hatch})`}
-                  className="ib-editor__hatch"
-                />
-              ) : null}
-              {flags?.has('overlap') ? <path d={ringPath(r.floor.outer)} fill="url(#ibp-warn)" /> : null}
-              {!r.spaceTypeId ? (
-                <path
-                  d={ringPath(r.floor.outer)}
-                  className="ib-editor__untyped"
-                  strokeWidth={1.5 * px}
-                  strokeDasharray={`${6 * px} ${4 * px}`}
-                />
-              ) : null}
-              <Walls room={r} px={px} flags={flagged} />
-              {sel ? (
-                <path d={ringPath(r.floor.outer)} className="ib-editor__sel" strokeWidth={3 * px} />
+              {preview.map((p, i) => {
+                const q = preview[(i + 1) % preview.length] as PointMm;
+                if (tool === 'poly' && i === preview.length - 1) return null;
+                // biome-ignore lint/suspicious/noArrayIndexKey: edges of the preview ring are positional
+                return <DimTag key={`${p[0]},${p[1]},${i}`} a={p} b={q} px={px} deg={rotDeg} />;
+              })}
+            </g>
+          ) : null}
+          {splitHover && hover ? <SplitGuide room={splitHover} at={hover} px={px} flip={shiftDown} /> : null}
+          {measure.length ? (
+            <g className="ib-editor__measure">
+              {measure.length === 2 ? (
+                <DimTag a={measure[0] as PointMm} b={measure[1] as PointMm} px={px} deg={rotDeg} />
+              ) : hover ? (
+                <DimTag a={measure[0] as PointMm} b={hover} px={px} deg={rotDeg} />
               ) : null}
             </g>
-          );
-        })}
-        {rooms.map((r) => (
-          <RoomLabel key={`l${r.id}`} room={r} px={px} />
-        ))}
-        {preview ? (
-          <g className="ib-editor__preview">
-            <path
-              d={tool === 'poly' ? `M${preview.map(P).join('L')}` : ringPath(preview)}
-              strokeWidth={1.5 * px}
-            />
-            {preview.map((p, i) => {
-              const q = preview[(i + 1) % preview.length] as PointMm;
-              if (tool === 'poly' && i === preview.length - 1) return null;
-              // biome-ignore lint/suspicious/noArrayIndexKey: edges of the preview ring are positional
-              return <DimTag key={`${p[0]},${p[1]},${i}`} a={p} b={q} px={px} />;
-            })}
-          </g>
-        ) : null}
-        {splitHover && hover ? <SplitGuide room={splitHover} at={hover} px={px} flip={shiftDown} /> : null}
-        {measure.length ? (
-          <g className="ib-editor__measure">
-            {measure.length === 2 ? (
-              <DimTag a={measure[0] as PointMm} b={measure[1] as PointMm} px={px} />
-            ) : hover ? (
-              <DimTag a={measure[0] as PointMm} b={hover} px={px} />
-            ) : null}
-          </g>
-        ) : null}
-        {hover && tool !== 'select' ? (
-          <circle cx={hover[0]} cy={-hover[1]} r={4 * px} className="ib-editor__cursor" strokeWidth={px} />
-        ) : null}
+          ) : null}
+          {hover && tool !== 'select' ? (
+            <circle cx={hover[0]} cy={-hover[1]} r={4 * px} className="ib-editor__cursor" strokeWidth={px} />
+          ) : null}
+        </g>
       </svg>
 
       <div className="ib-editor__rail" role="toolbar" aria-label="Plan tools" aria-orientation="vertical">
@@ -697,7 +743,11 @@ export function PlanEditor(props: PlanEditorProps) {
         <button type="button" onClick={() => zoomAt(1.25)} aria-label="Zoom out">
           −
         </button>
-        <button type="button" onClick={() => setView(fitView(storey, aspect))} aria-label="Fit the plan">
+        <button
+          type="button"
+          onClick={() => setView(fitView(storey, aspect, rotDeg))}
+          aria-label="Fit the plan"
+        >
           Fit
         </button>
         <button type="button" onClick={() => pan(-0.15, 0)} aria-label="Pan left" className="ib-editor__pan">
@@ -755,11 +805,7 @@ export function PlanEditor(props: PlanEditorProps) {
         ) : null}
       </div>
 
-      <div
-        className="ib-editor__north"
-        aria-hidden="true"
-        style={{ transform: `rotate(${-doc.rotationMdeg / 1000}deg)` }}
-      >
+      <div className="ib-editor__north" aria-hidden="true" title="True north is up">
         <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true">
           <path d="M12 2L16 18L12 15L8 18Z" />
         </svg>
@@ -773,7 +819,17 @@ export function PlanEditor(props: PlanEditorProps) {
 
 // ------------------------------------------------------------------ drawing parts
 
-function Walls({ room, px, flags }: { room: Room2D; px: number; flags: Map<string, Set<string>> }) {
+function Walls({
+  room,
+  px,
+  flags,
+  deg = 0,
+}: {
+  room: Room2D;
+  px: number;
+  flags: Map<string, Set<string>>;
+  deg?: number;
+}) {
   return (
     <>
       {room.segments.map((s, i) => {
@@ -882,6 +938,7 @@ function Walls({ room, px, flags }: { room: Room2D; px: number; flags: Map<strin
                 x={mx + nx * 10 * px}
                 y={-(my + ny * 10 * px)}
                 fontSize={9 * px}
+                transform={`rotate(${-deg} ${mx + nx * 10 * px} ${-(my + ny * 10 * px)})`}
                 className="ib-editor__tag"
                 textAnchor="middle"
               >
@@ -900,22 +957,64 @@ function Walls({ room, px, flags }: { room: Room2D; px: number; flags: Map<strin
   );
 }
 
-function RoomLabel({ room, px }: { room: Room2D; px: number }) {
+/**
+ * One label rule (orchestrator ruling): function first, then the room's name when it has one.
+ * Text never shrinks below 11 px; a label that does not fit falls back to the short function name,
+ * then to nothing (the outline and the inspector still name it). Upright whatever the rotation.
+ */
+function RoomLabel({ room, px, deg = 0 }: { room: Room2D; px: number; deg?: number }) {
   const b = bbox(room.floor.outer);
   const wPx = (b.x1 - b.x0) / px;
   const hPx = (b.y1 - b.y0) / px;
-  if (wPx < 34 || hPx < 22) return null;
+  if (wPx < 30 || hPx < 18) return null;
   const [cx, cy] = centroid(room.floor.outer);
   const fn = spaceFunction(room.spaceTypeId);
-  const name = room.name ?? fn?.label ?? 'Unknown use';
-  const fs = Math.min(11, Math.max(8, wPx / 9)) * px;
+  const fsPx = 11;
+  const fits = (t: string, k = 1) => t.length * fsPx * 0.56 * k <= wPx - 6;
+  const fnText = fn
+    ? fits(fn.label)
+      ? fn.label
+      : fits(fn.short)
+        ? fn.short
+        : ''
+    : fits('Unknown use')
+      ? 'Unknown use'
+      : '?';
+  if (!fnText) return null;
+  const name =
+    room.name && room.name !== fn?.label && hPx > 34 && fits(room.name, 0.9) ? room.name : undefined;
+  const area = hPx > 50 && fits('000.0 m²', 0.85);
+  const fs = fsPx * px;
+  const lines = 1 + (name ? 1 : 0) + (area ? 1 : 0);
+  const y0 = -cy - ((lines - 1) * fs * 1.2) / 2 + fs * 0.35;
   return (
-    <g className="ib-editor__label" data-untyped={room.spaceTypeId ? undefined : ''}>
-      <text x={cx} y={-cy} fontSize={fs} textAnchor="middle" className="ib-editor__name">
-        {wPx < 70 && fn ? fn.short : name}
+    <g
+      className="ib-editor__label"
+      data-untyped={room.spaceTypeId ? undefined : ''}
+      transform={`rotate(${-deg} ${cx} ${-cy})`}
+    >
+      <text x={cx} y={y0} fontSize={fs} textAnchor="middle" className="ib-editor__name">
+        {fnText}
       </text>
-      {hPx > 36 ? (
-        <text x={cx} y={-cy + fs * 1.25} fontSize={fs * 0.85} textAnchor="middle" className="ib-editor__area">
+      {name ? (
+        <text
+          x={cx}
+          y={y0 + fs * 1.2}
+          fontSize={fs * 0.92}
+          textAnchor="middle"
+          className="ib-editor__roomname"
+        >
+          {name}
+        </text>
+      ) : null}
+      {area ? (
+        <text
+          x={cx}
+          y={y0 + fs * 1.2 * (name ? 2 : 1)}
+          fontSize={fs * 0.92}
+          textAnchor="middle"
+          className="ib-editor__area"
+        >
           {areaM2(room.floor).toFixed(1)} m²
         </text>
       ) : null}
@@ -923,13 +1022,13 @@ function RoomLabel({ room, px }: { room: Room2D; px: number }) {
   );
 }
 
-function DimTag({ a, b, px }: { a: PointMm; b: PointMm; px: number }) {
+function DimTag({ a, b, px, deg = 0 }: { a: PointMm; b: PointMm; px: number; deg?: number }) {
   const len = edgeLength([a, b]);
   if (len < 1) return null;
   const mx = (a[0] + b[0]) / 2;
   const my = (a[1] + b[1]) / 2;
   return (
-    <g className="ib-editor__dim">
+    <g className="ib-editor__dim" transform={`rotate(${-deg} ${mx} ${-my})`}>
       <rect x={mx - 26 * px} y={-my - 8 * px} width={52 * px} height={14 * px} />
       <text x={mx} y={-my + 2.5 * px} fontSize={9 * px} textAnchor="middle">
         {(len / 1000).toFixed(2)} m

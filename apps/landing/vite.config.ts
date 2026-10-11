@@ -17,15 +17,17 @@ function prerender(): Plugin {
   return {
     name: 'ibasho-landing-prerender',
     async transformIndexHtml(html) {
-      const { source, plugins, skipped } = await discoverPlugins(repoRoot);
-      console.info(`landing: ${plugins.length} plugins from ${source}`);
+      const { source, plugins, skipped, stages } = await discoverPlugins(repoRoot);
+      console.info(`landing: ${plugins.length} plugins from ${source}, ${Object.keys(stages).length} studio stages`);
       for (const s of skipped) console.warn(`landing: skipped ${s.file}: ${s.reason}`);
       const { module } = await runnerImport<Prerender>(
         fileURLToPath(new URL('./src/prerender.tsx', import.meta.url)),
       );
-      // IBASHO_LANDING_ALL=1 previews every chapter, for design work before their plugins land.
+      // IBASHO_LANDING_ALL=1 shows every chapter (marked Preview), for design work before they land.
       const all = process.env.IBASHO_LANDING_ALL === '1';
-      const presence = all ? { has: () => true, hasKind: () => true } : presenceFromList(plugins);
+      const presence = all
+        ? { has: () => true, hasKind: () => true, stage: () => 'preview' as const }
+        : presenceFromList(plugins, stages);
       return module.fillTemplate(html, presence);
     },
   };

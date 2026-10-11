@@ -247,14 +247,16 @@ const GB1_WINGS: Wing[] = [
   { id: 'spine', rect: [-48, -2, 49, 2.5], floors: same(CORR('Central spine corridor')) },
   { id: 'cspine', rect: [-0.5, 2.5, 2.5, 16.5], floors: same(CORR('C spine corridor')) },
   // C row (NE facing): corridor y 16.5 to 21, rooms y 21 to 38; end wings full depth.
+  // C1 end wing: the labelled rooms take the outer 10.7 m (RB 3.2: 2,047 sq ft, material testing
+  // lab 35'1" x 59'1"); the inner bay holds the stair, toilets and AHU.
   {
     id: 'c1a',
-    rect: [-82, 16.5, -64.5, 30],
+    rect: [-82, 16.5, -71.3, 34.5],
     floors: [
       [
         'EERC Earthquake Engineering Lab',
         'lab-heavy',
-        ['EERC', 'Shake table', 'Material testing lab', 'UTM'],
+        ['EERC', 'Shake table', 'Material testing lab', 'UTM', 'Compression testing'],
       ],
       ['Seminar Hall II', 'assembly', ['Seminar hall 2', 'Seminar hall', 'Seminar hall II']],
       ['Auditorium', 'assembly', ['Auditorium', 'Stepped seating']],
@@ -262,12 +264,17 @@ const GB1_WINGS: Wing[] = [
   },
   {
     id: 'c1b',
-    rect: [-82, 30, -64.5, 38],
+    rect: [-82, 34.5, -71.3, 38],
     floors: [
-      ['EERC Testing Bay', 'lab-heavy', ['EERC', 'Compression testing']],
+      ['C1 lobby and store', 'lobby', ['Store']],
       ['Seminar Hall II foyer', 'lobby', ['Foyer']],
       ['ISWOC Lab', 'lab', ['ISWOC']],
     ],
+  },
+  {
+    id: 'c1c',
+    rect: [-71.3, 16.5, -64.5, 38],
+    floors: same(['C1 stair, toilets and AHU', 'toilet-core', ['Stair', 'Toilets', 'AHU room']]),
   },
   { id: 'c2', rect: [-64.5, 21, -48, 38], floors: same(STAIR('C2')) },
   {
@@ -310,9 +317,15 @@ const GB1_WINGS: Wing[] = [
     ],
   },
   { id: 'c6', rect: [49, 21, 64, 38], floors: same(STAIR('C6')) },
+  // C7 end wing: labelled rooms on the outer 9.3 m (RB 3.2: 2,145 sq ft; Seminar Hall I 2,088 sq ft).
+  {
+    id: 'c7b',
+    rect: [64, 16.5, 73.7, 38],
+    floors: same(['C7 stair, toilets and AHU', 'toilet-core', ['Stair', 'Toilets', 'AHU room']]),
+  },
   {
     id: 'c7',
-    rect: [64, 16.5, 83, 38],
+    rect: [73.7, 16.5, 83, 38],
     floors: [
       ['SBI Bank and ATM', 'bank', ['SBI', 'SBI bank', 'Bank', 'ATM', 'State Bank of India']],
       ['Teaching Lab C7', 'classroom', ['Teaching lab', '90 seat lab']],
@@ -334,15 +347,22 @@ function gb1(): { doc: BuildingDoc; notes: unknown } {
     [
       {
         ...R('rm_b1_c4', 'Estate Office (cellar)', 'office', -6.5, 21, 8.5, 38),
-        aliases: ['Estate office', 'Engineers office', 'Electrical store'],
+        aliases: ['Estate office', 'Engineers office', 'Electrical store', 'C4', 'C4-0'],
       },
       {
         ...R('rm_b1_c5w', 'Civil Engineering Labs (cellar)', 'lab-heavy', 8.5, 21, 28, 38),
-        aliases: ['Transportation lab', 'Soil mechanics lab', 'Survey lab', 'Building materials lab'],
+        aliases: [
+          'Transportation lab',
+          'Soil mechanics lab',
+          'Survey lab',
+          'Building materials lab',
+          'C5',
+          'C5-0',
+        ],
       },
       {
         ...R('rm_b1_c5e', 'Workshop and Hydraulics Lab (cellar)', 'lab-heavy', 28, 21, 49, 38),
-        aliases: ['Workshop', 'Hydraulics lab', 'Civil and mechanical workshop'],
+        aliases: ['Workshop', 'Hydraulics lab', 'Civil and mechanical workshop', 'C5', 'C5-0'],
       },
     ],
     {
@@ -373,7 +393,12 @@ function gb1(): { doc: BuildingDoc; notes: unknown } {
   const floorNames = ['First floor', 'Second floor', 'Third floor'];
   for (let f = 0; f < 3; f++) {
     const specs: RoomSpec[] = GB1_WINGS.map((w) => {
-      const [name, use, aliases] = w.floors[f] as Use;
+      const [name, use, own] = w.floors[f] as Use;
+      // Wing codes as staff and the plan sheets use them ("A3", "C7"), and wing plus floor ("A3-2").
+      // Support rooms (stairs, toilets, plant) keep their own names so the code finds the wing's room.
+      const support = ['stair', 'toilet-core', 'plant', 'circulation'].includes(use);
+      const code = /^[abc]\d/.test(w.id) && !support ? w.id.slice(0, 2).toUpperCase() : undefined;
+      const aliases = code ? [...own, code, `${code}-${f + 1}`] : own;
       const s: RoomSpec = {
         ...R(`rm_${f + 1}_${w.id}`, name, use, ...w.rect),
         ...(aliases.length ? { aliases } : {}),
@@ -438,7 +463,7 @@ function gb1(): { doc: BuildingDoc; notes: unknown } {
     ],
     status: {
       layout:
-        'measured: rectangles fitted to the OSM outline and its four courts (footprint IoU tested at 0.8 or more); wing rooms per RB 3.2',
+        'Measured: rectangles fitted to the OpenStreetMap outline and its four courtyards; wing rooms from the campus floor plans',
       names: 'read: room functions from the plan sheets (RB 3.2), functions only, no personal names',
       floorToFloor: 'assumed 3.9 m',
       origin: 'OSM outer ring centroid in the city-hyderabad frame; rotation 41.7 degrees',
@@ -518,6 +543,19 @@ function gb2(): { doc: BuildingDoc; notes: unknown } {
       aliases: ['Vrithi block', 'Administration', 'Admin block', 'Registrar'],
     },
   ];
+  // Per block and level names from RB 4.2 (room numbers, the Block D cafe floors).
+  const BODH_ROOMS: Record<number, { perimeter: string[]; core: string[] }> = {
+    0: { perimeter: ['101', '102', '103', '104', '105'], core: ['LH 1', 'LH 2', 'LH 7', 'LH 8'] },
+    1: { perimeter: ['201', '202', '203', '204', '205'], core: ['LH 3', 'LH 4', 'LH 9', 'LH 10'] },
+    2: { perimeter: ['301', '302', '303', '304'], core: ['LH 5', 'LH 6', 'LH 11', 'LH 12'] },
+  };
+  const extrasFor = (block: string, level: number, core: boolean): string[] => {
+    if (block === 'bd' && level === 2) return ['Cafe', 'Café', 'Cafeteria', 'Pantry', 'Accelerators'];
+    if (block === 'bd' && level === 3) return ['Cafeteria', 'Faculty cabins', 'PhD rooms'];
+    const bodh = block === 'bo' ? BODH_ROOMS[level] : undefined;
+    if (!bodh) return [];
+    return core ? bodh.core : bodh.perimeter.flatMap((n) => [`Classroom ${n}`, `Room ${n}`]);
+  };
   const storeys: Storey[] = [];
   for (let level = -1; level < 6; level++) {
     const specs: RoomSpec[] = [];
@@ -549,7 +587,7 @@ function gb2(): { doc: BuildingDoc; notes: unknown } {
             name: `${b.name} ${z.kind === 'core' ? (b.coreUse === 'assembly' ? 'tiered halls' : 'core zone') : `perimeter ${z.edge ?? 0}`}`,
             outer: z.polygon.outer,
             spaceTypeId: z.kind === 'core' && b.coreUse && level >= 0 ? b.coreUse : use,
-            aliases: [b.name, ...b.aliases],
+            aliases: [b.name, ...b.aliases, ...extrasFor(b.id, level, z.kind === 'core')],
           });
         }
       }
@@ -891,6 +929,505 @@ function gh1(): { doc: BuildingDoc; notes: unknown } {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Buildings of interest, on demand (owner request): two GCC office hosts in Raidurg and
+// Knowledge City (area `city-hyderabad-raidurg`). Tenants lease them; the documents model the host
+// towers from their OSM footprints and public figures. No public floor plans were found, so the
+// floor plates are the OSM outline per storey (estimated), zoned core plus perimeter, with
+// central service cores as `Core` outlines. Offices, not people: no personal names.
+
+const raidurgDir = join(root, 'packs/city-hyderabad/src/engine/raidurg/tiles');
+const raidurgTiles: CityTile[] = readdirSync(raidurgDir)
+  .filter((f) => f.endsWith('.json.gz'))
+  .sort()
+  .map((f) => JSON.parse(gunzipSync(readFileSync(join(raidurgDir, f))).toString()) as CityTile);
+const ctxR = (id: string) => {
+  const b = raidurgTiles.flatMap((t) => t.buildings).find((x) => x.id === id);
+  if (!b) throw new Error(`raidurg context building ${id} missing`);
+  return b;
+};
+
+interface TowerSpec {
+  id: string;
+  name: string;
+  /** Plan pieces in metres (building frame); each is auto-zoned core plus perimeter. */
+  pieces: PointMm[][];
+  cores: [number, number, number, number][];
+  basements: number;
+  groundF2F: number;
+  typicalF2F: number;
+  /** Storeys above the ground floor (the top one is separate so it carries the roof). */
+  upper: number;
+  wwrPm: number;
+  /** A floor a named tenant occupies (public address), split out so search can find it. */
+  tenantFloor?: { floor: number; name: string; aliases: string[] };
+}
+
+/** Customer-facing zone labels. */
+function zoneName(
+  tag: string,
+  kind: 'core' | 'perimeter',
+  edge: number | undefined,
+  wing: number,
+  wings: number,
+): string {
+  const what = tag === 'b' ? 'Car park' : tag === 'g' ? 'Entrance lobby' : 'Office floor';
+  const where = kind === 'core' ? 'centre' : `edge ${(edge ?? 0) + 1}`;
+  return `${what}, ${where}${wings > 1 ? `, wing ${wing + 1}` : ''}`;
+}
+
+function officeTower(t: TowerSpec): Storey[] {
+  const zone = (tag: string, use: string, coreUse: string, aliases?: string[]): RoomSpec[] =>
+    t.pieces.flatMap((piece, pi) =>
+      autoZone(piece).map((z) => ({
+        id: `rm_${tag}_p${pi}_${z.id.replace(/^z_/, '')}`,
+        name: zoneName(tag, z.kind, z.edge, pi, t.pieces.length),
+        outer: z.polygon.outer,
+        spaceTypeId: z.kind === 'core' ? coreUse : use,
+        ...(aliases ? { aliases } : {}),
+      })),
+    );
+  const cw: WindowRule = { kind: 'ratio', wwrPm: t.wwrPm, sill: 0 };
+  const weld = (
+    specs: RoomSpec[],
+    fb: Room2D['floorBoundary'],
+    cb: Room2D['ceilingBoundary'],
+    ext: 'outdoors' | 'ground',
+    win: WindowRule,
+  ) =>
+    weldRooms(specs, {
+      ceiling: m(3.0),
+      floorBoundary: fb,
+      ceilingBoundary: cb,
+      exterior: { kind: ext },
+      exteriorRules: exteriorRules(win),
+    });
+  const cores = t.cores.map(([x0, y0, x1, y1], i) => ({
+    id: `core_${i + 1}`,
+    kind: 'services' as const,
+    outline: rectRing(m(x0), m(y0), m(x1), m(y1)),
+    conditioned: false,
+    excludeFromArea: true,
+  }));
+  const B = m(3.6);
+  const G = m(t.groundF2F);
+  const F = m(t.typicalF2F);
+  const at = (floor: number) => G + (floor - 1) * F;
+  const office = (
+    id: string,
+    name: string,
+    from: number,
+    count: number,
+    aliases: string[],
+    roomAliases?: string[],
+  ) =>
+    storey(
+      id,
+      name,
+      at(from),
+      F,
+      weld(
+        zone(id.replace(/^st_/, ''), 'office-open', 'office-open', roomAliases),
+        'adjacent',
+        'adjacent',
+        'outdoors',
+        cw,
+      ),
+      {
+        multiplier: count,
+        cores,
+        aliases,
+      },
+    );
+  const out: Storey[] = [
+    storey(
+      'st_b',
+      `Basement levels (${t.basements})`,
+      -t.basements * B,
+      B,
+      weld(zone('b', 'parking', 'parking'), 'ground', 'adjacent', 'ground', { kind: 'none' }),
+      {
+        belowGrade: true,
+        multiplier: t.basements,
+        cores,
+        aliases: ['Basement', 'Parking', 'Car park'],
+      },
+    ),
+    storey(
+      'st_g',
+      'Ground floor',
+      0,
+      G,
+      weld(zone('g', 'lobby', 'lobby'), 'adjacent', 'adjacent', 'outdoors', cw),
+      {
+        cores,
+        aliases: ['Lobby', 'Entrance', 'Entry level'],
+      },
+    ),
+  ];
+  const span = (a: number, b: number) => (a === b ? `Floor ${a}` : `Floors ${a} to ${b}`);
+  const tf = t.tenantFloor;
+  if (tf && tf.floor > 1 && tf.floor < t.upper) {
+    out.push(office('st_typ', span(1, tf.floor - 1), 1, tf.floor - 1, ['Typical floor', 'Office floor']));
+    out.push(
+      office(
+        'st_tenant',
+        `Floor ${tf.floor}, ${tf.name}`,
+        tf.floor,
+        1,
+        [tf.name, ...tf.aliases, `Floor ${tf.floor}`],
+        [tf.name, ...tf.aliases],
+      ),
+    );
+    if (tf.floor + 1 <= t.upper - 1)
+      out.push(
+        office('st_typ2', span(tf.floor + 1, t.upper - 1), tf.floor + 1, t.upper - 1 - tf.floor, [
+          'Typical floor',
+          'Office floor',
+        ]),
+      );
+  } else {
+    out.push(office('st_typ', span(1, t.upper - 1), 1, t.upper - 1, ['Typical floor', 'Office floor']));
+  }
+  out.push(
+    storey(
+      'st_top',
+      `Floor ${t.upper}`,
+      at(t.upper),
+      F,
+      weld(zone('top', 'office-open', 'office-open'), 'adjacent', 'roof', 'outdoors', cw),
+      {
+        cores,
+        aliases: ['Top floor'],
+      },
+    ),
+  );
+  return out;
+}
+
+const sq = (pts: [number, number][]): PointMm[] => pts.map(([x, y]) => [m(x), m(y)]);
+
+function gb5(): { doc: BuildingDoc; notes: unknown } {
+  const osm = ctxR('osm_w1133460476');
+  const [ox, oy] = centroid(osm.footprint);
+  // In this frame (rotation 129.2, x along the long edge) the OSM outline is an L: a 114 + 57 m by
+  // 56.5 m main bar and a 57 by 44 m wing; split into three rectangles.
+  const storeys = officeTower({
+    id: 'gb5',
+    name: 'Commerzone Raidurg',
+    pieces: [
+      rectRing(m(-97), m(-38.5), m(17), m(18)),
+      rectRing(m(17), m(-38.5), m(74), m(18)),
+      rectRing(m(17), m(18), m(74), m(62)),
+    ],
+    cores: [
+      [-49, -16, -31, -4],
+      [36, 4, 54, 16],
+    ],
+    basements: 3,
+    groundF2F: 6,
+    typicalF2F: 4.5,
+    upper: 19,
+    wwrPm: 550,
+  });
+  const doc: BuildingDoc = {
+    schema: 'ibasho.building/1',
+    id: 'gb5',
+    version: 1,
+    placeId: 'pl_knowledge_city',
+    name: 'Commerzone Raidurg',
+    typeId: 'office',
+    tenure: {
+      owner: 'landlord',
+      pays: { electricity: 'tenant', water: 'landlord', diesel: 'landlord' },
+      decides: { envelope: 'landlord', systems: 'landlord', roof: 'landlord', interior: 'tenant' },
+    },
+    origin: { x: ox, y: oy },
+    rotationMdeg: 129_200,
+    storeys,
+    roofs: [{ id: 'rf_gb5', storeyId: 'st_top', shape: 'flat', pvZones: [], skylights: [] }],
+    shades: [],
+    zones: [],
+    systems: [
+      { systemId: 'chiller-water-cooled', fuel: 'electricity' },
+      { systemId: 'diesel-genset', fuel: 'electricity' },
+    ],
+  };
+  const notes = {
+    id: 'gb5',
+    title: 'KRC Commerzone Raidurg, host of the Qualcomm Hyderabad campus',
+    tenant: {
+      name: 'Qualcomm India (GCC)',
+      occupies:
+        'The whole building, fully leased to Qualcomm on a lease of about 12 years (Mindspace REIT, 2025). Earlier reports mention 17 floors and about 1.6 million sq ft.',
+    },
+    sources: [
+      {
+        id: 'osm-w1133460476',
+        title: 'OpenStreetMap way 1133460476 "Qualcomm Commerzone": 22 levels, height 100 m (ODbL)',
+        url: 'https://www.openstreetmap.org/way/1133460476',
+      },
+      {
+        id: 'world-architects',
+        title:
+          'KRC Commerzone, Hyderabad: 20 storey superstructure, two conjoined towers on an L-shaped footprint, central cores with high and low zone lift banks, 9 acre site, 4.5 acre podium, 2.63 million sq ft leasable',
+        url: 'https://world-architects.com/en/projects/view/krc-commerzone-hyderabad',
+      },
+      {
+        id: 'krc-mindspace-2025',
+        title:
+          'K Raheja Corp: Mindspace REIT to acquire 1.8 million sq ft Commerzone Raidurg (Sustain Properties), fully leased to a Fortune 500 GCC, completed 2023',
+        url: 'https://krahejacorp.com/newsroom/mindspace-reit-to-acquire-18-million-sq-ft-it-park-in-hyderabad-for-rs-2038-cr',
+      },
+      {
+        id: 'sakshi-2021',
+        title:
+          "Qualcomm signs Telangana's largest SEZ lease: 17 floors at the Sustain Properties SEZ, Raidurg",
+        url: 'https://www.sakshipost.com/news/hyderabad/qualcomm-signs-telanganas-largest-sez-lease-agreement-135967',
+      },
+    ],
+    status: {
+      footprint:
+        'Measured: OpenStreetMap outline (about 12,100 m2) as three rectangles; it may include podium edges',
+      storeys:
+        'Estimated: ground floor and 19 office floors at 4.5 m, 3 basement levels. OpenStreetMap gives 22 levels and 100 m; the architect describes a 20 storey superstructure',
+      floorPlate:
+        'Estimated: no public floor plan was found. The outline on every floor gives about 2.6 million sq ft above ground, close to the stated leasable area',
+      cores: 'Estimated: two central service cores, one per tower',
+      wwr: 'Assumed: 55% glazed curtain wall',
+    },
+    unknowns: [
+      'public floor plans',
+      'glass U, SHGC and VLT',
+      'shading fins',
+      'exact storey count and heights',
+      'tenant floor split',
+      'green rating (none found in public sources)',
+    ],
+  };
+  return { doc, notes };
+}
+
+function gb6(): { doc: BuildingDoc; notes: unknown } {
+  const osm = ctxR('osm_w1133269186');
+  const [ox, oy] = centroid(osm.footprint);
+  // Rotation 40: the OSM outline is a rounded square, about 58 by 57 m; simplified to an octagon.
+  const storeys = officeTower({
+    id: 'gb6',
+    name: 'Sattva Knowledge Park Tower 1',
+    pieces: [
+      sq([
+        [28.5, -18],
+        [28.5, 15],
+        [17, 28.5],
+        [-14.5, 28.5],
+        [-29, 14.5],
+        [-29.5, -12],
+        [-16, -28.3],
+        [17.6, -28.3],
+      ]),
+    ],
+    cores: [[-10, -7, 10, 7]],
+    basements: 2,
+    groundF2F: 6,
+    typicalF2F: 4.2,
+    upper: 23,
+    wwrPm: 600,
+  });
+  const doc: BuildingDoc = {
+    schema: 'ibasho.building/1',
+    id: 'gb6',
+    version: 1,
+    placeId: 'pl_knowledge_city',
+    name: 'Sattva Knowledge Park Tower 1',
+    typeId: 'office',
+    tenure: {
+      owner: 'landlord',
+      pays: { electricity: 'tenant', water: 'landlord', diesel: 'landlord' },
+      decides: { envelope: 'landlord', systems: 'landlord', roof: 'landlord', interior: 'tenant' },
+    },
+    origin: { x: ox, y: oy },
+    rotationMdeg: 40_000,
+    storeys,
+    roofs: [{ id: 'rf_gb6', storeyId: 'st_top', shape: 'flat', pvZones: [], skylights: [] }],
+    shades: [],
+    zones: [],
+    systems: [
+      { systemId: 'chiller-water-cooled', fuel: 'electricity' },
+      { systemId: 'diesel-genset', fuel: 'electricity' },
+    ],
+  };
+  const notes = {
+    id: 'gb6',
+    title: 'Sattva Knowledge Park, host of the Vanguard Global Value Center (Hyderabad)',
+    tenant: {
+      name: 'Vanguard (Global Value Center, opened November 2025)',
+      occupies:
+        'About 165,000 sq ft across three offices, two of them in Sattva Knowledge Park (2025). The tower and floors are not public; Tower 1 is shown as the likely home (assumed).',
+    },
+    sources: [
+      {
+        id: 'osm-w1133269186',
+        title: 'OpenStreetMap way 1133269186 "Salapuria Sattva Knowledge Park Tower 1" (ODbL)',
+        url: 'https://www.openstreetmap.org/way/1133269186',
+      },
+      {
+        id: 'sattva-skp',
+        title:
+          'Sattva Group: Sattva Knowledge Park, HITEC City, completed 2023, 3.3 million sq ft leasable, twin towers (a tall organic tower up to 105 m and a shorter cube), IGBC Platinum (Sattva commercial pages)',
+        url: 'https://sattvagroup.com/commercial/hyderabad-commercial/',
+      },
+      {
+        id: 'mitsloanme-2025',
+        title:
+          'MIT Sloan Management Review Middle East: Vanguard picks Hyderabad for first India GCC (165,000 sq ft across three offices, two in Sattva Knowledge Park)',
+        url: 'https://www.mitsloanme.com/?p=9601',
+      },
+      {
+        id: 'bs-2025',
+        title: 'Business Standard: Vanguard opens Global Value Center in Hyderabad (about 165,000 sq ft)',
+        url: 'https://www.business-standard.com/companies/news/vanguard-global-value-center-hyderabad-125110301174_1.html',
+      },
+      {
+        id: 'myhq-redbrick',
+        title:
+          'myHQ listing: a managed office on floor 20 of Tower 1 quotes a 51,000 sq ft typical floor plate (listing, not the developer)',
+        url: 'https://myhq.in/managed-office/redbrick-offices-madhapur-2',
+      },
+    ],
+    status: {
+      footprint: 'Measured: OpenStreetMap outline (about 3,100 m2) simplified to an octagon',
+      storeys:
+        'Estimated: ground floor and 23 office floors at 4.2 m (about 103 m, matching the tower of up to 105 m), 2 basement levels',
+      floorPlate:
+        'Estimated: no public floor plan was found. A listing quotes 51,000 sq ft (about 4,740 m2) a floor, larger than the mapped outline, and which tower is the taller one is not confirmed',
+      cores: 'Estimated: one central service core',
+      wwr: 'Assumed: 60% glazing',
+      rating: 'Announced: IGBC Platinum for the park, per the developer',
+    },
+    unknowns: [
+      'public floor plans',
+      'which tower and floors the tenant uses',
+      'glass U, SHGC and VLT',
+      'shading',
+      'exact storey count',
+    ],
+  };
+  return { doc, notes };
+}
+
+function gb7(): { doc: BuildingDoc; notes: unknown } {
+  const osm = ctxR('osm_w852979202');
+  const [ox, oy] = centroid(osm.footprint);
+  // Rotation 129.5 squares the outline: a 152 by 31 m bar with a 56 by 62 m east wing and a short
+  // west wing; about 8,860 m2 a floor.
+  const storeys = officeTower({
+    id: 'gb7',
+    name: 'Sattva Knowledge City, Octave Block',
+    pieces: [
+      rectRing(m(-112.5), m(-23.5), m(39.5), m(7.5)),
+      rectRing(m(39.5), m(-23.5), m(95.5), m(38.5)),
+      rectRing(m(-112.5), m(7.5), m(-78), m(27)),
+    ],
+    cores: [
+      [-72, -12, -58, -2],
+      [-12, -12, 2, -2],
+      [60, 4, 74, 16],
+    ],
+    basements: 3,
+    groundF2F: 6,
+    typicalF2F: 4.2,
+    upper: 17,
+    wwrPm: 500,
+    tenantFloor: {
+      floor: 10,
+      name: 'Lloyds Technology Centre',
+      aliases: ['Lloyds', 'LTC', 'Lloyds Banking Group'],
+    },
+  });
+  const doc: BuildingDoc = {
+    schema: 'ibasho.building/1',
+    id: 'gb7',
+    version: 1,
+    placeId: 'pl_knowledge_city',
+    name: 'Sattva Knowledge City, Octave Block',
+    typeId: 'office',
+    tenure: {
+      owner: 'landlord',
+      pays: { electricity: 'tenant', water: 'landlord', diesel: 'landlord' },
+      decides: { envelope: 'landlord', systems: 'landlord', roof: 'landlord', interior: 'tenant' },
+    },
+    origin: { x: ox, y: oy },
+    rotationMdeg: 129_500,
+    storeys,
+    roofs: [{ id: 'rf_gb7', storeyId: 'st_top', shape: 'flat', pvZones: [], skylights: [] }],
+    shades: [],
+    zones: [],
+    systems: [
+      { systemId: 'chiller-water-cooled', fuel: 'electricity' },
+      { systemId: 'diesel-genset', fuel: 'electricity' },
+    ],
+  };
+  const notes = {
+    id: 'gb7',
+    title: 'Sattva Knowledge City, Octave Block: home of the Lloyds Technology Centre',
+    tenant: {
+      name: 'Lloyds Technology Centre (Lloyds Banking Group)',
+      occupies:
+        'Floor 10, Octave Block, per the company address. Opened in November 2023 with about 600 specialists in technology, data and cyber security.',
+    },
+    sources: [
+      {
+        id: 'ltc-corporate',
+        title:
+          'Lloyds Technology Centre, corporate details: 10th Floor, Unit 3, Plot No. 2, Octave Block, Phase 1 of Cyberabad Knowledge City, Raidurg, Hyderabad 500081',
+        url: 'https://lloydstechnologycentre.com/corporate-details',
+      },
+      {
+        id: 'ltc-opening',
+        title: 'Lloyds Banking Group opens technology centre operations in Hyderabad (November 2023)',
+        url: 'https://lloydstechnologycentre.com/posts/lloyds-banking-group-opens-technology-centre-operations-in-hyderabad-2',
+      },
+      {
+        id: 'ibsi-2023',
+        title:
+          'IBS Intelligence: Lloyds Banking Group to invest in a new technology centre in Knowledge City, about 600 roles',
+        url: 'https://ibsintelligence.com/ibsi-news/lloyds-banking-group-to-invest-in-new-technology-centre-in-india',
+      },
+      {
+        id: 'sattva-skc',
+        title:
+          'Sattva Group: Sattva Knowledge City, 30 acres in five parcels (Parcel 03 is Octave), five large buildings, about 9.7 million sq ft, IGBC Platinum',
+        url: 'https://sattvagroup.com/commercial/sattva-knowledge-city/',
+      },
+      {
+        id: 'osm-w852979202',
+        title: 'OpenStreetMap way 852979202, a Sattva Knowledge City building outline (ODbL)',
+        url: 'https://www.openstreetmap.org/way/852979202',
+      },
+    ],
+    status: {
+      footprint:
+        'OpenStreetMap outline (about 8,900 m2) as three rectangles. OpenStreetMap does not name the blocks, so this outline is our best match for the Octave Block (assumed)',
+      storeys:
+        'Estimated: ground floor and 17 office floors at 4.2 m, 3 basement levels; the tenant floor (10) is known',
+      floorPlate:
+        'Estimated: no public floor plan was found; about 1.7 million sq ft above ground, in line with one of the five large buildings',
+      cores: 'Estimated: three service cores',
+      wwr: 'Assumed: 50% glazing',
+      rating: 'Announced: IGBC Platinum for the park, per the developer',
+    },
+    unknowns: [
+      'public floor plans',
+      'which outline is the Octave Block',
+      'exact storey count',
+      'glass performance',
+      'shading',
+    ],
+  };
+  return { doc, notes };
+}
+
+// ---------------------------------------------------------------------------------------------
 
 const places: Place[] = [
   {
@@ -948,12 +1485,42 @@ const places: Place[] = [
     buildingIds: ['gh1'],
     sample: true,
   },
+  {
+    // On demand (owner): not in the default view; shown when searched for or picked.
+    id: 'pl_knowledge_city',
+    name: 'Raidurg and Knowledge City',
+    lat: 17.43,
+    lon: 78.3795,
+    elevationM: 560,
+    trueNorthMdeg: 0,
+    climatePackId: 'climate.hyderabad',
+    codePackIds: ['codes-in'],
+    moneyPackIds: ['money-in'],
+    cityPackId: 'city-hyderabad-raidurg',
+    buildingIds: ['gb7', 'gb5', 'gb6'],
+    onDemand: true,
+  },
+  {
+    // On demand (SPEC 27): real London plots for designing a new building.
+    id: 'pl_kings_cross',
+    name: "King's Cross, London",
+    lat: 51.5352,
+    lon: -0.125,
+    elevationM: 25,
+    trueNorthMdeg: 0,
+    climatePackId: 'climate.london',
+    codePackIds: ['codes-uk'],
+    moneyPackIds: ['money-uk'],
+    cityPackId: 'city-london-kings-cross',
+    buildingIds: [],
+    onDemand: true,
+  },
 ];
 
-for (const make of [gb1, gb2, gb3, gb4, gh1]) {
+for (const make of [gb1, gb2, gb3, gb4, gh1, gb5, gb6, gb7]) {
   const { doc, notes } = make();
   write(`${doc.id}.building.json`, doc);
   write(`${doc.id}.notes.json`, notes);
 }
 write('places.json', places);
-console.log('wrote gb1, gb2, gb3, gb4, gh1 and places.json');
+console.log('wrote gb1 to gb7, gh1 and places.json');

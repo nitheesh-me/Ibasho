@@ -233,16 +233,173 @@ const ENTRIES: readonly GlossaryEntry[] = [
     plain:
       'A qualified person who plans and checks a home’s whole set of changes, so they work together safely.',
   },
+  // Buildings in their city (v3)
+  {
+    id: 'eui',
+    term: 'EUI',
+    plain:
+      'Energy use intensity: the energy a building uses in a year for each square metre of floor. Lower is better.',
+    more: 'Written in kWh per square metre a year, so a school and a hotel can be compared fairly.',
+  },
+  {
+    id: 'end-uses',
+    term: 'end uses',
+    plain:
+      'What the energy is for: cooling, heating, lighting, equipment, fans, pumps and hot water, each counted on its own.',
+  },
+  {
+    id: 'site-source',
+    term: 'site and source energy',
+    plain:
+      'Site energy is what the meters read. Source energy adds what was lost making and delivering it, such as at the power station.',
+  },
+  {
+    id: 'sun-hours',
+    term: 'sun hours',
+    plain: 'How many hours of direct sun a roof, wall or window gets, after the neighbours’ shadows.',
+  },
+  {
+    id: 'radiation',
+    term: 'solar radiation',
+    plain:
+      'The sun’s energy landing on a surface over a year. High on a roof means good for solar panels, and on glass it means heat.',
+  },
+  {
+    id: 'height-range',
+    term: 'height range',
+    plain:
+      'When we do not know how tall a neighbour is, we use a likely height and a highest plausible one. Its shadow shows both.',
+  },
+  {
+    id: 'sda',
+    term: 'sDA',
+    plain:
+      'Spatial daylight autonomy: the share of a floor bright enough to work by daylight alone for at least half the working year. Higher is better.',
+  },
+  {
+    id: 'ase',
+    term: 'ASE',
+    plain:
+      'Annual sunlight exposure: the share of a floor that gets harsh direct sun for too many hours a year, a sign of glare and heat. Lower is better.',
+  },
+  {
+    id: 'window-share',
+    term: 'window share',
+    plain:
+      'How much of a wall is glass, as a percentage. More lets in light and views, and in a hot climate also heat.',
+    more: 'Professionals call it the window to wall ratio, or WWR.',
+  },
+  {
+    id: 'shading-depth',
+    term: 'shading depth',
+    plain:
+      'How far an overhang, fin or chajja reaches out compared with the window it shades. Deeper blocks more high sun.',
+    more: 'Codes call this the projection factor.',
+  },
+  {
+    id: 'chajja',
+    term: 'chajja',
+    plain: 'A thin concrete or stone ledge above a window that keeps off sun and rain. Common across India.',
+  },
+  {
+    id: 'fan-first',
+    term: 'fan-first comfort',
+    plain:
+      'Counting the hours a room feels comfortable with ceiling fans alone, before any air conditioning is switched on.',
+  },
+  {
+    id: 'set-point',
+    term: 'set point',
+    plain:
+      'The temperature the air conditioning or heating aims for. Each degree warmer in summer cuts cooling noticeably.',
+  },
+  {
+    id: 'slab-tariff',
+    term: 'slab tariff',
+    plain:
+      'A tariff where the price per unit rises in steps as monthly use grows. Crossing a step can raise the whole bill.',
+  },
+  {
+    id: 'ecbc',
+    term: 'ECBC',
+    plain:
+      'The Energy Conservation Building Code: India’s energy rules for larger commercial buildings. Telangana checks it when plans are approved.',
+  },
+  {
+    id: 'ecsbc',
+    term: 'ECSBC',
+    plain:
+      'The Energy Conservation and Sustainable Building Code of 2024, the newer Indian code. It has three levels, from meeting the code to Super.',
+  },
+  {
+    id: 'ens',
+    term: 'ENS',
+    plain:
+      'Eco Niwas Samhita: India’s energy code for homes and apartments, which mainly limits how much heat the walls and windows let in.',
+  },
+  {
+    id: 'part-l',
+    term: 'Part L',
+    plain:
+      'The part of the Building Regulations for England that sets how much energy a new or altered building may use.',
+  },
+  {
+    id: 'future-homes',
+    term: 'Future Homes Standard',
+    plain:
+      'England’s coming standard for new homes: low carbon heating and much lower energy use than homes built today.',
+  },
+  {
+    id: 'leed-points',
+    term: 'LEED points',
+    plain:
+      'Credits in LEED, a green building rating used worldwide. Enough points earn a level such as Silver or Gold, once an assessor agrees.',
+  },
+  {
+    id: 'green-rating',
+    term: 'green rating',
+    plain:
+      'A voluntary scheme, such as LEED, IGBC, GRIHA or EDGE, that awards a level for energy, water and materials.',
+  },
+  {
+    id: 'pre-check',
+    term: 'pre-check',
+    plain:
+      'Our early reading of where a design stands against a code or rating. It is not a certificate; only an assessor can give one.',
+  },
+  {
+    id: 'baseline',
+    term: 'baseline',
+    plain:
+      'The reference building a code compares yours with: the same shape, built to the code’s minimum.',
+  },
+  {
+    id: 'variant',
+    term: 'variant',
+    plain:
+      'A named version of your building, such as “as built” or “with fins”, kept as a list of changes from the original.',
+  },
+  {
+    id: 'preview',
+    term: 'Preview',
+    plain:
+      'An example result in the real shape, shown until the full calculation for that step is ready. It is not yet your building’s number.',
+  },
+  {
+    id: 'rough-result',
+    term: 'rough result',
+    plain: 'A fast first answer that sharpens in place as the detailed calculation finishes.',
+  },
   // How Ibasho talks about itself
   {
     id: 'twin',
     term: 'twin',
-    plain: 'Our working copy of your home: its rooms, walls, windows, heating and the people who live there.',
+    plain: 'Our working copy of your building: its rooms, walls, windows, systems and the people who use it.',
   },
   {
     id: 'estimated',
     term: 'estimated',
-    plain: 'A value we filled in from homes like yours. It looks pencilled until you tell us more.',
+    plain: 'A value we filled in from buildings like yours. It looks pencilled until you tell us more.',
   },
   {
     id: 'likely-range',
@@ -252,7 +409,7 @@ const ENTRIES: readonly GlossaryEntry[] = [
   {
     id: 'modelled',
     term: 'modelled',
-    plain: 'Worked out by our physics model of your home. Tested against published data, not proved.',
+    plain: 'Worked out by our physics model of your building. Tested against published data, not proved.',
   },
   {
     id: 'checked',
@@ -262,7 +419,7 @@ const ENTRIES: readonly GlossaryEntry[] = [
   {
     id: 'proved',
     term: 'proved',
-    plain: 'A machine-checked proof shows this claim holds for every home, not just this one.',
+    plain: 'A machine-checked proof shows this claim holds for every building, not just this one.',
     more: 'We prove the bookkeeping and the search, never the physics.',
   },
   {
@@ -289,12 +446,12 @@ const ENTRIES: readonly GlossaryEntry[] = [
   {
     id: 'calibration',
     term: 'calibration',
-    plain: 'Adjusting our estimate of how you use your home so the model matches your real bills.',
+    plain: 'Adjusting our estimate of how the building is used so the model matches its real bills.',
   },
   {
     id: 'standard-conditions',
     term: 'standard conditions',
-    plain: 'A typical household and weather, so homes can be compared fairly. Your own bills may differ.',
+    plain: 'Typical use and weather, so buildings can be compared fairly. Your own bills may differ.',
   },
 ];
 

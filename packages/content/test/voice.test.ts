@@ -1,6 +1,6 @@
 /** DESIGN_SYSTEM 9 and UX 15: all of our copy passes the voice checker. */
 import { describe, expect, it } from 'vitest';
-import { checkVoice, collectCopy, PROOFS_INTRO, sentences, VOICE } from '../src/index.ts';
+import { checkCustomerCopy, checkVoice, collectCopy, PROOFS_INTRO, sentences, VOICE } from '../src/index.ts';
 
 describe('checkVoice', () => {
   it('catches the phrases we never say', () => {
@@ -16,6 +16,28 @@ describe('checkVoice', () => {
     for (const b of bad) expect(checkVoice(b).length, b).toBeGreaterThan(0);
   });
 
+  it('catches claims of compliance or certification', () => {
+    for (const b of ['ECSBC compliant.', 'A LEED-certified design.', 'Your certified building.'])
+      expect(checkVoice(b).length, b).toBeGreaterThan(0);
+    expect(checkVoice('An MCS certified installer.')).toEqual([]);
+  });
+
+  it('catches development notes in customer copy', () => {
+    const bad = [
+      'Shown at WP-13 quality.',
+      'Lands at V-4.',
+      'A placeholder for now.',
+      'Stand in campus.',
+      'From the fixture.',
+      'Daylight tier two.',
+      'Profile still to be sourced.',
+      'See SPEC 27.',
+      'Set by runner.ts.',
+    ];
+    for (const b of bad) expect(checkCustomerCopy(b).map((f) => f.rule), b).toContain('dev-artefact');
+    expect(checkCustomerCopy('Preview. These numbers show the shape of the result.')).toEqual([]);
+  });
+
   it('flags very long sentences', () => {
     const long = `${Array.from({ length: 40 }, () => 'word').join(' ')}.`;
     expect(checkVoice(long).map((f) => f.rule)).toEqual(['long-sentence']);
@@ -27,9 +49,9 @@ describe('checkVoice', () => {
 });
 
 describe('our copy', () => {
-  it('every item passes the voice rules', () => {
+  it('every item passes the voice rules and carries no development notes', () => {
     const findings = collectCopy().flatMap(({ path, text }) =>
-      checkVoice(text).map((f) => `${path}: ${f.why} (${f.match})`),
+      checkCustomerCopy(text).map((f) => `${path}: ${f.why} (${f.match})`),
     );
     expect(findings).toEqual([]);
   });

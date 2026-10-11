@@ -1,0 +1,50 @@
+{
+  "id": "gb7",
+  "title": "Sattva Knowledge City, Octave Block: home of the Lloyds Technology Centre",
+  "tenant": {
+    "name": "Lloyds Technology Centre (Lloyds Banking Group)",
+    "occupies": "Floor 10, Octave Block, per the company address. Opened in November 2023 with about 600 specialists in technology, data and cyber security."
+  },
+  "sources": [
+    {
+      "id": "ltc-corporate",
+      "title": "Lloyds Technology Centre, corporate details: 10th Floor, Unit 3, Plot No. 2, Octave Block, Phase 1 of Cyberabad Knowledge City, Raidurg, Hyderabad 500081",
+      "url": "https://lloydstechnologycentre.com/corporate-details"
+    },
+    {
+      "id": "ltc-opening",
+      "title": "Lloyds Banking Group opens technology centre operations in Hyderabad (November 2023)",
+      "url": "https://lloydstechnologycentre.com/posts/lloyds-banking-group-opens-technology-centre-operations-in-hyderabad-2"
+    },
+    {
+      "id": "ibsi-2023",
+      "title": "IBS Intelligence: Lloyds Banking Group to invest in a new technology centre in Knowledge City, about 600 roles",
+      "url": "https://ibsintelligence.com/ibsi-news/lloyds-banking-group-to-invest-in-new-technology-centre-in-india"
+    },
+    {
+      "id": "sattva-skc",
+      "title": "Sattva Group: Sattva Knowledge City, 30 acres in five parcels (Parcel 03 is Octave), five large buildings, about 9.7 million sq ft, IGBC Platinum",
+      "url": "https://sattvagroup.com/commercial/sattva-knowledge-city/"
+    },
+    {
+      "id": "osm-w852979202",
+      "title": "OpenStreetMap way 852979202, a Sattva Knowledge City building outline (ODbL)",
+      "url": "https://www.openstreetmap.org/way/852979202"
+    }
+  ],
+  "status": {
+    "footprint": "OpenStreetMap outline (about 8,900 m2) as three rectangles. OpenStreetMap does not name the blocks, so this outline is our best match for the Octave Block (assumed)",
+    "storeys": "Estimated: ground floor and 17 office floors at 4.2 m, 3 basement levels; the tenant floor (10) is known",
+    "floorPlate": "Estimated: no public floor plan was found; about 1.7 million sq ft above ground, in line with one of the five large buildings",
+    "cores": "Estimated: three service cores",
+    "wwr": "Assumed: 50% glazing",
+    "rating": "Announced: IGBC Platinum for the park, per the developer"
+  },
+  "unknowns": [
+    "public floor plans",
+    "which outline is the Octave Block",
+    "exact storey count",
+    "glass performance",
+    "shading"
+  ]
+}

@@ -31,6 +31,7 @@ export {
   sampleSequence,
   sequenceDuration,
 } from './camera/sequence.ts';
+export { CityCompare, type CityCompareProps, type CompareOption } from './city/CityCompare.tsx';
 export type { CityStats } from './city/CityScene.tsx';
 export {
   CityStage,
@@ -46,6 +47,16 @@ export {
 } from './city/CityStage.tsx';
 export { CitySvg, type CitySvgProps } from './city/CitySvg.tsx';
 export { type CityModel, type CityPlace, cityModel, DEFAULT_PLACE } from './city/model.ts';
+export {
+  applyPlacement,
+  movePlacement,
+  type Placement,
+  type PlacementCheck,
+  placementCheck,
+  placementOf,
+  ringsOverlap,
+  type ShadingNeighbour,
+} from './city/placement.ts';
 export {
   annualKwh,
   PREVIEW_STAMP,

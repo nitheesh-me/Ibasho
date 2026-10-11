@@ -33,13 +33,16 @@ import {
   LineDashedMaterial,
   type LineSegments,
   type Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   Object3D,
   type OrthographicCamera,
+  Vector3,
 } from 'three';
 import { acceleratedRaycast, MeshBVH } from 'three-mesh-bvh';
 import { type Theme, token } from '../colour/palette.ts';
 import type { TierSettings } from '../quality/ladder.ts';
+import { paperBake } from './bake.ts';
 import { type EN, ringArea } from './frame.ts';
 import {
   contextGeometry,
@@ -63,6 +66,7 @@ import {
 } from './materials.ts';
 import { type CityModel, lanternStrength } from './model.ts';
 import { phototropicGeometry } from './phototropic.ts';
+import type { PlacementCheck } from './placement.ts';
 import { annualKwh } from './preview.ts';
 import { rampLinear } from './ramps.ts';
 import {
@@ -128,6 +132,9 @@ export interface CitySceneProps {
   onHover: (t: CityTarget | null, at: { x: number; y: number } | null) => void;
   onPick: (t: CityTarget, at: { x: number; y: number }) => void;
   stats?: MutableRefObject<CityStats | null>;
+  /** Moment 7: floors added on top of the hero (m), and neighbours that lose winter sun. */
+  addedFloorsM?: number;
+  castLosers?: readonly string[];
   /** Find: what to outline or light; the rest of the city dims. */
   highlight?: {
     contextId?: string;
@@ -137,6 +144,18 @@ export interface CitySceneProps {
     /** A place or building part found by search: its box is drawn on the ground. */
     bboxMm?: { minX: number; minY: number; maxX: number; maxY: number };
   } | null;
+  /** Design before you build (SPEC 27): the hero can be dragged and turned on the ground. */
+  placeMode?: boolean;
+  /** Plot ground level, metres above the city datum. */
+  groundM?: number;
+  /** A finished drag: the move (m, east and north) and the turn (degrees clockwise) about the hero's centre. */
+  onPlaceDrop?: (move: EN, turnDeg: number) => void;
+  /** A drag starts or ends (the stage pauses its own camera drag meanwhile). */
+  onPlaceDrag?: (active: boolean) => void;
+  /** Site check result to draw: overlaps in warm, shading neighbours in the focus colour. */
+  siteCheck?: PlacementCheck | null;
+  /** Neighbours the person is looking at (pinned, hovered): they always show their penumbra. */
+  attentionIds?: readonly string[];
 }
 
 const USE_TINT: Record<string, string> = {
@@ -237,12 +256,12 @@ function lookOf(theme: Theme): Look {
     : {
         ground: t('paper-sunk'),
         road: t('paper'),
-        // Tops one step up from the ground; walls darker through the vertex shade (QA B1).
-        context: '#2a251f',
+        // Tops at --paper-raised (Yoru), walls near #15120F through the vertex shade; never lit (S-B1).
+        context: t('paper-raised'),
         contextLine: t('ink-3'),
         contextLineOpacity: 0.45,
-        wall: '#3a3129',
-        roof: '#2f2924',
+        wall: '#4a3e33',
+        roof: '#3a3129',
         glass: '#1d2326',
         floor: '#3a322a',
         ink: t('ink'),
@@ -313,10 +332,12 @@ export function CityScene(p: CitySceneProps) {
     };
     const wall = lensMaterial({ vertexColors: true, roughness: 0.92, emissive: new Color(0) }, uniforms, {
       wick: true,
+      lantern: 'wall',
     });
     const roof = lensMaterial({ vertexColors: true, roughness: 0.95, emissive: new Color(0) }, uniforms, {
       grid: true,
       wick: true,
+      lantern: 'roof',
     });
     const glass = new MeshStandardMaterial({
       color: look.glass,
@@ -420,12 +441,22 @@ export function CityScene(p: CitySceneProps) {
   useBvh(contextRef, contextGeo);
   useBvh(guessRef, guessGeo);
   const lanternIds = useMemo(() => new Map(p.lanterns.map((l) => [l.buildingId, l])), [p.lanterns]);
+  const night = yoru;
+  const hour = p.time.minutes / 60;
+  // The hero is the one fully modelled building: it is always a lantern at night, and the brightest
+  // (studio review S-B1). Preview neighbours stay well below it.
+  const heroLantern = useMemo<LanternDatum | undefined>(
+    () =>
+      model.hero
+        ? (lanternIds.get(model.hero.id) ?? { buildingId: model.hero.id, euiKwhM2: 168, dominant: 'cooling' })
+        : undefined,
+    [model.hero, lanternIds],
+  );
+  const heroK = heroLantern ? Math.max(0.85, lanternStrength(heroLantern, hour)) : 0;
   const lanternMasses = useMemo(
     () => model.masses.filter((m) => lanternIds.has(m.id)),
     [model.masses, lanternIds],
   );
-  const night = yoru;
-  const hour = p.time.minutes / 60;
   const lanternGeo = useMemo(() => {
     const g = contextGeometry(lanternMasses, (m) => drawnHeight(m) + 0.05);
     const bid = g.getAttribute('aBid');
@@ -434,14 +465,15 @@ export function CityScene(p: CitySceneProps) {
     for (let v = 0; v < bid.count; v++) {
       const m = lanternMasses[bid.getX(v)]!;
       const l = lanternIds.get(m.id)!;
-      const k = lanternStrength(l, hour) * 0.55;
+      // Neighbours glow well below the hero (S-B1): a dim warm wash, never cream.
+      const k = Math.min(lanternStrength(l, hour) * 0.08, heroK * 0.05);
       col[v * 3] = lamp.r * k;
       col[v * 3 + 1] = lamp.g * k;
       col[v * 3 + 2] = lamp.b * k;
     }
     g.setAttribute('color', new BufferAttribute(col, 3));
     return g;
-  }, [lanternMasses, lanternIds, hour, look.lamp]);
+  }, [lanternMasses, lanternIds, hour, look.lamp, heroK]);
   useEffect(() => () => lanternGeo.dispose(), [lanternGeo]);
   const outlineGeo = useMemo(
     () =>
@@ -458,24 +490,91 @@ export function CityScene(p: CitySceneProps) {
   useLayoutEffect(() => {
     outlineRef.current?.computeLineDistances();
   }, [outlineGeo, mats]);
+  // Penumbra only where it matters (studio review S-M1): the 6 to 10 estimated neighbours whose
+  // plausible shadow can reach the hero's site (preferring the site stage's unknownHeightIds), plus
+  // whatever is selected or hovered. Every other estimated height shows a dashed top edge only, and
+  // City level shows no hatch at all.
+  const estimated = useMemo(
+    () => model.masses.filter((m) => m.user === undefined && m.hi - m.likely > 0.25),
+    [model.masses],
+  );
+  const unknownIds = p.site?.unknownHeightIds;
+  const attention = p.attentionIds;
+  const relevantIds = useMemo(() => {
+    const ids = new Set<string>(attention ?? []);
+    const focusId = p.highlight?.contextId;
+    if (focusId) ids.add(focusId);
+    if (!model.hero || level === 'city') return ids;
+    const b = model.hero.box;
+    const pref = unknownIds?.length ? new Set(unknownIds) : null;
+    const near = estimated
+      .map((m) => {
+        const { c } = ringCentre(m.ring);
+        const dx = Math.max(b.minE - c[0], 0, c[0] - b.maxE);
+        const dy = Math.max(b.minN - c[1], 0, c[1] - b.maxN);
+        // Shadow length at a 20 degree sun is about 2.75 times the height.
+        return { m, d: Math.hypot(dx, dy), reach: m.hi * 2.75 + 20 };
+      })
+      .filter((x) => x.d < x.reach && (!pref || pref.has(x.m.id) || x.d < 40))
+      .sort((a, z) => a.d - z.d)
+      .slice(0, 10);
+    for (const x of near) ids.add(x.m.id);
+    return ids;
+  }, [estimated, unknownIds, attention, p.highlight?.contextId, model.hero, level]);
   const ghostGeo = useMemo(
     () =>
       ghostGeometry(
-        model.masses
-          .filter((m) => m.user === undefined && m.hi - m.likely > 0.25)
+        estimated
+          .filter((m) => relevantIds.has(m.id))
           .map((m) => ({ ring: m.ring, from: m.likely, to: m.hi })),
       ),
-    [model.masses],
+    [estimated, relevantIds],
   );
+  const dashedTops = useMemo(() => {
+    const pos: number[] = [];
+    for (const m of estimated) {
+      if (relevantIds.has(m.id)) continue;
+      const h = drawnHeight(m) + 0.05;
+      m.ring.forEach((a, i) => {
+        const q = m.ring[(i + 1) % m.ring.length]!;
+        pos.push(a[0], h, -a[1], q[0], h, -q[1]);
+      });
+    }
+    const g = new BufferGeometry();
+    g.setAttribute('position', new BufferAttribute(new Float32Array(pos), 3));
+    return g;
+  }, [estimated, relevantIds]);
+  useEffect(() => () => dashedTops.dispose(), [dashedTops]);
+  const dashedRef = useRef<LineSegments>(null);
+  const dashedMat = useMemo(
+    () =>
+      new LineDashedMaterial({
+        color: look.hatch,
+        dashSize: 1.4,
+        gapSize: 1.2,
+        transparent: true,
+        opacity: yoru ? 0.45 : 0.55,
+      }),
+    [look.hatch, yoru],
+  );
+  useEffect(() => () => dashedMat.dispose(), [dashedMat]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: new geometry needs fresh dash distances
+  useLayoutEffect(() => {
+    dashedRef.current?.computeLineDistances();
+  }, [dashedTops]);
   const roadGeo = useMemo(() => flatGeometry(roadPolys(model.roads), 0.04), [model.roads]);
 
   // The penumbra: hatched band from the likely to the plausible shadow, closing on user heights.
   const ranges = useMemo(
     () =>
       model.masses
-        .filter((m) => m.hi - m.likely > 0.25 && (m.user === undefined || p.closing.has(m.id)))
+        .filter(
+          (m) =>
+            m.hi - m.likely > 0.25 &&
+            ((m.user === undefined && relevantIds.has(m.id)) || p.closing.has(m.id)),
+        )
         .map((m) => ({ id: m.id, ring: m.ring, likely: drawnHeight(m), hi: m.hi })),
-    [model.masses, p.closing],
+    [model.masses, p.closing, relevantIds],
   );
   const penumbraRef = useRef<Mesh>(null);
   const buildPenumbra = (now: number): BufferGeometry => {
@@ -786,12 +885,52 @@ export function CityScene(p: CitySceneProps) {
   useEffect(() => () => dayMesh?.dispose(), [dayMesh]);
   const drawerOffset = useMemo<[number, number, number]>(() => {
     if (!hero) return [0, 0, 0];
-    // Slide towards the screen left, away from the legend (QA B5): camera left is (cos az, 0, sin az).
+    // Slide towards free space (studio review S-M2): try screen left, right, down and up, and take
+    // the side whose landing box holds the fewest neighbours (left wins a tie, away from the legend).
     const az = (p.view.azimuthDeg * Math.PI) / 180;
-    const span = Math.max(hero.box.maxE - hero.box.minE, hero.box.maxN - hero.box.minN);
+    const b = hero.box;
+    const span = Math.max(b.maxE - b.minE, b.maxN - b.minN);
     const d = span * 0.62 + 10;
-    return [Math.cos(az) * d, 0, Math.sin(az) * d];
-  }, [hero, p.view.azimuthDeg]);
+    // World xz directions: camera left, right, towards the viewer, away from it.
+    const dirs: [number, number][] = [
+      [Math.cos(az), Math.sin(az)],
+      [-Math.cos(az), -Math.sin(az)],
+      [Math.sin(az), -Math.cos(az)],
+      [-Math.sin(az), Math.cos(az)],
+    ];
+    let best = dirs[0]!;
+    let bestN = Infinity;
+    for (const [x, z] of dirs) {
+      const dE = x * d;
+      const dN = -z * d;
+      let n = 0;
+      for (const m of model.masses) {
+        const { c } = ringCentre(m.ring);
+        if (
+          c[0] > b.minE + dE - 5 &&
+          c[0] < b.maxE + dE + 5 &&
+          c[1] > b.minN + dN - 5 &&
+          c[1] < b.maxN + dN + 5
+        )
+          n++;
+      }
+      if (n < bestN) {
+        bestN = n;
+        best = [x, z];
+      }
+    }
+    return [best[0] * d, 0, best[1] * d];
+  }, [hero, p.view.azimuthDeg, model.masses]);
+  // While the drawer is open the city steps back to 30% so the drawer never draws over it (S-M2).
+  useEffect(() => {
+    for (const m of [mats.context, mats.guess, mats.tree]) {
+      m.transparent = drawer || m === mats.guess;
+      m.opacity = drawer ? 0.3 : m === mats.guess ? 0.82 : 1;
+      m.depthWrite = !drawer;
+      m.needsUpdate = true;
+    }
+    invalidate();
+  }, [drawer, mats, invalidate]);
   const drawerRef = useRef<Object3D>(null);
   const drawerAnim = useRef({ from: 0, to: 0, start: 0 });
   const drawerShift = useRef<[number, number]>([0, 0]);
@@ -823,41 +962,66 @@ export function CityScene(p: CitySceneProps) {
   );
 
   // ---------------------------------------------------------------- lanterns (moment 8)
-  const heroLantern = hero ? lanternIds.get(hero.id) : undefined;
   useEffect(() => {
-    const k = heroLantern ? lanternStrength(heroLantern, hour) : 0;
+    const k = heroK;
     const lamp = new Color(look.lamp);
     const glow = new Color(token('glow', 'yoru'));
     // Window light is lamplight graded by the hourly load; the body takes a warm bounce (QA B1).
-    mats.glass.emissive = night && heroLantern ? lamp.clone().multiplyScalar(0.55 + 0.9 * k) : new Color(0);
-    mats.wall.emissive = night && heroLantern ? glow.clone().multiplyScalar(0.09 * k) : new Color(0);
-    mats.roof.emissive = night && heroLantern ? glow.clone().multiplyScalar(0.05 * k) : new Color(0);
+    // The hero is the lantern of the scene (round 3): paper walls lit from within and a lit window
+    // grid per storey (materials.ts `lantern`), drawn in lamplight warmed toward --glow.
+    mats.glass.emissive = night && heroLantern ? lamp.clone().multiplyScalar(1.4 + 1.2 * k) : new Color(0);
+    mats.wall.emissive = new Color(0);
+    mats.roof.emissive = new Color(0);
+    const lit = night && !!heroLantern && !!hero;
+    uniforms.uNight.value = lit ? 1 : 0;
+    uniforms.uLamp.value = lamp.clone().lerp(glow, 0.25);
+    uniforms.uLampK.value = 0.7 + 0.5 * k;
+    const first = hero?.storeys.find((st) => !st.belowGrade);
+    uniforms.uFloorH.value = first ? Math.max(2.6, first.z1 - first.z0) : 3.9;
+    uniforms.uBase.value = PLINTH_M + (first?.z0 ?? 0);
     invalidate();
-  }, [mats, heroLantern, hour, night, look.lamp, invalidate]);
+  }, [mats, heroLantern, heroK, night, look.lamp, hero, uniforms, invalidate]);
   const pools = useMemo(() => {
     if (!night) return [];
     const out: { key: string; c: EN; span: number; h: number; colour: string; k: number }[] = [];
-    for (const l of p.lanterns) {
-      const k = lanternStrength(l, hour);
+    const list =
+      heroLantern && !lanternIds.has(heroLantern.buildingId) ? [heroLantern, ...p.lanterns] : p.lanterns;
+    for (const l of list) {
       const colour = token(DOMINANT_TOKEN[l.dominant], 'yoru');
       if (hero && l.buildingId === hero.id) {
         const { c, span } = ringCentre(hero.prisms.flatMap((x) => x.ring));
-        out.push({ key: l.buildingId, c, span, h: hero.height, colour, k });
+        // The hero's halo never shrinks below a readable size, so it marks the building at City level.
+        out.push({
+          key: l.buildingId,
+          c,
+          span: Math.max(span, p.view.halfH * 0.18),
+          h: hero.height,
+          colour,
+          k: heroK * 1.4,
+        });
         continue;
       }
+      const k = Math.min(lanternStrength(l, hour), heroK) * 0.22;
       const m = model.masses.find((x) => x.id === l.buildingId);
       if (m) {
         const { c, span } = ringCentre(m.ring);
         out.push({ key: l.buildingId, c, span, h: drawnHeight(m), colour, k });
       }
     }
-    return out.map((o) => ({ ...o, pool: poolMaterial(o.colour, o.k), halo: haloMaterial(look.lamp, o.k) }));
-  }, [night, p.lanterns, hour, hero, model.masses, look.lamp]);
+    return out.map((o) => ({
+      ...o,
+      pool: poolMaterial(o.colour, o.k),
+      halo: haloMaterial(look.lamp, o.k),
+      // A wide second halo on the hero alone: the soft bloom of the scene's one true lantern.
+      bloom: hero && o.key === hero.id ? haloMaterial(look.lamp, 1.1) : null,
+    }));
+  }, [night, p.lanterns, hour, hero, model.masses, look.lamp, heroLantern, heroK, lanternIds, p.view.halfH]);
   useEffect(
     () => () => {
       for (const o of pools) {
         o.pool.dispose();
         o.halo.dispose();
+        o.bloom?.dispose();
       }
     },
     [pools],
@@ -995,7 +1159,7 @@ export function CityScene(p: CitySceneProps) {
   const anim = useRef<{ from: CityView; to: CityView; start: number } | null>(null);
   const current = useRef<CityView>(p.view);
   useEffect(() => {
-    if (p.reducedMotion) {
+    if (p.reducedMotion || p.view.instant) {
       current.current = p.view;
       anim.current = null;
     } else anim.current = { from: current.current, to: p.view, start: performance.now() };
@@ -1066,14 +1230,53 @@ export function CityScene(p: CitySceneProps) {
       }
     }
     if (moving) invalidate();
+    else placeRef.current();
   });
+  // Paper model bake (QA M1): AO and ink edges on the resting frame, tier 1 and up.
+  const bake = useMemo(
+    () =>
+      p.settings.ao || p.settings.shadows
+        ? paperBake(gl, scene, camera, { ink: look.ink, night: yoru, far: 6000 })
+        : null,
+    [gl, scene, camera, look.ink, yoru, p.settings.ao, p.settings.shadows],
+  );
+  useEffect(() => () => bake?.dispose(), [bake]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a DPR change resizes the drawing buffer
+  useEffect(() => {
+    bake?.setSize(size.width, size.height);
+  }, [bake, size.width, size.height, dpr]);
+  const bakeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const bakeNow = useRef(false);
+  const baked = useRef(false);
+  useEffect(
+    () => () => {
+      if (bakeTimer.current) clearTimeout(bakeTimer.current);
+    },
+    [],
+  );
   useFrame(() => {
-    gl.render(scene, camera);
+    if (bake && bakeNow.current) {
+      bakeNow.current = false;
+      gl.info.reset();
+      bake.render();
+      baked.current = true;
+    } else {
+      gl.render(scene, camera);
+      baked.current = false;
+      if (bake) {
+        // Bake once the city has rested for 350 ms (still life).
+        if (bakeTimer.current) clearTimeout(bakeTimer.current);
+        bakeTimer.current = setTimeout(() => {
+          bakeNow.current = true;
+          invalidate();
+        }, 350);
+      }
+    }
     frames.current++;
     if (p.stats) {
       const info = gl.info.render;
       p.stats.current = {
-        phase: anim.current || wick.current.on ? 'moving' : 'resting',
+        phase: anim.current || wick.current.on || (bake && !baked.current) ? 'moving' : 'resting',
         frames: frames.current,
         calls: info.calls,
         triangles: info.triangles,
@@ -1115,15 +1318,325 @@ export function CityScene(p: CitySceneProps) {
       p.onPick({ kind: 'ground', east: e.point.x, north: -e.point.z }, at(e));
   };
 
-  // Room labels at Floor level (QA M2): use and area on a raised paper plate, big rooms only.
-  const labels = useMemo(() => {
+  // Room labels at Floor level (QA M2, studio review B-M5): one label rule, function first then
+  // the room's own name; a label shows only when it fits inside its room on screen (else it
+  // collapses to the function, else it hides), rooms under 40 px are skipped, and overlapping
+  // labels are culled, biggest room first.
+  const candidates = useMemo(() => {
     if (!hero || !cut || !selStorey || drawer) return [];
     return hero.rooms
-      .filter((r) => r.storeyId === selStorey.id)
-      .map((r) => ({ r, area: Math.abs(ringArea(r.ring)), c: ringCentre(r.ring).c }))
-      .filter((x) => (level === 'room' ? x.r.id === p.roomId : x.area > 90))
-      .slice(0, 28);
+      .filter((r) => r.storeyId === selStorey.id && (level !== 'room' || r.id === p.roomId))
+      .map((r) => {
+        const fn = USE_LABEL[r.use ?? ''] ?? 'Room';
+        const name = r.name && r.name.toLowerCase() !== fn.toLowerCase() ? r.name : undefined;
+        return { r, fn, name, area: Math.abs(ringArea(r.ring)), c: ringCentre(r.ring).c };
+      })
+      .sort((a, b) => b.area - a.area);
   }, [hero, cut, selStorey, drawer, level, p.roomId]);
+  const [labels, setLabels] = useState<{ id: string; full: boolean }[]>([]);
+  const labelKey = useRef('');
+  const placeLabels = (): void => {
+    if (!candidates.length) {
+      if (labelKey.current !== '') {
+        labelKey.current = '';
+        setLabels([]);
+      }
+      return;
+    }
+    camera.updateMatrixWorld();
+    const W = size.width;
+    const H = size.height;
+    const v = new Vector3();
+    const taken: [number, number, number, number][] = [];
+    const out: { id: string; full: boolean }[] = [];
+    for (const c of candidates) {
+      let x0 = Infinity;
+      let x1 = -Infinity;
+      let y0 = Infinity;
+      let y1 = -Infinity;
+      for (const [e, n] of c.r.ring) {
+        v.set(e, c.r.z0 + PLINTH_M, -n).project(camera);
+        const px = ((v.x + 1) / 2) * W;
+        const py = ((1 - v.y) / 2) * H;
+        x0 = Math.min(x0, px);
+        x1 = Math.max(x1, px);
+        y0 = Math.min(y0, py);
+        y1 = Math.max(y1, py);
+      }
+      const w = (x1 - x0) * 0.8;
+      const h = (y1 - y0) * 0.8;
+      if (Math.min(w, h) < 40 && level !== 'room') continue;
+      const long = Math.max(c.fn.length, c.name?.length ?? 0, 7);
+      const fullW = long * 6.6 + 14;
+      const shortW = c.fn.length * 6.6 + 14;
+      const full = fullW <= w && (c.name ? 44 : 32) <= h;
+      const fits = full || (shortW <= w && 20 <= h);
+      if (!fits) continue;
+      v.set(c.c[0], c.r.z0 + PLINTH_M + 1.6, -c.c[1]).project(camera);
+      const cx = ((v.x + 1) / 2) * W;
+      const cy = ((1 - v.y) / 2) * H;
+      const lw = (full ? fullW : shortW) / 2;
+      const lh = (full ? (c.name ? 44 : 32) : 20) / 2;
+      const box: [number, number, number, number] = [cx - lw, cy - lh, cx + lw, cy + lh];
+      if (taken.some((t) => box[0] < t[2] && box[2] > t[0] && box[1] < t[3] && box[3] > t[1])) continue;
+      taken.push(box);
+      out.push({ id: c.r.id, full });
+      if (out.length >= 40) break;
+    }
+    const key = out.map((o) => `${o.id}${o.full ? '+' : ''}`).join(',');
+    if (key !== labelKey.current) {
+      labelKey.current = key;
+      setLabels(out);
+    }
+  };
+  const placeRef = useRef(placeLabels);
+  placeRef.current = placeLabels;
+  const byId = useMemo(() => new Map(candidates.map((c) => [c.r.id, c])), [candidates]);
+
+  // ---------------------------------------------------------------- placing (SPEC 27)
+  const pivot = useMemo<EN>(() => (hero ? ringCentre(hero.prisms.flatMap((x) => x.ring)).c : [0, 0]), [hero]);
+  const placeOuter = useRef<Object3D>(null);
+  const placeInner = useRef<Object3D>(null);
+  const groundM = p.groundM ?? 0;
+  const resetPlace = useCallback(() => {
+    placeOuter.current?.position.set(pivot[0], groundM, -pivot[1]);
+    placeOuter.current?.rotation.set(0, 0, 0);
+    placeInner.current?.position.set(-pivot[0], 0, pivot[1]);
+    invalidate();
+  }, [pivot, groundM, invalidate]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a new hero (after a drop) resets the drag transform
+  useLayoutEffect(() => resetPlace(), [resetPlace, hero]);
+  const dragRef = useRef<{ mode: 'move' | 'turn'; start: EN; a0: number; move: EN; turn: number } | null>(
+    null,
+  );
+  const [dragging, setDragging] = useState(false);
+  const groundAt = (e: ThreeEvent<PointerEvent>): EN | null => {
+    const r = e.ray;
+    if (Math.abs(r.direction.y) < 1e-6) return null;
+    const t = (groundM - r.origin.y) / r.direction.y;
+    return [r.origin.x + r.direction.x * t, -(r.origin.z + r.direction.z * t)];
+  };
+  const startDrag =
+    (mode: 'move' | 'turn') =>
+    (e: ThreeEvent<PointerEvent>): void => {
+      if (!p.placeMode || e.button !== 0) return;
+      e.stopPropagation();
+      const g = groundAt(e);
+      if (!g) return;
+      (e.nativeEvent.target as Element | null)?.setPointerCapture?.(e.pointerId);
+      dragRef.current = {
+        mode,
+        start: g,
+        a0: Math.atan2(g[0] - pivot[0], g[1] - pivot[1]),
+        move: [0, 0],
+        turn: 0,
+      };
+      setDragging(true);
+      p.onPlaceDrag?.(true);
+    };
+  const onDragMove = (e: ThreeEvent<PointerEvent>): void => {
+    const d = dragRef.current;
+    if (!d) return;
+    e.stopPropagation();
+    const g = groundAt(e);
+    if (!g) return;
+    if (d.mode === 'move') {
+      d.move = [Math.round((g[0] - d.start[0]) * 2) / 2, Math.round((g[1] - d.start[1]) * 2) / 2];
+      placeOuter.current?.position.set(pivot[0] + d.move[0], groundM, -(pivot[1] + d.move[1]));
+    } else {
+      const a = Math.atan2(g[0] - pivot[0], g[1] - pivot[1]);
+      d.turn = Math.round(((a - d.a0) * 180) / Math.PI);
+      // A clockwise bearing turn is a negative turn about world +y.
+      placeOuter.current?.rotation.set(0, (-d.turn * Math.PI) / 180, 0);
+    }
+    invalidate();
+  };
+  const endDrag = (e: ThreeEvent<PointerEvent>): void => {
+    const d = dragRef.current;
+    if (!d) return;
+    e.stopPropagation();
+    dragRef.current = null;
+    setDragging(false);
+    p.onPlaceDrag?.(false);
+    if (d.move[0] !== 0 || d.move[1] !== 0 || d.turn !== 0) p.onPlaceDrop?.(d.move, d.turn);
+    else resetPlace();
+  };
+  const handleR = hero ? ringCentre(hero.prisms.flatMap((x) => x.ring)).span * 0.62 + 10 : 0;
+  const handleMat = useMemo(
+    () => new MeshStandardMaterial({ color: look.deep, emissive: new Color(look.deep).multiplyScalar(0.3) }),
+    [look.deep],
+  );
+  useEffect(() => () => handleMat.dispose(), [handleMat]);
+  const catcherMat = useMemo(
+    () => new MeshStandardMaterial({ transparent: true, opacity: 0, depthWrite: false }),
+    [],
+  );
+  useEffect(() => () => catcherMat.dispose(), [catcherMat]);
+  // Site check lines: overlaps warm, shading neighbours in the focus colour (dashed).
+  const checkLines = useMemo(() => {
+    const c = p.siteCheck;
+    if (!c || (!c.overlaps.length && !c.shading.length)) return null;
+    const ring = (ids: Iterable<string>): number[] => {
+      const pos: number[] = [];
+      for (const id of ids) {
+        const m = model.masses.find((x) => x.id === id);
+        if (!m) continue;
+        pos.push(
+          ...(outlineGeometry([{ ring: m.ring, h: drawnHeight(m) + 0.1 }]).getAttribute('position')
+            .array as Float32Array),
+        );
+      }
+      return pos;
+    };
+    const warm = ring(c.overlaps);
+    const shade = ring(c.shading.map((x) => x.id));
+    return {
+      warm: warm.length ? track(fatLines(warm, look.warm, 2.5)) : null,
+      shade: shade.length ? track(fatLines(shade, look.deep, 1.5, { dashed: true, opacity: 0.9 })) : null,
+    };
+  }, [p.siteCheck, model.masses, look.warm, look.deep, track]);
+  useEffect(
+    () => () => {
+      for (const l of [checkLines?.warm, checkLines?.shade]) {
+        if (!l) continue;
+        lineMats.current.delete(l.material);
+        l.geometry.dispose();
+        l.material.dispose();
+      }
+    },
+    [checkLines],
+  );
+
+  // ---------------------------------------------------------------- moment 7: the shadow you cast
+  const added = p.addedFloorsM ?? 0;
+  const topSm = useMemo(
+    () => [...storeyMeshes].reverse().find((sm) => !sm.st.belowGrade) ?? null,
+    [storeyMeshes],
+  );
+  const ghostLevels =
+    topSm && added > 0 ? Math.max(1, Math.round(added / Math.max(2.6, topSm.st.z1 - topSm.st.z0))) : 0;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `track` reads the current size only
+  const ghostLines = useMemo(() => {
+    if (!topSm || !ghostLevels) return null;
+    const f2f = added / ghostLevels;
+    const pos: number[] = [];
+    for (let j = 1; j <= ghostLevels; j++)
+      for (let i = 0; i < topSm.outlinePos.length; i += 3)
+        pos.push(topSm.outlinePos[i]!, topSm.outlinePos[i + 1]! + f2f * j, topSm.outlinePos[i + 2]!);
+    return track(fatLines(pos, look.ink, 1.2, { dashed: true, opacity: 0.85 }));
+  }, [topSm, ghostLevels, added, look.ink]);
+  useEffect(
+    () => () => {
+      if (ghostLines) {
+        lineMats.current.delete(ghostLines.material);
+        ghostLines.geometry.dispose();
+        ghostLines.material.dispose();
+      }
+    },
+    [ghostLines],
+  );
+  const loserMasses = useMemo(
+    () => model.masses.filter((m) => (p.castLosers ?? []).includes(m.id)),
+    [model.masses, p.castLosers],
+  );
+  const flashGeo = useMemo(
+    () => (loserMasses.length ? contextGeometry(loserMasses, (m) => drawnHeight(m) + 0.08) : null),
+    [loserMasses],
+  );
+  useEffect(() => () => flashGeo?.dispose(), [flashGeo]);
+  // Kotai warm (losing sun), flashing for 700 ms then settling to a faint wash.
+  const flashMat = useMemo(
+    () => new MeshBasicMaterial({ color: '#D7644D', transparent: true, opacity: 0.85, depthWrite: false }),
+    [],
+  );
+  useEffect(() => () => flashMat.dispose(), [flashMat]);
+  const flashStart = useRef(0);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a new set of losers replays the flash
+  useEffect(() => {
+    flashStart.current = performance.now();
+    flashMat.opacity = p.reducedMotion ? 0.3 : 0.85;
+    invalidate();
+  }, [flashGeo, flashMat, p.reducedMotion, invalidate]);
+  useFrame(() => {
+    if (!flashGeo || p.reducedMotion) return;
+    const k = (performance.now() - flashStart.current) / 700;
+    if (k <= 1) {
+      flashMat.opacity = 0.85 - 0.55 * easeOri(Math.min(1, k));
+      invalidate();
+    }
+  });
+
+  // ---------------------------------------------------------------- moment 3: the radiation rose
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `track` reads the current size only
+  const rose = useMemo(() => {
+    if (lens !== 'radiation' || !hero || !p.site) return null;
+    const bins = new Array<number>(16).fill(0);
+    const area = new Array<number>(16).fill(0);
+    for (const s of hero.surfaces) {
+      if (s.kind !== 'wall') continue;
+      const d = siteById.get(s.id);
+      const k = d ? annualKwh(d) : null;
+      if (k === null) continue;
+      const b = Math.round(s.bearingDeg / 22.5) % 16;
+      bins[b]! += k * s.area;
+      area[b]! += s.area;
+    }
+    const v = bins.map((x, i) => (area[i] ? x / area[i]! : 0));
+    const max = Math.max(...v);
+    if (!max) return null;
+    const { c, span } = ringCentre(hero.prisms.flatMap((x) => x.ring));
+    const R = Math.max(10, span * 0.22);
+    const pos: number[] = [];
+    const col: number[] = [];
+    const edge: number[] = [];
+    const y = hero.height + 2.5;
+    v.forEach((val, i) => {
+      if (!val) return;
+      const r = (R * val) / max;
+      const a0 = ((i - 0.42) * 22.5 * Math.PI) / 180;
+      const a1 = ((i + 0.42) * 22.5 * Math.PI) / 180;
+      const P = (a: number, rr: number): number[] => [c[0] + Math.sin(a) * rr, y, -(c[1] + Math.cos(a) * rr)];
+      const cc = rampLinear('hinata', (val - d0) / Math.max(1, d1 - d0));
+      const tri = [...P(0, 0), ...P(a0, r), ...P(a1, r)];
+      pos.push(...tri);
+      for (let k = 0; k < 3; k++) col.push(cc[0], cc[1], cc[2]);
+      edge.push(...P(0, 0), ...P(a0, r), ...P(a0, r), ...P(a1, r), ...P(a1, r), ...P(0, 0));
+    });
+    const g = new BufferGeometry();
+    g.setAttribute('position', new BufferAttribute(new Float32Array(pos), 3));
+    g.setAttribute('color', new BufferAttribute(new Float32Array(col), 3));
+    return {
+      g,
+      lines: track(fatLines(edge, look.ink, 1, { opacity: 0.8 })),
+      centre: [c[0], y, -c[1]] as [number, number, number],
+    };
+  }, [lens, hero, p.site, siteById, d0, d1, look.ink]);
+  useEffect(
+    () => () => {
+      if (rose) {
+        rose.g.dispose();
+        lineMats.current.delete(rose.lines.material);
+        rose.lines.geometry.dispose();
+        rose.lines.material.dispose();
+      }
+    },
+    [rose],
+  );
+  const roseMat = useMemo(
+    () => new MeshBasicMaterial({ vertexColors: true, side: DoubleSide, transparent: true, opacity: 0.92 }),
+    [],
+  );
+  useEffect(() => () => roseMat.dispose(), [roseMat]);
+  const roseRef = useRef<Object3D>(null);
+  useFrame(() => {
+    // The rose unfolds with the wick (moment 3): petals scale from the centre as colour rises.
+    const g = roseRef.current;
+    if (!g || !rose) return;
+    const k = wick.current.on ? Math.min(1, (performance.now() - wick.current.start) / 1600) : 1;
+    const e = easeOri(k);
+    g.position.set(rose.centre[0] * (1 - e), 0, rose.centre[2] * (1 - e));
+    g.scale.set(e, 1, e);
+  });
 
   const heroGroupY = PLINTH_M;
   const locator = level === 'city' && hero ? ringCentre(hero.prisms.flatMap((x) => x.ring)) : null;
@@ -1160,6 +1673,7 @@ export function CityScene(p: CitySceneProps) {
         onPointerOut={() => p.onHover(null, null)}
         onClick={pickContext}
       />
+      {flashGeo ? <mesh geometry={flashGeo} material={flashMat} raycast={noRaycast} renderOrder={4} /> : null}
       {/* biome-ignore lint/a11y/noStaticElementInteractions: three.js mesh, not DOM; keyboard users press N to cycle */}
       <mesh
         ref={guessRef}
@@ -1174,6 +1688,7 @@ export function CityScene(p: CitySceneProps) {
         <mesh geometry={lanternGeo} material={mats.lantern} raycast={noRaycast} />
       ) : null}
       <lineSegments ref={outlineRef} geometry={outlineGeo} material={mats.contextLine} raycast={noRaycast} />
+      <lineSegments ref={dashedRef} geometry={dashedTops} material={dashedMat} raycast={noRaycast} />
       {p.penumbra ? (
         <mesh geometry={ghostGeo} material={mats.ghost} raycast={noRaycast} renderOrder={2} />
       ) : null}
@@ -1212,123 +1727,187 @@ export function CityScene(p: CitySceneProps) {
             position={[o.c[0], o.h * 0.7, -o.c[1]]}
             scale={[o.span * 0.9, o.span * 0.9, 1]}
           />
+          {o.bloom ? (
+            <sprite
+              material={o.bloom}
+              position={[o.c[0], o.h * 0.5, -o.c[1]]}
+              scale={[o.span * 2.4, o.span * 2.4, 1]}
+            />
+          ) : null}
         </group>
       ))}
 
-      {plinth ? (
-        <>
-          <mesh
-            geometry={plinth.geo}
-            material={mats.plinth}
-            castShadow={shadowOn}
-            receiveShadow
-            raycast={noRaycast}
-          />
-          <primitive object={plinth.edge} />
-        </>
-      ) : null}
-
-      <group position-y={heroGroupY}>
-        {storeyMeshes.map((sm, i) => {
-          if (sm.st.belowGrade && !(cut && selStorey?.id === sm.st.id)) return null;
-          const isSel = cut && selStorey?.id === sm.st.id;
-          const above = cut && i > selIndex;
-          // With the drawer out, everything but the drawer fades to a ghost (QA B5).
-          const ghost = (above && !drawer) || (drawer && drawerOut && !isSel);
-          const wallGeo = isSel ? sm.cutWallGeo : sm.wallGeo;
-          const glassGeo = isSel ? sm.cutGlassGeo : sm.glassGeo;
-          const walls = isSel ? sm.cutWalls : sm.walls;
-          const body = (
+      <group ref={placeOuter} {...(p.placeMode ? { onPointerDown: startDrag('move') } : {})}>
+        <group ref={placeInner}>
+          {plinth ? (
             <>
-              <HeroMesh
-                geometry={wallGeo}
-                material={ghost ? mats.ghostWall : mats.wall}
-                cast={shadowOn && !ghost}
-                onHover={(e) => p.onHover(heroTarget(walls, wallGeo, e.face?.a), at(e))}
-                onPick={(e) => {
-                  const t = heroTarget(walls, wallGeo, e.face?.a);
-                  if (t) p.onPick(t, at(e));
-                }}
+              <mesh
+                geometry={plinth.geo}
+                material={mats.plinth}
+                castShadow={shadowOn}
+                receiveShadow
+                {...(p.placeMode ? {} : { raycast: noRaycast })}
               />
-              {!isSel ? (
-                <HeroMesh
-                  geometry={sm.roofGeo}
-                  material={ghost ? mats.ghostRoof : mats.roof}
-                  cast={shadowOn && !ghost}
-                  onHover={(e) => p.onHover(heroTarget(sm.roofs, sm.roofGeo, e.face?.a), at(e))}
-                  onPick={(e) => {
-                    const t = heroTarget(sm.roofs, sm.roofGeo, e.face?.a);
-                    if (t) p.onPick(t, at(e));
-                  }}
-                />
-              ) : null}
-              <mesh geometry={glassGeo} material={ghost ? mats.ghostGlass : mats.glass} raycast={noRaycast} />
-              {isSel ? (
+              <primitive object={plinth.edge} />
+            </>
+          ) : null}
+
+          <group position-y={heroGroupY}>
+            {storeyMeshes.map((sm, i) => {
+              if (sm.st.belowGrade && !(cut && selStorey?.id === sm.st.id)) return null;
+              const isSel = cut && selStorey?.id === sm.st.id;
+              const above = cut && i > selIndex;
+              // With the drawer out, everything but the drawer fades to a ghost (QA B5).
+              const ghost = (above && !drawer) || (drawer && drawerOut && !isSel);
+              const wallGeo = isSel ? sm.cutWallGeo : sm.wallGeo;
+              const glassGeo = isSel ? sm.cutGlassGeo : sm.glassGeo;
+              const walls = isSel ? sm.cutWalls : sm.walls;
+              const body = (
                 <>
                   <HeroMesh
-                    geometry={sm.floorGeo}
-                    material={mats.floor}
-                    cast={false}
-                    onHover={(e) => p.onHover(heroTarget(sm.floors, sm.floorGeo, e.face?.a), at(e))}
+                    geometry={wallGeo}
+                    material={ghost ? mats.ghostWall : mats.wall}
+                    cast={shadowOn && !ghost}
+                    onHover={(e) => p.onHover(heroTarget(walls, wallGeo, e.face?.a), at(e))}
                     onPick={(e) => {
-                      const t = heroTarget(sm.floors, sm.floorGeo, e.face?.a);
+                      const t = heroTarget(walls, wallGeo, e.face?.a);
                       if (t) p.onPick(t, at(e));
                     }}
                   />
-                  <lineSegments geometry={sm.roomLines} material={mats.rooms} raycast={noRaycast} />
+                  {!isSel ? (
+                    <HeroMesh
+                      geometry={sm.roofGeo}
+                      material={ghost ? mats.ghostRoof : mats.roof}
+                      cast={shadowOn && !ghost}
+                      onHover={(e) => p.onHover(heroTarget(sm.roofs, sm.roofGeo, e.face?.a), at(e))}
+                      onPick={(e) => {
+                        const t = heroTarget(sm.roofs, sm.roofGeo, e.face?.a);
+                        if (t) p.onPick(t, at(e));
+                      }}
+                    />
+                  ) : null}
+                  <mesh
+                    geometry={glassGeo}
+                    material={ghost ? mats.ghostGlass : mats.glass}
+                    raycast={noRaycast}
+                  />
+                  {isSel ? (
+                    <>
+                      <HeroMesh
+                        geometry={sm.floorGeo}
+                        material={mats.floor}
+                        cast={false}
+                        onHover={(e) => p.onHover(heroTarget(sm.floors, sm.floorGeo, e.face?.a), at(e))}
+                        onPick={(e) => {
+                          const t = heroTarget(sm.floors, sm.floorGeo, e.face?.a);
+                          if (t) p.onPick(t, at(e));
+                        }}
+                      />
+                      <lineSegments geometry={sm.roomLines} material={mats.rooms} raycast={noRaycast} />
+                    </>
+                  ) : null}
+                  {!ghost ? <primitive object={outlines[i]!} /> : null}
                 </>
-              ) : null}
-              {!ghost ? <primitive object={outlines[i]!} /> : null}
-            </>
-          );
-          if (isSel && drawer)
-            return (
-              <group key={sm.st.id} ref={drawerRef as unknown as MutableRefObject<never>}>
-                {body}
+              );
+              if (isSel && drawer)
+                return (
+                  <group key={sm.st.id} ref={drawerRef as unknown as MutableRefObject<never>}>
+                    {body}
+                  </group>
+                );
+              if (above && !drawer)
+                return (
+                  <group
+                    key={sm.st.id}
+                    ref={(o) => {
+                      if (o) liftRefs.current.set(sm.st.id, o);
+                      else liftRefs.current.delete(sm.st.id);
+                    }}
+                  >
+                    {body}
+                  </group>
+                );
+              return <group key={sm.st.id}>{body}</group>;
+            })}
+            {topSm && ghostLevels
+              ? Array.from({ length: ghostLevels }, (_, j) => (
+                  <mesh
+                    // biome-ignore lint/suspicious/noArrayIndexKey: stacked ghost floors
+                    key={j}
+                    geometry={topSm.wallGeo}
+                    material={mats.ghostWall}
+                    position-y={(added / ghostLevels) * (j + 1)}
+                    raycast={noRaycast}
+                  />
+                ))
+              : null}
+            {ghostLines ? <primitive object={ghostLines} /> : null}
+            {rose ? (
+              <group ref={roseRef as unknown as MutableRefObject<never>}>
+                <mesh geometry={rose.g} material={roseMat} raycast={noRaycast} renderOrder={5} />
+                <primitive object={rose.lines} />
               </group>
-            );
-          if (above && !drawer)
-            return (
-              <group
-                key={sm.st.id}
-                ref={(o) => {
-                  if (o) liftRefs.current.set(sm.st.id, o);
-                  else liftRefs.current.delete(sm.st.id);
-                }}
-              >
-                {body}
-              </group>
-            );
-          return <group key={sm.st.id}>{body}</group>;
-        })}
-        {photo ? (
-          <>
-            <mesh
-              geometry={photo.canopy}
-              material={mats.pv}
-              castShadow={shadowOn}
-              receiveShadow
-              raycast={noRaycast}
-            />
-            <mesh geometry={photo.fins} material={mats.fin} castShadow={shadowOn} raycast={noRaycast} />
-          </>
+            ) : null}
+            {photo ? (
+              <>
+                <mesh
+                  geometry={photo.canopy}
+                  material={mats.pv}
+                  castShadow={shadowOn}
+                  receiveShadow
+                  raycast={noRaycast}
+                />
+                <mesh geometry={photo.fins} material={mats.fin} castShadow={shadowOn} raycast={noRaycast} />
+              </>
+            ) : null}
+            {hlFill ? (
+              <mesh geometry={hlFill} material={hlFillMat} raycast={noRaycast} renderOrder={4} />
+            ) : null}
+            {labels.map(({ id, full }) => {
+              const c = byId.get(id);
+              if (!c) return null;
+              return (
+                <Html
+                  key={id}
+                  position={[c.c[0], c.r.z0 + 1.6, -c.c[1]]}
+                  center
+                  zIndexRange={[20, 10]}
+                  style={{ pointerEvents: 'none' }}
+                >
+                  <span className="ib-city-label" title={c.name ? `${c.fn}, ${c.name}` : c.fn}>
+                    <b>{c.fn}</b>
+                    {full && c.name ? <span>{c.name}</span> : null}
+                    {full ? <span className="ib-city-num">{Math.round(c.area)} m²</span> : null}
+                  </span>
+                </Html>
+              );
+            })}
+          </group>
+        </group>
+        {p.placeMode && hero ? (
+          <mesh
+            geometry={circle}
+            material={handleMat}
+            position={[handleR, PLINTH_M + 0.3, 0]}
+            rotation-x={-Math.PI / 2}
+            scale={[Math.max(4, p.view.halfH * 0.05), Math.max(4, p.view.halfH * 0.05), 1]}
+            onPointerDown={startDrag('turn')}
+          />
         ) : null}
-        {hlFill ? <mesh geometry={hlFill} material={hlFillMat} raycast={noRaycast} renderOrder={4} /> : null}
-        {labels.map(({ r, area, c }) => (
-          <Html
-            key={r.id}
-            position={[c[0], r.z0 + 1.6, -c[1]]}
-            center
-            zIndexRange={[20, 10]}
-            style={{ pointerEvents: 'none' }}
-          >
-            <span className="ib-city-label">
-              <b>{USE_LABEL[r.use ?? ''] ?? r.name ?? 'Room'}</b>
-              <span className="ib-city-num">{Math.round(area)} m²</span>
-            </span>
-          </Html>
-        ))}
       </group>
+      {dragging ? (
+        <mesh
+          rotation-x={-Math.PI / 2}
+          position-y={groundM + 0.02}
+          material={catcherMat}
+          onPointerMove={onDragMove}
+          onPointerUp={endDrag}
+        >
+          <planeGeometry args={[6000, 6000]} />
+        </mesh>
+      ) : null}
+      {checkLines?.warm ? <primitive object={checkLines.warm} /> : null}
+      {checkLines?.shade ? <primitive object={checkLines.shade} /> : null}
       {dayMesh ? (
         <DrawerFollower target={drawerRef}>
           <mesh geometry={dayMesh.geometry} material={dayMesh.material} raycast={noRaycast} renderOrder={3} />

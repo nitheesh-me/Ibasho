@@ -16,7 +16,7 @@ describe('discoverPlugins', () => {
     expect(files).toEqual([...files].sort());
   });
 
-  it('lists the plugins the M-0 packs load', async () => {
+  it('lists the plugins the app packs load', async () => {
     const { plugins } = await discoverPlugins(repoRoot);
     const p = presenceFromList(plugins);
     expect(p.has('rules-uk')).toBe(true);
@@ -39,6 +39,7 @@ describe('discoverPlugins', () => {
       source: 'none',
       plugins: [],
       skipped: [],
+      stages: {},
     });
   });
 
@@ -81,7 +82,25 @@ describe('discoverPlugins', () => {
     expect(p.has('not-in-app')).toBe(false);
   });
 
-  it('falls back to module files while the manifest is empty (M-0)', async () => {
+  it('reads the studio stage providers from the real manifest', async () => {
+    const d = await discoverPlugins(repoRoot);
+    const p = presenceFromList(d.plugins, d.stages);
+    expect(Object.keys(d.stages).length).toBeGreaterThan(0);
+    expect(p.stage?.('sun')).toMatch(/^(preview|real)$/);
+  });
+
+  it('reads stage providers even when the manifest lists no modules', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'ibasho-landing-'));
+    mkdirSync(join(root, 'apps', 'web', 'src'), { recursive: true });
+    writeFileSync(
+      join(root, 'apps', 'web', 'src', 'manifest.ts'),
+      'export const manifest = { engine: [], ui: [] };\nexport const STAGE_PROVIDERS = { sun: "preview.sun", energy: 42 };\n',
+    );
+    const d = await discoverPlugins(root);
+    expect(d.stages).toEqual({ sun: 'preview.sun' });
+  });
+
+  it('falls back to module files while the manifest is empty', async () => {
     const root = mkdtempSync(join(tmpdir(), 'ibasho-landing-'));
     mkdirSync(join(root, 'packs', 'extra', 'src', 'engine'), { recursive: true });
     writeFileSync(

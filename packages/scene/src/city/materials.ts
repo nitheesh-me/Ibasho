@@ -29,6 +29,14 @@ export interface LensUniforms {
   uWick: { value: number };
   uPaper: { value: Color };
   uPixelRatio: { value: number };
+  /** Night lantern skin (moment 8): 0 by day, 1 at night. */
+  uNight: { value: number };
+  /** Lamplight colour (linear) and strength for the hero's lit window grid. */
+  uLamp: { value: Color };
+  uLampK: { value: number };
+  /** Storey height and the height of the hero's ground floor (plinth top), metres. */
+  uFloorH: { value: number };
+  uBase: { value: number };
 }
 
 export function createLensUniforms(): LensUniforms {
@@ -40,6 +48,11 @@ export function createLensUniforms(): LensUniforms {
     uWick: { value: 1e6 },
     uPaper: { value: new Color('#f4eee3') },
     uPixelRatio: { value: 1 },
+    uNight: { value: 0 },
+    uLamp: { value: new Color('#ffd9a0') },
+    uLampK: { value: 1 },
+    uFloorH: { value: 3.9 },
+    uBase: { value: 0 },
   };
 }
 
@@ -87,6 +100,11 @@ export interface LensFlags {
   hatch?: { pitch: number; duty: number; vertical?: boolean; screen?: boolean };
   /** Emissive from the vertex colour (per building lantern light, one draw call). */
   vertexEmissive?: boolean;
+  /**
+   * Lantern skin: at night walls glow as paper lit from within, with a lit window grid per storey
+   * (sill 0.9 m, head 2.4 m, 1.5 m bays) in lamplight; roofs take a soft inner glow.
+   */
+  lantern?: 'wall' | 'roof';
 }
 
 /** A standard material with the lens chunks injected. */
@@ -96,18 +114,24 @@ export function lensMaterial(
   flags: LensFlags,
 ): MeshStandardMaterial {
   const m = new MeshStandardMaterial(params);
-  const key = `city-lens-${flags.grid ? 'g' : ''}${flags.wick ? 'w' : ''}${flags.vertexEmissive ? 'e' : ''}${flags.hatch ? `h${flags.hatch.pitch}${flags.hatch.duty}${flags.hatch.vertical ? 'v' : ''}${flags.hatch.screen ? 's' : ''}` : ''}`;
+  const key = `city-lens-${flags.grid ? 'g' : ''}${flags.wick ? 'w' : ''}${flags.vertexEmissive ? 'e' : ''}${flags.lantern ? `l${flags.lantern}` : ''}${flags.hatch ? `h${flags.hatch.pitch}${flags.hatch.duty}${flags.hatch.vertical ? 'v' : ''}${flags.hatch.screen ? 's' : ''}` : ''}`;
   m.customProgramCacheKey = () => key;
   m.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, u);
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 vCityWorld;')
+      .replace('#include <common>', '#include <common>\nvarying vec3 vCityWorld;\nvarying vec3 vCityN;')
       .replace(
         '#include <worldpos_vertex>',
-        '#include <worldpos_vertex>\nvCityWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;',
+        '#include <worldpos_vertex>\nvCityWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvCityN = normalize(mat3(modelMatrix) * objectNormal);',
       );
     let frag = `
 varying vec3 vCityWorld;
+varying vec3 vCityN;
+uniform float uNight;
+uniform vec3 uLamp;
+uniform float uLampK;
+uniform float uFloorH;
+uniform float uBase;
 uniform sampler2D uGrid;
 uniform vec4 uGridBox;
 uniform float uGridOn;
@@ -145,6 +169,28 @@ float wk = smoothstep(uWick - 0.6, uWick + 0.6, vCityWorld.y);
 diffuseColor.rgb = mix(diffuseColor.rgb, uPaper, wk);
 `;
     let out = frag.replace('#include <color_fragment>', `#include <color_fragment>\n${paint}`);
+    if (flags.lantern === 'wall')
+      out = out.replace(
+        '#include <emissivemap_fragment>',
+        `#include <emissivemap_fragment>
+if (uNight > 0.0) {
+  vec2 t = normalize(vec2(-vCityN.z, vCityN.x) + 1e-5);
+  float u = dot(vCityWorld.xz, t);
+  float h = vCityWorld.y - uBase;
+  float v = mod(h, uFloorH);
+  float band = smoothstep(0.85, 0.95, v) * (1.0 - smoothstep(2.35, 2.45, v));
+  float bay = smoothstep(0.08, 0.14, fract(u / 1.5)) * (1.0 - smoothstep(0.86, 0.92, fract(u / 1.5)));
+  float win = band * bay * step(0.0, h);
+  // Floors differ a little, like lamps left on in some rooms and not others.
+  float room = 0.75 + 0.25 * fract(sin(floor(u / 4.5) * 12.9898 + floor(h / uFloorH) * 78.233) * 43758.5453);
+  totalEmissiveRadiance = uLamp * uNight * uLampK * (0.32 + 2.6 * win * room);
+}`,
+      );
+    if (flags.lantern === 'roof')
+      out = out.replace(
+        '#include <emissivemap_fragment>',
+        '#include <emissivemap_fragment>\nif (uNight > 0.0) totalEmissiveRadiance = uLamp * uNight * uLampK * 0.22;',
+      );
     if (flags.vertexEmissive)
       out = out.replace(
         '#include <emissivemap_fragment>',

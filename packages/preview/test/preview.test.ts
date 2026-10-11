@@ -1,7 +1,16 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { AnyStageEvent, BuildingResult, EvidenceGraph, JobRequest, StageId } from '@ibasho/core';
-import { createRegistry, dominates, END_USES, isPreview, isZoneTwin, Q, STUDIO_STAGES } from '@ibasho/core';
+import {
+  createRegistry,
+  dominates,
+  END_USES,
+  GOAL_PRESETS,
+  isPreview,
+  isZoneTwin,
+  Q,
+  STUDIO_STAGES,
+} from '@ibasho/core';
 import {
   BuildingResultSchema,
   CodesOutSchema,
@@ -13,12 +22,18 @@ import {
 import { beforeAll, describe, expect, it } from 'vitest';
 import { AS_OF, FIXTURE_BUILDINGS, fixtureInputs, PREVIEW_DIR } from '../scripts/fixture-inputs.ts';
 import {
+  computeGeometry,
   createPreviewStudio,
+  DEFAULT_DEVICE_FACTOR,
+  headlineBill,
+  PARAM_PRESETS,
   PREVIEW_PROVIDERS,
   PreviewAbort,
+  placementChange,
   previewEnergy,
   runPreviewJob,
   setPreviewTimer,
+  stagesForPlacementChange,
 } from '../src/index.ts';
 import { slabMicroPaise } from '../src/model/money.ts';
 
@@ -274,5 +289,179 @@ describe('QA round 1: site, daylight and codes rules', () => {
       const expected = ratio.hi <= 1 ? true : ratio.lo > 1 ? false : 'unknown';
       expect(row?.status).toBe(expected);
     }
+  });
+});
+
+describe('QA round 2 and design parameters', () => {
+  it('lists unknown-height neighbours it left out (R2-m1)', () => {
+    const rad = SiteResultSchema.parse(read('gb1', 'radiation'));
+    const ids = rad.unknownHeightIds ?? [];
+    expect(ids.length).toBeGreaterThan(0);
+    expect([...ids].sort()).toEqual(ids);
+    const blockers = new Set(rad.ledger.map((l) => l.blocker));
+    for (const id of ids) expect(blockers.has(id)).toBe(false);
+  });
+
+  it('AC hours fall when the set point rises (R2-m2)', () => {
+    for (const id of ['gb1', 'gb2', 'gb4'] as const) {
+      const e = BuildingResultSchema.parse(read(id, 'energy'));
+      for (const c of e.comfort) {
+        const at = (s: number) => c.acHours.find((a) => a.setpointC === s)!.hours.hi;
+        expect(at(26), `${id} ${c.roomId}`).toBeLessThan(at(24));
+      }
+    }
+  });
+
+  it('a London home gets no Indian code baseline (R2-m4)', () => {
+    const c = CodesOutSchema.parse(read('gh1', 'codes'));
+    expect(c.baselines).toEqual([]);
+    expect(c.codes.some((r) => r.ruleId.startsWith('ECSBC') || r.ruleId.startsWith('ECBC'))).toBe(false);
+  });
+
+  it('GB2 cooling is 1,500 to 2,200 full load hours on its 400 TR plant (R2-m5)', () => {
+    const e = BuildingResultSchema.parse(read('gb2', 'energy'));
+    const kwh = e.endUses.cooling.reduce<number>((s, v) => s + (v === 'unknown' ? 0 : Number(v)), 0) / 1000;
+    const eflh = (kwh * 3.4) / 1407;
+    expect(eflh).toBeGreaterThan(1500);
+    expect(eflh).toBeLessThan(2200);
+  });
+
+  it('energy reads design parameters from its input; none leaves the result unchanged', async () => {
+    const inputs = fixtureInputs('gb1');
+    const stages: StageId[] = ['geometry', 'energy'];
+    const run = (energyParams?: object) =>
+      runPreviewJob(req('gb1', stages), { ...inputs, ...(energyParams ? { energyParams } : {}) }, () => {}, {
+        deviceFactor: 0,
+      });
+    const base = await run();
+    const same = await run({});
+    expect(same.outputs.energy!.inputsHash).toBe(base.outputs.energy!.inputsHash);
+    const levers = await run({
+      ...PARAM_PRESETS.glazing['low-e'],
+      ...PARAM_PRESETS.lighting.led,
+      setpointC: 26,
+      pvKwp: 100,
+    });
+    const sum = (r: BuildingResult, u: (typeof END_USES)[number]) =>
+      r.endUses[u].reduce<number>((s, v) => s + (v === 'unknown' ? 0 : Number(v)), 0);
+    const a = base.outputs.energy!;
+    const b = levers.outputs.energy!;
+    expect(b.inputsHash).not.toBe(a.inputsHash);
+    expect(sum(b, 'cooling')).toBeLessThan(sum(a, 'cooling'));
+    expect(sum(b, 'lighting')).toBeLessThan(sum(a, 'lighting'));
+    expect(sum(b, 'pv')).toBeLessThan(0);
+    expect(b.eui.site.hi).toBeLessThan(a.eui.site.hi);
+  });
+});
+
+describe('studio review A-M2 and A-M3', () => {
+  it('one canonical bill: energy, codes and the optimiser baseline agree', async () => {
+    const { outputs } = await runPreviewJob(req('gb1'), fixtureInputs('gb1'), () => {}, { deviceFactor: 0 });
+    const bill = headlineBill(outputs.energy!);
+    expect(headlineBill(outputs.codes!.result).total).toBe(bill.total);
+    const opt = outputs.optimise!;
+    const opexAt = opt.objectives.findIndex((o) => o.id === 'opex');
+    const baseline = opt.candidates.find((c) => /^c0+$/.test(c.id));
+    expect(baseline?.axes[opexAt]).toBe(bill.whole);
+  });
+
+  it('each rough stage result is ready within 300 ms of the stage starting', async () => {
+    const started = new Map<string, number>();
+    const late: string[] = [];
+    await runPreviewJob(
+      req('gb1'),
+      fixtureInputs('gb1'),
+      (e) => {
+        if (e.fraction === 0) started.set(e.stage, performance.now());
+        if (e.partial !== undefined && e.tier === 'rough') {
+          const ms = performance.now() - (started.get(e.stage) ?? 0);
+          if (ms > 300) late.push(`${e.stage} ${Math.round(ms)} ms`);
+        }
+      },
+      { deviceFactor: 0 },
+    );
+    expect(late).toEqual([]);
+    expect(DEFAULT_DEVICE_FACTOR).toBeLessThanOrEqual(0.1);
+  });
+});
+
+describe('SPEC 27 design before you build', () => {
+  const london = () => fixtureInputs('gh1').place;
+
+  it('codes follow the plot: a designed office in London gets Part L, FHS and the London Plan', async () => {
+    const office = fixtureInputs('gb3');
+    const doc = { ...office.doc, placeId: 'pl_london' };
+    const goals = GOAL_PRESETS.filter((p) =>
+      ['part-l', 'fhs-2025', 'london-plan', 'leed-gold', 'net-zero-ready-uk'].includes(p.id),
+    ).map((p) => ({
+      goal: p.goal,
+      scope: { level: 'building' as const, id: 'gb3' },
+      strength: 'prefer' as const,
+    }));
+    const { outputs } = await runPreviewJob(
+      req('gb3', ['geometry', 'energy', 'codes']),
+      { doc, place: london(), tiles: [], goals },
+      () => {},
+      {
+        deviceFactor: 0,
+      },
+    );
+    const ids = outputs.codes!.codes.map((c) => c.ruleId);
+    expect(ids).toEqual(expect.arrayContaining(['UK.PARTL.ENERGY', 'UK.FHS.2025', 'LONDON.PLAN.SI2']));
+    expect(ids.some((i) => i.startsWith('ECSBC'))).toBe(false);
+    expect(outputs.codes!.baselines[0]?.code).toBe('Part L 2021');
+    const gaps = outputs.codes!.gaps!;
+    expect(gaps).toHaveLength(5);
+    for (const g of gaps) {
+      expect(['met', 'not-met', 'unknown']).toContain(g.status);
+      expect(g.sources.length).toBeGreaterThan(0);
+    }
+    // A gas-heated design is never net zero ready.
+    expect(gaps.find((g) => g.presetId === 'fhs-2025')?.status).toBe('not-met');
+    expect(gaps.find((g) => g.presetId === 'leed-gold')?.status).toBe('unknown');
+    expect(CodesOutSchema.parse(JSON.parse(toWireJson(outputs.codes)))).toBeTruthy();
+  });
+
+  it('existing UK homes keep the existing-home row only; Indian plots get the ECSBC tier gap', async () => {
+    const gh = await runPreviewJob(
+      req('gh1', ['geometry', 'energy', 'codes']),
+      fixtureInputs('gh1'),
+      () => {},
+      { deviceFactor: 0 },
+    );
+    expect(gh.outputs.codes!.codes.map((c) => c.ruleId)).toEqual(['UK.EPC.ESTIMATE']);
+    const goals = [
+      {
+        goal: { kind: 'code' as const, ruleStem: 'ECSBC', tier: 3 as const },
+        scope: { level: 'building' as const, id: 'gb1' },
+        strength: 'must' as const,
+      },
+    ];
+    const gb = await runPreviewJob(
+      req('gb1', ['geometry', 'energy', 'codes']),
+      { ...fixtureInputs('gb1'), goals },
+      () => {},
+      { deviceFactor: 0 },
+    );
+    const gap = gb.outputs.codes!.gaps![0]!;
+    expect(gap.target).toBe(0.7);
+    expect(gap.status).toBe('not-met');
+  });
+
+  it('a move reuses the compiled geometry; a rotation does not', () => {
+    const { doc } = fixtureInputs('gb4');
+    const moved = { ...doc, origin: { x: doc.origin.x + 20_000, y: doc.origin.y } };
+    const turned = { ...doc, rotationMdeg: doc.rotationMdeg + 15_000 };
+    expect(placementChange(doc, moved)).toBe('move');
+    expect(placementChange(doc, turned)).toBe('rotate');
+    expect(placementChange(doc, { ...doc })).toBe('none');
+    const a = computeGeometry({ doc, packsFingerprint: 'p' }, 'final');
+    const b = computeGeometry({ doc: moved, packsFingerprint: 'p' }, 'final');
+    expect(b.quantities).toBe(a.quantities);
+    expect(b.docHash).not.toBe(a.docHash);
+    expect(b.placement?.origin.x).toBe(moved.origin.x);
+    const c = computeGeometry({ doc: turned, packsFingerprint: 'p' }, 'final');
+    expect(c.quantities).not.toBe(a.quantities);
+    expect(stagesForPlacementChange('move')).toContain('sun');
   });
 });

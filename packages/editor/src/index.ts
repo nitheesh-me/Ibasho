@@ -28,6 +28,7 @@ export {
   type StoreyStackProps,
 } from './Inspector.tsx';
 export {
+  addCore,
   addRoom,
   addStoreyAbove,
   classifyStorey,
@@ -43,6 +44,7 @@ export {
   type Recipe,
   record,
   redo,
+  removeCore,
   removeStorey,
   renameRoom,
   restack,

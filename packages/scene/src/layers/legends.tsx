@@ -36,7 +36,9 @@ function SourceNote({ q }: { q: SceneQuantities }) {
   return (
     <div style={NOTE}>
       Modelled, not measured.
-      {q.source === 'twin-fixture' ? ' Placeholder values from your inputs until the engine has run.' : null}
+      {q.source === 'twin-fixture'
+        ? ' Approximate values from your answers until the full calculation has run.'
+        : null}
     </div>
   );
 }

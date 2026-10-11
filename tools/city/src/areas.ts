@@ -43,4 +43,40 @@ export const LONDON: CityArea = {
   cache: 'cache/london-overpass.json',
 };
 
-export const AREAS: Record<string, CityArea> = { hyderabad: HYDERABAD, london: LONDON };
+/**
+ * On-demand area (owner: loaded only when someone searches for or picks it): Raidurg and
+ * Knowledge City, HITEC City, about 3.5 km south east of IIIT. Holds KRC Commerzone Raidurg
+ * (Qualcomm) and Sattva Knowledge Park (Vanguard). A 1 km box keeps it light.
+ */
+export const RAIDURG: CityArea = {
+  packId: 'city-hyderabad-raidurg',
+  name: 'Hyderabad: Raidurg and Knowledge City (on demand)',
+  origin: { lat: 17.43, lon: 78.3795 },
+  bbox: [17.4255, 78.3748, 17.4345, 78.3842],
+  tileSize: 250_000,
+  levelHeight: { residential: 3_000, academic: 3_900, office: 4_200, other: 3_500 },
+  outDir: 'packs/city-hyderabad/src/engine/raidurg/tiles',
+  cache: 'cache/raidurg-overpass.json',
+};
+
+/**
+ * On-demand London area for designing new buildings on real plots (SPEC 27): King's Cross, a 1 km
+ * box with many tagged heights and levels. Loaded only when the person picks it.
+ */
+export const KINGS_CROSS: CityArea = {
+  packId: 'city-london-kings-cross',
+  name: "London: King's Cross (on demand)",
+  origin: { lat: 51.5352, lon: -0.125 },
+  bbox: [51.5307, -0.1322, 51.5397, -0.1178],
+  tileSize: 250_000,
+  levelHeight: { residential: 3_000, academic: 3_600, office: 3_800, other: 3_200 },
+  outDir: 'packs/city-london/src/engine/kings-cross/tiles',
+  cache: 'cache/kings-cross-overpass.json',
+};
+
+export const AREAS: Record<string, CityArea> = {
+  hyderabad: HYDERABAD,
+  london: LONDON,
+  raidurg: RAIDURG,
+  'kings-cross': KINGS_CROSS,
+};

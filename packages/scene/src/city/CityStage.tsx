@@ -19,7 +19,7 @@ import type {
   ResultStamp,
   SiteResult,
 } from '@ibasho/core';
-import { PreviewStamp, SunScrubber } from '@ibasho/ui';
+import { PreviewStamp, Stepper, SunScrubber } from '@ibasho/ui';
 import { PerformanceMonitor } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import {
@@ -50,17 +50,28 @@ import {
   LensChips,
   MonthStrip,
   PinnedChip,
+  PlacePanel,
   ScaleBar,
   ShareBar,
   StoreyStack,
+  SunBentStrip,
 } from './CityChrome.tsx';
 import { CityScene, type CityStats, HOURS_DOMAIN, USE_LABEL } from './CityScene.tsx';
 import { CitySvg } from './CitySvg.tsx';
+import type { CastLoss } from './cast.ts';
 import { type EN, ringArea } from './frame.ts';
 import { runKernel } from './kernels.ts';
 import { type CityModel, type CityPlace, cityModel, defaultLanterns, LANTERN_SCALE_KWH } from './model.ts';
+import {
+  applyPlacement,
+  movePlacement,
+  type Placement,
+  type PlacementCheck,
+  placementCheck,
+  placementOf,
+} from './placement.ts';
 import { annualKwh, previewDaylight, sdaShare } from './preview.ts';
-import type { SafeArea } from './sceneParts.ts';
+import { ringCentre, type SafeArea } from './sceneParts.ts';
 import type { SunHoursGrid } from './shadow.ts';
 import { type CityTime, clockLabel, dateLabel, dayWindow, SWEEP_MS, sunOf, sweepMinutes } from './sun.ts';
 import type {
@@ -121,10 +132,14 @@ export interface CityStageProps {
   heightOverrides?: Readonly<Record<string, Mm>>;
   /** A height entered in the pinned chip (the studio stores it and passes it back). */
   onHeightEnter?: (contextId: string, mm: Mm) => void;
+  /** Moment 7: floors you plan to add on the hero (ghost floors; neighbours flash their winter sun loss). */
+  addedFloors?: number;
+  onAddedFloorsChange?: (n: number) => void;
   /** Moment 2. Default true. */
   penumbra?: boolean;
-  /** Moment 6. */
+  /** Moment 6. `t` is the shown step; the strip calls `onPhototropicChange` (or steps itself). */
   phototropic?: PhototropicSpec | null;
+  onPhototropicChange?: (t: number) => void;
 
   style?: CityStyle;
   /** Plan azimuth of the camera (degrees, snapped to 45 on release). */
@@ -147,6 +162,17 @@ export interface CityStageProps {
    * `focusFromHit(placeHit)` turns a search hit into one.
    */
   focus?: CityFocus | null;
+  /**
+   * Design before you build (SPEC 27): where the hero stands. Controlled when given; else the
+   * document's own origin and rotation, moved by dragging in `placeMode`.
+   */
+  placement?: Placement;
+  /** A drag, turn, nudge or ground change finished: the new placement (place frame mm, bearing). */
+  onPlacementChange?: (placement: Placement) => void;
+  /** Drag the hero to move it, drag the blue handle to turn it; buttons do the same by steps. */
+  placeMode?: boolean;
+  /** The site check for the current placement: overlaps and the neighbours that shade it. */
+  onSiteCheck?: (check: PlacementCheck) => void;
   onFocusChange?: (focus: CityFocus | null) => void;
   /** `ref.current.flyTo(focus)` for programmatic moves (calls `onFocusChange` when controlled). */
   ref?: Ref<CityStageHandle>;
@@ -252,7 +278,7 @@ export function legendFor(opts: {
   radiationDomain?: [number, number];
 }): LegendSpec | null {
   const preview = opts.estimated || opts.stamp?.impl === 'preview';
-  const est = opts.estimated ? 'Scene estimate' : 'Site stage';
+  const est = opts.estimated ? 'Quick estimate' : 'Sun and shade analysis';
   switch (opts.lens) {
     case 'none':
       return null;
@@ -299,7 +325,7 @@ export function legendFor(opts: {
         domain: [0, 100],
         resolution: 'Sketch, 1 m',
         period: 'Occupied hours, a year',
-        method: `${opts.estimated ? 'Scene estimate from distance to glass' : 'Daylight stage'}; dots fail, hatch is glare`,
+        method: `${opts.estimated ? 'Quick estimate from distance to windows' : 'Daylight analysis'}; dots fail, hatch is glare`,
         preview,
         ...(opts.daylightShare != null ? { extra: <ShareBar share={opts.daylightShare} target={40} /> } : {}),
       };
@@ -337,7 +363,7 @@ export function CityStage(props: CityStageProps) {
   const settings = TIERS[effectiveTier(ladder)];
 
   const [ladderLevel, setLadderLevel] = useControlled<ZoomLevel>(props.level, 'site', props.onLevelChange);
-  const [lens, setLensRaw] = useControlled<CityLensId>(props.lens, 'none', props.onLensChange);
+  const [chosenLens, setLensRaw] = useControlled<CityLensId>(props.lens, 'none', props.onLensChange);
   const [time, setTimeRaw] = useState<CityTime>(props.time ?? DEFAULT_TIME);
   const timeNow = props.time ?? time;
   const setTime = useCallback(
@@ -354,7 +380,13 @@ export function CityStage(props: CityStageProps) {
   const [roomOwn, setRoomOwn] = useState<string | undefined>(undefined);
   const [hover, setHover] = useState<{ t: CityTarget; at: { x: number; y: number } } | null>(null);
   const [pinned, setPinned] = useState<{ id: string; floors: number } | null>(null);
+  const hoverId = hover?.t.kind === 'context' ? (hover.t as { id: string }).id : undefined;
+  const attentionIds = useMemo(
+    () => [pinned?.id, hoverId].filter((x): x is string => !!x),
+    [pinned?.id, hoverId],
+  );
   const [toast, setToast] = useState<string | null>(null);
+  const [addedOwn, setAddedOwn] = useState(0);
   const [closing, setClosing] = useState<ReadonlySet<string>>(new Set());
   const [ownOverrides, setOwnOverrides] = useState<Record<string, Mm>>({});
   const overrides = useMemo(
@@ -386,19 +418,58 @@ export function CityStage(props: CityStageProps) {
     return () => clearTimeout(id);
   }, [overrides]);
 
+  const [placeOwn, setPlaceOwn] = useState<Placement | undefined>(undefined);
+  const placedHero = useMemo(
+    () => (props.hero ? applyPlacement(props.hero, props.placement ?? placeOwn) : props.hero),
+    [props.hero, props.placement, placeOwn],
+  );
   const model: CityModel = useMemo(
     () =>
       cityModel({
         ...(props.place ? { place: props.place } : {}),
         ...(props.tiles !== undefined ? { tiles: props.tiles } : {}),
         ...(props.roads ? { roads: props.roads } : {}),
-        ...(props.hero !== undefined ? { hero: props.hero } : {}),
+        ...(placedHero !== undefined ? { hero: placedHero } : {}),
         ...(props.compiled !== undefined ? { compiled: props.compiled } : {}),
         heightOverrides: overrides,
         ...(props.hideContextIds ? { hideContextIds: props.hideContextIds } : {}),
       }),
-    [props.place, props.tiles, props.roads, props.hero, props.compiled, overrides, props.hideContextIds],
+    [props.place, props.tiles, props.roads, placedHero, props.compiled, overrides, props.hideContextIds],
   );
+
+  // ------------------------------------------------------------------ placing (SPEC 27)
+  const placement = props.placement ?? placeOwn;
+  const checkOn = !!props.placeMode || placement !== undefined;
+  const siteCheck = useMemo(
+    () => (checkOn && model.hero ? placementCheck(model.hero, model.masses, model.place) : null),
+    [checkOn, model],
+  );
+  useEffect(() => {
+    if (siteCheck) props.onSiteCheck?.(siteCheck);
+  }, [siteCheck, props.onSiteCheck]);
+  const placingRef = useRef(false);
+  const commitPlacement = useCallback(
+    (next: Placement) => {
+      setPlaceOwn(next);
+      props.onPlacementChange?.(next);
+    },
+    [props.onPlacementChange],
+  );
+  const basePlacement = (): Placement | null => placement ?? (props.hero ? placementOf(props.hero) : null);
+  const onPlaceDrop = useCallback(
+    (move: EN, turn: number) => {
+      const base = placement ?? (props.hero ? placementOf(props.hero) : null);
+      if (!base || !model.hero) return;
+      const pivot = ringCentre(model.hero.prisms.flatMap((x) => x.ring)).c;
+      commitPlacement(movePlacement(base, pivot, move, turn));
+    },
+    [placement, props.hero, model.hero, commitPlacement],
+  );
+  const nudge = (move: EN, turn: number): void => onPlaceDrop(move, turn);
+  const setGround = (dMm: number): void => {
+    const b = basePlacement();
+    if (b) commitPlacement({ ...b, groundMm: (b.groundMm ?? 0) + dMm });
+  };
 
   // Choosing Lanterns eases the clock to 20:30 unless the person already chose a night hour (QA B1).
   const setLens = useCallback(
@@ -427,7 +498,15 @@ export function CityStage(props: CityStageProps) {
     [timeNow, model.place],
   );
   // Night look: the Yoru style, the Lanterns lens, or the sun well below the horizon.
-  const theme: Theme = style === 'yoru' || lens === 'lanterns' || sun.altitudeDeg < -4 ? 'yoru' : 'hiru';
+  const theme: Theme =
+    style === 'yoru' || chosenLens === 'lanterns' || sun.altitudeDeg < -4 ? 'yoru' : 'hiru';
+  // At night a sun lens has nothing to paint and would fight the lantern light (studio review
+  // S-B1): the stage shows Lanterns while it is dark and returns to the chosen lens by day. The
+  // chosen lens is kept, so turning back restores it.
+  const lens: CityLensId =
+    theme === 'yoru' && (chosenLens === 'radiation' || chosenLens === 'sun-hours' || chosenLens === 'shadows')
+      ? 'lanterns'
+      : chosenLens;
 
   // Analysis: given data, else the scene estimate, computed only when a lens needs it.
   const needSite = lens === 'radiation' || lens === 'sun-hours';
@@ -486,6 +565,7 @@ export function CityStage(props: CityStageProps) {
     (f: CityFocus | null) => {
       setOwnFocus(f);
       setZoom(1);
+      setPan([0, 0]);
       props.onFocusChange?.(f);
     },
     [props.onFocusChange],
@@ -589,6 +669,34 @@ export function CityStage(props: CityStageProps) {
   }, [sweepState, model.place, setTime, props.onSweepEnd]);
   const sweeping = !!sweepState;
 
+  // Moment 6: the shown step eases to the picked one over `--t-ori`, so each step reads as a bend.
+  const [photoPick, setPhotoPick] = useState<number | null>(null);
+  const photoTarget = photoPick ?? props.phototropic?.t ?? 0;
+  const [photoT, setPhotoT] = useState(photoTarget);
+  const photoFrom = useRef(photoT);
+  useEffect(() => {
+    if (reducedMotion) {
+      setPhotoT(photoTarget);
+      return;
+    }
+    const from = photoFrom.current;
+    const t0 = performance.now();
+    let raf = 0;
+    const step = (now: number): void => {
+      const k = Math.min(1, (now - t0) / 900);
+      const v = from + (photoTarget - from) * (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+      photoFrom.current = v;
+      setPhotoT(v);
+      if (k < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [photoTarget, reducedMotion]);
+  const photoSpec = props.phototropic ? { ...props.phototropic, t: photoT } : null;
+
+  // Pan (metres east, north) from two finger drags; reset with the ladder or a find.
+  const [pan, setPan] = useState<[number, number]>([0, 0]);
+  const [gesturing, setGesturing] = useState(false);
   const view = useMemo(() => {
     const v =
       focusRes?.kind === 'frame'
@@ -604,8 +712,26 @@ export function CityStage(props: CityStageProps) {
           });
     // With the daylight drawer out the camera pulls back so drawer and building both fit (QA B5).
     const drawerOut = (level === 'floor' || level === 'room') && lens === 'daylight';
-    return { ...v, halfH: v.halfH * zoom * (drawerOut ? 1.75 : 1) };
-  }, [focusRes, level, model.hero, model.cityBox, azimuth, aspect, storeyId, roomId, zoom, lens]);
+    return {
+      ...v,
+      target: [v.target[0] + pan[0], v.target[1], v.target[2] + pan[1]] as [number, number, number],
+      halfH: v.halfH * zoom * (drawerOut ? 1.75 : 1),
+      ...(gesturing ? { instant: true } : {}),
+    };
+  }, [
+    focusRes,
+    level,
+    model.hero,
+    model.cityBox,
+    azimuth,
+    aspect,
+    storeyId,
+    roomId,
+    zoom,
+    lens,
+    pan,
+    gesturing,
+  ]);
 
   // ------------------------------------------------------------------ input: drag, wheel, keys
   const drag = useRef<{ x: number; az: number } | null>(null);
@@ -616,16 +742,60 @@ export function CityStage(props: CityStageProps) {
     },
     [props.onAzimuthChange],
   );
+  // Touch: one finger turns (as the mouse), two fingers pinch to zoom and drag to pan (QA M4).
+  const touches = useRef(new Map<number, { x: number; y: number }>());
+  const pinch = useRef<{ d: number; mx: number; my: number; zoom: number; pan: [number, number] } | null>(
+    null,
+  );
+  const twoFinger = (): { d: number; mx: number; my: number } | null => {
+    const pts = [...touches.current.values()];
+    if (pts.length < 2) return null;
+    const [a, b] = pts as [{ x: number; y: number }, { x: number; y: number }];
+    return { d: Math.hypot(a.x - b.x, a.y - b.y), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2 };
+  };
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>): void => {
-    if (e.button !== 0 || (e.target as HTMLElement).tagName !== 'CANVAS') return;
+    if (placingRef.current) return;
+    if ((e.target as HTMLElement).tagName !== 'CANVAS') return;
+    touches.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const two = twoFinger();
+    if (two) {
+      drag.current = null;
+      pinch.current = { ...two, zoom, pan };
+      setGesturing(true);
+      return;
+    }
+    if (e.button !== 0) return;
     drag.current = { x: e.clientX, az: azimuth };
   };
   const onPointerMove = (e: ReactPointerEvent<HTMLDivElement>): void => {
+    if (touches.current.has(e.pointerId)) touches.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const two = twoFinger();
+    if (two && pinch.current) {
+      const p0 = pinch.current;
+      const z = Math.min(3, Math.max(0.3, p0.zoom * (p0.d / Math.max(10, two.d))));
+      setZoom(z);
+      // Screen motion to ground metres: right is (-cos az, sin az) east and north; up the screen is
+      // the look direction foreshortened by the elevation.
+      const mpp = (2 * view.halfH) / safeH;
+      const az = (azimuth * Math.PI) / 180;
+      const el = (view.elevationDeg * Math.PI) / 180;
+      const dx = (two.mx - p0.mx) * mpp;
+      const dy = ((two.my - p0.my) * mpp) / Math.max(0.3, Math.sin(el));
+      const right: [number, number] = [-Math.cos(az), Math.sin(az)];
+      const fwd: [number, number] = [-Math.sin(az), -Math.cos(az)];
+      setPan([p0.pan[0] - right[0] * dx + fwd[0] * dy, p0.pan[1] - right[1] * dx + fwd[1] * dy]);
+      return;
+    }
     if (!drag.current || e.buttons !== 1) return;
     const dx = e.clientX - drag.current.x;
     if (Math.abs(dx) > 3) onAz(drag.current.az - dx * 0.4);
   };
-  const onPointerUp = (): void => {
+  const onPointerUp = (e?: ReactPointerEvent<HTMLDivElement>): void => {
+    if (e) touches.current.delete(e.pointerId);
+    if (touches.current.size < 2 && pinch.current) {
+      pinch.current = null;
+      setGesturing(false);
+    }
     if (!drag.current) return;
     drag.current = null;
     onAz(Math.round(azimuth / 45) * 45);
@@ -638,6 +808,7 @@ export function CityStage(props: CityStageProps) {
     (l: ZoomLevel) => {
       if (focus) setFocus(null);
       setZoom(1);
+      setPan([0, 0]);
       setLadderLevel(l);
     },
     [focus, setFocus, setLadderLevel],
@@ -771,24 +942,12 @@ export function CityStage(props: CityStageProps) {
       ? model.masses.find((m) => m.id === (hover.t as { id: string }).id)
       : undefined;
   const pinnedMass = pinned ? model.masses.find((m) => m.id === pinned.id) : undefined;
-  const photoLabel = props.phototropic
-    ? props.phototropic.steps?.length
-      ? (() => {
-          const steps = props.phototropic.steps;
-          const k = steps.reduce(
-            (b, s, i) =>
-              Math.abs(s.t - props.phototropic!.t) < Math.abs(steps[b]!.t - props.phototropic!.t) ? i : b,
-            0,
-          );
-          const s = steps[k]!;
-          return `Evaluated design ${k + 1} of ${steps.length}: EUI ${s.euiKwhM2.toFixed(0)} kWh/m²·yr${s.label ? `, ${s.label}` : ''}`;
-        })()
-      : 'Sun bent variant: an illustration until the search runs'
-    : null;
   const storeyName = storeys.find((s) => s.id === storeyId)?.name;
   const room = model.hero?.rooms.find((r) => r.id === roomId);
   const detail: Partial<Record<ZoomLevel, string>> = {
-    ...(model.hero ? { building: focusRes?.kind === 'frame' ? 'Neighbour' : model.hero.name } : {}),
+    ...(model.hero
+      ? { building: focusRes?.kind === 'frame' ? 'Neighbour' : shortName(model.hero.name) }
+      : {}),
     ...(storeyName ? { floor: storeyName } : {}),
     ...(room ? { room: USE_LABEL[room.use ?? ''] ?? room.name ?? 'Room' } : {}),
   };
@@ -814,6 +973,96 @@ export function CityStage(props: CityStageProps) {
       enabled={enabled}
     />
   );
+  // ------------------------------------------------------------------ moment 7: the shadow you cast
+  const addedFloors = props.addedFloors ?? addedOwn;
+  const setAdded = (n: number): void => {
+    setAddedOwn(n);
+    props.onAddedFloorsChange?.(n);
+  };
+  const firstAbove = model.hero?.storeys.find((st) => !st.belowGrade);
+  const addedM = addedFloors * (firstAbove ? Math.max(2.6, firstAbove.z1 - firstAbove.z0) : 3.5);
+  const [cast, setCast] = useState<{ model: CityModel; addedM: number; losses: CastLoss[] } | null>(null);
+  useEffect(() => {
+    if (!model.hero || addedM <= 0) return;
+    if (cast?.model === model && cast.addedM === addedM) return;
+    let live = true;
+    const heroIds = new Set(model.hero.prisms.map((x) => x.id));
+    runKernel({
+      kind: 'cast',
+      hero: model.hero,
+      context: model.casters.filter((c) => !heroIds.has(c.id)),
+      receivers: model.masses.map((m) => ({
+        id: m.id,
+        ...(m.name ? { name: m.name } : {}),
+        ring: m.ring,
+        height: m.user ?? m.likely,
+      })),
+      addedM,
+      place: model.place,
+    }).then((r) => {
+      if (live && r.kind === 'cast') setCast({ model, addedM, losses: r.losses });
+    });
+    return () => {
+      live = false;
+    };
+  }, [model, addedM, cast]);
+  const losses =
+    addedM > 0 && cast?.model === model && cast.addedM === addedM
+      ? cast.losses.filter((l) => l.lostHours >= 0.05)
+      : [];
+  const castLosers = useMemo(() => losses.map((l) => l.id), [losses]);
+  const whatIf =
+    model.hero && (level === 'site' || level === 'building') ? (
+      <div
+        className="ib-city-panel ib-city-panel--pad"
+        style={{ display: 'grid', gap: 6, maxInlineSize: 220 }}
+      >
+        <b style={{ fontSize: 'var(--fs-ui)' }}>Your new floors</b>
+        <Stepper
+          id="city-added-floors"
+          value={addedFloors}
+          step={1}
+          min={0}
+          max={12}
+          onChange={setAdded}
+          label="floors"
+        />
+        <span className="ib-city-unit">Shows the winter sun it takes from neighbours</span>
+      </div>
+    ) : null;
+  const ribbon =
+    addedM > 0 && model.hero ? (
+      <div
+        className="ib-city-panel ib-city-note"
+        role="status"
+        style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', maxInlineSize: 520 }}
+      >
+        <PreviewStamp compact />
+        {cast?.model === model && cast.addedM === addedM ? (
+          losses.length ? (
+            <>
+              <span>Winter sun lost, 21 Dec:</span>
+              {losses.slice(0, 4).map((l) => (
+                <button
+                  key={l.id}
+                  type="button"
+                  className="ib-city-chip"
+                  style={{ minBlockSize: 32 }}
+                  onClick={() => setFocus({ kind: 'building', buildingId: l.id })}
+                >
+                  {l.name ?? 'Neighbour'} <span className="ib-city-num">{l.lostHours.toFixed(1)} h</span>
+                </button>
+              ))}
+              <span className="ib-city-unit">a day on their facades</span>
+            </>
+          ) : (
+            <span>No neighbour loses winter sun to {addedFloors} more floors.</span>
+          )
+        ) : (
+          <span>Working out whose sun you take</span>
+        )}
+      </div>
+    ) : null;
   const storeyStack =
     (level === 'floor' || level === 'room') && storeys.length ? (
       <StoreyStack
@@ -860,12 +1109,21 @@ export function CityStage(props: CityStageProps) {
         spec={computing ? { ...legend, method: `${legend.method}; computing, rough until it lands` } : legend}
       />
     ) : null;
-  const standInEl =
-    model.standIn.context || model.standIn.hero ? (
-      <PreviewStamp
-        title={`Stand in ${[model.standIn.context ? 'city' : '', model.standIn.hero ? 'building' : ''].filter(Boolean).join(' and ')}: shaped like the real data, not measured.`}
-      />
-    ) : null;
+  const hasEstimated = model.masses.some((m) => m.user === undefined && m.hi - m.likely > 0.25);
+  const standInEl = (
+    <>
+      {model.standIn.context || model.standIn.hero ? (
+        <PreviewStamp
+          title={`${model.standIn.context ? 'Approximate neighbourhood' : 'Example building'}${model.standIn.context && model.standIn.hero ? ' and example building' : ''}: shaped like real data, not measured.`}
+        />
+      ) : null}
+      {hasEstimated ? (
+        <span className="ib-city-unit" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <span className="ib-city-dashed" aria-hidden="true" /> Dashed tops: estimated heights
+        </span>
+      ) : null}
+    </>
+  );
   const compassEl = (
     <Compass
       azimuthDeg={azimuth}
@@ -896,6 +1154,7 @@ export function CityStage(props: CityStageProps) {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
+      onPointerCancel={onPointerUp}
       onWheel={onWheel}
       style={{
         position: 'relative',
@@ -948,7 +1207,7 @@ export function CityStage(props: CityStageProps) {
             radiationDomain={radDomain}
             daylight={daylight}
             lanterns={lanterns}
-            phototropic={props.phototropic ?? null}
+            phototropic={photoSpec}
             penumbra={props.penumbra ?? true}
             closing={closing}
             settings={settings}
@@ -956,6 +1215,17 @@ export function CityStage(props: CityStageProps) {
             onHover={onHover}
             onPick={onPick}
             highlight={highlight}
+            addedFloorsM={addedM}
+            castLosers={castLosers}
+            attentionIds={attentionIds}
+            placeMode={!!props.placeMode}
+            groundM={(placement?.groundMm ?? 0) / 1000}
+            onPlaceDrop={onPlaceDrop}
+            onPlaceDrag={(a) => {
+              placingRef.current = a;
+              if (a) drag.current = null;
+            }}
+            siteCheck={siteCheck}
             {...(props.stats ? { stats: props.stats } : {})}
           />
           <PerformanceMonitor
@@ -1027,6 +1297,7 @@ export function CityStage(props: CityStageProps) {
             {ladderEl}
           </div>
           {storeyStack ? <div style={{ position: 'absolute', left: 124, top: 16 }}>{storeyStack}</div> : null}
+          {whatIf ? <div style={{ position: 'absolute', left: 16, top: 340 }}>{whatIf}</div> : null}
           <div style={{ position: 'absolute', right: 16, top: 16, maxWidth: 'calc(100% - 180px)' }}>
             <LensChips lens={lens} onLens={setLens} />
           </div>
@@ -1073,6 +1344,7 @@ export function CityStage(props: CityStageProps) {
             {ladderEl}
           </div>
           {storeyStack ? <div style={{ position: 'absolute', left: 12, top: 72 }}>{storeyStack}</div> : null}
+          {whatIf ? <div style={{ position: 'absolute', left: 12, top: 72 }}>{whatIf}</div> : null}
           <div style={{ position: 'absolute', right: 12, top: 12, maxWidth: '52%' }}>
             <LensChips lens={lens} onLens={setLens} />
           </div>
@@ -1143,6 +1415,7 @@ export function CityStage(props: CityStageProps) {
             {ladderEl}
             {storeyStack ? <div style={{ display: 'flex' }}>{storeyStack}</div> : null}
             <LensChips lens={lens} onLens={setLens} />
+            {whatIf}
             {timeStrip}
             {legendEl}
           </section>
@@ -1180,12 +1453,35 @@ export function CityStage(props: CityStageProps) {
         </div>
       ) : null}
 
-      {photoLabel ? (
+      {ribbon ? (
         <div
-          className="ib-city-panel ib-city-note"
-          style={{ position: 'absolute', left: insets.left, top: insets.top }}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            top: insets.top + (props.phototropic ? 120 : 0),
+          }}
         >
-          {props.phototropic?.steps?.length ? null : <PreviewStamp compact />} {photoLabel}
+          {ribbon}
+        </div>
+      ) : null}
+      {props.phototropic ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: insets.left,
+            top: insets.top,
+            maxWidth: `calc(100% - ${insets.left + 16}px)`,
+          }}
+        >
+          <SunBentStrip
+            spec={props.phototropic}
+            t={photoTarget}
+            onPick={(t) => {
+              setPhotoPick(t);
+              props.onPhototropicChange?.(t);
+            }}
+          />
         </div>
       ) : null}
 
@@ -1212,6 +1508,18 @@ export function CityStage(props: CityStageProps) {
           {storeys.find((s) => s.id === hoverRoom.storeyId)?.name}{' '}
           <span className="ib-city-num">{Math.round(Math.abs(ringArea(hoverRoom.ring)))} m²</span>
         </div>
+      ) : null}
+      {props.placeMode && model.hero ? (
+        <PlacePanel
+          style={{ position: 'absolute', left: insets.left, top: insets.top }}
+          check={siteCheck}
+          names={(id) => model.masses.find((m) => m.id === id)?.name}
+          bearingDeg={(placement?.rotationMdeg ?? props.hero?.rotationMdeg ?? 0) / 1000}
+          groundM={(placement?.groundMm ?? 0) / 1000}
+          azimuthDeg={azimuth}
+          onNudge={nudge}
+          onGround={setGround}
+        />
       ) : null}
       {pinnedMass && pinned ? (
         <div style={{ position: 'absolute', left: insets.left, top: insets.top }}>
@@ -1245,4 +1553,11 @@ export function CityStage(props: CityStageProps) {
 
 function drawnHeightOf(m: { user?: number; likely: number }): number {
   return m.user ?? m.likely;
+}
+
+/** A ladder-sized building name: drop parentheticals and codes, keep at most two words. */
+export function shortName(name: string): string {
+  const clean = name.replace(/\s*\(.*?\)\s*/g, ' ').trim();
+  const words = clean.split(/\s+/).filter((w) => !/^(GB|GH)\d+$/i.test(w));
+  return words.slice(0, 2).join(' ') || name;
 }

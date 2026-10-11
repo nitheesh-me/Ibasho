@@ -3,11 +3,33 @@
  * glossary audits) can check all of it at once. Owner: WP-09.
  */
 import { GLOSSARY } from './glossary.ts';
-import { LANDING_CHAPTERS, LANDING_INVITATION, LANDING_META } from './landing/chapters.ts';
+import { BUILDING_TYPE_COPY } from './building-types.ts';
+import {
+  LANDING_AUDIENCE_INTRO,
+  LANDING_AUDIENCES,
+  LANDING_CHAPTERS,
+  LANDING_FOOTER,
+  LANDING_HERO_CAPTION,
+  LANDING_INVITATION,
+  LANDING_META,
+  LANDING_TAGLINE,
+} from './landing/chapters.ts';
 import { ACCREDITATIONS } from './measures/accreditations.ts';
 import { ASSESSMENT_GUIDANCE } from './measures/assessments.ts';
 import { MEASURE_GUIDANCE } from './measures/guidance.ts';
 import { PROOFS_INTRO } from './proofs.ts';
+import {
+  APPLICABILITY_COPY,
+  GAP_COPY,
+  GOAL_PRESET_COPY,
+  OBJECTIVE_COPY,
+  PRECHECK_WORD,
+  RATING_COPY,
+  STAGE_COPY,
+  STAGE_STATUS_WORD,
+  STUDIO_COPY,
+  TIER_WORD,
+} from './studio.ts';
 import type { AssessmentGuidance, MeasureGuidance } from './types.ts';
 import { VOICE } from './voice.ts';
 
@@ -26,6 +48,35 @@ function guidanceCopy(prefix: string, g: MeasureGuidance | AssessmentGuidance): 
     { path: `${prefix}.next.installer`, text: g.next.installer },
     { path: `${prefix}.next.why`, text: g.next.why },
     ...g.next.questions.map((text, i) => ({ path: `${prefix}.next.questions.${i}`, text })),
+  ];
+}
+
+/** Flatten a record of strings or string-valued objects into copy items. */
+function flat(prefix: string, rec: object): CopyItem[] {
+  return Object.entries(rec).flatMap(([k, v]): CopyItem[] => {
+    if (typeof v === 'string') return [{ path: `${prefix}.${k}`, text: v }];
+    if (Array.isArray(v)) return v.map((text, i) => ({ path: `${prefix}.${k}.${i}`, text: String(text) }));
+    if (v && typeof v === 'object') return flat(`${prefix}.${k}`, v);
+    return [];
+  });
+}
+
+/** v3 studio microcopy and building type copy. */
+function studioCopy(): CopyItem[] {
+  return [
+    ...flat('studio.stage', STAGE_COPY),
+    ...flat('studio.status', STAGE_STATUS_WORD),
+    ...flat('studio.tier', TIER_WORD),
+    ...flat('studio.applicability', APPLICABILITY_COPY),
+    ...flat('studio.precheck', PRECHECK_WORD),
+    ...flat('studio.gap', GAP_COPY),
+    ...flat('studio.rating', RATING_COPY),
+    ...flat('studio.objective', OBJECTIVE_COPY),
+    ...flat('studio.goal', GOAL_PRESET_COPY),
+    ...flat('studio', STUDIO_COPY),
+    ...Object.values(BUILDING_TYPE_COPY).flatMap((t) =>
+      flat(`types.${t.id}`, { label: t.label, one: t.one, plural: t.plural, blurb: t.blurb, people: t.people, watch: t.watch, usualGoals: t.usualGoals }),
+    ),
   ];
 }
 
@@ -55,6 +106,21 @@ export function collectCopy(): CopyItem[] {
       ...c.body.map((text, i) => ({ path: `${p}.body.${i}`, text })),
     );
     if (c.poster) out.push({ path: `${p}.poster.alt`, text: c.poster.alt });
+    if (c.link) out.push({ path: `${p}.link`, text: c.link.label });
+  }
+  out.push(
+    { path: 'landing.audience.title', text: LANDING_AUDIENCE_INTRO.title },
+    { path: 'landing.audience.line', text: LANDING_AUDIENCE_INTRO.line },
+    { path: 'landing.footer', text: LANDING_FOOTER },
+    { path: 'landing.hero.caption', text: LANDING_HERO_CAPTION },
+    { path: 'landing.tagline', text: LANDING_TAGLINE },
+  );
+  for (const a of LANDING_AUDIENCES) {
+    out.push(
+      { path: `landing.audience.${a.id}.who`, text: a.who },
+      { path: `landing.audience.${a.id}.need`, text: a.need },
+      { path: `landing.audience.${a.id}.link`, text: a.link.label },
+    );
   }
   out.push(
     { path: 'landing.invitation.title', text: LANDING_INVITATION.title },
@@ -77,6 +143,7 @@ export function collectCopy(): CopyItem[] {
   for (const [k, text] of Object.entries(pr.groups)) out.push({ path: `proofs.groups.${k}`, text });
   out.push({ path: 'proofs.boundary.title', text: pr.boundary.title });
   for (const [i, text] of pr.boundary.items.entries()) out.push({ path: `proofs.boundary.items.${i}`, text });
+  out.push(...studioCopy());
   out.push({ path: 'voice.persona', text: VOICE.persona });
   for (const [i, p] of VOICE.principles.entries()) {
     out.push(

@@ -3,11 +3,11 @@
  * and ventilation, with fan-first comfort and a range that widens for unknowns (R33). It is a
  * plausible stand-in shaped exactly like WP-18's output; it is never sealed (R26).
  */
-import type { CompiledBuilding, EndUse, FacadeBin, SiteResult, ZoneTwin } from '@ibasho/core';
+import type { CompiledBuilding, EndUse, EnergyParams, SiteResult, ZoneTwin } from '@ibasho/core';
 import { END_USES, facadeBin, isZoneTwin, Q } from '@ibasho/core';
 import type { MonthlyClimate } from './climate.gen.ts';
 import { surfaceSun } from './solar.ts';
-import { DWELLING, loadsFor } from './space-types.ts';
+import { ACADEMIC_TERM, DWELLING, loadsFor } from './space-types.ts';
 
 const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 /** Domestic hot water demand by month relative to the mean (winter showers, Hyderabad). */
@@ -26,23 +26,8 @@ export const STANDARD_DESIGN: EnergyParams = {
   roofAbsorptance: 0.6,
 };
 
-/** Design levers the optimiser turns (all optional; defaults are the building as drawn). */
-export interface EnergyParams {
-  wwrScale?: Partial<Record<FacadeBin, number>>;
-  shgc?: number;
-  uWin?: number;
-  uWall?: number;
-  uRoof?: number;
-  roofAbsorptance?: number;
-  /** Extra projection factor from new overhangs, per facade bin. */
-  pf?: Partial<Record<FacadeBin, number>>;
-  lpdScale?: number;
-  setpointC?: number;
-  daylightControls?: boolean;
-  pvKwp?: number;
-  /** Share of domestic hot water from solar heaters (0 to 1). */
-  dhwSolarShare?: number;
-}
+/** Design levers (the contract lives in `@ibasho/core`; re-exported here for older imports). */
+export type { EnergyParams };
 
 export interface EnergyCore {
   /** Wh per month per end use (PV negative). */
@@ -172,12 +157,16 @@ export function energyModel(
         const irr = irrFor(s.azimuthMdeg);
         const sh = shadeOf.get(s.id);
         const pfCut = 1 - Math.min(0.6, (p.pf?.[bin] ?? 0) * 0.9);
+        // Internal blinds or curtains in use while occupied cut admitted sun by about a quarter.
+        const blinds = DWELLING.has(z.spaceTypeIds[0] ?? '') ? 0.85 : 0.75;
         for (let m = 0; m < 12; m++)
-          solar[m] = (solar[m] as number) + area * shgc * (irr[m] as number) * (sh?.[m] ?? 1) * pfCut;
+          solar[m] =
+            (solar[m] as number) + area * shgc * (irr[m] as number) * (sh?.[m] ?? 1) * pfCut * blinds;
       }
     }
     for (let m = 0; m < 12; m++) {
-      const occH = (loads.hours * loads.days * (DAYS[m] as number)) / 7;
+      const term = loads.term ? (ACADEMIC_TERM[m] as number) : 1;
+      const occH = (loads.hours * loads.days * (DAYS[m] as number) * term) / 7;
       const dl = p.daylightControls && loads.lpd >= 8 ? 0.78 : 1;
       // Diversity: lights and plug loads are not all on for every occupied hour (24/7 loads are).
       const light = loads.lpd * (p.lpdScale ?? 1) * dl * a * occH * (always ? 1 : 0.75);
@@ -193,7 +182,7 @@ export function energyModel(
         const dT = Math.max(0, 16 - tm);
         const hloss = (uaWall + uaWin + roofA * uRoof + 0.33 * 0.7 * vol) * dT * 24 * (DAYS[m] as number);
         const gains = (light + equip) * 0.5 + (solar[m] as number) * 0.5;
-        wh.heating[m] = (wh.heating[m] as number) + Math.max(0, hloss - gains) / 0.85;
+        wh.heating[m] = (wh.heating[m] as number) + Math.max(0, hloss - gains) / (p.heatPumpScop ?? 0.85);
         continue;
       }
       // Homes switch the AC on only in warm months (fans first, R40); offices run it all year.
@@ -203,10 +192,15 @@ export function energyModel(
       const conduction = (uaWall + uaWin) * dT * acH;
       const solAir = tm + (absorb * (roofIrr[m] as number)) / ((DAYS[m] as number) * 12 * 25);
       const roofG = roofA * uRoof * Math.max(0, solAir - sp) * acH;
-      const vent = 0.33 * 1.5 * vol * dT * acH * (1 + Math.max(0, rh - 60) / 80);
+      // Outdoor air by ASHRAE 62.1 rates (2.5 L/s a person at 60% diversity plus 0.3 L/s per m²,
+      // about 9 and 1.08 m³/h) plus 0.3 air changes of infiltration; latent load grows with humidity.
+      const airM3h = (always ? 0 : 9 * loads.occ * 0.6 * a + 1.08 * a) + 0.3 * vol;
+      const vent = 0.33 * airM3h * dT * acH * (1 + Math.max(0, rh - 60) / 80);
+      // People: 75 W sensible each, at 60% diversity outside 24 hour spaces.
       const internal =
-        (light + equip) * 0.9 * (always ? 1 : loads.acShare * homeUse) + 75 * loads.occ * a * acH;
-      const solarG = (solar[m] as number) * Math.min(1, loads.hours / 10) * loads.acShare * homeUse;
+        (light + equip) * 0.9 * (always ? 1 : loads.acShare * homeUse) +
+        75 * loads.occ * (always ? 1 : 0.6) * a * acH;
+      const solarG = (solar[m] as number) * Math.min(1, loads.hours / 10) * loads.acShare * homeUse * term;
       const thermal = Math.max(0, conduction + roofG + vent + internal + solarG);
       const cop = loads.epd > 200 ? 2.6 : sys.cop * (1 + (sp - 24) * 0.03);
       const elec = thermal / cop;
@@ -223,7 +217,7 @@ export function energyModel(
     // mostly in winter (Hyderabad), less any solar share. Non-residential hot water is negligible.
     const litres = dwellers * 20 * (heatingClimate ? 1 : (DHW_SEASON_HYD[m] as number)) * (DAYS[m] as number);
     waterL[m] = litres + (persons - dwellers) * 15 * (DAYS[m] as number) * (5 / 7);
-    wh['hot-water'][m] = (litres * 4.186 * 20 * (1 - (p.dhwSolarShare ?? 0))) / 3.6 / 0.9;
+    wh['hot-water'][m] = (litres * 4.186 * 20 * (1 - (p.dhwSolarShare ?? 0))) / 3.6 / (p.heatPumpScop ?? 0.9);
     wh.other[m] =
       ((wh.lighting[m] as number) + (wh.equipment[m] as number)) * (t.zones.length > 8 ? 0.03 : 0.01);
     const kwp = p.pvKwp ?? 0;
@@ -231,8 +225,10 @@ export function energyModel(
     // Cooling at its peak runs about 1.5 times its occupied-hours mean.
     peakKw[m] = baseKw + ((coolDay[m] as number) * 1.5 + (coolAlways[m] as number) * 1.2) / 1000;
   }
+  // Share of occupied (daytime) hours above a set point: daytime indoor temperature is taken as the
+  // monthly mean plus 4 K with a spread of about 2.5 K (logistic), so 24 and 26 C differ.
   const hot = (s: number) =>
-    clim.tC.reduce((acc, tm, m) => acc + (tm + 4 > s ? (DAYS[m] as number) : 0), 0) / 365;
+    clim.tC.reduce((acc, tm, m) => acc + (DAYS[m] as number) / (1 + Math.exp(-(tm + 4 - s) / 1.4)), 0) / 365;
   for (const z of t.zones.filter((zz) => zz.conditioned).slice(0, 8)) {
     const { loads } = loadsFor(z.spaceTypeIds[0]);
     const occupied = Math.round(loads.hours * loads.days * 52);
@@ -257,7 +253,7 @@ export function energyModel(
     persons,
     spread: 0.16 + 0.3 * untypedShare,
     untypedShare,
-    heatingFuel: heatingClimate ? 'gas' : 'none',
+    heatingFuel: heatingClimate ? (p.heatPumpScop ? 'electricity' : 'gas') : 'none',
     waterL,
     todShare: {
       peak: 0.25 * dayShare + (8 / 24) * (1 - dayShare),

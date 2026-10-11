@@ -1343,7 +1343,11 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "LH 1",
+            "LH 2",
+            "LH 7",
+            "LH 8"
           ],
           "spaceTypeId": "assembly"
         },
@@ -1429,7 +1433,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 101",
+            "Room 101",
+            "Classroom 102",
+            "Room 102",
+            "Classroom 103",
+            "Room 103",
+            "Classroom 104",
+            "Room 104",
+            "Classroom 105",
+            "Room 105"
           ],
           "spaceTypeId": "classroom"
         },
@@ -1515,7 +1529,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 101",
+            "Room 101",
+            "Classroom 102",
+            "Room 102",
+            "Classroom 103",
+            "Room 103",
+            "Classroom 104",
+            "Room 104",
+            "Classroom 105",
+            "Room 105"
           ],
           "spaceTypeId": "classroom"
         },
@@ -1601,7 +1625,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 101",
+            "Room 101",
+            "Classroom 102",
+            "Room 102",
+            "Classroom 103",
+            "Room 103",
+            "Classroom 104",
+            "Room 104",
+            "Classroom 105",
+            "Room 105"
           ],
           "spaceTypeId": "classroom"
         },
@@ -1687,7 +1721,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 101",
+            "Room 101",
+            "Classroom 102",
+            "Room 102",
+            "Classroom 103",
+            "Room 103",
+            "Classroom 104",
+            "Room 104",
+            "Classroom 105",
+            "Room 105"
           ],
           "spaceTypeId": "classroom"
         },
@@ -3048,7 +3092,11 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "LH 3",
+            "LH 4",
+            "LH 9",
+            "LH 10"
           ],
           "spaceTypeId": "assembly"
         },
@@ -3134,7 +3182,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 201",
+            "Room 201",
+            "Classroom 202",
+            "Room 202",
+            "Classroom 203",
+            "Room 203",
+            "Classroom 204",
+            "Room 204",
+            "Classroom 205",
+            "Room 205"
           ],
           "spaceTypeId": "classroom"
         },
@@ -3220,7 +3278,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 201",
+            "Room 201",
+            "Classroom 202",
+            "Room 202",
+            "Classroom 203",
+            "Room 203",
+            "Classroom 204",
+            "Room 204",
+            "Classroom 205",
+            "Room 205"
           ],
           "spaceTypeId": "classroom"
         },
@@ -3306,7 +3374,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 201",
+            "Room 201",
+            "Classroom 202",
+            "Room 202",
+            "Classroom 203",
+            "Room 203",
+            "Classroom 204",
+            "Room 204",
+            "Classroom 205",
+            "Room 205"
           ],
           "spaceTypeId": "classroom"
         },
@@ -3392,7 +3470,17 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 201",
+            "Room 201",
+            "Classroom 202",
+            "Room 202",
+            "Classroom 203",
+            "Room 203",
+            "Classroom 204",
+            "Room 204",
+            "Classroom 205",
+            "Room 205"
           ],
           "spaceTypeId": "classroom"
         },
@@ -4323,7 +4411,12 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafe",
+            "Café",
+            "Cafeteria",
+            "Pantry",
+            "Accelerators"
           ],
           "spaceTypeId": "office-open"
         },
@@ -4408,7 +4501,12 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafe",
+            "Café",
+            "Cafeteria",
+            "Pantry",
+            "Accelerators"
           ],
           "spaceTypeId": "office-open"
         },
@@ -4493,7 +4591,12 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafe",
+            "Café",
+            "Cafeteria",
+            "Pantry",
+            "Accelerators"
           ],
           "spaceTypeId": "office-open"
         },
@@ -4578,7 +4681,12 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafe",
+            "Café",
+            "Cafeteria",
+            "Pantry",
+            "Accelerators"
           ],
           "spaceTypeId": "office-open"
         },
@@ -4663,7 +4771,12 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafe",
+            "Café",
+            "Cafeteria",
+            "Pantry",
+            "Accelerators"
           ],
           "spaceTypeId": "office-open"
         },
@@ -4749,7 +4862,11 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "LH 5",
+            "LH 6",
+            "LH 11",
+            "LH 12"
           ],
           "spaceTypeId": "assembly"
         },
@@ -4835,7 +4952,15 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 301",
+            "Room 301",
+            "Classroom 302",
+            "Room 302",
+            "Classroom 303",
+            "Room 303",
+            "Classroom 304",
+            "Room 304"
           ],
           "spaceTypeId": "classroom"
         },
@@ -4921,7 +5046,15 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 301",
+            "Room 301",
+            "Classroom 302",
+            "Room 302",
+            "Classroom 303",
+            "Room 303",
+            "Classroom 304",
+            "Room 304"
           ],
           "spaceTypeId": "classroom"
         },
@@ -5007,7 +5140,15 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 301",
+            "Room 301",
+            "Classroom 302",
+            "Room 302",
+            "Classroom 303",
+            "Room 303",
+            "Classroom 304",
+            "Room 304"
           ],
           "spaceTypeId": "classroom"
         },
@@ -5093,7 +5234,15 @@
             "Bodh block",
             "Lecture halls",
             "Lecture hall",
-            "LH"
+            "LH",
+            "Classroom 301",
+            "Room 301",
+            "Classroom 302",
+            "Room 302",
+            "Classroom 303",
+            "Room 303",
+            "Classroom 304",
+            "Room 304"
           ],
           "spaceTypeId": "classroom"
         },
@@ -6024,7 +6173,10 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafeteria",
+            "Faculty cabins",
+            "PhD rooms"
           ],
           "spaceTypeId": "office-open"
         },
@@ -6109,7 +6261,10 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafeteria",
+            "Faculty cabins",
+            "PhD rooms"
           ],
           "spaceTypeId": "office-open"
         },
@@ -6194,7 +6349,10 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafeteria",
+            "Faculty cabins",
+            "PhD rooms"
           ],
           "spaceTypeId": "office-open"
         },
@@ -6279,7 +6437,10 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafeteria",
+            "Faculty cabins",
+            "PhD rooms"
           ],
           "spaceTypeId": "office-open"
         },
@@ -6364,7 +6525,10 @@
             "Block D",
             "D Block",
             "Himalaya D Block",
-            "Incubator block"
+            "Incubator block",
+            "Cafeteria",
+            "Faculty cabins",
+            "PhD rooms"
           ],
           "spaceTypeId": "office-open"
         },

@@ -3,6 +3,7 @@
  * Each is a candidate for `@ibasho/core` (requested on the blackboard, INTERFACES).
  */
 import type { Mm, PointMm } from '@ibasho/core';
+import type { ClaimSealProps } from '@ibasho/ui';
 
 /** The scale ladder (PLAN-V3 5). */
 export type ZoomLevel = 'city' | 'site' | 'building' | 'floor' | 'room';
@@ -58,6 +59,10 @@ export interface PhototropicSpec {
   /** Fin depth on low sun facades at t = 1, metres. */
   finDepthM?: number;
   steps?: readonly { t: number; euiKwhM2: number; label?: string }[];
+  /** The steps come from Preview data: the strip says so and no seal presses. */
+  preview?: boolean;
+  /** The verified claim for the final step (real search only): the seal presses on it. */
+  claim?: ClaimSealProps['claim'];
 }
 
 /** What a pick or hover resolves to. */

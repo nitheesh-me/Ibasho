@@ -19,7 +19,7 @@
     }
   ],
   "status": {
-    "layout": "measured: rectangles fitted to the OSM outline and its four courts (footprint IoU tested at 0.8 or more); wing rooms per RB 3.2",
+    "layout": "Measured: rectangles fitted to the OpenStreetMap outline and its four courtyards; wing rooms from the campus floor plans",
     "names": "read: room functions from the plan sheets (RB 3.2), functions only, no personal names",
     "floorToFloor": "assumed 3.9 m",
     "origin": "OSM outer ring centroid in the city-hyderabad frame; rotation 41.7 degrees",

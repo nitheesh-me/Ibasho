@@ -18,12 +18,12 @@ import { PreviewStamp } from './Preview.tsx';
 
 export const STAGE_LABEL: Record<StageId, string> = {
   geometry: 'Geometry',
-  sun: 'Sun and shadows',
+  sun: 'Sun',
   radiation: 'Radiation',
   daylight: 'Daylight',
   energy: 'Energy',
   codes: 'Codes',
-  optimise: 'Options',
+  optimise: 'Search',
 };
 
 const STATUS_WORD: Record<StageStatus, string> = {
@@ -132,8 +132,10 @@ export function StageBar({ state, message, onCancel, compact = false, cancelAfte
         <span className="ib-stagebar__ink" style={{ inlineSize: `${pct}%` }} />
       </div>
       <p className="ib-stagebar__msg" aria-live="polite">
-        {message ?? (running ? 'Working' : doneAll ? 'Up to date' : 'Ready')}
-        {running && long ? (
+        {compact && running && current
+          ? STAGE_LABEL[current.id]
+          : (message ?? (running ? 'Working' : doneAll ? 'Up to date' : 'Ready'))}
+        {running && long && !compact ? (
           <code className="ib-stagebar__meta">
             {' '}
             {pct}%{eta !== undefined ? `, about ${Math.max(1, Math.round(eta / 1000))} s left` : ''}

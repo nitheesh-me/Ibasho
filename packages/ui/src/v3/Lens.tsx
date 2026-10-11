@@ -168,14 +168,16 @@ export function LensPanel(p: LensPanelProps) {
       <div className="ib-lens__result">
         {p.legend}
         {p.keys.length ? (
-          <ul className="ib-lens__keys">
+          <dl className="ib-lens__keys">
             {p.keys.slice(0, 3).map((k) => (
-              <li key={k.label}>
-                <span className="ib-lens__key-label">{k.label}</span>
-                <Num ev={k.ev} />
-              </li>
+              <div key={k.label}>
+                <dt className="ib-lens__key-label">{k.label}</dt>
+                <dd>
+                  <Num ev={k.ev} />
+                </dd>
+              </div>
             ))}
-          </ul>
+          </dl>
         ) : null}
         {p.histogram}
       </div>

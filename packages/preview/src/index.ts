@@ -5,20 +5,32 @@
 import type { IbashoModule } from '@ibasho/core';
 import { PREVIEW_PROVIDERS } from './providers.ts';
 
+export { type HeadlineBill, headlineBill } from './bill.ts';
 export {
   climateOf,
+  codePacksFor,
   computeCodes,
   computeEnergy,
   computeGeometry,
   computeOptimise,
   computeSite,
   DEFAULT_PLACE,
+  FHS_NOTIONAL,
   moneyOf,
+  type PlacementChange,
+  placementChange,
   providerId,
+  stagesForPlacementChange,
   stampFor,
+  UK_NOTIONAL_DWELLING,
+  UK_NOTIONAL_NONDOM,
 } from './compute.ts';
 export { CLIMATES, type MonthlyClimate } from './model/climate.gen.ts';
+export { inCentralLondon, inGreaterLondon, isNewBuildUk } from './model/codes-uk.ts';
+export type { EnergyParams } from './model/energy.ts';
+export { type GapInputs, goalGap, goalGaps } from './model/gaps.ts';
 export { LEVERS } from './model/optimise.ts';
+export { PARAM_PRESETS, pvKwpFor } from './model/params.ts';
 export { SPACE_LOADS } from './model/space-types.ts';
 export {
   PREVIEW_PROVIDERS,
@@ -34,6 +46,7 @@ export {
 } from './providers.ts';
 export {
   createPreviewStudio,
+  DEFAULT_DEVICE_FACTOR,
   type JobInputs,
   type JobOutcome,
   PreviewAbort,

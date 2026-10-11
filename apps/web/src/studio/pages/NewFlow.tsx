@@ -141,6 +141,14 @@ export function NewFlow() {
 
   return (
     <div className="st-new">
+      <p className="st-steps-phone" aria-hidden="true">
+        <span>
+          Step {step + 1} of {STEPS.length}: {STEPS[step]}
+        </span>
+        <span className="st-steps-phone__line">
+          <span style={{ inlineSize: `${((step + 1) / STEPS.length) * 100}%` }} />
+        </span>
+      </p>
       <ol className="st-steps" aria-label="Steps">
         {STEPS.map((s, i) => (
           <li key={s} data-state={i < step ? 'done' : i === step ? 'here' : 'next'}>
@@ -181,13 +189,6 @@ export function NewFlow() {
                 </button>
               ))}
             </fieldset>
-            <details className="st-pro">
-              <summary>Drop a pin instead (Pro)</summary>
-              <p className="st-note">
-                Latitude and longitude, true north offset and terrain datum arrive with the city packs; the
-                nearest pack loads first.
-              </p>
-            </details>
             <div className="st-new__nav">
               <Link to="/" className="ib-link">
                 Cancel

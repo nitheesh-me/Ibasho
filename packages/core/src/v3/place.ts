@@ -25,6 +25,11 @@ export interface Place {
   lineage?: { from: string; at: IsoDate };
   /** Sample places shipped with the app (IIIT campus, London terrace, HITEC City office). */
   sample?: true;
+  /**
+   * Buildings of interest kept out of the default view: list or show the place only when someone
+   * searches for it or picks it, and load its city area lazily then.
+   */
+  onDemand?: true;
 }
 
 export type HeightSource = 'user' | 'osm-height' | 'osm-levels' | 'open-buildings' | 'overture' | 'unknown';

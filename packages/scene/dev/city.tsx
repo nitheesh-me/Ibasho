@@ -1,10 +1,11 @@
 /**
  * Dev harness for `<CityStage>` (WP-07, V-P): GB1 Vindhya (compiled by `@ibasho/plan`) on the
  * real `city-hyderabad` pack tiles (OSM). Not shipped. `?standin=1` uses the scene's stand ins.
+ * `?place=1` turns on placing (SPEC 27); `?compare=1` shows three plots or bearings side by side.
  * URL parameters drive captures:
  *   ?level=city|site|building|floor|room&lens=none|shadows|sun-hours|radiation|daylight|lanterns
  *   &style=washi|yoru|svg&date=2026-03-21&min=630&az=135&photo=0..1&tier=0..3&reduced=1
- *   &controls=0&sweep=1&close=<context id>:<mm>&focus=building|storey:<id>|room:<id>|<context id>
+ *   &floors=<n> (moment 7)&controls=0&sweep=1&close=<context id>:<mm>&focus=building|storey:<id>|room:<id>|<context id>
  */
 import type { BuildingDoc, CityTile, CompiledBuilding, Mm, QualityTier } from '@ibasho/core';
 import '@ibasho/ui/andon.css';
@@ -14,6 +15,7 @@ import { HERO_CONTEXT_IDS, loadCityTiles } from '../../../packs/city-hyderabad/s
 import gb1 from '../../fixtures/src/buildings/gb1.building.json' with { type: 'json' };
 import { compile } from '../../plan/src/index.ts';
 import {
+  CityCompare,
   type CityFocus,
   type CityLensId,
   CityStage,
@@ -68,6 +70,31 @@ function App() {
     minutes: Number(q.get('min') ?? 630),
   });
   const [focus, setFocus] = useState<CityFocus | null>(q.get('focus') ? focusOf(q.get('focus')!) : null);
+  if (tiles !== null && q.get('compare') === '1') {
+    const base = standIn
+      ? {}
+      : { tiles, hero: doc, hideContextIds: HERO_CONTEXT_IDS.gb1 ?? [], ...(compiled ? { compiled } : {}) };
+    const o = doc.origin;
+    const r = doc.rotationMdeg;
+    return (
+      <div style={{ height: '100vh' }}>
+        <CityCompare
+          base={base}
+          options={[
+            { id: 'a', label: 'As drawn', placement: { origin: o, rotationMdeg: r } },
+            { id: 'b', label: 'Turned 90°', placement: { origin: o, rotationMdeg: r + 90_000 } },
+            {
+              id: 'c',
+              label: 'Plot 250 m east',
+              placement: { origin: { x: o.x + 250_000, y: o.y }, rotationMdeg: r },
+            },
+          ]}
+          level={(q.get('level') as ZoomLevel) ?? 'site'}
+          lens={(q.get('lens') as CityLensId) ?? 'none'}
+        />
+      </div>
+    );
+  }
   if (tiles === null)
     return <p style={{ padding: 24, fontFamily: 'var(--font-gothic)' }}>Loading the city pack</p>;
   return (
@@ -82,7 +109,17 @@ function App() {
         time={time}
         onTimeChange={setTime}
         {...(q.get('az') ? { azimuthDeg: Number(q.get('az')) } : {})}
-        {...(photo ? { phototropic: { t: Number(photo) } } : {})}
+        {...(photo
+          ? {
+              // Preview steps shaped like the optimise stage's output (dev harness only).
+              phototropic: {
+                t: Number(photo),
+                preview: true,
+                steps: [0, 0.2, 0.4, 0.6, 0.8, 1].map((t, i) => ({ t, euiKwhM2: [172, 166, 158, 151, 146, 141][i]! })),
+              },
+            }
+          : {})}
+        {...(q.get('floors') ? { addedFloors: Number(q.get('floors')) } : {})}
         {...(q.get('sweep') === '1' ? { sweep: { dates: ['2026-03-21', '2026-05-21'], key: 1 } } : {})}
         tierCap={Number(q.get('tier') ?? 2) as QualityTier}
         reducedMotion={q.get('reduced') === '1'}
@@ -90,6 +127,7 @@ function App() {
         heightOverrides={overrides}
         onHeightEnter={(id, mm) => setOverrides((o) => ({ ...o, [id]: mm }))}
         focus={focus}
+        placeMode={q.get('place') === '1'}
         onFocusChange={setFocus}
         stats={stats}
       />

@@ -1,17 +1,19 @@
 /**
- * Landing chapters, "Ibasho no kōjō" (SPEC 5.1, UX 16, SV 7). Owner: WP-09.
+ * Landing chapters, "Ibasho no kōjō" (SPEC 5.1 and 27, PLAN-V3, UX 16, SV 7). Owner: WP-09.
  *
  * The landing page renders exactly this list, in `order`, skipping any chapter whose `requires`
- * are not all registered (AC-L3, I4). Each chapter follows Dami Lee's order: the human first,
- * then tension, then data, then proof. Copy may carry glossary marks (`[[g:<id>]]`).
+ * are not all met (AC-L3, I4). v3 chapters wait on studio stages (`stage:<StageId>`): a chapter
+ * shows once the studio can show that result, and carries a Preview mark while any of its stages
+ * is still Preview. Each chapter follows Dami Lee's order: the human first, then tension, then
+ * data, then proof. Copy may carry glossary marks (`[[g:<id>]]`).
  */
 import { missingRequirements, type PluginPresence } from './requires.ts';
 
 /** Baked kanji the landing may show, decoratively, beside an English label (DESIGN_SYSTEM 3). */
-export type ChapterGlyph = '居' | '家' | '試' | '道' | '証';
+export type ChapterGlyph = '居' | '家' | '勘' | '試' | '道' | '場' | '証' | '検' | '模' | '昼';
 
 export interface LandingChapter {
-  /** Stable id, used as the section anchor (`/#what-if`). */
+  /** Stable id, used as the section anchor (`/#daylight`). */
   id: string;
   order: number;
   /** Small label above the title, in English. */
@@ -24,108 +26,242 @@ export interface LandingChapter {
   /** Decorative kanji, always paired with `glyphMeaning` and hidden from screen readers. */
   glyph: ChapterGlyph;
   glyphMeaning: string;
-  /** Plugin ids, or `kind:<PluginKind>`, that must be registered for the chapter to render. */
+  /** Plugin ids, `kind:<PluginKind>` or `stage:<StageId>`, all needed for the chapter to render. */
   requires: readonly string[];
-  /**
-   * Baked poster (SPEC 5.1). PLACEHOLDER: posters are baked from the scene once WP-07 lands
-   * (gate M-E); until then the landing shows the glyph and the words.
-   */
+  /** Show the eight building types under this chapter. */
+  types?: boolean;
+  /** Where to see it in the studio. */
+  link?: { label: string; href: string };
+  /** A baked still from the city scene, when one exists. Until then the glyph and words carry it. */
   poster?: { src: string; alt: string };
 }
+
+/** Studio addresses the landing links to (apps/web routes under `/app/`). */
+export const STUDIO_LINKS = {
+  studio: '/app/',
+  design: '/app/design',
+  vindhya: '/app/p/pl_iiit/b/gb1',
+  london: '/app/p/pl_london/b/gh1',
+  hitec: '/app/p/pl_hitec/b/gb3',
+  knowledgeCity: '/app/p/pl_knowledge_city',
+} as const;
 
 export const LANDING_CHAPTERS: readonly LandingChapter[] = [
   {
     id: 'hero',
     order: 1,
     kicker: 'Ibasho',
-    title: 'A place where you belong.',
-    line: 'A living drawing of your home, and what it could become.',
+    title: 'See how a building will live in its city.',
+    line: 'Set it among its real neighbours and follow the sun across it, room by room, through a whole year.',
     body: [
-      'Ibasho draws a working copy of your home. Change it, and it works everything out again.',
-      'It shows where the warmth goes. It shows what the house could become. And it proves it hid nothing better from you.',
+      'A design and analysis studio for homes, offices, schools, hotels, hospitals, labs and apartments. It starts in Hyderabad and London.',
+      'Every number opens to show where it came from. Where we are unsure, you see a range.',
     ],
     glyph: '居',
     glyphMeaning: 'to be, to stay',
     requires: [],
   },
   {
-    id: 'drawn',
+    id: 'city',
     order: 2,
-    kicker: 'Your home, drawn',
-    title: 'Unknown is not zero.',
-    line: 'If we do not know, we say so, and show you how much it matters.',
+    kicker: 'In its city',
+    title: 'Your building, among its real neighbours.',
+    line: 'Pick a place and your building takes its spot in a paper model of the city.',
     body: [
-      'Give us a postcode and pick the shape of your house. We draw the rest from homes like yours.',
-      'Anything we guess looks pencilled in, and carries a [[g:likely-range]]. Answer one question and the pencil turns to ink.',
-      'Add last year’s bills and the model corrects itself in front of you. Then it tells you how far out it was.',
+      'Neighbouring buildings come from open map data, and each one keeps a note of where its height came from.',
+      'Many heights are guesses. A guessed tower casts a solid shadow at its likely height and a [[g:height-range|hatched band]] beyond it. Type its real floor count and the band closes.',
+      'Start from one of eight kinds of building, from a house to a hospital, or draw your own floor by floor.',
     ],
-    glyph: '家',
-    glyphMeaning: 'home',
-    requires: ['climate-london', 'kind:archetype'],
+    glyph: '場',
+    glyphMeaning: 'place',
+    requires: ['stage:geometry', 'stage:sun'],
+    types: true,
   },
   {
-    id: 'what-if',
+    id: 'sun',
     order: 3,
-    kicker: 'What if',
-    title: 'Change one thing. Watch the rest move.',
-    line: 'Bigger radiators and a thicker loft change what a heat pump costs to run.',
+    kicker: 'Sun and shade',
+    title: 'Follow the sun across the year.',
+    line: 'Sweep a day from dawn to dusk and watch the shadows swing across the roofs.',
     body: [
-      'Make the radiators bigger. Add loft insulation. The [[g:heat-pump]] runs cooler, works more efficiently, and the bill moves with it.',
-      'Changes act on each other, so we never just add up percentages. Each time, the whole house is worked out again.',
-      'Gas goes down. Electricity goes up a little. You see both.',
+      'Every roof, wall and window counts its [[g:sun-hours]] after the neighbours have taken their share. [[g:radiation|Solar radiation]] colours the walls from the ground up, like ink rising in paper.',
+      'In Hyderabad, from mid May to early August, the noon sun stands in the north. North glass needs shading too, and the model shows where.',
+      'Add two floors and you can see the sun your neighbours would lose, in hours and in kilowatt hours.',
     ],
-    glyph: '試',
-    glyphMeaning: 'to try',
-    requires: ['loft', 'ashp', 'kind:tariff'],
+    glyph: '昼',
+    glyphMeaning: 'daytime',
+    requires: ['stage:sun', 'stage:radiation'],
   },
   {
-    id: 'futures',
+    id: 'daylight',
     order: 4,
-    kicker: 'Three futures',
-    title: 'Only ones you can build.',
-    line: 'Least upfront. Best return. Lowest running carbon.',
+    kicker: 'Daylight',
+    title: 'Light in every room.',
+    line: 'Slide a floor out of the building like a drawer and see how far the daylight reaches.',
     body: [
-      'We try every combination we know for your home, often thousands of them. Three come forward, each named for what it does best.',
-      'Each one passes the rules we hold for your home: planning, your tenancy, the noise test for a heat pump.',
-      'If something is missing, we say why. You ruled it out, or it needs a check first.',
+      'Bright areas fill with colour. Corners too dim to work in by daylight stay plain paper.',
+      'Where low sun falls hard on desks or beds, a warm hatch marks the glare.',
+      'Professionals get the usual measures, [[g:sda]] and [[g:ase]], room by room and floor by floor.',
+    ],
+    glyph: '居',
+    glyphMeaning: 'to stay',
+    requires: ['stage:daylight'],
+  },
+  {
+    id: 'energy',
+    order: 5,
+    kicker: 'Energy, bills and carbon',
+    title: 'Where the energy goes, and what it costs.',
+    line: 'One bar splits the year into its [[g:end-uses]]: cooling, heating, lighting, equipment, fans, pumps, hot water and solar.',
+    body: [
+      'The total appears as an [[g:eui]] range beside a target, so you can see how sure we are.',
+      'Bills follow the local tariff. In Telangana a [[g:slab-tariff]] can reprice every unit when a month crosses a step, and we flag those months.',
+      'Carbon follows the grid of that place. In hot months we also count the hours each room stays comfortable with ceiling fans alone.',
+    ],
+    glyph: '勘',
+    glyphMeaning: 'to reckon',
+    requires: ['stage:energy'],
+  },
+  {
+    id: 'codes',
+    order: 6,
+    kicker: 'Codes and green ratings',
+    title: 'Know where you stand before anyone asks.',
+    line: 'One early pass against the energy codes and green ratings that apply to your plot.',
+    body: [
+      'In India that means [[g:ecbc]], [[g:ecsbc]] and [[g:ens]]. In England it means [[g:part-l]] and the [[g:future-homes]].',
+      'Green ratings such as LEED, IGBC, GRIHA and EDGE show their [[g:leed-points|points]] as likely, possible or unknown, with the clause behind each one.',
+      'Every line is a [[g:pre-check]]. It shows where the design stands and how sure we are. A certificate still comes from an assessor.',
+    ],
+    glyph: '検',
+    glyphMeaning: 'to examine',
+    requires: ['stage:codes'],
+  },
+  {
+    id: 'compare',
+    order: 7,
+    kicker: 'Compare futures',
+    title: 'Change one thing. Watch the rest move.',
+    line: 'Keep the building as it is beside its [[g:variant|variants]], and every result updates together.',
+    body: [
+      'Try deeper [[g:chajja|chajjas]], less west glass or a cooler roof. Each change is worked out with all the others, never added up as percentages.',
+      'Set a goal, such as the lowest bills or ECSBC Super, and Ibasho searches bundles of changes for the cheapest way there.',
+      'A separate checker, proved sound in [[g:lean]], works through the search again. It lists the options tried and confirms nothing better was among them.',
+      'Not proved: that the physics matches your building exactly. That part is [[g:modelled]], and we say so.',
     ],
     glyph: '道',
     glyphMeaning: 'the way',
-    requires: ['kind:search-strategy', 'rules-uk'],
+    requires: ['stage:energy', 'stage:optimise'],
+    link: { label: 'Walk through Vindhya Bhavan', href: STUDIO_LINKS.vindhya },
   },
   {
-    id: 'proof',
-    order: 5,
-    kicker: 'Proof and privacy',
-    title: 'Nothing better is hidden.',
-    line: 'Every number opens. Your home stays with you.',
+    id: 'design',
+    order: 8,
+    kicker: 'Design before you build',
+    title: 'Test a building before it exists.',
+    line: 'Changes cost least while a building is still a drawing.',
     body: [
-      'Tap any number to see where it came from: its inputs, its formula, its sources, and how it was checked.',
-      'A separate checker, proved sound in [[g:lean]], works through the search again for your home. Of every option we know, none you can build beats any of the three on cost, return and running carbon at once.',
-      'Not proved: that our energy model matches your home exactly. The physics is [[g:modelled]], and we say so.',
-      'Your home stays on your device. No account. Nothing leaves unless you choose to send it.',
+      'Write a short brief: the kind of building, its size, a budget band and your goals.',
+      'Draw the floors, or start from a template for that type. Then set the building down on a free plot in Hyderabad or London.',
+      'Try the same design on two or three plots, or turned to face another way, and read the results side by side.',
+      'Ibasho suggests changes that reach your goals at the lowest cost. Keep the version you like and come back to it as the building takes shape.',
+    ],
+    glyph: '模',
+    glyphMeaning: 'a model',
+    requires: ['stage:geometry', 'stage:sun', 'stage:energy', 'stage:codes'],
+    link: { label: 'Start a design', href: STUDIO_LINKS.design },
+  },
+  {
+    id: 'trust',
+    order: 9,
+    kicker: 'What you can trust',
+    title: 'Plain about what we know.',
+    line: 'Every number opens to show its inputs, its method and its sources.',
+    body: [
+      'Results come from documented physics and published data. The AI helps you explore and explains trade offs, but it never writes a number.',
+      'What we do not know shows as a range or a hatch. It never quietly becomes zero.',
+      'Some steps in the studio are still being finished. Until a step is calculated for your building, its results carry a [[g:preview|Preview]] mark.',
+      'Your places and drawings stay on your device. There is no account, and nothing leaves unless you choose to send it.',
     ],
     glyph: '証',
     glyphMeaning: 'proof',
-    requires: ['kind:checker-rung'],
+    requires: [],
   },
 ];
 
+/** Who the studio is for. Always shown: these are people, not features. */
+export interface LandingAudience {
+  id: string;
+  who: string;
+  need: string;
+  link: { label: string; href: string };
+}
+
+export const LANDING_AUDIENCES: readonly LandingAudience[] = [
+  {
+    id: 'homeowner',
+    who: 'Homeowners',
+    need: 'See where the warmth leaks from a London terrace, or where the May sun lands on a Hyderabad flat, and what to change first.',
+    link: { label: 'Open the London terrace', href: STUDIO_LINKS.london },
+  },
+  {
+    id: 'architect',
+    who: 'Architects',
+    need: 'Test massing, glass and shading against the code and a green rating before the client meeting, with costs in rupees or pounds.',
+    link: { label: 'Start a design', href: STUDIO_LINKS.design },
+  },
+  {
+    id: 'campus',
+    who: 'Campus estates teams',
+    need: 'Compare blocks under one budget and decide which to fix first. Vindhya Bhavan at IIIT Hyderabad is the worked example.',
+    link: { label: 'Walk through Vindhya Bhavan', href: STUDIO_LINKS.vindhya },
+  },
+  {
+    id: 'developer',
+    who: 'Developers',
+    need: 'Try a plot in two orientations, read the energy code standing early, and see which green measures pay for themselves.',
+    link: { label: 'Open Knowledge City', href: STUDIO_LINKS.knowledgeCity },
+  },
+  {
+    id: 'business',
+    who: 'Businesses and tenants',
+    need: 'Understand the bills on a rented office floor, how it feels with fans on, and a fair split between landlord and tenant.',
+    link: { label: 'Open the HITEC City office', href: STUDIO_LINKS.hitec },
+  },
+];
+
+/** Heading and lead for the audience section. */
+export const LANDING_AUDIENCE_INTRO = {
+  title: 'Who it is for',
+  line: 'One studio with two depths. Plain words first, and the detail a professional needs one tap away.',
+} as const;
+
 /** The invitation that closes the page. Not a chapter: it always renders. */
 export const LANDING_INVITATION = {
-  title: 'Come in.',
-  line: 'Two minutes, a postcode and a few pictures. No account, and nothing leaves your device.',
-  cta: { label: 'Step into your home', href: '/app/start' },
-  sample: { label: 'See a sample home', href: '/app/home/gh1' },
+  title: 'Start with a place.',
+  line: 'Choose Hyderabad or London, pick a building or draw your own, and see first results in a few minutes. No account needed.',
+  cta: { label: 'Open the studio', href: STUDIO_LINKS.studio },
+  sample: { label: 'Or walk through Vindhya Bhavan', href: STUDIO_LINKS.vindhya },
 } as const;
 
 /** Page metadata for the landing `<head>`. */
 export const LANDING_META = {
-  title: 'Ibasho: a living drawing of your home',
+  title: 'Ibasho: see how a building will live in its city',
   description:
-    'Draw your home in two minutes. See where the warmth goes, try changes, and get three futures you can actually build. Private by default.',
+    'A design and analysis studio for buildings in their real city. Sun and shade, daylight, energy, bills, carbon, codes and green ratings, from documented models. Private by default.',
   lang: 'en-GB',
 } as const;
+
+/** Caption under the hero drawing of a paper city. */
+export const LANDING_HERO_CAPTION =
+  'Your building in ink among paper neighbours. The hatched shadow belongs to a tower whose height we can only estimate.';
+
+/** The product's tagline, Ibasho no kōjō in English. */
+export const LANDING_TAGLINE = 'Ibasho: improving the place where you belong.';
+
+/** The footer line. */
+export const LANDING_FOOTER =
+  'Your places and drawings stay on your device. Prices, tariffs and code rules carry their source and date.';
 
 /** Chapters to render for the given registry, in order (AC-L3, I4). */
 export function visibleChapters(

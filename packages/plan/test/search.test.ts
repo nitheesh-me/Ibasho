@@ -74,12 +74,55 @@ describe('place search', () => {
     expect(lib?.storeyName).toBe('First floor');
   });
 
+  it('finds the on-demand GCC hosts by tenant and building names', () => {
+    const raidurg = readdirSync(join(root, 'packs/city-hyderabad/src/engine/raidurg/tiles')).map(
+      (f) =>
+        JSON.parse(
+          gunzipSync(readFileSync(join(root, 'packs/city-hyderabad/src/engine/raidurg/tiles', f))).toString(),
+        ) as CityTile,
+    );
+    const idx = buildPlaceIndex({
+      cities: [{ city: 'city-hyderabad-raidurg', tiles: raidurg }],
+      buildings: [
+        { doc: doc('gb5'), city: 'city-hyderabad-raidurg', contextIds: ['osm_w1133460476'] },
+        { doc: doc('gb6'), city: 'city-hyderabad-raidurg', contextIds: ['osm_w1133269186'] },
+        { doc: doc('gb7'), city: 'city-hyderabad-raidurg', contextIds: ['osm_w852979202'] },
+      ],
+    });
+    for (const q of ['Lloyds', 'Lloyds Technology Centre', 'LTC', 'Octave Block']) {
+      const hit = searchPlaces(idx, q)[0];
+      expect(hit?.buildingId, q).toBe('gb7');
+    }
+    expect(searchPlaces(idx, 'Lloyds', { kinds: ['storey'] })[0]?.name).toBe(
+      'Floor 10, Lloyds Technology Centre',
+    );
+    for (const q of ['Qualcomm', 'QCOM', 'qualcom', 'Commerzone'])
+      expect(searchPlaces(idx, q)[0]?.id, q).toBe('gb5');
+    for (const q of ['Vanguard', 'vangaurd', 'Sattva Knowledge Park'])
+      expect(searchPlaces(idx, q)[0]?.id, q).toBe('gb6');
+    expect(searchPlaces(idx, 'T-Hub')[0]?.name).toBe('T-hub 2.0');
+  });
+
   it('finds the campus as a place and Himalaya blocks as parts', () => {
     for (const q of ['IIIT', 'IIIT Hyderabad', 'IIITH', 'campus']) expect(top(q)?.kind, q).toBe('place');
     const sh = top('Shodh');
     expect(sh?.kind).toBe('building');
     expect(sh?.id).toBe('gb2#shodh');
     expect(top('dlf cyber city')?.name).toBe('dlf');
+  });
+
+  it('finds wing codes, the cafe and ranks real classrooms first (QA R2-m3)', () => {
+    expect(top('A3')?.storeyName).toBeDefined();
+    expect(top('A3')?.aliases).toContain('A3');
+    expect(top('A3-2')?.id).toBe('rm_2_a3');
+    expect(top('C7')?.id).toMatch(/^rm_\d_c7$/);
+    expect(top('cafeteria')?.buildingId).toBe('gb2');
+    expect(top('classroom')?.name).toBe('Classroom CR-1');
+    const ranked = searchPlaces(index, 'classroom', { limit: 10 });
+    const part = ranked.findIndex((h) => h.id.includes('#'));
+    expect(part === -1 || part > 0).toBe(true);
+    expect(top('himalya')?.id).toBe('gb2');
+    expect(top('LH 5')?.storeyName).toBe('Floor 3');
   });
 
   it('filters and limits; nothing for nonsense', () => {

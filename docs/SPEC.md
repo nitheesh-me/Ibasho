@@ -718,3 +718,22 @@ Groups: Money, Carbon, Comfort, Codes and targets, Weather, Analysis resolution,
 | AC-X4 | Guideline 14 on a calibrated building: monthly NMBE ≤ 5% and CV(RMSE) ≤ 15% | Engine validation (when bills exist) |
 | AC-X5 | The Vindhya demo (`PLAN-V3.md` §8) runs offline with no Preview stamp on its path | Manual, recorded on the blackboard |
 | AC-X6 | Fixtures from the IIIT drawings contain no personal names | Fixture lint |
+
+## 27. Design before you build (proactive flow)
+
+Today most flows start from a building that exists and look back. This flow starts from nothing and looks forward: design the building, place it on a real map, and see its performance before construction starts, when changes are cheapest.
+
+**Flow (a sixth flow beside new, revisit, restart, what-if and update):**
+1. **Brief.** Building type, rough size (area or headcount), storeys, budget band, goals (for example net zero ready, LEED Gold, ECSBC Super, Part L and the Future Homes Standard, lowest operating cost). Goals become typed targets.
+2. **Design.** Room by room or massing first, in the editor: rooms with functions, floors, cores, windows by façade, overhangs and fins. A starter template per type is offered, never forced.
+3. **Place.** Pick a city (Hyderabad, London; more as city packs land), then drag the building onto a free plot, rotate it, set ground level. The site check flags overlaps with existing buildings and shows the neighbours that shade it.
+4. **Test sites and orientations.** Try the same design on two or three plots or rotations side by side: sun hours, radiation, daylight, cooling and heating, EUI, carbon, bills, code standing for that location.
+5. **Shape it to the goals.** The optimiser proposes changes (orientation, window share by façade, shading depth, glazing, insulation, PV) that meet the targets at the lowest cost; the partner explains trade offs, never writes numbers.
+6. **Commit to a design.** Save it as a branch with its assumptions, so it can later become the "as built" building and be revisited.
+
+**Rules:** everything is labelled Preview until the real stages land. Codes follow the plot's location (UK: Part L 2021, Part O, the Future Homes Standard and the London Plan energy hierarchy; India: ECSBC, ENS, NBC). A designed building is never shown as compliant or certified; it shows where it stands against each target with ranges.
+
+**Acceptance:**
+- AC-PD1 From a blank brief, a person designs a two-storey office, places it in London and in Hyderabad, and sees both results side by side in under 5 minutes.
+- AC-PD2 Moving or rotating the building on the map reruns only the stages that depend on placement, with the progress bar, and never freezes the page.
+- AC-PD3 Each target shows a gap (met, not met, unknown) with its source.

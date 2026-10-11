@@ -12,7 +12,7 @@ import type { Applicability, Tier } from '@ibasho/core';
 import type { ReactNode } from 'react';
 
 export const PREVIEW_LINE =
-  'Preview data: recorded to show how this will work, shaped like the real result. Not computed for this building.';
+  'Preview data, shaped like the real result but not yet computed for this building';
 
 export function PreviewStamp({
   title = PREVIEW_LINE,
@@ -25,7 +25,7 @@ export function PreviewStamp({
     <span className="ib-preview" data-compact={compact ? '' : undefined} title={title}>
       <span aria-hidden="true" className="ib-preview__hatch" />
       <span className="ib-preview__word">Preview</span>
-      <span className="ib-sr">. {title}</span>
+      <span className="ib-sr">{` (${title})`}</span>
     </span>
   );
 }

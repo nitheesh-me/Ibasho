@@ -1,0 +1,45 @@
+{
+  "id": "gb5",
+  "title": "KRC Commerzone Raidurg, host of the Qualcomm Hyderabad campus",
+  "tenant": {
+    "name": "Qualcomm India (GCC)",
+    "occupies": "The whole building, fully leased to Qualcomm on a lease of about 12 years (Mindspace REIT, 2025). Earlier reports mention 17 floors and about 1.6 million sq ft."
+  },
+  "sources": [
+    {
+      "id": "osm-w1133460476",
+      "title": "OpenStreetMap way 1133460476 \"Qualcomm Commerzone\": 22 levels, height 100 m (ODbL)",
+      "url": "https://www.openstreetmap.org/way/1133460476"
+    },
+    {
+      "id": "world-architects",
+      "title": "KRC Commerzone, Hyderabad: 20 storey superstructure, two conjoined towers on an L-shaped footprint, central cores with high and low zone lift banks, 9 acre site, 4.5 acre podium, 2.63 million sq ft leasable",
+      "url": "https://world-architects.com/en/projects/view/krc-commerzone-hyderabad"
+    },
+    {
+      "id": "krc-mindspace-2025",
+      "title": "K Raheja Corp: Mindspace REIT to acquire 1.8 million sq ft Commerzone Raidurg (Sustain Properties), fully leased to a Fortune 500 GCC, completed 2023",
+      "url": "https://krahejacorp.com/newsroom/mindspace-reit-to-acquire-18-million-sq-ft-it-park-in-hyderabad-for-rs-2038-cr"
+    },
+    {
+      "id": "sakshi-2021",
+      "title": "Qualcomm signs Telangana's largest SEZ lease: 17 floors at the Sustain Properties SEZ, Raidurg",
+      "url": "https://www.sakshipost.com/news/hyderabad/qualcomm-signs-telanganas-largest-sez-lease-agreement-135967"
+    }
+  ],
+  "status": {
+    "footprint": "Measured: OpenStreetMap outline (about 12,100 m2) as three rectangles; it may include podium edges",
+    "storeys": "Estimated: ground floor and 19 office floors at 4.5 m, 3 basement levels. OpenStreetMap gives 22 levels and 100 m; the architect describes a 20 storey superstructure",
+    "floorPlate": "Estimated: no public floor plan was found. The outline on every floor gives about 2.6 million sq ft above ground, close to the stated leasable area",
+    "cores": "Estimated: two central service cores, one per tower",
+    "wwr": "Assumed: 55% glazed curtain wall"
+  },
+  "unknowns": [
+    "public floor plans",
+    "glass U, SHGC and VLT",
+    "shading fins",
+    "exact storey count and heights",
+    "tenant floor split",
+    "green rating (none found in public sources)"
+  ]
+}

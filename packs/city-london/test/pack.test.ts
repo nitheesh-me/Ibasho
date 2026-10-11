@@ -15,3 +15,15 @@ describe('city-london pack (stub)', () => {
     }
   });
 });
+
+describe('on-demand area city-london-kings-cross', () => {
+  it('loads when asked, light, with tagged heights', async () => {
+    const { loadKingsCrossTiles, CITY_AREAS, cityLondonKingsCross } = await import('../src/engine/index.ts');
+    expect(CITY_AREAS['city-london-kings-cross']?.onDemand).toBe(true);
+    const tiles = await loadKingsCrossTiles(fsReader);
+    const all = tiles.flatMap((t) => t.buildings);
+    expect(all.length).toBeGreaterThan(300);
+    expect(all.filter((b) => b.height.source !== 'unknown').length).toBeGreaterThan(100);
+    expect(cityLondonKingsCross.tiles.reduce((s, t) => s + t.bytes, 0)).toBeLessThan(200_000);
+  });
+});

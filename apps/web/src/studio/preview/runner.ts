@@ -17,6 +17,7 @@ import type {
   JobEnd,
   Place,
   ResolutionLevel,
+  ScopedGoal,
   Setting,
   SiteContext,
   StageId,
@@ -34,9 +35,8 @@ import {
   RESOLUTIONS,
   stageMs,
 } from '@ibasho/preview';
-import { STAGE_LABEL } from '@ibasho/ui';
-import { adjustEnergy } from './levers.ts';
 import type { Levers, SettingValues } from './settings.ts';
+import { energyParams } from './variant.ts';
 import { type StageResult, viewFor } from './views.ts';
 
 export interface StageInputs {
@@ -51,6 +51,8 @@ export interface StageInputs {
   resolution: ResolutionLevel;
   asOf: string;
   previous?: Partial<StageOut>;
+  /** Targets from a design brief (SPEC 27): the codes stage reports a gap for each. */
+  goals?: ScopedGoal[];
   /** Pack context ids this building replaces (HERO_CONTEXT_IDS). */
   replacedIds?: readonly string[];
 }
@@ -75,6 +77,17 @@ export interface JobHandle {
 }
 
 const TICK = 100;
+
+/** Short stage names for progress sentences (worker side: no UI imports). */
+const STAGE_WORD: Record<StageId, string> = {
+  geometry: 'Geometry',
+  sun: 'Sun hours',
+  radiation: 'Radiation',
+  daylight: 'Daylight',
+  energy: 'Energy',
+  codes: 'Codes',
+  optimise: 'Search',
+};
 
 const doing: Record<StageId, string> = {
   geometry: 'Reading the plan',
@@ -156,11 +169,19 @@ export function computeOne(
       );
     case 'energy': {
       const radiation = out.radiation;
-      const res = computeEnergy(
-        { compiled: need('geometry'), ...(radiation ? { radiation } : {}), site, settings, asOf },
+      const compiled = need('geometry');
+      const params = energyParams(inp.levers, compiled);
+      return computeEnergy(
+        {
+          compiled,
+          ...(radiation ? { radiation } : {}),
+          site,
+          settings,
+          asOf,
+          ...(Object.keys(params).length ? { params } : {}),
+        },
         tier,
       );
-      return adjustEnergy(res, need('geometry'), inp.levers);
     }
     case 'codes': {
       const daylight = out.daylight;
@@ -172,6 +193,7 @@ export function computeOne(
           ...(daylight ? { daylight } : {}),
           site,
           codePackIds: inp.place.codePackIds,
+          ...(inp.goals?.length ? { goals: inp.goals } : {}),
           asOf,
         },
         tier,
@@ -183,7 +205,7 @@ export function computeOne(
           compiled: need('geometry'),
           doc: inp.doc,
           energy: out.codes?.result ?? need('energy'),
-          goals: [],
+          goals: inp.goals ?? [],
           objectives: [...DEFAULT_OBJECTIVES],
           space: [],
           site,
@@ -253,9 +275,9 @@ export function runPreviewJob(
           const secs = Math.max(1, Math.round(eta / 1000));
           const message =
             tier === 'rough'
-              ? `${STAGE_LABEL[stage]}: rough now, final in about ${secs} s`
+              ? `${STAGE_WORD[stage]}: rough now, final in about ${secs} s`
               : tier === 'refined'
-                ? `${STAGE_LABEL[stage]}: refining`
+                ? `${STAGE_WORD[stage]}: refining`
                 : doing[stage];
           onEvent({
             jobId,
@@ -266,7 +288,7 @@ export function runPreviewJob(
             etaMs: eta,
             message,
             ...(result ? { result } : {}),
-            ...(output !== undefined && tier === 'final' ? { output } : {}),
+            ...(output !== undefined ? { output } : {}),
             status: fraction >= 1 ? 'done' : 'running',
           });
         }
@@ -287,8 +309,12 @@ export function runPreviewJob(
  * no site stages): Revisit's before and after and the settings impact preview (SPEC 18.2, 24).
  */
 export function headline(inp: StageInputs): StageResult<'energy'> {
-  const out: Partial<StageOut> = {};
-  out.geometry = computeOne('geometry', inp, out, 'final') as StageOut['geometry'];
+  // One function for every headline (review A-M3): reuse the job's geometry and radiation when known.
+  const out: Partial<StageOut> = {
+    ...(inp.previous?.geometry ? { geometry: inp.previous.geometry } : {}),
+    ...(inp.previous?.radiation ? { radiation: inp.previous.radiation } : {}),
+  };
+  if (!out.geometry) out.geometry = computeOne('geometry', inp, out, 'final') as StageOut['geometry'];
   const energy = computeOne('energy', inp, out, 'final') as StageOut['energy'];
   return viewFor(
     'energy',

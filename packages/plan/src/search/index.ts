@@ -24,7 +24,15 @@ interface Entry {
   own: { text: string; toks: string[] }[];
   /** Parent names (building for a storey or room). */
   parent: { text: string; toks: string[] }[];
+  /**
+   * Generic names that count as the entry's own but rank below its name and aliases: a room's
+   * space type ("classroom") and a block part's member room aliases.
+   */
+  weak?: { text: string; toks: string[] }[];
 }
+
+/** Weight of a weak name match, and the exact and prefix bonuses for own and weak names. */
+const WEAK = 0.85;
 
 export interface PlaceIndex {
   entries: Entry[];
@@ -186,13 +194,14 @@ export function buildPlaceIndex(input: PlaceIndexInput): PlaceIndex {
         const rb = bboxOf(r.floor.outer.map((p) => toPlaceFrame(doc, p)));
         const fn = r.spaceTypeId ? r.spaceTypeId.replace(/-/g, ' ') : undefined;
         const rName = r.name ?? r.id;
-        const own = [rName, ...(r.aliases ?? []), ...(fn ? [fn, `${rName} ${fn}`] : [])];
+        const own = [rName, ...(r.aliases ?? [])];
+        const weak = fn ? [fn, `${rName} ${fn}`] : [];
         entries.push({
           hit: {
             kind: 'room',
             id: r.id,
             name: rName,
-            aliases: own.slice(1),
+            aliases: [...own.slice(1), ...weak],
             ...base,
             storeyId: st.id,
             storeyName: st.name,
@@ -202,6 +211,7 @@ export function buildPlaceIndex(input: PlaceIndexInput): PlaceIndex {
             source: 'document',
           },
           own: names(own),
+          weak: names(weak),
           parent: [...bName, ...names(sNames)],
         });
       }
@@ -260,7 +270,8 @@ function addBlocks(input: PlaceIndexInput, entries: Entry[]): void {
           heightRange: { lo: g.lo, hi: g.hi },
           source: 'document',
         },
-        own: names(aliases),
+        own: names([label]),
+        weak: names([...g.aliases]),
         parent: names([doc.name, ...withCurated(doc.name)]),
       });
     }
@@ -339,7 +350,9 @@ export function searchPlaces(index: PlaceIndex, query: string, opts: PlaceSearch
     const matched = new Set<string>();
     let ok = true;
     for (const t of q) {
-      const o = best(t, e.own, q.length > 1);
+      const o0 = best(t, e.own, q.length > 1);
+      const w = e.weak ? best(t, e.weak, q.length > 1) : { s: 0 };
+      const o = w.s * WEAK > o0.s ? { s: w.s * WEAK, ...(w.text ? { text: w.text } : {}) } : o0;
       const p = best(t, e.parent, q.length > 1);
       if (o.s === 0 && p.s === 0) {
         ok = false;
@@ -357,10 +370,20 @@ export function searchPlaces(index: PlaceIndex, query: string, opts: PlaceSearch
     // Every query word must match, and a storey or room must match on something of its own.
     if (!ok || ownHits === 0) continue;
     let score = (sum / q.length) * 80;
-    const exact = e.own.some((n) => normalise(n.text) === nq);
-    const prefix = !exact && e.own.some((n) => normalise(n.text).startsWith(nq));
-    if (exact) score += 20;
-    else if (prefix) score += 10;
+    // Exact and prefix bonuses: the name most, then an alias, then a weak (generic) name.
+    const isName = (n: { text: string }) => n === e.own[0];
+    const exactOwn = e.own.find((n) => normalise(n.text) === nq);
+    const exactWeak = !exactOwn && (e.weak ?? []).some((n) => normalise(n.text) === nq);
+    const prefixOwn = !exactOwn && !exactWeak && e.own.some((n) => normalise(n.text).startsWith(nq));
+    const prefixWeak =
+      !exactOwn && !exactWeak && !prefixOwn && (e.weak ?? []).some((n) => normalise(n.text).startsWith(nq));
+    if (exactOwn) score += isName(exactOwn) ? 20 : 18;
+    else if (exactWeak) score += 8;
+    else if (prefixOwn) score += 10;
+    else if (prefixWeak) score += 4;
+    // A name that holds every query word as a whole word ("Classroom CR-1" for "classroom").
+    const nameToks = e.own[0]?.toks ?? [];
+    if (!(exactOwn && isName(exactOwn)) && q.every((t) => nameToks.includes(t))) score += 2;
     // Words that only match the parent: prefer the parent itself unless the query names this level.
     if (h.kind !== 'building' && ownHits < q.length) score -= 2;
     score = Math.max(0, Math.min(100, Math.round(score)));

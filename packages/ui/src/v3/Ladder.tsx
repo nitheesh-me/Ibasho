@@ -43,7 +43,7 @@ export function ScaleLadder({
   detail,
 }: ScaleLadderProps) {
   return (
-    <nav className="ib-ladder" data-layout={layout} aria-label="Scale">
+    <nav className="ib-ladder" data-layout={layout} aria-label="Scale (keys [ and ])">
       <ol className="ib-ladder__rungs">
         {[...SCALE_LEVELS].reverse().map((l) => {
           const on = enabled.includes(l);
@@ -65,9 +65,6 @@ export function ScaleLadder({
           );
         })}
       </ol>
-      <p className="ib-ladder__keys" aria-hidden="true">
-        <kbd>[</kbd> <kbd>]</kbd>
-      </p>
     </nav>
   );
 }

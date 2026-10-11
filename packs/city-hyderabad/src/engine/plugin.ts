@@ -8,6 +8,10 @@ import { EXTENT, ORIGIN, PACK_ID, TILE_FILES, TILE_SIZE } from './tiles.gen.ts';
 export const HERO_CONTEXT_IDS: Readonly<Record<string, readonly string[]>> = {
   gb1: ['osm_r2829427'], // Vindhya Bhavan
   gb2: ['osm_w187896823', 'osm_w211078709'], // Himalaya Academic Block, D Block
+  // On-demand area city-hyderabad-raidurg (ids are unique across areas).
+  gb5: ['osm_w1133460476'], // KRC Commerzone Raidurg (Qualcomm)
+  gb6: ['osm_w1133269186'], // Sattva Knowledge Park Tower 1 (Vanguard)
+  gb7: ['osm_w852979202'], // Sattva Knowledge City, Octave Block (Lloyds Technology Centre), assumed outline
 };
 
 export const cityHyderabad: CityPackPlugin = {

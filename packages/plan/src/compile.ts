@@ -145,7 +145,9 @@ export function compile(doc: BuildingDoc, opts: CompileOptions = {}): CompiledBu
     const roomSum = st.rooms.reduce((s, r) => s + polygonAreaMm2(r.floor), 0n);
     const coreSum = st.cores.reduce((s, c) => s + (c.excludeFromArea ? 0n : ringAreaMm2(c.outline)), 0n);
     const unionArea = union(st.rooms.map((r) => r.floor)).reduce((s, p) => s + polygonAreaMm2(p), 0n);
-    const overlap = roomSum - unionArea;
+    // Per polygon areas round the final halving down, so sums can differ by under 1 mm² a room.
+    const rawOverlap = roomSum - unionArea;
+    const overlap = rawOverlap > BigInt(st.rooms.length) ? rawOverlap : 0n;
     storeyQ.push({
       storeyId: st.id,
       gfaMm2: roomSum + coreSum,

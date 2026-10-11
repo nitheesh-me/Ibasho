@@ -88,6 +88,8 @@ export interface SiteCore {
   windows: { id: string; factor: number[] }[];
   ledger: { receiver: string; blocker: string; lostWh: number }[];
   rooms: { id: string; sda: [number, number]; ase: [number, number]; views: [number, number] }[];
+  /** Neighbours inside the radius left out because their height is unknown (sorted ids). */
+  unknownHeight: string[];
 }
 
 export function siteModel(
@@ -128,7 +130,7 @@ export function siteModel(
       const d3 = side(p, cc, a);
       return !((d1 < 0 || d2 < 0 || d3 < 0) && (d1 > 0 || d2 > 0 || d3 > 0));
     });
-  const blockers: Blocker[] = tiles
+  const near: Blocker[] = tiles
     .flatMap((t) => t.buildings)
     .map((b) => {
       const c0 = centre(b.footprint);
@@ -143,15 +145,20 @@ export function siteModel(
     // The modelled building replaces only its own OSM outlines: the listed ids, or, when none are
     // given, buildings whose centroid lies on one of its floor triangles.
     .filter((x) => (replacedIds ? !replacedIds.includes(x.b.id) : !onFootprint(x.c)))
-    // Unknown heights are ghosts: never used as shade (RB 5, R29). Ranged heights use `likely`.
-    .filter((x) => x.b.height.source !== 'unknown')
     .filter((x) => {
       const dx = x.c[0] - (box.x0 + box.x1) / 2;
       const dy = x.c[1] - (box.y0 + box.y1) / 2;
       return Math.sqrt(dx * dx + dy * dy) < radiusM * 1000 + (box.x1 - box.x0) / 2;
     });
+  // Unknown heights are ghosts: never used as shade (RB 5, R29), but listed so the lens can say so.
+  // Ranged heights use `likely`.
+  const blockers = near.filter((x) => x.b.height.source !== 'unknown');
+  const unknownHeight = near
+    .filter((x) => x.b.height.source === 'unknown')
+    .map((x) => x.b.id)
+    .sort();
   const sunCache = new Map<string, ReturnType<typeof surfaceSun>>();
-  const out: SiteCore = { surfaces: [], windows: [], ledger: [], rooms: [] };
+  const out: SiteCore = { surfaces: [], windows: [], ledger: [], rooms: [], unknownHeight };
   const ledger = new Map<string, number>();
   for (const s of c.meshes.surfaces) {
     if (s.kind !== 'wall' && s.kind !== 'roof' && s.kind !== 'window') continue;
@@ -269,6 +276,7 @@ export function siteResult(
     windows: [],
     rooms: [],
     ledger: [],
+    unknownHeightIds: core.unknownHeight,
   };
   if (stage === 'sun') {
     r.surfaces = core.surfaces.map((s) => {

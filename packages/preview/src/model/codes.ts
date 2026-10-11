@@ -130,14 +130,18 @@ export function codesModel(
     lo: Math.round((energy.eui.site.lo / base) * 1000) / 1000,
     hi: Math.round((energy.eui.site.hi / base) * 1000) / 1000,
   };
-  const baselines: BaselineRow[] = [
-    {
-      code: 'ECSBC 2024',
-      builderId: 'preview.baseline.ecsbc',
-      eui: { lo: r1(base * 0.95), hi: r1(base * 1.05) },
-      ratio,
-    },
-  ];
+  // Baselines follow the place's codes: an Indian reference design only where Indian codes apply
+  // (a London terrace gets none until the UK reference exists).
+  const baselines: BaselineRow[] = india
+    ? [
+        {
+          code: 'ECSBC 2024',
+          builderId: 'preview.baseline.ecsbc',
+          eui: { lo: r1(base * 0.95), hi: r1(base * 1.05) },
+          ratio,
+        },
+      ]
+    : [];
   const savings = {
     lo: r1((1 - energy.eui.site.hi / base) * 100),
     hi: r1((1 - energy.eui.site.lo / base) * 100),

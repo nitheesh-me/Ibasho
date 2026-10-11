@@ -12,9 +12,9 @@ import { GradeBadge } from '../grade/GradeBadge.tsx';
 
 export const ORIGIN_LABEL: Record<SettingOrigin, string> = {
   user: 'Your value',
-  pack: 'Pack value',
+  pack: 'Published value',
   preset: 'Preset',
-  default: 'Pack default',
+  default: 'Typical value',
 };
 
 export const SCOPE_LABEL: Record<SettingScope, string> = {

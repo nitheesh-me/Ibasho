@@ -95,3 +95,29 @@ export interface BenchmarkPlugin extends PluginBase<'benchmark'> {
   median?: Sourced;
   bands?: { label: string; maxKwhM2Yr: number }[];
 }
+
+/**
+ * The type data an energy model reads, gathered from the type packs (`types-in`, `types-global`)
+ * by the app's manifest. Later packs override earlier ones by id.
+ */
+export interface TypeLibrary {
+  spaceTypes: SpaceTypePlugin[];
+  schedules: SchedulePlugin[];
+  buildingTypes: BuildingTypePlugin[];
+  benchmarks?: BenchmarkPlugin[];
+}
+
+/** Merge libraries: entries with the same id in a later library replace earlier ones. */
+export function mergeTypeLibraries(...libs: TypeLibrary[]): TypeLibrary {
+  const by = <T>(key: (x: T) => string, lists: T[][]): T[] => {
+    const m = new Map<string, T>();
+    for (const l of lists) for (const x of l) m.set(key(x), x);
+    return [...m.values()];
+  };
+  return {
+    spaceTypes: by((x: SpaceTypePlugin) => x.spaceTypeId, libs.map((l) => l.spaceTypes)),
+    schedules: by((x: SchedulePlugin) => x.scheduleId, libs.map((l) => l.schedules)),
+    buildingTypes: by((x: BuildingTypePlugin) => x.typeId, libs.map((l) => l.buildingTypes)),
+    benchmarks: by((x: BenchmarkPlugin) => x.benchmarkId, libs.map((l) => l.benchmarks ?? [])),
+  };
+}

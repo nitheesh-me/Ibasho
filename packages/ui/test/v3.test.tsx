@@ -67,7 +67,7 @@ describe('StageBar (DS 13.5)', () => {
       />,
     );
     expect(screen.getAllByRole('listitem')).toHaveLength(7);
-    expect(screen.getByLabelText('Sun and shadows: running, rough result')).toBeTruthy();
+    expect(screen.getByLabelText('Sun: running, rough result')).toBeTruthy();
     expect(screen.getByText('Preview')).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Cancel' })).toBeNull();
     act(() => {
@@ -228,5 +228,22 @@ describe('Andon controls (no native range or select)', () => {
     fireEvent.keyDown(list, { key: 'Enter' });
     expect(onChange).toHaveBeenCalledWith('office');
     expect(document.querySelector('select')).toBeNull();
+  });
+});
+
+describe('chip active state (review B-B1)', () => {
+  it('active chips keep a readable label: ink text on paper-sunk, never ink on ink', async () => {
+    const { readFileSync } = await import('node:fs');
+    const css = readFileSync(`${process.cwd()}/src/styles/v3.css`, 'utf8');
+    const rule = css.slice(
+      css.indexOf('.ib-chip[aria-pressed="true"],'),
+      css.indexOf('}', css.indexOf('.ib-chip[aria-pressed="true"],')),
+    );
+    expect(rule).toContain('background: var(--paper-sunk)');
+    expect(rule).toContain('color: var(--ink)');
+    const { CORE } = await import('../src/tokens/color.ts');
+    const { contrast } = await import('../src/tokens/oklch.ts');
+    for (const t of ['hiru', 'yoru'] as const)
+      expect(contrast(CORE.ink[t], CORE['paper-sunk'][t])).toBeGreaterThanOrEqual(4.5);
   });
 });

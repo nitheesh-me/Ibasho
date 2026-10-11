@@ -15,7 +15,12 @@ export interface SpaceLoads {
   conditioned: boolean;
   /** Share of the year the cooling runs while occupied (residential AC is partial). */
   acShare: number;
+  /** Follows the academic calendar (summer vacation in May and June, winter break). */
+  term?: boolean;
 }
+
+/** Monthly use on the Indian academic calendar (estimate: May vacation, June partial, December break). */
+export const ACADEMIC_TERM = [1, 1, 1, 0.9, 0.2, 0.5, 1, 1, 1, 1, 0.9, 0.8];
 
 const L = (
   lpd: number,
@@ -42,8 +47,8 @@ export const SPACE_LOADS: Readonly<Record<string, SpaceLoads>> = {
   'lab-heavy': L(10, 20, 9, 5.5, 0.04),
   'data-centre': L(10, 450, 24, 7, 0.01),
   library: L(10, 5, 12, 6.5, 0.1),
-  classroom: L(10, 6, 8, 5.5, 0.5),
-  assembly: L(10, 4, 4, 5, 0.8),
+  classroom: { ...L(10, 6, 7, 5.5, 0.5), term: true },
+  assembly: { ...L(10, 4, 4, 5, 0.8), term: true },
   lobby: L(8, 2, 14, 7, 0.05),
   bank: L(10, 12, 9, 6, 0.1),
   circulation: L(5, 0, 12, 7, 0.02, false),

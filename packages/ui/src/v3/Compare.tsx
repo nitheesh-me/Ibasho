@@ -24,7 +24,7 @@ export function CompareGrid({
   onFocus,
 }: {
   slots: CompareSlot[];
-  focus?: string;
+  focus?: string | undefined;
   onFocus?: (id: string) => void;
 }) {
   const n = Math.min(4, slots.length);
@@ -49,7 +49,7 @@ export function CompareGrid({
                 onClick={() => onFocus(s.id)}
                 aria-pressed={focus === s.id}
               >
-                {focus === s.id ? 'In front' : 'Bring to front'}
+                {focus === s.id ? 'Main view' : 'Show large'}
               </button>
             ) : null}
           </header>

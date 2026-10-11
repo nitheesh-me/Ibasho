@@ -107,6 +107,10 @@ Proofs:
 - IIIT Hyderabad estate office floor plans of Vindhya Bhavan and Himalaya (2022), https://intranet.iiit.ac.in/offices/static/files/: reference only, simplified into the GB1 and GB2 room schedules (no drawings or names shipped).
 - BEE ECBC 2017, ECSBC 2024, Eco Niwas Samhita and TGSPDCL tariff orders: thresholds and tariffs in the Preview codes and bills (estimates until checked against the PDFs).
 
+- Public sources for the on-demand office examples in Hyderabad (Lloyds Technology Centre corporate details, K Raheja Corp and Mindspace REIT releases, World-Architects on KRC Commerzone, Sattva Group project pages, press reports on the Qualcomm and Vanguard centres): building facts only, recorded per building in its notes.
+- UK building regulations and plans (Approved Documents L and O, the Future Homes and Buildings Standard consultation, the London Plan 2021 Policy SI 2, the UK Net Zero Carbon Buildings Standard pilot): thresholds for the Preview pre-checks of designed buildings.
+- Overpass API mirrors (maps.mail.ru, overpass-api.de, overpass.kumi.systems): OpenStreetMap extracts for the city areas.
+
 ## Assets (fonts, textures, HDRIs, models, sounds)
 
 - Poly Haven, https://polyhaven.com, CC0-1.0: HDRIs and textures.

@@ -3,6 +3,7 @@
  * The same `handle` runs inline when workers are unavailable (tests, old browsers). Owner: WP-07.
  */
 import type { SiteResult } from '@ibasho/core';
+import { type CastLoss, type CastReceiver, castLosses } from './cast.ts';
 import type { EN } from './frame.ts';
 import type { HeroModel } from './hero.ts';
 import { previewSite } from './preview.ts';
@@ -21,8 +22,19 @@ export type KernelRequest =
       casters: Caster[];
       place: { lat: number; lon: number; tzHours?: number };
       date: string;
+    }
+  | {
+      kind: 'cast';
+      hero: HeroModel;
+      context: Caster[];
+      receivers: CastReceiver[];
+      addedM: number;
+      place: { lat: number; lon: number; tzHours?: number };
     };
-export type KernelResult = { kind: 'site'; site: SiteResult } | { kind: 'sun-hours'; grid: SunHoursGrid };
+export type KernelResult =
+  | { kind: 'site'; site: SiteResult }
+  | { kind: 'sun-hours'; grid: SunHoursGrid }
+  | { kind: 'cast'; losses: CastLoss[]; addedM: number };
 
 /** The site grid around the hero: ground at 0 m and the hero's top roof at its height. */
 export function heroGrid(hero: HeroModel): Grid {
@@ -32,6 +44,18 @@ export function heroGrid(hero: HeroModel): Grid {
 
 export function handle(req: KernelRequest): KernelResult {
   if (req.kind === 'site') return { kind: 'site', site: previewSite(req.hero, req.casters, req.place) };
+  if (req.kind === 'cast')
+    return {
+      kind: 'cast',
+      addedM: req.addedM,
+      losses: castLosses({
+        hero: req.hero,
+        context: req.context,
+        receivers: req.receivers,
+        addedM: req.addedM,
+        place: req.place,
+      }),
+    };
   const grid = heroGrid(req.hero);
   const heights = new Float32Array(grid.cols * grid.rows);
   const mask = new Uint8Array(heights.length);

@@ -567,3 +567,24 @@
 .ib-outline .ib-link[aria-pressed="true"] {
   font-weight: 700;
 }
+.ib-editor__roomname {
+  fill: var(--ink-2);
+  font-family: var(--font-gothic);
+  paint-order: stroke;
+  stroke: var(--surface-raised);
+  stroke-width: 0.25em;
+}
+.ib-storeys__field {
+  display: inline-grid;
+  gap: 2px;
+  font-size: var(--fs-cap);
+  color: var(--text-2);
+}
+.ib-editor__core path {
+  fill: color-mix(in oklch, var(--paper-sunk) 85%, transparent);
+  stroke: var(--ink);
+}
+.ib-editor__core path + path {
+  fill: none;
+  stroke: var(--ink-2);
+}

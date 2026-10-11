@@ -7,10 +7,10 @@ import { downstreamStages, type Place, type StageOut } from '@ibasho/core';
 import { facadeMeters, overallWwrPm } from '@ibasho/editor';
 import { describe, expect, it } from 'vitest';
 import { IIIT_PLACE_ID, sampleDoc, samplePlaces } from '../src/studio/data.ts';
-import { adjustEnergy, variantDoc } from '../src/studio/preview/levers.ts';
 import { computeOne, headline, runPreviewJob, type StageInputs } from '../src/studio/preview/runner.ts';
 import { defaultSettings } from '../src/studio/preview/settings.ts';
 import { templateDoc } from '../src/studio/preview/template.ts';
+import { energyParams, variantDoc } from '../src/studio/preview/variant.ts';
 import { viewFor } from '../src/studio/preview/views.ts';
 import { findPlaces, hitPath } from '../src/studio/search/places.ts';
 
@@ -83,15 +83,16 @@ describe('flows', () => {
     expect(JSON.stringify(base)).toBe(JSON.stringify(sampleDoc('gb1')));
   });
 
-  it('design levers lower the whole energy result (adapter until Preview reads them)', () => {
+  it('design levers lower the whole energy result (EnergyParams into the Preview stage)', () => {
     const before = headline(inputs());
     const after = headline(inputs({ levers: { glazing: 'low-e', lighting: 'led', pv: 50 } }));
     expect(after.view.euiMid).toBeLessThan(before.view.euiMid);
     expect(after.view.billRs).toBeLessThan(before.view.billRs);
     const out: Partial<StageOut> = {};
     out.geometry = computeOne('geometry', inputs(), out, 'final') as StageOut['geometry'];
-    const e = computeOne('energy', inputs(), out, 'final') as StageOut['energy'];
-    expect(adjustEnergy(e, out.geometry, {})).toBe(e);
+    expect(energyParams({}, out.geometry)).toEqual({});
+    expect(energyParams({ glazing: 'low-e', pv: 50 }, out.geometry)).toMatchObject({ shgc: 0.3 });
+    expect(energyParams({ pv: 50 }, out.geometry).pvKwp).toBeGreaterThan(0);
   });
 
   it('a tariff change re-runs codes and optimisation only (SPEC 18.5)', () => {
@@ -157,9 +158,50 @@ describe('find by name (owner request)', () => {
   });
   it('a block of Himalaya focuses by its box', () => {
     const d2 = sampleDoc('gb2');
-    const s2 = { ...state, buildings: { ...state.buildings, gb2: { ...state.buildings.gb1, id: 'gb2', name: d2.name, doc: d2 } } };
+    const s2 = {
+      ...state,
+      buildings: { ...state.buildings, gb2: { ...state.buildings.gb1, id: 'gb2', name: d2.name, doc: d2 } },
+    };
     const part = findPlaces(s2, 'Shodh').find((h) => h.id.startsWith('gb2#'));
     expect(part).toBeTruthy();
     expect(hitPath(s2, part as never)).toMatch(/^\/p\/pl_iiit\/b\/gb2\?level=building&focus=gb2%23\w+&bbox=/);
+  });
+});
+
+describe('generations (review R2-m0)', () => {
+  it('a late event from an older generation never replaces the live job', async () => {
+    const { useStudio, jobKey } = await import('../src/studio/state/studio.ts');
+    const st = useStudio.getState();
+    st.hydrate(undefined);
+    useStudio.setState({ deviceFactor: 0.01 });
+    const key = jobKey('gb1', 'as-built');
+    st.run('gb1', 'as-built');
+    const first = useStudio.getState().jobs[key];
+    st.run('gb1', 'as-built');
+    const second = useStudio.getState().jobs[key];
+    expect(second?.generation).toBe((first?.generation ?? 0) + 1);
+    await first?.handle?.done;
+    await second?.handle?.done;
+    const live = useStudio.getState().jobs[key];
+    expect(live?.generation).toBe(second?.generation);
+    expect(live?.bar.jobId).toBe(second?.bar.jobId);
+    expect(live?.views.energy).toBeTruthy();
+  }, 60_000);
+});
+
+describe('design before you build (SPEC 27)', () => {
+  it('goal gaps are met, not met or unknown with a source, never compliant (AC-PD3)', async () => {
+    const { designGaps } = await import('../src/studio/pages/DesignFlow.tsx');
+    const empty = designGaps(['ecsbc-super', 'part-l'], undefined, 'IN');
+    expect(empty.map((g) => g.state)).toEqual(['unknown', 'not-here']);
+    expect(empty.every((g) => g.source.length > 0)).toBe(true);
+    const inp = inputs();
+    const out: Partial<StageOut> = {};
+    for (const s of ['geometry', 'energy', 'codes', 'optimise'] as const) {
+      (out as Record<string, unknown>)[s] = computeOne(s, inp, out, 'final');
+    }
+    const gaps = designGaps(['ecsbc-super', 'leed-gold', 'lowest-opex'], out, 'IN');
+    for (const g of gaps) expect(['met', 'not-met', 'unknown']).toContain(g.state);
+    expect(JSON.stringify(gaps)).not.toMatch(/compliant|certified/i);
   });
 });

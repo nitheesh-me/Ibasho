@@ -6,6 +6,7 @@
   "description": "Make mode: SVG plan editor for ibasho.building/1 documents: storeys, rooms and functions, windows, doors, shading, massing, snap, split, undo and redo, underlay.",
   "exports": {
     ".": "./src/index.ts",
+    "./core": "./src/core.ts",
     "./editor.css": "./src/editor.css"
   },
   "scripts": {

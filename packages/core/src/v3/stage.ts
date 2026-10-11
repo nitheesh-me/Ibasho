@@ -11,8 +11,8 @@ import type { AbortSignalLike } from '../ai/provider.ts';
 import type { EngineApi } from '../api.ts';
 import type { IsoDate, MessageKey } from '../common.ts';
 import type { PluginBase } from '../plugin/types.ts';
-import type { BuildingDoc, CompiledBuilding } from './building.ts';
-import type { Objective, ScopedGoal } from './goals.ts';
+import type { BuildingDoc, CompiledBuilding, FacadeBin } from './building.ts';
+import type { GoalGap, Objective, ScopedGoal } from './goals.ts';
 import type { OptimiseResult } from './optimise.ts';
 import type { CityTile, Place } from './place.ts';
 import type { StageId, Tier } from './provenance.ts';
@@ -36,6 +36,41 @@ export interface SiteContext {
   replacedIds?: string[];
 }
 
+/**
+ * Design parameters the energy stage reads besides the document (studio what-if levers, the
+ * optimiser's design space). All optional; absent means the building as drawn. Geometry levers
+ * (window share by editing the document, shading, the cooling system) belong in the document.
+ */
+export interface EnergyParams {
+  /** Window area multiplier per facade bin (1 is as drawn). */
+  wwrScale?: Partial<Record<FacadeBin, number>>;
+  /** Glazing solar heat gain coefficient (as drawn: 0.62, single clear). */
+  shgc?: number;
+  /** U-values, W/m²K (as drawn in Hyderabad: window 5.6, wall 1.9, roof 1.8). */
+  uWin?: number;
+  uWall?: number;
+  uRoof?: number;
+  /** Roof solar absorptance 0 to 1 (as drawn 0.75; a cool white roof about 0.3). */
+  roofAbsorptance?: number;
+  /** Extra projection factor from new overhangs, per facade bin. */
+  pf?: Partial<Record<FacadeBin, number>>;
+  /** Lighting power multiplier (1 as drawn; LED retrofit about 0.65). */
+  lpdScale?: number;
+  /** Cooling set point, °C (as drawn 24). */
+  setpointC?: number;
+  /** Daylight dimming in lit spaces (cuts their lighting by about 22%). */
+  daylightControls?: boolean;
+  /** Rooftop PV, kWp. */
+  pvKwp?: number;
+  /** Share of domestic hot water from solar heaters, 0 to 1 (else the `comfort.dhw.solarShare` setting). */
+  dhwSolarShare?: number;
+  /**
+   * Heat pump for space heating and hot water, seasonal COP (absent: a gas boiler at 85% where the
+   * climate needs heating). Required by the Future Homes Standard (SPEC 27).
+   */
+  heatPumpScop?: number;
+}
+
 /** Stage inputs. Every input is plain data (structured-cloneable to a worker). */
 export interface StageIn {
   geometry: { doc: BuildingDoc; packsFingerprint: string };
@@ -49,6 +84,8 @@ export interface StageIn {
     /** Place and weather; absent means the climate named by settings, else the place default. */
     site?: SiteContext;
     settings: Setting[];
+    /** Design parameters (what-if levers); absent means the building as drawn. */
+    params?: EnergyParams;
     asOf: IsoDate;
   };
   codes: {
@@ -58,6 +95,8 @@ export interface StageIn {
     daylight?: SiteResult;
     site?: SiteContext;
     codePackIds: string[];
+    /** Targets from the brief: the stage reports a gap for each (SPEC 27, AC-PD3). */
+    goals?: ScopedGoal[];
     asOf: IsoDate;
   };
   optimise: {
@@ -70,6 +109,12 @@ export interface StageIn {
     space: { axis: string; grid: string }[];
     site?: SiteContext;
     settings?: Setting[];
+    /**
+     * The same radiation and design levers the energy stage used, so the baseline option's
+     * bill equals the energy result's bill (one canonical bill per inputs).
+     */
+    radiation?: SiteResult;
+    params?: EnergyParams;
     seed: string;
     asOf: IsoDate;
   };
@@ -82,6 +127,8 @@ export interface CodesOut {
   baselines: BaselineRow[];
   /** The energy result with `codes`, `ratings` and `baselines` filled. */
   result: BuildingResult;
+  /** Where the design stands against each goal of the input (met, not met, unknown). */
+  gaps?: GoalGap[];
 }
 
 export interface StageOut {

@@ -2,7 +2,7 @@
  * Static first paint (AC-L1, AC-L2). Owner: WP-09.
  * Renders the landing page to HTML at build time; `vite.config.ts` puts it into `index.html`.
  */
-import { LANDING_META, type PluginPresence, visibleChapters } from '@ibasho/content';
+import { LANDING_META, needsPreview, type PluginPresence, visibleChapters } from '@ibasho/content';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { LandingPage } from './Landing.tsx';
 
@@ -11,7 +11,9 @@ const escapeAttr = (s: string) =>
 
 /** The page body for the given plugin presence. */
 export function renderLanding(presence: PluginPresence): string {
-  return renderToStaticMarkup(<LandingPage chapters={visibleChapters(presence)} />);
+  const chapters = visibleChapters(presence);
+  const preview = new Set(chapters.filter((c) => needsPreview(c.requires, presence)).map((c) => c.id));
+  return renderToStaticMarkup(<LandingPage chapters={chapters} preview={preview} />);
 }
 
 /** Tags for `<head>`: description and social preview text. */
@@ -21,6 +23,7 @@ export function renderHead(): string {
     `<meta name="description" content="${d}" />`,
     `<meta property="og:title" content="${escapeAttr(LANDING_META.title)}" />`,
     `<meta property="og:description" content="${d}" />`,
+    `<title>${escapeAttr(LANDING_META.title)}</title>`,
     '<meta name="color-scheme" content="light dark" />',
   ].join('\n    ');
 }

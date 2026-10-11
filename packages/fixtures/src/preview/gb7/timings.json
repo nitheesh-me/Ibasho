@@ -1,0 +1,13 @@
+{
+  "resolution": "standard",
+  "deviceFactor": 1,
+  "ms": {
+    "geometry": 640,
+    "sun": 3520,
+    "radiation": 5120,
+    "daylight": 6720,
+    "energy": 4160,
+    "codes": 1440,
+    "optimise": 8320
+  }
+}

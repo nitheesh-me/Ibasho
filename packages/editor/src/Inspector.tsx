@@ -23,37 +23,12 @@ import {
   setStorey,
   setWindow,
 } from './ops.ts';
+import { SHADE_PRESETS_DATA as SHADE_PRESETS } from './presets.ts';
 import { SPACE_FUNCTIONS, spaceFunction, TYPE_FUNCTIONS } from './spaces.ts';
 
 type OnEdit = (label: string, recipe: Recipe) => void;
 
-export const SHADE_PRESETS: { id: string; label: string; rules: ShadeRule[] }[] = [
-  { id: 'none', label: 'None', rules: [] },
-  {
-    id: 'chajja',
-    label: 'Chajja',
-    rules: [{ kind: 'overhang', depth: 600, aboveHead: 150, extension: 300 }],
-  },
-  {
-    id: 'deep',
-    label: 'Deep overhang',
-    rules: [{ kind: 'overhang', depth: 1200, aboveHead: 150, extension: 600 }],
-  },
-  { id: 'fins', label: 'Fins', rules: [{ kind: 'fins', depth: 450, sides: 'both' }] },
-  {
-    id: 'box',
-    label: 'Box frame',
-    rules: [
-      { kind: 'overhang', depth: 600, aboveHead: 150, extension: 0 },
-      { kind: 'fins', depth: 600, sides: 'both' },
-    ],
-  },
-  {
-    id: 'jaali',
-    label: 'Jaali',
-    rules: [{ kind: 'screen', porosityPm: 400, offset: 300, presetId: 'jaali' }],
-  },
-];
+export { SHADE_PRESETS };
 
 export function presetOf(rules: readonly ShadeRule[]): string {
   const key = JSON.stringify(rules);
@@ -274,8 +249,7 @@ export function FacadePanel({
         ))}
       </ul>
       <p className="ib-insp__note">
-        Meters read the plan only: ECBC 2017 4.3.2 window limit (estimate grade until checked against the code
-        text).
+        Meters read the plan only. The window limit is ECBC 2017 clause 4.3.2 (estimated).
       </p>
     </section>
   );
@@ -294,10 +268,10 @@ function FacadeRow({ m, onEdit, compact }: { m: FacadeMeter; onEdit: OnEdit; com
           <Range
             label={`Window share facing ${m.bin}`}
             hideLabel
-            value={Math.round(m.wwrPm / 50) * 5}
+            value={Math.round(m.wwrPm / 10)}
             min={0}
             max={80}
-            step={5}
+            step={1}
             mark={{ at: 40, label: 'ECBC 40% limit' }}
             format={(v) => `${v}%`}
             onChange={(v) =>
@@ -362,27 +336,33 @@ export function StoreyStack({ doc, storeyId, onStorey, onEdit, limited }: Storey
             </button>
             {s.id === storeyId && !limited ? (
               <div className="ib-storeys__edit">
-                <Stepper
-                  id={`ftf-${s.id}`}
-                  label="floor to floor height"
-                  value={s.floorToFloor / 1000}
-                  step={0.1}
-                  min={2.4}
-                  max={8}
-                  decimals={1}
-                  onChange={(m) =>
-                    onEdit('Floor height', setStorey(s.id, { floorToFloor: Math.round(m * 1000) }))
-                  }
-                />
-                <Stepper
-                  id={`mul-${s.id}`}
-                  label="repeat"
-                  value={s.multiplier}
-                  step={1}
-                  min={1}
-                  max={60}
-                  onChange={(n) => onEdit('Repeat storey', setStorey(s.id, { multiplier: n }))}
-                />
+                <span className="ib-storeys__field">
+                  Floor to floor (m)
+                  <Stepper
+                    id={`ftf-${s.id}`}
+                    label="floor to floor height"
+                    value={s.floorToFloor / 1000}
+                    step={0.1}
+                    min={2.4}
+                    max={8}
+                    decimals={1}
+                    onChange={(m) =>
+                      onEdit('Floor height', setStorey(s.id, { floorToFloor: Math.round(m * 1000) }))
+                    }
+                  />
+                </span>
+                <span className="ib-storeys__field">
+                  Copies of this floor
+                  <Stepper
+                    id={`mul-${s.id}`}
+                    label="copies of this floor"
+                    value={s.multiplier}
+                    step={1}
+                    min={1}
+                    max={60}
+                    onChange={(n) => onEdit('Repeat storey', setStorey(s.id, { multiplier: n }))}
+                  />
+                </span>
                 {doc.storeys.length > 1 ? (
                   <button
                     type="button"

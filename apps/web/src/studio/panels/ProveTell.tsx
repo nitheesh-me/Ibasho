@@ -8,9 +8,48 @@
  */
 import { ApplicabilityChip, GradeBadge, Num, PreviewStamp, RatingLadder, Stale } from '@ibasho/ui';
 import { Link } from 'react-router';
-import { LEVERS, leverLabel } from '../preview/settings.ts';
 import { BASE_VARIANT, type BuildingEntry, type Job, jobKey, useStudio } from '../state/studio.ts';
 import { Card, Waiting } from './Summary.tsx';
+
+const LEVER_PHRASE: Record<string, (v: string | number) => string> = {
+  wwr: (v) => `windows at ${v}% of the wall`,
+  shading: (v) =>
+    v === 'chajja'
+      ? 'chajjas on the sunny facades'
+      : v === 'deep'
+        ? 'deep overhangs and fins on the sunny facades'
+        : v === 'jaali'
+          ? 'jaali screens on the sunny facades'
+          : 'shading as drawn',
+  glazing: (v) => (v === 'low-e' ? 'low-e double glazing' : 'glazing as drawn'),
+  roof: (v) => (v === 'cool' ? 'a cool roof' : 'the roof as drawn'),
+  wall: (v) => (v === 'insulated' ? 'insulated walls' : 'walls as drawn'),
+  setpoint: (v) => `cooling set to ${v} °C`,
+  lighting: (v) => (v === 'led' ? 'LED lighting' : 'lighting as drawn'),
+  daylight: (v) => (v === 'on' ? 'daylight dimming' : 'no daylight controls'),
+  hvac: (v) =>
+    v === 'vrf'
+      ? 'VRF cooling'
+      : v === 'chiller'
+        ? 'a chiller with DOAS'
+        : v === 'split'
+          ? 'split units'
+          : 'cooling as drawn',
+  pv: (v) => `solar panels on ${v}% of the roof`,
+};
+
+/** "Shaded and cool adds chajjas on the sunny facades, a cool roof and low-e double glazing." */
+export function changeList(changes: Record<string, string | number>): string {
+  const parts = Object.entries(changes).map(([k, v]) => LEVER_PHRASE[k]?.(v) ?? `${k} ${v}`);
+  return parts.length <= 1
+    ? (parts[0] ?? '')
+    : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+}
+
+export function memorySentence(name: string, changes: Record<string, string | number>): string {
+  const list = changeList(changes);
+  return list ? `${name} adds ${list}.` : `${name} has no changes yet.`;
+}
 
 const STATUS: Record<string, string> = {
   true: 'Passes the pre-check',
@@ -79,9 +118,9 @@ export function ProvePanel({ job, b }: { job: Job | undefined; b: BuildingEntry 
       </Card>
       <Card title="Seals" kicker="Evidence">
         <p className="st-note">
-          Every number here is Preview data, so none carries a Checked seal yet. When a stage turns real, its
-          numbers are re-derived by the checker and sealed, and the red thread opens each one.{' '}
-          <Link to="/proofs">What we prove</Link>.
+          Every number here is a Preview estimate, so none carries a Checked seal yet. Once a figure is
+          calculated for this building, its arithmetic is checked independently and you can open how it was
+          worked out. <Link to="/proofs">What we prove</Link>.
         </p>
       </Card>
     </div>
@@ -126,18 +165,9 @@ export function TellPanel({ b }: { b: BuildingEntry }) {
         <ul className="st-memory">
           <li>This building is an education block with labs and a data centre, in Hyderabad.</li>
           {best.map((v) => (
-            <li key={v.id}>
-              {v.name}:{' '}
-              {Object.entries(v.changes)
-                .map(
-                  ([k, val]) =>
-                    `${LEVERS.find((l) => l.id === k)?.label.toLowerCase() ?? k} ${leverLabel(k, val)}`,
-                )
-                .join(', ') || 'no changes yet'}
-              .
-            </li>
+            <li key={v.id}>{memorySentence(v.name, v.changes)}</li>
           ))}
-          <li>Numbers are Preview until each stage turns real; nothing here is remembered as a result.</li>
+          <li>Numbers here are Preview estimates and are not saved as results.</li>
         </ul>
         <button type="button" className="ib-btn ib-btn--quiet" onClick={() => window.print()}>
           Print a report

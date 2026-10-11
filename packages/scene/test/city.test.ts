@@ -18,7 +18,7 @@ import {
 import { standInCity } from '../src/city/standin.ts';
 import { dayWindow, sunOf } from '../src/city/sun.ts';
 import { ZOOM_LEVELS } from '../src/city/types.ts';
-import { blendView, levelView, resolveFocus } from '../src/city/view.ts';
+import { blendView, eyeVector, fitPoints, levelView, resolveFocus } from '../src/city/view.ts';
 import { IIIT_ORIGIN, VINDHYA_EN, vindhyaStandIn } from '../src/city/vindhya.ts';
 
 const doc = vindhyaStandIn();
@@ -246,9 +246,22 @@ describe('views and the model', () => {
   it('zooms in monotonically down the ladder', () => {
     const halves = ZOOM_LEVELS.map(
       (level) =>
-        levelView({ level, hero: model.hero, cityBox: model.cityBox, azimuthDeg: 225, aspect: 1.6 }).halfH,
+        levelView({
+          level,
+          hero: model.hero,
+          cityBox: model.cityBox,
+          azimuthDeg: 225,
+          aspect: 1.6,
+          storeyId: 'st_l1',
+        }).halfH,
     );
-    for (let i = 1; i < halves.length; i++) expect(halves[i]).toBeLessThan(halves[i - 1]!);
+    // City > site > building, and floor and room sit inside the site frame, room tightest.
+    const [hCity, hSite, hBuilding, hFloor, hRoom] = halves as [number, number, number, number, number];
+    expect(hSite).toBeLessThan(hCity);
+    expect(hBuilding).toBeLessThan(hSite);
+    expect(hFloor).toBeLessThan(hSite);
+    expect(hRoom).toBeLessThan(hFloor);
+    expect(hRoom).toBeLessThan(hBuilding);
     const site = levelView({
       level: 'site',
       hero: model.hero,
@@ -281,6 +294,34 @@ describe('views and the model', () => {
     };
     expect(lanternStrength(d, 12)).toBeGreaterThan(lanternStrength(d, 0));
     expect(lanternStrength({ ...d, euiKwhM2: 300 }, 12)).toBeGreaterThan(lanternStrength(d, 12));
+  });
+});
+
+describe('building framing (studio review S-M3)', () => {
+  it('keeps a 60 m tower, roof included, inside the frame with a margin', () => {
+    const pts: [number, number, number][] = [];
+    for (const [e, n] of [
+      [0, 0],
+      [30, 0],
+      [30, 30],
+      [0, 30],
+    ] as const)
+      pts.push([e, 0, n], [e, 60, n]);
+    const aspect = 1.6;
+    const v = fitPoints(pts, 135, 30, aspect, 0.12);
+    const ey = eyeVector(v.azimuthDeg, v.elevationDeg);
+    const f = [-ey[0], -ey[1], -ey[2]];
+    const rl = Math.hypot(f[2]!, f[0]!);
+    const r = [-f[2]! / rl, 0, f[0]! / rl];
+    const u = [r[1]! * f[2]! - r[2]! * f[1]!, r[2]! * f[0]! - r[0]! * f[2]!, r[0]! * f[1]! - r[1]! * f[0]!];
+    const t = [v.target[0], v.target[1], -v.target[2]];
+    for (const [E, H, N] of pts) {
+      const d = [E - t[0]!, H - t[1]!, -N - t[2]!];
+      const pu = d[0]! * r[0]! + d[1]! * r[1]! + d[2]! * r[2]!;
+      const pv = d[0]! * u[0]! + d[1]! * u[1]! + d[2]! * u[2]!;
+      expect(Math.abs(pv)).toBeLessThanOrEqual(v.halfH);
+      expect(Math.abs(pu)).toBeLessThanOrEqual(v.halfH * aspect);
+    }
   });
 });
 

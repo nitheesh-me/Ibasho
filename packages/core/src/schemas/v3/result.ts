@@ -150,6 +150,7 @@ export const SiteResultSchema: z.ZodType<SiteResult> = z.object({
     }),
   ),
   ledger: z.array(z.object({ receiver: Id, blocker: Id, lostWh: BigNonNegSchema })),
+  unknownHeightIds: opt(z.array(Id)),
 });
 
 const MonthSchema = z.int().min(0).max(11);
@@ -243,6 +244,22 @@ export const CodesOutSchema: z.ZodType<CodesOut> = z.object({
   ratings: z.array(RatingRowSchema),
   baselines: z.array(BaselineRowSchema),
   result: BuildingResultSchema,
+  gaps: opt(
+    z.array(
+      z.object({
+        presetId: opt(z.string()),
+        goal: z.looseObject({ kind: z.string() }),
+        status: z.enum(['met', 'not-met', 'unknown']),
+        value: opt(IvalSchemaV3),
+        target: opt(Finite),
+        unit: opt(z.string()),
+        ruleIds: opt(z.array(z.string())),
+        reason: z.string(),
+        sources: z.array(SourceRefSchema),
+        grade: GradeSchema,
+      }),
+    ),
+  ),
 }) as unknown as z.ZodType<CodesOut>;
 
 const RecRoleSchema = z.string().min(1);

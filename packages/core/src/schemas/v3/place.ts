@@ -24,6 +24,7 @@ export const PlaceSchema: z.ZodType<Place> = z.object({
   buildingIds: z.array(Id),
   lineage: opt(z.object({ from: Id, at: IsoDateSchema })),
   sample: opt(z.literal(true)),
+  onDemand: opt(z.literal(true)),
 });
 
 const HeightRange = z

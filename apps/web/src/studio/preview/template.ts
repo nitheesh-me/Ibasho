@@ -6,7 +6,7 @@
  * perimeter. Massing in, rooms out; the person refines in Make.
  */
 import type { BuildingDoc, BuildingTypeId, Room2D, Storey } from '@ibasho/core';
-import { classifyStorey, rect, segmentsFor, TYPE_FUNCTIONS } from '@ibasho/editor';
+import { classifyStorey, rect, segmentsFor, TYPE_FUNCTIONS } from '@ibasho/editor/core';
 
 export interface TemplateSpec {
   typeId: BuildingTypeId;

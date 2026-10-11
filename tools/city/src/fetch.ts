@@ -9,6 +9,7 @@ import type { CityArea } from './areas.ts';
 export const OVERPASS = [
   'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
   'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
 ];
 
 export function overpassQuery(a: CityArea): string {

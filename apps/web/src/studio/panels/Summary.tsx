@@ -59,7 +59,14 @@ export function KeyNumbers({
   );
 }
 
-export function BuildingSummary({ job }: { job: Job | undefined }) {
+/** Comfort label by building type (review B-M7): never "classroom" on an office. */
+export const comfortLabel = (typeId: string | undefined): string =>
+  typeId === 'education'
+    ? 'Classroom hours comfortable with fans alone'
+    : 'Hours comfortable with fans alone';
+export const IMAC_NOTE = 'Using the Indian adaptive comfort model (IMAC), which counts a ceiling fan';
+
+export function BuildingSummary({ job, typeId }: { job: Job | undefined; typeId?: string }) {
   const e = job?.views.energy;
   const g = job?.views.geometry;
   const d = job?.views.daylight;
@@ -101,11 +108,7 @@ export function BuildingSummary({ job }: { job: Job | undefined }) {
             items={[
               { label: 'Electricity bill', ev: e?.bill },
               { label: 'Operational carbon', ev: e?.carbon },
-              {
-                label: 'Classroom hours comfortable with fans alone',
-                ev: e?.fanHours,
-                note: 'Fan-first (IMAC adaptive)',
-              },
+              { label: comfortLabel(typeId), ev: e?.fanHours, note: IMAC_NOTE },
               { label: 'Daylit floor area', ev: d?.ecbc },
               { label: 'Savings against the code baseline', ev: c?.savings },
               { label: 'Conditioned area', ev: g?.nca },

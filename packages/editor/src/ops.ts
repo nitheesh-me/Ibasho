@@ -439,3 +439,34 @@ export function setRotation(rotationMdeg: number): Recipe {
     d.rotationMdeg = ((Math.round(rotationMdeg) % 360_000) + 360_000) % 360_000;
   };
 }
+
+/** Add a core (stair, lift, shaft, services) on a storey and, by default, every storey above it. */
+export function addCore(
+  storeyId: string,
+  outline: PointMm[],
+  kind: 'stair' | 'lift' | 'shaft' | 'services' = 'stair',
+  allAbove = true,
+): Recipe {
+  return (d) => {
+    const i = d.storeys.findIndex((s) => s.id === storeyId);
+    if (i < 0) return;
+    const targets = allAbove ? d.storeys.slice(i).filter((s) => !s.belowGrade) : [d.storeys[i]];
+    for (const s of targets) {
+      if (!s) continue;
+      s.cores.push({
+        id: newId('co'),
+        kind,
+        outline: ccw(clone(outline)),
+        conditioned: false,
+        excludeFromArea: true,
+      });
+    }
+  };
+}
+
+export function removeCore(storeyId: string, coreId: string): Recipe {
+  return (d) => {
+    const s = storeyOf(d, storeyId);
+    s.cores = s.cores.filter((c) => c.id !== coreId);
+  };
+}

@@ -52,6 +52,10 @@ Node 26.1.0, pnpm 11.1.1. Run from the repo root.
 - **No em dashes or en dashes** anywhere: copy, docs, comments, code. `pnpm lint` fails on them.
 - **Do not commit.** The orchestrator commits at gates. Never run `git stash`, `reset` or `checkout` on others' work.
 
+## Customer-facing content only
+
+Everything a person can see in the product (apps/web, apps/landing, packages/ui, packages/scene chrome, packages/content, labels and notes in fixtures that reach the UI) must make sense to a customer: a homeowner, an architect, a facility team or another business. Never ship development artefacts there: no work package ids, milestone names, gate or acceptance ids, "stand in", "placeholder", "stub", "TODO", "fixture", "tier", debug panels, internal file or variable names, requirement or ask text, or notes to other agents. Honest product states stay ("Preview", "Estimated", "Modelled, not measured"), written in plain customer language. Dev harnesses and stories stay out of the shipped app.
+
 ## Reuse and acknowledge
 
 Stand on the shoulders of giants. Prefer proven open-source libraries, algorithms, shaders, datasets and tools over writing from scratch. Licensing is not a constraint here (personal use), but credit is required: vendored files keep a header with source URL, author and licence, and every borrowed library, snippet, dataset or asset gets a line in `ACKNOWLEDGEMENTS.md`. During an install freeze, request new npm packages on the blackboard (INTERFACES) instead of installing.

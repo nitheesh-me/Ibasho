@@ -12,13 +12,16 @@
  *    `packages/engine` and checker rungs in `packages/verify` (ARCH 2), so a packs-only scan would
  *    never show "Three futures" or "Proof and privacy".
  *
+ * It also reads the studio's stage providers (`STAGE_PROVIDERS` in the same manifest), so v3 chapters
+ * show once the studio can show that result, marked Preview while the stage is Preview.
+ *
  * Runs in Node only (from `vite.config.ts` and tests). A module that fails to import, such as a ui
  * half with JSX that Node cannot strip, is skipped and reported, never fatal.
  */
 import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import type { IbashoModule, ModuleManifest, PluginKind } from '@ibasho/core';
+import type { IbashoModule, ModuleManifest, PluginKind, StageId } from '@ibasho/core';
 
 export interface DiscoveredPlugin {
   kind: PluginKind;
@@ -32,6 +35,8 @@ export interface Discovery {
   source: 'manifest' | 'files' | 'none';
   plugins: DiscoveredPlugin[];
   skipped: { file: string; reason: string }[];
+  /** Studio stage providers by stage, from the manifest. Empty when it has none. */
+  stages: Partial<Record<StageId, string>>;
 }
 
 const HALVES = ['engine', 'ui'] as const;
@@ -88,34 +93,50 @@ async function collect(loaders: readonly Loader[], source: Discovery['source']):
     }
   }
   plugins.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
-  return { source, plugins, skipped };
+  return { source, plugins, skipped, stages: {} };
 }
 
-/** The manifest's module refs, or undefined when it is absent, unreadable or empty. */
-async function manifestLoaders(repoRoot: string): Promise<Loader[] | undefined> {
+interface ManifestFile {
+  manifest?: ModuleManifest;
+  STAGE_PROVIDERS?: Partial<Record<StageId, string>>;
+}
+
+/** The app manifest module, or undefined when it is absent or Node cannot import it. */
+async function readManifest(repoRoot: string): Promise<ManifestFile | undefined> {
   const file = manifestFile(repoRoot);
   if (!existsSync(file)) return undefined;
-  let manifest: ModuleManifest | undefined;
   try {
-    const mod = (await import(/* @vite-ignore */ pathToFileURL(file).href)) as { manifest?: ModuleManifest };
-    manifest = mod.manifest;
+    return (await import(/* @vite-ignore */ pathToFileURL(file).href)) as ManifestFile;
   } catch {
     // A manifest Node cannot import (JSX, browser-only code) falls back to the file scan.
     return undefined;
   }
-  const refs = [...(manifest?.engine ?? []), ...(manifest?.ui ?? [])];
-  if (refs.length === 0) return undefined;
-  return refs.map((r) => ({ label: `manifest:${r.id}`, load: () => r.load() }));
+}
+
+/** Only string provider ids, so a malformed manifest cannot show a chapter. */
+function stagesOf(m: ManifestFile | undefined): Partial<Record<StageId, string>> {
+  const out: Partial<Record<StageId, string>> = {};
+  for (const [k, v] of Object.entries(m?.STAGE_PROVIDERS ?? {})) if (typeof v === 'string') out[k as StageId] = v;
+  return out;
 }
 
 /** List the plugins the app would register: from the manifest when it has modules, else module files. Never throws. */
 export async function discoverPlugins(repoRoot: string): Promise<Discovery> {
-  const fromManifest = await manifestLoaders(repoRoot);
-  if (fromManifest) return collect(fromManifest, 'manifest');
+  const m = await readManifest(repoRoot);
+  const stages = stagesOf(m);
+  const refs = [...(m?.manifest?.engine ?? []), ...(m?.manifest?.ui ?? [])];
+  if (refs.length > 0) {
+    const d = await collect(
+      refs.map((r) => ({ label: `manifest:${r.id}`, load: () => r.load() })),
+      'manifest',
+    );
+    return { ...d, stages };
+  }
   const files = moduleFiles(repoRoot);
-  if (files.length === 0) return { source: 'none', plugins: [], skipped: [] };
-  return collect(
+  if (files.length === 0) return { source: 'none', plugins: [], skipped: [], stages };
+  const d = await collect(
     files.map((file) => ({ label: file, load: () => import(/* @vite-ignore */ pathToFileURL(file).href) })),
     'files',
   );
+  return { ...d, stages };
 }

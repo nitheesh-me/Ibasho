@@ -61,6 +61,7 @@ export interface LookPanelProps {
   when: string;
   where: string;
   inspect?: ReactNode;
+  typeId?: string;
 }
 
 export function LookPanel(p: LookPanelProps) {
@@ -131,13 +132,6 @@ export function LookPanel(p: LookPanelProps) {
                   ...(lo ? [{ label: `Shadiest facade (${lo.bin})`, ev: lo.ev }] : []),
                 ]
           }
-          histogram={
-            <Histogram
-              bins={sun.facades.map((f) => f.h)}
-              ramp={def.ramp}
-              label="Sun hours by facade, north to north west"
-            />
-          }
           inspect={p.inspect}
         />
       );
@@ -151,7 +145,7 @@ export function LookPanel(p: LookPanelProps) {
         <LensPanel
           title="Radiation"
           what="Sunlight energy falling on each facade and the roof over a typical year."
-          when="Typical year (ISHRAE Hyderabad)"
+          when="Typical weather year for Hyderabad"
           where={p.where}
           resolution={p.resolution}
           onResolution={p.onResolution}
@@ -160,16 +154,13 @@ export function LookPanel(p: LookPanelProps) {
             'kWh/m² a year',
             rad.min,
             rad.max,
-            'Cumulative sky, Tregenza patches, BVH occlusion',
+            'Sky model over the year, with shade from the neighbours',
           )}
           keys={[
             { label: 'Roof', ev: rad.roof },
             ...(hi ? [{ label: `Most on a facade (${hi.bin})`, ev: hi.ev }] : []),
             ...(lo ? [{ label: `Least (${lo.bin})`, ev: lo.ev }] : []),
           ]}
-          histogram={
-            <Histogram bins={rad.facades.map((f) => f.kwh)} ramp="hinata" label="Radiation by facade" />
-          }
           inspect={p.inspect}
         >
           <p className="st-note">
@@ -194,7 +185,7 @@ export function LookPanel(p: LookPanelProps) {
           resolution={p.resolution}
           onResolution={p.onResolution}
           preview
-          legend={legend('% of floor', undefined, undefined, 'Daylight coefficients, tier T1 (simplified)')}
+          legend={legend('% of floor', undefined, undefined, 'Simplified daylight model')}
           keys={
             p.lens === 'glare'
               ? [{ label: 'ASE, whole building', ev: day.ase }]
@@ -238,13 +229,22 @@ export function LookPanel(p: LookPanelProps) {
       body = (
         <LensPanel
           title="Comfort"
-          what="Hours each classroom is comfortable with ceiling fans alone, then with AC at the set point."
+          what={
+            p.typeId === 'education'
+              ? 'Hours each classroom is comfortable with ceiling fans alone, then with AC at the set point.'
+              : 'Hours the occupied rooms are comfortable with ceiling fans alone, then with AC at the set point.'
+          }
           when="Occupied hours, typical year"
-          where="Classrooms, all floors"
+          where={p.typeId === 'education' ? 'Classrooms, all floors' : 'Occupied rooms, all floors'}
           resolution={p.resolution}
           onResolution={p.onResolution}
           preview
-          legend={legend('hours a year', undefined, undefined, 'IMAC adaptive, fan-first')}
+          legend={legend(
+            'hours a year',
+            undefined,
+            undefined,
+            'Indian adaptive comfort model (IMAC), fan first',
+          )}
           keys={[
             { label: 'Comfortable with fans alone', ev: en.fanHours },
             { label: 'Need AC', ev: en.acHours },
@@ -252,8 +252,8 @@ export function LookPanel(p: LookPanelProps) {
           inspect={p.inspect}
         >
           <p className="st-note">
-            A 28 to 30 °C set point with a fan can save much of the cooling energy (BI 5). Try the set point
-            lever in Choose.
+            A 28 to 30 °C set point with a fan can save much of the cooling energy. Try the set point lever in
+            Choose.
           </p>
         </LensPanel>
       );

@@ -1,26 +1,35 @@
 /**
- * The landing page, "Ibasho no kōjō" (SPEC 5.1, UX 16, SV 7). Owner: WP-09.
+ * The landing page, "Ibasho no kōjō" (SPEC 5.1 and 27, PLAN-V3, UX 16, SV 7). Owner: WP-09.
  *
  * Rendered to static HTML at build time (`prerender.tsx`), so every chapter reads with JavaScript
  * off (AC-L2) and first paint needs no script (AC-L1). The chapter list comes only from
- * `@ibasho/content` (AC-L3), already filtered by `requires` (I4).
+ * `@ibasho/content` (AC-L3), already filtered by `requires` (I4). A chapter whose studio stages are
+ * still Preview carries a Preview mark.
  *
  * Colour discipline (DESIGN_SYSTEM 1): gold only on the one hero action; no vermilion, because no
  * seal is pressed on this page; the hero is lit like a lantern (Yoru), the rest is washi (Hiru).
  */
+import type { BuildingTypeId } from '@ibasho/core';
 import {
+  BUILDING_TYPE_COPY,
   definitionOf,
   GLOSSARY,
+  LANDING_AUDIENCE_INTRO,
+  LANDING_AUDIENCES,
+  LANDING_FOOTER,
+  LANDING_HERO_CAPTION,
   LANDING_INVITATION,
+  LANDING_TAGLINE,
   type LandingChapter,
   markedTerms,
   segments,
   termOf,
 } from '@ibasho/content';
-import { Glyph } from '@ibasho/ui';
+import { Glyph, Mon } from '@ibasho/ui';
 import type { ReactNode } from 'react';
+import { CityArt } from './CityArt.tsx';
 
-const ORDINAL = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+const ORDINAL = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven'];
 
 /** Copy with glossary marks rendered as links to the "Words we use" list. */
 export function Copy({ text }: { text: string }): ReactNode {
@@ -37,33 +46,21 @@ export function Copy({ text }: { text: string }): ReactNode {
 }
 
 /** Glossary ids marked anywhere in the given chapters, in first-use order. */
-export function termsUsed(chapters: readonly LandingChapter[]): string[] {
+export function termsUsed(chapters: readonly LandingChapter[], preview = false): string[] {
   const seen = new Set<string>();
   for (const c of chapters) for (const t of [c.line, ...c.body].flatMap(markedTerms)) seen.add(t);
   for (const t of markedTerms(LANDING_INVITATION.line)) seen.add(t);
+  if (preview) seen.add('preview');
   return [...seen].filter((id) => GLOSSARY[id]);
 }
 
-/** A paper lantern: timber frame, washi skin, a flame inside. Decorative. */
-function Lantern() {
+/** The Preview mark beside a chapter whose results are examples for now. */
+function PreviewMark() {
   return (
-    <svg className="lp-lantern" viewBox="0 0 120 200" aria-hidden="true" focusable="false">
-      <defs>
-        <radialGradient id="lp-flame" cx="50%" cy="58%" r="55%">
-          <stop offset="0" stopColor="var(--glow)" stopOpacity="0.95" />
-          <stop offset="0.55" stopColor="var(--glow)" stopOpacity="0.35" />
-          <stop offset="1" stopColor="var(--glow)" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse cx="60" cy="112" rx="58" ry="80" fill="url(#lp-flame)" />
-      <rect x="26" y="36" width="68" height="132" fill="var(--paper-raised)" opacity="0.18" />
-      <g fill="none" stroke="currentColor" strokeLinecap="round">
-        <path d="M20 30h80M20 174h80" strokeWidth="3" />
-        <path d="M26 30v144M94 30v144" strokeWidth="2.2" />
-        <path d="M26 74h68M26 118h68M60 30v144" strokeWidth="0.9" opacity="0.7" />
-        <path d="M34 174l-6 18M86 174l6 18M60 30V10M48 10h24" strokeWidth="2" />
-      </g>
-    </svg>
+    <a className="lp-preview" href="#g-preview" title={definitionOf('preview')}>
+      <span aria-hidden="true" className="lp-preview__hatch" />
+      Preview
+    </a>
   );
 }
 
@@ -87,21 +84,21 @@ function Hero({ chapter }: { chapter: LandingChapter }) {
       aria-labelledby={titleId}
     >
       <div className="lp-hero__inner">
-        <div className="lp-hero__art" aria-hidden="true">
-          <Lantern />
-          <div className="lp-hero__brush">
-            <Glyph char="居" pad={40} />
-            <Glyph char="場" pad={40} />
-            <Glyph char="所" pad={40} />
-          </div>
-        </div>
         <div className="lp-hero__text">
-          <p className="lp-kicker">
-            {chapter.kicker}. <span className="lp-kicker__aside">{chapter.title}</span>
+          <p className="lp-kicker lp-hero__kicker">
+            <span className="lp-hero__brush" aria-hidden="true">
+              <Glyph char="居" pad={40} />
+              <Glyph char="場" pad={40} />
+              <Glyph char="所" pad={40} />
+            </span>
+            {chapter.kicker}
           </p>
           <h1 id={titleId} className="lp-hero__title">
-            {chapter.line}
+            {chapter.title}
           </h1>
+          <p className="lp-hero__line">
+            <Copy text={chapter.line} />
+          </p>
           {chapter.body.map((p) => (
             <p key={p} className="lp-hero__body">
               <Copy text={p} />
@@ -116,12 +113,54 @@ function Hero({ chapter }: { chapter: LandingChapter }) {
             </a>
           </div>
         </div>
+        <figure className="lp-hero__art">
+          <CityArt />
+          <figcaption className="lp-hero__caption">{LANDING_HERO_CAPTION}</figcaption>
+        </figure>
       </div>
     </section>
   );
 }
 
-function Chapter({ chapter, index }: { chapter: LandingChapter; index: number }) {
+function Audiences() {
+  return (
+    <section id="for" className="lp-for" aria-labelledby="for-title">
+      <div className="lp-for__head">
+        <h2 id="for-title" className="lp-for__title">
+          {LANDING_AUDIENCE_INTRO.title}
+        </h2>
+        <p className="lp-for__line">{LANDING_AUDIENCE_INTRO.line}</p>
+      </div>
+      <ul className="lp-for__list">
+        {LANDING_AUDIENCES.map((a) => (
+          <li key={a.id} className="lp-for__item" data-audience={a.id}>
+            <h3 className="lp-for__who">{a.who}</h3>
+            <p className="lp-for__need">{a.need}</p>
+            <a className="lp-for__link" href={a.link.href}>
+              {a.link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Types() {
+  const types = Object.values(BUILDING_TYPE_COPY);
+  return (
+    <ul className="lp-types" aria-label="Kinds of building">
+      {types.map((t) => (
+        <li key={t.id} className="lp-types__item">
+          <Mon id={`type-${t.id as BuildingTypeId}`} size={32} />
+          <span className="lp-types__label">{t.label}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Chapter({ chapter, index, preview }: { chapter: LandingChapter; index: number; preview: boolean }) {
   const titleId = `${chapter.id}-title`;
   return (
     <section
@@ -129,12 +168,14 @@ function Chapter({ chapter, index }: { chapter: LandingChapter; index: number })
       className="lp-ch"
       data-chapter={chapter.id}
       data-side={index % 2 === 0 ? 'start' : 'end'}
+      data-preview={preview ? '' : undefined}
       aria-labelledby={titleId}
     >
       <Mark chapter={chapter} />
       <div className="lp-ch__text">
         <p className="lp-kicker">
           <span className="lp-kicker__n">{ORDINAL[index] ?? String(index + 1)}</span> {chapter.kicker}
+          {preview ? <PreviewMark /> : null}
         </p>
         <h2 id={titleId} className="lp-ch__title">
           {chapter.title}
@@ -147,6 +188,12 @@ function Chapter({ chapter, index }: { chapter: LandingChapter; index: number })
             <Copy text={p} />
           </p>
         ))}
+        {chapter.types ? <Types /> : null}
+        {chapter.link ? (
+          <a className="lp-ch__link" href={chapter.link.href}>
+            {chapter.link.label}
+          </a>
+        ) : null}
       </div>
       {chapter.poster ? (
         <figure className="lp-ch__poster">
@@ -201,12 +248,15 @@ function Words({ ids }: { ids: readonly string[] }) {
 export interface LandingPageProps {
   /** Chapters to show, already filtered and ordered (`visibleChapters`). */
   chapters: readonly LandingChapter[];
+  /** Ids of chapters whose results are Preview for now. */
+  preview?: ReadonlySet<string>;
 }
 
-export function LandingPage({ chapters }: LandingPageProps) {
+export function LandingPage({ chapters, preview = new Set() }: LandingPageProps) {
   const [first, ...rest] = chapters;
   const hero = first?.id === 'hero' ? first : undefined;
   const others = hero ? rest : chapters;
+  const anyPreview = others.some((c) => preview.has(c.id));
   return (
     <>
       <a className="lp-skip" href="#story">
@@ -216,20 +266,30 @@ export function LandingPage({ chapters }: LandingPageProps) {
         <a className="lp-bar__name" href="/">
           Ibasho
         </a>
-        <button type="button" className="lp-bar__lantern" data-lantern hidden aria-pressed="false">
-          Night
-        </button>
+        <nav className="lp-bar__nav" aria-label="Site">
+          <a className="lp-bar__link" href="#for">
+            Who it is for
+          </a>
+          <a className="lp-bar__link lp-bar__link--studio" href={LANDING_INVITATION.cta.href}>
+            Studio
+          </a>
+          <button type="button" className="lp-bar__lantern" data-lantern hidden aria-pressed="false">
+            Night
+          </button>
+        </nav>
       </header>
       <main data-andon="landing" id="story" className="ib-washi">
         {hero ? <Hero chapter={hero} /> : null}
+        <Audiences />
         {others.map((c, i) => (
-          <Chapter key={c.id} chapter={c} index={i + (hero ? 1 : 0)} />
+          <Chapter key={c.id} chapter={c} index={i} preview={preview.has(c.id)} />
         ))}
         <Invitation />
-        <Words ids={termsUsed(chapters)} />
+        <Words ids={termsUsed(chapters, anyPreview)} />
       </main>
       <footer className="lp-foot">
-        <p>Your home stays on your device. Prices and rules are dated where they appear.</p>
+        <p>{LANDING_FOOTER}</p>
+        <p className="lp-foot__name">{LANDING_TAGLINE}</p>
       </footer>
     </>
   );

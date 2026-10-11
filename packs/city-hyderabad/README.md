@@ -11,3 +11,7 @@ City context pack `city-hyderabad` (`ibasho.city/1`, ARCH 15.7). Built by `tools
 `cityHyderabad` (the `city-pack` plugin), `cityHyderabadEngineModule`, `loadCityTiles(read?)`, `loadCityTile(tx, ty, read?)`, `decodeTile(bytes)`, `fetchReader`, `TILE_FILES`, `ORIGIN`, `TILE_SIZE`, `EXTENT`, `HERO_CONTEXT_IDS` (OSM ids a golden building replaces).
 
 Rebuild: `node tools/city/src/cli.ts build hyderabad` (refetch with `fetch hyderabad --refresh`).
+
+## On-demand area: Raidurg and Knowledge City
+
+`city-hyderabad-raidurg` (`src/engine/raidurg/`): offices of interest (Commerzone Raidurg for Qualcomm, Sattva Knowledge Park for Vanguard, Sattva Knowledge City Octave Block for the Lloyds Technology Centre). Not loaded by default: `CITY_AREAS['city-hyderabad-raidurg'].loadTiles()` when a place there is searched for or picked. Rebuild: `node tools/city/src/cli.ts build raidurg`.

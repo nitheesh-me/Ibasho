@@ -8,9 +8,10 @@
  */
 import { CompareGrid, Num, PreviewStamp, Range, Stale, TierCaption } from '@ibasho/ui';
 import type { ReactNode } from 'react';
-import { BASE_LEVERS, LEVERS, leverLabel } from '../preview/settings.ts';
+import { BASE_LEVERS, LEVERS } from '../preview/settings.ts';
 import type { Cand } from '../preview/views.ts';
 import { BASE_VARIANT, type BuildingEntry, jobKey, useStudio } from '../state/studio.ts';
+import { changeList } from './ProveTell.tsx';
 import { Card, Waiting } from './Summary.tsx';
 
 export function ChoosePanel({ b }: { b: BuildingEntry }) {
@@ -35,12 +36,7 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
                 <span className="st-variants__diff">
                   {Object.keys(v.changes).length === 0
                     ? 'The building as it is'
-                    : Object.entries(v.changes)
-                        .map(
-                          ([k, val]) =>
-                            `${LEVERS.find((l) => l.id === k)?.label ?? k}: ${leverLabel(k, val)}`,
-                        )
-                        .join('; ')}
+                    : `Adds ${changeList(v.changes)}`}
                 </span>
               </button>
               {v.id !== BASE_VARIANT ? (
@@ -64,8 +60,8 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
       </Card>
       {focus && focus.id !== BASE_VARIANT ? (
         <Card
-          title={`Levers for ${focus.name}`}
-          aside={<span className="st-note">Each one recomputes the whole variant</span>}
+          title={`Changes in ${focus.name}`}
+          aside={<span className="st-note">Each change recalculates the whole what-if</span>}
         >
           <div className="st-levers">
             {LEVERS.map((l) => {
@@ -108,9 +104,7 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
           </div>
         </Card>
       ) : (
-        <p className="st-note">
-          Pick a what-if to pull its levers. To change the building as it is, use Make.
-        </p>
+        <p className="st-note">Pick a what-if to change it. To change the building as it is, use Make.</p>
       )}
       <Card title="Cheapest ways to the goal" kicker="Search" aside={opt ? <PreviewStamp compact /> : null}>
         {opt ? (
@@ -164,8 +158,8 @@ export function ChoosePanel({ b }: { b: BuildingEntry }) {
               ))}
             </ul>
             <p className="st-note">
-              No seal yet: the search is Preview. When real, it is sealed "Nothing better among the options we
-              tried", with the list.
+              These are Preview estimates. Once calculated for this building, the result is sealed "Nothing
+              better among the options we tried", with the list of options.
             </p>
           </Stale>
         ) : (

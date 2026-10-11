@@ -40,7 +40,12 @@ const BINARY = new Set([
   '.wasm',
 ]);
 /** Paths that legitimately hold dashes: the lint's own fixtures and generated lockfiles. */
-const SKIP = [/^tools\/lint\/__fixtures__\//, /(^|\/)pnpm-lock\.yaml$/];
+const SKIP = [
+  /^tools\/lint\/__fixtures__\//,
+  /(^|\/)pnpm-lock\.yaml$/,
+  // Third-party OpenStreetMap extracts keep their names exactly as mapped.
+  /^tools\/city\/cache\//,
+];
 
 export function scanText(file: string, text: string): Finding[] {
   const out: Finding[] = [];

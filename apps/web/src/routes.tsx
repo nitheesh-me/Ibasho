@@ -13,6 +13,7 @@ import { landingPath } from './home/homes.ts';
 import { Shell } from './shell/Shell.tsx';
 import { useServices } from './shell/services.ts';
 import { StartPage } from './start/StartPage.tsx';
+import { DesignFlow } from './studio/pages/DesignFlow.tsx';
 import { NewFlow } from './studio/pages/NewFlow.tsx';
 import { SettingsPage } from './studio/pages/SettingsPage.tsx';
 import { StudioHome } from './studio/pages/StudioHome.tsx';
@@ -47,6 +48,19 @@ export function Landing() {
   return to ? <Navigate to={to} replace /> : null;
 }
 
+/** Unknown addresses (review m2). */
+function NotFound() {
+  return (
+    <div className="st-notfound">
+      <h1>Nothing here</h1>
+      <p>There is nothing at this address.</p>
+      <a className="ib-btn" href="/app/">
+        Back to your places
+      </a>
+    </div>
+  );
+}
+
 /** A route that throws still lands on Andon paper, with one next step (never a stack trace). */
 function RouteError() {
   return (
@@ -72,6 +86,14 @@ export const routes: RouteObject[] = [
         element: (
           <Studio>
             <StudioHome />
+          </Studio>
+        ),
+      },
+      {
+        path: 'design',
+        element: (
+          <Studio>
+            <DesignFlow />
           </Studio>
         ),
       },
@@ -110,7 +132,7 @@ export const routes: RouteObject[] = [
       { path: 'homes', element: <Landing /> },
       { path: 'start', element: <StartPage /> },
       { path: 'home/:id', element: <HomePage /> },
-      { path: '*', element: <Navigate to="/" replace /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ];

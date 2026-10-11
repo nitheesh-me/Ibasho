@@ -12,3 +12,7 @@ City context pack `city-london` (`ibasho.city/1`, ARCH 15.7). Built by `tools/ci
 
 Rebuild: `node tools/city/src/cli.ts build london` (refetch with `fetch london --refresh`).
 STUB: OSM context only, around the GH1 fixture's stated location.
+
+## On-demand area: King's Cross
+
+`city-london-kings-cross` (`src/engine/kings-cross/`): real plots for designing a new building (SPEC 27), loaded only when picked: `CITY_AREAS['city-london-kings-cross'].loadTiles()`. Rebuild: `node tools/city/src/cli.ts build kings-cross`.

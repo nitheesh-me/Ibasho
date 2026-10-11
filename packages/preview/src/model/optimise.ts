@@ -16,6 +16,7 @@ import type {
   ResultStamp,
   ScopedGoal,
   Setting,
+  SiteResult,
 } from '@ibasho/core';
 import { dominates, isZoneTwin, Q } from '@ibasho/core';
 import type { MonthlyClimate } from './climate.gen.ts';
@@ -117,6 +118,8 @@ export function optimiseModel(
   seed: string,
   /** Evaluate only the first `limit` options (rough and refined tiers). */
   limit?: number,
+  /** Base levers and radiation of the energy stage (the baseline option reproduces its bill). */
+  from: { params?: EnergyParams; radiation?: SiteResult } = {},
 ): OptimiseResult {
   const t = compiled.twin;
   const id = isZoneTwin(t) ? t.buildingId : t.id;
@@ -163,7 +166,7 @@ export function optimiseModel(
       ops.push(...l.ops(ctx));
       if (l.needsCheck?.(ctx)) needsCheck = true;
     });
-    const core = energyModel(compiled, clim, params);
+    const core = energyModel(compiled, clim, { ...from.params, ...params }, from.radiation);
     const res = buildEnergyResult(compiled, core, money, settings, '', stamp, '2026-01-01');
     const wh = totalWh(res.endUses);
     const bill = res.bills.reduce((s, b) => s + b.total, 0n) / 100_000_000n;
@@ -247,7 +250,12 @@ export function optimiseModel(
           param: 'overhang.depth',
           grid: 'overhang.depth',
           points: [0, 1, 2, 3, 4].map((index) => {
-            const core = energyModel(compiled, clim, { pf: { [sweepBin]: index * 0.2 } });
+            const core = energyModel(
+              compiled,
+              clim,
+              { ...from.params, pf: { ...from.params?.pf, [sweepBin]: index * 0.2 } },
+              from.radiation,
+            );
             const res = buildEnergyResult(compiled, core, money, settings, '', stamp, '2026-01-01');
             const euiMilli = BigInt(Math.round(Q.toNumber(euiExact(totalWh(res.endUses), nca)) * 1000));
             const all = {

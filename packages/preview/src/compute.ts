@@ -4,10 +4,12 @@
  * `packages/fixtures/src/preview/<building>/<stage>.json` pin (P1, P2).
  */
 import type {
+  BuildingDoc,
   BuildingResult,
   CodesOut,
   CompiledBuilding,
   EndUse,
+  EnergyParams,
   IsoDate,
   Place,
   ResultStamp,
@@ -21,8 +23,10 @@ import { canonicalHash, END_USES, isZoneTwin } from '@ibasho/core';
 import { compile } from '@ibasho/plan';
 import { CLIMATES, type MonthlyClimate } from './model/climate.gen.ts';
 import { codesModel } from './model/codes.ts';
+import { isNewBuildUk, UK_DWELLING_TYPES, ukCodes } from './model/codes-uk.ts';
 import { energyModel, STANDARD_DESIGN } from './model/energy.ts';
 import { PREVIEW_VERSION } from './model/evidence.ts';
+import { goalGaps } from './model/gaps.ts';
 import { optimiseModel } from './model/optimise.ts';
 import { buildEnergyResult, type MoneyCtx } from './model/result.ts';
 import { type SiteCore, siteModel, siteResult } from './model/site.ts';
@@ -88,9 +92,52 @@ export function inputsHashOf(stage: StageId, parts: Record<string, unknown>): st
 
 // ---------------------------------------------------------------------------------------------
 
-export function computeGeometry(input: StageIn['geometry'], tier: Tier): CompiledBuilding {
-  const north = 0;
-  return compile(input.doc, { trueNorthMdeg: north, meshes: tier !== 'rough' });
+/** Compiled documents by object identity: the three tiers and later stages share one compile. */
+const compiled = new WeakMap<object, CompiledBuilding>();
+
+/** Compiles by shape (the document without its origin): a pure move reuses the compile (AC-PD2). */
+const byShape = new Map<string, CompiledBuilding>();
+
+export function computeGeometry(input: StageIn['geometry'], _tier: Tier): CompiledBuilding {
+  let c = compiled.get(input.doc);
+  if (c) return c;
+  const shape = canonicalHash({ ...input.doc, origin: null, version: null });
+  const same = byShape.get(shape);
+  if (same) {
+    c = {
+      ...same,
+      docHash: canonicalHash(input.doc),
+      placement: { origin: { ...input.doc.origin }, rotationMdeg: input.doc.rotationMdeg },
+    };
+  } else {
+    c = compile(input.doc, { trueNorthMdeg: 0 });
+    if (byShape.size > 16) byShape.clear();
+    byShape.set(shape, c);
+  }
+  compiled.set(input.doc, c);
+  return c;
+}
+
+/** How a document changed for placement purposes (SPEC 27, AC-PD2). */
+export type PlacementChange = 'none' | 'move' | 'rotate' | 'design';
+
+export function placementChange(prev: BuildingDoc, next: BuildingDoc): PlacementChange {
+  const strip = (d: BuildingDoc) => canonicalHash({ ...d, origin: null, rotationMdeg: null, version: null });
+  if (strip(prev) !== strip(next) || prev.placeId !== next.placeId) return 'design';
+  if (prev.rotationMdeg !== next.rotationMdeg) return 'rotate';
+  if (prev.origin.x !== next.origin.x || prev.origin.y !== next.origin.y) return 'move';
+  return 'none';
+}
+
+/**
+ * Stages to rerun after a placement change. A move keeps the compiled geometry (only its placement
+ * changes, no recompile) and reruns the sun and everything that reads it; a rotation also turns
+ * every facade, so geometry reruns too; a design edit reruns all. Pass the result as
+ * `JobRequest.stages` with the previous outputs in `JobInputs.previous`.
+ */
+export function stagesForPlacementChange(kind: PlacementChange): StageId[] {
+  if (kind === 'none') return [];
+  return ['geometry', 'sun', 'radiation', 'daylight', 'energy', 'codes', 'optimise'];
 }
 
 const siteCache = new Map<string, SiteCore>();
@@ -149,21 +196,30 @@ export function computeSite<S extends 'sun' | 'radiation' | 'daylight'>(
   } as StageOut[S];
 }
 
+const energyCache = new Map<string, ReturnType<typeof energyModel>>();
+
 export function computeEnergy(input: StageIn['energy'], tier: Tier): BuildingResult {
   const clim = climateOf(input.site);
-  const core = energyModel(
-    input.compiled,
-    clim,
-    { dhwSolarShare: settingNumber(input.settings, 'comfort.dhw.solarShare') },
-    input.radiation,
-  );
+  const params = {
+    ...input.params,
+    dhwSolarShare: input.params?.dhwSolarShare ?? settingNumber(input.settings, 'comfort.dhw.solarShare'),
+  };
   const inputsHash = inputsHashOf('energy', {
     doc: input.compiled.docHash,
     rad: input.radiation?.inputsHash ?? null,
     settings: settingsKey(input.settings),
     clim: clim.id,
     place: input.site?.place.id ?? null,
+    // Only present when levers are set, so hashes of the building as drawn do not change.
+    ...(input.params && Object.keys(input.params).length > 0 ? { params: input.params } : {}),
   });
+  const key = `${inputsHash}|${input.asOf}`;
+  let core = energyCache.get(key);
+  if (!core) {
+    core = energyModel(input.compiled, clim, params, input.radiation);
+    if (energyCache.size > 32) energyCache.clear();
+    energyCache.set(key, core);
+  }
   const res = buildEnergyResult(
     input.compiled,
     core,
@@ -196,26 +252,85 @@ export function computeEnergy(input: StageIn['energy'], tier: Tier): BuildingRes
 }
 
 /** Reference design EUI (kWh/m²·yr) for the baseline row and savings ladder (R35). */
-export function baselineEuiOf(compiled: CompiledBuilding, site: SiteContext | undefined): number {
-  const core = energyModel(compiled, climateOf(site), STANDARD_DESIGN);
+export function baselineEuiOf(
+  compiled: CompiledBuilding,
+  site: SiteContext | undefined,
+  spec: EnergyParams = STANDARD_DESIGN,
+): number {
+  const core = energyModel(compiled, climateOf(site), spec);
   const wh = END_USES.reduce((s, u) => s + core.wh[u].reduce((a, b) => a + b, 0), 0);
   const m2 = Number(compiled.quantities.ncaMm2) / 1e6;
   return m2 > 0 ? Math.round((wh / 1000 / m2) * 10) / 10 : 0;
 }
 
+/** Part L 2021 notional specifications (estimates): non-domestic and domestic, gas boiler heating. */
+export const UK_NOTIONAL_NONDOM: EnergyParams = {
+  uWall: 0.26,
+  uRoof: 0.18,
+  uWin: 1.6,
+  shgc: 0.4,
+  lpdScale: 0.8,
+};
+export const UK_NOTIONAL_DWELLING: EnergyParams = {
+  uWall: 0.18,
+  uRoof: 0.11,
+  uWin: 1.2,
+  shgc: 0.5,
+  lpdScale: 0.8,
+};
+/** Future Homes and Buildings Standard notional (estimate): Part L 2021 dwelling fabric with a heat pump. */
+export const FHS_NOTIONAL: EnergyParams = {
+  uWall: 0.18,
+  uRoof: 0.11,
+  uWin: 1.2,
+  shgc: 0.5,
+  lpdScale: 0.7,
+  heatPumpScop: 2.8,
+};
+
+/**
+ * Code packs that apply at a place: the place's own list, else by location (India's bounding box
+ * gets `codes-in`; elsewhere no code pack until one exists).
+ */
+export function codePacksFor(codePackIds: readonly string[], site: SiteContext | undefined): string[] {
+  if (codePackIds.length > 0) return [...codePackIds];
+  const p = site?.place;
+  if (!p) return [];
+  const inIndia = p.lat >= 6 && p.lat <= 37.5 && p.lon >= 68 && p.lon <= 97.5;
+  const inUk = p.lat >= 49.8 && p.lat <= 60.9 && p.lon >= -8.7 && p.lon <= 1.8;
+  return inIndia ? ['codes-in'] : inUk ? ['codes-uk'] : [];
+}
+
 export function computeCodes(input: StageIn['codes'], tier: Tier): CodesOut {
-  const core = codesModel(
-    input.doc,
-    input.compiled,
-    input.energy,
-    input.codePackIds,
-    baselineEuiOf(input.compiled, input.site),
-  );
+  const packs = codePacksFor(input.codePackIds, input.site);
+  const india = packs.some((p) => p.endsWith('-in'));
+  const uk = !india && packs.some((p) => p.endsWith('-uk')) && isNewBuildUk(input.doc);
+  const core = uk
+    ? ukCodes(
+        input.doc,
+        input.compiled,
+        input.energy,
+        input.site?.place,
+        baselineEuiOf(
+          input.compiled,
+          input.site,
+          UK_DWELLING_TYPES.has(input.doc.typeId) ? UK_NOTIONAL_DWELLING : UK_NOTIONAL_NONDOM,
+        ),
+        baselineEuiOf(input.compiled, input.site, FHS_NOTIONAL),
+      )
+    : codesModel(
+        input.doc,
+        input.compiled,
+        input.energy,
+        packs,
+        india ? baselineEuiOf(input.compiled, input.site) : undefined,
+      );
   const inputsHash = inputsHashOf('codes', {
     doc: input.compiled.docHash,
     energy: input.energy.inputsHash,
-    packs: input.codePackIds,
+    packs,
     permit: input.doc.permitDate ?? null,
+    ...(input.goals?.length ? { goals: input.goals.map((g) => g.goal) } : {}),
   });
   const stamp = stampFor('codes', tier, input.asOf, [input.energy.stamp, input.daylight?.stamp]);
   const codes =
@@ -227,11 +342,15 @@ export function computeCodes(input: StageIn['codes'], tier: Tier): CodesOut {
         )
       : core.codes;
   const ratings = tier === 'rough' ? [] : core.ratings;
+  const gaps = input.goals?.length
+    ? goalGaps(input.goals, { codes, ratings, baselines: core.baselines, energy: input.energy })
+    : undefined;
   return {
     codes,
     ratings,
     baselines: core.baselines,
     result: { ...input.energy, inputsHash, stamp, codes, ratings, baselines: core.baselines },
+    ...(gaps ? { gaps } : {}),
   };
 }
 
@@ -244,6 +363,8 @@ export function computeOptimise(input: StageIn['optimise'], tier: Tier): StageOu
     goals: input.goals.length,
     seed: input.seed,
     settings: settingsKey(input.settings ?? []),
+    rad: input.radiation?.inputsHash ?? null,
+    ...(input.params && Object.keys(input.params).length > 0 ? { params: input.params } : {}),
   });
   const limit = tier === 'rough' ? 32 : tier === 'refined' ? 128 : undefined;
   return optimiseModel(
@@ -258,5 +379,13 @@ export function computeOptimise(input: StageIn['optimise'], tier: Tier): StageOu
     inputsHash,
     input.seed,
     limit,
+    {
+      params: {
+        ...input.params,
+        dhwSolarShare:
+          input.params?.dhwSolarShare ?? settingNumber(input.settings ?? [], 'comfort.dhw.solarShare'),
+      },
+      ...(input.radiation ? { radiation: input.radiation } : {}),
+    },
   );
 }

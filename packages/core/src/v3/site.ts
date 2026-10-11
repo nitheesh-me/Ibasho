@@ -87,6 +87,11 @@ export interface SiteResult {
   }[];
   /** Shading ledger: identity checked (AC-LK3). */
   ledger: { receiver: string; blocker: string; lostWh: bigint }[];
+  /**
+   * Context buildings inside the analysis radius left out because their height is unknown (RB 5):
+   * they cast no shade, so shade may be understated. Sorted ids; absent means none were checked.
+   */
+  unknownHeightIds?: string[];
 }
 
 /** A sky model, daylight tier or visibility kernel variant with its validated error band (R31). */

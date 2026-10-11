@@ -7,12 +7,15 @@
  * The 24 hour sun scrubber is WP-06's `SunScrubber`.
  * Owner: WP-07.
  */
-import { PreviewStamp, ScaleLadder, Stepper } from '@ibasho/ui';
+import { ClaimSeal, FilmStrip, PreviewStamp, ScaleLadder, Stepper } from '@ibasho/ui';
+import type { CSSProperties } from 'react';
 import { type KeyboardEvent, type ReactNode, useRef } from 'react';
+import type { EN } from './frame.ts';
 import type { ContextMass } from './geometry.ts';
+import type { PlacementCheck } from './placement.ts';
 import { type CityRampId, rampGradientCss } from './ramps.ts';
 import { dateLabel, dateOfDay, dayOfYear } from './sun.ts';
-import type { CityLensId, ZoomLevel } from './types.ts';
+import type { CityLensId, PhototropicSpec, ZoomLevel } from './types.ts';
 
 /** Scoped styles: Andon tokens only, panels square with BrushFrame edges and kage or tomoshibi. */
 export const CITY_CSS = `
@@ -27,6 +30,8 @@ export const CITY_CSS = `
 .ib-city[data-theme="yoru"] .ib-city-panel { box-shadow: var(--tomoshibi); }
 .ib-city-panel--pad { padding: var(--ma-2) var(--ma-3); }
 .ib-city .ib-ladder { font-size: var(--fs-ui); }
+.ib-city .ib-ladder__detail { max-inline-size: 8.5em; white-space: normal; text-align: center; line-height: 1.2;
+  font-size: 0.625rem; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .ib-city-chips { display: flex; gap: var(--ma-1); margin: 0; padding: 0; border: 0; overflow-x: auto; scrollbar-width: none;
   scroll-snap-type: x proximity; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8px, #000 calc(100% - 16px), transparent);
   mask-image: linear-gradient(90deg, transparent 0, #000 8px, #000 calc(100% - 16px), transparent); padding-inline: 8px; }
@@ -476,10 +481,7 @@ export function PinnedChip(p: {
           </>
         )}
       </span>
-      <span className="ib-city-sub">
-        Source: {source[m.source]}
-        {m.sources.includes('standin') ? ' (stand in data)' : ''}
-      </span>
+      <span className="ib-city-sub">Source: {source[m.source]}</span>
       {m.user === undefined ? (
         <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           <span>Floors</span>
@@ -498,5 +500,248 @@ export function PinnedChip(p: {
         </span>
       ) : null}
     </section>
+  );
+}
+
+/**
+ * Place it (SPEC 27 step 3): move, turn and ground level by steps (the button path for the drag
+ * and the turn handle), and the site check in words: overlaps, then the neighbours that shade it.
+ */
+export function PlacePanel(p: {
+  style: CSSProperties;
+  check: PlacementCheck | null;
+  names: (id: string) => string | undefined;
+  bearingDeg: number;
+  groundM: number;
+  azimuthDeg: number;
+  onNudge: (move: EN, turnDeg: number) => void;
+  onGround: (deltaMm: number) => void;
+}) {
+  // Screen up is the camera's look bearing (azimuth + 180); moves follow the screen.
+  const up = ((p.azimuthDeg + 180) * Math.PI) / 180;
+  const step = 5;
+  const dir = (bearing: number): EN => [Math.sin(bearing) * step, Math.cos(bearing) * step];
+  const c = p.check;
+  return (
+    <section
+      className="ib-city-panel ib-city-chip-pin"
+      style={{ ...p.style, maxInlineSize: 320 }}
+      aria-label="Place the building"
+    >
+      <header>
+        <span>Place it</span>
+        <span className="ib-city-num">
+          {Math.round(((p.bearingDeg % 360) + 360) % 360)}° · ground {p.groundM.toFixed(1)} m
+        </span>
+      </header>
+      <span className="ib-city-sub">Drag the building to move it; drag the blue handle to turn it.</span>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Move up 5 metres"
+          onClick={() => p.onNudge(dir(up), 0)}
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Move down 5 metres"
+          onClick={() => p.onNudge(dir(up + Math.PI), 0)}
+        >
+          ↓
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Move left 5 metres"
+          onClick={() => p.onNudge(dir(up - Math.PI / 2), 0)}
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Move right 5 metres"
+          onClick={() => p.onNudge(dir(up + Math.PI / 2), 0)}
+        >
+          →
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Turn 15 degrees anticlockwise"
+          onClick={() => p.onNudge([0, 0], -15)}
+        >
+          ⟲ 15°
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Turn 15 degrees clockwise"
+          onClick={() => p.onNudge([0, 0], 15)}
+        >
+          ⟳ 15°
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Ground half a metre lower"
+          onClick={() => p.onGround(-500)}
+        >
+          Ground −
+        </button>
+        <button
+          type="button"
+          className="ib-city-btn"
+          aria-label="Ground half a metre higher"
+          onClick={() => p.onGround(500)}
+        >
+          Ground +
+        </button>
+      </div>
+      {c ? (
+        <div role="status" style={{ display: 'grid', gap: 4 }}>
+          {c.overlaps.length ? (
+            <span style={{ color: 'var(--ember-ink, var(--warm))' }}>
+              Overlaps {c.overlaps.length} existing building{c.overlaps.length > 1 ? 's' : ''}:{' '}
+              {c.overlaps
+                .slice(0, 3)
+                .map((id) => p.names(id) ?? 'unnamed')
+                .join(', ')}
+            </span>
+          ) : (
+            <span>Free plot: no overlap with known buildings.</span>
+          )}
+          {c.shading.length ? (
+            <span>
+              Shaded by{' '}
+              {c.shading.slice(0, 4).map((x, i) => (
+                <span key={x.id}>
+                  {i ? ', ' : ''}
+                  {p.names(x.id) ?? 'a neighbour'} <span className="ib-city-num">{x.hours} h</span>
+                  {x.estimated ? ' (estimated height)' : ''}
+                </span>
+              ))}{' '}
+              <span className="ib-city-unit">on 21 Dec and 21 Mar, 08:00 to 16:00</span>
+            </span>
+          ) : (
+            <span>No neighbour shades it on 21 Dec or 21 Mar.</span>
+          )}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+/**
+ * Moment 6 (QA M8): the sun bent search as a film strip of evaluated steps, an EUI step chart that
+ * climbs down beside it, and the seal pressing on the last step when (and only when) the result is
+ * real and checked. Preview steps carry the Preview stamp and never a seal.
+ */
+export function SunBentStrip(p: { spec: PhototropicSpec; t: number; onPick: (t: number) => void }) {
+  const steps = p.spec.steps ?? [];
+  if (!steps.length)
+    return (
+      <div className="ib-city-panel ib-city-note">
+        <PreviewStamp compact /> Sun bent variant: an illustration until the search runs
+      </div>
+    );
+  const k = steps.reduce((b, s, i) => (Math.abs(s.t - p.t) < Math.abs(steps[b]!.t - p.t) ? i : b), 0);
+  const euis = steps.map((s) => s.euiKwhM2);
+  const lo = Math.min(...euis);
+  const hi = Math.max(...euis);
+  const W = 180;
+  const H = 56;
+  const x = (i: number): number => 8 + (i * (W - 16)) / Math.max(1, steps.length - 1);
+  const y = (v: number): number => 8 + ((hi - v) / Math.max(1, hi - lo)) * (H - 20);
+  const path = steps
+    .map(
+      (s, i) =>
+        `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(s.euiKwhM2).toFixed(1)}${i < steps.length - 1 ? ` H${x(i + 1).toFixed(1)}` : ''}`,
+    )
+    .join(' ');
+  const last = k === steps.length - 1;
+  return (
+    <section
+      className="ib-city-panel ib-city-panel--pad"
+      style={{ display: 'grid', gap: 6, maxInlineSize: 560 }}
+      aria-label="Sun bent search"
+    >
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+        <b>Sun bent</b>
+        {p.spec.preview || !p.spec.claim ? <PreviewStamp compact /> : null}
+        <span className="ib-city-unit">
+          Step <span className="ib-city-num">{k + 1}</span> of{' '}
+          <span className="ib-city-num">{steps.length}</span>: EUI{' '}
+          <span className="ib-city-num">{steps[k]!.euiKwhM2.toFixed(0)}</span> kWh/m²·yr
+          {steps[k]!.label ? `, ${steps[k]!.label}` : ''}
+        </span>
+      </div>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'end', flexWrap: 'wrap' }}>
+        <FilmStrip
+          title="Evaluated designs"
+          current={`step-${k}`}
+          onPick={(id) => p.onPick(steps[Number(id.slice(5))]!.t)}
+          frames={steps.map((s, i) => ({
+            id: `step-${i}`,
+            label: `${i + 1}`,
+            thumb: <BentThumb t={s.t} />,
+          }))}
+        />
+        <svg
+          width={W}
+          height={H}
+          role="img"
+          aria-label={`EUI falls from ${hi.toFixed(0)} to ${lo.toFixed(0)} kWh per square metre a year over ${steps.length} steps`}
+        >
+          <path d={path} fill="none" stroke="var(--ink)" strokeWidth="1.5" />
+          {steps.map((s, i) => (
+            <circle
+              key={s.t}
+              cx={x(i)}
+              cy={y(s.euiKwhM2)}
+              r={i === k ? 4 : 2}
+              fill={i === k ? 'var(--glow)' : 'var(--ink-3)'}
+              stroke="var(--ink)"
+              strokeWidth={i === k ? 1 : 0}
+            />
+          ))}
+          <text
+            x={W - 4}
+            y={H - 2}
+            textAnchor="end"
+            fontSize="10"
+            fill="var(--text-2)"
+            fontFamily="var(--font-code)"
+          >
+            EUI
+          </text>
+        </svg>
+      </div>
+      {last ? (
+        p.spec.claim && !p.spec.preview ? (
+          <ClaimSeal claim={p.spec.claim} press variant="inline" />
+        ) : (
+          <span className="ib-city-unit">
+            The seal presses here once the real search has run and been checked.
+          </span>
+        )
+      ) : null}
+    </section>
+  );
+}
+
+/** A section of the block with its roof canopy tilted by the step. */
+function BentThumb({ t }: { t: number }) {
+  const a = (17 * t * Math.PI) / 180;
+  const dy = Math.tan(a) * 18;
+  return (
+    <svg width="44" height="30" viewBox="0 0 44 30" aria-hidden="true">
+      <rect x="6" y="14" width="32" height="14" fill="var(--paper-raised)" stroke="var(--ink)" />
+      <path d={`M4 ${12 - dy * 0.2} L40 ${12 - dy * 0.2 - dy}`} stroke="var(--deep)" strokeWidth="2" />
+      {t > 0.3 ? <path d="M38 16 V26 M35 16 V26" stroke="var(--ink-3)" /> : null}
+    </svg>
   );
 }

@@ -215,8 +215,9 @@ export function StudioPage() {
   if (!ready) return <p className="st-loading">Opening your places.</p>;
   if (!placeEntry || !b) {
     return (
-      <div className="st-empty">
-        <p>That place is not in this studio.</p>
+      <div className="st-notfound">
+        <h1>This place is not in your studio</h1>
+        <p>It may have been deleted on another device, or the link is from a branch you removed.</p>
         <Link to="/" className="ib-btn">
           Back to your places
         </Link>
@@ -258,7 +259,7 @@ export function StudioPage() {
         : {})}
     />
   );
-  const city = (variantId = focusVariant, compact = false) => {
+  const city = (variantId = focusVariant, compact = false, azimuthDeg?: number) => {
     const v = b.variants.find((x) => x.id === variantId);
     const j = useStudio.getState().jobs[jobKey(b.id, variantId)];
     return (
@@ -286,6 +287,7 @@ export function StudioPage() {
         {...(focusId ? { focus: focusId } : {})}
         {...(focusBox ? { focusBox } : {})}
         compact={compact}
+        {...(azimuthDeg !== undefined ? { azimuthDeg } : {})}
         {...(compact
           ? {}
           : {
@@ -312,7 +314,7 @@ export function StudioPage() {
       mode === 'make' && bpt === 'wide' ? (
         <div className="st-split">
           <div className="st-split__plan">{plan(true)}</div>
-          <div className="st-split__axo">{city(BASE_VARIANT)}</div>
+          <div className="st-split__axo">{city(BASE_VARIANT, false, 180)}</div>
         </div>
       ) : (
         plan(mode === 'make')
@@ -329,8 +331,8 @@ export function StudioPage() {
           ]}
         />
         <p className="st-note">
-          Room-level results (loads, comfort hours, daylight per room) arrive with the real stages; open Make
-          to change this room.
+          Results for a single room are not available yet; these are for the whole building. Open Make to
+          change this room.
         </p>
       </Card>
     ) : null;
@@ -358,6 +360,7 @@ export function StudioPage() {
             <LookPanel
               lens={lens}
               onLens={(l) => setParam('lens', l)}
+              typeId={b.typeId}
               job={job}
               resolution={resolution}
               onResolution={(r) => st.setSetting('analysis.resolution', r)}
@@ -372,7 +375,9 @@ export function StudioPage() {
                       : 'Every facade and the roof'
               }
             />
-            {level === 'building' || level === 'site' ? <BuildingSummary job={job} /> : null}
+            {level === 'building' || level === 'site' ? (
+              <BuildingSummary job={job} typeId={b.typeId} />
+            ) : null}
           </>
         );
       case 'choose':
@@ -420,24 +425,9 @@ export function StudioPage() {
           </div>
         )}
         <section className="st-niwa" aria-label={`${MODE_LABEL[mode]}: ${b.name}, ${variantName}`}>
-          {changes ? (
-            <div className="st-changed ib-plate" role="status">
-              <span>
-                Welcome back. While you were away:{' '}
-                {changes.changes.map((c) => c.what.toLowerCase()).join(', ')}. Results below are recomputed,
-                never silently.
-              </span>
-              <Link to="/" className="ib-link">
-                What changed
-              </Link>
-              <button type="button" className="ib-link" onClick={() => st.dismissRevisit()}>
-                Dismiss
-              </button>
-            </div>
-          ) : null}
           {niwa}
         </section>
-        {planLevel ? null : (
+        {mode !== 'look' ? null : (
           <div className="st-timestrip">
             <TimeStrip
               date={date}
@@ -457,19 +447,8 @@ export function StudioPage() {
         ) : phone ? (
           // Phone: the panel sits under the stage in the page flow (robust at 360 px; the stage stays at 45%).
           <section className="st-phonepanel" id="st-zashiki" aria-label={`${MODE_LABEL[phoneTab]} panel`}>
-            <div className="st-phonetabs" role="tablist" aria-label="Panel">
-              {(['look', 'choose', 'tell', 'prove'] as StudioMode[]).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  role="tab"
-                  aria-selected={phoneTab === m}
-                  className="ib-chip"
-                  onClick={() => setPhoneTab(m)}
-                >
-                  {m === 'prove' ? 'More' : MODE_LABEL[m]}
-                </button>
-              ))}
+            <div className="st-phonetabs">
+              <ModeTabs mode={phoneTab} onChange={setPhoneTab} hidden={['make']} controls="st-zashiki" />
             </div>
             {zashiki}
           </section>
@@ -488,7 +467,19 @@ export function StudioPage() {
         )}
         <section className="st-engawa" aria-label="Progress and narrator">
           <p className="st-narrator">
-            <Narration b={b.name} job={job} />
+            {changes && !changes.dismissed ? (
+              <>
+                Since your last visit: {changes.changes.map((c) => c.short).join(', ')}.{' '}
+                <Link to="/" className="ib-link">
+                  What changed
+                </Link>{' '}
+                <button type="button" className="ib-link" onClick={() => st.dismissRevisit()}>
+                  Dismiss
+                </button>
+              </>
+            ) : (
+              <Narration b={b.name} job={job} />
+            )}
           </p>
           <StageBar
             state={job?.bar ?? { generation: 0, stages: [] }}

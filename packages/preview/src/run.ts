@@ -13,6 +13,7 @@ import type {
   AnyStageProvider,
   BuildingDoc,
   CityTile,
+  EnergyParams,
   JobCtx,
   JobEnd,
   JobRequest,
@@ -46,6 +47,8 @@ export interface JobInputs {
   replacedIds?: string[];
   weatherHash?: string;
   settings?: Setting[];
+  /** Design parameters for the energy stage (what-if levers); absent means as drawn. */
+  energyParams?: EnergyParams;
   goals?: ScopedGoal[];
   objectives?: Objective[];
   /** Outputs of stages not rerun (from the store, keyed by stage). */
@@ -69,6 +72,12 @@ export class PreviewAbort implements AbortSignalLike {
     this.fns.delete(f);
   }
 }
+
+/**
+ * Default replay speed: one tenth of the recorded timings, so a rough result shows within about
+ * 300 ms per stage on a laptop (studio review A-M2). Pass 1 to rehearse real timings, 0 for tests.
+ */
+export const DEFAULT_DEVICE_FACTOR = 0.1;
 
 export interface RunOptions {
   signal?: AbortSignalLike;
@@ -110,6 +119,7 @@ function inputFor<S extends StageId>(
         ...(radiation ? { radiation } : {}),
         site,
         settings: inp.settings ?? [],
+        ...(inp.energyParams ? { params: inp.energyParams } : {}),
         asOf: req.asOf,
       } as StageIn[S];
     }
@@ -122,6 +132,7 @@ function inputFor<S extends StageId>(
         ...(daylight ? { daylight } : {}),
         site,
         codePackIds: site.place.codePackIds,
+        ...(inp.goals?.length ? { goals: inp.goals } : {}),
         asOf: req.asOf,
       } as StageIn[S];
     }
@@ -135,6 +146,8 @@ function inputFor<S extends StageId>(
         space: [],
         site,
         settings: inp.settings ?? [],
+        ...(out.radiation ? { radiation: out.radiation } : {}),
+        ...(inp.energyParams ? { params: inp.energyParams } : {}),
         seed: `${req.buildingId}:${req.generation}`,
         asOf: req.asOf,
       } satisfies StageIn['optimise'] as unknown as StageIn[S];
@@ -164,7 +177,7 @@ export async function runPreviewJob(
     generation: req.generation,
     signal,
     resolution,
-    deviceFactor: opts.deviceFactor ?? 1,
+    deviceFactor: opts.deviceFactor ?? DEFAULT_DEVICE_FACTOR,
   };
   const wanted = new Set(req.stages);
   try {

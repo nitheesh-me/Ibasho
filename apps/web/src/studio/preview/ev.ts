@@ -46,11 +46,11 @@ export class EvBag {
   }
 
   /** A point value. */
-  num(q: string, v: number, unit: Unit, sig = 3, doc = 'Preview fixture'): EvidenceId {
+  num(q: string, v: number, unit: Unit, sig = 3, doc = 'Preview estimate'): EvidenceId {
     return this.push(q, { float: v }, unit, { mode: 'sig', value: sig }, doc);
   }
   /** A range (unknown is a range, not zero). */
-  range(q: string, lo: number, hi: number, unit: Unit, sig = 2, doc = 'Preview fixture'): EvidenceId {
+  range(q: string, lo: number, hi: number, unit: Unit, sig = 2, doc = 'Preview estimate'): EvidenceId {
     return this.push(
       q,
       { interval: { lo: Math.min(lo, hi), hi: Math.max(lo, hi) } },
@@ -60,10 +60,10 @@ export class EvBag {
     );
   }
   /** Exact fixed point (money in micro-paise, energy in Wh). */
-  fixed(q: string, v: bigint, unit: Unit, step: number, doc = 'Preview fixture'): EvidenceId {
+  fixed(q: string, v: bigint, unit: Unit, step: number, doc = 'Preview estimate'): EvidenceId {
     return this.push(q, { fixed: v.toString(), unit }, unit, { mode: 'step', value: step }, doc);
   }
-  cat(q: string, v: string, doc = 'Preview fixture'): EvidenceId {
+  cat(q: string, v: string, doc = 'Preview estimate'): EvidenceId {
     return this.push(q, { cat: v }, 'band', { mode: 'sig', value: 1 }, doc);
   }
 }

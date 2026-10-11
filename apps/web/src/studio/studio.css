@@ -616,11 +616,6 @@
   flex-wrap: wrap;
   gap: var(--ma-1);
 }
-.st-lenschips .ib-chip[aria-pressed="true"] {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-}
 .st-floors {
   display: grid;
   gap: var(--ma-2);
@@ -1386,4 +1381,239 @@ fieldset.st-places-pick,
   z-index: 3;
   border-inline-start: 3px solid var(--gold);
   color: var(--text-2);
+}
+
+/* ------------------------------------------------------------------ review round 2: responsive fixes (B-B4, m6) */
+
+.ib-app {
+  overflow-x: clip;
+}
+.st-home__title {
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  overflow-wrap: anywhere;
+}
+.st-new__title {
+  font-size: clamp(1.6rem, 6vw, 2.6rem);
+  overflow-wrap: anywhere;
+}
+/* Truncate the place, never the building. */
+.st-bar__crumb {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  max-inline-size: 14rem;
+}
+.st-bar .ib-picker {
+  flex: 0 0 auto;
+}
+.st-bar .ib-picker__btn {
+  max-inline-size: 15rem;
+}
+@media (max-width: 1279px) {
+  .st-bar .ib-picker__btn {
+    max-inline-size: 11rem;
+  }
+  /* Tablet: the Shoji sheet sits between the top bar and the engawa. */
+  .st-sheet.ib-sheet[data-placement="side"] {
+    inset-block: 57px 48px;
+  }
+}
+@media (max-width: 1000px) {
+  /* The scenario picker lives in Choose on narrow screens. */
+  .st-bar__crumbs > :nth-last-child(-n + 2) {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  /* Phone: only the building picker stays in the bar (the place and scenario live in the panel). */
+  .st-bar__crumbs > :not(:nth-child(3)) {
+    display: none;
+  }
+  .st-bar__crumbs > :nth-child(3) {
+    display: inline-grid;
+  }
+  .st-bar .ib-picker__btn {
+    max-inline-size: 9.5rem;
+  }
+  .ib-ledger {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ib-ledger__control,
+  .ib-ledger__meta {
+    min-inline-size: 0;
+  }
+  .st-settings .ib-chips {
+    flex-wrap: wrap;
+  }
+  /* New flow on a phone: "Step 3 of 6: Building" with a thin progress line, not a scrolling row. */
+  .st-steps {
+    display: none;
+  }
+  .st-steps-phone {
+    display: grid;
+  }
+}
+.st-steps-phone {
+  display: none;
+  gap: var(--ma-1);
+  font-size: var(--fs-ui);
+  color: var(--text-2);
+}
+.st-steps-phone__line {
+  block-size: 2px;
+  background: var(--line);
+}
+.st-steps-phone__line > span {
+  display: block;
+  block-size: 100%;
+  background: var(--ink);
+}
+.st-phonetabs .ib-modes {
+  border-block-end: 1px solid var(--line);
+}
+.st-notfound {
+  display: grid;
+  gap: var(--ma-3);
+  max-inline-size: 36rem;
+  margin: var(--ma-7) auto;
+  padding: 0 var(--ma-4);
+}
+.st-notfound h1 {
+  margin: 0;
+  font-family: var(--font-mincho);
+  font-size: var(--fs-h1);
+}
+.st-notfound p {
+  margin: 0;
+  color: var(--text-2);
+}
+.st-scene[data-compact] {
+  min-block-size: 0;
+}
+.st-slot__scene {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ Design before you build (SPEC 27) */
+
+.st-designflow .st-new__step--wide,
+.st-new__step--wide {
+  max-inline-size: none;
+}
+.st-design__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+  gap: var(--ma-4);
+}
+@media (max-width: 1000px) {
+  .st-design__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.st-design__plan {
+  block-size: clamp(320px, 60vh, 720px);
+  border: 1px solid var(--line);
+}
+.st-design__side {
+  display: grid;
+  align-content: start;
+  gap: var(--ma-4);
+}
+.st-goals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+.st-goals legend {
+  margin-block-end: var(--ma-2);
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.st-place-ctl {
+  display: grid;
+  grid-template-columns: auto minmax(12rem, 1fr);
+  gap: var(--ma-3);
+  align-items: end;
+}
+@media (max-width: 767px) {
+  .st-place-ctl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.st-nudge {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-1);
+}
+.st-gaps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-gaps li {
+  display: grid;
+  grid-template-columns: 14px minmax(10rem, 1fr) auto auto;
+  grid-template-areas:
+    "mark label state value"
+    ". note note note";
+  gap: var(--ma-1) var(--ma-3);
+  align-items: baseline;
+  padding-block: var(--ma-3);
+  border-block-end: 1px solid var(--line);
+}
+.st-gaps__mark {
+  grid-area: mark;
+  inline-size: 12px;
+  block-size: 12px;
+  border: 1.5px solid var(--ink);
+}
+.st-gaps li[data-state="met"] .st-gaps__mark {
+  background: var(--ink);
+}
+.st-gaps li[data-state="not-met"] .st-gaps__mark {
+  border-color: var(--warm);
+  background: repeating-linear-gradient(45deg, var(--warm) 0 1px, transparent 1px 4px);
+}
+.st-gaps li[data-state="unknown"] .st-gaps__mark,
+.st-gaps li[data-state="not-here"] .st-gaps__mark {
+  border-style: dashed;
+  border-color: var(--ink-3);
+}
+.st-gaps__label {
+  grid-area: label;
+  font-weight: 500;
+}
+.st-gaps__state {
+  grid-area: state;
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.st-gaps li[data-state="not-met"] .st-gaps__state {
+  color: var(--warm);
+}
+.st-gaps__note {
+  grid-area: note;
+  color: var(--text-2);
+  font-size: var(--fs-cap);
+}
+.st-gaps__src {
+  color: var(--text-3);
+}
+fieldset.st-nudge {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+.st-design__compare {
+  position: relative;
+  block-size: clamp(260px, 42vh, 460px);
+  margin-block-end: var(--ma-4);
+  border: 1px solid var(--line);
 }

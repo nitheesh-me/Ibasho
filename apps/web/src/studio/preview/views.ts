@@ -25,7 +25,14 @@ import type {
   Tier,
 } from '@ibasho/core';
 import { FACADE_BINS, facadeBin } from '@ibasho/core';
-import { type FacadeMeter, facadeMeters, overallWwrPm, quickQuantities, spaceFunction } from '@ibasho/editor';
+import {
+  type FacadeMeter,
+  facadeMeters,
+  overallWwrPm,
+  quickQuantities,
+  spaceFunction,
+} from '@ibasho/editor/core';
+import { headlineBill } from '@ibasho/preview';
 import type { LadderRow } from '@ibasho/ui';
 import { EvBag } from './ev.ts';
 import type { Levers } from './settings.ts';
@@ -49,6 +56,8 @@ export interface SunView {
   roofH: number;
   facades: { bin: FacadeBin; ev: EvidenceId; h: number }[];
   neighbourLoss: EvidenceId;
+  /** Legend top: covers every value shown. */
+  top: EvidenceId;
   site: SiteResult;
 }
 export interface RadiationView {
@@ -57,6 +66,8 @@ export interface RadiationView {
   facades: { bin: FacadeBin; ev: EvidenceId; kwh: number }[];
   min: EvidenceId;
   max: EvidenceId;
+  /** Legend top: covers every value shown (review B-M3). */
+  top: EvidenceId;
   site: SiteResult;
 }
 export interface DaylightView {
@@ -231,6 +242,13 @@ export function sunView(c: ViewCtx, site: SiteResult, bag: EvBag): SunView {
       2,
       'Sun the neighbours take from this building (shading ledger)',
     ),
+    top: bag.num(
+      'site.sunhours.top',
+      Math.max(g.roof, ...g.facades.map((f) => f.v)) * (1 + w),
+      'h/day',
+      2,
+      'Legend top',
+    ),
     site,
   };
 }
@@ -251,6 +269,13 @@ export function radiationView(c: ViewCtx, site: SiteResult, bag: EvBag): Radiati
     })),
     min: bag.num('site.irr.min', all.length ? Math.min(...all) : 0, 'kWh/m2', 2),
     max: bag.num('site.irr.max', g.roof, 'kWh/m2', 2),
+    top: bag.num(
+      'site.irr.top',
+      Math.max(g.roof, ...all) * (1 + w),
+      'kWh/m2',
+      2,
+      'Legend top: highest value shown',
+    ),
     site,
   };
 }
@@ -299,7 +324,7 @@ export function daylightView(c: ViewCtx, site: SiteResult, bag: EvBag): Daylight
       (100 * sdaSum * (1 + w)) / Math.max(1, tot),
       '%',
       sig(c.tier, 2),
-      'sDA300/50, Preview tier T0',
+      'Share of floor with enough daylight (simplified)',
     ),
     ase: bag.range(
       'day.ase.building',
@@ -357,9 +382,8 @@ export function energyView(c: ViewCtx, res: BuildingResult, bag: EvBag): EnergyV
   const monthlyKwh = Array.from({ length: MONTHS }, (_, m) =>
     uses.reduce((s, u) => s + (res.endUses[u][m] === 'unknown' ? 0 : Number(res.endUses[u][m])) / 1000, 0),
   );
-  const bill = res.bills
-    .filter((b) => b.carrier === 'electricity' || b.carrier === 'diesel')
-    .reduce((s, b) => s + b.total, 0n);
+  // One bill on every screen (review A-M3): agent A's headline over every carrier.
+  const bill = headlineBill(res).total;
   const lo = res.eui.site.lo;
   const hi = res.eui.site.hi;
   const target = res.eui.target ? (res.eui.target.value.lo + res.eui.target.value.hi) / 2 : 140;
@@ -477,7 +501,7 @@ export function codesView(_c: ViewCtx, out: CodesOut, bag: EvBag): CodesView {
       scheme: 'ECSBC tiers',
       edition: '2024',
       steps: [
-        { level: 'Base tier', atLeast: 0 },
+        { level: 'Standard', atLeast: 0 },
         { level: 'Plus', atLeast: 14 },
         { level: 'Super', atLeast: 25 },
       ],
@@ -608,4 +632,50 @@ export function viewFor<S extends StageId>(stage: S, c: ViewCtx, output: StageOu
                 ? codesView(c, o as CodesOut, bag)
                 : optimiseView(c, o as OptimiseResult, bag);
   return { view: view as StageViews[S], nodes: bag.nodes };
+}
+
+/**
+ * The numbers each stage puts on screen for a building, known without running it (review B-B3):
+ * the settings ledger counts what a change touches from the stage graph, never from jobs in memory.
+ */
+export function stageQuantities(doc: BuildingDoc): Record<StageId, string[]> {
+  const storeys = doc.storeys.map((s) => s.id);
+  const bins = FACADE_BINS.map((b) => b);
+  return {
+    geometry: ['geom.gfa', 'geom.nca', 'geom.wwr.overall', ...storeys.map((s) => `geom.storey.${s}`)],
+    sun: ['site.sunhours.roof', 'site.ledger.total', ...bins.map((b) => `site.sunhours.${b}`)],
+    radiation: ['site.irr.roof', 'site.irr.min', 'site.irr.max', ...bins.map((b) => `site.irr.${b}`)],
+    daylight: [
+      'day.sda.building',
+      'day.ase.building',
+      'day.ecbc_share.building',
+      ...storeys.map((s) => `day.ecbc_share.${s}`),
+    ],
+    energy: [
+      'eui.site',
+      'eui.source',
+      'eui.target',
+      ...['cooling', 'lighting', 'equipment', 'fans', 'pumps', 'hot-water', 'other', 'pv'].map(
+        (u) => `enduse.${u}`,
+      ),
+      'bill.electricity',
+      'carbon.op',
+      'comfort.fan_hours.mean',
+      'comfort.ac_hours.mean',
+    ],
+    codes: [
+      'base.savings',
+      'base.eui',
+      ...['wwr', 'shgc', 'uwall', 'uroof', 'lpd', 'epi'].map((c) => `code.${c}.margin`),
+    ],
+    optimise: [
+      'opt.tried',
+      'opt.front',
+      ...['least-upfront', 'best-return', 'lowest-carbon'].flatMap((r) => [
+        `opt.${r}.capex`,
+        `opt.${r}.opex`,
+        `opt.${r}.eui`,
+      ]),
+    ],
+  };
 }

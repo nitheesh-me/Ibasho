@@ -290,7 +290,7 @@ export function vindhyaStandIn(): BuildingDoc {
     id: VINDHYA_ID,
     version: 1,
     placeId: 'place_iiit_campus',
-    name: 'Vindhya (stand in)',
+    name: 'Vindhya Bhavan',
     typeId: 'education',
     origin: { x: Math.round(ox), y: Math.round(oy) },
     rotationMdeg: VINDHYA_ROTATION_MDEG,

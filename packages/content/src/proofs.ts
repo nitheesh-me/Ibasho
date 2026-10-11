@@ -34,7 +34,7 @@ export const PROOFS_INTRO: ProofsIntro = {
     {
       seal: 'proved',
       name: 'Proved',
-      means: 'A claim that holds for every home, checked by Lean.',
+      means: 'A claim that holds for every building, checked by Lean.',
       notProved: 'Each proved claim carries one line saying what it does not cover.',
     },
     {
@@ -47,7 +47,7 @@ export const PROOFS_INTRO: ProofsIntro = {
       seal: 'modelled',
       name: 'Modelled',
       means: 'A result from our physics model, tested against published data.',
-      notProved: 'That our energy model matches your home exactly.',
+      notProved: 'That our energy model matches your building exactly.',
     },
   ],
   groups: {
@@ -60,7 +60,7 @@ export const PROOFS_INTRO: ProofsIntro = {
   boundary: {
     title: 'Outside every proof',
     items: [
-      'How much energy your home really uses. That is modelled.',
+      'How much energy your building really uses. That is modelled.',
       'Prices, grants and carbon factors. We show their source and date.',
       'Whether an installer does good work. Ask the three questions on each step of your plan.',
       'The narrator’s words. It may only repeat numbers that are already checked, and it never carries a seal.',

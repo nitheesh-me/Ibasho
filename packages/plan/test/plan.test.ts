@@ -27,7 +27,7 @@ import {
 
 const root = join(import.meta.dirname, '..', '..', '..');
 const dir = join(root, 'packages/fixtures/src/buildings');
-const ids = ['gb1', 'gb2', 'gb3', 'gb4', 'gh1'];
+const ids = ['gb1', 'gb2', 'gb3', 'gb4', 'gh1', 'gb5', 'gb6', 'gb7'];
 const load = (id: string): BuildingDoc =>
   BuildingDocSchema.parse(JSON.parse(readFileSync(join(dir, `${id}.building.json`), 'utf8')));
 
@@ -164,5 +164,63 @@ describe('golden buildings (SPEC 16)', () => {
         expect(overlap, `${id} overlaps ${b.id} ${b.name ?? ''}`).toBeLessThan(2_000_000n);
       }
     }
+  });
+
+  it('GB1 labelled end wing rooms match their plan labels within 10% (QA R2-m6)', () => {
+    const doc = load('gb1');
+    const m2 = (id: string) => {
+      const r = doc.storeys.flatMap((s) => s.rooms).find((x) => x.id === id);
+      return r ? Number(polygonAreaMm2({ outer: r.floor.outer, holes: [] })) / 1e6 : 0;
+    };
+    // RB 3.2 sq ft labels: C1 2,047 (EERC), C7 2,145 (SBI), Seminar Hall I 2,088.
+    for (const [id, sqft] of [
+      ['rm_1_c1a', 2047],
+      ['rm_1_c7', 2145],
+      ['rm_3_c7', 2088],
+    ] as const) {
+      const label = sqft * 0.092903;
+      expect(Math.abs(m2(id) - label) / label, id).toBeLessThan(0.1);
+    }
+  });
+
+  it('on-demand GCC hosts (GB5, GB6) sit on their OSM outlines in the Raidurg area', () => {
+    const dir = join(root, 'packs/city-hyderabad/src/engine/raidurg/tiles');
+    const all = readdirSync(dir)
+      .map((f) => JSON.parse(gunzipSync(readFileSync(join(dir, f))).toString()) as CityTile)
+      .flatMap((t) => t.buildings);
+    const area = (ps: PolygonMm[]) => ps.reduce((sum, p) => sum + polygonAreaMm2(p), 0n);
+    for (const [id, hero] of [
+      ['gb5', 'osm_w1133460476'],
+      ['gb6', 'osm_w1133269186'],
+      ['gb7', 'osm_w852979202'],
+    ] as const) {
+      const doc = load(id);
+      const st = doc.storeys.find((s) => s.id === 'st_typ');
+      const fp = union(
+        (st?.rooms ?? []).map((r) => ({ outer: r.floor.outer.map((p) => toPlaceFrame(doc, p)), holes: [] })),
+      );
+      const b = all.find((x) => x.id === hero);
+      const osm: PolygonMm[] = b ? [{ outer: b.footprint, holes: b.holes ?? [] }] : [];
+      const iou = Number((area(intersect(fp, osm)) * 1000n) / area(union(fp, osm))) / 1000;
+      expect(iou, id).toBeGreaterThanOrEqual(0.8);
+      for (const o of all) {
+        if (o.id === hero) continue;
+        expect(
+          area(intersect(fp, [{ outer: o.footprint, holes: o.holes ?? [] }])),
+          `${id} vs ${o.id}`,
+        ).toBeLessThan(5_000_000n);
+      }
+    }
+    const places = JSON.parse(
+      readFileSync(join(dir, '../../../../../../packages/fixtures/src/buildings/places.json'), 'utf8'),
+    ) as {
+      id: string;
+      onDemand?: true;
+    }[];
+    expect(places.find((p) => p.id === 'pl_knowledge_city')?.onDemand).toBe(true);
+    expect(places.filter((p) => p.onDemand).map((p) => p.id)).toEqual([
+      'pl_knowledge_city',
+      'pl_kings_cross',
+    ]);
   });
 });

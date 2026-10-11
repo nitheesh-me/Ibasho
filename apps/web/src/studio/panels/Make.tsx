@@ -108,8 +108,8 @@ export function MakePanel(p: MakePanelProps) {
       {p.limited ? null : (
         <Card title="Trace a plan" kicker="Underlay">
           <p className="st-note">
-            Put a drawing under {storey?.name ?? 'this storey'} and trace rooms over it. Images work now; PDF
-            pages arrive with the PDF reader.
+            Put a drawing under {storey?.name ?? 'this storey'} and trace rooms over it. Use an image of the
+            plan (PNG, JPG or SVG); for a PDF, export the page as an image first.
           </p>
           <label className="ib-btn ib-btn--quiet st-file">
             Choose an image

@@ -121,7 +121,7 @@ What we found nobody else does, in order of value (BI §5, SD §5, UV §11, SC �
 
 One building, end to end, done well before breadth. **GB1: Vindhya Bhavan**, an academic research block on the IIIT Hyderabad campus: a courtyard ring of shallow wings, three storeys and a partial cellar, about 165 by 81 m, with classrooms, labs, a library, incubator offices and a data centre (RB §3). It was chosen over Himalaya because its wings make the daylight and radiation story vivid, its loads are mixed (a real test of end uses and mixed-use code rules), its plan is easier to trace (about 6,000 vector paths against 120,000), and the Centre for IT in Building Science works inside it. **GB2: Himalaya** (four blocks of 3, 4, 3 and 6 storeys) stands next door as context and second fixture.
 
-Fixtures use room functions only, never names from the drawings, and the source PDFs are not shipped.
+Fixtures carry each room's function, plus institutional or functional names from the drawings (for example "IIIT Library", "Data Centre", "C-STAR Incubator") so rooms can be found by name; never people's names. Labels everywhere read function first, then name. The source PDFs are not shipped.
 
 | Time | Beat |
 |---|---|

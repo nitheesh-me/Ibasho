@@ -15,7 +15,7 @@ import { agoWords } from '../hooks.ts';
 import { DocThumb } from '../panels/Make.tsx';
 import { headline } from '../preview/runner.ts';
 import { BASE_LEVERS } from '../preview/settings.ts';
-import { useStudio } from '../state/studio.ts';
+import { BASE_VARIANT, jobKey, useStudio } from '../state/studio.ts';
 
 export function StudioHome() {
   const ready = useStudio((s) => s.ready);
@@ -23,6 +23,8 @@ export function StudioHome() {
   const buildings = useStudio((s) => s.buildings);
   const settings = useStudio((s) => s.settings);
   const revisit = useStudio((s) => s.revisit);
+  const revisitB = revisit ? places[revisit.placeId]?.place.buildingIds[0] : undefined;
+  const revOut = useStudio((s) => (revisitB ? s.jobs[jobKey(revisitB, BASE_VARIANT)]?.outputs : undefined));
   const nav = useNavigate();
   const st = useStudio.getState();
   const list = Object.values(places).sort((a, b) => b.updatedAt - a.updatedAt);
@@ -51,6 +53,7 @@ export function StudioHome() {
       asOf: new Date().toISOString(),
       place: places[b.placeId]?.place as Place,
       tiles: [],
+      previous: revOut ?? {},
     };
     const before = headline({ ...base, key: 'rv-before', settings: revisit.before });
     const after = headline({ ...base, key: 'rv-after', settings });
@@ -60,7 +63,7 @@ export function StudioHome() {
       after: after.view,
       src: staticEvidence([...before.nodes, ...after.nodes], undefined, 'en-IN'),
     };
-  }, [revisit, places, buildings, settings]);
+  }, [revisit, places, buildings, settings, revOut]);
 
   if (!ready) return <p className="st-loading">Opening your places.</p>;
 
@@ -91,7 +94,7 @@ export function StudioHome() {
         </div>
       </header>
 
-      {revisit && diff ? (
+      {revisit && !revisit.dismissed && diff ? (
         <section className="st-welcome" aria-label="Welcome back">
           <div className="st-welcome__head">
             <h2>Welcome back</h2>
@@ -245,15 +248,15 @@ export function StudioHome() {
           </div>
         </article>
         <article className="st-place st-place--sample">
-          <Link to="/new?template=office&sample=hitec" className="st-place__open">
+          <Link to="/new?template=office" className="st-place__open">
             <span className="st-place__thumb" aria-hidden="true">
               <Mon id="type-office" size={48} />
             </span>
-            <span className="st-place__name">HITEC City office</span>
-            <span className="st-place__area">Coworking floors, start from a template</span>
+            <span className="st-place__name">Office template</span>
+            <span className="st-place__area">Start a new office from a massing template</span>
           </Link>
           <div className="st-place__meta">
-            <span className="st-tag">Sample</span>
+            <span className="st-tag">Template</span>
           </div>
         </article>
       </section>

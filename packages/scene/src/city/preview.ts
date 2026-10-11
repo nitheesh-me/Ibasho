@@ -23,7 +23,7 @@ const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 /** Clear fraction by month for Hyderabad (monsoon June to September), a rough prior. */
 const CLEAR = [0.95, 0.95, 0.92, 0.9, 0.85, 0.55, 0.42, 0.48, 0.58, 0.8, 0.9, 0.95];
 
-interface Blocker {
+export interface Blocker {
   ring: EN[];
   z1: number;
   minE: number;
@@ -32,7 +32,8 @@ interface Blocker {
   maxN: number;
 }
 
-function blockers(casters: readonly Caster[]): Blocker[] {
+/** Blockers with their bounding boxes, for ray tests against extruded footprints. */
+export function blockersOf(casters: readonly Caster[]): Blocker[] {
   return casters.map((c) => {
     let minE = Infinity;
     let maxE = -Infinity;
@@ -49,7 +50,7 @@ function blockers(casters: readonly Caster[]): Blocker[] {
 }
 
 /** True when the ray from `o` (E, N, height) towards the sun meets a blocker below its roof. */
-function blocked(
+export function blockedBy(
   o: [number, number, number],
   dir: [number, number, number],
   bs: readonly Blocker[],
@@ -96,7 +97,7 @@ export function previewSite(
   place: { lat: number; lon: number; tzHours?: number },
   year = 2026,
 ): SiteResult {
-  const bs = blockers(casters);
+  const bs = blockersOf(casters);
   const surfaces: SiteResult['surfaces'] = [];
   const targets = hero.surfaces.filter((s) => s.kind === 'wall' || s.kind === 'roof');
   const suns: { m: number; dir: [number, number, number]; alt: number }[] = [];
@@ -123,7 +124,7 @@ export function previewSite(
       const dhi = (90 + 160 * (1 - CLEAR[sun.m]!)) * Math.sqrt(sinAlt);
       const cosI = s.normal[0] * sun.dir[0] + s.normal[1] * sun.dir[1] + s.normal[2] * sun.dir[2];
       let beam = 0;
-      if (cosI > 0 && !blocked(o, sun.dir, bs)) {
+      if (cosI > 0 && !blockedBy(o, sun.dir, bs)) {
         beam = dni * cosI;
         lit[sun.m]! += 1;
       }

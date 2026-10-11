@@ -1,10 +1,19 @@
 // @vitest-environment happy-dom
 /** AC-L2 (readable without JS), AC-L3 (content-driven), I4 (hide on missing plugin), I5 (glossary). */
-import { GLOSSARY, LANDING_CHAPTERS, type PluginPresence, plainText, termOf } from '@ibasho/content';
+import {
+  checkCustomerCopy,
+  GLOSSARY,
+  LANDING_AUDIENCES,
+  LANDING_CHAPTERS,
+  type PluginPresence,
+  plainText,
+  termOf,
+} from '@ibasho/content';
 import { describe, expect, it } from 'vitest';
 import { fillTemplate, renderHead, renderLanding } from '../src/prerender.tsx';
 
-const everything: PluginPresence = { has: () => true, hasKind: () => true };
+const everything: PluginPresence = { has: () => true, hasKind: () => true, stage: () => 'real' };
+const previewAll: PluginPresence = { ...everything, stage: () => 'preview' };
 const nothing: PluginPresence = { has: () => false, hasKind: () => false };
 
 function parse(html: string): Document {
@@ -20,7 +29,7 @@ const chapterIds = (d: Document) =>
 describe('static landing', () => {
   const doc = parse(renderLanding(everything));
 
-  it('renders the five chapters from content, in order (AC-L3)', () => {
+  it('renders every chapter from content, in order (AC-L3)', () => {
     expect(chapterIds(doc)).toEqual(LANDING_CHAPTERS.map((c) => c.id));
   });
 
@@ -33,12 +42,37 @@ describe('static landing', () => {
     }
   });
 
-  it('hides chapters whose plugins are missing, keeping the hero (I4)', () => {
-    expect(chapterIds(parse(renderLanding(nothing)))).toEqual(['hero']);
-    const partial: PluginPresence = { has: (id) => id !== 'rules-uk', hasKind: () => true };
+  it('hides chapters whose studio stages are missing, keeping the hero and the promises (I4)', () => {
+    expect(chapterIds(parse(renderLanding(nothing)))).toEqual(['hero', 'trust']);
+    const partial: PluginPresence = { ...everything, stage: (s) => (s === 'daylight' ? undefined : 'real') };
     const shown = chapterIds(parse(renderLanding(partial)));
-    expect(shown).not.toContain('futures');
-    expect(shown).toContain('proof');
+    expect(shown).not.toContain('daylight');
+    expect(shown).toContain('energy');
+  });
+
+  it('marks Preview chapters, and only those, with a link to what Preview means', () => {
+    expect(doc.querySelectorAll('.lp-preview')).toHaveLength(0);
+    const p = parse(renderLanding(previewAll));
+    const marked = [...p.querySelectorAll('section[data-preview]')].map((s) => s.id);
+    expect(marked).toEqual(LANDING_CHAPTERS.filter((c) => c.requires.some((r) => r.startsWith('stage:'))).map((c) => c.id));
+    expect(p.getElementById('g-preview')).not.toBeNull();
+  });
+
+  it('speaks to every audience, with a way into the studio for each', () => {
+    const items = [...doc.querySelectorAll('[data-audience]')];
+    expect(items.map((i) => i.getAttribute('data-audience'))).toEqual(LANDING_AUDIENCES.map((a) => a.id));
+    for (const i of items) expect(i.querySelector('a')?.getAttribute('href')).toMatch(/^\/app\//);
+  });
+
+  it('shows the eight kinds of building', () => {
+    expect(doc.querySelectorAll('.lp-types__item')).toHaveLength(8);
+  });
+
+  it('every visible word reads as customer copy, with no development notes', () => {
+    for (const presence of [everything, previewAll, nothing]) {
+      const text = parse(renderLanding(presence)).body.textContent ?? '';
+      expect(checkCustomerCopy(text).filter((f) => f.rule !== 'long-sentence')).toEqual([]);
+    }
   });
 
   it('has one h1, labelled sections and decorative kanji hidden from screen readers', () => {
@@ -47,14 +81,14 @@ describe('static landing', () => {
       expect(doc.getElementById(s.getAttribute('aria-labelledby')!), s.id).not.toBeNull();
     }
     const glyphs = [...doc.querySelectorAll('svg[data-glyph]')];
-    expect(glyphs.length).toBeGreaterThan(5);
+    expect(glyphs.length).toBeGreaterThan(8);
     for (const g of glyphs)
       expect(g.closest('[aria-hidden="true"]'), g.getAttribute('data-glyph')!).not.toBeNull();
   });
 
   it('uses gold for exactly one action, and no seal at all', () => {
     expect(doc.querySelectorAll('.lp-cta')).toHaveLength(1);
-    expect(doc.querySelector('.lp-cta')?.getAttribute('href')).toBe('/app/start');
+    expect(doc.querySelector('.lp-cta')?.getAttribute('href')).toBe('/app/');
     expect(doc.querySelectorAll('.ib-seal')).toHaveLength(0);
   });
 

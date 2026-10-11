@@ -40,8 +40,8 @@ import {
 import { create } from 'zustand';
 import { STAGE_PROVIDERS } from '../../manifest.ts';
 import { cityTiles, contextIdsFor, IIIT_PLACE_ID, sampleDoc, samplePlaces } from '../data.ts';
-import { variantDoc } from '../preview/levers.ts';
-import { type JobHandle, type RunEvent, runPreviewJob, type StageInputs } from '../preview/runner.ts';
+import { startJob } from '../preview/jobs.ts';
+import type { JobHandle, RunEvent, StageInputs } from '../preview/runner.ts';
 import {
   BASE_LEVERS,
   defaultSettings,
@@ -50,6 +50,7 @@ import {
   SETTING_BY_ID,
   type SettingValues,
 } from '../preview/settings.ts';
+import { variantDoc } from '../preview/variant.ts';
 import type { StageViews } from '../preview/views.ts';
 
 export interface Variant {
@@ -104,6 +105,8 @@ export interface Job {
   resolution: ResolutionLevel;
   /** Final stage outputs in the core contracts (reused when a later change skips a stage). */
   outputs: Partial<StageOut>;
+  /** Latest output of any tier, for painting rough results at once (review B-M2). */
+  latest: Partial<StageOut>;
 }
 
 export interface Change {
@@ -112,6 +115,8 @@ export interface Change {
   after: string;
   source: string;
   kind: 'price' | 'code' | 'weather' | 'pack' | 'engine';
+  /** Short phrase for the one-line notice ("new tariff"). */
+  short: string;
 }
 
 export interface Revisit {
@@ -120,6 +125,7 @@ export interface Revisit {
   changes: Change[];
   /** Previous tariff, to recompute the old headline for a before and after (never silent). */
   before: SettingValues;
+  dismissed?: boolean;
 }
 
 export const BASE_VARIANT = 'as-built';
@@ -215,7 +221,10 @@ export const useStudio = create<StudioState>()((set, get) => {
         next.views = { ...j.views, [e.stage]: e.result.view };
         next.nodes = { ...j.nodes, [e.stage]: e.result.nodes };
         next.tiers = { ...j.tiers, [e.stage]: e.tier };
-        if (e.output !== undefined) next.outputs = { ...j.outputs, [e.stage]: e.output };
+        if (e.output !== undefined) {
+          next.latest = { ...j.latest, [e.stage]: e.output };
+          if (e.tier === 'final') next.outputs = { ...j.outputs, [e.stage]: e.output };
+        }
         if (e.tier === 'final') next.stale = { ...j.stale, [e.stage]: false };
       }
       return next;
@@ -505,7 +514,8 @@ export const useStudio = create<StudioState>()((set, get) => {
             what: 'Electricity tariff, HT commercial',
             before: 'FY 2025-26',
             after: 'FY 2026-27',
-            source: 'TGSPDCL tariff order',
+            source: 'Telangana electricity regulator',
+            short: 'new tariff',
           },
           {
             kind: 'code',
@@ -513,20 +523,23 @@ export const useStudio = create<StudioState>()((set, get) => {
             before: 'ECBC 2017',
             after: 'ECSBC 2024 tiers added',
             source: 'BEE notification',
+            short: 'ECSBC tiers',
           },
           {
             kind: 'weather',
             what: 'Weather file',
-            before: 'ISHRAE 2015',
-            after: 'ISHRAE 2025 typical year',
-            source: 'ISHRAE',
+            before: 'Typical weather from 2015 data',
+            after: 'Typical weather from 2025 data',
+            source: 'Indian typical weather data',
+            short: 'new weather file',
           },
           {
             kind: 'pack',
-            what: 'Hyderabad city pack',
+            what: 'Hyderabad map data',
             before: 'Footprints only',
             after: 'Open Buildings heights added',
-            source: 'Google Open Buildings 2.5D',
+            source: 'Google Open Buildings heights',
+            short: 'city heights',
           },
         ],
       };
@@ -535,7 +548,7 @@ export const useStudio = create<StudioState>()((set, get) => {
     },
 
     dismissRevisit() {
-      set({ revisit: undefined });
+      set((s) => (s.revisit ? { revisit: { ...s.revisit, dismissed: true } } : {}));
     },
 
     editDoc(buildingId, label, recipe, origin = 'person') {
@@ -710,9 +723,10 @@ export const useStudio = create<StudioState>()((set, get) => {
         stale: Object.fromEntries(stages.map((st) => [st, Boolean(old?.views[st])])),
         resolution: String(s.settings['analysis.resolution']) as ResolutionLevel,
         outputs: old?.outputs ?? {},
+        latest: old?.latest ?? old?.outputs ?? {},
       };
       const factor = variantId === b.focus ? s.deviceFactor : s.deviceFactor * 0.5;
-      job.handle = runPreviewJob(
+      job.handle = startJob(
         jobId,
         generation,
         stages,
@@ -748,8 +762,11 @@ export const useStudio = create<StudioState>()((set, get) => {
     runBuilding(buildingId, changed = ['geometry']) {
       const b = get().buildings[buildingId];
       if (!b) return;
-      get().run(buildingId, b.focus, changed);
-      for (const v of b.variants) if (v.id !== b.focus) get().run(buildingId, v.id, changed);
+      // The building as it is first (compare reads against it), then the focused what-if, then the rest.
+      const order = [BASE_VARIANT, b.focus, ...b.variants.map((v) => v.id)].filter(
+        (id, i, a) => a.indexOf(id) === i,
+      );
+      for (const id of order) if (b.variants.some((v) => v.id === id)) get().run(buildingId, id, changed);
     },
 
     cancel(buildingId, variantId) {

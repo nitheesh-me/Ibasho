@@ -1,0 +1,50 @@
+{
+  "id": "gb6",
+  "title": "Sattva Knowledge Park, host of the Vanguard Global Value Center (Hyderabad)",
+  "tenant": {
+    "name": "Vanguard (Global Value Center, opened November 2025)",
+    "occupies": "About 165,000 sq ft across three offices, two of them in Sattva Knowledge Park (2025). The tower and floors are not public; Tower 1 is shown as the likely home (assumed)."
+  },
+  "sources": [
+    {
+      "id": "osm-w1133269186",
+      "title": "OpenStreetMap way 1133269186 \"Salapuria Sattva Knowledge Park Tower 1\" (ODbL)",
+      "url": "https://www.openstreetmap.org/way/1133269186"
+    },
+    {
+      "id": "sattva-skp",
+      "title": "Sattva Group: Sattva Knowledge Park, HITEC City, completed 2023, 3.3 million sq ft leasable, twin towers (a tall organic tower up to 105 m and a shorter cube), IGBC Platinum (Sattva commercial pages)",
+      "url": "https://sattvagroup.com/commercial/hyderabad-commercial/"
+    },
+    {
+      "id": "mitsloanme-2025",
+      "title": "MIT Sloan Management Review Middle East: Vanguard picks Hyderabad for first India GCC (165,000 sq ft across three offices, two in Sattva Knowledge Park)",
+      "url": "https://www.mitsloanme.com/?p=9601"
+    },
+    {
+      "id": "bs-2025",
+      "title": "Business Standard: Vanguard opens Global Value Center in Hyderabad (about 165,000 sq ft)",
+      "url": "https://www.business-standard.com/companies/news/vanguard-global-value-center-hyderabad-125110301174_1.html"
+    },
+    {
+      "id": "myhq-redbrick",
+      "title": "myHQ listing: a managed office on floor 20 of Tower 1 quotes a 51,000 sq ft typical floor plate (listing, not the developer)",
+      "url": "https://myhq.in/managed-office/redbrick-offices-madhapur-2"
+    }
+  ],
+  "status": {
+    "footprint": "Measured: OpenStreetMap outline (about 3,100 m2) simplified to an octagon",
+    "storeys": "Estimated: ground floor and 23 office floors at 4.2 m (about 103 m, matching the tower of up to 105 m), 2 basement levels",
+    "floorPlate": "Estimated: no public floor plan was found. A listing quotes 51,000 sq ft (about 4,740 m2) a floor, larger than the mapped outline, and which tower is the taller one is not confirmed",
+    "cores": "Estimated: one central service core",
+    "wwr": "Assumed: 60% glazing",
+    "rating": "Announced: IGBC Platinum for the park, per the developer"
+  },
+  "unknowns": [
+    "public floor plans",
+    "which tower and floors the tenant uses",
+    "glass U, SHGC and VLT",
+    "shading",
+    "exact storey count"
+  ]
+}

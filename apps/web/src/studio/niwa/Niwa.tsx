@@ -15,6 +15,8 @@ import {
   type CityLensId,
   type CityTarget,
   dayWindow,
+  type Placement,
+  type PlacementCheck,
   CityStage as SceneCity,
   sunOf,
   type ZoomLevel,
@@ -90,6 +92,13 @@ export interface CityStageProps {
   focus?: string | undefined;
   /** Box of the focused hit (pack frame mm), from search. */
   focusBox?: CityFocus['bboxMm'] | undefined;
+  /** Placing (SPEC 27): controlled placement, drag and turn handles, and the site check. */
+  placement?: Placement;
+  onPlacementChange?: (p: Placement) => void;
+  placeMode?: boolean;
+  onSiteCheck?: (c: PlacementCheck) => void;
+  /** 180 shows north up, to sit beside the north up plan in Make. */
+  azimuthDeg?: number;
   /** Thumbnails in compare: the SVG plan view, no WebGL context each. */
   compact?: boolean;
   label?: ReactNode;
@@ -125,7 +134,7 @@ class SceneGuard extends Component<{ children: ReactNode }, { failed: boolean }>
 /** The one place the scene component is mounted. */
 export function CityStage(p: CityStageProps) {
   const gl = useMemo(hasWebGL, []);
-  const out = p.job?.outputs;
+  const out = p.job ? { ...p.job.outputs, ...p.job.latest } : undefined;
   const lens = sceneLens(p.lens);
   const site = lens === 'radiation' ? out?.radiation : lens === 'sun-hours' ? out?.sun : undefined;
   const stamp: ResultStamp | null =
@@ -194,7 +203,7 @@ export function PlanStage(props: Omit<PlanEditorProps, 'paint'> & { lens: LensId
                   unit="daylit share of each room"
                   resolution="standard"
                   period="Occupied hours, typical year"
-                  method="Preview tier T0"
+                  method="Simplified daylight model"
                   preview
                   {...(job?.tiers.daylight ? { tier: job.tiers.daylight } : {})}
                 />

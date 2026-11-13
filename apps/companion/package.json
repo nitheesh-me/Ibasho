@@ -17,7 +17,7 @@
     "@ibasho/agent-bridge": "workspace:*",
     "@ibasho/core": "workspace:*",
     "@ibasho/verify": "workspace:*",
-    "hono": "4.13.13"
+    "hono": "4.13.16"
   },
   "devDependencies": {
     "tsx": "4.23.15"
